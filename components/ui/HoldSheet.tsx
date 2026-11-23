@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Pressable, useWindowDimensions, StyleSheet, BackHandler, Keyboard } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Pressable, ScrollView, useWindowDimensions, StyleSheet, BackHandler, Keyboard } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -57,6 +57,8 @@ interface HoldSheetProps {
   /** The "+" at the end of the row, for a full picker. Omit to hide it. */
   onMore?: () => void;
   tiles: HoldTile[];
+  /** Show the main action tiles in a single horizontally scrollable row. */
+  scrollActions?: boolean;
   /** Who reacted: a row between the emoji and the tiles ("👍🔥 3 reactions  >"). */
   summary?: { emojis: string[]; label: string; onPress: () => void } | null;
   meta?: string;
@@ -119,7 +121,7 @@ export default function HoldSheet(props: HoldSheetProps) {
   const snap = useRef(props);
   if (visible) snap.current = props;
   const shown = visible ? props : snap.current;
-  const { onReaction, onMore, tiles, reactions, summary, meta } = shown;
+  const { onReaction, onMore, tiles, reactions, summary, meta, scrollActions } = shown;
   let layout = shown.layout;
   // A row that could not be measured comes in as an empty box: treat it as unknown.
   if (layout && !(layout.height > 0)) layout = null;
@@ -214,6 +216,8 @@ export default function HoldSheet(props: HoldSheetProps) {
   const mainTiles = tiles.filter((tile) => !tile.secondary);
   const sideTiles = tiles.filter((tile) => tile.secondary);
   const cols = Math.min(Math.max(mainTiles.length, 1), 4);
+  const ActionRow = scrollActions ? ScrollView : View;
+  const actionRowPadding = summary ? 6 : reactions && onReaction ? 10 : 0;
   const dim = "rgba(0,0,0,0.55)";
   // Drawn at the row's resting place; overlayStyle slides it with the list.
   const rowTop = layout ? layout.y - (originY ?? 0) : 0;
@@ -252,7 +256,7 @@ export default function HoldSheet(props: HoldSheetProps) {
         pointerEvents={visible ? "auto" : "none"}
         style={[{ position: "absolute", left: SIDE, right: SIDE, bottom: insets.bottom + SIDE }, sheetStyle]}
       >
-        <Pressable>
+        <Pressable accessible={false} focusable={false}>
           <View style={{ borderRadius: 28, overflow: "hidden", borderWidth: 1, borderColor: rgba(ink, 0.12), paddingHorizontal: 14, paddingTop: 10, paddingBottom: 16 }}>
             <MessageSurface radius={28} />
             <View style={{ alignSelf: "center", width: 36, height: 4, borderRadius: 2, backgroundColor: rgba(ink, 0.3), marginBottom: 12 }} />
@@ -310,11 +314,16 @@ export default function HoldSheet(props: HoldSheetProps) {
 
             {meta ? <Text style={{ color: rgba(ink, 0.7), fontSize: 12, paddingHorizontal: 8, paddingTop: 8 }}>{meta}</Text> : null}
             {mainTiles.length > 0 && (
-              <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: summary ? 6 : reactions && onReaction ? 10 : 0 }}>
+              <ActionRow
+                style={scrollActions
+                  ? { marginHorizontal: -4 }
+                  : { flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: actionRowPadding }}
+                {...(scrollActions ? { horizontal: true, contentContainerStyle: { paddingTop: actionRowPadding } } : {})}
+              >
                 {mainTiles.map((tile) => {
                   const fg = tile.prime ? primeInk : tile.destructive ? "#f87171" : inkColor;
                   const face = {
-                    borderRadius: 16, paddingTop: 12, paddingBottom: 10, paddingHorizontal: 4,
+                    borderRadius: 16, paddingTop: 12, paddingBottom: 10, paddingHorizontal: scrollActions ? 8 : 4,
                     alignItems: "center" as const, gap: 6,
                   };
                   const label = (
@@ -324,7 +333,9 @@ export default function HoldSheet(props: HoldSheetProps) {
                     </>
                   );
                   return (
-                    <View key={tile.key} style={{ width: `${100 / cols}%`, padding: 4 }}>
+                    <View key={tile.key} style={scrollActions
+                      ? { minWidth: 76, padding: 4 }
+                      : { width: `${100 / cols}%`, padding: 4 }}>
                       {tile.prime ? (
                         // The filled Reply tile keeps its own fill and label.
                         // The fill sits on a plain view inside the button, not
@@ -357,7 +368,7 @@ export default function HoldSheet(props: HoldSheetProps) {
                     </View>
                   );
                 })}
-              </View>
+              </ActionRow>
             )}
 
             {/* Pin, Ban, Delete: wide pills under the tiles, as in the picked design. */}

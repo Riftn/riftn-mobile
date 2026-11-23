@@ -33,7 +33,17 @@ def runs(side):
         for sent in swipes:
             later = [m for m in motions if sent - 30 <= m["wall"] <= sent + WINDOW_MS]
             delays.append(later[0]["wall"] - sent if later else None)
-        out.append({"name": name, "delays": delays, "patched": result.get("patched"), "opened": result.get("opened")})
+        # A swipe begun on the timeline row: did it bring a new short (a
+        # player that had not run before it), or was it taken for a seek?
+        low_path = os.path.join(nav, f"{name}.lowswipes")
+        lows = [int(x) for x in open(low_path).read().split()] if os.path.exists(low_path) else []
+        turned = []
+        for sent in lows:
+            # The flick two seconds before it brings one new player by itself.
+            known = {m["player"] for m in motions if m["wall"] < sent - 2600}
+            fresh = {m["player"] for m in motions if sent - 2600 <= m["wall"] <= sent + WINDOW_MS} - known
+            turned.append(len(fresh) >= 2)
+        out.append({"name": name, "delays": delays, "turned": turned, "patched": result.get("patched"), "opened": result.get("opened")})
     return out
 
 
@@ -60,6 +70,13 @@ for label, side in (("main", "before"), ("this branch", "after")):
     row, all_runs = line(label, side)
     print(row)
     details.extend(all_runs)
+print("\n## Shorts: a swipe that starts on the timeline row\n")
+print("Sent two seconds after landing on a short. It should bring the next short, not seek this one.\n")
+print("| Code | turned the page |")
+print("|---|---|")
+for label, side in (("main", "before"), ("this branch", "after")):
+    turned = [t for r in runs(side) for t in r["turned"]]
+    print(f"| {label} | {sum(turned)} of {len(turned)} |")
 print("\n### Each run\n")
 for r in details:
     shown = ", ".join("-" if d is None else str(d) for d in r["delays"])

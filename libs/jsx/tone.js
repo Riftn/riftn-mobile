@@ -233,6 +233,7 @@ function toneProps(props) {
 }
 
 const DARK_SURFACE = /(?:^|\s)dark-surface(?=\s|$)/;
+const SOFT_CLASS_TEXT = /(^|\s)text-white\/(?:4[05]|5[05]|6[05])(?=\s|$)/g;
 
 /** Renders `__keepType` with everything it draws, itself included, on the dark colours. */
 const KeepDarkHost = React.forwardRef(function KeepDarkHost(props, ref) {
@@ -347,6 +348,13 @@ function tone(type, props) {
     if (typeof props.style !== "function") {
       props.className = typeof props.className === "string" ? `${props.className} dark-surface` : "dark-surface";
     }
+  }
+  // Muted class text (`text-white/40` to `/65`) is ink at that same strength
+  // here, 2.6:1 to 5:1 on white. Inline greys are held to 7:1 above; the
+  // class ones get the strength that matches (#545454).
+  if (typeof props.className === "string" && props.className.indexOf("text-white/") !== -1) {
+    const className = props.className.replace(SOFT_CLASS_TEXT, "$1text-white/70");
+    if (className !== props.className) props = { ...props, className };
   }
   const toned = toneProps(props);
   if (toned === props) return [type, props];

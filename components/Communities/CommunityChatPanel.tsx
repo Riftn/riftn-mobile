@@ -69,6 +69,7 @@ import { communityKindOf } from "../../libs/community-kinds";
 import type { Community, CommunityChatMessage, CommunityMember } from "../../types/community";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 import { chatBodyText } from "../../libs/chat-gif";
 import { AssetRefCards, MAX_ASSET_CARDS_PER_MESSAGE } from "../common/AssetRefCard";
@@ -301,7 +302,7 @@ const ChatRow: React.FC<{
         )}
 
         {!!displayContent && (
-          <Text className="text-white/80" style={{ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }}>{expandEmojiTokens(translatedText ?? displayContent, { fontSize: 15 * textScale })}</Text>
+          <Text className="text-white/80" style={{ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }}>{expandEmojiTokens(renderLinkEmojis(translatedText ?? displayContent, { onLongPress: () => onLongPress(message) }), { fontSize: 15 * textScale })}</Text>
         )}
         {!translation && offerTranslate && (
           <View className="pt-1 self-start">

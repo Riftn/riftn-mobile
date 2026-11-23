@@ -1,6 +1,6 @@
 import { useTranslation as _useCopy } from 'react-i18next';
 import { confirmChatDelivery } from '../libs/chat-delivery';
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, { useCallback, useMemo, useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,12 @@ import WebRTCPublisher from "../components/LiveProducer/WebRTCPublisher";
 import VideoLookSheet from "../components/LiveProducer/VideoLookSheet";
 import StudioSheet from "../components/LiveProducer/StudioSheet";
 import { usePhoneStudio } from "../hooks/usePhoneStudio";
+import { useLiveChat } from "../hooks/useLiveChat";
+import ProducerChatHold, { type ProducerHeld } from "../components/LiveProducer/ProducerChatHold";
+import type { ProducerChatActivity } from "../components/LiveProducer/ProducerFloatingChat";
+import type { ChatHoldLayout } from "../components/LiveViewer/LiveViewerChat";
+import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
+import { useHiddenLines } from "../libs/public-chat-hidden";
 import { liveScreenShareSupported } from "../modules/media-bridge";
 import {
   videoLooksSupported,
@@ -234,6 +240,54 @@ const LiveProducerScreen: React.FC = () => {
     }>
   >([]);
 
+  // The stream's chat room, keyed on the post: the room every viewer sits in
+  // (app LiveStreamPlayer, web GoLive + watch page). This screen used to read
+  // and write the livestream gateway's own room, which no current viewer
+  // joins, so the creator's replies reached nobody and viewers' lines never
+  // showed here. Tips, joins and other stream events still come from there.
+  const chatTokenId = tokenId ?? (streamEntity as any)?.tokenId;
+  const liveChat = useLiveChat(chatTokenId != null ? `stream:${chatTokenId}` : undefined, { requireRoom: true });
+  // Hold a line in your own chat: reactions, who reacted, Copy, Moderate, Delete.
+  const me = String(user?.walletAddress || user?.address || "").toLowerCase();
+  const hiddenLines = useHiddenLines(me || null);
+  const [heldLine, setHeldLine] = useState<ProducerHeld | null>(null);
+  const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  const closeHeldLine = useCallback(() => setHeldLine(null), []);
+  const openHeldLine = useCallback((activity: ProducerChatActivity, layout: ChatHoldLayout | null) => setHeldLine({ activity, layout }), []);
+  const reactionsOf = useCallback((id: string) => liveChat.messages.find((m) => m._id === id)?.reactions, [liveChat.messages]);
+  const roomChatActivities = useMemo(
+    () =>
+      liveChat.messages
+        .filter((m) => !m.isDeleted && m.messageType !== "system" && !hiddenLines.has(m._id))
+        .map((m) => {
+          const sender = m.sender;
+          const address = String(m.senderAddress || sender?.address || "").toLowerCase();
+          const content =
+            m.content ||
+            (m.messageType === "gif" ? "GIF" : m.messageType === "audio" || m.messageType === "voice" ? "\u{1F3A4}" : m.media?.length ? "\u{1F5BC}\u{FE0F}" : "");
+          return {
+            status: StreamActivityType.MESSAGE,
+            address,
+            createdAt: Date.parse(m.createdAt) || Date.now(),
+            user: sender
+              ? { address, username: sender.username, displayName: sender.displayName, avatarImageUrl: sender.avatarUrl }
+              : undefined,
+            meta: { username: sender?.displayName || sender?.username, content, avatarImageUrl: sender?.avatarUrl, messageId: m._id },
+            id: m._id,
+            reactions: m.reactions,
+          };
+        })
+        .filter((a) => !!a.meta.content),
+    [liveChat.messages, hiddenLines],
+  );
+  const mergedChatActivities = useMemo(
+    () =>
+      roomChatActivities.length
+        ? chatActivities.concat(roomChatActivities).sort((a, b) => (a.createdAt ?? 0) - (b.createdAt ?? 0)).slice(-400)
+        : chatActivities,
+    [chatActivities, roomChatActivities],
+  );
+
   // The phone studio: scenes, background, an image or logo, widgets in the
   // video. Off while streaming from an encoder, where there is no camera.
   const [studioOpen, setStudioOpen] = useState(false);
@@ -243,7 +297,7 @@ const LiveProducerScreen: React.FC = () => {
     startedAt,
     micMuted,
     setMicMuted,
-    chatActivities,
+    chatActivities: mergedChatActivities,
   });
 
     // Keep a small rolling memory of recent optimistic messages to dedupe server echoes
@@ -623,7 +677,27 @@ const LiveProducerScreen: React.FC = () => {
         },
       });
     }) || (() => {});
-    return () => off();
+    // One viewer gave another channel points on your channel.
+    const offGift = socketOn("stream.points.gift", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const g = data?.gift;
+      const amount = Math.round(Number(g?.amount) || 0);
+      if (!g || amount <= 0) return;
+      addChatActivity({
+        status: "SYSTEM",
+        address: String(g.from?.address || "").toLowerCase(),
+        user: g.from,
+        createdAt: Date.now(),
+        meta: {
+          kind: "pointsGift",
+          pointsAmount: amount,
+          recipientName: g.to?.displayName || g.to?.username || String(g.to?.address || "").slice(0, 6),
+          username: g.from?.displayName || g.from?.username,
+          avatarImageUrl: g.from?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    return () => { off(); offGift(); };
   }, [streamId, socketOn, addChatActivity]);
 
   // Seed initial viewers/peak from stream details once per stream
@@ -775,6 +849,10 @@ const LiveProducerScreen: React.FC = () => {
   // Send chat message from floating chat
   const handleSendChatMessage = useCallback(async (content: string): Promise<boolean> => {
     if (!content || stage !== "live") return false;
+    // Into the room viewers read; the old gateway path only while it is not up.
+    if (chatTokenId != null && liveChat.connected) {
+      return liveChat.sendMessage({ content, messageType: "text" });
+    }
     const tempId = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     addChatActivity({
       status: StreamActivityType.MESSAGE,
@@ -798,7 +876,7 @@ const LiveProducerScreen: React.FC = () => {
           (meta.content || message?.content) === content;
       },
     });
-  }, [stage, user, addChatActivity, socketEmitAuthed, socketOn, streamId, streamEntity, t]);
+  }, [stage, user, addChatActivity, socketEmitAuthed, socketOn, streamId, streamEntity, t, chatTokenId, liveChat.connected, liveChat.sendMessage]);
 
   const openEndConfirm = useCallback(() => {
     setShowEndConfirm(true);
@@ -1522,7 +1600,7 @@ const LiveProducerScreen: React.FC = () => {
                 {/* Floating chat messages + input */}
                 <ProducerFloatingChat
                   draftScope={`stream:${streamId || (streamEntity as any)?._id}:producer`}
-                  activities={chatActivities}
+                  activities={mergedChatActivities}
                   isLive={stage === "live"}
                   chatEnabled={liveChatEnabled}
                   canSend={stage === "live" && liveChatEnabled}
@@ -1531,7 +1609,21 @@ const LiveProducerScreen: React.FC = () => {
                     stage === "live" ? handleToggleLiveChat : undefined
                   }
                   settingsUpdating={settingsUpdating}
+                  onHold={chatTokenId != null && me ? openHeldLine : undefined}
+                  onShowReactors={setReactorsFor}
+                  me={me}
                 />
+                <ProducerChatHold
+                  held={heldLine}
+                  onClose={closeHeldLine}
+                  me={me}
+                  tokenId={chatTokenId}
+                  reactionsOf={reactionsOf}
+                  addReaction={liveChat.addReaction}
+                  removeReaction={liveChat.removeReaction}
+                  deleteMessage={liveChat.deleteMessage}
+                />
+                <CommentLikersSheet visible={!!reactorsFor} onClose={() => setReactorsFor(null)} commentId={null} chatMessageId={reactorsFor} />
 
                 {/* Controls: flip, mic, camera, go live / end */}
                 {!uiHidden ? (

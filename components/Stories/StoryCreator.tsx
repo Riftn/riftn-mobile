@@ -10,6 +10,8 @@
  */
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
+  ScrollView,
+  Keyboard,
   KeyboardAvoidingView,
   PanResponder,
   Platform,
@@ -21,9 +23,12 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import Slider from "@react-native-community/slider";
 import { Image } from "expo-image";
 import { useVideoPlayer, VideoView } from "expo-video";
 import * as ImagePicker from "expo-image-picker";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -31,54 +36,69 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import MentionSuggestions from "../common/MentionSuggestions";
-import { DarkRoomProvider } from "../../context/ThemeContext";
+import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
-import { toastError } from "../../libs/toast";
+import { toastError, toastSuccess } from "../../libs/toast";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
+import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
+import { PHOTO_BACKDROPS, PHOTO_LOOKS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
+/** The saved Close friends list, reused for "Only selected people". */
+const CLOSE_FRIENDS_KEY = "riftn.stories.closeFriends";
+/** Stickers are big glyph layers: emoji keep their colours, the shapes take the text colour. */
+const STICKER_EMOJI = ["🔥", "😂", "😍", "🥳", "👀", "💯", "🎉", "❤️", "✨", "👏", "🙌", "😎", "🤯", "🫶", "🙏", "💀", "🚀", "⚡", "🌙", "☀️"];
+const STICKER_SHAPES = ["→", "←", "↑", "↓", "↗", "↘", "➜", "○", "✓", "✗", "★", "♥", "!", "?"];
 const COLORS = ["#ffffff", "#000000", "#ff5c7a", "#ffb34d", "#ffe14d", "#5ce08a", "#4dc3ff", "#a391fc"];
 const MAX_SECONDS = 60;
+/** Share button colours per theme, as on web (stories.css --st-acc / --st-acc2 / --st-btn-ink). */
+const SHARE_COLORS: Partial<Record<string, { from: string; to: string; ink: string }>> = {
+  hazy: { from: "#a391fc", to: "#f39bff", ink: "#170a2a" },
+  osaka: { from: "#ff6fb1", to: "#7fe3e0", ink: "#1a0d18" },
+  jungle: { from: "#9be15d", to: "#00e3ae", ink: "#0b1a0b" },
+  war: { from: "#e8b04a", to: "#e8b04a", ink: "#1a1206" },
+};
 const MAX_MENTIONS = 10;
 
 type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
+const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
 
 export default function StoryCreator({ onClose, remixSource }: { onClose: () => void; remixSource?: StoryRemixSource }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
-  const { data: customLifetime = false } = useQuery({
-    queryKey: ["story-custom-lifetime"],
-    queryFn: async () => (await getStoryShelf(false, "")).supportsCustomLifetime === true,
+  const { data: storyCapabilities } = useQuery({
+    queryKey: ["story-posting-capabilities"],
+    queryFn: async () => getStoryShelf(false, "").then(({ supportsCustomAudience, supportsCustomLifetime, supportsPhotoDuration }) => ({ supportsCustomAudience, supportsCustomLifetime, supportsPhotoDuration })),
     staleTime: 60_000,
     retry: false,
   });
   const remixLabel = remixSource ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" }) : undefined;
 
   const take = useCallback(
-    async (from: "camera" | "library") => {
+    async (from: "camera" | "library" | "video") => {
       try {
         const opts: ImagePicker.ImagePickerOptions = {
-          mediaTypes: ["images", "videos"],
+          mediaTypes: from === "video" ? ["videos"] : ["images", "videos"],
           quality: 0.9,
           videoMaxDuration: MAX_SECONDS,
           allowsEditing: false,
         };
-        if (from === "camera") {
+        if (from !== "library") {
           const perm = await ImagePicker.requestCameraPermissionsAsync();
           if (!perm.granted) {
             toastError(t("stories.cameraOff", { defaultValue: "Camera access is off. Turn it on in Settings, or pick from Photos." }));
             return;
           }
         }
-        const res = from === "camera" ? await ImagePicker.launchCameraAsync(opts) : await ImagePicker.launchImageLibraryAsync(opts);
+        const res = from !== "library" ? await ImagePicker.launchCameraAsync(opts) : await ImagePicker.launchImageLibraryAsync(opts);
         const a = res.assets?.[0];
         if (res.canceled || !a) return;
         const video = a.type === "video";
@@ -101,40 +121,140 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={customLifetime} />
+          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} customPhotoDuration={!!storyCapabilities?.supportsPhotoDuration} />
         ) : (
-          <View style={[styles.start, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}>
-            <View style={styles.topRow}>
-              <TouchableOpacity onPress={onClose} style={styles.iconBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-                <Icon name="X" size={20} color="#fff" />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.startBody}>
-              <Text style={styles.startTitle}>{remixLabel ?? t("stories.newMoment", { defaultValue: "New moment" })}</Text>
-              <Text style={styles.startSub}>{t("stories.startSub", { defaultValue: "A photo or a clip up to 60 seconds. It stays up for 24 hours." })}</Text>
-              <TouchableOpacity style={[styles.bigBtn, styles.bigBtnMain]} onPress={() => void take("camera")}>
-                <Icon name="Camera" size={22} color="#000" />
-                <Text style={[styles.bigBtnText, { color: "#000" }]}>{t("stories.openCamera", { defaultValue: "Camera" })}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.bigBtn} onPress={() => void take("library")}>
-                <Icon name="Images" size={22} color="#fff" />
-                <Text style={styles.bigBtnText}>{t("stories.pick", { defaultValue: "Pick from device" })}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <CameraStart onClose={onClose} remixLabel={remixLabel} onPick={(from) => void take(from)} onPhoto={setPicked} />
         )}
       </View>
     </DarkRoomProvider>
   );
 }
 
-function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime }: {
+
+/**
+ * Step 1, as on web: the camera fills a rounded stage, tap the shutter for a
+ * photo, hold it for a clip (the phone's own recorder, up to 60 s), or pick
+ * from Photos. Without camera access it says so and offers Photos.
+ */
+function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
+  onClose: () => void;
+  remixLabel?: string;
+  onPick: (from: "camera" | "library" | "video") => void;
+  onPhoto: (picked: Picked) => void;
+}) {
+  const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
+  const cameraRef = useRef<CameraView>(null);
+  const [permission, requestPermission] = useCameraPermissions();
+  const [facing, setFacing] = useState<"front" | "back">("front");
+  const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [taking, setTaking] = useState(false);
+  const asked = useRef(false);
+
+  React.useEffect(() => {
+    if (!permission || permission.granted || asked.current || !permission.canAskAgain) return;
+    asked.current = true;
+    void requestPermission();
+  }, [permission, requestPermission]);
+
+  const on = !!permission?.granted && !failed;
+  const snap = async () => {
+    if (!cameraRef.current || !ready || taking) return;
+    setTaking(true);
+    try {
+      const photo = await cameraRef.current.takePictureAsync({ quality: 0.9, skipProcessing: false });
+      if (photo?.uri) {
+        onPhoto({ kind: "photo", uri: photo.uri, mimeType: "image/jpeg", width: photo.width || 1080, height: photo.height || 1920, duration: 0 });
+      }
+    } catch {
+      onPick("camera");
+    } finally {
+      setTaking(false);
+    }
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <View style={[styles.camStage, { top: insets.top + 8, bottom: insets.bottom + 118 }]}>
+        {on ? (
+          <CameraView
+            ref={cameraRef}
+            style={StyleSheet.absoluteFill}
+            facing={facing}
+            mirror={facing === "front"}
+            mode="picture"
+            onCameraReady={() => setReady(true)}
+            onMountError={() => setFailed(true)}
+          />
+        ) : permission ? (
+          <View style={styles.camOff}>
+            <Text style={styles.camOffTitle}>{t("stories.noCamera", { defaultValue: "Camera is off" })}</Text>
+            <Text style={styles.camOffBody}>{t("stories.cameraOff", { defaultValue: "Camera access is off. Turn it on in Settings, or pick from Photos." })}</Text>
+            <TouchableOpacity style={[styles.chip, styles.darkGlass]} onPress={() => onPick("library")} accessibilityRole="button">
+              <Icon name="Images" size={16} color="#fff" />
+              <Text style={styles.chipText}>{t("stories.pick", { defaultValue: "Pick from device" })}</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </View>
+
+      <View style={[styles.camTop, { top: insets.top + 20 }]}>
+        <TouchableOpacity onPress={onClose} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+          <View style={[styles.iconBtn, styles.closeBtn]}>
+            <Icon name="X" size={20} color="#fff" />
+          </View>
+        </TouchableOpacity>
+        {remixLabel ? (
+          <View style={[styles.chip, styles.darkGlass, { flexShrink: 1 }]}><Text style={styles.chipText} numberOfLines={1}>{remixLabel}</Text></View>
+        ) : null}
+        <View style={{ flex: 1 }} />
+        {on ? (
+          <TouchableOpacity onPress={() => { setReady(false); setFacing((f) => (f === "front" ? "back" : "front")); }} style={[styles.iconBtn, styles.darkGlass]}
+            accessibilityRole="button" accessibilityLabel={t("stories.flip", { defaultValue: "Flip camera" })}>
+            <Icon name="RefreshCw" size={20} color="#fff" />
+          </TouchableOpacity>
+        ) : null}
+      </View>
+
+      <View style={[styles.camBottom, { bottom: insets.bottom + 22 }]}>
+        <TouchableOpacity onPress={() => onPick("library")} style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("stories.pick", { defaultValue: "Pick from device" })}>
+          <Icon name="Images" size={20} color="#fff" />
+        </TouchableOpacity>
+      </View>
+      {on ? (
+        <>
+          <View style={[styles.camHint, { bottom: insets.bottom + 132 }]} pointerEvents="none">
+            <Text style={styles.camHintText}>{t("stories.shutterHint", { defaultValue: "Tap for photo, hold for video" })}</Text>
+          </View>
+          {/* The ring is drawn by an inner view: a button with a grey fill of its
+              own gets the theme's square button box from the control pass. */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => void snap()}
+            onLongPress={() => onPick("video")}
+            delayLongPress={260}
+            style={[styles.shutterHit, { bottom: insets.bottom + 26 }]}
+            accessibilityRole="button"
+            accessibilityLabel={t("stories.shutter", { defaultValue: "Take a photo, or hold to film" })}
+          >
+            <View style={[styles.shutter, taking && styles.shutterDown]} />
+          </TouchableOpacity>
+        </>
+      ) : null}
+    </View>
+  );
+}
+
+function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime, customAudience, customPhotoDuration }: {
   picked: Picked;
   onBack: () => void;
   onClose: () => void;
   remixSourceId?: string;
   remixLabel?: string;
   customLifetime: boolean;
+  customAudience: boolean;
+  customPhotoDuration: boolean;
 }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -148,25 +268,54 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [editing, setEditing] = useState<TextLayer | null>(null);
   const [mentionTarget, setMentionTarget] = useState<{ layer?: TextLayer } | null>(null);
   const [muted, setMuted] = useState(false);
+  const isPhoto = picked.kind === "photo";
+  const maxSeconds = isPhoto ? MAX_SECONDS : Math.min(MAX_SECONDS, picked.duration || MAX_SECONDS);
+  const [playbackSeconds, setPlaybackSeconds] = useState(isPhoto ? 5 : Math.ceil(maxSeconds));
+  const [choosingPlayback, setChoosingPlayback] = useState(false);
+  const playbackLabel = t("liveStudio.fields.duration", { defaultValue: "Seconds on screen" });
   const [audience, setAudience] = useState<StoryAudience>("everyone");
   const [lifetime, setLifetime] = useState<StoryLifetime>(24);
   const [choosingLifetime, setChoosingLifetime] = useState(false);
   const lifetimeLabel = t("stories.lifetime", { defaultValue: "Story duration" });
   const [busy, setBusy] = useState(false);
+  const audienceChosen = useRef(false);
 
   React.useEffect(() => {
+    let active = true;
     AsyncStorage.getItem(AUDIENCE_KEY)
-      .then((v) => (v === "followers" || v === "everyone") && setAudience(v))
+      .then((v) => {
+        // Restore a default only until the author makes a choice in this editor.
+        if (active && !audienceChosen.current && (v === "followers" || v === "everyone")) setAudience(v);
+      })
+      .catch(() => {});
+    return () => { active = false; };
+  }, []);
+  const [audienceOpen, setAudienceOpen] = useState(false);
+  const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
+  const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
+  const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
+  const [stickersOpen, setStickersOpen] = useState(false);
+  const [effectsOpen, setEffectsOpen] = useState(false);
+  const [look, setLook] = useState<PhotoLook>("none");
+  const [backdrop, setBackdrop] = useState<PhotoBackdrop>("blur");
+  React.useEffect(() => {
+    AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
+      .then((raw) => {
+        const list = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(list)) setCloseFriends(list.filter((u: MentionUser) => u && typeof u.address === "string").slice(0, 50));
+      })
       .catch(() => {});
   }, []);
-  const flipAudience = () => {
-    const next: StoryAudience = audience === "everyone" ? "followers" : "everyone";
-    setAudience(next);
-    AsyncStorage.setItem(AUDIENCE_KEY, next).catch(() => {});
+  const restrictPeople = audience === "selected" || audience === "except";
+  const audienceLabels = {
+    everyone: t("stories.everyone", { defaultValue: "Everyone" }),
+    followers: t("stories.followersOnly", { defaultValue: "Followers" }),
+    selected: t("stories.selectedPeople", { defaultValue: "Only selected people" }),
+    except: t("stories.hideFromPeople", { defaultValue: "Hide from selected people" }),
   };
-
   const player = useVideoPlayer(picked.kind === "video" ? picked.uri : null, (p) => {
     p.loop = true;
+    p.timeUpdateEventInterval = 0.1;
     p.play();
   });
   React.useEffect(() => {
@@ -178,6 +327,18 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
     }
   }, [player, muted, picked.kind]);
 
+  React.useEffect(() => {
+    if (isPhoto || (picked.duration > 0 && playbackSeconds >= picked.duration)) return;
+    const sub = player.addListener("timeUpdate", ({ currentTime }) => {
+      if (currentTime >= playbackSeconds) player.currentTime = 0;
+    });
+    return () => sub.remove();
+  }, [player, isPhoto, picked.duration, playbackSeconds]);
+
+  const addSticker = (glyph: string) => {
+    setLayers((ls) => [...ls, { id: `${Date.now()}`, text: glyph, x: 0.5, y: 0.45, size: 0.16, color: "#ffffff", box: false }]);
+    setStickersOpen(false);
+  };
   const startText = () =>
     setEditing({ id: `${Date.now()}`, text: "", x: 0.5, y: 0.42, size: 0.075, color: "#ffffff", box: false });
   const commitText = () => {
@@ -202,7 +363,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const share = async () => {
-    if (busy) return;
+    if (busy || (restrictPeople && !audiencePeople.length)) return;
     setBusy(true);
     try {
       const visible = layers.filter((l) => l.text.trim());
@@ -213,7 +374,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       let caption: string | undefined;
       if (compose) {
         if (picked.kind === "photo") {
-          uri = await compose.composePhoto(picked.uri, visible);
+          uri = await compose.composePhoto(picked.uri, visible, look, backdrop);
           mimeType = "image/jpeg";
         } else {
           overlayUri = await compose.composeOverlay(visible);
@@ -230,12 +391,13 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           preview: picked.kind === "photo" ? uri : "",
           fields: {
             audience,
+            audienceAddresses: restrictPeople ? audiencePeople.map(user => user.address) : undefined,
             expiresInHours: customLifetime ? lifetime : undefined,
             muted: picked.kind === "video" ? muted : false,
             caption,
             remixSourceId,
             mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(visible) : undefined,
-            ...(picked.kind === "video" && picked.duration > MAX_SECONDS ? { trimStart: 0, trimEnd: MAX_SECONDS } : {}),
+            ...(isPhoto ? { photoDurationSeconds: customPhotoDuration ? playbackSeconds : undefined } : { trimStart: 0, trimEnd: Math.min(playbackSeconds, maxSeconds) }),
           },
         },
         () => void queryClient.invalidateQueries({ queryKey: ["story-shelf"] }),
@@ -248,6 +410,8 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const fit = picked.width > picked.height * 1.34 ? "contain" : "cover";
+  const { theme, isLight } = useAppTheme();
+  const shareColors = isLight ? undefined : SHARE_COLORS[theme];
 
   return (
     <View style={{ flex: 1, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 10 }}>
@@ -258,6 +422,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <>
             <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
             <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
+            {PhotoPreview && (look !== "none" || backdrop !== "blur") ? (
+              <PhotoPreview uri={picked.uri} width={stageW} height={stageH} look={look} backdrop={backdrop} />
+            ) : null}
           </>
         )}
         {layers
@@ -274,27 +441,43 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           ))}
 
         <View style={styles.stageTop}>
-          <TouchableOpacity className="dark-surface" onPress={onBack} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
+          <TouchableOpacity className="dark-surface" onPress={onBack} style={[styles.iconBtn, styles.darkGlass]} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.mediaBtn, styles.dismissBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-            <Icon name="X" size={22} color="#fff" />
+          <TouchableOpacity onPress={onClose} style={styles.dismissBtn} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <View style={[styles.iconBtn, styles.closeBtn]}>
+              <Icon name="X" size={22} color="#fff" />
+            </View>
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
           </View>
           <View style={styles.tools}>
-            <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
+            {maxSeconds > 1 && (!isPhoto || customPhotoDuration) && (
+              <TouchableOpacity className="dark-surface" onPress={() => setChoosingPlayback(true)}
+                style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={playbackLabel}>
+                <Icon name="Clock" size={20} color="#fff" />
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.darkGlass]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
+            {picked.kind === "photo" && compose && PhotoPreview ? (
+              <TouchableOpacity className="dark-surface" onPress={() => setEffectsOpen(true)} style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("stories.effects", { defaultValue: "Effects" })}>
+                <Icon name="Wand" size={20} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
+            <TouchableOpacity className="dark-surface" onPress={() => setStickersOpen(true)} style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("stories.stickers", { defaultValue: "Stickers" })}>
+              <Icon name="Smile" size={20} color="#fff" />
+            </TouchableOpacity>
             {compose && layers.filter((layer) => layer.mentionAddress).length < MAX_MENTIONS ? (
-              <TouchableOpacity className="dark-surface" onPress={() => setMentionTarget({})} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button"
+              <TouchableOpacity className="dark-surface" onPress={() => setMentionTarget({})} style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button"
                 accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}>
                 <Icon name="AtSign" size={20} color="#fff" />
               </TouchableOpacity>
             ) : null}
             {picked.kind === "video" ? (
-              <TouchableOpacity className="dark-surface" onPress={() => setMuted((m) => !m)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.mute", { defaultValue: "Sound" })}>
+              <TouchableOpacity className="dark-surface" onPress={() => setMuted((m) => !m)} style={[styles.iconBtn, styles.darkGlass]} accessibilityLabel={t("stories.mute", { defaultValue: "Sound" })}>
                 <Icon name={muted ? "VolumeX" : "Volume2"} size={20} color="#fff" />
               </TouchableOpacity>
             ) : null}
@@ -303,24 +486,155 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       </View>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={flipAudience} style={styles.chip}>
+        <TouchableOpacity onPress={() => setAudienceOpen(true)} style={[styles.chip, styles.darkGlass]}>
           <Icon name={audience === "everyone" ? "Globe" : "Users"} size={15} color="#fff" />
           <Text style={styles.chipText}>
-            {audience === "everyone" ? t("stories.everyone", { defaultValue: "Everyone" }) : t("stories.followersOnly", { defaultValue: "Followers" })}
+            {audienceLabels[audience]}
           </Text>
         </TouchableOpacity>
         {customLifetime ? (
-          <TouchableOpacity onPress={() => setChoosingLifetime(true)} style={styles.chip} accessibilityRole="button" accessibilityLabel={`${lifetimeLabel}, ${lifetime}h`}>
+          <TouchableOpacity onPress={() => setChoosingLifetime(true)} style={[styles.chip, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={`${lifetimeLabel}, ${lifetime}h`}>
             <Text style={styles.chipText}>{lifetime}h</Text>
           </TouchableOpacity>
         ) : (
-          <View style={styles.chip}><Text style={styles.chipText}>24h</Text></View>
+          <View style={[styles.chip, styles.darkGlass]}><Text style={styles.chipText}>24h</Text></View>
         )}
         <View style={{ flex: 1 }} />
-        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy}>
-          <Text style={styles.shareText}>{t("stories.share", { defaultValue: "Share" })}</Text>
+        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || (restrictPeople && !audiencePeople.length)}>
+          {shareColors ? <LinearGradient colors={[shareColors.from, shareColors.to]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} /> : null}
+          <Text style={[styles.shareText, shareColors && { color: shareColors.ink }]}>{t("stories.share", { defaultValue: "Share" })}</Text>
         </TouchableOpacity>
       </View>
+
+      {audienceOpen && !pickingAudiencePerson && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setAudienceOpen(false)} accessible={false} />
+          <ScrollView style={[styles.textTools, { maxHeight: "75%" }]} contentContainerStyle={{ gap: 8, paddingBottom: insets.bottom + 16 }} accessibilityViewIsModal>
+            {(Object.keys(audienceLabels) as StoryAudience[]).filter(mode => customAudience || mode === "everyone" || mode === "followers").map(mode => (
+              <TouchableOpacity key={mode} style={[styles.chip, styles.darkGlass]} accessibilityRole="radio" accessibilityState={{ checked: mode === audience }}
+                onPress={() => {
+                  audienceChosen.current = true;
+                  if (mode !== audience) setAudiencePeople([]);
+                  setAudience(mode);
+                  if (mode === "followers" || mode === "everyone") AsyncStorage.setItem(AUDIENCE_KEY, mode).catch(() => {});
+                }}>
+                {mode === audience && <Icon name="Check" size={16} color="#fff" />}
+                <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
+              </TouchableOpacity>
+            ))}
+            {customAudience && closeFriends.length > 0 && (
+              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
+                onPress={() => { audienceChosen.current = true; setAudience("selected"); setAudiencePeople(closeFriends); }}>
+                <Icon name="Users" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.closeFriends", { defaultValue: "Close friends" })} ({closeFriends.length})</Text>
+              </TouchableOpacity>
+            )}
+            {audience === "selected" && audiencePeople.length > 0 && (
+              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
+                onPress={() => {
+                  setCloseFriends(audiencePeople);
+                  AsyncStorage.setItem(CLOSE_FRIENDS_KEY, JSON.stringify(audiencePeople)).catch(() => {});
+                  toastSuccess(t("stories.closeFriendsSaved", { defaultValue: "Saved as your Close friends" }));
+                }}>
+                <Icon name="Check" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.saveCloseFriends", { defaultValue: "Save as Close friends" })}</Text>
+              </TouchableOpacity>
+            )}
+            {restrictPeople && <>
+              {audiencePeople.map(user => (
+                <TouchableOpacity key={user.address} style={[styles.chip, styles.darkGlass]} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
+                  <Text style={styles.chipText}>@{user.username} ×</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity style={[styles.chip, styles.darkGlass]} disabled={audiencePeople.length >= 50} onPress={() => setPickingAudiencePerson(true)}>
+                <Icon name="Search" size={16} color="#fff" /><Text style={styles.chipText}>{t("common.search", { defaultValue: "Search" })}</Text>
+              </TouchableOpacity>
+            </>}
+            <TouchableOpacity style={[styles.chip, styles.darkGlass]} onPress={() => setAudienceOpen(false)}>
+              <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      )}
+      {stickersOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setStickersOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.stickers", { defaultValue: "Stickers" })}</Text>
+              <TouchableOpacity onPress={() => setStickersOpen(false)} style={[styles.chip, styles.darkGlass]} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {[...STICKER_EMOJI, ...STICKER_SHAPES].map((g) => (
+                <TouchableOpacity key={g} onPress={() => addSticker(g)} accessibilityRole="button" accessibilityLabel={g}
+                  style={{ width: "14.28%", height: 48, alignItems: "center", justifyContent: "center" }}>
+                  <Text style={{ fontSize: 26, color: "#fff", fontWeight: "700" }}>{g}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>{t("stories.shapes", { defaultValue: "Arrows and shapes. Tap one after adding it to change its colour, size or angle." })}</Text>
+          </View>
+        </View>
+      )}
+      {effectsOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setEffectsOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16, gap: 10 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.effects", { defaultValue: "Effects" })}</Text>
+              <TouchableOpacity onPress={() => setEffectsOpen(false)} style={[styles.chip, styles.darkGlass]} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              {(Object.keys(PHOTO_LOOKS) as PhotoLook[]).map((key) => (
+                <TouchableOpacity key={key} onPress={() => setLook(key)} style={[styles.chip, styles.darkGlass]} accessibilityRole="radio" accessibilityState={{ checked: look === key }}>
+                  {look === key && <Icon name="Check" size={16} color="#fff" />}
+                  <Text style={styles.chipText}>{t(`stories.looks.${key}`, { defaultValue: key })}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <Text style={{ color: "hsla(0,0%,100%,0.6)", fontSize: 12 }}>{t("stories.backdrop", { defaultValue: "Background" })}</Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              {(Object.keys(PHOTO_BACKDROPS) as PhotoBackdrop[]).map((key) => {
+                const stops = PHOTO_BACKDROPS[key];
+                return (
+                  <TouchableOpacity key={key} onPress={() => setBackdrop(key)} accessibilityRole="radio" accessibilityState={{ checked: backdrop === key }}
+                    accessibilityLabel={t(`stories.backdrops.${key}`, { defaultValue: key })}
+                    style={{ width: 36, height: 36, borderRadius: 18, overflow: "hidden", borderWidth: 2, borderColor: backdrop === key ? "#fff" : "hsla(0,0%,100%,0.25)", alignItems: "center", justifyContent: "center" }}>
+                    <View style={[StyleSheet.absoluteFill, { backgroundColor: stops ? stops[0] : "hsla(0,0%,100%,0.15)" }]} />
+                    {stops ? <View style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "50%", backgroundColor: stops[1] }} /> : <Icon name="Palette" size={16} color="#fff" />}
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+        </View>
+      )}
+      {pickingAudiencePerson && (
+        <MentionSheet title={audienceLabels[audience]} excluded={audiencePeople.map(user => user.address.toLowerCase())}
+          onSelect={user => { setAudiencePeople(current => [...current, user]); setPickingAudiencePerson(false); }}
+          onClose={() => setPickingAudiencePerson(false)} bottom={insets.bottom} />
+      )}
+      {choosingPlayback && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setChoosingPlayback(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{playbackLabel} · {playbackSeconds}s</Text>
+              <TouchableOpacity onPress={() => setChoosingPlayback(false)} style={[styles.chip, styles.darkGlass]} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <Slider style={{ width: "100%", height: 40 }} accessibilityLabel={playbackLabel}
+              minimumValue={1} maximumValue={Math.ceil(maxSeconds)} step={1} value={playbackSeconds}
+              minimumTrackTintColor="#ffffff" maximumTrackTintColor="#888888" thumbTintColor="#ffffff"
+              onValueChange={setPlaybackSeconds} />
+          </View>
+        </View>
+      )}
 
       {choosingLifetime && (
         <View style={styles.lifetimeOverlay}>
@@ -371,12 +685,13 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   );
 }
 
-function MentionSheet({ layer, excluded, onSelect, onClose, onRemove, bottom }: {
+function MentionSheet({ title, layer, excluded, onSelect, onClose, onRemove, bottom }: {
+  title?: string;
   layer?: TextLayer;
   excluded: string[];
   onSelect: (user: MentionUser) => void;
   onClose: () => void;
-  onRemove: () => void;
+  onRemove?: () => void;
   bottom: number;
 }) {
   const { t } = useTranslation();
@@ -396,9 +711,9 @@ function MentionSheet({ layer, excluded, onSelect, onClose, onRemove, bottom }: 
       <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessible={false} />
       <View style={[styles.textTools, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
         <View style={styles.textRow}>
-          <Text style={[styles.chipText, { flex: 1 }]}>{layer?.text ?? t("upload.studio.mention", { defaultValue: "Mention" })}</Text>
+          <Text style={[styles.chipText, { flex: 1 }]}>{title ?? layer?.text ?? t("upload.studio.mention", { defaultValue: "Mention" })}</Text>
           {layer ? (
-            <TouchableOpacity style={styles.chip} onPress={onRemove} accessibilityRole="button">
+            <TouchableOpacity style={[styles.chip, styles.darkGlass]} onPress={onRemove} accessibilityRole="button">
               <Text style={styles.chipText}>{t("common.remove", { defaultValue: "Remove" })}</Text>
             </TouchableOpacity>
           ) : null}
@@ -460,9 +775,15 @@ function DraggableText({
   return (
     <View
       pointerEvents="box-none"
-      style={{ position: "absolute", left: 0, width: stageW, top: layer.y * stageH - fontSize * 0.59, alignItems: "center", transform: [{ translateX: (layer.x - 0.5) * stageW }] }}
+      style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}
     >
-      <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}>
+      <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}
+        style={{ transform: [
+          { translateX: (layer.x - 0.5) * stageW },
+          { translateY: (layer.y - 0.5) * stageH },
+          { rotate: `${layer.rotation ?? 0}deg` },
+        ] }}
+      >
         <Text style={textStyle(layer, fontSize)}>{layer.text}</Text>
       </View>
     </View>
@@ -474,7 +795,7 @@ function textStyle(layer: TextLayer, fontSize: number) {
     color: layer.color,
     fontSize,
     lineHeight: fontSize * 1.18,
-    fontWeight: "700" as const,
+    ...captionFontStyle(layer.font),
     textAlign: "center" as const,
     paddingHorizontal: fontSize * 0.32,
     borderRadius: fontSize * 0.28,
@@ -499,7 +820,8 @@ function TextSheet({
   bottom: number;
 }) {
   const { t } = useTranslation();
-  const sizes = [0.055, 0.075, 0.1];
+  const [fontsOpen, setFontsOpen] = useState(false);
+  const font = layer.font ?? "classic";
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={StyleSheet.absoluteFill}>
       <Pressable style={styles.textBack} onPress={onDone}>
@@ -512,7 +834,7 @@ function TextSheet({
             placeholder={t("stories.typeSomething", { defaultValue: "Type something" })}
             placeholderTextColor="rgba(255,255,255,0.6)"
             keyboardAppearance="dark"
-            style={[textStyle(layer, layer.size * stageW), { minWidth: 120, maxWidth: stageW }]}
+            style={[textStyle(layer, layer.size * stageW), { minWidth: 120, maxWidth: stageW, transform: [{ rotate: `${layer.rotation ?? 0}deg` }] }]}
           />
         </View>
         <Pressable onPress={() => {}} style={[styles.textTools, { paddingBottom: bottom + 10 }]}>
@@ -525,20 +847,56 @@ function TextSheet({
               />
             ))}
           </View>
-          <View style={styles.textRow}>
-            <TouchableOpacity onPress={() => onChange({ ...layer, box: !layer.box })} style={styles.chip}>
+          <View style={[styles.textRow, { flexWrap: "wrap" }]}>
+            <TouchableOpacity onPress={() => onChange({ ...layer, box: !layer.box })} style={[styles.chip, styles.darkGlass]}>
               <Text style={styles.chipText}>{layer.box ? t("stories.boxOn", { defaultValue: "Box on" }) : t("stories.boxOff", { defaultValue: "Box off" })}</Text>
             </TouchableOpacity>
-            {sizes.map((s, i) => (
-              <TouchableOpacity key={s} onPress={() => onChange({ ...layer, size: s })} style={[styles.chip, layer.size === s && styles.chipOn]}>
-                <Text style={[styles.chipText, { fontSize: 12 + i * 3 }]}>Aa</Text>
+            {compose && (
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={t("dmVideo.rotate", { defaultValue: "Rotate" })}
+                accessibilityValue={{ text: `${layer.rotation ?? 0}°` }} style={[styles.chip, styles.darkGlass]}
+                onPress={() => onChange({ ...layer, rotation: ((layer.rotation ?? 0) + 45) % 360 })}>
+                <Icon name="RotateCw" size={16} color="#fff" />
+                <Text style={styles.chipText}>{layer.rotation ?? 0}°</Text>
               </TouchableOpacity>
-            ))}
+            )}
+            {compose && (
+              <TouchableOpacity
+                accessibilityRole="button" accessibilityLabel={t("stories.captionFont", { defaultValue: "Caption font" })}
+                accessibilityState={{ expanded: fontsOpen }} style={[styles.chip, styles.darkGlass]}
+                onPress={() => { Keyboard.dismiss(); setFontsOpen(open => !open); }}
+              >
+                <Text style={[styles.chipText, captionFontStyle(font)]}>{t(`stories.captionStyles.${font}`, { defaultValue: CAPTION_FONTS[font].label })}</Text>
+                <Icon name="ChevronDown" size={14} color="#fff" />
+              </TouchableOpacity>
+            )}
             <View style={{ flex: 1 }} />
             <TouchableOpacity onPress={onDone} style={styles.doneBtn} accessibilityLabel={t("common.done", { defaultValue: "Done" })}>
               <Icon name="Check" size={20} color="#000" />
             </TouchableOpacity>
           </View>
+          {compose && fontsOpen && (
+            <ScrollView style={{ maxHeight: Math.min(168, stageW / 2) }} keyboardShouldPersistTaps="always" nestedScrollEnabled>
+              {captionFonts.map(id => (
+                <TouchableOpacity
+                  key={id} accessible accessibilityRole="radio" accessibilityState={{ checked: font === id }}
+                  style={[styles.fontOption, font === id && styles.chipOn]}
+                  onPress={() => { onChange({ ...layer, font: id }); setFontsOpen(false); }}
+                >
+                  <Text style={[styles.chipText, captionFontStyle(id)]}>{t(`stories.captionStyles.${id}`, { defaultValue: CAPTION_FONTS[id].label })}</Text>
+                  {font === id && <Icon name="Check" size={16} color="#fff" />}
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+          {compose && (
+            <View style={styles.textRow}>
+              <Text style={styles.chipText}>{t("articles.textSize", { defaultValue: "Text size" })}</Text>
+              <Slider style={{ flex: 1 }} minimumValue={0.045} maximumValue={0.14} step={0.005} value={layer.size}
+                accessibilityLabel={t("articles.textSize", { defaultValue: "Text size" })}
+                minimumTrackTintColor="#fff" maximumTrackTintColor="#777" thumbTintColor="#fff"
+                onValueChange={size => onChange({ ...layer, size })} />
+            </View>
+          )}
         </Pressable>
       </Pressable>
     </KeyboardAvoidingView>
@@ -547,43 +905,45 @@ function TextSheet({
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#000" },
-  start: { flex: 1, paddingHorizontal: 20 },
-  topRow: { flexDirection: "row" },
-  startBody: { flex: 1, justifyContent: "center", gap: 12 },
-  startTitle: { color: "#fff", fontSize: 26, fontWeight: "800" },
-  startSub: { color: "rgba(255,255,255,0.7)", fontSize: 15, marginBottom: 18 },
   remixLabel: { color: "#fff", fontSize: 13, fontWeight: "600", marginHorizontal: 6, textShadowColor: "#000", textShadowRadius: 5 },
-  bigBtn: {
-    height: 58,
-    borderRadius: 29,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 10,
-    backgroundColor: "rgba(255,255,255,0.1)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.2)",
-  },
-  bigBtnMain: { backgroundColor: "#fff" },
-  bigBtnText: { color: "#fff", fontSize: 16, fontWeight: "700" },
   iconBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.38)",
   },
-  mediaBtn: { backgroundColor: "#242427" },
+  closeBtn: { backgroundColor: "#242427" },
+  /** Web's dark glass over a photo: see-through dark, thin light rim. */
+  darkGlass: { backgroundColor: "rgba(20,20,24,0.5)", borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.16)" },
+  camStage: { position: "absolute", left: 8, right: 8, borderRadius: 24, overflow: "hidden", backgroundColor: "#111" },
+  camOff: { flex: 1, alignItems: "center", justifyContent: "center", padding: 32, gap: 8 },
+  camOffTitle: { color: "#fff", fontSize: 17, fontWeight: "600" },
+  camOffBody: { color: "rgba(255,255,255,0.7)", fontSize: 14, textAlign: "center", marginBottom: 12 },
+  camTop: { position: "absolute", left: 20, right: 20, flexDirection: "row", alignItems: "center", gap: 10 },
+  camBottom: { position: "absolute", left: 12, right: 12, flexDirection: "row", alignItems: "center" },
+  camHint: { position: "absolute", alignSelf: "center", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999, backgroundColor: "rgba(0,0,0,0.35)" },
+  camHintText: { color: "rgba(255,255,255,0.85)", fontSize: 12 },
+  shutterHit: { position: "absolute", alignSelf: "center", width: 76, height: 76 },
+  shutter: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 4,
+    borderColor: "#fff",
+    backgroundColor: "rgba(255,255,255,0.2)",
+  },
+  shutterDown: { transform: [{ scale: 0.94 }], backgroundColor: "rgba(255,255,255,0.4)" },
   dismissBtn: { marginLeft: 8 },
-  stage: { alignSelf: "center", borderRadius: 18, overflow: "hidden", backgroundColor: "#111" },
+  stage: { alignSelf: "center", borderRadius: 24, overflow: "hidden", backgroundColor: "#111" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
   bottomBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingTop: 12 },
   chip: {
-    height: 36,
-    paddingHorizontal: 12,
-    borderRadius: 18,
+    height: 40,
+    paddingHorizontal: 14,
+    borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
@@ -593,8 +953,8 @@ const styles = StyleSheet.create({
   },
   chipOn: { backgroundColor: "rgba(255,255,255,0.28)" },
   chipText: { color: "#fff", fontSize: 13, fontWeight: "600" },
-  shareBtn: { height: 44, paddingHorizontal: 22, borderRadius: 22, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
-  shareText: { color: "#000", fontSize: 15, fontWeight: "800" },
+  shareBtn: { height: 48, paddingHorizontal: 20, borderRadius: 24, overflow: "hidden", backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
+  shareText: { color: "#000", fontSize: 15, fontWeight: "700" },
   textBack: { flex: 1, backgroundColor: "rgba(0,0,0,0.55)" },
   lifetimeOverlay: { ...StyleSheet.absoluteFillObject, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.42)" },
   mentionInput: { minHeight: 44, borderRadius: 22, paddingHorizontal: 16, color: "#fff", backgroundColor: "rgba(255,255,255,0.1)" },
@@ -602,6 +962,7 @@ const styles = StyleSheet.create({
   swatches: { flexDirection: "row", gap: 8 },
   swatch: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: "rgba(255,255,255,0.4)" },
   swatchOn: { borderColor: "#fff", transform: [{ scale: 1.15 }] },
+  fontOption: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 44, paddingHorizontal: 12, borderRadius: 10 },
   textRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   doneBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
 });

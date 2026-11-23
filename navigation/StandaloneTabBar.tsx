@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { CommonActions } from "@react-navigation/native";
 import FloatingBottomTabBar from "./FloatingBottomTabBar";
 import { ScreenNames } from "./ScreenNames";
 import { navigationRef } from "../App";
@@ -38,7 +39,12 @@ const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: bool
       if (!navigationRef.isReady()) return;
       onBeforeNavigate?.();
       if (name === ScreenNames.UploadTab) {
-        const creatingBounty = navigationRef.getCurrentRoute()?.name.startsWith('Work');
+        const route = navigationRef.getCurrentRoute();
+        if (appWide && route?.name === ScreenNames.FeatureRequests) {
+          navigationRef.dispatch({ ...CommonActions.setParams({ composeRequest: true }), source: route.key });
+          return;
+        }
+        const creatingBounty = route?.name.startsWith('Work');
         const target = (creatingBounty ? ScreenNames.WorkPost : ScreenNames.Upload) as never;
         // Signed out: the same sign-in sheet as everywhere else; the log-in
         // then lands on its arrival, not in the composer.
@@ -58,7 +64,7 @@ const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: bool
       state: { index: -1, routes: TAB_ROUTES },
       navigation: { emit: () => ({ defaultPrevented: false }), navigate: go },
     };
-  }, [isAuthed, onBeforeNavigate, requireAuth]);
+  }, [appWide, isAuthed, onBeforeNavigate, requireAuth]);
 
   // The bar is already on screen when this copy takes over: no entrance.
   return <FloatingBottomTabBar {...(props as any)} noEntrance />;

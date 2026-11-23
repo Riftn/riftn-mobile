@@ -2,7 +2,7 @@
  * Full-screen moments viewer. Port of web's `components/app/stories/StoryViewer`.
  *
  * Tap right/left for the next or last moment, hold to pause, swipe down to
- * close, swipe sideways for the next person. Photos run 5 s, videos their
+ * close, swipe sideways for the next person. Photos follow the author’s timer, videos their
  * length. Like and reply (a reply is a DM); owners see views and likes and who
  * watched, and can delete. Dark in every theme.
  */
@@ -30,18 +30,21 @@ import { useAudioPlayer } from "expo-audio";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
-import { DarkRoomProvider } from "../../context/ThemeContext";
+import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config/links";
 import { formatCount } from "../../libs/format-count";
 import { toastError, toastSuccess } from "../../libs/toast";
+import { muteUser } from "../../services/mute.service";
+import { followUser, unfollowUser } from "../../services/user.service";
 import {
+  addStoryComment,
   checkStoryReply,
   deleteStory,
   getStory,
@@ -55,11 +58,37 @@ import {
 } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
+import StoryComments from "./StoryComments";
+import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
+import { FloatHearts, ReplyTo, StoryRoomChat, TEXT_SHADOW, useMomentComments } from "./StoryRoom";
+import { ChromeFill, CHROME_HAIRLINE } from "../common/ViewerChrome";
 
-const PHOTO_MS = 5000;
+/** Themes with their own key colour wear it on the MOMENT tag and Send, as on web. */
+const ACCENT_THEMES = new Set(["hazy", "osaka", "jungle", "cosmic", "glass", "lavalamp", "swarms", "winter", "island", "horror", "hacker"]);
+
+/** "21h left", "40m left": how long until the moment goes away. */
+function timeLeftLabel(expiresAt: string, t: (k: string, o: Record<string, unknown>) => string): string {
+  const mins = Math.max(0, Math.round((Date.parse(expiresAt) - Date.now()) / 60000));
+  if (mins >= 60) return t("stories.hoursLeft", { n: Math.floor(mins / 60), defaultValue: "{{n}}h left" });
+  return t("stories.minutesLeft", { n: Math.max(1, mins), defaultValue: "{{n}}m left" });
+}
+
+/** A white icon with a soft shadow, like the live header (SVG casts none on Android). */
+function ShadowedIcon({ name, size }: { name: React.ComponentProps<typeof Icon>["name"]; size: number }) {
+  return (
+    <View style={{ width: size, height: size }}>
+      <View pointerEvents="none" style={{ position: "absolute", top: 1, left: 0 }}>
+        <Icon name={name} size={size} color="rgba(0,0,0,0.45)" />
+      </View>
+      <Icon name={name} size={size} color="#fff" />
+    </View>
+  );
+}
+
+const DEFAULT_PHOTO_MS = 5000;
 const TICK_MS = 50;
 
-type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-dm";
+type Sheet = null | "more" | "viewers" | "comments" | "report" | "delete" | "share" | "share-dm";
 
 export default function StoryViewer({
   entries,
@@ -78,13 +107,35 @@ export default function StoryViewer({
   const queryClient = useQueryClient();
   const user = useUser();
   const { requireAuth } = useAuthActions();
+  const { theme, colors } = useAppTheme();
+  const accent = ACCENT_THEMES.has(theme) ? colors.accent : "#fff";
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
 
   const [list, setList] = useState(entries);
   const [authorIdx, setAuthorIdx] = useState(firstIndex);
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
-  const item: StoryItem | undefined = entry?.items[itemIdx];
+  const snapshot: StoryItem | undefined = entry?.items[itemIdx];
+  const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except';
+  const delivery = useQuery({
+    queryKey: ['private-story-playback', snapshot?.id, me],
+    queryFn: () => getStory(snapshot!.id, true),
+    enabled: customAudience && !!me,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchInterval: 4 * 60 * 1000,
+    retry: false,
+  });
+  const item = useMemo(() => {
+    if (!customAudience) return snapshot;
+    if (!snapshot || !me || !delivery.isSuccess) return undefined;
+    const { mediaUrl, posterUrl, overlayUrl } = delivery.data.item;
+    return { ...snapshot, mediaUrl, posterUrl, overlayUrl };
+  }, [snapshot, customAudience, me, delivery.data, delivery.isSuccess]);
+  useEffect(() => {
+    if (customAudience && (!me || delivery.isError)) onClose();
+  }, [customAudience, me, delivery.isError, onClose]);
   const own = !!entry && (entry.own || entry.author.address.toLowerCase() === me);
 
   const [progress, setProgress] = useState(0);
@@ -98,6 +149,11 @@ export default function StoryViewer({
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [openingOriginal, setOpeningOriginal] = useState(false);
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
+  const [replyTo, setReplyTo] = useState<"everyone" | "author">("everyone");
+  const [bursts, setBursts] = useState<number[]>([]);
+  const [sending, setSending] = useState(false);
+  const room = useMomentComments(item?.id, !!me, !!item && (item.commentCount ?? 1) > 0);
+  const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
   const paused = held || typing || sheet !== null || openingOriginal || !loaded;
   const pausedRef = useRef(paused);
@@ -128,13 +184,16 @@ export default function StoryViewer({
   );
 
   const elapsed = useRef(0);
+  // Deleting a Moment can replace it at the same index. Its successor still
+  // needs a fresh clock and reply, even when neither list index changes.
   useEffect(() => {
     elapsed.current = 0;
     setProgress(0);
     setReply("");
+    setReplyTo("everyone");
     setOpeningOriginal(false);
     return () => { originalRequest.current = null; };
-  }, [authorIdx, itemIdx]);
+  }, [snapshot?.id]);
 
   // Photo clock.
   const goItemRef = useRef(goItem);
@@ -143,7 +202,7 @@ export default function StoryViewer({
     if (!item || item.type === "video" || paused) return;
     const id = setInterval(() => {
       elapsed.current += TICK_MS;
-      const p = Math.min(1, elapsed.current / PHOTO_MS);
+      const p = Math.min(1, elapsed.current / Math.max(1000, item.durationMs || DEFAULT_PHOTO_MS));
       setProgress(p);
       if (p >= 1) {
         clearInterval(id);
@@ -302,20 +361,53 @@ export default function StoryViewer({
     }
   };
 
+  const followAuthor = () =>
+    requireAuth(() => {
+      const address = entry.author.address;
+      setList((l) => l.map((e) => (e.author.address === address ? { ...e, following: true } : e)));
+      followUser(me, address)
+        .then(() => { void queryClient.invalidateQueries({ queryKey: ["story-shelf"] }); })
+        .catch(() => {
+          setList((l) => l.map((e) => (e.author.address === address ? { ...e, following: false } : e)));
+          toastError(t("common.tryAgain", { defaultValue: "Try again" }));
+        });
+    });
+
   const toggleLike = () =>
     requireAuth(() => {
       const next = !isLiked;
+      if (next) {
+        const id = Date.now();
+        setBursts((b) => [...b, id]);
+        setTimeout(() => setBursts((b) => b.filter((x) => x !== id)), 2600);
+      }
       setLiked((m) => ({ ...m, [item.id]: next }));
       likeStory(item.id, next).catch(() => setLiked((m) => ({ ...m, [item.id]: !next })));
     });
 
   const sendReply = async () => {
     const text = reply.trim();
-    if (!text) return;
+    if (!text || sending) return;
+    if (replyTo === "everyone") {
+      setSending(true);
+      try {
+        const row = await addStoryComment(item.id, text);
+        queryClient.setQueryData(["moment-room-comments", item.id, !!me], (old: { comments: (typeof row)[] } | undefined) =>
+          old ? { ...old, comments: [row, ...old.comments] } : { commentCount: 1, allowComments: true, comments: [row], next: null });
+        void queryClient.invalidateQueries({ queryKey: ["moment-room-comments", item.id] });
+        setList((l) => l.map((e, i) => (i === authorIdx ? { ...e, items: e.items.map((it) => (it.id === item.id ? { ...it, commentCount: (it.commentCount ?? 0) + 1 } : it)) } : e)));
+        setReply("");
+      } catch (e: any) {
+        toastError(e?.message || t("stories.commentFailed", { defaultValue: "Your comment didn't go up. Try again." }));
+      } finally {
+        setSending(false);
+      }
+      return;
+    }
     try {
       const res = await checkStoryReply(item.id);
       const label = t("stories.repliedTo", { defaultValue: "Replied to your moment" });
-      const link = `${WEBSITE_LINK}/moment/${item.id}`;
+      const link = `${WEBSITE_LINK}/moment/${item.id}?reply=1`;
       setReply("");
       onClose();
       navigation.navigate(ScreenNames.Chat as never, {
@@ -332,6 +424,7 @@ export default function StoryViewer({
   const remove = async () => {
     try {
       await deleteStory(item.id);
+      void queryClient.invalidateQueries({ queryKey: ["moment-archive", me] });
       toastSuccess(t("stories.deleted", { defaultValue: "Moment deleted" }));
       setSheet(null);
       const rest = entry.items.filter((x) => x.id !== item.id);
@@ -343,9 +436,14 @@ export default function StoryViewer({
     }
   };
 
-  const fit = item.type === "photo" || (item.width && item.height && item.width > item.height) ? "contain" : "cover";
-  // Photo mentions are baked into the contained canvas. Video mentions follow the cover-fit overlay.
-  const mentionFrameWidth = item.type === "photo"
+  // The picture fills the screen edge to edge like the live player (and web)
+  // when that crops only a little; otherwise the whole moment stays in view,
+  // so text and stickers near the sides are never cut on tall phones.
+  const ratio = item.width && item.height ? item.width / item.height : 9 / 16;
+  const screenRatio = viewport.width && viewport.height ? viewport.width / viewport.height : ratio;
+  const fit = ratio <= 1 && Math.abs(ratio - screenRatio) / screenRatio <= 0.1 ? "cover" : "contain";
+  // Mentions follow the same 9:16 crop as the picture.
+  const mentionFrameWidth = fit === "contain"
     ? Math.min(viewport.width, viewport.height * 9 / 16)
     : Math.max(viewport.width, viewport.height * 9 / 16);
   const mentionFrameHeight = mentionFrameWidth * 16 / 9;
@@ -368,9 +466,9 @@ export default function StoryViewer({
               onError={() => setLoadedId(item.id)}
             />
           )}
-          {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /> : null}
-          <LinearGradient colors={["rgba(0,0,0,0.45)", "rgba(0,0,0,0)"]} style={styles.topShade} pointerEvents="none" />
-          <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.55)"]} style={styles.bottomShade} pointerEvents="none" />
+          {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit={fit} pointerEvents="none" /> : null}
+          <LinearGradient colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0)"]} style={[styles.topShade, { height: insets.top + 128 }]} pointerEvents="none" />
+          <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.35)", "rgba(0,0,0,0.72)"]} style={styles.bottomShade} pointerEvents="none" />
           {!loaded ? (
             <View style={styles.center} pointerEvents="none">
               <ActivityIndicator color="#fff" />
@@ -402,132 +500,225 @@ export default function StoryViewer({
               ))}
             </View>
           ) : null}
-
         </View>
 
-        {/* Capsule: who, when, how far along, and the actions. */}
-        <View style={[styles.cap, { top: insets.top + 8 }]}>
-          <View style={[styles.capFill, { width: `${Math.round(progress * 100)}%` }]} pointerEvents="none" />
-          <TouchableOpacity style={styles.authorLink} accessibilityRole="link" accessibilityLabel={nameOf(entry.author)} onPress={() => onOpenProfile(entry.author.address)}>
-            <Avatar uri={avatarOf(entry.author, 32)} size={30} radius={15} name={entry.author.username || entry.author.address} />
-            <View style={styles.capText}>
-              <Text style={styles.capName} numberOfLines={1}>
-                {nameOf(entry.author)}
-              </Text>
-              <Text style={styles.capSub} numberOfLines={1}>
-                {ageLabel(item.createdAt)}
-                {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
-              </Text>
+        {/* One thin bar per moment, the current one filling as it plays (as on web). */}
+        <View style={[styles.timing, { top: insets.top + 5 }]} pointerEvents="none">
+          {entry.items.map((x, i) => (
+            <View key={x.id} style={[styles.timingBar, i < itemIdx && styles.timingPlayed]}>
+              {i === itemIdx ? <View style={[styles.timingFill, { width: `${Math.min(100, Math.round(progress * 100))}%` }]} /> : null}
             </View>
-          </TouchableOpacity>
-          {entry.items.length > 1 ? (
-            <View style={styles.dots}>
-              {entry.items.map((x, i) => (
-                <View key={x.id} style={[styles.dot, i === itemIdx && styles.dotOn]} />
-              ))}
-            </View>
-          ) : null}
-          {item.type === "video" || item.song ? (
-            <TouchableOpacity onPress={() => setMuted((m) => !m)} hitSlop={8} style={styles.capBtn}>
-              <Icon name={muted ? "VolumeX" : "Volume2"} size={18} color="#fff" />
-            </TouchableOpacity>
-          ) : null}
-          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={4} style={styles.capBtn} accessibilityRole="button" accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })} accessibilityState={{ expanded: sheet === "more" }}>
-            <Icon name="Ellipsis" size={18} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onClose} hitSlop={4} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-            <Icon name="X" size={20} color="#fff" />
-          </TouchableOpacity>
+          ))}
         </View>
 
-        {/* Bottom: caption, then reply + like, or the owner's counts. */}
-        {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={sheet ? styles.hidden : undefined}
-          pointerEvents={sheet ? "none" : "auto"}
-          accessibilityElementsHidden={!!sheet}
-          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
-        >
-          <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
-          {item.remixSourceId ? (
-            <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
-              <Icon name="Repeat2" size={14} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
-            </TouchableOpacity>
-          ) : null}
-          {item.caption ? (
-            <Text style={styles.caption} numberOfLines={3}>
-              {item.caption}
+        {/* Who posted it, straight on the picture like the live player: the
+            face with Follow as a small glass +, name and age, then bare icons. */}
+        <View style={[styles.head, { top: insets.top + 14 }]} pointerEvents="box-none">
+          <View style={styles.faceSlot}>
+            <Avatar uri={avatarOf(entry.author, 36)} size={36} radius={8} name={entry.author.username || entry.author.address} onPress={() => onOpenProfile(entry.author.address)} />
+            {!own && !entry.following ? (
+              <Pressable
+                onPress={followAuthor}
+                hitSlop={10}
+                className="dark-surface"
+                style={styles.followBadge}
+                accessibilityRole="button"
+                accessibilityLabel={t("follow.follow", { defaultValue: "Follow" })}
+              >
+                <LinearGradient
+                  pointerEvents="none"
+                  colors={["rgba(255,255,255,0.32)", "rgba(255,255,255,0.06)", "rgba(255,255,255,0.16)"]}
+                  locations={[0, 0.55, 1]}
+                  style={StyleSheet.absoluteFill}
+                />
+                <View pointerEvents="none" style={styles.followSheen} />
+                <Icon name="Plus" size={12} color="#fff" />
+              </Pressable>
+            ) : null}
+          </View>
+          <Pressable style={styles.who} accessibilityRole="link" accessibilityLabel={nameOf(entry.author)} onPress={() => onOpenProfile(entry.author.address)}>
+            <Text style={styles.whoName} numberOfLines={1}>
+              {own ? t("stories.yourDay", { defaultValue: "Your day" }) : nameOf(entry.author)}
             </Text>
+            <Text style={styles.whoSub} numberOfLines={1}>
+              {t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
+              {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
+            </Text>
+          </Pressable>
+          {(item.type === "video" && !item.muted) || item.song ? (
+            <Pressable onPress={() => setMuted((m) => !m)} hitSlop={6} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={muted ? t("common.unmute", { defaultValue: "Unmute" }) : t("common.mute", { defaultValue: "Mute" })}>
+              <ShadowedIcon name={muted ? "VolumeX" : "Volume2"} size={19} />
+            </Pressable>
+          ) : null}
+          <Pressable onPress={() => setSheet("more")} hitSlop={6} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })} accessibilityState={{ expanded: sheet === "more" }}>
+            <ShadowedIcon name="EllipsisVertical" size={20} />
+          </Pressable>
+          <Pressable onPress={onClose} hitSlop={6} style={styles.iconBtn} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <ShadowedIcon name="X" size={21} />
+          </Pressable>
+        </View>
+
+        {/* Status on one line, text on the picture like the live pills. */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={[styles.status, { top: insets.top + 66 }]}
+          contentContainerStyle={styles.statusRow}
+        >
+          <View style={styles.pill}>
+            <View style={[styles.tag, { backgroundColor: accent }]}>
+              <Text style={styles.tagText}>{t("stories.momentTag", { defaultValue: "MOMENT" })}</Text>
+            </View>
+            <Text style={styles.pillText}>{timeLeftLabel(item.expiresAt, t)}</Text>
+          </View>
+          {own ? (
+            <Pressable style={styles.pill} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
+              <ShadowedIcon name="Eye" size={14} />
+              <Text style={styles.pillText}>{t("stories.watchedCount", { n: formatCount(item.viewCount ?? 0), defaultValue: "{{n}} watched" })}</Text>
+              {(item.likeCount ?? 0) > 0 ? (
+                <>
+                  <MomentHeart size={12} filled />
+                  <Text style={styles.pillText}>{formatCount(item.likeCount ?? 0)}</Text>
+                </>
+              ) : null}
+            </Pressable>
           ) : null}
           {item.song ? (
-            <View style={styles.song}>
-              <Icon name="Music" size={12} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>
+            <View style={[styles.pill, { maxWidth: 220 }]}>
+              {item.song.artworkUrl ? <Image source={{ uri: item.song.artworkUrl }} style={styles.songArt} /> : <ShadowedIcon name="Music" size={13} />}
+              <Text style={[styles.pillText, { flexShrink: 1 }]} numberOfLines={1}>
                 {item.song.title}
                 {item.song.artist ? ` · ${item.song.artist}` : ""}
               </Text>
             </View>
           ) : null}
+          {entry.items.length > 1 ? (
+            <View style={styles.pill}>
+              <Text style={styles.pillText}>{t("stories.nOfM", { n: itemIdx + 1, m: entry.items.length, defaultValue: "{{n}} of {{m}}" })}</Text>
+            </View>
+          ) : null}
+        </ScrollView>
+
+        {/* Bottom: comments floating like live chat, then the say-something row. */}
+        {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={[styles.bottom, sheet ? styles.hidden : undefined]}
+          pointerEvents={sheet ? "none" : "box-none"}
+          accessibilityElementsHidden={!!sheet}
+          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
+        >
+          <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 20 }]} pointerEvents="box-none">
+          {item.caption || item.remixSourceId ? (
+            <View style={styles.captionWrap} pointerEvents="box-none">
+              {item.remixSourceId ? (
+                <TouchableOpacity style={[styles.original, styles.darkGlass]} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
+                  <Icon name="Repeat2" size={16} color="#fff" />
+                  <Text style={styles.originalText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
+                </TouchableOpacity>
+              ) : null}
+              {item.caption ? (
+                <Text style={styles.caption} numberOfLines={3}>
+                  {item.caption}
+                </Text>
+              ) : null}
+            </View>
+          ) : null}
+          {!typing && roomComments.length > 0 ? (
+            <StoryRoomChat comments={roomComments} onOpen={() => setSheet("comments")} />
+          ) : null}
+          {typing && !own && me && item.allowReplies ? (
+            <ReplyTo value={replyTo} onChange={setReplyTo} name={nameOf(entry.author)} />
+          ) : null}
           <View style={styles.replyRow}>
             {own ? (
-              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
-                <Icon name="Eye" size={16} color="#fff" />
-                <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
+              <TouchableOpacity style={styles.field} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
+                <ChromeFill glass radius={12} />
+                <Icon name="Eye" size={18} color="#fff" />
+                <Text style={styles.statText}>{t("stories.watchedCount", { n: formatCount(item.viewCount ?? 0), defaultValue: "{{n}} watched" })}</Text>
                 {(item.likeCount ?? 0) > 0 ? (
                   <>
-                    <Icon name="Heart" size={15} color="#FF5C78" />
+                    <MomentHeart size={15} filled />
                     <Text style={styles.statText}>{formatCount(item.likeCount ?? 0)}</Text>
                   </>
                 ) : null}
               </TouchableOpacity>
             ) : !me ? (
-              <TouchableOpacity style={styles.replyBox} onPress={() => requireAuth(() => {})}>
-                <Text style={styles.replyPlaceholder}>{t("stories.signInToReply", { defaultValue: "Sign in to reply" })}</Text>
+              <TouchableOpacity style={styles.field} onPress={() => requireAuth(() => {})}>
+                <ChromeFill glass radius={12} />
+                <Text style={styles.replyPlaceholder}>{t("stories.signInToSay", { defaultValue: "Sign in to say something" })}</Text>
               </TouchableOpacity>
             ) : item.allowReplies ? (
-              <View style={styles.replyBox}>
+              <View style={styles.field}>
+                <ChromeFill glass radius={12} />
                 <TextInput
                   value={reply}
                   onChangeText={setReply}
                   onFocus={() => setTyping(true)}
                   onBlur={() => setTyping(false)}
-                  placeholder={t("stories.replyTo", { defaultValue: "Reply to {{name}}", name: nameOf(entry.author) })}
+                  placeholder={replyTo === "everyone"
+                    ? t("stories.saySomething", { defaultValue: "Say something…" })
+                    : t("stories.replyTo", { defaultValue: "Reply to {{name}}", name: nameOf(entry.author) })}
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   style={styles.replyInput}
                   keyboardAppearance="dark"
                   returnKeyType="send"
                   onSubmitEditing={() => void sendReply()}
-                  maxLength={500}
+                  maxLength={replyTo === "everyone" ? 300 : 500}
                 />
-                {reply.trim() ? (
-                  <TouchableOpacity onPress={() => void sendReply()} hitSlop={8}>
-                    <Icon name="Send" size={18} color="#fff" />
-                  </TouchableOpacity>
-                ) : null}
               </View>
             ) : (
-              <View style={{ flex: 1 }} />
+              <View style={styles.field}>
+                <ChromeFill glass radius={12} />
+                <Text style={styles.repliesOff} numberOfLines={1}>{t("stories.repliesOff", { defaultValue: "Replies are off" })}</Text>
+              </View>
             )}
             {!own ? (
-              <TouchableOpacity onPress={toggleLike} style={styles.round} accessibilityLabel={t("stories.like", { defaultValue: "Like" })}>
-                <Icon name="Heart" size={20} color={isLiked ? "#FF5C78" : "#fff"} fill={isLiked ? "#FF5C78" : undefined} />
-              </TouchableOpacity>
+              <Pressable onPress={toggleLike} style={styles.key} accessibilityRole="button" accessibilityLabel={t("stories.like", { defaultValue: "Like" })} accessibilityState={{ selected: isLiked }}>
+                <ChromeFill glass radius={12} />
+                <MomentHeart size={22} filled={isLiked} />
+              </Pressable>
             ) : null}
-            {shareable && (
-              <TouchableOpacity onPress={() => setSheet("share")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
-                <Icon name="Share2" size={20} color="#fff" />
-              </TouchableOpacity>
-            )}
+            <Pressable onPress={() => setSheet("comments")} style={styles.key} accessibilityRole="button" accessibilityLabel={t("stories.comments", { defaultValue: "Comments" })}>
+              <ChromeFill glass radius={12} />
+              <MomentComment size={22} />
+              {(item.commentCount ?? 0) > 0 ? (
+                <View style={styles.countBadge} pointerEvents="none">
+                  <Text style={styles.countText}>{formatCount(item.commentCount ?? 0)}</Text>
+                </View>
+              ) : null}
+            </Pressable>
+            {!own && me && item.allowReplies && reply.trim() ? (
+              <Pressable onPress={() => void sendReply()} disabled={sending} style={styles.key} accessibilityRole="button" accessibilityLabel={t("tip.send", { defaultValue: "Send" })}>
+                <View pointerEvents="none" style={[styles.sendFill, { backgroundColor: accent }]} />
+                <View pointerEvents="none">{sending ? <ActivityIndicator color="#0b0b0c" /> : <Icon name="Send" size={20} color="#0b0b0c" />}</View>
+              </Pressable>
+            ) : shareable ? (
+              <Pressable onPress={() => setSheet("share")} style={styles.key} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
+                <ChromeFill glass radius={12} />
+                <MomentShare size={22} />
+              </Pressable>
+            ) : null}
           </View>
           </View>
+          <FloatHearts bursts={bursts} right={own ? 12 : 116} bottom={insets.bottom + 64} />
         </KeyboardAvoidingView>
 
         {sheet === "share-dm" && (
           <ShareToDmSheet visible url={momentUrl} onClose={() => setSheet("share")} />
         )}
-        {sheet && sheet !== "share-dm" ? (
+        {sheet === "comments" && (
+          <StoryComments
+            item={item}
+            signedIn={!!me}
+            bottom={insets.bottom}
+            onClose={() => setSheet(null)}
+            onOpenProfile={onOpenProfile}
+            onSignIn={() => { setSheet(null); requireAuth(() => {}); }}
+            onCount={(n) => setList((l) => l.map((e, i) => (i === authorIdx ? { ...e, items: e.items.map((it) => (it.id === item.id ? { ...it, commentCount: n } : it)) } : e)))}
+          />
+        )}
+        {sheet && sheet !== "share-dm" && sheet !== "comments" ? (
           <ViewerSheet
             kind={sheet}
             item={item}
@@ -541,6 +732,29 @@ export default function StoryViewer({
             onShareToDm={shareable && me ? () => setSheet("share-dm") : undefined}
             authorAddress={entry.author.address}
             onViewProfile={onOpenProfile}
+            onMute={me ? () => {
+              setSheet(null);
+              const address = entry.author.address;
+              void muteUser(address)
+                .then((r: any) => {
+                  if (r && r.status === false) throw new Error("mute failed");
+                  void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
+                  toastSuccess(t("stories.mutedToast", { defaultValue: "Muted. You won't see their Moments or posts." }));
+                  goAuthor(1);
+                })
+                .catch(() => toastError(t("common.tryAgain", { defaultValue: "Try again" })));
+            } : undefined}
+            onUnfollow={me && entry.following ? () => {
+              setSheet(null);
+              const address = entry.author.address;
+              void unfollowUser(me, address)
+                .then(() => {
+                  setList((l) => l.map((e) => (e.author.address === address ? { ...e, following: false } : e)));
+                  void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
+                  toastSuccess(t("stories.unfollowedToast", { defaultValue: "Unfollowed" }));
+                })
+                .catch(() => toastError(t("common.tryAgain", { defaultValue: "Try again" })));
+            } : undefined}
             onReport={(reason) => {
               setSheet(null);
               if (!me) onClose();
@@ -579,6 +793,8 @@ function ViewerSheet({
   onShareOutside,
   onShareToDm,
   onViewProfile,
+  onMute,
+  onUnfollow,
   authorAddress,
   onReport,
   bottom,
@@ -595,6 +811,8 @@ function ViewerSheet({
   onShareToDm?: () => void;
   authorAddress: string;
   onViewProfile: (address: string) => void;
+  onMute?: () => void;
+  onUnfollow?: () => void;
   onReport: (reason: string) => void;
   bottom: number;
 }) {
@@ -632,6 +850,8 @@ function ViewerSheet({
             ) : (
               <>
                 <SheetRow icon="User" label={t("stories.viewProfile", { defaultValue: "View profile" })} onPress={() => onViewProfile(authorAddress)} />
+                {onUnfollow ? <SheetRow icon="UserMinus" label={t("stories.unfollow", { defaultValue: "Unfollow" })} onPress={onUnfollow} /> : null}
+                {onMute ? <SheetRow icon="VolumeX" label={t("stories.muteAccount", { defaultValue: "Mute" })} onPress={onMute} /> : null}
                 <SheetRow icon="Flag" label={t("stories.report", { defaultValue: "Report" })} danger onPress={() => onPick("report")} />
               </>
             )}
@@ -693,86 +913,102 @@ function SheetRow({ icon, label, onPress, danger }: { icon?: React.ComponentProp
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#000" },
-  mediaFrame: { flex: 1, overflow: "hidden" },
+  mediaFrame: { ...StyleSheet.absoluteFillObject, overflow: "hidden" },
   center: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
   topShade: { position: "absolute", top: 0, left: 0, right: 0, height: 140 },
-  bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 220 },
+  bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 300 },
   zones: { ...StyleSheet.absoluteFillObject, flexDirection: "row" },
-  cap: {
+  /** Web's dark glass over a photo: see-through dark, thin light rim. */
+  darkGlass: {
+    backgroundColor: "rgba(20,20,24,0.5)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,255,255,0.16)",
+  },
+  timing: { position: "absolute", left: 16, right: 16, height: 3, flexDirection: "row", gap: 3 },
+  timingBar: {
+    flex: 1,
+    minWidth: 0,
+    height: 3,
+    borderRadius: 2,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  timingPlayed: { backgroundColor: "#fff" },
+  timingFill: { height: 3, backgroundColor: "#fff" },
+  hidden: { opacity: 0 },
+  bottom: { position: "absolute", left: 0, right: 0, bottom: 0 },
+  bottomInner: { paddingHorizontal: 12, paddingTop: 8 },
+  head: { position: "absolute", left: 0, right: 0, minHeight: 48, paddingLeft: 12, paddingRight: 8, flexDirection: "row", alignItems: "center", gap: 4 },
+  faceSlot: { marginRight: 6 },
+  followBadge: {
     position: "absolute",
-    left: 10,
-    right: 10,
-    height: 50,
-    borderRadius: 25,
-    paddingLeft: 8,
-    paddingRight: 6,
+    right: -6,
+    bottom: -6,
+    width: 20,
+    height: 20,
+    borderRadius: 7,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    backgroundColor: "#27272A",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.5)",
+  },
+  followSheen: { position: "absolute", top: 0, left: 2, right: 2, height: 1, backgroundColor: "rgba(255,255,255,0.6)" },
+  who: { flex: 1, minWidth: 0, minHeight: 44, justifyContent: "center" },
+  whoName: { color: "#fff", fontSize: 14, fontWeight: "800", ...TEXT_SHADOW },
+  whoSub: { color: "rgba(255,255,255,0.8)", fontSize: 11, fontWeight: "600", marginTop: 1, ...TEXT_SHADOW },
+  iconBtn: { width: 40, height: 40, alignItems: "center", justifyContent: "center" },
+  status: { position: "absolute", left: 0, right: 0, height: 28, flexGrow: 0 },
+  statusRow: { paddingHorizontal: 8, gap: 8, alignItems: "center" },
+  pill: { height: 28, paddingHorizontal: 4, flexDirection: "row", alignItems: "center", gap: 6 },
+  pillText: { color: "rgba(255,255,255,0.9)", fontSize: 11, fontWeight: "600", ...TEXT_SHADOW },
+  tag: { borderRadius: 5, paddingHorizontal: 6, paddingVertical: 1 },
+  tagText: { color: "#0b0b0c", fontSize: 9.5, fontWeight: "900", letterSpacing: 0.6 },
+  field: {
+    flex: 1,
+    height: 44,
+    borderRadius: 12,
+    paddingHorizontal: 14,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
     overflow: "hidden",
-    backgroundColor: "#242427",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.14)",
+    borderWidth: 1,
+    borderColor: CHROME_HAIRLINE,
   },
-  capFill: { position: "absolute", left: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.14)" },
-  authorLink: { flex: 1, minWidth: 0, minHeight: 44, flexDirection: "row", alignItems: "center", gap: 8 },
-  capText: { flex: 1, minWidth: 0 },
-  capName: { color: "#fff", fontSize: 14, fontWeight: "700" },
-  capSub: { color: "#fff", fontSize: 11.5, marginTop: 1 },
-  capBtn: { width: 36, height: 44, alignItems: "center", justifyContent: "center" },
-  dots: { flexDirection: "row", gap: 4, marginRight: 2 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
-  dotOn: { backgroundColor: "#fff" },
-  hidden: { opacity: 0 },
-  bottomInner: { paddingHorizontal: 12, gap: 8 },
-  caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
-  song: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    alignSelf: "flex-start",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 14,
-    backgroundColor: "rgba(0,0,0,0.38)",
-  },
-  songText: { color: "#fff", fontSize: 12, maxWidth: 240 },
-  replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  replyBox: {
-    flex: 1,
-    height: 44,
-    borderRadius: 22,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
-  },
-  replyInput: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 0 },
-  replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
-  round: {
+  key: {
     width: 44,
     height: 44,
-    borderRadius: 22,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.28)",
   },
-  ownStats: {
-    flex: 1,
-    height: 44,
-    flexDirection: "row",
+  sendFill: { ...StyleSheet.absoluteFillObject, borderRadius: 11 },
+  captionWrap: { marginRight: 60, marginBottom: 10, alignItems: "flex-start" },
+  caption: { color: "#fff", fontSize: 15, fontWeight: "600", lineHeight: 20, ...TEXT_SHADOW },
+  original: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 11, paddingVertical: 7, borderRadius: 18, marginBottom: 6 },
+  originalText: { color: "#fff", fontSize: 14 },
+  songArt: { width: 16, height: 16, borderRadius: 4 },
+  repliesOff: { flex: 1, color: "rgba(255,255,255,0.6)", fontSize: 13 },
+  replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  replyInput: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 0 },
+  replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
+  countBadge: {
+    position: "absolute",
+    top: -4,
+    right: -4,
+    minWidth: 18,
+    height: 18,
+    paddingHorizontal: 5,
+    borderRadius: 6,
+    backgroundColor: "#fff",
     alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 14,
-    borderRadius: 22,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    alignSelf: "flex-start",
+    justifyContent: "center",
   },
+  countText: { color: "#0b0b0c", fontSize: 10.5, fontWeight: "800" },
   statText: { color: "#fff", fontSize: 14, fontWeight: "600", marginRight: 6 },
   sheetBack: { ...StyleSheet.absoluteFillObject, zIndex: 10, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
   sheet: {

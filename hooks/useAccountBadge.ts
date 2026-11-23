@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../libs/api.client";
 import { getBadgeUrlFor } from "../libs/misc";
 
-export function useAccountBadge(lookupId: string | null | undefined): number | undefined {
+export function useBadgeAccount(lookupId: string | null | undefined) {
   const { data } = useQuery({
     queryKey: ["badge-balance", lookupId?.toLowerCase()],
     queryFn: async () => {
@@ -22,6 +22,11 @@ export function useAccountBadge(lookupId: string | null | undefined): number | u
     gcTime: 60 * 60 * 1000,
     retry: false,
   });
+  return data;
+}
+
+export function useAccountBadge(lookupId: string | null | undefined): number | undefined {
+  const data = useBadgeAccount(lookupId);
   if (!data || data.hideBadgeAndBalance) return undefined;
   return getBadgeUrlFor(data);
 }

@@ -36,13 +36,15 @@ const BuyFractionSheet: React.FC<Props> = ({ listing, onClose, onSignIn, onMakeO
   const [quantity, setQuantity] = useState(1);
   const [quote, setQuote] = useState<FractionQuote | null>(null);
   const [quoteError, setQuoteError] = useState<string | null>(null);
-  const { getQuote, buy } = useFractionPurchase();
+  const { getQuote, buy, claim } = useFractionPurchase();
   const { data: sellerStats } = useSellerStats(listing?.seller_address);
   const { data: prices } = useTokenPrices();
   const dhbUsd = prices?.DHB ?? 0;
 
   const available = listing ? listing.quantity - listing.filled_quantity : 0;
   const isMine = !!wallet && wallet === listing?.seller_address.toLowerCase();
+  // A price-0 listing is a giveaway: Claim, and the owner approves it.
+  const free = Number(listing?.price_per_fraction) === 0;
 
   useEffect(() => {
     if (!listing) return;
@@ -87,22 +89,26 @@ const BuyFractionSheet: React.FC<Props> = ({ listing, onClose, onSignIn, onMakeO
 
   const sharePct = (quantity / TOTAL_FRACTIONS) * 100;
   const total = quote?.dhbAmount ?? quantity * listing.price_per_fraction;
-  const busy = buy.isPending;
+  const busy = buy.isPending || claim.isPending;
 
   const handleBuy = async () => {
     if (!wallet) return onSignIn();
     if (!quote) return;
-    const result = await buy.mutateAsync(quote).catch(() => null);
+    const result = free
+      ? await claim.mutateAsync({ listingId: listing.id, quantity }).catch(() => null)
+      : await buy.mutateAsync(quote).catch(() => null);
     if (result) onClose();
   };
 
   const label = busy
-    ? t("fractions.paying")
+    ? free ? t("fractions.claiming") : t("fractions.paying")
     : isMine
       ? t("fractions.ownListing")
       : !wallet
-        ? t("fractions.signInToBuy")
-        : t("fractions.buyForTotal", { quantity, total: fmt(total) });
+        ? free ? t("fractions.signInToClaim") : t("fractions.signInToBuy")
+        : free
+          ? t("fractions.claimNFree", { count: quantity })
+          : t("fractions.buyForTotal", { quantity, total: fmt(total) });
 
   return (
     <FractionSheet
@@ -129,20 +135,34 @@ const BuyFractionSheet: React.FC<Props> = ({ listing, onClose, onSignIn, onMakeO
           <SellerTrustBadge stats={sellerStats} compact />
         </PanelRow>
         <PanelRow label={t("fractions.pricePerFraction")}>
-          <Text style={sheetStyles.value}>{fmt(listing.price_per_fraction, 4)}</Text>
-          <DhbCoin size={13} />
+          {free ? (
+            <Text style={sheetStyles.value}>{t("fractions.freeBadge")}</Text>
+          ) : (
+            <>
+              <Text style={sheetStyles.value}>{fmt(listing.price_per_fraction, 4)}</Text>
+              <DhbCoin size={13} />
+            </>
+          )}
         </PanelRow>
         <PanelRow label={t("fractions.shareOfPost")}>
           <Text style={sheetStyles.value}>{sharePct.toFixed(1)}%</Text>
         </PanelRow>
         <PanelRow label={t("fractions.total")} strong>
-          <DhbCoin size={15} />
-          <Text style={sheetStyles.valueStrong}>{fmt(total)}</Text>
+          {free ? (
+            <Text style={sheetStyles.valueStrong}>{t("fractions.freeBadge")}</Text>
+          ) : (
+            <>
+              <DhbCoin size={15} />
+              <Text style={sheetStyles.valueStrong}>{fmt(total)}</Text>
+            </>
+          )}
         </PanelRow>
-        {dhbUsd > 0 && <Text style={sheetStyles.sub}>≈ ${fmt(total * dhbUsd)}</Text>}
+        {dhbUsd > 0 && !free && <Text style={sheetStyles.sub}>≈ ${fmt(total * dhbUsd)}</Text>}
       </Panel>
 
-      <Note text={t("fractions.settlementNote", { hours: quote?.settleWindowHours ?? 24 })} />
+      <Note
+        text={free ? t("fractions.claimNote") : t("fractions.settlementNote", { hours: quote?.settleWindowHours ?? 24 })}
+      />
       {quote?.paymentsFrozen && <Note warn text={t("fractions.paymentsFrozen")} />}
       {!!quote && quote.sellerBalance !== null && quote.sellerBalance < quantity && (
         <Note warn text={t("fractions.sellerOnlyHolds", { count: quote.sellerBalance })} />
@@ -151,12 +171,12 @@ const BuyFractionSheet: React.FC<Props> = ({ listing, onClose, onSignIn, onMakeO
 
       <PrimaryButton
         label={label}
-        icon="ShoppingCart"
+        icon={free ? "Gift" : "ShoppingCart"}
         onPress={handleBuy}
         loading={busy}
         disabled={isMine || available === 0 || (!!wallet && (!quote || quote.paymentsFrozen))}
       />
-      {!isMine && (
+      {!isMine && !free && (
         <PrimaryButton
           secondary
           icon="HandCoins"

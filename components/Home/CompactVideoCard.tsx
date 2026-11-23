@@ -35,6 +35,7 @@ const COMPACT_THUMB_PT = 150;
 
 interface CompactVideoCardProps {
   nft: any;
+  grid?: boolean;
   enablePreview?: boolean;
   showCreator?: boolean;
   onBeforeNavigate?: () => void;
@@ -42,6 +43,7 @@ interface CompactVideoCardProps {
 
 const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
   nft,
+  grid = false,
   enablePreview,
   showCreator = true,
   onBeforeNavigate,
@@ -200,6 +202,58 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
       }
     });
   }, [navigation, tokenId, isLive, nft, accessInfo, hideUserProfile, onBeforeNavigate, playbackUrl, thumbnail, profileFeed]);
+  const cover = (
+    <View
+      className="rounded-xl overflow-hidden bg-theme-neutrals-800 justify-center items-center"
+      style={grid ? { width: "100%", aspectRatio: 3 / 4 } : isMinimal
+        ? { width: 150, aspectRatio: 16 / 9, backgroundColor: "rgba(255,255,255,0.04)" }
+        : { width: 150, aspectRatio: 16 / 9 }}
+    >
+      {hasThumbnail ? (
+        <SmartImage
+          source={{ uri: thumbnail }}
+          recyclingKey={thumbnail}
+          style={StyleSheet.absoluteFill}
+          contentFit="cover"
+        />
+      ) : (
+        <View className={isMinimal
+          ? "absolute inset-0 w-full h-full items-center justify-center"
+          : "absolute inset-0 w-full h-full bg-theme-neutrals-800 items-center justify-center"}>
+          <Ionicons name="videocam-off" size={28} color="#666" />
+        </View>
+      )}
+      {enablePreview && !isLive && tokenId && hasThumbnail && (
+        <View className="absolute inset-0">
+          <VideoPreview
+            previewUrl={playbackUrl || ""}
+            handlePressVideo={handlePressVideo}
+          />
+        </View>
+      )}
+      {isLive && status && <StatusBadge status={status as any} />}
+      {duration && (
+        <View className="absolute bottom-2 right-2 dark-surface bg-black/60 rounded px-1.5 py-0.5">
+          <Text className="text-theme-neutrals-200 text-xs">
+            {duration}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+  if (grid) {
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        accessibilityLabel={title || _copy("copy.c9a9639463c2", { defaultValue: "Videos" })}
+        activeOpacity={0.85}
+        onPress={handlePressVideo}
+        style={{ width: "33.3333%", padding: 1 }}
+      >
+        {cover}
+      </TouchableOpacity>
+    );
+  }
   return (
     // Minimal: a row, not a bordered card — no margins, box or fill, the 16pt
     // inset, and one hairline under each row running the list's full width.
@@ -212,43 +266,7 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
           : "bg-theme-neutrals-900 rounded-xl overflow-hidden flex-row items-start p-2 border border-theme-neutrals-700"}
         style={isMinimal ? { ...minimalRow, paddingHorizontal: MINIMAL_INSET, paddingVertical: 10 } : undefined}
       >
-        <View
-          className="rounded-xl overflow-hidden bg-theme-neutrals-800 justify-center items-center"
-          style={isMinimal
-            ? { width: 150, aspectRatio: 16 / 9, backgroundColor: "rgba(255,255,255,0.04)" }
-            : { width: 150, aspectRatio: 16 / 9 }}
-        >
-          {hasThumbnail ? (
-            <SmartImage
-              source={{ uri: thumbnail }}
-              recyclingKey={thumbnail}
-              style={StyleSheet.absoluteFill}
-              contentFit="cover"
-            />
-          ) : (
-            <View className={isMinimal
-              ? "absolute inset-0 w-full h-full items-center justify-center"
-              : "absolute inset-0 w-full h-full bg-theme-neutrals-800 items-center justify-center"}>
-              <Ionicons name="videocam-off" size={28} color="#666" />
-            </View>
-          )}
-          {enablePreview && !isLive && tokenId && hasThumbnail && (
-            <View className="absolute inset-0">
-              <VideoPreview
-                previewUrl={playbackUrl || ""}
-                handlePressVideo={handlePressVideo}
-              />
-            </View>
-          )}
-          {isLive && status && <StatusBadge status={status as any} />}
-          {duration && (
-            <View className="absolute bottom-2 right-2 dark-surface bg-black/60 rounded px-1.5 py-0.5">
-              <Text className="text-theme-neutrals-200 text-xs">
-                {duration}
-              </Text>
-            </View>
-          )}
-        </View>
+        {cover}
         <View className="flex-1 ml-3">
           <Text
             className="text-theme-neutrals-100 text-sm font-bold"
@@ -362,10 +380,6 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
   );
 };
 
-const areEqual = (prev: CompactVideoCardProps, next: CompactVideoCardProps) =>
-  prev.nft === next.nft &&
-  prev.enablePreview === next.enablePreview;
-
-const CompactVideoCard = memo(CompactVideoCardComponent, areEqual);
+const CompactVideoCard = memo(CompactVideoCardComponent);
 
 export default CompactVideoCard;

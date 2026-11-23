@@ -29,11 +29,11 @@ jest.mock("../../context/ThemeContext", () => ({
 jest.mock("expo-linear-gradient", () => ({ LinearGradient: "LinearGradient" }));
 jest.mock("react-native-safe-area-context", () => ({ useSafeAreaInsets: () => ({ top: 0 }) }));
 
-it("uses a static shell on the light page background and restores the sweep in dark mode", () => {
+it("uses the active page background in light and dark mode", () => {
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<RouteLoadingShell />); });
   expect(tree.root.findByProps({ testID: "route-loading-shell" }).props.style.backgroundColor).toBe("#fafafa");
-  expect(tree.root.findAllByType(LinearGradient)).toHaveLength(0);
+  expect(tree.root.findAllByType(LinearGradient)).toHaveLength(1);
 
   mockIsLight = false;
   act(() => tree.update(<RouteLoadingShell />));

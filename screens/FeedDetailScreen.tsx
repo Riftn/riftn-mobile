@@ -15,7 +15,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRoute, useNavigation, CommonActions } from "@react-navigation/native";
 import PostFeedNav from "../components/Home/PostFeedNav";
 import { FEED_SIDE, FEED_TOP } from "../components/Home/feedLayout";
-import { getNFT, type Comment, likeComment, type LikeCommentResult, dislikeComment, type DislikeCommentResult, reactComment, type ReactCommentResult, postComment, editComment, deleteComment, pinComment, postImageComment, postGifComment, postAudioComment, postMediaComment, recordCommentViews, setThreadOrder } from "../services/nft.service";
+import { getNFT, type Comment, likeComment, type LikeCommentResult, dislikeComment, type DislikeCommentResult, reactComment, type ReactCommentResult, postComment, editComment, deleteComment, pinComment, hideReply, postImageComment, postGifComment, postAudioComment, postMediaComment, recordCommentViews, setThreadOrder } from "../services/nft.service";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 import FeedCard, { resolveContentType } from "../components/Home/FeedCard";
 import { authorThreadFirst, byThreadOrder, isAuthorThreadRoot, selectAuthorThreadIds } from "../libs/author-thread";
@@ -879,6 +879,25 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
     if (contextComment) void handlePinComment(contextComment);
   }, [contextComment, handlePinComment]);
 
+  /** Hide somebody's reply on your own post, or bring it back. Faded for you at once. */
+  const handleHideReply = useCallback(async (comment: Comment) => {
+    const id = comment.id;
+    if (id == null) return;
+    const wasHidden = comment.hiddenByCreator === true;
+    setComments(prev => prev.map(c => (Number(c.id) === Number(id) ? { ...c, hiddenByCreator: !wasHidden } : c)));
+    try {
+      const res = await hideReply(id);
+      toastSuccess(res.hidden ? t("hideReply.hiddenToast") : t("hideReply.unhiddenToast"));
+    } catch (error: any) {
+      toastError(error?.message || t("hideReply.failed"));
+    }
+    await fetchData();
+  }, [fetchData, t]);
+
+  const handleContextHide = useCallback(() => {
+    if (contextComment) void handleHideReply(contextComment);
+  }, [contextComment, handleHideReply]);
+
   const handleStartEdit = useCallback((comment: Comment) => {
     setEditingComment(comment);
     setComposerAsked(true);
@@ -1341,6 +1360,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
             // Offered on the same terms as the long-press menu below.
             onEdit={handleStartEdit}
             onPin={isOwnThread ? handlePinComment : undefined}
+          onHide={isOwnThread ? handleHideReply : undefined}
             onReport={address ? handleReportComment : undefined}
             onDelete={handleDeleteComment}
             onLongPress={handleCommentLongPress}
@@ -2216,6 +2236,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
               // so pinning one would move nothing.
               isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
             }
+            onHide={isOwnThread && !contextMeta?.isOwnComment ? handleContextHide : undefined}
             onLike={handleContextLike}
             onDislike={handleContextDislike}
             onShowLikers={

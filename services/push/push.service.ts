@@ -11,6 +11,8 @@ import { IS_APP_STORE_BUILD } from '../../config/storefront';
 import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '../../libs/call-ring-support';
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
+import { listenForReplies, registerMessageReplyCategory } from './message-reply';
+import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
 
@@ -92,6 +94,8 @@ export interface NotificationData {
   type: string;
   category?: string;
   deepLink?: string;
+  /** Address of the account the push was sent to. */
+  recipient?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
@@ -138,15 +142,33 @@ Notifications.setNotificationHandler({
       && AppState.currentState === 'active'
       && isConversationOpen(conversationId);
     const show = !isCall && !inOpenChat;
+    // A message while the app is open drops in as Riftn's own banner, which
+    // can be pulled down to reply. It stays in the notification list too.
+    const bannered = show
+      && data.type === 'new_message'
+      && AppState.currentState === 'active'
+      && typeof conversationId === 'string'
+      && showMessageBanner({
+        id: notification.request.identifier,
+        conversationId,
+        group: data.conversationType === 'group',
+        title: notification.request.content.title || data.senderName || '',
+        body: notification.request.content.body || '',
+        recipient: typeof data.recipient === 'string' ? data.recipient : undefined,
+      });
     return {
-      shouldShowAlert: show,
+      shouldShowAlert: show && !bannered,
       shouldPlaySound: show,
       shouldSetBadge: show,
-      shouldShowBanner: show,
+      shouldShowBanner: show && !bannered,
       shouldShowList: show,
     };
   },
 });
+
+// Replies typed into a message notification are sent from here, even when the
+// app was woken in the background and no screen ever mounts.
+listenForReplies();
 
 // Singleton state for token registration
 let cachedExpoPushToken: string | null = null;
@@ -297,6 +319,7 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
     }
 
     void registerHiddenPreviewLines();
+    void registerMessageReplyCategory();
 
     setRegistrationState('registered');
     return token;

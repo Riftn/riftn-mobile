@@ -108,6 +108,7 @@ export function localizedNotificationContent(
     fraction_offer_accepted: 'notifications.custom.fractionOfferAccepted',
     fraction_offer_rejected: 'notifications.custom.fractionOfferRejected',
     fraction_purchased: 'notifications.custom.fractionPurchased',
+    fraction_gift: 'notifications.custom.fractionGift',
     comment_like: 'notifications.likedComment',
     following: 'notifications.startedFollowing',
     subscription: 'notifications.subscribedPlan',
@@ -150,6 +151,7 @@ export function localizedNotificationContent(
   if (item.type === 'mention') {
     // Where the reader was named, as the web row says it.
     const where = item.metadata?.mentionContext;
+    if (where === 'bio') return t('notifications.custom.bioMention', { name: actor });
     const mentionKey = where === 'live_chat'
       ? 'reactionInfo.mentionedYouLiveChat'
       : where === 'public_chat'

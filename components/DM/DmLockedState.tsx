@@ -8,12 +8,13 @@
  * typed now would go out in the clear) with one place to unlock from.
  */
 import React, { memo } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Pressable } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { PageEmpty, KitButton, ThemeIcon } from "../page/PageKit";
 import { useAppTheme } from "../../context/ThemeContext";
+import { LIGHT_INK } from "../../theme/colors";
 import type { DmEncryptionStatus } from "../../libs/dm-e2ee/setup";
 
 interface DmLockedStateProps {
@@ -46,7 +47,7 @@ const DmLockedStateComponent: React.FC<DmLockedStateProps> = ({ status, busy, pe
         body={body}
         action={busy ? (
           <View className="h-[42px] items-center justify-center flex-row">
-            <ActivityIndicator size="small" color={isLight ? "#0B0B0D" : "#F4F4F5"} />
+            <ActivityIndicator size="small" color={isLight ? LIGHT_INK : "#F4F4F5"} />
             <Text className="text-[12px] text-theme-neutrals-400 ml-2">
               {t("messages.encryptionTurningOn", { defaultValue: "Waiting for your wallet to turn on encryption…" })}
             </Text>
@@ -67,16 +68,17 @@ const DmLockedStateComponent: React.FC<DmLockedStateProps> = ({ status, busy, pe
 export default memo(DmLockedStateComponent);
 
 /** One quiet line standing in for a run of lines encrypted for another device. */
-export const DmUndecryptableRun = memo(function DmUndecryptableRun({ count }: { count: number }) {
+export const DmUndecryptableRun = memo(function DmUndecryptableRun({ count, onExpand }: { count: number; onExpand: () => void }) {
   const { t } = useTranslation();
   return (
-    <View className="flex-row items-center px-4 my-3">
+    <Pressable accessibilityRole="button" onPress={onExpand} hitSlop={8} className="flex-row items-center px-4 my-3">
       <View className="flex-1 h-px bg-theme-neutrals-800" />
       <Icon name="Lock" size={11} color="#A6A9AC" />
       <Text className="text-[12px] text-theme-neutrals-400 mx-1.5">
         {t("messages.undecryptableRun", { count, defaultValue: "{{count}} messages can't be opened on this device" })}
       </Text>
+      <Icon name="ChevronDown" size={14} color="#A6A9AC" />
       <View className="flex-1 h-px bg-theme-neutrals-800" />
-    </View>
+    </Pressable>
   );
 });

@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "封面", "trim": "裁剪", "mirror": "镜像", "rotate": "旋转", "hide": "隐藏", "timer": "计时器", "close": "关闭", "photo": "照片", "remove": "移除", "pause": "暂停", "play": "播放视频", "hiddenUntilTap": "点击前隐藏", "scrub": "拖动进度条浏览视频", "addMore": "添加照片或视频", "coverAria": "点击一帧作为封面", "trimHint": "拖动两端进行裁剪", "coverHint": "点击一帧设为封面", "uploadCover": "上传封面图片", "mirrored": "已镜像", "original": "原图", "rotate90": "旋转90°", "timerOff": "关闭", "showNormally": "正常显示", "showNormallyBody": "立即显示", "hideUntilTap": "点击前隐藏", "hideUntilTapBody": "点击前模糊", "hidePrice": "隐藏在价格后", "hidePriceBody": "支付前模糊", "priceUnavailable": "不在本聊天中", "priceLabelUsd": "价格", "priceHint": "伊拉看过去是模糊个，直到伊拉付钞票拨侬。锁牢个项目弗是端到端加密个。", "timerOffBody": "伊会得留勒聊天记录里向。", "timerViewBody": "等伊拉看过之后，对侬搭伊拉来讲侪会得消失。", "confirm": "确认", "editItem": "编辑项目 {{value1}}", "coverSet": "封面勒 {{value1}}", "lockedForUsd": "解锁需要 {{value1}}", "timerTimeBody": "侬发出去 {{value1}} 之后，对侬搭伊拉来讲侪会得消失。"},
+  "dmVideo": {
+    "cover": "封面",
+    "trim": "裁剪",
+    "mirror": "镜像",
+    "rotate": "旋转",
+    "hide": "隐藏",
+    "timer": "计时器",
+    "close": "关闭",
+    "photo": "照片",
+    "remove": "移除",
+    "pause": "暂停",
+    "play": "播放视频",
+    "hiddenUntilTap": "点击前隐藏",
+    "scrub": "拖动进度条浏览视频",
+    "addMore": "添加照片或视频",
+    "coverAria": "点击一帧作为封面",
+    "trimHint": "拖动两端进行裁剪",
+    "coverHint": "点击一帧设为封面",
+    "uploadCover": "上传封面图片",
+    "mirrored": "已镜像",
+    "original": "原图",
+    "rotate90": "旋转90°",
+    "timerOff": "关闭",
+    "showNormally": "正常显示",
+    "showNormallyBody": "立即显示",
+    "hideUntilTap": "点击前隐藏",
+    "hideUntilTapBody": "点击前模糊",
+    "hidePrice": "隐藏在价格后",
+    "hidePriceBody": "支付前模糊",
+    "priceUnavailable": "不在本聊天中",
+    "priceLabelUsd": "价格",
+    "priceHint": "伊拉看过去是模糊个，直到伊拉付钞票拨侬。锁牢个项目弗是端到端加密个。",
+    "timerOffBody": "伊会得留勒聊天记录里向。",
+    "timerViewBody": "等伊拉看过之后，对侬搭伊拉来讲侪会得消失。",
+    "confirm": "确认",
+    "editItem": "编辑项目 {{value1}}",
+    "coverSet": "封面勒 {{value1}}",
+    "lockedForUsd": "解锁需要 {{value1}}",
+    "timerTimeBody": "侬发出去 {{value1}} 之后，对侬搭伊拉来讲侪会得消失。",
+    "destruct": {
+      "60": "1 分钟",
+      "3600": "1 小时",
+      "43200": "12 小时",
+      "86400": "1 天",
+      "604800": "1 礼拜",
+      "31536000": "1 年",
+      "view": "1 次观看"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 次观看"
+    },
+    "destructSecs": "{{n}} 秒",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "边框",
     "theme": "主题",
@@ -2998,6 +3057,8 @@
     "pricing": "定价",
     "reorderReset": "重置",
     "reorderHint": "按住并拖动任意图标来重新排列",
+    "reorderHintGroups": "按住图标拖动好重新排列，或者拖到别个标签页里向移动。",
+    "moveGroupHint": "拖到另外一个标签页里向，拿伊移过去。",
     "groups": {
       "create": "创建",
       "discover": "寻寻看",
@@ -7024,7 +7085,18 @@
       "moveRuleUp": "向上移动规则",
       "moveRuleDown": "向下移动规则",
       "deleteRule": "删除规则",
-      "rights": {"sendMessages":"發送訊息","sendMessagesHint":"社群聊天","sendMedia":"發送媒體","sendMediaHint":"附加圖像和 GIF","embedLinks":"嵌入連結","embedLinksHint":"顯示鏈接預覽","addMembers":"加入成員","addMembersHint":"分享社群給其他人","createEvents":"建立活動","createEventsHint":"安排社群活動","changeInfoMemberHint":"编辑社区名称和描述",
+      "rights": {
+        "sendMessages": "發送訊息",
+        "sendMessagesHint": "社群聊天",
+        "sendMedia": "發送媒體",
+        "sendMediaHint": "附加圖像和 GIF",
+        "embedLinks": "嵌入連結",
+        "embedLinksHint": "顯示鏈接預覽",
+        "addMembers": "加入成員",
+        "addMembersHint": "分享社群給其他人",
+        "createEvents": "建立活動",
+        "createEventsHint": "安排社群活動",
+        "changeInfoMemberHint": "编辑社区名称和描述",
         "changeInfo": "更改社群信息",
         "changeInfoHint": "编辑名称、描述、头像和横幅",
         "deleteMessages": "删除消息",
@@ -7099,12 +7171,41 @@
       "noInvites": "尚無邀請鏈接。直接邀請人加入。",
       "permissionsUpdated": "權限更新",
       "slowModeUpdated": "慢速模式更新",
-      "slowMode":{"off":"关闭","tenSeconds":"10s","thirtySeconds":"30秒","oneMinute":"1分鐘","fiveMinutes":"5 分鐘","fifteenMinutes":"15 分鐘","oneHour":"1小時"},"slowModeOffHint": "成員可以不受延遲發送訊息。",
+      "slowMode": {
+        "off": "关闭",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30秒",
+        "oneMinute": "1分鐘",
+        "fiveMinutes": "5 分鐘",
+        "fifteenMinutes": "15 分鐘",
+        "oneHour": "1小時"
+      },
+      "slowModeOffHint": "成員可以不受延遲發送訊息。",
       "slowModeOnHint": "成員可以在{{label}}內發送一則訊息。管理員除外。",
       "defaultPermissions": "預設成員權限",
       "defaultPermissionsHint": "除非管理員權限另有規定，否則任何人都可以這樣做。",
       "slowModeTitle": "慢速模式",
-      "log": {"verbs":{"promote_admin":"推廣","demote_admin":"降級","transfer_ownership":"轉讓所有權","ban_member":"禁用","unban_member":"解封","kick_member":"已刪除","mute_member":"靜音","unmute_member":"取消鎖定","approve_member":"已經確認","reject_member":"被拒绝","delete_message":"刪除了訊息","purge_messages":"已删除所有来自","pin_message":"贴在顶部的信息来自","unpin_message":"未鎖定的訊息","update_settings":"更新社區設定","create_invite":"做了一个邀请链接","revoke_invite":"撤銷邀請鏈接","invite_used":"邀請"},
+      "log": {
+        "verbs": {
+          "promote_admin": "推廣",
+          "demote_admin": "降級",
+          "transfer_ownership": "轉讓所有權",
+          "ban_member": "禁用",
+          "unban_member": "解封",
+          "kick_member": "已刪除",
+          "mute_member": "靜音",
+          "unmute_member": "取消鎖定",
+          "approve_member": "已經確認",
+          "reject_member": "被拒绝",
+          "delete_message": "刪除了訊息",
+          "purge_messages": "已删除所有来自",
+          "pin_message": "贴在顶部的信息来自",
+          "unpin_message": "未鎖定的訊息",
+          "update_settings": "更新社區設定",
+          "create_invite": "做了一个邀请链接",
+          "revoke_invite": "撤銷邀請鏈接",
+          "invite_used": "邀請"
+        },
         "justNow": "剛剛",
         "minutesAgo": "{{value}}分前",
         "hoursAgo": "{{value}}小時前",
@@ -13564,53 +13665,52 @@
     "cinema": {
       "close": "关闭",
       "performance": {
-        "label": "性能",
         "0": "欢乐",
         "1": "忧郁",
         "2": "焦虑",
         "3": "自信",
         "4": "惊叹",
         "5": "克制",
-        "6": "俏皮"
+        "6": "俏皮",
+        "label": "性能"
       },
       "title": "电影导向",
       "hint": "引导侬下一张图片或视频的视觉风格。效果因模型而异。",
       "none": "无导向",
       "reset": "清除导向",
       "camera": {
-        "label": "摄影机质感",
         "0": "数字电影",
         "1": "35mm 胶片",
         "2": "16mm 胶片",
         "3": "大画幅",
-        "4": "复古摄像机"
+        "4": "复古摄像机",
+        "label": "摄影机质感"
       },
       "lens": {
-        "label": "镜头质感",
         "0": "球面镜头",
         "1": "变形宽银幕",
         "2": "复古柔焦镜头",
         "3": "微距",
-        "4": "移轴"
+        "4": "移轴",
+        "label": "镜头质感"
       },
       "focalLength": {
-        "label": "焦距",
         "0": "18mm 广角",
         "1": "24mm 广角",
         "2": "35mm 自然",
         "3": "50mm 标准",
         "4": "85mm 人像",
-        "5": "135mm 长焦"
+        "5": "135mm 长焦",
+        "label": "焦距"
       },
       "aperture": {
-        "label": "景深",
         "0": "f/1.4 极浅",
         "1": "f/2.8 浅",
         "2": "f/5.6 适中",
-        "3": "f/11 深焦"
+        "3": "f/11 深焦",
+        "label": "景深"
       },
       "movement": {
-        "label": "镜头运动",
         "0": "三脚架固定",
         "1": "缓慢推近",
         "2": "缓慢拉远",
@@ -13618,27 +13718,27 @@
         "4": "环绕主体",
         "5": "手持",
         "6": "摇臂升起",
-        "7": "缓慢摇镜"
+        "7": "缓慢摇镜",
+        "label": "镜头运动"
       },
       "lighting": {
-        "label": "光线",
         "0": "柔和日光",
         "1": "黄金时刻",
         "2": "低调明暗对比",
         "3": "高调棚拍",
         "4": "霓虹实景光",
         "5": "剪影逆光",
-        "6": "阴天漫射光"
+        "6": "阴天漫射光",
+        "label": "光线"
       },
       "tempo": {
-        "label": "镜头节奏",
         "0": "单个连续镜头",
         "1": "平静、从容的动作",
         "2": "动感、有活力的动作",
-        "3": "混乱、狂热的动作"
+        "3": "混乱、狂热的动作",
+        "label": "镜头节奏"
       },
       "era": {
-        "label": "年代",
         "0": "1920 年代",
         "1": "1950 年代",
         "2": "1960 年代",
@@ -13646,10 +13746,10 @@
         "4": "1980 年代",
         "5": "1990 年代",
         "6": "当代",
-        "7": "近未来"
+        "7": "近未来",
+        "label": "年代"
       },
       "genre": {
-        "label": "类型",
         "0": "纪录片",
         "1": "剧情片",
         "2": "黑色电影",
@@ -13657,16 +13757,17 @@
         "4": "奇幻",
         "5": "浪漫喜剧",
         "6": "惊悚",
-        "7": "西部片"
+        "7": "西部片",
+        "label": "类型"
       },
       "palette": {
-        "label": "色调",
         "0": "暖琥珀色",
         "1": "冷蓝色",
         "2": "柔和大地色",
         "3": "马卡龙色",
         "4": "高对比黑白",
-        "5": "饱和三原色"
+        "5": "饱和三原色",
+        "label": "色调"
       }
     },
     "audioNoSpeech": "未在该录音中发现任何演讲。",

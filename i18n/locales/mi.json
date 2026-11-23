@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Uhi", "trim": "Tapahi", "mirror": "Whakaata", "rotate": "Whakataka", "hide": "Huna", "timer": "Taima", "close": "Katia", "photo": "Whakaahua", "remove": "Tangohia", "pause": "Okioki", "play": "Whakatangi ataata", "hiddenUntilTap": "Ka huna kia pato rano rātou", "scrub": "Horoia te ataata", "addMore": "Tāpiri whakaahua, ataata rānei", "coverAria": "Patoa tētahi anga hei uhi", "trimHint": "Tōia ngā pito hei tapahi", "coverHint": "Patoa tētahi anga hei uhi", "uploadCover": "Tukuake he pikitia uhi", "mirrored": "Whakaata", "original": "Taketake", "rotate90": "Whakataka 90°", "timerOff": "Weto", "showNormally": "Whakaatu noa", "showNormallyBody": "Ka kite tonu rātou", "hideUntilTap": "Huna kia pato rano", "hideUntilTapBody": "Whakangāueue kia pato rano rātou", "hidePrice": "Huna ki muri i te utu", "hidePriceBody": "Whakangāueue kia utu rano rātou", "priceUnavailable": "Kāore i tēnei kōrerorero", "priceLabelUsd": "Utu", "priceHint": "Ka kite rātou i te mea pōkohu kia utua rātou e koe. Kāore ngā tūemi raka i te whakamunatia mai i te tīmatanga ki te mutunga.", "timerOffBody": "Ka noho tonu ki te kōrerorero.", "timerViewBody": "Ka ngaro mō kōrua tokorua ina kitea e rātou.", "confirm": "Whakaū", "editItem": "Whakatika tūemi {{value1}}", "coverSet": "Uhi i {{value1}}", "lockedForUsd": "Wewete mō {{value1}}", "timerTimeBody": "Ka ngaro mō kōrua tokorua {{value1}} i muri i tō tukunga."},
+  "dmVideo": {
+    "cover": "Uhi",
+    "trim": "Tapahi",
+    "mirror": "Whakaata",
+    "rotate": "Whakataka",
+    "hide": "Huna",
+    "timer": "Taima",
+    "close": "Katia",
+    "photo": "Whakaahua",
+    "remove": "Tangohia",
+    "pause": "Okioki",
+    "play": "Whakatangi ataata",
+    "hiddenUntilTap": "Ka huna kia pato rano rātou",
+    "scrub": "Horoia te ataata",
+    "addMore": "Tāpiri whakaahua, ataata rānei",
+    "coverAria": "Patoa tētahi anga hei uhi",
+    "trimHint": "Tōia ngā pito hei tapahi",
+    "coverHint": "Patoa tētahi anga hei uhi",
+    "uploadCover": "Tukuake he pikitia uhi",
+    "mirrored": "Whakaata",
+    "original": "Taketake",
+    "rotate90": "Whakataka 90°",
+    "timerOff": "Weto",
+    "showNormally": "Whakaatu noa",
+    "showNormallyBody": "Ka kite tonu rātou",
+    "hideUntilTap": "Huna kia pato rano",
+    "hideUntilTapBody": "Whakangāueue kia pato rano rātou",
+    "hidePrice": "Huna ki muri i te utu",
+    "hidePriceBody": "Whakangāueue kia utu rano rātou",
+    "priceUnavailable": "Kāore i tēnei kōrerorero",
+    "priceLabelUsd": "Utu",
+    "priceHint": "Ka kite rātou i te mea pōkohu kia utua rātou e koe. Kāore ngā tūemi raka i te whakamunatia mai i te tīmatanga ki te mutunga.",
+    "timerOffBody": "Ka noho tonu ki te kōrerorero.",
+    "timerViewBody": "Ka ngaro mō kōrua tokorua ina kitea e rātou.",
+    "confirm": "Whakaū",
+    "editItem": "Whakatika tūemi {{value1}}",
+    "coverSet": "Uhi i {{value1}}",
+    "lockedForUsd": "Wewete mō {{value1}}",
+    "timerTimeBody": "Ka ngaro mō kōrua tokorua {{value1}} i muri i tō tukunga.",
+    "destruct": {
+      "60": "1 meneti",
+      "3600": "1 hāora",
+      "43200": "12 hāora",
+      "86400": "1 rā",
+      "604800": "1 wiki",
+      "31536000": "1 tau",
+      "view": "1 tirohanga"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1r",
+      "604800": "1w",
+      "31536000": "1t",
+      "view": "1 tirohanga"
+    },
+    "destructSecs": "{{n}} hēkona",
+    "destructShortSecs": "{{n}}h"
+  },
   "comicBorder": {
     "title": "Tapa",
     "theme": "Kaupapa",
@@ -2997,6 +3056,8 @@
     "premium": "Mōrahi",
     "pricing": "Utu",
     "reorderHint": "Kia mau, me te hopu i tetahi tohu ki te rearrange",
+    "reorderHintGroups": "Puritia, ā, tōia tētahi ata hei whakarite anō, hei nuku rānei ki tētahi rīpeka kē kia nekehia ai.",
+    "moveGroupHint": "Tōia ki tētahi atu ripa kia nuku ai ki reira",
     "reorderReset": "Whakahokia",
     "groups": {
       "create": "Waihanga",
@@ -7025,7 +7086,18 @@
       "moveRuleUp": "Nekehia te ture ki runga",
       "moveRuleDown": "Nekehia te ture ki raro",
       "deleteRule": "Pāhū te ture",
-      "rights": {"sendMessages":"Tukuna ngā karere","sendMessagesHint":"Poutāpeta ki te kōrerorero hapori","sendMedia":"Tukuna he pāpāho","sendMediaHint":"Whakaahua me nga GIF","embedLinks":"Whakaurua ngā hononga","embedLinksHint":"Whakaaturia ngā arokite hononga","addMembers":"Tāpiri mema","addMembersHint":"Tohaina te hapori ki ētahi atu","createEvents":"Waihanga takahanga","createEventsHint":"Whakaritea ngā huihuinga hapori","changeInfoMemberHint":"Whakatikaina te ingoa me te whakaahuatanga o te hapori",
+      "rights": {
+        "sendMessages": "Tukuna ngā karere",
+        "sendMessagesHint": "Poutāpeta ki te kōrerorero hapori",
+        "sendMedia": "Tukuna he pāpāho",
+        "sendMediaHint": "Whakaahua me nga GIF",
+        "embedLinks": "Whakaurua ngā hononga",
+        "embedLinksHint": "Whakaaturia ngā arokite hononga",
+        "addMembers": "Tāpiri mema",
+        "addMembersHint": "Tohaina te hapori ki ētahi atu",
+        "createEvents": "Waihanga takahanga",
+        "createEventsHint": "Whakaritea ngā huihuinga hapori",
+        "changeInfoMemberHint": "Whakatikaina te ingoa me te whakaahuatanga o te hapori",
         "changeInfo": "Panoni i ngā mōhiohio o te hapori",
         "changeInfoHint": "Whakatika i te ingoa, te whakaaturanga, te avatar me te kara",
         "deleteMessages": "Pāhū karere",
@@ -7103,10 +7175,39 @@
       "noInvites": "Tangohia rēhita",
       "permissionsUpdated": "Koia te rēhita e whakawhitiwhiti ai ki ngā tāngata.",
       "slowModeUpdated": "Kua whakaputaina ngā ture",
-      "slowMode":{"off":"Weto","tenSeconds":"10h","thirtySeconds":"30h","oneMinute":"1 munita","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 whakatau"},"slowModeOffHint": "Kua whakaputaina te rārangi ture",
+      "slowMode": {
+        "off": "Weto",
+        "tenSeconds": "10h",
+        "thirtySeconds": "30h",
+        "oneMinute": "1 munita",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 whakatau"
+      },
+      "slowModeOffHint": "Kua whakaputaina te rārangi ture",
       "defaultPermissions": "Ko ngā mema e taea ai te tuku kōrero i te wā kāore he whakamahere. Ko ngā kaiwhakahaere e whakamahere ana.",
       "defaultPermissionsHint": "Ko ngā ture kāore i whakaputaina",
-      "log": {"verbs":{"promote_admin":"whakatairanga","demote_admin":"i whakahekea","transfer_ownership":"kua whakawhitia te mana rangatira ki","ban_member":"kua aukatihia","unban_member":"unbanned","kick_member":"kua tangohia","mute_member":"muted","unmute_member":"kua wetekina te wahangu","approve_member":"kua whakaaetia","reject_member":"kua whakakāhoretia","delete_message":"i mukua he karere i","purge_messages":"kua mukua ngā karere katoa mai i","pin_message":"i pine i tētahi karere mai i","unpin_message":"kaore i kitea he karere mai i","update_settings":"kua whakahōutia ngā tautuhinga hapori","create_invite":"i waihanga i tētahi hononga pōwhiri","revoke_invite":"i whakakorea he hononga pōwhiri","invite_used":"i pōwhiritia"},
+      "log": {
+        "verbs": {
+          "promote_admin": "whakatairanga",
+          "demote_admin": "i whakahekea",
+          "transfer_ownership": "kua whakawhitia te mana rangatira ki",
+          "ban_member": "kua aukatihia",
+          "unban_member": "unbanned",
+          "kick_member": "kua tangohia",
+          "mute_member": "muted",
+          "unmute_member": "kua wetekina te wahangu",
+          "approve_member": "kua whakaaetia",
+          "reject_member": "kua whakakāhoretia",
+          "delete_message": "i mukua he karere i",
+          "purge_messages": "kua mukua ngā karere katoa mai i",
+          "pin_message": "i pine i tētahi karere mai i",
+          "unpin_message": "kaore i kitea he karere mai i",
+          "update_settings": "kua whakahōutia ngā tautuhinga hapori",
+          "create_invite": "i waihanga i tētahi hononga pōwhiri",
+          "revoke_invite": "i whakakorea he hononga pōwhiri",
+          "invite_used": "i pōwhiritia"
+        },
         "justNow": "Ko te rārangi whakamahere",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h i te wiki",
@@ -13564,53 +13665,52 @@
     "cinema": {
       "close": "Kati",
       "performance": {
-        "label": "Mahinga",
         "0": "Koa",
         "1": "Pōuri",
         "2": "Āmaimai",
         "3": "Māia",
         "4": "Mīharo",
         "5": "Whakaiti",
-        "6": "Hākinakina"
+        "6": "Hākinakina",
+        "label": "Mahinga"
       },
       "title": "Ārahi kiriata",
       "hint": "Ārahina te kāhua ā-kanohi o tō whakaahua, ataata rānei e whai ake nei. Ka rerekē ngā hua i ia tauira.",
       "none": "Kāore he ārahi",
       "reset": "Ūkui ārahi",
       "camera": {
-        "label": "Āhua kāmera",
         "0": "Kiriata matihiko",
         "1": "Kiriata 35mm",
         "2": "Kiriata 16mm",
         "3": "Hōputu nui",
-        "4": "Kāmera ataata tawhito"
+        "4": "Kāmera ataata tawhito",
+        "label": "Āhua kāmera"
       },
       "lens": {
-        "label": "Āhua arotahi",
         "0": "Porowhita",
         "1": "Anamorphic",
         "2": "Karaehe ngāwari tawhito",
         "3": "Mākoro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Āhua arotahi"
       },
       "focalLength": {
-        "label": "Roanga arotahi",
         "0": "18mm whānui",
         "1": "24mm whānui",
         "2": "35mm māori",
         "3": "50mm paerewa",
         "4": "85mm whakaahua",
-        "5": "135mm tawhiti"
+        "5": "135mm tawhiti",
+        "label": "Roanga arotahi"
       },
       "aperture": {
-        "label": "Hōhonu o te arotahi",
         "0": "f/1.4 pāpaku rawa",
         "1": "f/2.8 pāpaku",
         "2": "f/5.6 waenga",
-        "3": "f/11 arotahi hōhonu"
+        "3": "f/11 arotahi hōhonu",
+        "label": "Hōhonu o te arotahi"
       },
       "movement": {
-        "label": "Nekehanga kāmera",
         "0": "Toru-waewae pūmau",
         "1": "Neke puhoi whakamua",
         "2": "Neke puhoi whakamuri",
@@ -13618,27 +13718,27 @@
         "4": "Āmio i te kaupapa",
         "5": "Ā-ringa",
         "6": "Piki wakaneke",
-        "7": "Kōpiko puhoi"
+        "7": "Kōpiko puhoi",
+        "label": "Nekehanga kāmera"
       },
       "lighting": {
-        "label": "Rama",
         "0": "Awatea ngāwari",
         "1": "Hāora koura",
         "2": "Atarangi pōuri",
         "3": "Taiwhanga marama",
         "4": "Rama neon",
         "5": "Rama tuarongo whakaata",
-        "6": "Kapua tohatoha"
+        "6": "Kapua tohatoha",
+        "label": "Rama"
       },
       "tempo": {
-        "label": "Tere hopuranga",
         "0": "Kotahi te hopuranga haere tonu",
         "1": "Mahi mārie, kāore e hohoro",
         "2": "Mahi hihiri, kaha",
-        "3": "Mahi pōrearea, hīkaka"
+        "3": "Mahi pōrearea, hīkaka",
+        "label": "Tere hopuranga"
       },
       "era": {
-        "label": "Wā",
         "0": "1920s",
         "1": "1950s",
         "2": "1960s",
@@ -13646,10 +13746,10 @@
         "4": "1980s",
         "5": "1990s",
         "6": "Ināianei",
-        "7": "Anamata tata"
+        "7": "Anamata tata",
+        "label": "Wā"
       },
       "genre": {
-        "label": "Momo",
         "0": "Pakipūmeka",
         "1": "Whakaari",
         "2": "Kiriata pōuri",
@@ -13657,16 +13757,17 @@
         "4": "Wawata",
         "5": "Pukuhohe aroha",
         "6": "Whakaohooho",
-        "7": "Kaupoi"
+        "7": "Kaupoi",
+        "label": "Momo"
       },
       "palette": {
-        "label": "Papatae",
         "0": "Pākākā mahana",
         "1": "Kikorangi mātao",
         "2": "Tae whenua ngāwari",
         "3": "Tae māmā",
         "4": "Tae kotahi pārongo nui",
-        "5": "Tae matua kanapa"
+        "5": "Tae matua kanapa",
+        "label": "Papatae"
       }
     },
     "audioNoSpeech": "Kaore he korero i kitea i roto i tenei tuhinga.",

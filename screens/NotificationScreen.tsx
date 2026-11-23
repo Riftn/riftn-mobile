@@ -80,7 +80,10 @@ import { postWarmKey, warmRequest } from "../libs/navPrefetch";
 import { getNFT } from "../services/nft.service";
 import { createLogger } from "../libs/logger";
 import {
+  applyMarkedAllRead,
+  markAllReadSettled,
   mergeFirstPage,
+  noteMarkedAllRead,
   readNotificationSnapshot,
   takeInflightFirstPage,
   writeNotificationSnapshot,
@@ -186,7 +189,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
     ...([
       'store_order',
       'fraction_offer', 'fraction_offer_accepted', 'fraction_offer_rejected',
-      'fraction_purchased', 'fraction_sold', 'fraction_delivered', 'fraction_settled',
+      'fraction_purchased', 'fraction_gift', 'fraction_sold', 'fraction_delivered', 'fraction_settled',
       'username_offer', 'username_offer_accepted', 'username_offer_declined',
     ] as unknown as NotificationType[]),
   ],
@@ -422,6 +425,11 @@ const isNotificationClickable = (notification: NotificationItem): boolean => {
     return !!(notification.actorAddress || notification.actorUsername);
   }
   
+  // Tagged in someone's bio: opens that profile.
+  if (type === NotificationType.MENTION && notification.metadata?.mentionContext === 'bio') {
+    return !!(notification.actorAddress || notification.actorUsername);
+  }
+
   // Content types - need tokenId
   if (type === NotificationType.LIKE ||
       type === NotificationType.COMMENT ||
@@ -803,13 +811,14 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
             <Animated.View style={[{ width: 7, height: 7, borderRadius: 4, backgroundColor: dotColor }, markButtonStyle]} />
           </TouchableOpacity>
         )}
-        {/* Avatar or Icon — tap to open profile */}
+        {/* Avatar or Icon — tap opens the person shown, also on a grouped
+            row ("X and 4 others liked"): it used to open the post or the
+            followers list there, so the face never led to its profile
+            (Requests 012cbf20). The row itself still opens the group. */}
         <TouchableOpacity
           activeOpacity={0.7}
           disabled={!item.actorUsername && !item.actorAddress}
-          onPress={() => isGrouped(item) && clickable
-            ? onPress(item)
-            : onOpenProfile(item.actorAddress, item.actorUsername, item.actor)}
+          onPress={() => onOpenProfile(item.actorAddress, item.actorUsername, item.actor)}
           style={{ position: 'relative' }}
         >
           {hasAvatar ? (
@@ -1196,6 +1205,8 @@ const NotificationScreen = () => {
     cached ? cached.notifications.filter((n) => isCustomNotificationId(n._id)) : [],
   );
   const [notifications, setNotifications] = useState<NotificationItem[]>(() => cached?.notifications ?? []);
+  const notificationsRef = useRef(notifications);
+  notificationsRef.current = notifications;
   /**
    * Rows this device has cleared. The API has no delete endpoint, so a cleared
    * row is remembered here and filtered out — otherwise the next refetch would
@@ -1311,6 +1322,9 @@ const NotificationScreen = () => {
     leftDrawerRef.current = true;
     navigation.goBack();
   }, [navigation]);
+  // The drawer can come back without remounting this screen; without this
+  // reset a second profile tap skipped the close and opened out of sight.
+  useFocusEffect(useCallback(() => { leftDrawerRef.current = false; }, []));
   const leaveTo = useCallback(((...args: unknown[]) => {
     leaveDrawerOnIOS();
     (navigation.navigate as (...a: unknown[]) => void)(...args);
@@ -1512,6 +1526,13 @@ const NotificationScreen = () => {
         break;
       }
 
+      // A sale or free claim waiting on this person: Approve / Send lives on
+      // Fractions > Portfolio.
+      case 'fraction_sold':
+      case 'fraction_delivered':
+        leaveTo(ScreenNames.Fractions as never, { tab: 'portfolio' } as never);
+        break;
+
       case 'fraction_settled': {
         const settledToken = Number((notification as CustomNotificationItem).customReferenceId);
         if (Number.isFinite(settledToken)) navigateToFeed(settledToken, undefined, postType);
@@ -1635,6 +1656,11 @@ const NotificationScreen = () => {
         break;
 
       case 'mention':
+        // Tagged in a bio: the profile whose bio names you ("Remove me" is in its menu).
+        if (metadata?.mentionContext === 'bio') {
+          openUserProfile(actorAddress, actorUsername, notification.actor);
+          break;
+        }
         // A tag in live or public chat opens that chat, not a post page.
         if (openChatMention(navigation.navigate as any, { mentionContext: metadata?.mentionContext, tokenId })) break;
         if (tokenId) navigateToFeed(tokenId, commentId, postType);
@@ -1783,6 +1809,13 @@ const NotificationScreen = () => {
       const gen = ++fetchGenRef.current;
       if (isRefresh) lastRefreshAtRef.current = Date.now();
       try {
+        // A "mark all as read" still being written: asking now would hand
+        // every row back unread and light the tab counts up again.
+        const settling = markAllReadSettled(walletAddressRef.current);
+        if (settling) {
+          await settling;
+          if (gen !== fetchGenRef.current) return;
+        }
         const targetPage = isRefresh ? 1 : pageRef.current;
         const types = apiTypesForFilter(selectedFilterRef.current);
 
@@ -1829,7 +1862,7 @@ const NotificationScreen = () => {
         });
         if (gen !== fetchGenRef.current) return;
 
-        const apiPayload = res?.data?.result || res?.result || [];
+        const apiPayload: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
         // Supabase-side rows (bounty applications, store orders, community
         // joins, stage alerts) are merged on refresh only. They are a single
         // recent page, not a paginated source, so folding them in again on
@@ -1863,7 +1896,7 @@ const NotificationScreen = () => {
         setLoadingMore(false);
 
         if (customRequest) {
-          const fresh = await customRequest;
+          const fresh = applyMarkedAllRead(walletAddressRef.current, await customRequest);
           if (gen !== fetchGenRef.current) return;
           custom = fresh;
           const changed =
@@ -1889,8 +1922,9 @@ const NotificationScreen = () => {
           // this: the snapshot is kept honest by every local mark-read/clear,
           // and it re-syncs on focus and pull-to-refresh.
           if (types) {
-            const allPayload = await countsRequest;
+            const counted = await countsRequest;
             if (gen !== fetchGenRef.current) return;
+            const allPayload = counted ? applyMarkedAllRead(walletAddressRef.current, counted) : null;
             // The badge has to count the Supabase rows too, or the Tips tab
             // shows a bounty application it does not admit to having.
             if (allPayload) setCountsSource(custom.length ? [...allPayload, ...custom] : allPayload);
@@ -2040,7 +2074,7 @@ const NotificationScreen = () => {
           .then((res: any) => {
             // Opened meanwhile: its own fetch owns the rows now.
             if (rowsFilterRef.current === key) return;
-            const api: NotificationItem[] = res?.data?.result || res?.result || [];
+            const api: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
             const rows = mergeFirstPage(api, customRowsRef.current);
             for (const n of rows) {
               if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
@@ -2080,21 +2114,29 @@ const NotificationScreen = () => {
   }, []);
 
   const handleMarkAllRead = useCallback(async () => {
+    const apiWrite = markAllNotificationsAsRead().catch((e) => {
+      log.error("markAllRead error", e);
+    });
+    // Supabase-side rows (stage alerts, community joins, store orders...) live
+    // in their own table; without this they came back unread next launch.
+    const customWrite = markAllCustomNotificationsRead(walletAddressRef.current).catch((e) => {
+      log.error("markAllCustomRead error", e);
+    });
+    // Refreshes wait for both writes, and an answer already on its way keeps
+    // every row the reader saw as read (the custom write's own Supabase ping
+    // used to refetch before the API write landed and bring the counts back).
+    noteMarkedAllRead(
+      walletAddressRef.current,
+      [...countsSourceRef.current, ...notificationsRef.current, ...customRowsRef.current],
+      Promise.all([apiWrite, customWrite]),
+    );
+    customRowsRef.current = customRowsRef.current.map((n) => (n.read ? n : { ...n, read: true }));
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     // Keep the badge source in step, or the tab counts stay lit until the next
     // refresh even though the rows all show as read. The app badge follows from
     // this via the effect above.
     setCountsSource((prev) => prev.map((n) => ({ ...n, read: true })));
     markCachedRead(null);
-
-    markAllNotificationsAsRead().catch((e) => {
-      log.error("markAllRead error", e);
-    });
-    // Supabase-side rows (stage alerts, community joins, store orders...) live
-    // in their own table; without this they came back unread next launch.
-    markAllCustomNotificationsRead(walletAddressRef.current).catch((e) => {
-      log.error("markAllCustomRead error", e);
-    });
   }, [markCachedRead]);
 
   const handleAcceptFollowRequest = useCallback(async (notification: NotificationItem) => {

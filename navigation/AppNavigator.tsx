@@ -337,6 +337,15 @@ function AppNavigatorContent() {
           name={ScreenNames.ArcadeChessOnline}
           getComponent={() => deferredScreen('../screens/ArcadeChessOnlineScreen#default', () => require("../screens/ArcadeChessOnlineScreen").default)}
         />
+        {/* Games with friends: correspondence chess and Okey 101 tables. */}
+        <Stack.Screen
+          name={ScreenNames.CorrespondenceChess}
+          getComponent={() => deferredScreen('../screens/CorrespondenceChessScreen#default', () => require("../screens/CorrespondenceChessScreen").default)}
+        />
+        <Stack.Screen
+          name={ScreenNames.Okey}
+          getComponent={() => deferredScreen('../screens/OkeyScreen#default', () => require("../screens/OkeyScreen").default)}
+        />
         {/* The mini app store and player. The player is its own entry, like the
             arcade's, so the WebView is torn down on the way out. MiniAppDev is
             the same screen in developer mode. */}

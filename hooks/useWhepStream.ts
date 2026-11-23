@@ -15,7 +15,14 @@ import { AppState } from 'react-native';
 import type { MediaStream } from 'react-native-webrtc';
 import { whepEndpointFor, type LiveStreamRef } from '../libs/live-ingest';
 import type { WhepSubscription } from '../libs/whep';
-import { forgetWhepSilent, isRealPicture, rememberWhepSilent, whepRecentlySilent } from '../libs/whep-memory';
+import {
+  forgetWhepSilent,
+  isRealPicture,
+  rememberWebRtcBlocked,
+  rememberWhepSilent,
+  webRtcRecentlyBlocked,
+  whepRecentlySilent,
+} from '../libs/whep-memory';
 
 /**
  * A session that negotiates but never delivers is the worst case: no error to
@@ -25,6 +32,14 @@ import { forgetWhepSilent, isRealPicture, rememberWhepSilent, whepRecentlySilent
  * spinner for good.
  */
 const START_TIMEOUT_MS = 3500;
+
+/**
+ * How long the connection itself gets once the server has answered. On a
+ * network that carries WebRTC it is up in about half a second. One still not
+ * up after this is a network that drops the media, and waiting out the rest
+ * of the start timeout only keeps the viewer on a spinner.
+ */
+const CONNECT_TIMEOUT_MS = 2000;
 
 /**
  * Once the picture is up, how long it may stand still, or the connection sit
@@ -78,8 +93,9 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
   const sessionRef = useRef<WhepSubscription | null>(null);
 
   const playbackId = stream?.playbackId ?? null;
-  // Checked once per stream: a stream that just went silent here starts on HLS.
-  const silentBefore = useMemo(() => whepRecentlySilent(playbackId), [playbackId]);
+  // Checked once per stream: a stream that just went silent here starts on
+  // HLS, and so does every stream on a network that just dropped WebRTC.
+  const silentBefore = useMemo(() => whepRecentlySilent(playbackId) || webRtcRecentlyBlocked(), [playbackId]);
   const endpoint = enabled && !failed && !silentBefore ? whepEndpointFor(stream) : null;
   const pictureRef = useRef<() => void>(() => undefined);
   const onPicture = useCallback((size: { width: number; height: number }) => {
@@ -101,9 +117,12 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
 
     let watchdog: ReturnType<typeof setInterval> | undefined;
     let reconnectingSince = 0;
+    let connected = false;
+    let connectTimer: ReturnType<typeof setTimeout> | undefined;
 
     const giveUp = () => {
       clearInterval(watchdog);
+      clearTimeout(connectTimer);
       if (cancelled) return;
       setMedia(null);
       // Latched: one attempt per stream. Without it a flapping connection
@@ -119,6 +138,10 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
           endpoint,
           onStateChange: (state) => {
             if (cancelled) return;
+            if (state === 'playing') {
+              connected = true;
+              clearTimeout(connectTimer);
+            }
             if (state === 'failed') giveUp();
             // ICE can sit in "disconnected" for half a minute before it calls
             // it failed; the watchdog below moves on well before that.
@@ -132,7 +155,21 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
         sessionRef.current = session;
         setMedia(session.stream);
         watchForFreeze(session);
-      } catch {
+        if (!connected) {
+          connectTimer = setTimeout(() => {
+            if (cancelled || connected || pictured) return;
+            // The server answered and the media never arrived: this network
+            // does not carry WebRTC. Skip it for a while, on every stream.
+            rememberWebRtcBlocked();
+            giveUp();
+          }, CONNECT_TIMEOUT_MS);
+        }
+      } catch (e) {
+        // The server said no to this stream (one WebRTC cannot carry): the
+        // next open goes straight to HLS. Not for a 404, which is a stream
+        // between two broadcasts.
+        const refused = e as { name?: string; status?: number } | null;
+        if (refused?.name === 'WhepRefusedError' && refused.status !== 404) rememberWhepSilent(playbackId);
         giveUp();
       }
     };
@@ -181,6 +218,7 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      clearTimeout(connectTimer);
       clearInterval(watchdog);
       pictureRef.current = () => undefined;
       const session = sessionRef.current;

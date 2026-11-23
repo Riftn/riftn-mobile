@@ -42,6 +42,7 @@ import BlockedAccountsModal from '../components/Settings/BlockedAccountsModal';
 import KeywordFiltersModal from '../components/Settings/KeywordFiltersModal';
 import { getAiScrapingPreference, type AiScrapingPreference } from '../libs/ai-scraping';
 import { getShowOnline } from '../libs/online-presence';
+import { getShowLastSeen } from '../libs/last-seen';
 import GeoBlockingSection from '../components/Settings/GeoBlockingSection';
 import DataPortabilitySection from '../components/Settings/DataPortabilitySection';
 import {
@@ -118,6 +119,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const [readerProfileView, setReaderProfileView] = useState<ProfileViewReaderPref>('owner');
   const [aiScraping, setAiScraping] = useState<AiScrapingPreference>('allow');
   const [showOnline, setShowOnline] = useState(false);
+  const [showLastSeen, setShowLastSeen] = useState(false);
   const [showDislikes, setShowDislikes] = useState(false);
   const [showLikes, setShowLikes] = useState(false);
   const [followLists, setFollowLists] = useState({ followers: true, following: true, counts: true });
@@ -181,6 +183,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       'public') as PostVisibility),
     aiScraping: getAiScrapingPreference(customs),
     showOnline: getShowOnline(customs),
+    showLastSeen: getShowLastSeen(customs),
     showDislikes: dislikesArePublic(customs),
     showLikes: likesArePublic(customs),
     followLists: (() => {
@@ -193,7 +196,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   }), [user, customs]);
 
   const userKey = useMemo(() => {
-    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.defaultProfileTab}|${customs[PROFILE_VIEW_DEFAULT_KEY]}|${customs[PROFILE_VIEW_READER_KEY]}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
+    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.showLastSeen}|${customs.defaultProfileTab}|${customs[PROFILE_VIEW_DEFAULT_KEY]}|${customs[PROFILE_VIEW_READER_KEY]}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
   }, [user, customs]);
 
   /**
@@ -239,6 +242,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     setDefaultPostVisibility(initial.defaultPostVisibility);
     setAiScraping(initial.aiScraping);
     setShowOnline(initial.showOnline);
+    setShowLastSeen(initial.showLastSeen);
     setShowDislikes(initial.showDislikes);
     setShowLikes(initial.showLikes);
     setFollowLists(initial.followLists);
@@ -297,6 +301,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       setDefaultPostVisibility(initial.defaultPostVisibility);
       setAiScraping(initial.aiScraping);
       setShowOnline(initial.showOnline);
+      setShowLastSeen(initial.showLastSeen);
       setShowDislikes(initial.showDislikes);
       setShowLikes(initial.showLikes);
       setFollowLists(initial.followLists);
@@ -363,6 +368,12 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const handleToggleShowOnline = useCallback((value: boolean) => {
     setShowOnline(value);
     saveSetting({}, { showOnline: value ? 'on' : 'off' });
+  }, [saveSetting]);
+
+  // Same customs key and values as web (lib/last-seen): 'on' | 'off'.
+  const handleToggleShowLastSeen = useCallback((value: boolean) => {
+    setShowLastSeen(value);
+    saveSetting({}, { showLastSeen: value ? 'on' : 'off' });
   }, [saveSetting]);
 
   // Same customs key and values as web: 'public' | 'private' (absent = private).
@@ -558,6 +569,22 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
                     </View>
                   </View>
                   <CustomSwitch value={showOnline} onValueChange={handleToggleShowOnline} disabled={saving} />
+                </View>
+              </SettingsAnchor>
+              <SettingsAnchor id="show-last-seen">
+                <View className="px-4 py-2 flex-row items-center justify-between">
+                  <View className="flex-row items-center flex-1 pr-3">
+                    <View className="mr-3 w-5 h-5 items-center justify-center">
+                      <Icon name="History" size={20} color="#8B8D90" />
+                    </View>
+                    <View className="flex-1">
+                      <Text className="text-white text-base leading-5 font-medium">{t('settings.showLastSeen')}</Text>
+                      <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                        {t('settings.showLastSeenDesc')}
+                      </Text>
+                    </View>
+                  </View>
+                  <CustomSwitch value={showLastSeen} onValueChange={handleToggleShowLastSeen} disabled={saving} />
                 </View>
               </SettingsAnchor>
               <SettingsAnchor id="show-likes">

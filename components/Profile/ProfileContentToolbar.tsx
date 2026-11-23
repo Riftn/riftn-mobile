@@ -67,7 +67,7 @@ interface ProfileContentToolbarProps {
   onFiltersToggle: () => void;
   /** How many filter rows are narrowing the list right now. 0 hides the badge. */
   activeFilterCount: number;
-  /** The All tab: show the grid / list toggle on the left of the row. */
+  /** Content tabs: show the grid / list toggle on the left of the row. */
   showViewToggle?: boolean;
   /** The creator saved their own order: adds it to the sort choices. */
   hasCustomOrder?: boolean;

@@ -207,12 +207,16 @@ export interface StreamerProgress {
 }
 
 export async function getStreamerProgress(address: string): Promise<StreamerProgress> {
-  // collection=20 asks for the twenty-card set web shows.
-  const res = await apiClient.get<any>(`/live/creator/${encodeURIComponent(address.toLowerCase())}/progress`, {
-    params: { collection: "20" },
-  });
-  const body = res && typeof res === "object" && res.result && typeof res.result === "object" && "level" in res.result ? res.result : res;
-  return body as StreamerProgress;
+  const path = `/live/creator/${encodeURIComponent(address.toLowerCase())}/progress`;
+  const load = async (collection: "20" | "21"): Promise<StreamerProgress> => {
+    const res = await apiClient.get<any>(path, { params: { collection } });
+    return res?.result && typeof res.result === "object" && "level" in res.result ? res.result : res;
+  };
+  const current = await load("21");
+  // Servers with twenty badges return the original eight for unknown collections.
+  if (current?.cards?.length !== 8) return current;
+  const previous = await load("20").catch(() => null);
+  return previous?.cards?.length === 20 ? previous : current;
 }
 
 /** Equip one of the viewer's earned cards as their streamer badge. */

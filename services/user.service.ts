@@ -259,6 +259,12 @@ export async function getAccount(usernameOrAddress: string) {
   }
 }
 
+/** Account lookups are returned directly by the API or inside a legacy data envelope. */
+export async function getAccountProfile(identifier: string): Promise<User | undefined> {
+  const response: { result?: User; data?: AccountInfoResponse } = await getAccount(identifier);
+  return response?.data?.result ?? response?.result ?? undefined;
+}
+
 export interface AccountSummary {
   address: string;
   username?: string | null;
@@ -1151,4 +1157,25 @@ export async function setPostBackground(tokenId: string | number, postBg: string
   const body = await apiClient.post<any>('/post_background', form, { isAuthRequired: true });
   if (body?.error || body?.result === false) throw new Error(body?.error_msg || body?.message || 'Post background failed');
   return typeof body?.postBg === 'string' ? body.postBg : '';
+}
+
+/**
+ * "Remove me": take the signed-in account's @tag out of another profile's bio.
+ * Their name stays as plain text. Endpoint (POST, AuthGuard): /api/bio_tag/remove
+ */
+export async function removeBioTag(ownerAddress: string): Promise<{ removed: boolean }> {
+  const res = await apiClient.post<any>("/bio_tag/remove", { address: ownerAddress.toLowerCase() }, { isAuthRequired: true });
+  const payload = res?.data || res;
+  if (payload?.result === false) throw new Error(payload?.error || "Could not remove the tag");
+  return { removed: !!payload?.removed };
+}
+
+/**
+ * "Not interested" on a post: hides it from your feeds and shows fewer like it.
+ * Endpoint (POST, AuthGuard): /api/not_interested
+ */
+export async function setNotInterested(tokenId: number, undo = false): Promise<void> {
+  const res = await apiClient.post<any>("/not_interested", { tokenId, undo }, { isAuthRequired: true });
+  const payload = res?.data || res;
+  if (payload?.result === false) throw new Error(payload?.error || "Could not save that");
 }

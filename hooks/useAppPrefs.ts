@@ -79,6 +79,10 @@ const KEYS = {
   themeHues: 'dehub.themeHues',
   brandColors: 'dehub.brandColors',
   halloweenOptOut: 'dehub.halloween2026.optOut',
+  // Your own lines in Public Chat on a bubble, web's key (lib/chat-own-bubble).
+  chatOwnBubble: 'riftn.chat.ownBubble',
+  // Messages tabs as filled pills + round unread counts, web's key (lib/messages-pills).
+  messagesPills: 'riftn.messages.pills',
   // Menu drawer grouping (libs/menuLayout), web's key.
   menuLayout: 'menu-layout',
 } as const;
@@ -123,6 +127,10 @@ export interface AppPrefs {
   brandColors: string[];
   /** Picked a theme on Halloween 2026, so skip the Horror override (libs/halloweenOverride). */
   halloweenOptOut: boolean;
+  /** Your own lines in Public Chat sit on a bubble, like private chats. Off by default. */
+  chatOwnBubble: boolean;
+  /** Messages: filled pill tabs, round unread counts, no lit bar. Off by default. */
+  messagesPills: boolean;
 }
 
 /** Same defaults web falls back to when a key is absent. */
@@ -165,6 +173,8 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   themeHues: {},
   brandColors: [],
   halloweenOptOut: false,
+  chatOwnBubble: false,
+  messagesPills: false,
 };
 
 let cache: AppPrefs = { ...DEFAULT_APP_PREFS };
@@ -245,6 +255,8 @@ function init() {
         skipSegments: parseBool(get('skipSegments'), DEFAULT_APP_PREFS.skipSegments),
         leftHanded: parseBool(get('leftHanded'), DEFAULT_APP_PREFS.leftHanded),
         halloweenOptOut: parseBool(get('halloweenOptOut'), DEFAULT_APP_PREFS.halloweenOptOut),
+        chatOwnBubble: parseBool(get('chatOwnBubble'), DEFAULT_APP_PREFS.chatOwnBubble),
+        messagesPills: parseBool(get('messagesPills'), DEFAULT_APP_PREFS.messagesPills),
         postLanding: (() => {
           const stored = get('postLanding');
           return isPostLandingStyle(stored) ? stored : DEFAULT_APP_PREFS.postLanding;

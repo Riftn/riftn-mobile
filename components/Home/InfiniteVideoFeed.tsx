@@ -469,6 +469,12 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
     [firstRowInset, headerFilled],
   );
   const firstCardInset = firstRowInset && !headerFilled ? firstRowInset : undefined;
+  // The skeleton's own gap under an empty header row: what is left of its
+  // spacer once the header row's top spacer is drawn.
+  const skeletonGapStyle = useMemo(
+    () => ({ height: Math.max(0, skeletonSpacerStyle.height - headerInset) }),
+    [skeletonSpacerStyle.height, headerInset],
+  );
 
   const navigation = useNavigation<any>();
   const isFocused = useIsFocusedLazy();
@@ -1515,8 +1521,13 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
             list's ListHeaderComponent, which is where the header spacer lives —
             without this the skeleton starts at y=0 and its first cards render
             behind the header, so the wait looks broken as well as slow. */}
-        <View style={skeletonSpacerStyle} />
-        <FeedCardSkeleton count={4} cinematic topChromeInset={firstRowInset} edgeInset={8} />
+        {/* The header row (shortcuts, Moments) is drawn over the skeleton
+            exactly as it sits above the first post, so it is there from the
+            first frame and nothing moves when the posts swap in. With nothing
+            in it, the room it would take goes back to the first card. */}
+        {headerBlock}
+        {headerFilled ? null : <View style={skeletonGapStyle} />}
+        <FeedCardSkeleton count={4} cinematic topChromeInset={headerFilled ? 0 : firstRowInset} edgeInset={8} />
       </View>
     );
   }

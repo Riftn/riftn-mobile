@@ -105,6 +105,19 @@ describe('libs/profiles', () => {
     expect(await AsyncStorage.getItem(key)).toBeNull();
   });
 
+  it("never files the incoming Google session under the account it displaces", async () => {
+    await seedAccountA();
+    const key = 'sb-example-auth-token';
+    await AsyncStorage.setItem(key, JSON.stringify({ user: { id: 'uid-a' }, access_token: 'a-access', refresh_token: 'a-refresh' }));
+    await adoptCurrentProfile();
+    // Google lands the next account's session before A's keys are cleared.
+    await AsyncStorage.setItem(key, JSON.stringify({ user: { id: 'uid-b' }, access_token: 'b-access', refresh_token: 'b-refresh' }));
+    await stageIncomingIdentity('uid-b');
+    const saved = await getProfile('uid-a');
+    expect(saved?.session?.supabase?.refresh_token).toBe('a-refresh');
+    expect(saved?.session?.supabase?.access_token).toBe('a-access');
+  });
+
   describe('preserveOutgoingProfile', () => {
     it('saves an account that was never explicitly added, so a second login cannot lose it', async () => {
       await seedAccountA();

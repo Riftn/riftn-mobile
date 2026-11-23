@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Obálka", "trim": "Orezať", "mirror": "Zrkadliť", "rotate": "Otočiť", "hide": "Skryť", "timer": "Časovač", "close": "Zavrieť", "photo": "Fotka", "remove": "Odstrániť", "pause": "Pozastaviť", "play": "Prehrať video", "hiddenUntilTap": "Skryté, kým na to neklepnú", "scrub": "Posúvať sa videom", "addMore": "Pridať fotky alebo videá", "coverAria": "Klepnite na snímku a nastavte ju ako obálku", "trimHint": "Potiahnutím koncov orezáte", "coverHint": "Klepnite na snímku a nastavte ju ako obálku", "uploadCover": "Nahrať obrázok obálky", "mirrored": "Zrkadlené", "original": "Pôvodné", "rotate90": "Otočiť o 90°", "timerOff": "Vypnuté", "showNormally": "Zobraziť normálne", "showNormallyBody": "Uvidia to hneď", "hideUntilTap": "Skryť, kým na to neklepnú", "hideUntilTapBody": "Rozmazané, kým na to neklepnú", "hidePrice": "Skryť za cenu", "hidePriceBody": "Rozmazané, kým vám nezaplatia", "priceUnavailable": "Nie v tomto chate", "priceLabelUsd": "Cena", "priceHint": "Vidí to rozmazane, kým ti nezaplatia. Zamknuté položky nie sú šifrované end-to-end.", "timerOffBody": "Zostáva to v chate.", "timerViewBody": "Zmizne to pre oboch, akonáhle si to pozrú.", "confirm": "Potvrdiť", "editItem": "Upraviť položku {{value1}}", "coverSet": "Obal na {{value1}}", "lockedForUsd": "Odomknúť za {{value1}}", "timerTimeBody": "Zmizne to pre oboch {{value1}} po odoslaní."},
+  "dmVideo": {
+    "cover": "Obálka",
+    "trim": "Orezať",
+    "mirror": "Zrkadliť",
+    "rotate": "Otočiť",
+    "hide": "Skryť",
+    "timer": "Časovač",
+    "close": "Zavrieť",
+    "photo": "Fotka",
+    "remove": "Odstrániť",
+    "pause": "Pozastaviť",
+    "play": "Prehrať video",
+    "hiddenUntilTap": "Skryté, kým na to neklepnú",
+    "scrub": "Posúvať sa videom",
+    "addMore": "Pridať fotky alebo videá",
+    "coverAria": "Klepnite na snímku a nastavte ju ako obálku",
+    "trimHint": "Potiahnutím koncov orezáte",
+    "coverHint": "Klepnite na snímku a nastavte ju ako obálku",
+    "uploadCover": "Nahrať obrázok obálky",
+    "mirrored": "Zrkadlené",
+    "original": "Pôvodné",
+    "rotate90": "Otočiť o 90°",
+    "timerOff": "Vypnuté",
+    "showNormally": "Zobraziť normálne",
+    "showNormallyBody": "Uvidia to hneď",
+    "hideUntilTap": "Skryť, kým na to neklepnú",
+    "hideUntilTapBody": "Rozmazané, kým na to neklepnú",
+    "hidePrice": "Skryť za cenu",
+    "hidePriceBody": "Rozmazané, kým vám nezaplatia",
+    "priceUnavailable": "Nie v tomto chate",
+    "priceLabelUsd": "Cena",
+    "priceHint": "Vidí to rozmazane, kým ti nezaplatia. Zamknuté položky nie sú šifrované end-to-end.",
+    "timerOffBody": "Zostáva to v chate.",
+    "timerViewBody": "Zmizne to pre oboch, akonáhle si to pozrú.",
+    "confirm": "Potvrdiť",
+    "editItem": "Upraviť položku {{value1}}",
+    "coverSet": "Obal na {{value1}}",
+    "lockedForUsd": "Odomknúť za {{value1}}",
+    "timerTimeBody": "Zmizne to pre oboch {{value1}} po odoslaní.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 hodina",
+      "43200": "12 hodín",
+      "86400": "1 deň",
+      "604800": "1 týždeň",
+      "31536000": "1 rok",
+      "view": "1 zobrazenie"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 zobrazenie"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Okraj",
     "theme": "Motív",
@@ -2997,6 +3056,8 @@
     "premium": "Prémiové",
     "pricing": "Cenník",
     "reorderHint": "Ak chcete zmeniť usporiadanie, podržte a presuňte ľubovoľ",
+    "reorderHintGroups": "Podržte a potiahnite ľubovoľnú ikonu, ak ju chcete premiestniť, alebo ju presuňte na inú kartu, ak ju chcete presunúť.",
+    "moveGroupHint": "Presuňte na inú kartu, aby ste ju tam presunuli",
     "reorderReset": "Obnoviť",
     "groups": {
       "create": "Vytvoriť",
@@ -7130,7 +7191,18 @@
       "moveRuleUp": "Posunúť pravidlo nahor",
       "moveRuleDown": "Posunúť pravidlo nadol",
       "deleteRule": "Odstrániť pravidlo",
-      "rights": {"sendMessages":"Odoslať správy","sendMessagesHint":"Zverejnite v komunitnej diskusii","sendMedia":"Odoslať médiá","sendMediaHint":"Pridajte Obrázky a GIFs","embedLinks":"Vloženie odkazov","embedLinksHint":"Zobraziť ukážky odkazov","addMembers":"Pridaj členov.","addMembersHint":"Zdieľať komunitu s inými","createEvents":"Vytvorte udalosti","createEventsHint":"Nastavujte komunityné udalosti","changeInfoMemberHint":"Upraviť názov a popis spoločnosti",
+      "rights": {
+        "sendMessages": "Odoslať správy",
+        "sendMessagesHint": "Zverejnite v komunitnej diskusii",
+        "sendMedia": "Odoslať médiá",
+        "sendMediaHint": "Pridajte Obrázky a GIFs",
+        "embedLinks": "Vloženie odkazov",
+        "embedLinksHint": "Zobraziť ukážky odkazov",
+        "addMembers": "Pridaj členov.",
+        "addMembersHint": "Zdieľať komunitu s inými",
+        "createEvents": "Vytvorte udalosti",
+        "createEventsHint": "Nastavujte komunityné udalosti",
+        "changeInfoMemberHint": "Upraviť názov a popis spoločnosti",
         "changeInfo": "Zmeniť informácie o komunite",
         "changeInfoHint": "Upraviť názov, popis, avatar a banner",
         "deleteMessages": "Odstrániť správy",
@@ -7208,12 +7280,41 @@
       "noInvites": "Žiadne pozvánkové odkazy. Vytvoriť jeden, aby ste mohli pozvať ľudí priamo.",
       "permissionsUpdated": "Povolenia aktualizované",
       "slowModeUpdated": "Pomalý režim aktualizovaný",
-      "slowMode":{"off":"Vypnuté","tenSeconds":"10s","thirtySeconds":"Tridsiaté roky","oneMinute":"1 min","fiveMinutes":"5 minút","fifteenMinutes":"15 minút","oneHour":"1 hodina"},"slowModeOffHint": "Členovia môžu poslať správy bez zdržania.",
+      "slowMode": {
+        "off": "Vypnuté",
+        "tenSeconds": "10s",
+        "thirtySeconds": "Tridsiaté roky",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 minút",
+        "fifteenMinutes": "15 minút",
+        "oneHour": "1 hodina"
+      },
+      "slowModeOffHint": "Členovia môžu poslať správy bez zdržania.",
       "slowModeOnHint": "Členovia môžu poslať jednu správu každých {{label}}. Administrátori sú oslobodení.",
       "defaultPermissions": "Predvstupné povolenia členov",
       "defaultPermissionsHint": "To, čo môže každý urobiť tu, kým nie je niektoré administrátorské právo inak.",
       "slowModeTitle": "Pomalý režim",
-      "log": {"verbs":{"promote_admin":"povýšený","demote_admin":"demotvaný","transfer_ownership":"Preložil vlastníctvo","ban_member":"zakázané","unban_member":"neboli zablokovaný","kick_member":"odstránené","mute_member":"stlmené","unmute_member":"neblokovaný","approve_member":"schválené","reject_member":"zamietnuté","delete_message":"zablokovaný správ","purge_messages":"Vymazal všetko odoslané","pin_message":"pripnúť správu od","unpin_message":"odpínal správu z","update_settings":"Aktualizoval si komunikačné nastavenia","create_invite":"vytvoril odkaz na pozvánku","revoke_invite":"zrušila pozvanie","invite_used":"Pozvaný"},
+      "log": {
+        "verbs": {
+          "promote_admin": "povýšený",
+          "demote_admin": "demotvaný",
+          "transfer_ownership": "Preložil vlastníctvo",
+          "ban_member": "zakázané",
+          "unban_member": "neboli zablokovaný",
+          "kick_member": "odstránené",
+          "mute_member": "stlmené",
+          "unmute_member": "neblokovaný",
+          "approve_member": "schválené",
+          "reject_member": "zamietnuté",
+          "delete_message": "zablokovaný správ",
+          "purge_messages": "Vymazal všetko odoslané",
+          "pin_message": "pripnúť správu od",
+          "unpin_message": "odpínal správu z",
+          "update_settings": "Aktualizoval si komunikačné nastavenia",
+          "create_invite": "vytvoril odkaz na pozvánku",
+          "revoke_invite": "zrušila pozvanie",
+          "invite_used": "Pozvaný"
+        },
         "justNow": "čo sa stalo teraz",
         "minutesAgo": "{{value}} minút predtým",
         "hoursAgo": "{{value}} hodín predtým",
@@ -13731,53 +13832,52 @@
     "cinema": {
       "close": "Zavrieť",
       "performance": {
-        "label": "Výkon",
         "0": "Radostný",
         "1": "Melancholický",
         "2": "Úzkostlivý",
         "3": "Sebavedomý",
         "4": "Ohromený",
         "5": "Zdržanlivý",
-        "6": "Hravý"
+        "6": "Hravý",
+        "label": "Výkon"
       },
       "title": "Filmová réžia",
       "hint": "Usmernite vizuálny štýl vášho ďalšieho obrázka alebo videa. Výsledky sa líšia podľa modelu.",
       "none": "Bez réžie",
       "reset": "Vymazať réžiu",
       "camera": {
-        "label": "Vzhľad kamery",
         "0": "Digitálne kino",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Veľký formát",
-        "4": "Vintage videokamera"
+        "4": "Vintage videokamera",
+        "label": "Vzhľad kamery"
       },
       "lens": {
-        "label": "Vzhľad objektívu",
         "0": "Sférický",
         "1": "Anamorfický",
         "2": "Vintage mäkké sklo",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Vzhľad objektívu"
       },
       "focalLength": {
-        "label": "Ohnisková vzdialenosť",
         "0": "18 mm široký",
         "1": "24 mm široký",
         "2": "35 mm prirodzený",
         "3": "50 mm štandardný",
         "4": "85 mm portrétny",
-        "5": "135 mm teleobjektív"
+        "5": "135 mm teleobjektív",
+        "label": "Ohnisková vzdialenosť"
       },
       "aperture": {
-        "label": "Hĺbka ostrosti",
         "0": "f/1.4 veľmi malá",
         "1": "f/2.8 malá",
         "2": "f/5.6 stredná",
-        "3": "f/11 hlboké zaostrenie"
+        "3": "f/11 hlboké zaostrenie",
+        "label": "Hĺbka ostrosti"
       },
       "movement": {
-        "label": "Pohyb kamery",
         "0": "Pevný statív",
         "1": "Pomalý nájazd",
         "2": "Pomalý odjazd",
@@ -13785,27 +13885,27 @@
         "4": "Obeh okolo objektu",
         "5": "Z ruky",
         "6": "Zdvih žeriavom",
-        "7": "Pomalé panorámovanie"
+        "7": "Pomalé panorámovanie",
+        "label": "Pohyb kamery"
       },
       "lighting": {
-        "label": "Osvetlenie",
         "0": "Mäkké denné svetlo",
         "1": "Zlatá hodinka",
         "2": "Tmavé šerosvitné",
         "3": "Svetlé štúdiové",
         "4": "Neónové svetlá v zábere",
         "5": "Silueta v protisvetle",
-        "6": "Rozptýlené zamračené"
+        "6": "Rozptýlené zamračené",
+        "label": "Osvetlenie"
       },
       "tempo": {
-        "label": "Tempo záberu",
         "0": "Jeden nepretržitý záber",
         "1": "Pokojná, nenáhlivá akcia",
         "2": "Dynamická, energická akcia",
-        "3": "Chaotická, zbesilá akcia"
+        "3": "Chaotická, zbesilá akcia",
+        "label": "Tempo záberu"
       },
       "era": {
-        "label": "Obdobie",
         "0": "20. roky 20. storočia",
         "1": "50. roky",
         "2": "60. roky",
@@ -13813,10 +13913,10 @@
         "4": "80. roky",
         "5": "90. roky",
         "6": "Súčasnosť",
-        "7": "Blízka budúcnosť"
+        "7": "Blízka budúcnosť",
+        "label": "Obdobie"
       },
       "genre": {
-        "label": "Žáner",
         "0": "Dokument",
         "1": "Dráma",
         "2": "Film noir",
@@ -13824,16 +13924,17 @@
         "4": "Fantasy",
         "5": "Romantická komédia",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Žáner"
       },
       "palette": {
-        "label": "Farebná paleta",
         "0": "Teplá jantárová",
         "1": "Chladná modrá",
         "2": "Tlmené zemité tóny",
         "3": "Pastelová",
         "4": "Vysokokontrastná čiernobiela",
-        "5": "Sýte základné farby"
+        "5": "Sýte základné farby",
+        "label": "Farebná paleta"
       }
     },
     "audioNoSpeech": "Nenašli sa žiadne reči v tom záznami.",

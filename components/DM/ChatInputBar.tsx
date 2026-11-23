@@ -134,6 +134,8 @@ interface ChatInputBarProps {
   scheduledCount?: number;
   /** Trigger poll creation sheet. */
   onPollPress?: () => void;
+  /** Opens the Notes sheet (your 24-hour note). */
+  onNotePress?: () => void;
   /** Pre-fill the text input on mount (e.g. shared post URL). */
   initialText?: string;
   /** Take the caret as soon as the box can be typed in (chat opened from New message). */
@@ -199,6 +201,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   onSchedulePress,
   scheduledCount = 0,
   onPollPress,
+  onNotePress,
   initialText,
   autoFocus = false,
   thread,
@@ -219,7 +222,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     requestAnimationFrame(() => inputRef.current?.focus());
   }, [autoFocus, disabled]);
   const [ordinaryText, setOrdinaryText] = useDraft(draftKey);
-  const [editText, setEditText] = useDraftState(editingMessage && draftKey ? `${draftKey}:edit:${editingMessage._id}` : null, editingMessage?.content || "");
+  const [editText, setEditText] = useDraftState(editingMessage && draftKey ? `${draftKey}:edit:${editingMessage._id}` : null, editingMessage?.original?.content || editingMessage?.content || "");
   const text = editingMessage ? editText : ordinaryText;
   const setText = editingMessage ? setEditText : setOrdinaryText;
   const [media, setMedia] = useState<ChatMediaAttachment | null>(null);
@@ -354,7 +357,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // Pre-fill when editing
   useEffect(() => {
     if (editingMessage) {
-      setEditText.initialize(editingMessage.content || "");
+      setEditText.initialize(editingMessage.original?.content || editingMessage.content || "");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [editingMessage, setEditText]);
@@ -755,6 +758,9 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     ...(canSchedule
       ? [{ key: "schedule", icon: "Clock" as const, label: t("dmSchedule.button", { defaultValue: "Schedule message" }), onPress: fromSheet(handleSchedule) }]
       : []),
+    ...(onNotePress
+      ? [{ key: "note", icon: "Quote" as const, label: t("notes.yourNote", { defaultValue: "Your note" }), onPress: fromSheet(onNotePress) }]
+      : []),
     ...(onPollPress
       ? [{ key: "poll", icon: "ChartColumn" as const, label: t("postOptions.createPoll"), onPress: fromSheet(onPollPress) }]
       : []),
@@ -829,7 +835,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 className="text-[13px] text-theme-neutrals-400 mt-0.5"
                 numberOfLines={1}
               >
-                {editingMessage.content}
+                {editingMessage.original?.content || editingMessage.content}
               </Text>
             </View>
             <TouchableOpacity onPress={handleCancelEdit} hitSlop={8}>

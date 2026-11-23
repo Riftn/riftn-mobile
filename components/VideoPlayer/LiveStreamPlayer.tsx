@@ -51,6 +51,9 @@ import {
 import { toastError, toastSuccess } from "../../libs";
 import { SettingsOptionModal } from "../Settings/SettingsPrimitives";
 import { addStreamModerator, banFromStreams, getStreamBot, timeOutInStream } from "../../services/livechat.service";
+import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
+import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
+import { swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -60,6 +63,7 @@ import { getAvatarUrl, shareProfile } from "../../libs/misc";
 import { WEBSITE_LINK } from "../../config";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
+import { StreamChatRewards } from "../LiveViewer/StreamChatRewards";
 import LiveViewerChat, { type ChatActivity, type ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
 import CommentLikersSheet from "../Comments/CommentLikersSheet";
 import HoldSheet, { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING, type HoldTile } from "../ui/HoldSheet";
@@ -95,13 +99,18 @@ import { speakTipMessage, setTipTtsEnabled } from "../../libs/tipTts";
 import { tierFromAmount } from "../../config/gift-tiers";
 import ViewerScrubBar from "../common/ViewerScrubBar";
 import LiveClipSheet from "../LiveViewer/LiveClipSheet";
+import StreamPetCorner from "../Pet/StreamPetCorner";
 import HypeTrainBar from "../LiveViewer/HypeTrainBar";
 import GiftSubsSheet from "../LiveViewer/GiftSubsSheet";
 import RewardsSheet from "../LiveViewer/RewardsSheet";
+import GivePointsSheet, { type GiveTarget } from "../LiveViewer/GivePointsSheet";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMyStreamPoints, getStreamRewards } from "../../services/live-rewards.service";
 import { captureLiveClip, type LiveClip } from "../../services/live-clips.service";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import EmojiSheet from "../Upload/EmojiSheet";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../DM/DeleteMessageSheet";
+import { hideLineForMe, useHiddenLines } from "../../libs/public-chat-hidden";
 
 /** Swipe-to-clear distances, the shorts viewer's numbers. */
 const LIVE_DRAG_CLAIM = 16;
@@ -1567,17 +1576,50 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }),
     [hideStart, clearOrCloseKeys],
   );
-  const hideTap = useMemo(
-    () =>
-      Gesture.Tap()
-        .maxDistance(10)
-        .onEnd((_e, success) => {
-          "worklet";
-          if (success) runOnJS(clearOrCloseKeys)();
-        }),
-    [clearOrCloseKeys],
+  // Only the upper, unobstructed picture switches broadcasts. Chat owns its
+  // scroll gestures, and a downward swipe below the picture still clears it.
+  const browseLive = ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
+  const { data: broadcasts } = useQuery({
+    ...liveStreamsQuery,
+    enabled: browseLive,
+    refetchInterval: browseLive ? 60_000 : false,
+  });
+  const blocksVersion = useBlockedAuthorsVersion();
+  const rooms = useMemo(
+    () => swipeRooms(liveStreamRows(broadcasts), isAuthorBlocked),
+    [broadcasts, blocksVersion],
   );
-  const hideGesture = useMemo(() => Gesture.Race(hidePan, hideTap), [hidePan, hideTap]);
+  const roomIndex = rooms.findIndex((room) => room.streamId === streamId);
+  const canSwitch = browseLive && rooms.length > 1 && roomIndex >= 0;
+  const switching = useRef(false);
+  const switchRoom = useCallback((direction: 1 | -1) => {
+    if (!canSwitch || switching.current || !navigation.isFocused()) return;
+    const index = (roomIndex + direction + rooms.length) % rooms.length;
+    switching.current = true;
+    navigation.replace(ScreenNames.LiveViewer, rooms[index]);
+  }, [canSwitch, navigation, roomIndex, rooms]);
+
+  const makeClearTap = useCallback(() => Gesture.Tap().maxDistance(10)
+    .onEnd((_e, success) => {
+      "worklet";
+      if (success) runOnJS(clearOrCloseKeys)();
+    }), [clearOrCloseKeys]);
+  const pictureGesture = useMemo(() => {
+    const tap = makeClearTap();
+    if (!canSwitch) return tap;
+    const pan = Gesture.Pan().maxPointers(1)
+      .activeOffsetY([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
+      .failOffsetX([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
+      .onEnd((e, success) => {
+        "worklet";
+        const distance = Math.abs(e.translationY);
+        if (success && distance > LIVE_HIDE_SWIPE && distance > Math.abs(e.translationX)) {
+          runOnJS(switchRoom)(e.translationY < 0 ? 1 : -1);
+        }
+      });
+    return Gesture.Race(pan, tap);
+  }, [canSwitch, makeClearTap, switchRoom]);
+  const hideGesture = useMemo(() => Gesture.Race(hidePan, makeClearTap()), [hidePan, makeClearTap]);
 
   // Rotate, only while cleared. The binary already ships expo-screen-orientation
   // (the old immersive mode used it); a failed lock just leaves the layout as is.
@@ -1681,8 +1723,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const rewardsQuery = useQuery({
     queryKey: ["live-rewards", streamId],
     queryFn: () => getStreamRewards(streamId!),
-    enabled: pointsEnabled,
+    enabled: !!streamId && isLiveEffective,
     staleTime: 60_000,
+    refetchInterval: isLiveEffective ? 60_000 : false,
   });
   const queryClient = useQueryClient();
   const [rewardsOpen, setRewardsOpen] = useState(false);
@@ -1691,6 +1734,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     void rewardsQuery.refetch();
     setRewardsOpen(true);
   }, [rewardsQuery]);
+  const myAddress = String(user?.walletAddress || user?.address || "").toLowerCase();
   // A redemption is a line in the room; a creator editing rewards mid-stream refetches them.
   useEffect(() => {
     if (!streamId) return;
@@ -1698,6 +1742,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       if (String(data?.streamId || "") !== String(streamId)) return;
       const r = data?.redemption;
       if (!r || typeof r.title !== "string") return;
+      void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
       addActivity({
         status: "SYSTEM",
         address: String(r.viewer?.address || "").toLowerCase(),
@@ -1714,8 +1759,32 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     const offRewards = socketOn("stream.rewards.updated", (data: any) => {
       if (String(data?.streamId || "") === String(streamId)) void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
     }) || (() => {});
-    return () => { offReward(); offRewards(); };
-  }, [streamId, socketOn, addActivity, queryClient]);
+    // One viewer gave another channel points: a line in the room.
+    const offGift = socketOn("stream.points.gift", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const g = data?.gift;
+      const amount = Math.round(Number(g?.amount) || 0);
+      if (!g || amount <= 0) return;
+      if (String(g.to?.address || "").toLowerCase() === myAddress) void queryClient.invalidateQueries({ queryKey: ["live-points", streamId] });
+      addActivity({
+        status: "SYSTEM",
+        address: String(g.from?.address || "").toLowerCase(),
+        user: g.from,
+        meta: {
+          kind: "pointsGift",
+          pointsAmount: amount,
+          recipientName: g.to?.displayName || g.to?.username || String(g.to?.address || "").slice(0, 6),
+          username: g.from?.displayName || g.from?.username,
+          avatarImageUrl: g.from?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    return () => { offReward(); offRewards(); offGift(); };
+  }, [streamId, socketOn, addActivity, queryClient, myAddress]);
+  const giving = rewardsQuery.data?.live && rewardsQuery.data.giving.enabled ? rewardsQuery.data.giving : null;
+  const givingCreator = (rewardsQuery.data?.creator || "").toLowerCase();
+  const [giveTarget, setGiveTarget] = useState<GiveTarget | null>(null);
+  const [giveOpen, setGiveOpen] = useState(false);
   const [giftOpen, setGiftOpen] = useState(false);
   const handleGiftPress = useCallback(() => {
     if (!isLiveEffective) return;
@@ -1746,6 +1815,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
   // One list for the chat overlay: the room's messages, plus the join/gift/
   // system moments the livestream socket still carries.
+  // Lines this viewer removed with "Delete for me", as in Public Chat.
+  const hiddenLines = useHiddenLines(String(user?.walletAddress || user?.address || "").toLowerCase() || null);
   const chatActivities = useMemo<Activity[]>(() => {
     // One "joined" per viewer, and it is the FIRST one. The socket re-emits
     // JoinStream on every reconnect and every background/foreground, and
@@ -1766,7 +1837,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if ((isLiveEffective || isEndedEffective) && !moments.some((a) => a.status === StreamActivityType.START)) {
       moments.unshift({ status: StreamActivityType.START, createdAt: 0 });
     }
-    const messages: Activity[] = liveChat.messages.map((m) => ({
+    const messages: Activity[] = liveChat.messages.filter((m) => !hiddenLines.has(m._id)).map((m) => ({
       id: m._id,
       status: StreamActivityType.MESSAGE,
       address: (m.senderAddress || m.sender?.address || "").toLowerCase(),
@@ -1804,7 +1875,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       if (b.status === StreamActivityType.START) return 1;
       return a.createdAt - b.createdAt;
     });
-  }, [activities, liveChat.messages, isLiveEffective, isEndedEffective]);
+  }, [activities, liveChat.messages, isLiveEffective, isEndedEffective, hiddenLines]);
 
   // The line a held "Reply" answers; shown over the composer until sent or cleared.
   const [replyingTo, setReplyingTo] = useState<{ id: string; name: string; content: string } | null>(null);
@@ -1890,6 +1961,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const heldId = held?.activity.id;
   // The viewer's own line whose "who reacted" list is open.
   const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  // Every emoji (the arrow after the quick reactions), and Delete's question.
+  const [moreFor, setMoreFor] = useState<string | null>(null);
+  const [deleteRequest, setDeleteRequest] = useState<DeleteRequest | null>(null);
   const closeReactors = useCallback(() => setReactorsFor(null), []);
   const heldMessage = heldId ? liveChat.messages.find((m) => m._id === heldId) : undefined;
   const heldAddress = String(held?.activity.user?.address || held?.activity.address || "").toLowerCase();
@@ -1918,6 +1992,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       key: "copy", icon: "Copy", label: t("common.copy"),
       onPress: () => { copyToClipboard(heldText); setHeld(null); },
     });
+    // Channel points giving, when the creator has it on.
+    if (giving && pointsEnabled && heldAddress && heldAddress !== me && heldAddress !== givingCreator) holdTiles.push({
+      key: "give-points", icon: "Star", label: t("livePoints.give.title"),
+      onPress: () => {
+        const target = { to: held.activity.user?.username || heldAddress, name: heldName || heldAddress.slice(0, 6) };
+        setHeld(null);
+        if (modTimer.current) clearTimeout(modTimer.current);
+        modTimer.current = setTimeout(() => { setGiveTarget(target); setGiveOpen(true); }, 350);
+      },
+    });
     if (postTokenId != null && canLinkMessage(heldId)) holdTiles.push({
       key: "copy-link", icon: "Link", label: copyLinkLabel(),
       onPress: () => { copyChatMessageLink({ kind: "stream", tokenId: postTokenId }, heldId!); setHeld(null); },
@@ -1939,6 +2023,25 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         setHeld(null);
         if (modTimer.current) clearTimeout(modTimer.current);
         modTimer.current = setTimeout(() => openMessageReport(report), 350);
+      },
+    });
+    // Delete, as in Public Chat: your own line, or any line for the creator
+    // and their moderators, for everyone; anyone can take a line off their own screen.
+    if (isSignedIn && heldId) holdTiles.push({
+      key: "delete", icon: "Trash2", label: t("common.delete"), destructive: true, secondary: true,
+      onPress: () => {
+        const id = heldId;
+        const forEveryone = heldAddress === me || canModerate;
+        setHeld(null);
+        if (modTimer.current) clearTimeout(modTimer.current);
+        modTimer.current = setTimeout(() => setDeleteRequest(resolveDelete({
+          count: 1,
+          canDeleteForEveryone: forEveryone,
+          onDelete: (scope) => {
+            if (scope === "everyone" && forEveryone) liveChat.deleteMessage(id);
+            else hideLineForMe(me, id);
+          },
+        })), 350);
       },
     });
     if (heldCanModerate) holdTiles.push({
@@ -2087,7 +2190,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             picture, so the chat and buttons above keep their own touches. */}
         {!chromeHidden && (
           <>
-            <GestureDetector gesture={hideTap}>
+            <GestureDetector gesture={pictureGesture}>
               <View
                 collapsable={false}
                 style={{ position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
@@ -2164,8 +2267,20 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <HypeTrainBar streamId={streamId} socketOn={socketOn} style={{ marginHorizontal: EDGE, marginTop: 8 }} />
               ) : null}
 
-              {/* Middle area - transparent, shows video */}
-              <View className="flex-1" pointerEvents="box-none" />
+              {/* Middle area - transparent, shows video. The creator's stream
+                  pet sits at its foot on the right, above the room, for
+                  everyone watching; a tap opens its card and the snack button. */}
+              <View className="flex-1" pointerEvents="box-none" style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingHorizontal: EDGE, paddingBottom: 8 }}>
+                {streamId && isLiveEffective && !isEndedEffective ? (
+                  <StreamPetCorner
+                    streamId={streamId}
+                    socketOn={socketOn}
+                    own={!!myAddress && myAddress === giftCreatorAddress}
+                    signedIn={isSignedIn}
+                    onSignIn={() => requireAuth?.(() => undefined)}
+                  />
+                ) : null}
+              </View>
   
               {/* Bottom section: shop + chat + reactions + input */}
               <View pointerEvents="box-none" style={{ paddingBottom: EDGE + 10, flexShrink: 1, minHeight: 0 }}>
@@ -2195,6 +2310,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <Animated.View style={holdLiftStyle} pointerEvents="box-none">
                   <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} myAddress={me} onShowReactors={setReactorsFor} highlightId={linkLitId} />
                 </Animated.View>
+                {isLiveEffective && rewardsQuery.data?.live && <StreamChatRewards summary={rewardsQuery.data} />}
                 <SettingsOptionModal
                   visible={!!lineMenu}
                   onClose={() => setLineMenu(null)}
@@ -2222,8 +2338,31 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onReaction={handleHeldReaction}
                   tiles={holdTiles}
                   summary={heldSummary}
+                  onMore={heldReactions ? () => {
+                    const id = heldId ?? null;
+                    setHeld(null);
+                    if (modTimer.current) clearTimeout(modTimer.current);
+                    modTimer.current = setTimeout(() => setMoreFor(id), 350);
+                  } : undefined}
+                  scrollActions
                   onLift={handleHoldLift}
                 />
+                <EmojiSheet
+                  visible={!!moreFor}
+                  onClose={() => setMoreFor(null)}
+                  selected={moreFor && me
+                    ? Object.entries(liveChat.messages.find((m) => m._id === moreFor)?.reactions ?? {})
+                        .filter(([, who]) => who?.some((a) => a?.toLowerCase() === me))
+                        .map(([emoji]) => emoji)
+                    : undefined}
+                  onSelect={(emoji) => {
+                    if (!moreFor) return;
+                    const mine = !!me && (liveChat.messages.find((m) => m._id === moreFor)?.reactions?.[emoji] ?? []).some((a) => a?.toLowerCase() === me);
+                    if (mine) liveChat.removeReaction(moreFor, emoji);
+                    else liveChat.addReaction(moreFor, emoji);
+                  }}
+                />
+                <DeleteMessageSheet request={deleteRequest} onClose={() => setDeleteRequest(null)} />
 
                 {/* Say something, or do something: one row of it. */}
                 <LiveViewerActionBar
@@ -2407,6 +2546,21 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           balance={pointsQuery.data}
           rewards={rewardsQuery.data?.rewards ?? []}
           loading={rewardsQuery.isLoading}
+          onGive={giving ? () => {
+            setRewardsOpen(false);
+            if (modTimer.current) clearTimeout(modTimer.current);
+            modTimer.current = setTimeout(() => { setGiveTarget(null); setGiveOpen(true); }, 350);
+          } : undefined}
+        />
+      ) : null}
+      {giveOpen && streamId && giving ? (
+        <GivePointsSheet
+          visible={giveOpen}
+          onClose={() => setGiveOpen(false)}
+          streamId={streamId}
+          balance={pointsQuery.data?.balance}
+          dailyCap={giving.dailyCap}
+          target={giveTarget}
         />
       ) : null}
       {giftSubsOpen && giftCreatorAddress ? (

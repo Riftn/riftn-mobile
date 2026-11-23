@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, StyleSheet, Text, View, type TextStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
@@ -29,6 +29,8 @@ import type { LoginLook } from "../../libs/login-look";
 const WORDMARK = require("../../assets/login-stack/wordmark.png");
 /** Pre-lit wordmark (letters + glow, 20pt of room each side), tinted for the halo. */
 const HALO = require("../../assets/login-stack/neon-white.png");
+/** The wordmark blurred, with 20pt of room each side: Flat's soft shadow. */
+const SHADE = require("../../assets/login-stack/wordmark-shade.png");
 const DOTS = require("../../assets/login-stack/led-dots.png");
 const DOTS_SMALL = require("../../assets/login-stack/led-dots-small.png");
 
@@ -118,7 +120,9 @@ function Lines({ pitch, height, colors, locations }: { pitch: number; height: nu
 const ROLL_MS: Partial<Record<LoginLook, number>> = { tube: 6000, vhs: 3000, led: 2400, holo: 2000 };
 
 /** The colours of the three solid looks (neon, 3d, flat), as on web. */
-type Solid = { face: [string, string]; glow: string | null; side: [string, string] | null };
+type Solid = { face: [string, string]; glow: string | null; side: [string, string] | null; shade?: Shade };
+/** Flat's finish, as on the desktop logo: a 1pt darker lip and a soft shadow below. */
+type Shade = { lip: string; shadow: number };
 function solidColors(look: LoginLook, theme: string, isLight: boolean, p: Palette): Solid {
   if (look === "neon") {
     const neon = isLight ? "#E0249A" : theme === "hazy" ? "#B48CFF" : theme === "osaka" ? "#FF5FAE" : "#FF4FD8";
@@ -133,7 +137,10 @@ function solidColors(look: LoginLook, theme: string, isLight: boolean, p: Palett
       : ["#C9CCD6", "#4A4C57", "#23242B"];
     return { face: ["#FFFFFF", low], glow: null, side: [side, sideLow] };
   }
-  return { face: [p.ink, p.ink], glow: null, side: null };
+  const shade: Shade = isLight
+    ? { lip: "rgba(0,0,0,0.22)", shadow: 0.22 }
+    : { lip: mix(p.ink, "#8A8F99", 0.45), shadow: 0.65 };
+  return { face: [p.ink, p.ink], glow: null, side: null, shade };
 }
 const SOLID: LoginLook[] = ["neon", "3d", "flat"];
 /** How deep the 3D letters are, in 1pt steps. */
@@ -201,7 +208,21 @@ function headlineStyle(look: LoginLook): TextStyle {
 /** The sign itself: wordmark above the headline. Drawn twice for the VHS tear. */
 function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Palette; text: string; roll: Animated.Value; copy?: boolean; solid?: Solid }) {
   const { t } = useTranslation();
-  const hl = headlineStyle(look);
+  const base = headlineStyle(look);
+  // Each headline line stays on one line: the letters shrink to fit the
+  // width (in every language) instead of a line breaking in two.
+  const [boxW, setBoxW] = useState(0);
+  const [natural, setNatural] = useState(0);
+  const fit = boxW && natural ? Math.min(1, (boxW - 2) / natural) : 1;
+  const hl = fit < 1 ? {
+    ...base,
+    fontSize: (base.fontSize ?? 30) * fit,
+    lineHeight: (base.lineHeight ?? 32) * fit,
+    letterSpacing: (base.letterSpacing ?? 0) * fit,
+  } : base;
+  const [late, setLate] = useState(false);
+  useEffect(() => { const id = setTimeout(() => setLate(true), 250); return () => clearTimeout(id); }, []);
+  const measured = (!!boxW && !!natural) || late;
   const lines = text.split("\n").length;
   const textH = (hl.lineHeight ?? 32) * lines;
   const edges = look === "vhs";
@@ -216,6 +237,12 @@ function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Pa
       <View style={styles.mark} pointerEvents="none" {...(copy ? hidden : { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: t("maintenance.brand") })}>
         {halo && (
           <Image source={HALO} resizeMode="contain" style={[styles.halo, { tintColor: glow!, opacity: look === "neon" ? 0.95 : look === "holo" ? 0.42 : 0.3 }]} {...hidden} />
+        )}
+        {solid?.shade && (
+          <>
+            <Image source={SHADE} resizeMode="contain" style={[styles.halo, { tintColor: "#000000", opacity: solid.shade.shadow, transform: [{ translateY: 6 }] }]} {...hidden} />
+            <Image source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: solid.shade.lip, transform: [{ translateY: 1 }] }]} {...hidden} />
+          </>
         )}
         {depth.map((step) => (
           <Image key={step} source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: sideAt(step), transform: [{ translateX: step }, { translateY: step }] }]} {...hidden} />
@@ -238,7 +265,35 @@ function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Pa
           </MaskedView>
         )}
       </View>
-      <View>
+      <View
+        onLayout={(e) => { const w = Math.round(e.nativeEvent.layout.width); if (w !== boxW) setBoxW(w); }}
+        // Hidden for the one frame before the fit is known, so a line is never seen breaking.
+        style={measured ? null : { opacity: 0 }}
+      >
+        {/* Measures each line at full size, unwrapped. */}
+        <View style={styles.measure} pointerEvents="none" {...hidden}>
+          <Text
+            style={[styles.text, base, { alignSelf: "flex-start" }]}
+            onLayout={(e) => { const w = Math.ceil(e.nativeEvent.layout.width); if (w && w !== natural) setNatural(w); }}
+          >
+            {text}
+          </Text>
+        </View>
+        {solid?.shade && (
+          // The lip, carrying the soft shadow so it sits under the letters.
+          <Text
+            style={[
+              styles.text, hl, styles.edge, styles.shadeRoom,
+              {
+                color: solid.shade.lip, transform: [{ translateY: 1 }],
+                textShadowColor: `rgba(0,0,0,${solid.shade.shadow})`, textShadowOffset: { width: 0, height: 5 }, textShadowRadius: 14,
+              },
+            ]}
+            {...hidden}
+          >
+            {text}
+          </Text>
+        )}
         {depth.map((step) => (
           <Text key={step} style={[styles.text, hl, styles.edge, { color: sideAt(step), transform: [{ translateX: step }, { translateY: step }] }]} {...hidden}>{text}</Text>
         ))}
@@ -413,8 +468,10 @@ const styles = StyleSheet.create({
   text: { color: "#FFFFFF", textAlign: "center" },
   glowRoom: { paddingVertical: 12, marginVertical: -12 },
   edge: { position: "absolute", left: 0, right: 0, top: 0 },
+  shadeRoom: { top: -12, paddingVertical: 12 },
   maskText: { color: "#000000" },
   roll: { position: "absolute", left: 0, right: 0, top: 0 },
+  measure: { position: "absolute", left: 0, top: 0, width: 2000, opacity: 0, alignItems: "flex-start" },
   band: { position: "absolute", left: 0, right: 0, top: 0 },
   tearClip: { position: "absolute", left: -40, right: -40, top: 0, height: TEAR_H, overflow: "hidden" },
   tearCopy: { position: "absolute", left: 40, right: 40, top: 0 },

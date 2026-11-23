@@ -3,6 +3,7 @@ import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-n
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { rememberGalleryIndex } from "../../libs/media-presentation";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming, type SharedValue } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -58,8 +59,9 @@ export function themeFoil(theme: string): Foil {
   return FOILS[theme] ?? GOLD;
 }
 
-function ComicDeck({ images, captions, descriptions, title, width, onOpen, full = false, border, active = true }: {
+function ComicDeck({ images, galleryKey, captions, descriptions, title, width, onOpen, full = false, border, active = true }: {
   images: string[];
+  galleryKey?: string;
   captions?: string[];
   descriptions?: string[];
   title?: string;
@@ -82,6 +84,7 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
   const pagerRef = usePagerGestureRef();
   const total = images.length;
   const [index, setIndex] = useState(0);
+  useEffect(() => { if (galleryKey) rememberGalleryIndex(galleryKey, index); }, [galleryKey, index]);
   const [flipped, setFlipped] = useState(false);
   const [reading, setReading] = useState(false);
   const [ratio, setRatio] = useState(() => coverRatios.get(images[0]) ?? 0.75);

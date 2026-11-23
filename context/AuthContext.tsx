@@ -840,15 +840,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           // timeout because a hung restore would leave the snapshot guard set
           // and every later tracking write blocked.
           const { supabase } = await import('../services/supabase');
-          await Promise.race([
-            supabase.auth.setSession({
-              access_token: plan.supabase.access_token,
-              refresh_token: plan.supabase.refresh_token,
-            }),
-            new Promise<never>((_, reject) =>
-              setTimeout(() => reject(new Error('Supabase session restore timed out')), 10_000)
-            ),
-          ]);
+          const { restoreSavedSession } = await import('../libs/supabase-session');
+          await restoreSavedSession(supabase.auth.setSession(plan.supabase), plan.uid);
         }
         // Prove the restored session before showing it. A saved login the server
         // has since refused would otherwise flash in as "Switched account", run
@@ -887,6 +880,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return true;
       } catch (e) {
         log.warn('switchToProfile:failed', e as any);
+        // Release builds only keep errors in the device log; the reason is what
+        // a failed switch has to be diagnosed from.
+        console.error('[switchToProfile] failed:', String((e as any)?.message ?? e));
         await abortProfileSwitch(prevId);
         await rehydrateFromStorage();
         // A refused session also asks for sign-in; someone who was signed in

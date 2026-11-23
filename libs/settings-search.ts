@@ -54,6 +54,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
 
   // Appearance
   { tab: 'appearance', anchor: 'theme', label: 'Theme', labelKey: 'settings.theme', keywords: 'minimal look style dark black square flat cosmic hazy nights swarms lava lamp winter war osaka jungle background animated' },
+  { tab: 'appearance', anchor: 'messages-pills', label: 'Pill tabs in Messages', labelKey: 'settings.messagesPills', keywords: 'messages inbox chat list tabs pills chips filled black white round unread badge count redesign clean' },
   { tab: 'appearance', anchor: 'theme-color', label: 'Theme Color', labelKey: 'settings.themeColor', keywords: 'hue colour color accent brand rainbow tint' },
   { tab: 'appearance', anchor: 'login-look', label: 'Sign-in screen', labelKey: 'settings.loginLook.title', keywords: 'login sign in screen logo animation look tube tv vhs led wall hologram neon glow 3d flat plain retro scan lines slogan' },
   { tab: 'appearance', anchor: 'arrival-look', label: 'After you sign in', labelKey: 'settings.arrivalLook.title', keywords: 'after sign in login welcome animation rift trace picture frame orbit arrival loading profile photo' },
@@ -88,6 +89,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   { tab: 'privacy', anchor: 'default-profile-view', label: 'Profile posts layout', labelKey: 'settings.defaultProfileView', keywords: 'grid list view layout profile posts tiles visitors' },
   { tab: 'privacy', anchor: 'reader-profile-view', label: 'Open other profiles as', labelKey: 'settings.readerProfileView', keywords: 'grid list view layout other profiles open everyone' },
   { tab: 'privacy', anchor: 'show-online', label: "Show when I'm online", labelKey: 'settings.showOnline', keywords: 'online status presence green dot active messages' },
+  { tab: 'privacy', anchor: 'show-last-seen', label: 'Show when I was last seen', labelKey: 'settings.showLastSeen', keywords: 'last seen active ago online status privacy son görülme son görünme görülme ultima vez visto vu dernière connexion laatst gezien آخر ظهور' },
   { tab: 'privacy', anchor: 'show-likes', label: 'Show my likes to everyone', labelKey: 'settings.showLikes', keywords: 'likes liked posts thumbs up hearts profile tab public private hide' },
   { tab: 'privacy', anchor: 'show-dislikes', label: 'Show my dislikes to everyone', labelKey: 'settings.showDislikes', keywords: 'dislikes thumbs down disliked posts profile tab public private' },
   { tab: 'privacy', anchor: 'ai-scraping', label: 'Allow AI training', labelKey: 'settings.aiScraping.label', keywords: 'ai scraping training llm crawler bot noai' },

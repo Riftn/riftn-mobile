@@ -9,7 +9,8 @@ import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu, type ProfileImageKind } from "./ProfileImageMenu";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import LiquidGlass from "../ui/LiquidGlass";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useOwnAvatarTarget } from "../../libs/signInHandoff";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { openBadgePromotion, openBadgeShowcase } from "../../libs/badgeShowcase";
 import { useTranslation } from "react-i18next";
@@ -28,12 +29,14 @@ import {
   resolveBadgeUsername,
 } from "../../libs/misc";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
+import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import { useBadgeCeremony } from "../../hooks/useBadgeCeremony";
 import { ensProfileUrl } from "../../libs/ens-handle";
 import { truncateAddress } from "../../libs/strings.util";
 import { formatJoinedDate } from "../../libs/date.util";
-import { formatNumber, resolveCount } from "../../libs/numbers.util";
+import { resolveCount } from "../../libs/numbers.util";
+import { formatCount } from "../../libs/format-count";
 import { shareProfile } from "../../libs/misc";
 import CopyAddressSheet from "../Wallet/CopyAddressSheet";
 import * as ImagePicker from "expo-image-picker";
@@ -53,7 +56,11 @@ import { ShareLinks } from "../../navigation/linking.config";
 import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
+import EarlySupporterChip from "../common/EarlySupporterChip";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
+import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
+import MomentArchive from "./MomentArchive";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
@@ -62,7 +69,8 @@ import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList from "./ProfileFieldsList";
-import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { readAccountCategory } from "../../libs/account-type";
 
 // Minimal header buttons: no glass slab, just a 1px outline, and a 44pt box so
 // losing the padded pill does not shrink the tap target.
@@ -162,6 +170,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   const aboutText = (user?.aboutMe || "").trim();
 
+  const [shareDmOpen, setShareDmOpen] = useState(false);
   const handleShare = useCallback(async () => {
     const profileSlug = username || address;
     if (!profileSlug) return;
@@ -271,6 +280,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   // Hold the picture or banner: Change, Paste, Copy, Delete.
   const imageMenu = useProfileImageMenu();
+  // A log-in landing here sends the account's picture into this one.
+  const ownAvatarRef = useRef<View>(null);
+  const ownAvatarHidden = useOwnAvatarTarget(ownAvatarRef, Math.round(96 * 0.16), useIsFocused());
   const removeImage = useCallback(
     async (kind: ProfileImageKind) => {
       const isAvatar = kind === "avatar";
@@ -295,6 +307,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   return (
     <View ref={profileRef} collapsable={false} onLayout={measureIdentity} className="w-full">
+      {shareDmOpen && (username || address) && (
+        <ShareToDmSheet visible url={ShareLinks.profile(username || address)} onClose={() => setShareDmOpen(false)} onSystemShare={handleShare} />
+      )}
       {/* Cover */}
       <TouchableOpacity
         activeOpacity={0.9}
@@ -352,6 +367,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         <View className="flex-row items-start justify-between" style={{ marginTop: -48 }}>
           <Animated.View ref={imageMenu.avatarRef as any} collapsable={false} style={avatarPop}>
             <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
+            <View ref={ownAvatarRef} collapsable={false} style={ownAvatarHidden ? { opacity: 0 } : undefined}>
             <Avatar
               uri={avatarUrl === "default-avatar" ? undefined : avatarUrl}
               name={displayName}
@@ -366,6 +382,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 )
               }
             />
+            </View>
             <TouchableOpacity
               onPress={startChangeAvatar}
               className="absolute right-0 bottom-0 dark-surface bg-black/60 rounded-lg p-1.5 border border-white/20"
@@ -394,7 +411,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 <Text className="text-white font-semibold text-[13px]">{t("screens.editProfile")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={handleShare}
+                onPress={() => setShareDmOpen(true)}
                 accessibilityLabel={t("profileOptions.shareProfile")}
                 activeOpacity={0.85}
                 className="items-center justify-center"
@@ -418,7 +435,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               </TouchableOpacity>
             </LiquidGlass>
             <TouchableOpacity
-              onPress={handleShare}
+              onPress={() => setShareDmOpen(true)}
               accessibilityLabel={t("profileOptions.shareProfile")}
               activeOpacity={0.85}
             >
@@ -490,6 +507,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             {/* A lent badge draws like any other badge everywhere else; this
                 is the one place that says whose it is. */}
             <BadgePatronChip lookupId={address} />
+            {/* One of their requests on the Requests board shipped. */}
+            <EarlySupporterChip address={address} username={user?.username} />
             {!!address && (
               <View className="flex-row items-center">
                 <Ionicons
@@ -516,14 +535,18 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
           {!!aboutText && (
             <View className="mt-3">
               {/* Your own bio is in your own words: no translate control, as on web. */}
-              <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{aboutText}</Text>
+              <ProfileBio text={aboutText} />
             </View>
           )}
 
+          {/* Creator or Business category, Instagram style. */}
+          {!!readAccountCategory(user?.customs as Record<string, unknown> | undefined) && (
+            <Text className="mt-2 text-sm text-zinc-400">{t(`accountType.cat.${readAccountCategory(user?.customs as Record<string, unknown> | undefined)}`)}</Text>
+          )}
           <ProfileFieldsList fields={(user as any)?.profileFields} />
           {localTime ? (
             <Text className="mt-1 text-sm text-zinc-400">
-              {t("profile.localTime", { defaultValue: "Local time {{time}}", time: localTime })}
+              {localTimeLine(t as never, localTime, user?.customs?.publicTimeZone)}
             </Text>
           ) : null}
 
@@ -532,13 +555,12 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <Text className="text-zinc-400 text-sm mt-3">{t("profile.joined")} {createdAtFormatted}</Text>
           )}
 
-          {/* Following / Followers: exact, with separators. "4.1K" left people
-              guessing their own count. */}
+          {/* Following / Followers: short (4.2K), the same as the list they open. */}
           <View className="flex-row flex-wrap items-center gap-4 mt-3">
             <TouchableOpacity onPress={() => goToFollowList("following")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatNumber(followingCount, 0)}
+                  {formatCount(followingCount)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.following")}</Text>
               </Text>
@@ -546,14 +568,14 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <TouchableOpacity onPress={() => goToFollowList("followers")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatNumber(followersCount, 0)}
+                  {formatCount(followersCount)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.followers")}</Text>
               </Text>
             </TouchableOpacity>
             {/* Riftn followers plus the creator's own figures for their linked
                 socials. Absent until a social carries a count. */}
-            <TotalReachPill source={user} followers={followersCount} />
+            <TotalReachPill wallet={address} source={user} followers={followersCount} />
             {/* The links ride at the end of the counts line and only wrap
                 below when the line is genuinely full. */}
             <ProfileLinksPill source={user} style={{ marginLeft: "auto" }} />
@@ -561,7 +583,10 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
           {/* The streamer ladder. Renders nothing until a stream has ended,
               so a non-streamer's profile is unchanged. */}
+          <MomentArchive key={address} />
           <StreamerLevelCard address={address} className="mt-4" />
+          {/* The creator's stream pet. Nothing until they hatch one. */}
+          <ProfilePetCard address={address} own className="mt-4" />
         </View>
       </View>
 

@@ -1,5 +1,63 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "E hide tey dem tap am", "scrub": "Push the video go front or back", "addMore": "Put photo or video", "coverAria": "Tap one frame make you set am as cover", "trimHint": "Pull the side dem make you cut am", "coverHint": "Tap one frame make e be cover", "uploadCover": "Put one cover picture", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Dem see e go straight away", "hideUntilTap": "Hide until tapped", "hidePrice": "Hide for back of price", "hidePriceBody": "E blur tey make dem pay you", "priceUnavailable": "No bi for dis chat", "priceLabelUsd": "Price", "priceHint": "Dèm di si am blur until dèm pay you. Locked items no bi end-to-end encrypted.", "timerOffBody": "I di stay for inside chat.", "timerViewBody": "I di komot for una two once dèm don si am.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover for {{value1}}", "lockedForUsd": "Open am for {{value1}}", "timerTimeBody": "I di komot for una two {{value1}} after you send am."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "hiddenUntilTap": "E hide tey dem tap am",
+    "scrub": "Push the video go front or back",
+    "addMore": "Put photo or video",
+    "coverAria": "Tap one frame make you set am as cover",
+    "trimHint": "Pull the side dem make you cut am",
+    "coverHint": "Tap one frame make e be cover",
+    "uploadCover": "Put one cover picture",
+    "mirrored": "Mirrored",
+    "original": "Original",
+    "rotate90": "Rotate 90°",
+    "timerOff": "Off",
+    "showNormally": "Show normally",
+    "showNormallyBody": "Dem see e go straight away",
+    "hideUntilTap": "Hide until tapped",
+    "hidePrice": "Hide for back of price",
+    "hidePriceBody": "E blur tey make dem pay you",
+    "priceUnavailable": "No bi for dis chat",
+    "priceLabelUsd": "Price",
+    "priceHint": "Dèm di si am blur until dèm pay you. Locked items no bi end-to-end encrypted.",
+    "timerOffBody": "I di stay for inside chat.",
+    "timerViewBody": "I di komot for una two once dèm don si am.",
+    "confirm": "Confirm",
+    "editItem": "Edit item {{value1}}",
+    "coverSet": "Cover for {{value1}}",
+    "lockedForUsd": "Open am for {{value1}}",
+    "timerTimeBody": "I di komot for una two {{value1}} after you send am.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 hour",
+      "43200": "12 hours",
+      "86400": "1 day",
+      "604800": "1 week",
+      "31536000": "1 year",
+      "view": "1 view"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 view"
+    },
+    "destructSecs": "{{n}} sec",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Border",
     "theme": "Theme",
@@ -2998,6 +3056,8 @@
     "pricing": "Price dem",
     "reorderReset": "Reset",
     "reorderHint": "Hold and drag any icon to rearrange am",
+    "reorderHintGroups": "Hold am, drag any icon make you arrange am, or put am for another tab make you move am.",
+    "moveGroupHint": "Drop am for anoda tab make e go deh",
     "groups": {
       "create": "Mek",
       "main": "Main",
@@ -7024,7 +7084,18 @@
       "moveRuleUp": "Carry di rule go up",
       "moveRuleDown": "Carry di rule come down",
       "deleteRule": "Delete di rule",
-      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post fo di community chat","sendMedia":"Send media","sendMediaHint":"Wen yu wok wit images na GIFs, yu go attach dem to di message, na so yu go send am.","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share community wit' pipo.","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit di community name and description",
+      "rights": {
+        "sendMessages": "Send messages",
+        "sendMessagesHint": "Post fo di community chat",
+        "sendMedia": "Send media",
+        "sendMediaHint": "Wen yu wok wit images na GIFs, yu go attach dem to di message, na so yu go send am.",
+        "embedLinks": "Embed links",
+        "embedLinksHint": "Show link previews",
+        "addMembers": "Add members",
+        "addMembersHint": "Share community wit' pipo.",
+        "createEvents": "Create events",
+        "createEventsHint": "Schedule community events",
+        "changeInfoMemberHint": "Edit di community name and description",
         "changeInfo": "Change di community info",
         "changeInfoHint": "Change di name, description, avatar and banner",
         "deleteMessages": "Delete messages dem",
@@ -7102,12 +7173,41 @@
       "noInvites": "M no invite link yet, but me go create one to invite pipo directly.",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hour time"},"slowModeOffHint": "Members go send message witout delay.",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 hour time"
+      },
+      "slowModeOffHint": "Members go send message witout delay.",
       "slowModeOnHint": "Membas go send one mesaji every {{label}}. Admins no dey exempt.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wen evriwan wan do here, unless admin tok say otherwise.",
       "slowModeTitle": "Slow mode",
-      "log": {"verbs":{"promote_admin":"Promot","demote_admin":"Demoted","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"removed","mute_member":"Mute.","unmute_member":"unmuted","approve_member":"approved","reject_member":"rejected","delete_message":"I no dey translate dat.","purge_messages":"M don dey delete all messeges from.","pin_message":"Pinsim message ya.","unpin_message":"Unpinim message ya","update_settings":"Update komuniti setin","create_invite":"I no get am.","revoke_invite":"Revok am invite link.","invite_used":"invited"},
+      "log": {
+        "verbs": {
+          "promote_admin": "Promot",
+          "demote_admin": "Demoted",
+          "transfer_ownership": "transferred ownership to",
+          "ban_member": "banned",
+          "unban_member": "unbanned",
+          "kick_member": "removed",
+          "mute_member": "Mute.",
+          "unmute_member": "unmuted",
+          "approve_member": "approved",
+          "reject_member": "rejected",
+          "delete_message": "I no dey translate dat.",
+          "purge_messages": "M don dey delete all messeges from.",
+          "pin_message": "Pinsim message ya.",
+          "unpin_message": "Unpinim message ya",
+          "update_settings": "Update komuniti setin",
+          "create_invite": "I no get am.",
+          "revoke_invite": "Revok am invite link.",
+          "invite_used": "invited"
+        },
         "forMinutes": "fo {{value}} min",
         "justNow": "jos nau",
         "minutesAgo": "{{value}}m ago",
@@ -13541,39 +13641,38 @@
       "none": "No direction",
       "reset": "Clear direction",
       "camera": {
-        "label": "Camera look",
         "0": "Digital cinema",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Large format",
-        "4": "Old camcorder"
+        "4": "Old camcorder",
+        "label": "Camera look"
       },
       "lens": {
-        "label": "Lens look",
         "0": "Spherical",
         "1": "Anamorphic",
         "2": "Old soft glass",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Lens look"
       },
       "focalLength": {
-        "label": "Focal length",
         "0": "18mm wide",
         "1": "24mm wide",
         "2": "35mm natural",
         "3": "50mm standard",
         "4": "85mm portrait",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Focal length"
       },
       "aperture": {
-        "label": "Depth of field",
         "0": "f/1.4 shallow well well",
         "1": "f/2.8 shallow",
         "2": "f/5.6 medium",
-        "3": "f/11 deep focus"
+        "3": "f/11 deep focus",
+        "label": "Depth of field"
       },
       "movement": {
-        "label": "Camera movement",
         "0": "Tripod wey no move",
         "1": "Slow dolly in",
         "2": "Slow dolly out",
@@ -13581,27 +13680,27 @@
         "4": "Turn round di subject",
         "5": "Handheld",
         "6": "Crane go up",
-        "7": "Slow pan"
+        "7": "Slow pan",
+        "label": "Camera movement"
       },
       "lighting": {
-        "label": "Lighting",
         "0": "Soft daylight",
         "1": "Golden hour",
         "2": "Low-key chiaroscuro",
         "3": "High-key studio",
         "4": "Neon practicals",
         "5": "Silhouette backlight",
-        "6": "Cloudy soft light"
+        "6": "Cloudy soft light",
+        "label": "Lighting"
       },
       "tempo": {
-        "label": "Shot tempo",
         "0": "One continuous shot",
         "1": "Calm action, no hurry",
         "2": "Action wit plenty energy",
-        "3": "Wild, chaotic action"
+        "3": "Wild, chaotic action",
+        "label": "Shot tempo"
       },
       "era": {
-        "label": "Era",
         "0": "1920s",
         "1": "1950s",
         "2": "1960s",
@@ -13609,10 +13708,10 @@
         "4": "1980s",
         "5": "1990s",
         "6": "Dis time",
-        "7": "Near future"
+        "7": "Near future",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Documentary",
         "1": "Drama",
         "2": "Film noir",
@@ -13620,26 +13719,27 @@
         "4": "Fantasy",
         "5": "Romantic comedy",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "performance": {
-        "label": "Performance",
         "0": "Happy",
         "1": "Sad",
         "2": "Worried",
         "3": "Confident",
         "4": "Wonder-struck",
         "5": "Calm and controlled",
-        "6": "Playful"
+        "6": "Playful",
+        "label": "Performance"
       },
       "palette": {
-        "label": "Color palette",
         "0": "Warm amber",
         "1": "Cool blue",
         "2": "Soft earth color dem",
         "3": "Pastel",
         "4": "High contrast monochrome",
-        "5": "Strong primary color dem"
+        "5": "Strong primary color dem",
+        "label": "Color palette"
       }
     },
     "audioNoSpeech": "Nemesis no dey find word for dat recording.",

@@ -99,6 +99,16 @@ it('returns actual transcript text without attempting binary decoding', async ()
   expect(FileSystem.writeAsStringAsync).not.toHaveBeenCalled();
 });
 
+it('requests plain multilingual words for a dictated post', async () => {
+  http.mockResolvedValue({ ok: true, json: async () => ({ text: ' Merhaba! ' }) });
+  const media = { uri: 'file:///dictation.m4a', name: 'dictation.m4a', mimeType: 'audio/mp4', size: 250 };
+  expect(await runCreatorAudio('', { task: 'transcribe', media, plainDictation: true }, 'alice')).toEqual({ transcript: 'Merhaba!' });
+  const [url, options] = http.mock.calls[0];
+  expect(url).toBe('https://backend.test/functions/v1/elevenlabs-transcribe');
+  expect(Object.fromEntries(options.body.parts)).toMatchObject({ diarize: 'false', tagAudioEvents: 'false' });
+  expect(Object.fromEntries(options.body.parts)).not.toHaveProperty('languageCode');
+});
+
 it('aborts an uncertain timed-out request without resubmitting it', async () => {
   jest.useFakeTimers();
   http.mockImplementation((_url, options) => new Promise((_resolve, reject) => options.signal.addEventListener('abort', () => reject(new Error('aborted')))));

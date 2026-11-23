@@ -20,6 +20,10 @@ export type ChatMenuProps = {
   onToggleEncryption?: () => void;
   /** Whether "Encrypt chat" is on for this chat. */
   encrypted?: boolean;
+  /** Send your messages in the other person's language, or stop. */
+  onToggleTranslateOut?: () => void;
+  /** Whether "Send in their language" is on for this chat. */
+  translateOut?: boolean;
   /** Toggle free access for the peer (creator only). */
   onToggleFreeAccess?: () => void;
   /** Report the person in this chat (App Review 1.2). */
@@ -58,6 +62,8 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
   onClearChat,
   onToggleEncryption,
   encrypted,
+  onToggleTranslateOut,
+  translateOut,
   onToggleFreeAccess,
   peerHasFreeAccess,
   isCreator,
@@ -102,6 +108,20 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
                     ? t('messages.encryptChatOff', { defaultValue: 'Turn off encryption' })
                     : t('messages.encryptChat', { defaultValue: 'Encrypt chat' })}
                   onPress={() => { onClose(); onToggleEncryption(); }}
+                />
+                <View className="h-[1px]" style={{ backgroundColor: colors.border }} />
+              </>
+            )}
+
+            {onToggleTranslateOut && (
+              <>
+                <MenuRow
+                  foreground={colors.foreground}
+                  icon="Languages"
+                  label={translateOut
+                    ? t('dm.translateOutOff', { defaultValue: 'Send as I type' })
+                    : t('dm.translateOut', { defaultValue: 'Send in their language' })}
+                  onPress={() => { onClose(); onToggleTranslateOut(); }}
                 />
                 <View className="h-[1px]" style={{ backgroundColor: colors.border }} />
               </>

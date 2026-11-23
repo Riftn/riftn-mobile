@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "封面", "trim": "修剪", "mirror": "镜像", "rotate": "旋转", "hide": "隐藏", "timer": "定时器", "close": "关闭", "photo": "照片", "remove": "删除", "pause": "暂停", "play": "播放视频", "hiddenUntilTap": "隐藏，直到他们点击", "scrub": "在视频中快速浏览", "addMore": "添加照片或视频", "coverAria": "点击帧以设置封面", "trimHint": "拖动两端进行修剪", "coverHint": "点击帧将其设为封面", "uploadCover": "上传封面图片", "mirrored": "已镜像", "original": "原始", "rotate90": "旋转90°", "timerOff": "关闭", "showNormally": "正常显示", "showNormallyBody": "他们会立即看到", "hideUntilTap": "隐藏，直到点击", "hideUntilTapBody": "模糊，直到他们点击", "hidePrice": "隐藏在价格后面", "hidePriceBody": "模糊，直到他们付费", "priceUnavailable": "不在此聊天中", "priceLabelUsd": "价格", "priceHint": "他们看到的内容是模糊的，直到他们付费给你。锁定的项目不是端到端加密的。", "timerOffBody": "它会保留在聊天中。", "timerViewBody": "一旦他们看到后，你们双方都会失去它。", "confirm": "确认", "editItem": "编辑项目 {{value1}}", "coverSet": "封面于 {{value1}}", "lockedForUsd": "解锁给 {{value1}}", "timerTimeBody": "发送后，你们双方都会失去 {{value1}}。"},
+  "dmVideo": {
+    "cover": "封面",
+    "trim": "修剪",
+    "mirror": "镜像",
+    "rotate": "旋转",
+    "hide": "隐藏",
+    "timer": "定时器",
+    "close": "关闭",
+    "photo": "照片",
+    "remove": "删除",
+    "pause": "暂停",
+    "play": "播放视频",
+    "hiddenUntilTap": "隐藏，直到他们点击",
+    "scrub": "在视频中快速浏览",
+    "addMore": "添加照片或视频",
+    "coverAria": "点击帧以设置封面",
+    "trimHint": "拖动两端进行修剪",
+    "coverHint": "点击帧将其设为封面",
+    "uploadCover": "上传封面图片",
+    "mirrored": "已镜像",
+    "original": "原始",
+    "rotate90": "旋转90°",
+    "timerOff": "关闭",
+    "showNormally": "正常显示",
+    "showNormallyBody": "他们会立即看到",
+    "hideUntilTap": "隐藏，直到点击",
+    "hideUntilTapBody": "模糊，直到他们点击",
+    "hidePrice": "隐藏在价格后面",
+    "hidePriceBody": "模糊，直到他们付费",
+    "priceUnavailable": "不在此聊天中",
+    "priceLabelUsd": "价格",
+    "priceHint": "他们看到的内容是模糊的，直到他们付费给你。锁定的项目不是端到端加密的。",
+    "timerOffBody": "它会保留在聊天中。",
+    "timerViewBody": "一旦他们看到后，你们双方都会失去它。",
+    "confirm": "确认",
+    "editItem": "编辑项目 {{value1}}",
+    "coverSet": "封面于 {{value1}}",
+    "lockedForUsd": "解锁给 {{value1}}",
+    "timerTimeBody": "发送后，你们双方都会失去 {{value1}}。",
+    "destruct": {
+      "60": "1 分钟",
+      "3600": "1 小时",
+      "43200": "12 小时",
+      "86400": "1 天",
+      "604800": "1 周",
+      "31536000": "1 年",
+      "view": "1 次观看"
+    },
+    "destructShort": {
+      "60": "1分钟",
+      "3600": "1小时",
+      "43200": "12小时",
+      "86400": "1天",
+      "604800": "1周",
+      "31536000": "1年",
+      "view": "1次观看"
+    },
+    "destructSecs": "{{n}} 秒",
+    "destructShortSecs": "{{n}}秒"
+  },
   "comicBorder": {
     "title": "边框",
     "theme": "主题",
@@ -2997,6 +3056,8 @@
     "premium": "高级版",
     "pricing": "价钱",
     "reorderHint": "按住并拖动任意图标进行重新排列",
+    "reorderHintGroups": "按住并拖动任意图标即可重新排列，或者将其拖到另一个标签页上以进行移动",
+    "moveGroupHint": "拖到另一个标签页里去移动它",
     "reorderReset": "重置",
     "groups": {
       "create": "发布",
@@ -7024,7 +7085,18 @@
       "moveRuleUp": "向上移动规则",
       "moveRuleDown": "向下移动规则",
       "deleteRule": "删除规则",
-      "rights": {"sendMessages":"发送消息","sendMessagesHint":"在社区聊天中发帖","sendMedia":"发送媒体","sendMediaHint":"附加图片和 GIF","embedLinks":"嵌入链接","embedLinksHint":"显示链接预览","addMembers":"添加成员","addMembersHint":"与他人分享社区","createEvents":"创建事件","createEventsHint":"安排社区活动","changeInfoMemberHint":"编辑社区名称和描述",
+      "rights": {
+        "sendMessages": "发送消息",
+        "sendMessagesHint": "在社区聊天中发帖",
+        "sendMedia": "发送媒体",
+        "sendMediaHint": "附加图片和 GIF",
+        "embedLinks": "嵌入链接",
+        "embedLinksHint": "显示链接预览",
+        "addMembers": "添加成员",
+        "addMembersHint": "与他人分享社区",
+        "createEvents": "创建事件",
+        "createEventsHint": "安排社区活动",
+        "changeInfoMemberHint": "编辑社区名称和描述",
         "changeInfo": "更改社区信息",
         "changeInfoHint": "编辑名称、描述、头像和横幅",
         "deleteMessages": "删除消息",
@@ -7101,12 +7173,41 @@
       "noInvites": "还没有邀请链接。创建一个直接邀请用户。",
       "permissionsUpdated": "权限更新",
       "slowModeUpdated": "慢模式更新",
-      "slowMode":{"off":"关闭","tenSeconds":"10秒","thirtySeconds":"30s","oneMinute":"1 分钟","fiveMinutes":"5分钟","fifteenMinutes":"15分钟","oneHour":"1小时"},"slowModeOffHint": "成员可以不受延迟发送消息。",
+      "slowMode": {
+        "off": "关闭",
+        "tenSeconds": "10秒",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 分钟",
+        "fiveMinutes": "5分钟",
+        "fifteenMinutes": "15分钟",
+        "oneHour": "1小时"
+      },
+      "slowModeOffHint": "成员可以不受延迟发送消息。",
       "slowModeOnHint": "成员每 {{label}} 可以发送一条消息。管理员除外。",
       "defaultPermissions": "默认成员权限",
       "defaultPermissionsHint": "除管理员权限外，所有人在这里都可以做的。",
       "slowModeTitle": "慢模式",
-      "log": {"verbs":{"promote_admin":"推广中","demote_admin":"降级","transfer_ownership":"转让了所有权","ban_member":"已禁用","unban_member":"已解禁","kick_member":"已删除","mute_member":"静音","unmute_member":"解除静音","approve_member":"获准","reject_member":"被拒绝","delete_message":"删除了来自","purge_messages":"删除了所有消息","pin_message":"贴了一条来自...的消息","unpin_message":"取消了一个消息","update_settings":"更新了社区设置","create_invite":"创建了邀请链接","revoke_invite":"撤销邀请链接","invite_used":"已邀请"},
+      "log": {
+        "verbs": {
+          "promote_admin": "推广中",
+          "demote_admin": "降级",
+          "transfer_ownership": "转让了所有权",
+          "ban_member": "已禁用",
+          "unban_member": "已解禁",
+          "kick_member": "已删除",
+          "mute_member": "静音",
+          "unmute_member": "解除静音",
+          "approve_member": "获准",
+          "reject_member": "被拒绝",
+          "delete_message": "删除了来自",
+          "purge_messages": "删除了所有消息",
+          "pin_message": "贴了一条来自...的消息",
+          "unpin_message": "取消了一个消息",
+          "update_settings": "更新了社区设置",
+          "create_invite": "创建了邀请链接",
+          "revoke_invite": "撤销邀请链接",
+          "invite_used": "已邀请"
+        },
         "justNow": "刚刚",
         "minutesAgo": "{{value}}m 前",
         "hoursAgo": "{{value}}h 前",
@@ -13612,53 +13713,52 @@
     "cinema": {
       "close": "关闭",
       "performance": {
-        "label": "性能",
         "0": "欢快",
         "1": "忧郁",
         "2": "焦虑",
         "3": "自信",
         "4": "惊叹",
         "5": "克制",
-        "6": "俏皮"
+        "6": "俏皮",
+        "label": "性能"
       },
       "title": "电影风格指导",
       "hint": "引导你下一张图片或视频的视觉风格。效果因模型而异。",
       "none": "不指定风格",
       "reset": "清除风格",
       "camera": {
-        "label": "摄影机质感",
         "0": "数字电影",
         "1": "35mm 胶片",
         "2": "16mm 胶片",
         "3": "大画幅",
-        "4": "复古摄像机"
+        "4": "复古摄像机",
+        "label": "摄影机质感"
       },
       "lens": {
-        "label": "镜头质感",
         "0": "球面镜头",
         "1": "变形宽银幕",
         "2": "复古柔焦镜",
         "3": "微距",
-        "4": "移轴"
+        "4": "移轴",
+        "label": "镜头质感"
       },
       "focalLength": {
-        "label": "焦距",
         "0": "18mm 广角",
         "1": "24mm 广角",
         "2": "35mm 自然",
         "3": "50mm 标准",
         "4": "85mm 人像",
-        "5": "135mm 长焦"
+        "5": "135mm 长焦",
+        "label": "焦距"
       },
       "aperture": {
-        "label": "景深",
         "0": "f/1.4 极浅",
         "1": "f/2.8 浅",
         "2": "f/5.6 适中",
-        "3": "f/11 深焦"
+        "3": "f/11 深焦",
+        "label": "景深"
       },
       "movement": {
-        "label": "摄影机运动",
         "0": "三脚架固定",
         "1": "缓慢推进",
         "2": "缓慢拉远",
@@ -13666,27 +13766,27 @@
         "4": "环绕主体",
         "5": "手持",
         "6": "摇臂升起",
-        "7": "缓慢摇摄"
+        "7": "缓慢摇摄",
+        "label": "摄影机运动"
       },
       "lighting": {
-        "label": "灯光",
         "0": "柔和日光",
         "1": "黄金时刻",
         "2": "低调明暗对比",
         "3": "高调影棚",
         "4": "霓虹实景光",
         "5": "剪影逆光",
-        "6": "阴天漫射"
+        "6": "阴天漫射",
+        "label": "灯光"
       },
       "tempo": {
-        "label": "镜头节奏",
         "0": "单一长镜头",
         "1": "平静从容的动作",
         "2": "动感有力的动作",
-        "3": "混乱狂热的动作"
+        "3": "混乱狂热的动作",
+        "label": "镜头节奏"
       },
       "era": {
-        "label": "年代",
         "0": "1920 年代",
         "1": "1950 年代",
         "2": "1960 年代",
@@ -13694,10 +13794,10 @@
         "4": "1980 年代",
         "5": "1990 年代",
         "6": "当代",
-        "7": "近未来"
+        "7": "近未来",
+        "label": "年代"
       },
       "genre": {
-        "label": "类型",
         "0": "纪录片",
         "1": "剧情",
         "2": "黑色电影",
@@ -13705,16 +13805,17 @@
         "4": "奇幻",
         "5": "浪漫喜剧",
         "6": "惊悚",
-        "7": "西部"
+        "7": "西部",
+        "label": "类型"
       },
       "palette": {
-        "label": "色调",
         "0": "暖琥珀",
         "1": "冷蓝",
         "2": "柔和大地色",
         "3": "粉彩",
         "4": "高对比黑白",
-        "5": "饱和三原色"
+        "5": "饱和三原色",
+        "label": "色调"
       }
     },
     "audioNoSpeech": "没有发现录音中的任何对话。",
@@ -17201,5 +17302,99 @@
     "promptCatchUp": "给我说说{{handle}}最近发了甚",
     "promptMessage": "帮我给{{handle}}写条消息",
     "promptAbout": "关于{{handle}}：{{question}}"
+  },
+  "hideReply": {
+    "hide": "隐藏回复",
+    "unhide": "取消隐藏",
+    "hiddenBadge": "已隐藏",
+    "hiddenTitle": "仅你和发布者可见",
+    "hiddenToast": "回复已隐藏。仅你和发布者可见",
+    "unhiddenToast": "回复已恢复可见",
+    "failed": "无法隐藏该回复"
+  },
+  "accountType": {
+    "title": "账户类型",
+    "hint": "创作者和企业账户会在你的名字下方显示类别。企业账户会增加一个“联系”按钮。所有功能对所有账户开放。",
+    "type": {
+      "personal": "个人",
+      "creator": "创作者",
+      "business": "企业"
+    },
+    "category": "类别",
+    "contactEmail": "公开联系邮箱",
+    "badEmail": "该邮箱格式不正确",
+    "save": "保存账户类型",
+    "saving": "正在保存…",
+    "saved": "账户类型已保存",
+    "saveFailed": "无法保存你的账户类型",
+    "contact": "联系方式",
+    "cat": {
+      "artist": "艺术家",
+      "musician": "音乐人",
+      "gamer": "游戏玩家",
+      "streamer": "主播",
+      "writer": "作家",
+      "podcaster": "播客主",
+      "educator": "教育工作者",
+      "athlete": "运动员",
+      "photographer": "摄影师",
+      "video_creator": "视频创作者",
+      "comedian": "喜剧演员",
+      "developer": "开发者",
+      "public_figure": "公众人物",
+      "other": "其他",
+      "brand": "品牌",
+      "shop": "商店",
+      "restaurant": "餐厅",
+      "cafe": "咖啡馆",
+      "agency": "代理机构",
+      "community": "社区",
+      "media": "媒体",
+      "app": "应用",
+      "project": "项目",
+      "nonprofit": "非营利组织",
+      "local_business": "本地商家"
+    }
+  },
+  "photoTags": {
+    "title": "标记人物",
+    "hint": "点击照片中人物所在的位置，然后选择他们的名字。",
+    "search": "搜索人物",
+    "remove": "移除标记",
+    "done": "完成",
+    "taggedCount": "已标记 {{value}}",
+    "showTags": "显示被标记的人",
+    "hideTags": "隐藏标记",
+    "saved": "标记已保存",
+    "saveFailed": "无法保存标记",
+    "removeMe": "将我从这张照片中移除",
+    "removedMe": "你的标记已被移除"
+  },
+  "quiz": {
+    "title": "测验",
+    "add": "添加测验",
+    "remove": "移除测验",
+    "taken": "{{value}} 参加了测验",
+    "questionOf": "第 {{n}} 题，共 {{total}} 题",
+    "pointsEach": "每题 {{points}} 分",
+    "badgeBoost": "你的徽章使你获得 {{x}} 倍积分",
+    "earnedToast": "答对 {{correct}} 题，共 {{total}} 题，加 {{points}} 分",
+    "noPointsToast": "答对 {{correct}} 题，共 {{total}} 题",
+    "answerFailed": "无法发送你的答案",
+    "resultPoints": "答对 {{correct}} 题，共 {{total}} 题，你获得了 {{points}} 分",
+    "result": "答对 {{correct}} 题，共 {{total}} 题",
+    "creatorNote": "你的测验。正确答案已标记；人们可以赚取你的频道积分。",
+    "writeFailed": "无法写入问题，请尝试其他词汇",
+    "topicPlaceholder": "用几句话描述你的测验",
+    "rewrite": "重新编写",
+    "write": "编写问题",
+    "editorHint": "发布前请检查每一道题。每人只有一次机会。",
+    "questionPlaceholder": "问题",
+    "removeQuestion": "移除问题",
+    "markRight": "正确答案",
+    "optionPlaceholder": "答案 {{n}}",
+    "addQuestion": "添加问题",
+    "pointsLabel": "每道题的积分",
+    "attachFailed": "你的帖子已发布，但无法添加测验"
   }
 }

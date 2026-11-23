@@ -53,12 +53,15 @@ import DmFeeBanner from "../components/DM/DmFeeBanner";
 import DmEncryptionBanner from "../components/DM/DmEncryptionBanner";
 import DmSafetyBanner from "../components/DM/DmSafetyBanner";
 import MessageRequestBar from "../components/DM/MessageRequestBar";
+import { collapsedUnreadableRows } from "../libs/dm-e2ee/collapsed-unreadable";
 import { DmUndecryptableRun } from "../components/DM/DmLockedState";
 import { useChatPrefs } from "../hooks/useChatPrefs";
 import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
 import PollCard from "../components/DM/PollCard";
 import CreatePollSheet from "../components/DM/CreatePollSheet";
+import NotesSheet from "../components/DM/NotesSheet";
+import { ScreenNames } from "../navigation/ScreenNames";
 import { ScheduledMessagesSheet, ScheduledStrip, scheduledDmKey, useScheduledDms, useWhenLabel } from "../components/DM/ScheduledMessages";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
 import { scheduleDm } from "../services/dm/dm.scheduled";
@@ -70,6 +73,8 @@ import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comme
 import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
+import { useIsOnline } from "../libs/online-presence";
+import { getShowLastSeen, lastSeenWhen, useLastSeen } from "../libs/last-seen";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
 import AssistantDmButtons from "../components/DM/AssistantDmButtons";
 import { isAssistantAddress } from "../libs/assistant";
@@ -139,8 +144,11 @@ import { dmSendQueue } from "../services/dm/dm.send";
 import { ensureDmEncryption, retryDmEncryption, type DmEncryptionStatus } from "../libs/dm-e2ee/setup";
 import { decryptIncoming } from "../libs/dm-e2ee/peer";
 import { onIdentityChange, prepareOutgoing } from "../libs/dm-e2ee/keys";
+import { languageName, peerLanguage, translateOutgoing } from "../libs/dm-translate-out";
+import { ensureAiConsent, hasAiConsent } from "../libs/ai-consent";
+import { getUserLanguage } from "../services/translation.service";
 import { getAccount, isFollowing as checkIsFollowing } from "../services/user.service";
-import { useProfileLocalTime } from "../hooks/useProfileLocalTime";
+import { localTimeLine, useProfileLocalTime } from "../hooks/useProfileLocalTime";
 import { blockUser, unblockUser } from "../services/block.service";
 import { truncateAddress } from "../libs/strings.util";
 import { dmDraftKey } from "../libs/draft-cache";
@@ -198,7 +206,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const navigation = useNavigation<any>();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // A banned account keeps every conversation it has and can send into none.
   const { isBanned: accountBanned } = useBannedAccount();
   const { patchUser } = useAuthActions();
@@ -378,6 +386,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   // Poll
   const [pollSheetVisible, setPollSheetVisible] = useState(false);
+  const [notesVisible, setNotesVisible] = useState(false);
 
   // Sending state — true while any job in the queue targets this conversation
   // (We keep this simple: the queue processes serially, so any active job = sending)
@@ -468,9 +477,33 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const peerLocalTime = useProfileLocalTime(
     target?.address?.toLowerCase() === peer.address?.toLowerCase() ? target?.customs?.publicTimeZone : undefined,
   );
+  // "Last seen 5 min ago", only for someone who opted in (libs/last-seen),
+  // and not while their online dot is showing.
+  const peerCustoms = useMemo(() => {
+    if (target?.address?.toLowerCase() !== peer.address?.toLowerCase()) return null;
+    const raw = (target as any)?.customs;
+    if (typeof raw !== "string") return raw ?? null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }, [target, peer.address]);
+  const peerLastSeenOptIn = getShowLastSeen(peerCustoms);
+  const peerOnline = useIsOnline(peer.address, peerLastSeenOptIn);
+  const peerSeenAt = useLastSeen(peer.address, peerLastSeenOptIn);
+  const [seenTick, setSeenTick] = useState(Date.now);
+  useEffect(() => {
+    if (!peerSeenAt) return;
+    const timer = setInterval(() => setSeenTick(Date.now()), 30_000);
+    return () => clearInterval(timer);
+  }, [peerSeenAt]);
+  const peerSeenWhen = peerSeenAt ? lastSeenWhen(peerSeenAt, i18n.language, seenTick) : null;
+  const peerLastSeen = !peerLastSeenOptIn || !peerSeenAt || peerOnline
+    ? ""
+    : peerSeenWhen
+    ? t("profile.lastSeen", { defaultValue: "Last seen {{when}}", when: peerSeenWhen })
+    : t("profile.lastSeenJustNow", { defaultValue: "Last seen just now" });
   const peerSubtitle = [
     peer.username ? `@${peer.username}` : "",
-    peerLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: peerLocalTime }) : "",
+    peerLastSeen,
+    localTimeLine(t as never, peerLocalTime, target?.customs?.publicTimeZone),
   ].filter(Boolean).join(" · ");
   const peerLabel = useMemo(
     () => peer.displayName || peer.username || truncateAddress(peer.address) || t("copy.04f8996da763", { defaultValue: "user" }),
@@ -941,6 +974,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   }, [openChatHasReactions, currentConvId, seeReactions]);
   const canToggleEncryption = !!currentConvId && /^[0-9a-f]{24}$/i.test(String(currentConvId));
   const chatEncrypted = canToggleEncryption && !!chatPrefsById.get(String(currentConvId))?.encryptedAt;
+  // "Send in their language": your lines go out translated into the language
+  // they read Riftn in. Not offered while the chat is encrypted.
+  const canTranslateOut = canToggleEncryption && !chatEncrypted;
+  const translateOutOn = canTranslateOut && !!chatPrefsById.get(String(currentConvId))?.translateOutAt;
+  const onToggleTranslateOut = useCallback(async () => {
+    if (!currentConvId) return;
+    const on = !translateOutOn;
+    // Translating sends the text to the translator, so it asks once, like Translate does.
+    if (on && !hasAiConsent() && !(await ensureAiConsent())) return;
+    void updateChatPref(String(currentConvId), { translateOut: on });
+    if (!on) {
+      toastSuccess(t("dmTranslateOut.offToast", { defaultValue: "Your messages here go as you type them" }));
+      return;
+    }
+    const lang = await peerLanguage(String(currentConvId));
+    if (lang) {
+      toastSuccess(t("dmTranslateOut.onToast", {
+        defaultValue: "Your messages here now go out in {{language}}",
+        language: languageName(lang, getUserLanguage()),
+      }));
+    } else {
+      toastSuccess(t("dmTranslateOut.noLanguage", {
+        defaultValue: "They haven't picked an app language yet, so your messages go as you type them for now",
+      }));
+    }
+  }, [currentConvId, translateOutOn, updateChatPref, t]);
   const onToggleEncryption = useCallback(() => {
     if (!currentConvId) return;
     const on = !chatEncrypted;
@@ -950,18 +1009,19 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (on && e2eeStatus !== "ready") void retryEncryption();
   }, [currentConvId, chatEncrypted, updateChatPref, t, e2eeStatus, retryEncryption]);
 
-  // Lines encrypted for another device collapse into one row per run. Keyed by
-  // the run's first id in list order; 0 hides the rest of the run.
-  const undecryptableRuns = useMemo(() => {
-    const runs = new Map<string, number>();
-    for (let i = 0; i < messageList.length; i++) {
-      if (!messageList[i].undecryptable) continue;
-      if (messageList[i - 1]?.undecryptable) { runs.set(messageList[i]._id, 0); continue; }
-      let n = 1;
-      while (messageList[i + n]?.undecryptable) n++;
-      runs.set(messageList[i]._id, n);
-    }
-    return runs;
+  const [expandedUnreadable, setExpandedUnreadable] = useState<Set<string>>(() => new Set());
+  useEffect(() => { setExpandedUnreadable(new Set()); }, [currentConvId]);
+  const undecryptableRuns = useMemo(
+    () => collapsedUnreadableRows(messageList, expandedUnreadable),
+    [messageList, expandedUnreadable],
+  );
+  const expandUnreadable = useCallback((start: number, count: number) => {
+    const rows = messageList.slice(start, start + count);
+    setExpandedUnreadable(previous => {
+      const expanded = new Set(previous);
+      for (const row of rows) expanded.add(row._id);
+      return expanded;
+    });
   }, [messageList]);
 
   // Re-run the history fetch below once the identity comes online, so lines
@@ -1529,26 +1589,40 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       if (editingMessage) {
         const target = editingMessage;
         const previousContent = target.content || "";
-        if (content === previousContent.trim()) {
+        const previousOriginal = target.original ?? null;
+        // A line sent in their language is edited as you typed it.
+        if (content === (previousOriginal?.content ?? previousContent).trim()) {
           setEditingMessage(null);
           return true;
         }
         try {
           const cId = await ensureConversation();
-          const wire = await prepareOutgoing(peer.address, content);
+          // Same rules as a fresh send: in their language when that is on for
+          // this chat, otherwise encrypted when both sides have keys.
+          const translated = await translateOutgoing(String(cId), content);
+          const wire = translated
+            ? { content: translated.content, encrypted: false }
+            : await prepareOutgoing(peer.address, content);
           settlePendingEdit(target._id, false);
           const confirmed = new Promise<boolean>(resolve => {
             const timer = setTimeout(() => {
               settlePendingEdit(target._id, false);
               dmActions.applyEdit({ dmId: cId, messageId: target._id, content: previousContent,
-                isEdited: !!target.isEdited, editedAt: target.editedAt || new Date().toISOString(), author: "me" });
+                isEdited: !!target.isEdited, editedAt: target.editedAt || new Date().toISOString(), author: "me",
+                original: previousOriginal });
               toastError(t("dm.failedToEdit"));
             }, EDIT_CONFIRM_TIMEOUT_MS);
             pendingEditsRef.current.set(target._id, { timer, resolve });
           });
-          dmActions.applyEdit({ dmId: cId, messageId: target._id, content, isEdited: true,
-            editedAt: new Date().toISOString(), author: "me" });
-          ws.emitAuthed(DMSocketEvent.EditMessage, { dmId: cId, messageId: target._id, content: wire.content });
+          dmActions.applyEdit({ dmId: cId, messageId: target._id, content: translated ? translated.content : content, isEdited: true,
+            editedAt: new Date().toISOString(), author: "me",
+            original: translated ? { content: translated.original, lang: translated.lang } : null });
+          ws.emitAuthed(DMSocketEvent.EditMessage, {
+            dmId: cId,
+            messageId: target._id,
+            content: wire.content,
+            ...(translated ? { original: translated.original, translatedTo: translated.lang } : {}),
+          });
           const sent = await confirmed;
           if (sent) setEditingMessage(current => current?._id === target._id ? null : current);
           return sent;
@@ -2238,7 +2312,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         );
       }
       const run = undecryptableRuns.get(item._id);
-      if (run !== undefined) return run > 0 ? <>{dayPill}{unreadMarker}<DmUndecryptableRun count={run} /></> : null;
+      if (run !== undefined) return run > 0 ? (
+        <>{dayPill}{unreadMarker}<DmUndecryptableRun count={run} onExpand={() => expandUnreadable(index, run)} /></>
+      ) : null;
       // The long-press menu floats its own copy of this bubble over the list.
       // The copy is see-through, so the original underneath showed its text
       // and time a second time; hide it while the menu is open.
@@ -2292,7 +2368,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         </View>
       );
     },
-    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
+    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, expandUnreadable, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
   );
 
   // The temp id a line was drawn under stays its key after the send lands.
@@ -2378,6 +2454,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onClearChat={currentConvId ? onClearChat : undefined}
               onToggleEncryption={canToggleEncryption ? onToggleEncryption : undefined}
               encrypted={chatEncrypted}
+              onToggleTranslateOut={canTranslateOut ? () => void onToggleTranslateOut() : undefined}
+              translateOut={translateOutOn}
               onSearchChat={onSearchChat}
               onToggleFreeAccess={myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0 ? onToggleFreeAccess : undefined}
               peerHasFreeAccess={
@@ -2596,6 +2674,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 onClearTip={handleClearTip}
                 dhbBalance={dhbBalance}
                 onPollPress={currentConvId ? () => setPollSheetVisible(true) : undefined}
+                onNotePress={() => setNotesVisible(true)}
                 initialText={route?.params?.sharedText}
                 autoFocus={!!route?.params?.focusComposer}
                 thread={smartReplyThread}
@@ -2764,6 +2843,22 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             </WhenOpened>
           </>
         ) : null}
+
+        <WhenOpened open={notesVisible}>
+          {() => (
+            <NotesSheet
+              visible={notesVisible}
+              onClose={() => setNotesVisible(false)}
+              onMessage={(a, reply) => navigation.push(ScreenNames.Chat, {
+                targetAddress: a.address.toLowerCase(),
+                title: a.displayName || a.username || a.address,
+                targetUser: { ...a, walletAddress: a.address },
+                focusComposer: true,
+                ...(reply ? { autoSendText: reply } : {}),
+              })}
+            />
+          )}
+        </WhenOpened>
 
         <WhenOpened open={pollSheetVisible}>
           {() => (

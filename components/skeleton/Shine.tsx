@@ -27,16 +27,19 @@ export default function Shine() {
   const reducedMotion = useReducedMotion();
   const x = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    if (isLight || reducedMotion) return;
+    if (reducedMotion) return;
     const loop = Animated.loop(Animated.timing(x, { toValue: 1, duration: SHINE_MS, easing: Easing.linear, useNativeDriver: true }));
     loop.start();
     return () => loop.stop();
-  }, [isLight, reducedMotion, x]);
-  if (isLight || reducedMotion) return null;
+  }, [reducedMotion, x]);
+  if (reducedMotion) return null;
+  // hsla on light: the colour pass leaves it alone. Written as rgba it came
+  // out as a 55% black band sweeping over the page.
+  const band = isLight ? 'hsla(0,0%,100%,0.55)' : 'rgba(255,255,255,0.07)';
   return (
     <Animated.View pointerEvents="none" accessible={false}
       style={[StyleSheet.absoluteFill, { transform: [{ translateX: x.interpolate({ inputRange: [0, 1], outputRange: [-width, width] }) }] }]}>
-      <LinearGradient colors={['rgba(255,255,255,0)', 'rgba(255,255,255,0.07)', 'rgba(255,255,255,0)']} locations={[0.3, 0.5, 0.7]}
+      <LinearGradient colors={['rgba(255,255,255,0)', band, 'rgba(255,255,255,0)']} locations={[0.3, 0.5, 0.7]}
         start={{ x: 0, y: 0.42 }} end={{ x: 1, y: 0.58 }} style={StyleSheet.absoluteFill} />
     </Animated.View>
   );

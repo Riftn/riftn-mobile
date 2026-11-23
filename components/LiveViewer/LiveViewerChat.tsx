@@ -1,3 +1,4 @@
+import { formatCount } from '../../libs/format-count';
 import { outsideImage } from "../../libs/outside-image";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { DhbCoin } from "../common/DhbCoin";
@@ -12,6 +13,7 @@ import { PointsIcon } from "./PointsIcon";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeUrlFor, getInlineBadgeOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { TEXT_SHADOW } from "../common/ViewerChrome";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
@@ -235,7 +237,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
               ) : null}
               {creatorBadges ? <Text accessibilityLabel={creatorBadges.label} style={{ fontSize: 12 }}>{" "}{creatorBadges.emojis}</Text> : null}{" "}
             </Text>
-            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{translation.isTranslated ? translation.translatedTexts.content : a.meta?.content}</Text> : null}
+            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{renderLinkEmojis(translation.isTranslated ? translation.translatedTexts.content : a.meta?.content, { onLongPress: onHold ? handleHold : undefined })}</Text> : null}
           </Text>
           {a.meta?.gifUrl ? <Image source={{ uri: outsideImage(a.meta.gifUrl) }} style={{ width: 160, height: 120, borderRadius: 8, marginTop: 4 }} contentFit="cover" /> : null}
           {translation.shouldShow && (
@@ -346,6 +348,23 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
       );
 
     case "SYSTEM": {
+      // One viewer gave another channel points.
+      if (a.meta?.kind === "pointsGift") {
+        return (
+          <View className="mb-1.5 bg-white/10 rounded-2xl px-2.5 py-2 self-start max-w-[85%] flex-row items-center" testID="live-chat-points-gift">
+            <TouchableOpacity onPress={handlePress} activeOpacity={0.7} className="mr-1.5">
+              <Avatar uri={avatarUrl} size={20} name={displayName} />
+            </TouchableOpacity>
+            <PointsIcon size={12} color="rgba(255,255,255,0.8)" />
+            <Text className="text-white text-[12px] ml-1 flex-shrink">
+              <Text onPress={handlePress} className="font-semibold">{displayName}</Text>{" "}
+              <Text style={{ color: "rgba(255,255,255,0.7)" }}>
+                {t("livePoints.give.chatLine", { amount: formatCount(Number(a.meta?.pointsAmount) || 0), name: String(a.meta?.recipientName || "") })}
+              </Text>
+            </Text>
+          </View>
+        );
+      }
       // A viewer spent channel points on one of the creator's rewards.
       if (a.meta?.kind !== "reward") return null;
       return (
@@ -426,7 +445,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
       return (
         a.status === StreamActivityType.MESSAGE ||
         a.status === StreamActivityType.TIP ||
-        (a.status === "SYSTEM" && a.meta?.kind === "reward") ||
+        (a.status === "SYSTEM" && (a.meta?.kind === "reward" || a.meta?.kind === "pointsGift")) ||
         a.status === StreamActivityType.START ||
         a.status === StreamActivityType.END
       );

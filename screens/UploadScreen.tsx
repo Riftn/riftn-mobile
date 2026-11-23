@@ -29,6 +29,7 @@ import {
 import { Gesture, GestureDetector, ScrollView as GestureScrollView } from "react-native-gesture-handler";
 import { COMPOSER_SHEET, useComposerSheet } from "../hooks/useComposerSheet";
 import { useKeyboardLiftValue } from "../hooks/useKeyboardLiftValue";
+import { selfLiftingComposers } from "../hooks/useComposerKeyboard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SmartImage from "../components/common/SmartImage";
 import { useNavigation, useRoute, CommonActions, useFocusEffect } from "@react-navigation/native";
@@ -151,6 +152,7 @@ import { haptic } from "../libs/haptics";
 import { useAppTheme, useThemeRootStyle } from "../context/ThemeContext";
 import LinkPreviewCard from "../components/common/LinkPreviewCard";
 import { extractUrlsFromText } from "../libs/link-preview";
+import { PostDictationButton } from "../components/Upload/PostDictationButton";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
@@ -314,7 +316,6 @@ const DIALOG_INK = { color: "#FFFFFF" };
 const DIALOG_SOFT = { color: "rgba(255,255,255,0.8)" };
 const DIALOG_MUTED = { color: "#A6A9AC" };
 
-const fmtTrim = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
 export default function UploadScreen() {
   usePerfProbe("UploadScreen");
@@ -386,6 +387,16 @@ export default function UploadScreen() {
   const safeBottom = useSafeAreaInsets().bottom;
   const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
+  // The composer lifts its own bar and its editor scrolls to the caret, so the
+  // app-wide keyboard pan must leave it alone. On a long post the text box runs
+  // past the bottom of the editor, the pan read that as "covered by the keys"
+  // and slid the whole screen up: the header went under the status bar and a
+  // blank band opened between the bar and the keyboard.
+  const composerRootRef = useRef<View>(null);
+  useEffect(() => {
+    selfLiftingComposers.add(composerRootRef);
+    return () => { selfLiftingComposers.delete(composerRootRef); };
+  }, []);
   // While the title or text is being typed in, the options box below gives
   // up most of its height so the writing area has room to show (and scroll
   // through) the title and several lines, not just the last two.
@@ -2664,7 +2675,7 @@ export default function UploadScreen() {
   }
 
   const composer = (
-    <View className="flex-1 bg-theme-background">{/* don't add top inset */}
+    <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
         <View className="flex-row items-center justify-center pt-2 pb-1" collapsable={false}>
           <View className="w-10 h-1 rounded-full bg-white/30" />
@@ -3115,11 +3126,7 @@ export default function UploadScreen() {
                   onPress={openVideoEditor}
                   hasSound={!!attachedSound}
                   accessibilityLabel={t("upload.editVideo", { defaultValue: "Edit video" })}
-                  label={videoTrim
-                    ? fmtTrim(videoTrim.end - videoTrim.start)
-                    : (videoEdits || videoDestruct || pickedVideo.description || attachedSound)
-                      ? t("upload.edited", { defaultValue: "Edited" })
-                      : t("upload.edit", { defaultValue: "Edit" })}
+                  label={t("upload.editVideo", { defaultValue: "Edit video" })}
                 />
                 <Pressable onPress={() => setIsMuted((m) => !m)} hitSlop={10} testID="upload-video-sound"
                   accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
@@ -3343,6 +3350,15 @@ export default function UploadScreen() {
       {/* Character count sits under the scrolling editor, not inside it, so it
           stays in view however many lines the post runs to. */}
       {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        {!isLiveMode && !isStageMode && !postInFlight && !isAudioRecording && !showAudioMenu && !!(authUser?.walletAddress || authUser?.address) && (
+          <PostDictationButton
+            key={JSON.stringify([authUser.walletAddress || authUser.address, draftScope])}
+            wallet={(authUser.walletAddress || authUser.address)!}
+            atLimit={bodyText.length >= DESCRIPTION_MAX}
+            setText={setBodyText}
+            maxChars={DESCRIPTION_MAX}
+          />
+        )}
         <Text
           className={`text-xs ${
             bodyText.length >= DESCRIPTION_MAX

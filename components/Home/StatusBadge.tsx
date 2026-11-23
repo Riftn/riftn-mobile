@@ -26,9 +26,10 @@ const StatusBadge: React.FC<BadgeProps> = ({ status, className }) => {
   
   const isLive = key === "LIVE";
   
+  // Always drawn over a video or its poster: white on glass in every theme.
   return (
     <View
-      className={`absolute left-2 top-2 rounded-full px-2 py-0.5 flex-row items-center ${
+      className={`dark-surface absolute left-2 top-2 rounded-full px-2 py-0.5 flex-row items-center ${
         style.container
       } ${className || ""}`}
     >

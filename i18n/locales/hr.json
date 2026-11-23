@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Naslovna", "trim": "Skrati", "mirror": "Zrcali", "rotate": "Rotiraj", "hide": "Sakrij", "timer": "Mjerač vremena", "close": "Zatvori", "photo": "Fotografija", "remove": "Ukloni", "pause": "Pauziraj", "play": "Reproduciraj videozapis", "hiddenUntilTap": "Skriveno dok ne dodirnu", "scrub": "Premotaj videozapis", "addMore": "Dodaj fotografije ili videozapise", "coverAria": "Dodirni okvir za postavljanje naslovne", "trimHint": "Povuci krajeve za skraćivanje", "coverHint": "Dodirni okvir da postane naslovna", "uploadCover": "Učitaj naslovnu sliku", "mirrored": "Zrcaljeno", "original": "Izvorno", "rotate90": "Rotiraj za 90°", "timerOff": "Isključeno", "showNormally": "Prikaži normalno", "showNormallyBody": "Vide odmah", "hideUntilTap": "Sakrij dok se ne dodirne", "hideUntilTapBody": "Zamućeno dok ne dodirnu", "hidePrice": "Sakrij iza cijene", "hidePriceBody": "Zamućeno dok ti ne plate", "priceUnavailable": "Nije u ovom chatu", "priceLabelUsd": "Cijena", "priceHint": "Vide ga zamućeno dok ti ne plate. Zaključane stavke nisu end-to-end šifrirane.", "timerOffBody": "Ostaje u chatu.", "timerViewBody": "Nestaje za oboje čim ga vide.", "confirm": "Potvrdi", "editItem": "Uredi stavku {{value1}}", "coverSet": "Naslovnica na {{value1}}", "lockedForUsd": "Otključaj za {{value1}}", "timerTimeBody": "Nestaje za oboje {{value1}} nakon što ga pošalješ."},
+  "dmVideo": {
+    "cover": "Naslovna",
+    "trim": "Skrati",
+    "mirror": "Zrcali",
+    "rotate": "Rotiraj",
+    "hide": "Sakrij",
+    "timer": "Mjerač vremena",
+    "close": "Zatvori",
+    "photo": "Fotografija",
+    "remove": "Ukloni",
+    "pause": "Pauziraj",
+    "play": "Reproduciraj videozapis",
+    "hiddenUntilTap": "Skriveno dok ne dodirnu",
+    "scrub": "Premotaj videozapis",
+    "addMore": "Dodaj fotografije ili videozapise",
+    "coverAria": "Dodirni okvir za postavljanje naslovne",
+    "trimHint": "Povuci krajeve za skraćivanje",
+    "coverHint": "Dodirni okvir da postane naslovna",
+    "uploadCover": "Učitaj naslovnu sliku",
+    "mirrored": "Zrcaljeno",
+    "original": "Izvorno",
+    "rotate90": "Rotiraj za 90°",
+    "timerOff": "Isključeno",
+    "showNormally": "Prikaži normalno",
+    "showNormallyBody": "Vide odmah",
+    "hideUntilTap": "Sakrij dok se ne dodirne",
+    "hideUntilTapBody": "Zamućeno dok ne dodirnu",
+    "hidePrice": "Sakrij iza cijene",
+    "hidePriceBody": "Zamućeno dok ti ne plate",
+    "priceUnavailable": "Nije u ovom chatu",
+    "priceLabelUsd": "Cijena",
+    "priceHint": "Vide ga zamućeno dok ti ne plate. Zaključane stavke nisu end-to-end šifrirane.",
+    "timerOffBody": "Ostaje u chatu.",
+    "timerViewBody": "Nestaje za oboje čim ga vide.",
+    "confirm": "Potvrdi",
+    "editItem": "Uredi stavku {{value1}}",
+    "coverSet": "Naslovnica na {{value1}}",
+    "lockedForUsd": "Otključaj za {{value1}}",
+    "timerTimeBody": "Nestaje za oboje {{value1}} nakon što ga pošalješ.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 sat",
+      "43200": "12 sati",
+      "86400": "1 dan",
+      "604800": "1 tjedan",
+      "31536000": "1 godina",
+      "view": "1 pregled"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1t",
+      "31536000": "1g",
+      "view": "1 pregled"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comic": {
     "showAll": "Prikaži svih {{count}} stranica",
     "tab": "Komičar",
@@ -3023,6 +3082,8 @@
     "premium": "Premium",
     "pricing": "Cijene",
     "reorderHint": "Držite i povucite bilo koju ikonu za promjenu rasporeda",
+    "reorderHintGroups": "Držite i povucite bilo koju ikonu kako biste je premjestili ili je povucite na drugu karticu kako biste je premjestili tamo",
+    "moveGroupHint": "Povucite na drugu karticu kako biste je premjestili tamo",
     "reorderReset": "Resetiraj",
     "groups": {
       "create": "Stvori",
@@ -7050,7 +7111,18 @@
       "moveRuleUp": "Pomakni pravilo gore",
       "moveRuleDown": "Pomakni pravilo dolje",
       "deleteRule": "Izbriši pravilo",
-      "rights": {"sendMessages":"Slati poruke","sendMessagesHint":"Objavi u chatu zajednice","sendMedia":"Pošalji medije","sendMediaHint":"Priloži slike i GIF-ove","embedLinks":"Ugrađujte poveznice","embedLinksHint":"Prikaži preglede poveznica","addMembers":"Dodaj članove","addMembersHint":"Dijeli zajednicu s drugima","createEvents":"Stvori događaje","createEventsHint":"Planiraj zajedničke događaje","changeInfoMemberHint":"Uredi naziv i opis zajednice",
+      "rights": {
+        "sendMessages": "Slati poruke",
+        "sendMessagesHint": "Objavi u chatu zajednice",
+        "sendMedia": "Pošalji medije",
+        "sendMediaHint": "Priloži slike i GIF-ove",
+        "embedLinks": "Ugrađujte poveznice",
+        "embedLinksHint": "Prikaži preglede poveznica",
+        "addMembers": "Dodaj članove",
+        "addMembersHint": "Dijeli zajednicu s drugima",
+        "createEvents": "Stvori događaje",
+        "createEventsHint": "Planiraj zajedničke događaje",
+        "changeInfoMemberHint": "Uredi naziv i opis zajednice",
         "changeInfo": "Promijeni informacije o zajednici",
         "changeInfoHint": "Uredi naziv, opis, avatar i banner",
         "deleteMessages": "Izbriši poruke",
@@ -7128,12 +7200,41 @@
       "noInvites": "Još nema pozivnih linkova. Kreiraj jedan za pozive direktno.",
       "permissionsUpdated": "Izmjene pristupa",
       "slowModeUpdated": "Ažurirano brzina",
-      "slowMode":{"off":"Isključeno","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 sat"},"slowModeOffHint": "Članovi mogu slati poruke bez zamora.",
+      "slowMode": {
+        "off": "Isključeno",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 sat"
+      },
+      "slowModeOffHint": "Članovi mogu slati poruke bez zamora.",
       "slowModeOnHint": "Članovi mogu slati jednu poruku svakih {{label}}. Administratori su izuzeti.",
       "defaultPermissions": "Standardni članovi",
       "defaultPermissionsHint": "Što sve može učiniti svaki član osim ako ne postoji administratorski pristup koji kaže drugačije.",
       "slowModeTitle": "Brzina",
-      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demovano","transfer_ownership":"predao vlasništvo nad","ban_member":"zabranjeno","unban_member":"razblokiran","kick_member":"uklonjeno","mute_member":"isključen zvuk","unmute_member":"uključen zvuk","approve_member":"odobreno","reject_member":"odbijeno","delete_message":"obrisao sam poruku od","purge_messages":"Brisano sve poruke iz","pin_message":"priložio je poruku od","unpin_message":"odpinuo je poruku od","update_settings":"Ažurirano zajedničke postavke","create_invite":"stvorio je pozivni link","revoke_invite":"uklonjen je link za pozivnicu","invite_used":"pozvan"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promoted",
+          "demote_admin": "demovano",
+          "transfer_ownership": "predao vlasništvo nad",
+          "ban_member": "zabranjeno",
+          "unban_member": "razblokiran",
+          "kick_member": "uklonjeno",
+          "mute_member": "isključen zvuk",
+          "unmute_member": "uključen zvuk",
+          "approve_member": "odobreno",
+          "reject_member": "odbijeno",
+          "delete_message": "obrisao sam poruku od",
+          "purge_messages": "Brisano sve poruke iz",
+          "pin_message": "priložio je poruku od",
+          "unpin_message": "odpinuo je poruku od",
+          "update_settings": "Ažurirano zajedničke postavke",
+          "create_invite": "stvorio je pozivni link",
+          "revoke_invite": "uklonjen je link za pozivnicu",
+          "invite_used": "pozvan"
+        },
         "justNow": "prije nekoliko sekundi",
         "minutesAgo": "prije {{value}} minuta",
         "hoursAgo": "prije {{value}} sati",
@@ -13590,53 +13691,52 @@
     "cinema": {
       "close": "Zatvori",
       "performance": {
-        "label": "Performanse",
         "0": "Radosno",
         "1": "Melankolično",
         "2": "Tjeskobno",
         "3": "Samouvjereno",
         "4": "Zadivljeno",
         "5": "Suzdržano",
-        "6": "Razigrano"
+        "6": "Razigrano",
+        "label": "Performanse"
       },
       "title": "Filmska režija",
       "hint": "Usmjerite vizualni stil svoje sljedeće slike ili videa. Rezultati se razlikuju ovisno o modelu.",
       "none": "Bez režije",
       "reset": "Očisti režiju",
       "camera": {
-        "label": "Izgled kamere",
         "0": "Digitalna kinematografija",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Veliki format",
-        "4": "Stara kamkorder kamera"
+        "4": "Stara kamkorder kamera",
+        "label": "Izgled kamere"
       },
       "lens": {
-        "label": "Izgled objektiva",
         "0": "Sferni",
         "1": "Anamorfni",
         "2": "Vintage meko staklo",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Izgled objektiva"
       },
       "focalLength": {
-        "label": "Žarišna duljina",
         "0": "18 mm široki",
         "1": "24 mm široki",
         "2": "35 mm prirodni",
         "3": "50 mm standardni",
         "4": "85 mm portretni",
-        "5": "135 mm teleobjektiv"
+        "5": "135 mm teleobjektiv",
+        "label": "Žarišna duljina"
       },
       "aperture": {
-        "label": "Dubinska oštrina",
         "0": "f/1.4 vrlo plitka",
         "1": "f/2.8 plitka",
         "2": "f/5.6 umjerena",
-        "3": "f/11 duboki fokus"
+        "3": "f/11 duboki fokus",
+        "label": "Dubinska oštrina"
       },
       "movement": {
-        "label": "Pokret kamere",
         "0": "Fiksni stativ",
         "1": "Sporo približavanje (dolly in)",
         "2": "Sporo udaljavanje (dolly out)",
@@ -13644,27 +13744,27 @@
         "4": "Kruženje oko subjekta",
         "5": "Iz ruke",
         "6": "Podizanje kranom",
-        "7": "Sporo panoramiranje"
+        "7": "Sporo panoramiranje",
+        "label": "Pokret kamere"
       },
       "lighting": {
-        "label": "Rasvjeta",
         "0": "Meko dnevno svjetlo",
         "1": "Zlatni sat",
         "2": "Tamni chiaroscuro",
         "3": "Svijetli studijski",
         "4": "Neonski praktični izvori",
         "5": "Silueta u protusvjetlu",
-        "6": "Raspršeno oblačno svjetlo"
+        "6": "Raspršeno oblačno svjetlo",
+        "label": "Rasvjeta"
       },
       "tempo": {
-        "label": "Tempo kadra",
         "0": "Jedan neprekinuti kadar",
         "1": "Mirna, neužurbana radnja",
         "2": "Dinamična, energična radnja",
-        "3": "Kaotična, mahnita radnja"
+        "3": "Kaotična, mahnita radnja",
+        "label": "Tempo kadra"
       },
       "era": {
-        "label": "Razdoblje",
         "0": "1920-e",
         "1": "1950-e",
         "2": "1960-e",
@@ -13672,10 +13772,10 @@
         "4": "1980-e",
         "5": "1990-e",
         "6": "Današnjica",
-        "7": "Bliska budućnost"
+        "7": "Bliska budućnost",
+        "label": "Razdoblje"
       },
       "genre": {
-        "label": "Žanr",
         "0": "Dokumentarni",
         "1": "Drama",
         "2": "Film noir",
@@ -13683,16 +13783,17 @@
         "4": "Fantastika",
         "5": "Romantična komedija",
         "6": "Triler",
-        "7": "Vestern"
+        "7": "Vestern",
+        "label": "Žanr"
       },
       "palette": {
-        "label": "Paleta boja",
         "0": "Topli jantar",
         "1": "Hladna plava",
         "2": "Prigušeni zemljani tonovi",
         "3": "Pastelno",
         "4": "Kontrastno crno-bijelo",
-        "5": "Zasićene primarne boje"
+        "5": "Zasićene primarne boje",
+        "label": "Paleta boja"
       }
     },
     "audioNoSpeech": "Na toj snimci nije pronađen govor.",
@@ -17159,5 +17260,100 @@
     "promptCatchUp": "Reci mi ukratko što je {{handle}} nedavno objavio",
     "promptMessage": "Pomozi mi napisati poruku za {{handle}}",
     "promptAbout": "O {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Sakrij odgovor",
+    "unhide": "Prikaži odgovor",
+    "hiddenBadge": "Sakriveno",
+    "hiddenTitle": "Samo ti i osoba koja ga je napisala možete ovo vidjeti",
+    "hiddenToast": "Odgovor je sakriven. Samo ti i osoba koja ga je napisala možete ga vidjeti",
+    "unhiddenToast": "Odgovor je ponovno vidljiv",
+    "failed": "Nije bilo moguće sakriti taj odgovor"
+  },
+  "accountType": {
+    "title": "Vrsta računa",
+    "hint": "Računi za kreatore i tvrtke prikazuju kategoriju ispod tvog imena. Tvrtke dodaju gumb za kontakt. Sve značajke ostaju dostupne svakom računu.",
+    "type": {
+      "personal": "Osobni",
+      "creator": "Kreator",
+      "business": "Tvrtka"
+    },
+    "category": "Kategorija",
+    "contactEmail": "Javna e-adresa za kontakt",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Ta e-adresa ne izgleda ispravno",
+    "save": "Spremi vrstu računa",
+    "saving": "Spremanje…",
+    "saved": "Vrsta računa spremljena",
+    "saveFailed": "Nije bilo moguće spremiti tvoju vrstu računa",
+    "contact": "Kontakt",
+    "cat": {
+      "artist": "Umjetnik",
+      "musician": "Glazbenik",
+      "gamer": "Gamer",
+      "streamer": "Streamer",
+      "writer": "Pisac",
+      "podcaster": "Podcaster",
+      "educator": "Edukator",
+      "athlete": "Sportaš",
+      "photographer": "Fotograf",
+      "video_creator": "Kreator videozapisa",
+      "comedian": "Komičar",
+      "developer": "Programer",
+      "public_figure": "Javna osoba",
+      "other": "Ostalo",
+      "brand": "Brend",
+      "shop": "Trgovina",
+      "restaurant": "Restoran",
+      "cafe": "Kafić",
+      "agency": "Agencija",
+      "community": "Zajednica",
+      "media": "Mediji",
+      "app": "Aplikacija",
+      "project": "Projekt",
+      "nonprofit": "Neprofitna organizacija",
+      "local_business": "Lokalna tvrtka"
+    }
+  },
+  "photoTags": {
+    "title": "Označi osobe",
+    "hint": "Dodirni fotografiju na mjestu gdje se netko nalazi, a zatim odaberi njegovo ime.",
+    "search": "Pretraži osobe",
+    "remove": "Ukloni oznaku",
+    "done": "Gotovo",
+    "taggedCount": "{{value}} označen/a",
+    "showTags": "Prikaži tko je označen",
+    "hideTags": "Sakrij oznake",
+    "saved": "Oznake spremljene",
+    "saveFailed": "Nije bilo moguće spremiti oznake",
+    "removeMe": "Ukloni me s ove fotografije",
+    "removedMe": "Tvoja oznaka je uklonjena"
+  },
+  "quiz": {
+    "title": "Kviz",
+    "add": "Dodaj kviz",
+    "remove": "Ukloni kviz",
+    "taken": "{{value}} ga je riješio",
+    "questionOf": "Pitanje {{n}} od {{total}}",
+    "pointsEach": "{{points}} bodova svaki",
+    "badgeBoost": "Tvoja značka ti daje {{x}}x bodova",
+    "earnedToast": "{{correct}} od {{total}} točno, +{{points}} bodova",
+    "noPointsToast": "{{correct}} od {{total}} točno",
+    "answerFailed": "Nije bilo moguće poslati tvoje odgovore",
+    "resultPoints": "{{correct}} od {{total}} točno, zaradio/la si {{points}} bodova",
+    "result": "{{correct}} od {{total}} točno",
+    "creatorNote": "Tvoj kviz. Točni odgovori su označeni; ljudi zarađuju tvoje bodove kanala.",
+    "writeFailed": "Nije bilo moguće napisati pitanja, pokušaj s drugim riječima",
+    "topicPlaceholder": "Opiši svoj kviz u nekoliko riječi",
+    "rewrite": "Napiši ponovo",
+    "write": "Napiši pitanja",
+    "editorHint": "Provjeri svako pitanje prije objave. Svaka osoba ima jedan pokušaj.",
+    "questionPlaceholder": "Pitanje",
+    "removeQuestion": "Ukloni pitanje",
+    "markRight": "Točan odgovor",
+    "optionPlaceholder": "Odgovor {{n}}",
+    "addQuestion": "Dodaj pitanje",
+    "pointsLabel": "Bodova po točnom odgovoru",
+    "attachFailed": "Tvoja objava je postavljena, ali kviz nije bilo moguće dodati"
   }
 }

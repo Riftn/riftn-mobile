@@ -1,6 +1,6 @@
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView, Switch } from "react-native";
 import { shareWithRef } from "../../libs/shareRef";
 import { TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
@@ -44,6 +44,8 @@ const CreateStageModal: React.FC = () => {
   const [title, setTitle] = useSurfaceDraft("components/Stages/CreateStageModal.tsx:title", "");
   const [description, setDescription] = useSurfaceDraft("components/Stages/CreateStageModal.tsx:description", "");
   const [error, setError] = useState("");
+  // A radio show: the same room, music first, listed in Explore's Radio row.
+  const [radioShow, setRadioShow] = useState(false);
   const { t } = useTranslation();
 
   // Default to an hour out, rounded to the next half hour — far enough ahead to
@@ -73,12 +75,13 @@ const CreateStageModal: React.FC = () => {
     setScheduledLink(null);
     setMode("now");
     setError("");
+    setRadioShow(false);
   };
 
   const handleCreate = async () => {
     if (!title.trim()) return;
     setError("");
-    const space = await createSpace(title.trim(), description.trim() || undefined);
+    const space = await createSpace(title.trim(), description.trim() || undefined, undefined, { radio: radioShow });
     if (space) {
       reset();
       openModal("live");
@@ -151,6 +154,7 @@ const CreateStageModal: React.FC = () => {
       description: description.trim() || undefined,
       scheduledAt: when.toISOString(),
       coverImageUrl,
+      radio: radioShow,
     });
 
     if (space) {
@@ -300,6 +304,14 @@ const CreateStageModal: React.FC = () => {
           maxLength={280}
         />
 
+        <View style={styles.radioRow} testID="radio-show-toggle">
+          <View style={{ flex: 1 }}>
+            <Text style={styles.radioTitle}>{t("stages.radioShow.toggle")}</Text>
+            <Text style={styles.radioHint}>{t("stages.radioShow.hint")}</Text>
+          </View>
+          <Switch value={radioShow} onValueChange={setRadioShow} accessibilityLabel={t("stages.radioShow.toggle")} />
+        </View>
+
         {mode === "later" && (
           <>
             <View style={styles.row}>
@@ -415,6 +427,17 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   inputMultiline: { minHeight: 64, textAlignVertical: "top", fontSize: 14 },
+  radioRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    marginBottom: 12,
+  },
+  radioTitle: { color: "#FFFFFF", fontSize: 14, fontWeight: "500" },
+  radioHint: { color: "rgba(255,255,255,0.5)", fontSize: 12, marginTop: 2 },
   row: { flexDirection: "row", gap: 8, marginBottom: 12 },
   pickerBtn: {
     flex: 1,

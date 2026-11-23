@@ -32,6 +32,7 @@ import { supabase } from "../services/supabase";
 import { dehubAuthHeaders } from "../services/ai.service";
 import { useERC20Contract, useStreamCollectionContract, useWeb3Provider } from "./use-web3";
 import { writeContractAA } from "../libs/aa.write";
+import { confirmFractionGift } from "../services/fractionGifts.service";
 import { toastError, toastSuccess } from "../libs/toast";
 import { createLogger } from "../libs/logger";
 import { DHB_TOKEN_ADDRESSES } from "../config/web3.constants";
@@ -69,6 +70,8 @@ export interface FractionQuote {
   tokenAddress: string;
   collectionAddress: string;
   settleWindowHours: number;
+  /** A price-0 giveaway: claim instead of paying. */
+  free?: boolean;
   /** DHB is ERC20Pausable; a transfer would revert while this is true. */
   paymentsFrozen: boolean;
 }
@@ -264,7 +267,29 @@ export function useFractionPurchase() {
     onError: (e: Error) => toastError(e),
   });
 
-  return { getQuote, buy, activeChainId: signer.activeChainId };
+  /**
+   * Claim from a free (price 0) listing. Nothing is paid: the server reserves
+   * the fractions and the owner is asked to approve by sending them.
+   */
+  const claim = useMutation({
+    mutationFn: (params: { listingId: string; quantity: number }) =>
+      callFraction<TradeResult>(
+        { action: "claim", listingId: params.listingId, quantity: params.quantity },
+        wallet,
+      ),
+    onSuccess: (data) => {
+      invalidateFractionQueries(queryClient, data.trade?.token_id);
+      toastSuccess(t("fractions.claimSent"));
+    },
+    onError: (e: Error) => toastError(e),
+  });
+
+  return { getQuote, buy, claim, activeChainId: signer.activeChainId };
+}
+
+/** A claim on a free listing: nothing was paid, the owner approves or declines. */
+export function isFreeClaim(trade: Pick<FractionTrade, "price_per_fraction" | "total_dhb" | "tx_hash">): boolean {
+  return Number(trade.price_per_fraction) === 0 && Number(trade.total_dhb) === 0 && !trade.tx_hash;
 }
 
 /**
@@ -295,7 +320,7 @@ export function useSettleTrade() {
     },
     onSuccess: (data) => {
       invalidateFractionQueries(queryClient, data.trade?.token_id);
-      toastSuccess(t("fractions.toastDelivered"));
+      toastSuccess(data.trade && isFreeClaim(data.trade) ? t("fractions.claimApproved") : t("fractions.toastDelivered"));
     },
     onError: (e: Error) => toastError(e),
   });
@@ -325,7 +350,21 @@ export function useSettleTrade() {
     onError: (e: Error) => toastError(e),
   });
 
-  return { deliver, pay };
+  /** Owner side of a free claim: say no, and the fractions go back on the listing. */
+  const decline = useMutation({
+    mutationFn: (trade: FractionTrade) =>
+      callFraction<TradeResult>({ action: "decline-claim", tradeId: trade.id }, wallet).then((res) => ({
+        ...res,
+        tokenId: trade.token_id,
+      })),
+    onSuccess: (data) => {
+      invalidateFractionQueries(queryClient, data.tokenId);
+      toastSuccess(t("fractions.claimDeclined"));
+    },
+    onError: (e: Error) => toastError(e),
+  });
+
+  return { deliver, pay, decline };
 }
 
 /**
@@ -373,4 +412,37 @@ export function useOfferResponse() {
   });
 
   return { accept, reject };
+}
+
+/**
+ * Send some of your fractions to another Riftn account. The transfer is
+ * straight from your wallet; afterwards the server reads it back and tells the
+ * receiver. Telling them is best effort — the fractions have already moved.
+ */
+export function useSendFractionGift() {
+  const { t } = useTranslation();
+  const queryClient = useQueryClient();
+  const wallet = useFractionWallet();
+  const signer = useFractionSigner();
+  return useMutation({
+    mutationFn: async (params: { tokenId: string; chainId: number; to: string; quantity: number }) => {
+      if (!wallet) throw new Error(t("fractions.signInFirst"));
+      const hash = await signer.sendFractions(wallet, params.to, params.tokenId, params.quantity, params.chainId);
+      for (let attempt = 0; attempt < 8; attempt++) {
+        try {
+          const res = await confirmFractionGift({ chainId: params.chainId, txHash: hash, to: params.to, tokenId: params.tokenId });
+          if (!res?.pending) break;
+        } catch (err) {
+          log.warn("gift confirm", (err as Error)?.message);
+        }
+        await new Promise((r) => setTimeout(r, CONFIRM_INTERVAL_MS));
+      }
+      return { ...params, hash };
+    },
+    onSuccess: (data) => {
+      invalidateFractionQueries(queryClient, data.tokenId);
+      queryClient.invalidateQueries({ queryKey: ["fraction-portfolio"] });
+    },
+    onError: (e: Error) => toastError(e),
+  });
 }

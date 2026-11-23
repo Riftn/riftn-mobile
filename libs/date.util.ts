@@ -139,14 +139,22 @@ export function formatRelativeFromNow(input?: string | number | Date | null): st
   return years === 1 ? '1 year ago' : `${years} years ago`;
 }
 
+/** A message clock in the viewer's local time, including midnight as 00:00. */
+export function formatMessageTime(input?: string | Date | null): string {
+  if (!input) return '';
+  const date = input instanceof Date ? input : new Date(input);
+  if (!Number.isFinite(date.getTime())) return '';
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 /**
  * Smart chat timestamp for MessageBubble long-press:
  * - For messages newer than `thresholdHours` (default 6h), show relative (e.g., "45 mins ago").
- * - Same day (but older than threshold): show time only (e.g., "4:23 PM").
- * - Yesterday: "4:23 PM, Yesterday".
- * - Within 7 days: "4:23 PM, Wed".
- * - Same year: "4:23 PM, Feb 9".
- * - Different year: "4:23 PM, Feb 9, 2024".
+ * - Same day (but older than threshold): show time only (e.g., "16:23").
+ * - Yesterday: "16:23, Yesterday".
+ * - Within 7 days: "16:23, Wed".
+ * - Same year: "16:23, Feb 9".
+ * - Different year: "16:23, Feb 9, 2024".
  */
 export function formatChatTimeSmart(
   input?: string | number | Date | null,
@@ -163,7 +171,7 @@ export function formatChatTimeSmart(
     return formatRelativeFromNow(d);
   }
   if (i18n.language && i18n.language !== 'en') {
-    const time = formatTime(d);
+    const time = formatMessageTime(d);
     if (d.toDateString() === now.toDateString()) return time;
     const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
     if (d.toDateString() === yesterday.toDateString()) return time + ', ' + i18n.t('communities.time.yesterday');
@@ -172,13 +180,7 @@ export function formatChatTimeSmart(
       : { day: 'numeric', month: 'short', ...(d.getFullYear() === now.getFullYear() ? {} : { year: 'numeric' as const }) };
     return time + ', ' + d.toLocaleDateString(appLocale(), options);
   }
-  // Absolute local time in h:mm am/pm
-  const hh = d.getHours();
-  const mm = d.getMinutes();
-  const ampm = hh >= 12 ? 'PM' : 'AM';
-  const h12 = hh % 12 === 0 ? 12 : hh % 12;
-  const mmStr = mm < 10 ? `0${mm}` : String(mm);
-  const timeStr = `${h12}:${mmStr} ${ampm}`;
+  const timeStr = formatMessageTime(d);
   // Same calendar day → just time
   const sameDay = d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   if (sameDay) return timeStr;

@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Qallariy", "trim": "Kuchuy", "mirror": "Espejo", "rotate": "Muyuchiy", "hide": "Pakay", "timer": "Pacha tupuy", "close": "Wichqay", "photo": "Foto", "remove": "Qichuy", "pause": "Sayachiy", "play": "Videota pukllachiy", "hiddenUntilTap": "Taqaykama pakay", "scrub": "Videota qhawariy", "addMore": "Fotokunata utaq videokunata yapay", "coverAria": "Qallariynin kananpaq huk fotota akllay", "trimHint": "Kuchunankupaq qillqata aysay", "coverHint": "Qallariynin kananpaq huk fotota akllay", "uploadCover": "Qallariynin fotota churay", "mirrored": "Espejoman tikrasqa", "original": "Kikin", "rotate90": "90° muyuchiy", "timerOff": "Paskay", "showNormally": "Sapaqllata rikuchiy", "showNormallyBody": "Chaylla rikunkuman", "hideUntilTap": "Taqaykama pakay", "hideUntilTapBody": "Taqaykama llimp'iy", "hidePrice": "Qullqillawan rikuy", "hidePriceBody": "Qullqita qunankukama llimp'iy", "priceUnavailable": "Kay rimanakuypiqa manan", "priceLabelUsd": "Qullqi", "priceHint": "Paykunaman mana qullqita quptiykiqa, llullu rikch'ayllatan rikunku. Wichq'asqa kaqkunaqa manan tukuy k'uchu k'uchukama k'uyuchisqachu kashan.", "timerOffBody": "Chayqa rimanakuy ukhupin qepan.", "timerViewBody": "Paykuna rikuqtinkuqa iskayniykichismantan chinkanqa.", "confirm": "Aswan allin", "editItem": "Imatapas allichay {{value1}}", "coverSet": "P'achalliy {{value1}}", "lockedForUsd": "Kichay {{value1}}", "timerTimeBody": "Kachasqayki qhepaman {{value1}} iskayniykichismantan chinkanqa."},
+  "dmVideo": {
+    "cover": "Qallariy",
+    "trim": "Kuchuy",
+    "mirror": "Espejo",
+    "rotate": "Muyuchiy",
+    "hide": "Pakay",
+    "timer": "Pacha tupuy",
+    "close": "Wichqay",
+    "photo": "Foto",
+    "remove": "Qichuy",
+    "pause": "Sayachiy",
+    "play": "Videota pukllachiy",
+    "hiddenUntilTap": "Taqaykama pakay",
+    "scrub": "Videota qhawariy",
+    "addMore": "Fotokunata utaq videokunata yapay",
+    "coverAria": "Qallariynin kananpaq huk fotota akllay",
+    "trimHint": "Kuchunankupaq qillqata aysay",
+    "coverHint": "Qallariynin kananpaq huk fotota akllay",
+    "uploadCover": "Qallariynin fotota churay",
+    "mirrored": "Espejoman tikrasqa",
+    "original": "Kikin",
+    "rotate90": "90° muyuchiy",
+    "timerOff": "Paskay",
+    "showNormally": "Sapaqllata rikuchiy",
+    "showNormallyBody": "Chaylla rikunkuman",
+    "hideUntilTap": "Taqaykama pakay",
+    "hideUntilTapBody": "Taqaykama llimp'iy",
+    "hidePrice": "Qullqillawan rikuy",
+    "hidePriceBody": "Qullqita qunankukama llimp'iy",
+    "priceUnavailable": "Kay rimanakuypiqa manan",
+    "priceLabelUsd": "Qullqi",
+    "priceHint": "Paykunaman mana qullqita quptiykiqa, llullu rikch'ayllatan rikunku. Wichq'asqa kaqkunaqa manan tukuy k'uchu k'uchukama k'uyuchisqachu kashan.",
+    "timerOffBody": "Chayqa rimanakuy ukhupin qepan.",
+    "timerViewBody": "Paykuna rikuqtinkuqa iskayniykichismantan chinkanqa.",
+    "confirm": "Aswan allin",
+    "editItem": "Imatapas allichay {{value1}}",
+    "coverSet": "P'achalliy {{value1}}",
+    "lockedForUsd": "Kichay {{value1}}",
+    "timerTimeBody": "Kachasqayki qhepaman {{value1}} iskayniykichismantan chinkanqa.",
+    "destruct": {
+      "60": "1 minutum",
+      "3600": "1 hora",
+      "43200": "12 horakuna",
+      "86400": "1 p'unchay",
+      "604800": "1 simana",
+      "31536000": "1 wata",
+      "view": "1 qhawasqa"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1p",
+      "604800": "1s",
+      "31536000": "1w",
+      "view": "1 qhawasqa"
+    },
+    "destructSecs": "{{n}} sikundu",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Patan",
     "theme": "Rikchay",
@@ -2997,6 +3056,8 @@
     "premium": "Sami",
     "pricing": "Chaninchaykuna",
     "reorderHint": "Ima iconotapas hap’ispa aysay mosoqmanta churanaykipaq",
+    "reorderHintGroups": "Mayllataq aysay ima llikachaqtapas wakmanta churaykunaykipaq, icha huk kichasqaman aysay apanaykipaq.",
+    "moveGroupHint": "Huk tabman aysay chayman apanaykipaq",
     "reorderReset": "Reset nisqa",
     "groups": {
       "create": "Kamariy",
@@ -7055,7 +7116,18 @@
       "moveRuleUp": "Kamachita alturay",
       "moveRuleDown": "Kamachita uraychay",
       "deleteRule": "Kamachita wañuchiy",
-      "rights": {"sendMessages":"Willakuykunata kachay","sendMessagesHint":"Ayllu rimanakuypi qillqay","sendMedia":"Willaykunata kachay","sendMediaHint":"Rikch'akunata hinallataq GIF nisqakunata k'askachiy","embedLinks":"T'inkikunata ch'aqchuy (Embed links)","embedLinksHint":"Mostrar previsualizaciones de enlaces","addMembers":"Waqaychaykuna yapay","addMembersHint":"Kamuykuna kawsaykuna q'illaykunata rikusunku","createEvents":"Raymikunata kamay","createEventsHint":"Ayllu huñunakuykunata wakichiy","changeInfoMemberHint":"Ayllu sutita, sut'inchayninwan ima allichay",
+      "rights": {
+        "sendMessages": "Willakuykunata kachay",
+        "sendMessagesHint": "Ayllu rimanakuypi qillqay",
+        "sendMedia": "Willaykunata kachay",
+        "sendMediaHint": "Rikch'akunata hinallataq GIF nisqakunata k'askachiy",
+        "embedLinks": "T'inkikunata ch'aqchuy (Embed links)",
+        "embedLinksHint": "Mostrar previsualizaciones de enlaces",
+        "addMembers": "Waqaychaykuna yapay",
+        "addMembersHint": "Kamuykuna kawsaykuna q'illaykunata rikusunku",
+        "createEvents": "Raymikunata kamay",
+        "createEventsHint": "Ayllu huñunakuykunata wakichiy",
+        "changeInfoMemberHint": "Ayllu sutita, sut'inchayninwan ima allichay",
         "changeInfo": "Ayllu willayta tikray",
         "changeInfoHint": "Suti, willay, rikchayta, kachariyta allinchay",
         "deleteMessages": "Willakuykunata pakay",
@@ -7133,12 +7205,41 @@
       "noInvites": "Manaraqmi invitacionpa t'inkikuna kanchu. Hukta ruway, runakunata chiqanmanta mink’anaykipaq.",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowMode":{"off":"Paskay","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 minutu","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hora"},"slowModeOffHint": "Miembronkuna mana tardaspa willakuykunata apachiyta atinku.",
+      "slowMode": {
+        "off": "Paskay",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 minutu",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 hora"
+      },
+      "slowModeOffHint": "Miembronkuna mana tardaspa willakuykunata apachiyta atinku.",
       "slowModeOnHint": "Miembronkuna sapa {{label}} huk willayta apachiyta atinku. Admins nisqakunaqa kacharisqam kachkanku.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Imatataq kaypi llapa runa ruwayta atinku mana huk derecho admin hukta niptinqa.",
       "slowModeTitle": "Llaqta modo",
-      "log": {"verbs":{"promote_admin":"qhawachisqa","demote_admin":"urmachisqa","transfer_ownership":"k'itiyuq kayta qusqa","ban_member":"qarqusqa","unban_member":"unbanned","kick_member":"qullusqa","mute_member":"upallachisqa","unmute_member":"uyarinalla","approve_member":"chiqanchasqa","reject_member":"qarqusqa","delete_message":"willayta qollupurqani","purge_messages":"llapa willaykunata qullurqani kaymanta","pin_message":"willakuyta k’askachirqan","unpin_message":"huk willayta qispichirqan","update_settings":"ayllup allichayninkunata musuqyachirqani","create_invite":"invitación linkta kamarqani","revoke_invite":"qayay t'inkita qichuruni","invite_used":"qayaykusqa"},
+      "log": {
+        "verbs": {
+          "promote_admin": "qhawachisqa",
+          "demote_admin": "urmachisqa",
+          "transfer_ownership": "k'itiyuq kayta qusqa",
+          "ban_member": "qarqusqa",
+          "unban_member": "unbanned",
+          "kick_member": "qullusqa",
+          "mute_member": "upallachisqa",
+          "unmute_member": "uyarinalla",
+          "approve_member": "chiqanchasqa",
+          "reject_member": "qarqusqa",
+          "delete_message": "willayta qollupurqani",
+          "purge_messages": "llapa willaykunata qullurqani kaymanta",
+          "pin_message": "willakuyta k’askachirqan",
+          "unpin_message": "huk willayta qispichirqan",
+          "update_settings": "ayllup allichayninkunata musuqyachirqani",
+          "create_invite": "invitación linkta kamarqani",
+          "revoke_invite": "qayay t'inkita qichuruni",
+          "invite_used": "qayaykusqa"
+        },
         "justNow": "kunanlla",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",
@@ -13595,53 +13696,52 @@
     "cinema": {
       "close": "Wisq'ay",
       "performance": {
-        "label": "Ruray",
         "0": "Kusisqa",
         "1": "Llakisqa",
         "2": "Mancharisqa",
         "3": "Atiyniyuq",
         "4": "Musphasqa",
         "5": "Hark'akuq",
-        "6": "Pukllaq"
+        "6": "Pukllaq",
+        "label": "Ruray"
       },
       "title": "Cine pusay",
       "hint": "Qhipa siq'iykipa utaq videoykipa rikuy estilonta pusay. Resultadokunaqa modeloman hinam tikrakun.",
       "none": "Mana pusaywan",
       "reset": "Pusayta pichay",
       "camera": {
-        "label": "Cámaraq rikchaynin",
         "0": "Digital cine",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Hatun formato",
-        "4": "Ñawpa videocámara"
+        "4": "Ñawpa videocámara",
+        "label": "Cámaraq rikchaynin"
       },
       "lens": {
-        "label": "Lenteq rikchaynin",
         "0": "Esférico",
         "1": "Anamórfico",
         "2": "Ñawpa llamp'u lente",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Lenteq rikchaynin"
       },
       "focalLength": {
-        "label": "Focal karuynin",
         "0": "18mm kichasqa",
         "1": "24mm kichasqa",
         "2": "35mm natural",
         "3": "50mm estándar",
         "4": "85mm retrato",
-        "5": "135mm teleobjetivo"
+        "5": "135mm teleobjetivo",
+        "label": "Focal karuynin"
       },
       "aperture": {
-        "label": "Campo ukhunchay",
         "0": "f/1.4 ancha pisi ukhu",
         "1": "f/2.8 pisi ukhu",
         "2": "f/5.6 chawpi",
-        "3": "f/11 ukhu enfoque"
+        "3": "f/11 ukhu enfoque",
+        "label": "Campo ukhunchay"
       },
       "movement": {
-        "label": "Cámara kuyuy",
         "0": "Trípodepi mana kuyuq",
         "1": "Pisi pisi dolly ukhuman",
         "2": "Pisi pisi dolly hawaman",
@@ -13649,27 +13749,27 @@
         "4": "Sujetota muyuy",
         "5": "Makipi",
         "6": "Grúa hatariy",
-        "7": "Pisi pisi paneo"
+        "7": "Pisi pisi paneo",
+        "label": "Cámara kuyuy"
       },
       "lighting": {
-        "label": "K'anchay",
         "0": "Llamp'u p'unchaw k'anchay",
         "1": "Quri hora",
         "2": "Tutayaq claroscuro",
         "3": "K'anchaq studio",
         "4": "Neón k'anchaykuna",
         "5": "Qhipamanta k'anchay silueta",
-        "6": "Phuyusqa llamp'u k'anchay"
+        "6": "Phuyusqa llamp'u k'anchay",
+        "label": "K'anchay"
       },
       "tempo": {
-        "label": "Tomaq ritmon",
         "0": "Huk sapalla mana kuchusqa toma",
         "1": "Thak, mana usqhay ruway",
         "2": "Kallpasapa, kuyuq ruway",
-        "3": "Ch'aqwa, usqhay ruway"
+        "3": "Ch'aqwa, usqhay ruway",
+        "label": "Tomaq ritmon"
       },
       "era": {
-        "label": "Pacha",
         "0": "1920 watakuna",
         "1": "1950 watakuna",
         "2": "1960 watakuna",
@@ -13677,10 +13777,10 @@
         "4": "1980 watakuna",
         "5": "1990 watakuna",
         "6": "Kunan pacha",
-        "7": "Qayllan hamuq pacha"
+        "7": "Qayllan hamuq pacha",
+        "label": "Pacha"
       },
       "genre": {
-        "label": "Género",
         "0": "Documental",
         "1": "Drama",
         "2": "Cine negro",
@@ -13688,16 +13788,17 @@
         "4": "Fantasía",
         "5": "Romántica comedia",
         "6": "Suspenso",
-        "7": "Western"
+        "7": "Western",
+        "label": "Género"
       },
       "palette": {
-        "label": "Llimp'ikuna",
         "0": "Q'uñi ámbar",
         "1": "Chiri anqas",
         "2": "Llamp'u allpa llimp'ikuna",
         "3": "Pastel",
         "4": "Hatun contraste monocromo",
-        "5": "Sinchi primario llimp'ikuna"
+        "5": "Sinchi primario llimp'ikuna",
+        "label": "Llimp'ikuna"
       }
     },
     "audioNoSpeech": "Chay qillqasqapiqa manam rimayta tarinchu.",

@@ -72,6 +72,9 @@ const ProducerBottomBar: React.FC<ProducerBottomBarProps> = ({
   const isReady = stage === "ready";
   const canStart = isReady && !isStarting && !startDisabled;
   const canEnd = isLive && !isEnding;
+  const screenShareLabel = screenSharing
+    ? t("live.screenShare.stop", { defaultValue: "Stop sharing screen" })
+    : t("live.screenShare.start", { defaultValue: "Share screen" });
   const hideExternalToggle =
     isStarting || isLive || isEnding || stage === "ended";
 
@@ -167,24 +170,19 @@ const ProducerBottomBar: React.FC<ProducerBottomBarProps> = ({
           </TouchableOpacity>
         ) : null}
 
-        {/* Screen share, once live: viewers see the phone's screen instead
-            of the camera until it is tapped again. */}
-        {onToggleScreenShare && isLive ? (
+        {onToggleScreenShare && !isEnding && stage !== "ended" ? (
           <TouchableOpacity
             onPress={onToggleScreenShare}
+            disabled={!isLive}
             activeOpacity={0.8}
-            className={`${CIRCLE} ${
-              screenSharing ? "bg-white/20" : "bg-zinc-900/60"
-            }`}
+            className={`min-h-12 px-3 rounded-xl flex-row items-center ${screenSharing ? "bg-white/20" : "bg-zinc-900/60"}`}
             accessibilityRole="button"
-            accessibilityLabel={
-              screenSharing
-                ? t("live.screenShare.stop", { defaultValue: "Stop sharing screen" })
-                : t("live.screenShare.start", { defaultValue: "Share screen" })
-            }
-            accessibilityState={{ selected: !!screenSharing }}
+            accessibilityState={{ selected: !!screenSharing, disabled: !isLive }}
           >
             <ScreenShare color="#fff" size={20} />
+            <Text className="ml-1.5 text-xs font-semibold text-white">
+              {isLive ? screenShareLabel : t("upload.goLive") + " → " + screenShareLabel}
+            </Text>
           </TouchableOpacity>
         ) : null}
 

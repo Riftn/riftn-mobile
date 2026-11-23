@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Omslag", "trim": "Trimma", "mirror": "Spegla", "rotate": "Rotera", "hide": "Dölj", "timer": "Timer", "close": "Stäng", "photo": "Foto", "remove": "Ta bort", "pause": "Pausa", "play": "Spela upp video", "hiddenUntilTap": "Dold tills de trycker på den", "scrub": "Skrubba genom videon", "addMore": "Lägg till foton eller videor", "coverAria": "Tryck på en bildruta för att välja omslag", "trimHint": "Dra i ändarna för att trimma", "coverHint": "Tryck på en bildruta för att göra den till omslag", "uploadCover": "Ladda upp en omslagsbild", "mirrored": "Spegvänd", "original": "Original", "rotate90": "Rotera 90°", "timerOff": "Av", "showNormally": "Visa normalt", "showNormallyBody": "De ser den direkt", "hideUntilTap": "Dölj tills den trycks på", "hideUntilTapBody": "Oskarp tills de trycker på den", "hidePrice": "Dölj bakom ett pris", "hidePriceBody": "Oskarp tills de betalar dig", "priceUnavailable": "Inte i den här chatten", "priceLabelUsd": "Pris", "priceHint": "De ser den suddig tills de betalar dig. Låsta objekt är inte ändpunkt-till-ändpunkt-krypterade.", "timerOffBody": "Den stannar i chatten.", "timerViewBody": "Borta för er båda när de har sett den.", "confirm": "Bekräfta", "editItem": "Redigera objekt {{value1}}", "coverSet": "Omslag vid {{value1}}", "lockedForUsd": "Lås upp för {{value1}}", "timerTimeBody": "Borta för er båda {{value1}} efter att du har skickat den."},
+  "dmVideo": {
+    "cover": "Omslag",
+    "trim": "Trimma",
+    "mirror": "Spegla",
+    "rotate": "Rotera",
+    "hide": "Dölj",
+    "timer": "Timer",
+    "close": "Stäng",
+    "photo": "Foto",
+    "remove": "Ta bort",
+    "pause": "Pausa",
+    "play": "Spela upp video",
+    "hiddenUntilTap": "Dold tills de trycker på den",
+    "scrub": "Skrubba genom videon",
+    "addMore": "Lägg till foton eller videor",
+    "coverAria": "Tryck på en bildruta för att välja omslag",
+    "trimHint": "Dra i ändarna för att trimma",
+    "coverHint": "Tryck på en bildruta för att göra den till omslag",
+    "uploadCover": "Ladda upp en omslagsbild",
+    "mirrored": "Spegvänd",
+    "original": "Original",
+    "rotate90": "Rotera 90°",
+    "timerOff": "Av",
+    "showNormally": "Visa normalt",
+    "showNormallyBody": "De ser den direkt",
+    "hideUntilTap": "Dölj tills den trycks på",
+    "hideUntilTapBody": "Oskarp tills de trycker på den",
+    "hidePrice": "Dölj bakom ett pris",
+    "hidePriceBody": "Oskarp tills de betalar dig",
+    "priceUnavailable": "Inte i den här chatten",
+    "priceLabelUsd": "Pris",
+    "priceHint": "De ser den suddig tills de betalar dig. Låsta objekt är inte ändpunkt-till-ändpunkt-krypterade.",
+    "timerOffBody": "Den stannar i chatten.",
+    "timerViewBody": "Borta för er båda när de har sett den.",
+    "confirm": "Bekräfta",
+    "editItem": "Redigera objekt {{value1}}",
+    "coverSet": "Omslag vid {{value1}}",
+    "lockedForUsd": "Lås upp för {{value1}}",
+    "timerTimeBody": "Borta för er båda {{value1}} efter att du har skickat den.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 timme",
+      "43200": "12 timmar",
+      "86400": "1 dag",
+      "604800": "1 vecka",
+      "31536000": "1 år",
+      "view": "1 visning"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1v",
+      "31536000": "1å",
+      "view": "1 visning"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Kant",
     "theme": "Tema",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Håll och dra valfri ikon för att ordna om",
+    "reorderHintGroups": "Håll och dra ikonen för att omarrangera eller dra den till en annan flik för att flytta den",
+    "moveGroupHint": "Släpp på en annan flik för att flytta den dit",
     "reorderReset": "Återställ",
     "groups": {
       "create": "Skapa",
@@ -3168,7 +3229,26 @@
     "postCount_other": "{{count}} inlägg"
   },
   "settings": {
-    "loginLook": {"title": "Inloggningsskärm", "desc": "Hur Riftn-logotypen och sloganen rör sig på inloggningsskärmen på den här enheten.", "tube": "Tjock-tv", "vhs": "VHS-band", "led": "LED-vägg", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Platt"}, "arrivalLook": {"title": "Efter inloggning", "desc": "Det som spelas medan ditt konto laddas, innan din bild landar på sidan. På den här enheten.", "trace": "Spår", "tune": "Ställ in", "rift": "Spricka", "deck": "Kortlek", "glass": "Glasdroppe"},
+    "loginLook": {
+      "title": "Inloggningsskärm",
+      "desc": "Hur Riftn-logotypen och sloganen rör sig på inloggningsskärmen på den här enheten.",
+      "tube": "Tjock-tv",
+      "vhs": "VHS-band",
+      "led": "LED-vägg",
+      "holo": "Hologram",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Platt"
+    },
+    "arrivalLook": {
+      "title": "Efter inloggning",
+      "desc": "Det som spelas medan ditt konto laddas, innan din bild landar på sidan. På den här enheten.",
+      "trace": "Spår",
+      "tune": "Ställ in",
+      "rift": "Spricka",
+      "deck": "Kortlek",
+      "glass": "Glasdroppe"
+    },
     "glass": "Glasartad",
     "shortsEnabled": "Korta filmer",
     "shortsEnabledDesc": "Visa fliken Shorts feed och Shorts carousels på Home.",
@@ -7029,7 +7109,18 @@
       "moveRuleUp": "Flytta regel upp",
       "moveRuleDown": "Flytta regel ner",
       "deleteRule": "Ta bort regel",
-      "rights": {"sendMessages":"Skicka meddelanden","sendMessagesHint":"Inlägg i communitychatten","sendMedia":"Skicka media","sendMediaHint":"Lägg till bilder och GIFs","embedLinks":"Inkludera länkar","embedLinksHint":"Visa länk förhandsgranskningar","addMembers":"Lägg till medlemmar","addMembersHint":"Dela communityn med andra","createEvents":"Skapa evenemang","createEventsHint":"Planera gemensamma evenemang","changeInfoMemberHint":"Redigera gemenskapens namn och beskrivning",
+      "rights": {
+        "sendMessages": "Skicka meddelanden",
+        "sendMessagesHint": "Inlägg i communitychatten",
+        "sendMedia": "Skicka media",
+        "sendMediaHint": "Lägg till bilder och GIFs",
+        "embedLinks": "Inkludera länkar",
+        "embedLinksHint": "Visa länk förhandsgranskningar",
+        "addMembers": "Lägg till medlemmar",
+        "addMembersHint": "Dela communityn med andra",
+        "createEvents": "Skapa evenemang",
+        "createEventsHint": "Planera gemensamma evenemang",
+        "changeInfoMemberHint": "Redigera gemenskapens namn och beskrivning",
         "changeInfo": "Ändra communityinformation",
         "changeInfoHint": "Redigera namn, beskrivning, avatar och banner",
         "deleteMessages": "Ta bort meddelanden",
@@ -7107,12 +7198,41 @@
       "noInvites": "Inga inbjudningslänkar än. Skapa ett för att inbjuda människor direkt.",
       "permissionsUpdated": "Rättigheter uppdaterade",
       "slowModeUpdated": "Långsam modus uppdaterad",
-      "slowMode":{"off":"Av","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 timme"},"slowModeOffHint": "Medlemmar kan skicka meddelanden utan fördröjning.",
+      "slowMode": {
+        "off": "Av",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 timme"
+      },
+      "slowModeOffHint": "Medlemmar kan skicka meddelanden utan fördröjning.",
       "slowModeOnHint": "Medlemmar kan skicka ett meddelande varje {{label}}. Administratörer är undantagna.",
       "defaultPermissions": "Standardmedlemstillstånd",
       "defaultPermissionsHint": "Vad alla kan göra här förutom om en administratör har sagt annorlunda.",
       "slowModeTitle": "Långsam modus",
-      "log": {"verbs":{"promote_admin":"Förstasida","demote_admin":"demoterad","transfer_ownership":"överförde ägarskap till","ban_member":"förbjuden","unban_member":"obannad","kick_member":"raderad","mute_member":"avstängd","unmute_member":"Oavstängd","approve_member":"godkänt","reject_member":"avvisad","delete_message":"raderade ett meddelande från","purge_messages":"togs bort alla meddelanden från","pin_message":"pinnad meddelande från","unpin_message":"avpinnade ett meddelande från","update_settings":"Uppdaterade gemenskapens inställningar","create_invite":"skapade en inbjudningslänk","revoke_invite":"avkallat en inbjudningslänk","invite_used":"inbjuden"},
+      "log": {
+        "verbs": {
+          "promote_admin": "Förstasida",
+          "demote_admin": "demoterad",
+          "transfer_ownership": "överförde ägarskap till",
+          "ban_member": "förbjuden",
+          "unban_member": "obannad",
+          "kick_member": "raderad",
+          "mute_member": "avstängd",
+          "unmute_member": "Oavstängd",
+          "approve_member": "godkänt",
+          "reject_member": "avvisad",
+          "delete_message": "raderade ett meddelande från",
+          "purge_messages": "togs bort alla meddelanden från",
+          "pin_message": "pinnad meddelande från",
+          "unpin_message": "avpinnade ett meddelande från",
+          "update_settings": "Uppdaterade gemenskapens inställningar",
+          "create_invite": "skapade en inbjudningslänk",
+          "revoke_invite": "avkallat en inbjudningslänk",
+          "invite_used": "inbjuden"
+        },
         "justNow": "just nu",
         "minutesAgo": "{{value}}m sedan",
         "hoursAgo": "{{value}}h sedan",
@@ -13569,53 +13689,52 @@
     "cinema": {
       "close": "Stäng",
       "performance": {
-        "label": "Prestanda",
         "0": "Glad",
         "1": "Melankolisk",
         "2": "Ängslig",
         "3": "Självsäker",
         "4": "Häpen",
         "5": "Återhållsam",
-        "6": "Lekfull"
+        "6": "Lekfull",
+        "label": "Prestanda"
       },
       "title": "Filmisk regi",
       "hint": "Styr den visuella stilen för din nästa bild eller video. Resultaten varierar mellan modeller.",
       "none": "Ingen regi",
       "reset": "Rensa regi",
       "camera": {
-        "label": "Kamerautseende",
         "0": "Digital film",
         "1": "35 mm film",
         "2": "16 mm film",
         "3": "Storformat",
-        "4": "Vintage-videokamera"
+        "4": "Vintage-videokamera",
+        "label": "Kamerautseende"
       },
       "lens": {
-        "label": "Objektivutseende",
         "0": "Sfäriskt",
         "1": "Anamorfiskt",
         "2": "Mjukt vintageglas",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektivutseende"
       },
       "focalLength": {
-        "label": "Brännvidd",
         "0": "18 mm vidvinkel",
         "1": "24 mm vidvinkel",
         "2": "35 mm naturlig",
         "3": "50 mm standard",
         "4": "85 mm porträtt",
-        "5": "135 mm tele"
+        "5": "135 mm tele",
+        "label": "Brännvidd"
       },
       "aperture": {
-        "label": "Skärpedjup",
         "0": "f/1.4 mycket grunt",
         "1": "f/2.8 grunt",
         "2": "f/5.6 måttligt",
-        "3": "f/11 djup skärpa"
+        "3": "f/11 djup skärpa",
+        "label": "Skärpedjup"
       },
       "movement": {
-        "label": "Kamerarörelse",
         "0": "Låst stativ",
         "1": "Långsam dolly in",
         "2": "Långsam dolly ut",
@@ -13623,27 +13742,27 @@
         "4": "Kretsa runt motivet",
         "5": "Handhållen",
         "6": "Kranlyft",
-        "7": "Långsam panorering"
+        "7": "Långsam panorering",
+        "label": "Kamerarörelse"
       },
       "lighting": {
-        "label": "Ljussättning",
         "0": "Mjukt dagsljus",
         "1": "Gyllene timmen",
         "2": "Lågnyckel chiaroscuro",
         "3": "Högnyckel studio",
         "4": "Neonljus i bild",
         "5": "Silhuett i motljus",
-        "6": "Mulet och diffust"
+        "6": "Mulet och diffust",
+        "label": "Ljussättning"
       },
       "tempo": {
-        "label": "Tagningstempo",
         "0": "En enda sammanhängande tagning",
         "1": "Lugn, avspänd handling",
         "2": "Dynamisk, energisk handling",
-        "3": "Kaotisk, frenetisk handling"
+        "3": "Kaotisk, frenetisk handling",
+        "label": "Tagningstempo"
       },
       "era": {
-        "label": "Era",
         "0": "1920-tal",
         "1": "1950-tal",
         "2": "1960-tal",
@@ -13651,10 +13770,10 @@
         "4": "1980-tal",
         "5": "1990-tal",
         "6": "Nutid",
-        "7": "Nära framtid"
+        "7": "Nära framtid",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumentär",
         "1": "Drama",
         "2": "Film noir",
@@ -13662,16 +13781,17 @@
         "4": "Fantasy",
         "5": "Romantisk komedi",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Färgpalett",
         "0": "Varm bärnsten",
         "1": "Kall blå",
         "2": "Dämpade jordtoner",
         "3": "Pastell",
         "4": "Monokrom med hög kontrast",
-        "5": "Mättade primärfärger"
+        "5": "Mättade primärfärger",
+        "label": "Färgpalett"
       }
     },
     "audioNoSpeech": "Inga tal hittades i den inspelningen.",

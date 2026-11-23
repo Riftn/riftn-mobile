@@ -11,7 +11,7 @@ import { useGroupCallRoster } from "../../libs/groupCall";
  * place while one is going. Starting rings every member; joining just steps
  * into the room.
  */
-const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[] }> = ({ groupId, groupName, members }) => {
+const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[]; canStart?: boolean }> = ({ groupId, groupName, members, canStart = true }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { startGroupCall, joinGroupCall, currentCall } = useCall();
@@ -38,6 +38,10 @@ const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: 
       </Pressable>
     );
   }
+
+  // Who may ring the group is a group setting (Permissions > Start group
+  // calls); the database refuses the ring otherwise.
+  if (!canStart) return null;
 
   return (
     <View style={styles.row}>

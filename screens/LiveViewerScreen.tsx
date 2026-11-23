@@ -3,6 +3,7 @@ import { View, StatusBar, Platform, ActivityIndicator, StyleSheet } from "react-
 import { useFocusEffect, useRoute } from "@react-navigation/native";
 import LiveStreamPlayer from "../components/VideoPlayer/LiveStreamPlayer";
 import { DarkRoomProvider, useAppTheme } from "../context/ThemeContext";
+import { holdDarkRoom } from "../libs/darkRoomOpen";
 import { setNavigationBarDarkIcons } from "../modules/system-bars";
 
 type RouteParams = {
@@ -34,13 +35,17 @@ const LiveViewerScreen: React.FC = () => {
   // again, which left Home dark and frozen for seconds in System Light.
   // `dark-surface` keeps the colours dark, DarkRoomProvider what reads the theme.
   const { isLight } = useAppTheme();
-  // Android's gesture bar sits on the live's black: light icons while it shows.
+  // The strips under the status bar and the gesture bar are the app's root
+  // view, the page colour: white in System Light, under this screen's white
+  // clock. Black while the live shows, and light icons on Android's gesture bar.
   useFocusEffect(
     useCallback(() => {
-      if (Platform.OS !== "android" || !isLight) return;
-      void setNavigationBarDarkIcons(false);
+      if (!isLight) return;
+      const release = holdDarkRoom();
+      if (Platform.OS === "android") void setNavigationBarDarkIcons(false);
       return () => {
-        void setNavigationBarDarkIcons(true);
+        release();
+        if (Platform.OS === "android") void setNavigationBarDarkIcons(true);
       };
     }, [isLight])
   );

@@ -70,6 +70,7 @@ import type { CommentHoldExtra, CommentLayout } from "./CommentContextMenu";
 import { WEBSITE_LINK } from "../../config";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 import { AssetRefCards, MAX_ASSET_CARDS_PER_MESSAGE } from "../common/AssetRefCard";
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
@@ -117,6 +118,8 @@ interface CommentItemProps {
    * rules — own comment, top-level only — are applied here, as the menu does.
    */
   onPin?: (comment: Comment) => void;
+  /** Hide/unhide on the viewer's own post. Also marks a hidden reply for them. */
+  onHide?: (comment: Comment) => void;
   onReport?: (comment: Comment) => void;
   onDelete?: (comment: Comment) => void;
   onLongPress?: (comment: Comment, layout: CommentLayout, extra: CommentHoldExtra) => void;
@@ -155,6 +158,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   onUserPress,
   onEdit,
   onPin,
+  onHide,
   onReport,
   onDelete,
   onLongPress,
@@ -626,7 +630,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
       accessibilityActions={isPending ? [] : a11yActions}
       onAccessibilityAction={handleAccessibilityAction}
     >
-      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, landStyle]}>
+      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, landStyle, onHide && comment.hiddenByCreator ? { opacity: 0.5 } : null]}>
         <Pressable onPress={handleUserPress}>
           {landsNow && (
             <Animated.View
@@ -698,6 +702,29 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
             {/* Why this comment is at the top. Without it a pinned comment
                 just looks like the newest one, and the creator's choice reads
                 as an accident of ordering. */}
+            {/* Only the creator sees this: the writer is never told. */}
+            {onHide && comment.hiddenByCreator && (
+              <View
+                accessibilityLabel={t("hideReply.hiddenTitle")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 2,
+                  paddingHorizontal: 6,
+                  paddingVertical: 2,
+                  borderRadius: 6,
+                  backgroundColor: "rgba(255,255,255,0.12)",
+                  borderWidth: 1,
+                  borderColor: "rgba(255,255,255,0.12)",
+                  ...(isMinimal ? MINIMAL_UNFILLED : null),
+                }}
+              >
+                <Icon name="EyeOff" size={10} color="rgba(255,255,255,0.75)" />
+                <Text style={{ fontSize: 10, fontWeight: "600", color: "rgba(255,255,255,0.75)" }}>
+                  {t("hideReply.hiddenBadge")}
+                </Text>
+              </View>
+            )}
             {comment.isPinned && (
               <View
                 accessibilityLabel={t("comments.pinnedByCreator")}
@@ -793,7 +820,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
                     {part.text}
                   </Text>
                 ) : (
-                  <Text key={idx}>{expandEmojiTokens(part.text, { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
+                  <Text key={idx}>{expandEmojiTokens(renderLinkEmojis(part.text, { keyPrefix: `lk-${idx}` }), { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
                 )
               )}
             </Animated.Text>

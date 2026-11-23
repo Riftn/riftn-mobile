@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Coberta", "trim": "Retalla", "mirror": "Reflecteix", "rotate": "Gira", "hide": "Amaga", "timer": "Temporitzador", "close": "Tanca", "photo": "Foto", "remove": "Elimina", "pause": "Pausa", "play": "Reprodueix el vídeo", "hiddenUntilTap": "Ocult fins que hi toquin", "scrub": "Fes un recorregut pel vídeo", "addMore": "Afegeix fotos o vídeos", "coverAria": "Toca un fotograma per establir-lo com a portada", "trimHint": "Arrossega els extrems per retallar", "coverHint": "Toca un fotograma per fer-lo servir com a portada", "uploadCover": "Puja una imatge de portada", "mirrored": "Reflectit", "original": "Original", "rotate90": "Gira 90°", "timerOff": "Desactivat", "showNormally": "Mostra normalment", "showNormallyBody": "Ho veuen de seguida", "hideUntilTap": "Amaga fins que s’hi toqui", "hideUntilTapBody": "Es veurà borrosa fins que hi toquin", "hidePrice": "Amaga-ho darrere d'un preu", "hidePriceBody": "Es mostra borrosa fins que et paguin", "priceUnavailable": "No en aquest xat", "priceLabelUsd": "Preu", "priceHint": "Ho veuran desenfocat fins que et paguin. Els elements bloquejats no estan xifrats de punt a punt.", "timerOffBody": "Es queda al xat.", "timerViewBody": "Desapareixerà per a tots dos un cop l'hagin vist.", "confirm": "Confirma", "editItem": "Modifica l'element {{value1}}", "coverSet": "Cobreix a les {{value1}}", "lockedForUsd": "Desbloqueja per a {{value1}}", "timerTimeBody": "Desapareixerà per a tots dos {{value1}} després d'enviar-ho."},
+  "dmVideo": {
+    "cover": "Coberta",
+    "trim": "Retalla",
+    "mirror": "Reflecteix",
+    "rotate": "Gira",
+    "hide": "Amaga",
+    "timer": "Temporitzador",
+    "close": "Tanca",
+    "photo": "Foto",
+    "remove": "Elimina",
+    "pause": "Pausa",
+    "play": "Reprodueix el vídeo",
+    "hiddenUntilTap": "Ocult fins que hi toquin",
+    "scrub": "Fes un recorregut pel vídeo",
+    "addMore": "Afegeix fotos o vídeos",
+    "coverAria": "Toca un fotograma per establir-lo com a portada",
+    "trimHint": "Arrossega els extrems per retallar",
+    "coverHint": "Toca un fotograma per fer-lo servir com a portada",
+    "uploadCover": "Puja una imatge de portada",
+    "mirrored": "Reflectit",
+    "original": "Original",
+    "rotate90": "Gira 90°",
+    "timerOff": "Desactivat",
+    "showNormally": "Mostra normalment",
+    "showNormallyBody": "Ho veuen de seguida",
+    "hideUntilTap": "Amaga fins que s’hi toqui",
+    "hideUntilTapBody": "Es veurà borrosa fins que hi toquin",
+    "hidePrice": "Amaga-ho darrere d'un preu",
+    "hidePriceBody": "Es mostra borrosa fins que et paguin",
+    "priceUnavailable": "No en aquest xat",
+    "priceLabelUsd": "Preu",
+    "priceHint": "Ho veuran desenfocat fins que et paguin. Els elements bloquejats no estan xifrats de punt a punt.",
+    "timerOffBody": "Es queda al xat.",
+    "timerViewBody": "Desapareixerà per a tots dos un cop l'hagin vist.",
+    "confirm": "Confirma",
+    "editItem": "Modifica l'element {{value1}}",
+    "coverSet": "Cobreix a les {{value1}}",
+    "lockedForUsd": "Desbloqueja per a {{value1}}",
+    "timerTimeBody": "Desapareixerà per a tots dos {{value1}} després d'enviar-ho.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 hora",
+      "43200": "12 hores",
+      "86400": "1 dia",
+      "604800": "1 setmana",
+      "31536000": "1 any",
+      "view": "1 visualització"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1s",
+      "31536000": "1a",
+      "view": "1 visualització"
+    },
+    "destructSecs": "{{n}} seg",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Vora",
     "theme": "Tema",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Preus",
     "reorderHint": "Mantingues i arrossega qualsevol icona per reorganitzar",
+    "reorderHintGroups": "Mantén premuda i arrossega qualsevol icona per reordenar-la, o bé porta-la a una altra pestanya per moure-la",
+    "moveGroupHint": "Deixa-ho anar en una altra pestanya per moure-ho allà",
     "reorderReset": "Reset",
     "groups": {
       "create": "Crear",
@@ -7024,7 +7085,18 @@
       "moveRuleUp": "Moure regla amunt",
       "moveRuleDown": "Moure regla avall",
       "deleteRule": "Eliminar regla",
-      "rights": {"sendMessages":"Envia missatges","sendMessagesHint":"Publica al xat de la comunitat","sendMedia":"Enviar mitjans","sendMediaHint":"Adjunta imatges i GIFs","embedLinks":"Incrusta enllaços","embedLinksHint":"Mostra previsualitzacions d'enllaços","addMembers":"Afegeix membres","addMembersHint":"Compartir la comunitat amb altres","createEvents":"Crea esdeveniments","createEventsHint":"Programar eventos comunitarios","changeInfoMemberHint":"Edita el nom i la descripció de la comunitat",
+      "rights": {
+        "sendMessages": "Envia missatges",
+        "sendMessagesHint": "Publica al xat de la comunitat",
+        "sendMedia": "Enviar mitjans",
+        "sendMediaHint": "Adjunta imatges i GIFs",
+        "embedLinks": "Incrusta enllaços",
+        "embedLinksHint": "Mostra previsualitzacions d'enllaços",
+        "addMembers": "Afegeix membres",
+        "addMembersHint": "Compartir la comunitat amb altres",
+        "createEvents": "Crea esdeveniments",
+        "createEventsHint": "Programar eventos comunitarios",
+        "changeInfoMemberHint": "Edita el nom i la descripció de la comunitat",
         "changeInfo": "Canviar informació de la comunitat",
         "changeInfoHint": "Editar el nom, la descripció, l'avatar i el bàner",
         "deleteMessages": "Eliminar missatges",
@@ -7102,12 +7174,41 @@
       "noInvites": "Cap enllaç d'invitació encara. Crea un per convidar persones directament.",
       "permissionsUpdated": "Permesos actualitzats",
       "slowModeUpdated": "Mod de velocitat actualitzat",
-      "slowMode":{"off":"Desactivat","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hora"},"slowModeOffHint": "Els membres poden enviar missatges sense cap retard.",
+      "slowMode": {
+        "off": "Desactivat",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 hora"
+      },
+      "slowModeOffHint": "Els membres poden enviar missatges sense cap retard.",
       "slowModeOnHint": "Els membres poden enviar un missatge cada {{label}}. Els administradors estan exemptats.",
       "defaultPermissions": "Permesos de membre per defecte",
       "defaultPermissionsHint": "Allò que tothom pot fer aquí, a menys que un dret d'administrador digui el contrari.",
       "slowModeTitle": "Mod de velocitat",
-      "log": {"verbs":{"promote_admin":"promocionat","demote_admin":"degradat","transfer_ownership":"ha transferit la propietat a","ban_member":"prohibit","unban_member":"desbanyat","kick_member":"esborrat","mute_member":"silenciat","unmute_member":"Sense silenci","approve_member":"aprovat","reject_member":"rebutjat","delete_message":"s’ha eliminat un missatge de","purge_messages":"esborrat tots els missatges de","pin_message":"un missatge fixat per","unpin_message":"Despinat un missatge de","update_settings":"Actualitzat les configuracions de la comunitat","create_invite":"s'ha creat un enllaç d'invitació","revoke_invite":"s'ha revocat un enllaç d'invitació","invite_used":"invitat"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promocionat",
+          "demote_admin": "degradat",
+          "transfer_ownership": "ha transferit la propietat a",
+          "ban_member": "prohibit",
+          "unban_member": "desbanyat",
+          "kick_member": "esborrat",
+          "mute_member": "silenciat",
+          "unmute_member": "Sense silenci",
+          "approve_member": "aprovat",
+          "reject_member": "rebutjat",
+          "delete_message": "s’ha eliminat un missatge de",
+          "purge_messages": "esborrat tots els missatges de",
+          "pin_message": "un missatge fixat per",
+          "unpin_message": "Despinat un missatge de",
+          "update_settings": "Actualitzat les configuracions de la comunitat",
+          "create_invite": "s'ha creat un enllaç d'invitació",
+          "revoke_invite": "s'ha revocat un enllaç d'invitació",
+          "invite_used": "invitat"
+        },
         "justNow": "fa justament ara",
         "minutesAgo": "{{value}}m fa",
         "hoursAgo": "{{value}}h fa",
@@ -13564,53 +13665,52 @@
     "cinema": {
       "close": "Tancar",
       "performance": {
-        "label": "Rendiment",
         "0": "Alegre",
         "1": "Melancòlic",
         "2": "Ansiós",
         "3": "Segur",
         "4": "Meravellat",
         "5": "Contingut",
-        "6": "Juganer"
+        "6": "Juganer",
+        "label": "Rendiment"
       },
       "title": "Direcció cinematogràfica",
       "hint": "Guia l'estil visual de la teva propera imatge o vídeo. Els resultats varien segons el model.",
       "none": "Sense direcció",
       "reset": "Esborra la direcció",
       "camera": {
-        "label": "Aspecte de càmera",
         "0": "Cinema digital",
         "1": "Pel·lícula de 35mm",
         "2": "Pel·lícula de 16mm",
         "3": "Gran format",
-        "4": "Càmera de vídeo antiga"
+        "4": "Càmera de vídeo antiga",
+        "label": "Aspecte de càmera"
       },
       "lens": {
-        "label": "Aspecte de l'objectiu",
         "0": "Esfèrica",
         "1": "Anamòrfica",
         "2": "Vidre suau vintage",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Aspecte de l'objectiu"
       },
       "focalLength": {
-        "label": "Distància focal",
         "0": "18 mm gran angular",
         "1": "24 mm gran angular",
         "2": "35 mm natural",
         "3": "50 mm estàndard",
         "4": "85 mm retrat",
-        "5": "135 mm teleobjectiu"
+        "5": "135 mm teleobjectiu",
+        "label": "Distància focal"
       },
       "aperture": {
-        "label": "Profunditat de camp",
         "0": "f/1.4 molt reduïda",
         "1": "f/2.8 reduïda",
         "2": "f/5.6 moderada",
-        "3": "f/11 focus profund"
+        "3": "f/11 focus profund",
+        "label": "Profunditat de camp"
       },
       "movement": {
-        "label": "Moviment de càmera",
         "0": "Trípode fix",
         "1": "Travelling lent cap endins",
         "2": "Travelling lent cap enfora",
@@ -13618,27 +13718,27 @@
         "4": "Òrbita al voltant del subjecte",
         "5": "Càmera en mà",
         "6": "Pujada amb grua",
-        "7": "Panoràmica lenta"
+        "7": "Panoràmica lenta",
+        "label": "Moviment de càmera"
       },
       "lighting": {
-        "label": "Il·luminació",
         "0": "Llum de dia suau",
         "1": "Hora daurada",
         "2": "Clarobscur de clau baixa",
         "3": "Estudi de clau alta",
         "4": "Neons pràctics",
         "5": "Contrallum en silueta",
-        "6": "Llum difusa de cel ennuvolat"
+        "6": "Llum difusa de cel ennuvolat",
+        "label": "Il·luminació"
       },
       "tempo": {
-        "label": "Ritme del pla",
         "0": "Un sol pla continu",
         "1": "Acció tranquil·la i pausada",
         "2": "Acció dinàmica i enèrgica",
-        "3": "Acció caòtica i frenètica"
+        "3": "Acció caòtica i frenètica",
+        "label": "Ritme del pla"
       },
       "era": {
-        "label": "Època",
         "0": "Anys 20",
         "1": "Anys 50",
         "2": "Anys 60",
@@ -13646,10 +13746,10 @@
         "4": "Anys 80",
         "5": "Anys 90",
         "6": "Actualitat",
-        "7": "Futur proper"
+        "7": "Futur proper",
+        "label": "Època"
       },
       "genre": {
-        "label": "Gènere",
         "0": "Documental",
         "1": "Drama",
         "2": "Cinema negre",
@@ -13657,16 +13757,17 @@
         "4": "Fantasia",
         "5": "Comèdia romàntica",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Gènere"
       },
       "palette": {
-        "label": "Paleta de colors",
         "0": "Ambre càlid",
         "1": "Blau fred",
         "2": "Tons terrosos apagats",
         "3": "Pastel",
         "4": "Monocrom d'alt contrast",
-        "5": "Colors primaris saturats"
+        "5": "Colors primaris saturats",
+        "label": "Paleta de colors"
       }
     },
     "audioNoSpeech": "No s'ha trobat cap discurs en aquesta gravació.",
@@ -17159,5 +17260,100 @@
     "promptCatchUp": "Posa'm al dia del que {{handle}} ha publicat últimament",
     "promptMessage": "Ajuda'm a escriure un missatge a {{handle}}",
     "promptAbout": "Sobre {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Amaga la resposta",
+    "unhide": "Torna a mostrar",
+    "hiddenBadge": "Amagat",
+    "hiddenTitle": "Només tu i la persona que l'ha escrit podeu veure-ho",
+    "hiddenToast": "Resposta amagada. Només tu i la persona que l'ha escrit podeu veure-ho",
+    "unhiddenToast": "La resposta torna a ser visible",
+    "failed": "No s'ha pogut amagar la resposta"
+  },
+  "accountType": {
+    "title": "Tipus de compte",
+    "hint": "Els comptes de creador i d'empresa mostren una categoria sota el teu nom. Els d'empresa afegeixen un botó de contacte. Totes les funcions estan disponibles per a tots els comptes.",
+    "type": {
+      "personal": "Personal",
+      "creator": "Creador",
+      "business": "Empresa"
+    },
+    "category": "Categoria",
+    "contactEmail": "Correu electrònic de contacte públic",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Aquest correu electrònic no sembla correcte",
+    "save": "Desa el tipus de compte",
+    "saving": "Desant...",
+    "saved": "Tipus de compte desat",
+    "saveFailed": "No s'ha pogut desar el tipus de compte",
+    "contact": "Contacte",
+    "cat": {
+      "artist": "Artista",
+      "musician": "Músic",
+      "gamer": "Gamer",
+      "streamer": "Streamer",
+      "writer": "Escriptor",
+      "podcaster": "Podcaster",
+      "educator": "Educador",
+      "athlete": "Atleta",
+      "photographer": "Fotògraf",
+      "video_creator": "Creador de vídeo",
+      "comedian": "Comediant",
+      "developer": "Desenvolupador",
+      "public_figure": "Figura pública",
+      "other": "Altres",
+      "brand": "Marca",
+      "shop": "Botiga",
+      "restaurant": "Restaurant",
+      "cafe": "Cafeteria",
+      "agency": "Agència",
+      "community": "Comunitat",
+      "media": "Mitjà de comunicació",
+      "app": "Aplicació",
+      "project": "Projecte",
+      "nonprofit": "Sense ànim de lucre",
+      "local_business": "Negoci local"
+    }
+  },
+  "photoTags": {
+    "title": "Etiqueta persones",
+    "hint": "Toca la foto on hi hagi algú i tria el seu nom.",
+    "search": "Cerca persones",
+    "remove": "Elimina l'etiqueta",
+    "done": "Fet",
+    "taggedCount": "{{value}} etiquetat",
+    "showTags": "Mostra qui està etiquetat",
+    "hideTags": "Amaga les etiquetes",
+    "saved": "Etiquetes desades",
+    "saveFailed": "No s'han pogut desar les etiquetes",
+    "removeMe": "Elimina'm d'aquesta foto",
+    "removedMe": "La teva etiqueta s'ha eliminat"
+  },
+  "quiz": {
+    "title": "Qüestionari",
+    "add": "Afegeix un qüestionari",
+    "remove": "Elimina el qüestionari",
+    "taken": "{{value}} l'ha fet",
+    "questionOf": "Pregunta {{n}} de {{total}}",
+    "pointsEach": "{{points}} punts cadascuna",
+    "badgeBoost": "La teva insígnia et dona {{x}}x punts",
+    "earnedToast": "{{correct}} de {{total}} encertades, +{{points}} punts",
+    "noPointsToast": "{{correct}} de {{total}} encertades",
+    "answerFailed": "No s'han pogut enviar les teves respostes",
+    "resultPoints": "{{correct}} de {{total}} encertades, has guanyat {{points}} punts",
+    "result": "{{correct}} de {{total}} encertades",
+    "creatorNote": "El teu qüestionari. Les respostes correctes estan marcades; la gent guanya els teus punts del canal.",
+    "writeFailed": "No s'han pogut escriure les preguntes, prova amb altres paraules",
+    "topicPlaceholder": "Descriu el teu qüestionari en unes poques paraules",
+    "rewrite": "Torna a escriure",
+    "write": "Escriu preguntes",
+    "editorHint": "Revisa cada pregunta abans de publicar-la. Cada persona té un intent.",
+    "questionPlaceholder": "Pregunta",
+    "removeQuestion": "Elimina la pregunta",
+    "markRight": "Resposta correcta",
+    "optionPlaceholder": "Resposta {{n}}",
+    "addQuestion": "Afegeix una pregunta",
+    "pointsLabel": "Punts per resposta correcta",
+    "attachFailed": "La teva publicació s'ha penjat, però no s'ha pogut afegir el qüestionari"
   }
 }

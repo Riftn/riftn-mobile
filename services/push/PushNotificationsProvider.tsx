@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { openChatMention } from "../../libs/openChatMention";
 import * as Notifications from 'expo-notifications';
 import NetInfo from '@react-native-community/netinfo';
-import { AppState, AppStateStatus, Linking } from 'react-native';
+import { AppState, AppStateStatus, Linking, Platform } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
 import { usePublicChatAlerts } from '../../hooks/usePublicChatAlerts';
@@ -23,14 +23,16 @@ import { NotificationType, NotificationCategory } from '../enums/notification.en
 import { storage } from '../../libs/storage';
 import { toastWarning } from '../../libs/toast';
 import { t } from 'i18next';
-import { getNotifications } from '../user.service';
+import { getNotifications, markNotificationAsRead } from '../user.service';
 import { prefetchNotifications } from '../../libs/notifications-cache';
-import { countUnreadNotifications, incrementUnreadCount } from '../../libs/notifications.unread';
+import { countUnreadNotifications, extractNotificationItems, incrementUnreadCount, notificationsMatchingTap } from '../../libs/notifications.unread';
 import { emitProfileDeepLink } from '../../libs/deeplink.events';
 import { openCustomPush } from '../../libs/custom-notification-route';
 import { readNotificationData as readTapData } from '../../libs/push-tap-data';
+import { isReplyAction } from './message-reply';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
+import { listProfiles } from '../../libs/profiles';
 
 const logger = createLogger('PushProvider');
 
@@ -89,6 +91,8 @@ export interface NotificationData {
   type: NotificationType;
   category: NotificationCategory;
   deepLink?: string;
+  /** Address of the account the push was sent to. */
+  recipient?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
@@ -121,6 +125,9 @@ export interface NotificationData {
   moderationType?: string;
   // Quote post reference
   quoteTokenId?: number;
+  // Games with friends (game_turn)
+  game?: 'chess' | 'okey';
+  gameId?: string;
 }
 
 /**
@@ -240,7 +247,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const navigation = useNavigation<NavigationProp<any>>();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
-  const { patchUser } = useAuthActions();
+  const { patchUser, switchToProfile } = useAuthActions();
+  const switchToProfileRef = useRef(switchToProfile);
+  switchToProfileRef.current = switchToProfile;
   const isFullySignedIn = isSignedIn && !needsUsername;
   const isFullySignedInRef = useRef(isFullySignedIn);
   isFullySignedInRef.current = isFullySignedIn;
@@ -321,6 +330,32 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     }
   }, [isFullySignedIn, warmNotificationList]);
 
+  // Opening a push means its bell row was seen: mark the matching rows read
+  // and recount, so the red bell badge doesn't stay lit on Home afterwards.
+  const markTappedReadRef = useRef<(data: NotificationData) => void>(() => {});
+  markTappedReadRef.current = (data: NotificationData) => {
+    setTimeout(() => {
+      void (async () => {
+        try {
+          const rows = extractNotificationItems(await getNotifications({ limit: 100 })) as Array<{ _id?: string; id?: string; read?: boolean }>;
+          const hits = notificationsMatchingTap(rows, data as any);
+          await Promise.all(hits.map((row) => {
+            const id = String(row._id ?? row.id ?? '');
+            return id ? markNotificationAsRead(id).catch(() => null) : null;
+          }));
+        } catch (error) {
+          logger.warn('Could not mark tapped notification read', error as any);
+        }
+        // Always write the server's count after a tap: the badge may hold a
+        // local +1 from a push that arrived while the app was open, and the
+        // count itself may not have changed (Requests / stage / community
+        // pushes are not in the API list), which the dedupe below would skip.
+        lastUnreadCountRef.current = null;
+        void refreshUnreadCount();
+      })();
+    }, 1500);
+  };
+
   // Read through refs so the handler keeps one identity for the whole run. It
   // used to be rebuilt whenever auth or the user changed, and a rebuild in the
   // first moments after launch cancelled the cold-start check below for good:
@@ -354,7 +389,32 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       return;
     }
 
-    whenNavigatorReady(() => routeNotificationTapRef.current?.(data, !!opts?.coldStart));
+    const route = () => whenNavigatorReady(() => {
+      routeNotificationTapRef.current?.(data, !!opts?.coldStart);
+      markTappedReadRef.current(data);
+    });
+
+    // A push sent to another account saved on this phone opens as that
+    // account: switch first, then open the tap once the switch has settled.
+    const recipient = typeof data.recipient === 'string' ? data.recipient.toLowerCase() : '';
+    const current = (userAddressRef.current || '').toLowerCase();
+    if (recipient && current && recipient !== current) {
+      void (async () => {
+        try {
+          const profile = (await listProfiles()).find((p) => (p.address || '').toLowerCase() === recipient && !!p.session);
+          if (profile && (await switchToProfileRef.current(profile.id))) {
+            setTimeout(route, 600);
+            return;
+          }
+        } catch (error) {
+          logger.warn('Could not switch to the notified account', error as any);
+        }
+        route();
+      })();
+      return;
+    }
+
+    route();
   }, []);
 
   const routeNotificationTap = (data: NotificationData, coldStart: boolean) => {
@@ -475,6 +535,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           break;
 
         case NotificationType.MENTION:
+          // Tagged in a bio: open that profile.
+          if ((data as any).mentionContext === 'bio' && (actorUsername || actorAddress)) {
+            emitProfileDeepLink((actorUsername || actorAddress) as string);
+            break;
+          }
           // A tag in live or public chat opens that chat, not a post page.
           if (openChatMention(navigation.navigate as any, { mentionContext: (data as any).mentionContext, tokenId })) break;
           if (tokenId) {
@@ -528,6 +593,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         case NotificationType.FRACTION_OFFER_ACCEPTED:
         case NotificationType.FRACTION_OFFER_REJECTED:
         case NotificationType.FRACTION_PURCHASED:
+        case NotificationType.FRACTION_GIFT:
           if (tokenId) navigation.navigate(ScreenNames.FeedDetail, { tokenId });
           else navigation.navigate(ScreenNames.Notifications);
           break;
@@ -580,6 +646,20 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
             navigation.navigate(ScreenNames.Notifications);
           }
           break;
+
+        // Your move in correspondence chess, or your turn at an Okey table.
+        case 'game_turn' as NotificationType: {
+          const link = typeof data.deepLink === 'string' ? data.deepLink : '';
+          const gameId = typeof data.gameId === 'string' && data.gameId
+            ? data.gameId
+            : link.match(/[?&](?:game|table)=([^&#]+)/)?.[1];
+          if (data.game === 'okey' || link.includes('/arcade/okey')) {
+            navigation.navigate(ScreenNames.Okey, gameId ? { table: gameId } : undefined);
+          } else {
+            navigation.navigate(ScreenNames.CorrespondenceChess, gameId ? { game: gameId } : undefined);
+          }
+          break;
+        }
 
         // Grouped community chat: straight to that community's chat.
         case 'community_chat' as NotificationType:
@@ -828,6 +908,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       try {
         const lastResponse = await Notifications.getLastNotificationResponseAsync();
         if (!lastResponse) return;
+        // An iPhone reply from the notification is sent in the background
+        // (message-reply.ts); it does not open the chat.
+        if (isReplyAction(lastResponse) && Platform.OS === 'ios') return;
 
         const data = readTapData(lastResponse.notification) as unknown as NotificationData | null;
         if (!data?.type) return;
@@ -873,6 +956,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // in-app badge immediately. The periodic/server refresh below remains
         // authoritative and corrects aggregation or duplicate delivery.
         if (isFullySignedIn) {
+          // The badge now differs from the last count written, so the next
+          // refresh must write again even if the server number is the same.
+          lastUnreadCountRef.current = null;
           void patchUser((current) => ({
             notificationCount: incrementUnreadCount(current.notificationCount),
           }));
@@ -886,6 +972,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Handle notification tap (foreground and background — but NOT cold-start)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
+        if (isReplyAction(response) && Platform.OS === 'ios') return;
         const data = readTapData(response.notification) as unknown as NotificationData;
         const responseId = response.notification.request.identifier;
         

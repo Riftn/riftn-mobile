@@ -67,6 +67,7 @@ import StoriesHost from "./components/Stories/StoriesHost";
 import { UserProfileSheetProvider } from "./context/UserProfileSheetContext";
 import NewMemberRegistrar from "./components/common/NewMemberRegistrar";
 import ShippedFeatureNotice from "./components/FeatureRequests/ShippedFeatureNotice";
+import MessageBannerHost from "./components/Notifications/MessageBannerHost";
 import OnlinePresenceHost from "./components/common/OnlinePresenceHost";
 import RootNavigator from "./navigation/RootNavigator";
 import StageNavFallback from "./components/Stages/StageNavFallback";
@@ -127,6 +128,7 @@ import { FrostedBackdropProvider } from "./components/ui/FrostedBackdrop";
 import { loadIconFont } from "./libs/iconFont";
 import { watchTransformOrigin } from "./libs/cdnImage";
 import { setEdgeToEdgeMedia as publishEdgeToEdgeMedia } from "./libs/edgeToEdgeMedia";
+import DarkRoomStrips from "./components/DarkRoomStrips";
 import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScreenReady";
 
 const logger = createLogger("App");
@@ -625,6 +627,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
 
   return (
     <>
+      <DarkRoomStrips />
       {mountNav ? (
         <SafeAreaView className="flex-1" edges={edgeToEdgeMedia ? ["left", "right", "bottom"] : ["top", "left", "right", "bottom"]}>
           <StatusBar
@@ -681,6 +684,8 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
                         <OnlinePresenceHost />
                         <CallModalsHost />
                         <CallMiniPlayer />
+                        {/* New messages while the app is open: pull down to reply. */}
+                        <MessageBannerHost />
                         <StagesModalsHost />
                         <StoriesHost />
                         <StageNavFallback navigationRef={navigationRef} />

@@ -1,6 +1,7 @@
 import { useCallback, useSyncExternalStore } from 'react';
 import i18n from 'i18next';
 import { translateText, getUserLanguage } from '../services/translation.service';
+import { parseMomentReply } from './moment-reply';
 import { toastError, toastSuccess } from './toast';
 import { ensureAiConsent, hasAiConsent } from './ai-consent';
 import { chatLineIsForeign } from './chat-language-hint';
@@ -33,7 +34,7 @@ function set(id: string, next: DmTranslation | undefined) {
 
 /** Text worth translating: links and @/$ handles left out, they don't translate. */
 export function dmTranslatableText(content?: string | null): string {
-  return (content ?? '').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').trim();
+  return (parseMomentReply(content)?.text ?? content ?? '').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 /** Has at least a few letters, so emoji-only or link-only messages get no Translate. */
@@ -54,6 +55,19 @@ export function useDmTranslation(id: string | undefined): DmTranslation | undefi
     return () => { bucket!.delete(fn); };
   }, [id]);
   return useSyncExternalStore(subscribe, () => (id ? entries.get(id) : undefined));
+}
+
+/**
+ * A line sent with "Send in their language" carries both versions, so its
+ * "translation" is the other version and flipping needs no translator call.
+ * Seeds the store quietly (it runs while the bubble renders) and keeps the
+ * reader's current side when an edit changes the text.
+ */
+export function primeDmPair(id: string, other: string): void {
+  const cur = entries.get(id);
+  autoTried.add(id);
+  if (cur && cur.status !== 'loading' && cur.text === other) return;
+  entries.set(id, { status: cur?.status === 'shown' ? 'shown' : 'hidden', text: other });
 }
 
 /** Translate, or flip between the translation and the original. */

@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Muqova", "trim": "Qirqish", "mirror": "Oyna", "rotate": "Aylantirish", "hide": "Yashirish", "timer": "Taymer", "close": "Yopish", "photo": "Foto", "remove": "O‘chirish", "pause": "Pauza", "play": "Videoni ijro etish", "hiddenUntilTap": "Ular bosmaguncha yashirin", "scrub": "Video bo‘ylab harakatlanish", "addMore": "Foto yoki videolar qo‘shish", "coverAria": "Muqovani belgilash uchun kadrni bosing", "trimHint": "Qirqish uchun chetlarini torting", "coverHint": "Muqova qilish uchun kadrni bosing", "uploadCover": "Muqova rasmini yuklash", "mirrored": "Oynalangan", "original": "Asl", "rotate90": "90° ga aylantirish", "timerOff": "O‘chirilgan", "showNormally": "Oddiy ko‘rinish", "showNormallyBody": "Ular uni darhol ko‘rishadi", "hideUntilTap": "Bosilguncha yashirish", "hideUntilTapBody": "Ular bosmaguncha xiralashtirilgan", "hidePrice": "Narx ortiga yashirish", "hidePriceBody": "Ular to‘lamaguncha xiralashtirilgan", "priceUnavailable": "Bu chatda emas", "priceLabelUsd": "Narx", "priceHint": "Ular sizga to‘lov qilmaguncha buni xira holda ko‘rishadi. Qulflangan elementlar oxirigacha shifrlanmagan.", "timerOffBody": "U chatda qoladi.", "timerViewBody": "Ular ko‘rib bo‘lgach, ikkingiz uchun ham yo‘qoladi.", "confirm": "Tasdiqlash", "editItem": "Elementni tahrirlash {{value1}}", "coverSet": "Muqova {{value1}}", "lockedForUsd": "{{value1}} uchun qulfdan chiqarish", "timerTimeBody": "Siz yuborganingizdan so‘ng {{value1}} o‘tib, ikkingiz uchun ham yo‘qoladi."},
+  "dmVideo": {
+    "cover": "Muqova",
+    "trim": "Qirqish",
+    "mirror": "Oyna",
+    "rotate": "Aylantirish",
+    "hide": "Yashirish",
+    "timer": "Taymer",
+    "close": "Yopish",
+    "photo": "Foto",
+    "remove": "O‘chirish",
+    "pause": "Pauza",
+    "play": "Videoni ijro etish",
+    "hiddenUntilTap": "Ular bosmaguncha yashirin",
+    "scrub": "Video bo‘ylab harakatlanish",
+    "addMore": "Foto yoki videolar qo‘shish",
+    "coverAria": "Muqovani belgilash uchun kadrni bosing",
+    "trimHint": "Qirqish uchun chetlarini torting",
+    "coverHint": "Muqova qilish uchun kadrni bosing",
+    "uploadCover": "Muqova rasmini yuklash",
+    "mirrored": "Oynalangan",
+    "original": "Asl",
+    "rotate90": "90° ga aylantirish",
+    "timerOff": "O‘chirilgan",
+    "showNormally": "Oddiy ko‘rinish",
+    "showNormallyBody": "Ular uni darhol ko‘rishadi",
+    "hideUntilTap": "Bosilguncha yashirish",
+    "hideUntilTapBody": "Ular bosmaguncha xiralashtirilgan",
+    "hidePrice": "Narx ortiga yashirish",
+    "hidePriceBody": "Ular to‘lamaguncha xiralashtirilgan",
+    "priceUnavailable": "Bu chatda emas",
+    "priceLabelUsd": "Narx",
+    "priceHint": "Ular sizga to‘lov qilmaguncha buni xira holda ko‘rishadi. Qulflangan elementlar oxirigacha shifrlanmagan.",
+    "timerOffBody": "U chatda qoladi.",
+    "timerViewBody": "Ular ko‘rib bo‘lgach, ikkingiz uchun ham yo‘qoladi.",
+    "confirm": "Tasdiqlash",
+    "editItem": "Elementni tahrirlash {{value1}}",
+    "coverSet": "Muqova {{value1}}",
+    "lockedForUsd": "{{value1}} uchun qulfdan chiqarish",
+    "timerTimeBody": "Siz yuborganingizdan so‘ng {{value1}} o‘tib, ikkingiz uchun ham yo‘qoladi.",
+    "destruct": {
+      "60": "1 daqiqa",
+      "3600": "1 soat",
+      "43200": "12 soat",
+      "86400": "1 kun",
+      "604800": "1 hafta",
+      "31536000": "1 yil",
+      "view": "1 ko‘rish"
+    },
+    "destructShort": {
+      "60": "1d",
+      "3600": "1s",
+      "43200": "12s",
+      "86400": "1k",
+      "604800": "1h",
+      "31536000": "1y",
+      "view": "1 ko‘rish"
+    },
+    "destructSecs": "{{n}} soniya",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Hoshiya",
     "theme": "Mavzu",
@@ -2997,6 +3056,8 @@
     "premium": "Yuqori sifat",
     "pricing": "Narxlar",
     "reorderHint": "Qayta tartiblash uchun istalgan belgini ushlab turing va sudrang",
+    "reorderHintGroups": "Istalgan belgini qayta tartiblash uchun ushlab turing va suring yoki boshqa yorliqqa o‘tkazish uchun uning ustiga torting",
+    "moveGroupHint": "Uni boshqa joyga ko‘chirish uchun boshqa tabga tashlang",
     "reorderReset": "Qayta tiklash",
     "groups": {
       "create": "Yaratish",
@@ -7042,7 +7103,18 @@
       "moveRuleUp": "Qoidani yuqoriga ko'chirish",
       "moveRuleDown": "Qoidani pastga ko'chirish",
       "deleteRule": "Qoidani o'chirish",
-      "rights": {"sendMessages":"Xabar yuborish","sendMessagesHint":"Hamjamiyat chatida post qoldiring","sendMedia":"Media yuborish","sendMediaHint":"Rasm va GIFlar qo'shing","embedLinks":"Linklarni joylashtirish","embedLinksHint":"Link koʻrinishini koʻrsatish","addMembers":"A&#39;zolarni qo&#39;shish","addMembersHint":"Jamiyatni boshqalar bilan baham ko&#39;ring","createEvents":"Tadbirlar yarating","createEventsHint":"Jamoa tadbirlarini tuzish","changeInfoMemberHint":"Jamoa nomi va tavsifini tahrirlash",
+      "rights": {
+        "sendMessages": "Xabar yuborish",
+        "sendMessagesHint": "Hamjamiyat chatida post qoldiring",
+        "sendMedia": "Media yuborish",
+        "sendMediaHint": "Rasm va GIFlar qo'shing",
+        "embedLinks": "Linklarni joylashtirish",
+        "embedLinksHint": "Link koʻrinishini koʻrsatish",
+        "addMembers": "A&#39;zolarni qo&#39;shish",
+        "addMembersHint": "Jamiyatni boshqalar bilan baham ko&#39;ring",
+        "createEvents": "Tadbirlar yarating",
+        "createEventsHint": "Jamoa tadbirlarini tuzish",
+        "changeInfoMemberHint": "Jamoa nomi va tavsifini tahrirlash",
         "changeInfo": "Jamiyat ma'lumotlarini o'zgartirish",
         "changeInfoHint": "Ismni, tavsifni, avatarni va bannerini tahrirlash",
         "deleteMessages": "Xabarlarni o'chirish",
@@ -7120,12 +7192,41 @@
       "noInvites": "Hali taklifnoma havolalari yo'q. Odamlarni to'g'ridan-to'g'ri taklif qilish uchun bitta havola yarating.",
       "permissionsUpdated": "Ruxsatnomalar yangilandi",
       "slowModeUpdated": "Sekin rejim yangilandi",
-      "slowMode":{"off":"O‘chirilgan","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 daqiqa","fiveMinutes":"5 daqiqa","fifteenMinutes":"15 daqiqa","oneHour":"1 soat"},"slowModeOffHint": "A'zolar kechiktirmasdan xabar yuborishlari mumkin.",
+      "slowMode": {
+        "off": "O‘chirilgan",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 daqiqa",
+        "fiveMinutes": "5 daqiqa",
+        "fifteenMinutes": "15 daqiqa",
+        "oneHour": "1 soat"
+      },
+      "slowModeOffHint": "A'zolar kechiktirmasdan xabar yuborishlari mumkin.",
       "slowModeOnHint": "A'zolar har bir {{label}} ga bitta xabar yuborishlari mumkin. Administratorlar bundan mustasno.",
       "defaultPermissions": "Standart a'zolik ruxsatnomalari",
       "defaultPermissionsHint": "Agar administrator boshqacha ko'rsatmasa, bu yerda hamma nima qila oladi.",
       "slowModeTitle": "Sekin rejim",
-      "log": {"verbs":{"promote_admin":"reklama qilingan","demote_admin":"Demotaj","transfer_ownership":"Maliklikni o'zgartirdi","ban_member":"taqiqlangan","unban_member":"blokdan chiqarildi","kick_member":"olib tashlandi","mute_member":"ovozsiz","unmute_member":"Mumkin qilinmagan","approve_member":"tasdiqlangan","reject_member":"rad etildi","delete_message":"xabarni o&#39;chirib tashladi","purge_messages":"barcha xabarlarni o‘chirdi","pin_message":"pinned a xabar","unpin_message":"xabarni olib tashladi","update_settings":"Jamoat toʻgʻriligini yangiladi","create_invite":"taklifnoma havolasi yaratildi","revoke_invite":"taklif havolasini bekor qildi","invite_used":"Majburlangan"},
+      "log": {
+        "verbs": {
+          "promote_admin": "reklama qilingan",
+          "demote_admin": "Demotaj",
+          "transfer_ownership": "Maliklikni o'zgartirdi",
+          "ban_member": "taqiqlangan",
+          "unban_member": "blokdan chiqarildi",
+          "kick_member": "olib tashlandi",
+          "mute_member": "ovozsiz",
+          "unmute_member": "Mumkin qilinmagan",
+          "approve_member": "tasdiqlangan",
+          "reject_member": "rad etildi",
+          "delete_message": "xabarni o&#39;chirib tashladi",
+          "purge_messages": "barcha xabarlarni o‘chirdi",
+          "pin_message": "pinned a xabar",
+          "unpin_message": "xabarni olib tashladi",
+          "update_settings": "Jamoat toʻgʻriligini yangiladi",
+          "create_invite": "taklifnoma havolasi yaratildi",
+          "revoke_invite": "taklif havolasini bekor qildi",
+          "invite_used": "Majburlangan"
+        },
         "justNow": "hozirgina",
         "minutesAgo": "{{value}}m oldin",
         "hoursAgo": "{{value}} soat oldin",
@@ -13619,53 +13720,52 @@
     "cinema": {
       "close": "Yopish",
       "performance": {
-        "label": "Samaradorlik",
         "0": "Quvnoq",
         "1": "Mungli",
         "2": "Xavotirli",
         "3": "Ishonchli",
         "4": "Hayratda",
         "5": "Vazmin",
-        "6": "O'yinqaroq"
+        "6": "O'yinqaroq",
+        "label": "Samaradorlik"
       },
       "title": "Kino rejissurasi",
       "hint": "Keyingi rasm yoki videongizning vizual uslubini yo'naltiring. Natijalar modelga qarab farq qiladi.",
       "none": "Yo'naltirishsiz",
       "reset": "Yo'naltirishni tozalash",
       "camera": {
-        "label": "Kamera ko'rinishi",
         "0": "Raqamli kino",
         "1": "35mm plyonka",
         "2": "16mm plyonka",
         "3": "Katta format",
-        "4": "Eski videokamera"
+        "4": "Eski videokamera",
+        "label": "Kamera ko'rinishi"
       },
       "lens": {
-        "label": "Obyektiv ko'rinishi",
         "0": "Sferik",
         "1": "Anamorfik",
         "2": "Eski yumshoq oyna",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Obyektiv ko'rinishi"
       },
       "focalLength": {
-        "label": "Fokus masofasi",
         "0": "18mm keng",
         "1": "24mm keng",
         "2": "35mm tabiiy",
         "3": "50mm standart",
         "4": "85mm portret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Fokus masofasi"
       },
       "aperture": {
-        "label": "Maydon chuqurligi",
         "0": "f/1.4 juda sayoz",
         "1": "f/2.8 sayoz",
         "2": "f/5.6 o'rtacha",
-        "3": "f/11 chuqur fokus"
+        "3": "f/11 chuqur fokus",
+        "label": "Maydon chuqurligi"
       },
       "movement": {
-        "label": "Kamera harakati",
         "0": "Shtativda qotirilgan",
         "1": "Sekin yaqinlashish",
         "2": "Sekin uzoqlashish",
@@ -13673,27 +13773,27 @@
         "4": "Obyekt atrofida aylanish",
         "5": "Qo'lda",
         "6": "Kran bilan ko'tarilish",
-        "7": "Sekin panorama"
+        "7": "Sekin panorama",
+        "label": "Kamera harakati"
       },
       "lighting": {
-        "label": "Yoritish",
         "0": "Yumshoq kunduzgi yorug'lik",
         "1": "Oltin soat",
         "2": "Qorong'i kyaroskuro",
         "3": "Yorqin studiya",
         "4": "Neon chiroqlar",
         "5": "Siluet, orqa yorug'lik",
-        "6": "Bulutli, tarqoq yorug'lik"
+        "6": "Bulutli, tarqoq yorug'lik",
+        "label": "Yoritish"
       },
       "tempo": {
-        "label": "Kadr tempi",
         "0": "Bitta uzluksiz kadr",
         "1": "Xotirjam, shoshilmas harakat",
         "2": "Dinamik, g'ayratli harakat",
-        "3": "Tartibsiz, jo'shqin harakat"
+        "3": "Tartibsiz, jo'shqin harakat",
+        "label": "Kadr tempi"
       },
       "era": {
-        "label": "Davr",
         "0": "1920-yillar",
         "1": "1950-yillar",
         "2": "1960-yillar",
@@ -13701,10 +13801,10 @@
         "4": "1980-yillar",
         "5": "1990-yillar",
         "6": "Hozirgi kun",
-        "7": "Yaqin kelajak"
+        "7": "Yaqin kelajak",
+        "label": "Davr"
       },
       "genre": {
-        "label": "Janr",
         "0": "Hujjatli",
         "1": "Drama",
         "2": "Nuar film",
@@ -13712,16 +13812,17 @@
         "4": "Fentezi",
         "5": "Romantik komediya",
         "6": "Triller",
-        "7": "Vestern"
+        "7": "Vestern",
+        "label": "Janr"
       },
       "palette": {
-        "label": "Rang palitrasi",
         "0": "Iliq qahrabo",
         "1": "Sovuq ko'k",
         "2": "Xira tuproq ranglari",
         "3": "Pastel",
         "4": "Yuqori kontrastli monoxrom",
-        "5": "To'yingan asosiy ranglar"
+        "5": "To'yingan asosiy ranglar",
+        "label": "Rang palitrasi"
       }
     },
     "audioNoSpeech": "Qayta ko'rib chiqish uchun shu yozuvda gap bo'lmadi.",

@@ -50,6 +50,7 @@ const NO_BAR = new Set<string>([
   ScreenNames.StageRecording,
   ScreenNames.ArcadeGame,
   ScreenNames.ArcadeChessOnline,
+  ScreenNames.Okey,
   ScreenNames.MiniApp,
   ScreenNames.MiniAppDev,
   ScreenNames.Cinema,

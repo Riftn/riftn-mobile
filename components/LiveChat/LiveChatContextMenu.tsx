@@ -3,8 +3,8 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import HoldSheet, { type HoldReactionChip, type HoldTile } from "../ui/HoldSheet";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { getAccount } from "../../services/user.service";
-import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { getAccountProfile } from "../../services/user.service";
+import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { canLinkMessage, copyLinkLabel } from "../../libs/chatMessageLink";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
@@ -90,7 +90,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
     queryKey: ["chat-author-timezone", authorAddress],
     enabled: visible && !!authorAddress && message?.messageType !== "system",
     staleTime: 60_000,
-    queryFn: async () => (await getAccount(authorAddress!))?.data?.result?.customs?.publicTimeZone ?? null,
+    queryFn: async () => (await getAccountProfile(authorAddress!))?.customs?.publicTimeZone ?? null,
   });
   const authorLocalTime = useProfileLocalTime(authorTimeZone);
   // Message whose full emoji picker is open. The menu closes first: iOS will
@@ -157,6 +157,18 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   if (onReply) tiles.push({ key: "reply", icon: "Reply", label: t("liveChat.reply"), prime: true, onPress: () => { onReply(message); onClose(); } });
   if (hasContent) tiles.push({ key: "copy", icon: "Copy", label: t("common.copy"), onPress: () => { copyToClipboard(message.content); onClose(); } });
   if (onCopyLink && canLinkMessage(message._id)) tiles.push({ key: "copy-link", icon: "Link", label: copyLinkLabel(), onPress: () => { onCopyLink(message); onClose(); } });
+  if (onSeeMessages && message.senderAddress && message.messageType !== "system") tiles.push({
+    key: "their-messages",
+    icon: "Search",
+    label: t("chatSearch.theirMessages", { defaultValue: "Their messages" }),
+    onPress: () => run(() => onSeeMessages(message)),
+  });
+  if (translate) tiles.push({
+    key: "translate",
+    icon: translate.isTranslated ? "RotateCcw" : "Languages",
+    label: translate.isTranslated ? t("common.showOriginal") : t("common.translate"),
+    onPress: () => { onClose(); translate.toggle(); },
+  });
   // A photo or GIF can be copied as itself, not just its caption.
   const firstMedia = message.media?.[0];
   const rawMedia = message.messageType === "gif" ? (message.gif?.url || firstMedia?.url) : message.messageType === "media" ? firstMedia?.url : undefined;
@@ -165,18 +177,6 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
     const kind = message.messageType === "gif" || firstMedia?.type === "gif" || firstMedia?.mimeType === "image/gif" ? "gif" as const : "image" as const;
     tiles.push({ key: "copy-media", icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: () => { onClose(); void copyMessageMedia(mediaUrl, kind); } });
   }
-  if (translate) tiles.push({
-    key: "translate",
-    icon: translate.isTranslated ? "RotateCcw" : "Languages",
-    label: translate.isTranslated ? t("common.showOriginal") : t("common.translate"),
-    onPress: () => { onClose(); translate.toggle(); },
-  });
-  if (onSeeMessages && message.senderAddress && message.messageType !== "system") tiles.push({
-    key: "their-messages",
-    icon: "Search",
-    label: t("chatSearch.theirMessages", { defaultValue: "Their messages" }),
-    onPress: () => run(() => onSeeMessages(message)),
-  });
   if (canEdit && onEdit) tiles.push({ key: "edit", icon: "Pencil", label: t("common.edit"), onPress: () => run(() => onEdit(message)) });
   if (isModerator && onPin) tiles.push({
     key: "pin",
@@ -251,8 +251,9 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
           moreTimer.current = setTimeout(() => setMoreFor(msg), 350);
         }}
         tiles={tiles}
+        scrollActions
         summary={summary}
-        meta={authorLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: authorLocalTime }) : undefined}
+        meta={localTimeLine(t as never, authorLocalTime, authorTimeZone) || undefined}
         onLift={onLift}
         frame
         inline

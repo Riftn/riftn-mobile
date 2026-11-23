@@ -58,15 +58,17 @@ export default function LoginLookPicker() {
                 borderRadius: 16,
                 padding: CARD_PAD,
                 borderWidth: active ? 2 : 1,
-                borderColor: active ? (isLight ? "#0B0B0D" : "#FFFFFF") : isLight ? "rgba(11,11,13,0.12)" : "rgba(255,255,255,0.12)",
-                backgroundColor: active ? (isLight ? "rgba(11,11,13,0.06)" : "rgba(255,255,255,0.08)") : "transparent",
+                // Dark values only: System Light turns them to ink on its own, and a
+                // light value written here was turned a second time (white on white).
+                borderColor: active ? "#FFFFFF" : "rgba(255,255,255,0.12)",
+                backgroundColor: active ? "rgba(255,255,255,0.08)" : "transparent",
               }}
             >
               <View
                 pointerEvents="none"
                 accessibilityElementsHidden
                 importantForAccessibility="no-hide-descendants"
-                style={{ height: Math.round(240 * scale), borderRadius: 12, overflow: "hidden", backgroundColor: isLight ? "#ECECF0" : "#08080B", alignItems: "center", justifyContent: "center" }}
+                style={{ height: Math.round(240 * scale), borderRadius: 12, overflow: "hidden", backgroundColor: isLight ? "hsla(240,12%,93%,1)" : "#08080B", alignItems: "center", justifyContent: "center" }}
               >
                 {seen ? (
                   <View style={{ width: SIGN_W, paddingTop: 84, transform: [{ scale }] }}>

@@ -26,6 +26,7 @@ export interface CreatorAudioSettings {
   durationSeconds?: number;
   loop?: boolean;
   speakerVoices?: Record<string, string>;
+  plainDictation?: boolean;
 }
 
 /** Same named-speaker convention as web, with an editable cast per speaker. */
@@ -71,7 +72,8 @@ export function creatorAudioRequest(text: string, settings: CreatorAudioSettings
     case 'dialogue': return { endpoint: 'elevenlabs-dialogue', body: { inputs: creatorDialogue(text, voiceId, settings.speakerVoices), outputFormat: 'mp3_44100_128' } };
     case 'sfx': return { endpoint: 'elevenlabs-sound-effects', body: { text, ...(settings.durationSeconds ? { durationSeconds: settings.durationSeconds } : {}), loop: settings.loop === true, outputFormat: 'mp3_44100_128' } };
     case 'voice-changer': return { endpoint: 'elevenlabs-voice-changer', fields: { voiceId, outputFormat: 'mp3_44100_128' } };
-    case 'transcribe': return { endpoint: 'elevenlabs-transcribe', fields: { diarize: 'true' } };
+    case 'transcribe': return { endpoint: 'elevenlabs-transcribe', fields: settings.plainDictation
+      ? { diarize: 'false', tagAudioEvents: 'false' } : { diarize: 'true' } };
     case 'isolate': return { endpoint: 'elevenlabs-audio-isolation', fields: { outputFormat: 'mp3_44100_128' } };
   }
 }

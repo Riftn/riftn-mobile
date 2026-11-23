@@ -151,7 +151,13 @@ export function openCustomPush(navigate: Navigate, data: CustomPushData, walletA
     else navigate(ScreenNames.Notifications);
     return true;
   }
-  // Store orders and fraction hand-overs carry an action on the row itself.
+  // A sale or a free claim waiting on you: the Approve / Send button lives on
+  // Fractions > Portfolio, so open it there.
+  if (type === "fraction_sold" || type === "fraction_delivered") {
+    navigate(ScreenNames.Fractions, { tab: "portfolio" });
+    return true;
+  }
+  // Store orders carry an action on the row itself.
   navigate(ScreenNames.Notifications);
   return true;
 }

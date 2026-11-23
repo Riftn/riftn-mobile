@@ -176,6 +176,7 @@ export async function uploadDmMedia(
 
   return apiClient.post<DmMessage>("/dm/upload", form, {
     isAuthRequired: true,
+    timeoutMs: params.timeoutMs,
   });
 }
 
@@ -374,6 +375,8 @@ export interface ChatPref {
   listedAt?: string | null;
   /** DMs: your messages in this chat are end-to-end encrypted since then. */
   encryptedAt?: string | null;
+  /** DMs: your messages here go out in the other person's language since then. */
+  translateOutAt?: string | null;
   /** Reactions to your messages you haven't seen; cleared when you open the chat. */
   reactions?: ChatReactionSummary | null;
 }
@@ -405,7 +408,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true; mutedUntil?: string | null },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; translateOut?: boolean; seenReactions?: true; mutedUntil?: string | null },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }
@@ -463,9 +466,14 @@ export async function unlockLockedMedia(messageId: ID, txHash: string): Promise<
   return apiClient.post<DmLockStatus>(`/dm/locked/${messageId}/unlock`, { txHash }, { isAuthRequired: true });
 }
 
-/** The recipient has watched a view-once attachment; the server removes it for both. */
-export async function markDmMessageViewed(messageId: string): Promise<void> {
-  await apiClient.post(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+/**
+ * The recipient has watched a view-once attachment (the server removes it for
+ * both), or opened an on-open one (its countdown starts; `expiresAt` says when
+ * it goes).
+ */
+export async function markDmMessageViewed(messageId: string): Promise<{ status?: string; expiresAt?: string }> {
+  const res = await apiClient.post<{ status?: string; expiresAt?: string }>(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+  return res && typeof res === "object" ? res : {};
 }
 
 /** Chat tabs: the person's own tabs, tab order and hidden built-ins. Mirrors web chat-tabs.ts. */
