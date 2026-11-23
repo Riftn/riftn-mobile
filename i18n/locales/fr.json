@@ -109,7 +109,7 @@
     "addToMoment": "Ajouter à ton moment",
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
-    "watchOriginal": "Voir la story originale",
+    "watchOriginal": "Voir la story originale", "hiddenCount": "Masqués ({{count}})", "showHidden": "Afficher les masqués ({{count}})", "mentionedYou": "Vous a mentionné dans son moment",
     "shareToMoment": "Partager en Moment",
     "goToPost": "Voir la publication",
     "fromYourPost": "De ta publication", "fromAPost": "D'une publication",
@@ -2874,7 +2874,7 @@
       "governanceVotedRejected": "Une proposition sur laquelle vous avez voté n’a pas été adoptée : « {{title}} »",
       "governancePassed": "Votre proposition « {{title}} » a été adoptée 🎉",
       "governanceRejected": "Votre proposition « {{title}} » n’a pas été adoptée",
-      "fractionGift": "{{name}} t'a envoyé des fractions"
+      "fractionGift": "{{name}} t'a envoyé des fractions", "storyLiked": "{{name}} a aimé votre moment", "storyMention": "{{name}} vous a mentionné dans son moment"
     }
   },
   "leaderboard": {

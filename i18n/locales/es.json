@@ -109,7 +109,7 @@
     "addToMoment": "Añadir a tu momento",
     "moreActions": "Opciones de la historia",
     "remixing": "Remix de la historia de {{name}}",
-    "watchOriginal": "Ver la historia original",
+    "watchOriginal": "Ver la historia original", "hiddenCount": "Ocultos ({{count}})", "showHidden": "Mostrar ocultos ({{count}})", "mentionedYou": "Te mencionó en su momento",
     "shareToMoment": "Compartir en Momento",
     "goToPost": "Ir a la publicación",
     "fromYourPost": "De tu publicación", "fromAPost": "De una publicación",
@@ -2874,7 +2874,7 @@
       "governanceVotedRejected": "Una propuesta por la que votó no ha sido aprobada: «{{title}}»",
       "governancePassed": "Su propuesta «{{title}}» se ha aprobado 🎉",
       "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado",
-      "fractionGift": "{{name}} te envió fracciones"
+      "fractionGift": "{{name}} te envió fracciones", "storyLiked": "A {{name}} le gustó tu momento", "storyMention": "{{name}} te mencionó en su momento"
     }
   },
   "leaderboard": {

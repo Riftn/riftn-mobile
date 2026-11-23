@@ -22,6 +22,8 @@ export interface StoryMention {
   y: number;
   w: number;
   h: number;
+  /** Dragged off the picture in the editor: no tap target. */
+  hidden?: boolean;
 }
 
 export interface StorySong {

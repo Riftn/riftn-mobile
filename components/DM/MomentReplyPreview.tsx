@@ -12,7 +12,7 @@ import { toastError } from '../../libs/toast';
 import { nameOf } from '../Stories/story-utils';
 import Icon from '../ui/Icon';
 
-export default function MomentReplyPreview({ id, shared = false, onLongPress }: { id: string; shared?: boolean; onLongPress: () => void }) {
+export default function MomentReplyPreview({ id, shared = false, mention = false, onLongPress }: { id: string; shared?: boolean; mention?: boolean; onLongPress: () => void }) {
   const { t } = useTranslation();
   const user = useUser();
   const address = (user?.walletAddress || user?.address || '').toLowerCase();
@@ -36,7 +36,7 @@ export default function MomentReplyPreview({ id, shared = false, onLongPress }: 
     }
   }, [expires]);
   const visible = (item: Awaited<ReturnType<typeof getStory>>['item']) =>
-    (!shared || item.shareable) && !item.expired && item.status === 'ready' && Date.parse(item.expiresAt) > Date.now() && (!item.isMature || canSeeMature);
+    (!shared || mention || item.shareable) && !item.expired && item.status === 'ready' && Date.parse(item.expiresAt) > Date.now() && (!item.isMature || canSeeMature);
   const current = query.isSuccess && query.data.author && visible(query.data.item) ? query.data : undefined;
   const thumb = current?.item.posterUrl || (current?.item.type === 'photo' ? current.item.mediaUrl : null);
   const open = async () => {
@@ -60,8 +60,13 @@ export default function MomentReplyPreview({ id, shared = false, onLongPress }: 
         {thumb ? <Image source={{ uri: thumb }} recyclingKey={thumb} style={{ width: '100%', height: '100%' }} contentFit="cover" /> : <Icon name="Layers" size={16} color="#fff" />}
       </View>
       <View className="flex-shrink">
-        <Text className="text-xs text-theme-neutrals-400">{t('stories.watchOriginal', { defaultValue: 'Watch original moment' })}</Text>
+        <Text className="text-xs text-theme-neutrals-400">{mention
+          ? t('stories.mentionedYou', { defaultValue: 'Mentioned you in their moment' })
+          : t('stories.watchOriginal', { defaultValue: 'Watch original moment' })}</Text>
         {current?.author && <Text numberOfLines={1} className="text-sm font-semibold text-theme-neutrals-100">{nameOf(current.author)}</Text>}
+        {mention && query.isFetched && !current && (
+          <Text className="text-xs text-theme-neutrals-400">{t('stories.originalUnavailable', { defaultValue: 'The original moment is no longer available.' })}</Text>
+        )}
       </View>
       <Icon name="ChevronRight" size={14} color="#999" />
     </TouchableOpacity>

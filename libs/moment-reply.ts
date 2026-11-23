@@ -20,7 +20,7 @@ function momentLink(raw: string, localOrigin?: string) {
     if (url.username || url.password || (url.origin !== localOrigin
       && !/^https?:\/\/(?:www\.)?(?:riftn\.com|dehub\.io)$/i.test(url.origin))) return null;
     const path = /^\/(?:app\/)?moment\/([a-f0-9]{24})\/?$/i.exec(url.pathname);
-    return path ? { id: path[1], reply: url.searchParams.get('reply') === '1' } : null;
+    return path ? { id: path[1], reply: url.searchParams.get('reply') === '1', mention: url.searchParams.get('mention') === '1' } : null;
   } catch {
     return null;
   }
@@ -31,5 +31,8 @@ export function parseSharedMoment(content?: string | null) {
   const lines = content.trim().split(/\r?\n/);
   const link = momentLink(lines.pop()!.trim());
   if (!link || link.reply) return null;
+  // "Mentioned you in their moment": the server's DM to someone tagged on it.
+  // The card says that itself, in the reader's language.
+  if (link.mention) return { id: link.id, text: '', shared: true as const, mention: true as const };
   return { id: link.id, text: lines.join('\n').trim(), shared: true as const };
 }

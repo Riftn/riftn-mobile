@@ -109,7 +109,7 @@
     "addToMoment": "Toevoegen aan je moment",
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
-    "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "watchOriginal": "Oorspronkelijk verhaal bekijken", "hiddenCount": "Verborgen ({{count}})", "showHidden": "Verborgen tonen ({{count}})", "mentionedYou": "Noemde je in hun moment",
     "shareToMoment": "Delen als Moment",
     "goToPost": "Naar bericht",
     "fromYourPost": "Uit je bericht", "fromAPost": "Uit een bericht",
@@ -3062,7 +3062,7 @@
       "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
       "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
       "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen",
-      "fractionGift": "{{name}} heeft je fracties gestuurd"
+      "fractionGift": "{{name}} heeft je fracties gestuurd", "storyLiked": "{{name}} vindt je moment leuk", "storyMention": "{{name}} noemde je in hun moment"
     }
   },
   "leaderboard": {

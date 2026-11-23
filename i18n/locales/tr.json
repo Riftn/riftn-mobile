@@ -109,7 +109,7 @@
     "addToMoment": "Anına ekle",
     "moreActions": "Hikâye seçenekleri",
     "remixing": "{{name}} adlı kişinin hikâyesi remiksleniyor",
-    "watchOriginal": "Orijinal hikâyeyi izle", "shareToMoment": "An'a paylaş", "goToPost": "Gönderiye git", "fromYourPost": "Gönderinden", "fromAPost": "Bir gönderiden", "postNotPublic": "Yalnızca herkese açık gönderiler An'a paylaşılabilir.", "postNotMedia": "Yalnızca fotoğraf ve video gönderileri An'a paylaşılabilir.",
+    "watchOriginal": "Orijinal hikâyeyi izle", "hiddenCount": "Gizli ({{count}})", "showHidden": "Gizlileri göster ({{count}})", "mentionedYou": "Anında senden bahsetti", "shareToMoment": "An'a paylaş", "goToPost": "Gönderiye git", "fromYourPost": "Gönderinden", "fromAPost": "Bir gönderiden", "postNotPublic": "Yalnızca herkese açık gönderiler An'a paylaşılabilir.", "postNotMedia": "Yalnızca fotoğraf ve video gönderileri An'a paylaşılabilir.",
     "translate": "Çevir",
     "seeOriginal": "Orijinali gör",
     "translating": "Çevriliyor…",
@@ -2869,7 +2869,7 @@
       "governanceVotedRejected": "Oyladığınız bir teklif kabul edilmedi: “{{title}}”",
       "governancePassed": "“{{title}}” teklifiniz kabul edildi 🎉",
       "governanceRejected": "“{{title}}” teklifiniz kabul edilmedi",
-      "fractionGift": "{{name}} sana parça gönderdi"
+      "fractionGift": "{{name}} sana parça gönderdi", "storyLiked": "{{name}} Anını beğendi", "storyMention": "{{name}} Anında senden bahsetti"
     }
   },
   "leaderboard": {
