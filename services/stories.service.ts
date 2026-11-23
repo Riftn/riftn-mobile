@@ -106,6 +106,21 @@ export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ s
   });
 }
 
+/** A Moment mark for one face: whether it's all watched, how many are up, and the picture shown on the face. */
+export interface MomentPeek {
+  state: "unseen" | "seen";
+  count: number;
+  cover: string | null;
+}
+
+export function getStoryRings(addresses: string[], signedIn: boolean): Promise<{ rings: Record<string, "unseen" | "seen">; peeks?: Record<string, MomentPeek> }> {
+  return apiClient.get("/stories/rings", { isAuthRequired: signedIn, quiet: true, params: { addresses: addresses.join(",") } });
+}
+
+export function getUserStories(address: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; items: StoryItem[] }> {
+  return apiClient.get(`/stories/user/${enc(address.toLowerCase())}`, { isAuthRequired: signedIn, quiet: true });
+}
+
 export function getStory(id: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; item: StoryItem }> {
   return apiClient.get(`/stories/${enc(id)}`, { isAuthRequired: signedIn, quiet: true });
 }

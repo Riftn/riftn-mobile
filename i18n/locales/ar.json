@@ -187,7 +187,9 @@
     "toEveryone": "الجميع",
     "toOnly": "{{name}} فقط",
     "signInToSay": "سجّل الدخول لتكتب شيئًا",
-    "saySomething": "قل شيئًا…"
+    "saySomething": "قل شيئًا…",
+    "momentEnded": "انتهت تلك اللحظة",
+    "momentOpenFailed": "تعذّر فتح تلك اللحظة"
   },
   "dmVideo": {
     "cover": "الغطاء",
@@ -17707,7 +17709,8 @@
     "deleted_other": "تم حذف {{count}} رسائل"
   },
   "profileImage": {
-    "change": "تغيير"
+    "change": "تغيير",
+    "view": "عرض الصورة"
   },
   "resetWallet": {
     "mismatch": "كلمتا المرور غير متطابقتين",

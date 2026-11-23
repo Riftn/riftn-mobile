@@ -182,7 +182,9 @@
     "toEveryone": "Herkes",
     "toOnly": "Sadece {{name}}",
     "signInToSay": "Bir şey yazmak için giriş yap",
-    "saySomething": "Bir şey söyle…"
+    "saySomething": "Bir şey söyle…",
+    "momentEnded": "O An sona erdi",
+    "momentOpenFailed": "O An açılamadı"
   },
   "dmVideo": {
     "cover": "Kapak",
@@ -17677,7 +17679,8 @@
     "deleted_other": "{{count}} mesaj silindi"
   },
   "profileImage": {
-    "change": "Değiştir"
+    "change": "Değiştir",
+    "view": "Fotoğrafı gör"
   },
   "resetWallet": {
     "mismatch": "Şifreler eşleşmiyor",
