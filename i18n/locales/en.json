@@ -1908,6 +1908,9 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "postOptions": {
+    "copyImage": "Copy image",
+    "copyGif": "Copy GIF",
+    "copyVideo": "Copy video",
     "notInterestedHint": "Hide this post and see fewer like it",
     "notInterestedDone": "Got it. You'll see fewer posts like this.",
     "notInterested": "Not interested",

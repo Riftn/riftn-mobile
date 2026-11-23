@@ -44,7 +44,7 @@ import ContentWarningGate, { useContentWarning } from "./ContentWarningGate";
 import AudioPostPlayer from "./ProtectedAudioPostPlayer";
 import FeedVideoPlayer from "./FeedVideoPlayer";
 import { downloadGalleryImage } from "../../libs/downloadGalleryImage";
-import { rememberGalleryIndex } from "../../libs/media-presentation";
+import { galleryIndex, rememberGalleryIndex } from "../../libs/media-presentation";
 import { nextPhotoViewerKey, pingPhotoViewerHost, registerPhotoViewerHost, type PhotoViewerPost } from "../../libs/photoViewerPost";
 import StatusBadge from "./StatusBadge";
 import { CommentBottomSheet } from "../Comments";
@@ -59,7 +59,7 @@ import { markContentWarningSeen } from '../../libs/contentWarningSeen';
 import ReactionInfoSheet from "./ReactionInfoSheet";
 import { useFeedSplitComments } from "./feedSplitComments";
 import PostStatsSheet from "../Post/stats/PostStatsSheet";
-import PostOptionsMenu, { type PostLookRow } from "../common/PostOptionsMenu";
+import PostOptionsMenu, { type CopyMediaRow, type PostLookRow } from "../common/PostOptionsMenu";
 import ImageTranslationSheet from "../common/ImageTranslationSheet";
 import QuotedPostEmbed from "../common/QuotedPostEmbed";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
@@ -96,7 +96,7 @@ import LiveFeedReactionFlow, { type SelfReaction } from "../LiveProducer/LiveFee
 import { useWebSocketApi } from "../../context/WebSocketContext";
 import { liveReactionType } from "../../libs/live-reaction-flow";
 import { LivestreamEvents } from "../../services/enums/livestream.enum";
-import { cdnImage } from "../../libs/cdnImage";
+import { cdnImage, cdnImageSource } from "../../libs/cdnImage";
 import { FEED_BENTO_RADIUS } from "../../libs/feed-image-layout";
 import { hlsUrlFor, isBigEvent, liveThumbnailFor } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
@@ -991,6 +991,22 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const matureGate = useMatureGate(localContentRating, postKey);
   const contentWarning = useContentWarning(edits.spoilerText ?? item.spoilerText, postKey);
   const canDownloadImage = postImage && !isActuallyGated && (!isBounty || isOwnerPost) && !matureGate.isGated && !contentWarning.hidden;
+  // Copy image / video in the hold menu: the same open-post rule as Download.
+  // A video copies its file link (no phone clipboard holds a video); a
+  // private or paid one is left out so its file never gets passed around.
+  const copyMediaRow = useMemo<CopyMediaRow | undefined>(() => {
+    if (canDownloadImage) {
+      const first = cdnImageSource(galleryImages[0] || "");
+      return {
+        kind: /\.gif(?:$|[?#])/i.test(first) ? "gif" : "image",
+        url: () => cdnImageSource(galleryImages[Math.min(galleryIndex(String(tokenId)), galleryImages.length - 1)] || ""),
+      };
+    }
+    if (isVideo && !isLive && !requiresVideoAccess && !isActuallyGated && !matureGate.isGated && !contentWarning.hidden && postFileUrl) {
+      return { kind: "video", url: () => postFileUrl };
+    }
+    return undefined;
+  }, [canDownloadImage, galleryImages, tokenId, isVideo, isLive, requiresVideoAccess, isActuallyGated, matureGate.isGated, contentWarning.hidden, postFileUrl]);
   const isHidden = edits.hidden ?? !!(item as any).isHidden;
   const [follow, setFollow] = useKeyedState<{ following: boolean; pending: boolean } | null>(followKey, null);
   const isFollowingCreator = follow ? follow.following : !!(item as any).isFollowing;
@@ -2631,6 +2647,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             text: [localTitle, captionText].filter(Boolean).join("\n\n"),
             look: menuHost?.look,
           } : undefined}
+          copyMedia={copyMediaRow}
           // The sheet is mounted below rather than inside the menu: the menu is
           // conditionally rendered, so onClose unmounts it and any state set in
           // the same handler goes with it.

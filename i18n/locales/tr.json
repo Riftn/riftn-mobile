@@ -2028,6 +2028,9 @@
     "tokenAmount": "{{amount}} token"
   },
   "postOptions": {
+    "copyImage": "Görseli kopyala",
+    "copyGif": "GIF'i kopyala",
+    "copyVideo": "Videoyu kopyala",
     "notInterestedHint": "Bu gönderiyi gizle, benzerlerini daha az gör",
     "notInterestedDone": "Anlaşıldı. Bunun gibi daha az gönderi göreceksin.",
     "notInterested": "İlgilenmiyorum",
