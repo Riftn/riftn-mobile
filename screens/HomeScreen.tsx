@@ -92,6 +92,7 @@ import { useFollowTag } from "../components/Home/FollowTagBar";
 import { FeedPresetsRow, NamedFeedsRow, type FeedFilterLineItem } from "../components/Home/FeedFilterLine";
 import { deleteFeedPreset, feedPresetsEvents, namedFeedFor, presetMatches, readFeedPresets, saveFeedPreset, type AppFeedPreset } from "../libs/feed-presets";
 import { setFeedPostHost } from "../libs/feedPostHost";
+import { revealNavChrome } from "../libs/nav-chrome-reveal";
 
 // The post page Home opens in place. Required on first use so the screen's
 // code stays off Home's first render, the same as its stack route.
@@ -694,6 +695,17 @@ export default function HomeScreen() {
     setFilterPanelVisible(false);
     setImageFeed(null);
   }, [feedProfileVisible, showHeader]);
+
+  // Closing a layer that sits over the feed in place (a profile, a post, the
+  // photo sheet) is a Back to the feed: its header and the bottom nav return,
+  // even if the profile's own scroll had put the bottom nav away.
+  const inPlaceLayersRef = useRef({ profile: feedProfileVisible, post: !!feedPost, photos: !!imageFeed });
+  useEffect(() => {
+    const prev = inPlaceLayersRef.current;
+    const next = { profile: feedProfileVisible, post: !!feedPost, photos: !!imageFeed };
+    inPlaceLayersRef.current = next;
+    if ((prev.profile && !next.profile) || (prev.post && !next.post) || (prev.photos && !next.photos)) revealNavChrome();
+  }, [feedProfileVisible, feedPost, imageFeed]);
 
   useBackPress(hideUserProfile, feedProfileVisible);
   useSwipeBackAction(closeSearch, searchOpen && !feedProfileVisible && !filterPanelVisible);

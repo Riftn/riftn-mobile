@@ -8,6 +8,7 @@ import {
   Easing,
 } from 'react-native-reanimated';
 import type { LayoutChangeEvent, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import { onRevealNavChrome } from '../libs/nav-chrome-reveal';
 
 const ANIM_DURATION = 380;
 const ANIM_CONFIG = { duration: ANIM_DURATION, easing: Easing.bezier(0.25, 1, 0.5, 1) };
@@ -224,6 +225,17 @@ export const useCollapsibleHeader = ({ collapseHeight, initialHeight = 0 }: { co
     translateY.value = withTiming(0, ANIM_CONFIG);
     visibleSV.value = 1;
   }, [translateY, visibleSV, wAccum, wLastToggle]);
+
+  // Back (or any switch) to this screen brings the header back with it.
+  // Already showing: nothing to do, and no animation restarted.
+  useEffect(
+    () =>
+      onRevealNavChrome(() => {
+        if (visibleSV.value === 1) return;
+        showHeader();
+      }),
+    [showHeader, visibleSV],
+  );
 
   return {
     translateY,
