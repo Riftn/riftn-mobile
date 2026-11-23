@@ -1149,7 +1149,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   useSettledVideoSource(player, isPictureInPicturePlayer(player) ? videoUrl || null : playerSource, isActive, () => {
     if (recovery.wanted && !pausedByUserRef.current && itemNavigation.isFocused()) playIfActive();
-  }, () => recovery.fail('source-rejected'), videoSession);
+  }, () => recovery.fail('source-rejected'), videoSession, true);
 
   useEffect(() => {
     if (!player || !ownsPlayerRef.current()) return;
