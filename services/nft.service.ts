@@ -1244,10 +1244,18 @@ export async function resolveNewPost(n: number | string): Promise<NewPostResolut
  * The post already has its token id, so the response carries the same
  * signature fields as minNft and feeds straight into the on-chain step.
  */
-export async function mintExistingPost(tokenId: number, chainId?: number): Promise<MintNftResponse> {
+/** What the creator chose for a mint: copies and who earns on resales. */
+export type EditionChoice = { supply?: number; royalties?: { address: string; bps: number }[] };
+
+export async function mintExistingPost(tokenId: number, chainId?: number, edition?: EditionChoice): Promise<MintNftResponse> {
   const res = await apiClient.post<MintNftResponse>(
     `/mint_existing`,
-    { tokenId, ...(chainId ? { chainId } : {}) },
+    {
+      tokenId,
+      ...(chainId ? { chainId } : {}),
+      ...(edition?.supply ? { supply: edition.supply } : {}),
+      ...(edition?.royalties?.length ? { royalties: edition.royalties } : {}),
+    },
     { isAuthRequired: true },
   );
   const raw = (res as any)?.data ?? res;

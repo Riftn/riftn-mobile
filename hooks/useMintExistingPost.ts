@@ -2,7 +2,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
 import { useCallback, useState } from "react";
 import { getContractsForMint } from "../libs/contract.factory";
 import { createAuthAdapter } from "../services/auth/authAdapter";
-import { getMintFee, mintExistingPost, getNFT } from "../services/nft.service";
+import { getMintFee, mintExistingPost, getNFT, type EditionChoice } from "../services/nft.service";
 import { mintNftOnChainWithFee, mintWithBounty, isShortOfMintFee, formatMintFee } from "../services/mint.service";
 import { supportedTokens } from "../config/constants";
 import { getAuthMethod } from "../libs/auth.utils";
@@ -22,7 +22,7 @@ export function useMintExistingPost() {
   const mint = useCallback(
     // `chosenChainId` is the chain picked in the mint sheet; without one the
     // post goes on-chain where it was published.
-    async (tokenId: number, chainId: number, chosenChainId?: number): Promise<boolean> => {
+    async (tokenId: number, chainId: number, chosenChainId?: number, edition?: EditionChoice): Promise<boolean> => {
       if (isMinting) return false;
       setIsMinting(true);
       try {
@@ -52,7 +52,7 @@ export function useMintExistingPost() {
           }
         }
 
-        const sig = await mintExistingPost(tokenId, chainId);
+        const sig = await mintExistingPost(tokenId, chainId, hasBounty ? undefined : edition);
         // The signature binds the chain. A server that ignored the pick signed
         // for the old one, and sending that to another chain would only revert.
         if (Number((sig as any)?.chainId ?? chainId) !== chainId) {
@@ -82,6 +82,7 @@ export function useMintExistingPost() {
           s,
           fee,
           (sig as any)?.uri,
+          { supply: (sig as any)?.supply, fees: (sig as any)?.fees },
         );
         await tx?.wait?.(1);
 

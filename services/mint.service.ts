@@ -82,18 +82,26 @@ export async function mintNftOnChain(
   r: string,
   s: string,
   /** URI suffix from the mint API — carries the post's text on chain. */
-  uri?: string
+  uri?: string,
+  /** Copies and resale royalties the signature was issued for. */
+  edition?: MintEdition,
 ) {
   if (!streamCollectionContract) throw new Error("Collection contract unavailable");
   const path = uri ?? `${createdTokenId}.json`;
   const res = await writeContractAA(
     streamCollectionContract,
     "mint",
-    [createdTokenId, timestamp, v, r, s, [], 1000, path],
+    [createdTokenId, timestamp, v, r, s, editionFees(edition), edition?.supply || 1000, path],
     { context: "send" }
   );
   return res as any;
 }
+
+/** Copies and resale royalties (basis points) returned with a mint signature. */
+export type MintEdition = { supply?: number; fees?: { recipient: string; value: number }[] };
+
+const editionFees = (edition?: MintEdition) =>
+  (edition?.fees ?? []).map((f) => ({ recipient: f.recipient, value: ethers.BigNumber.from(f.value) }));
 
 /** What minting costs, as quoted by GET /mint_fee. */
 export type MintFeeQuote = {
@@ -158,10 +166,11 @@ export async function mintNftOnChainWithFee(
   fee: MintFeeQuote | null,
   /** URI suffix from the mint API — carries the post's text on chain. */
   uri?: string,
+  edition?: MintEdition,
 ) {
   const collectable = !!fee && fee.chargeable && !!fee.recipient && fee.amount > 0;
   if (!collectable) {
-    return mintNftOnChain(streamCollectionContract, createdTokenId, timestamp, v, r, s, uri);
+    return mintNftOnChain(streamCollectionContract, createdTokenId, timestamp, v, r, s, uri, edition);
   }
     if (!streamCollectionContract) throw new Error("Collection contract unavailable");
 
@@ -176,8 +185,8 @@ export async function mintNftOnChainWithFee(
     v,
     r,
     s,
-    [],
-    1000,
+    editionFees(edition),
+    edition?.supply || 1000,
     path,
   ]);
 
@@ -203,7 +212,7 @@ export async function mintNftOnChainWithFee(
     if (err?.message === "BATCH_UNSUPPORTED") {
       // A session with no bundler is not a failed mint — send it unbatched and
       // forgo the fee rather than blocking the creator.
-      return mintNftOnChain(streamCollectionContract, createdTokenId, timestamp, v, r, s, uri);
+      return mintNftOnChain(streamCollectionContract, createdTokenId, timestamp, v, r, s, uri, edition);
     }
     throw err;
   }
