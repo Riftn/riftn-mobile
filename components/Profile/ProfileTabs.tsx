@@ -3,7 +3,8 @@ import ProfileScrollViewport from './ProfileScrollViewport';
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, useProfileCollapse } from './useProfileCollapse';
 import { getCoverUrl, getDefaultBanner } from '../../libs/misc';
 import ProfilePinnedBar from './ProfilePinnedBar';
-import { ProfilePaneScrollContext, profileTabTarget, useProfilePaneScrolls } from './profilePaneScroll';
+import { ProfilePaneScrollContext, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from './profilePaneScroll';
+import { runOnUISync } from 'react-native-worklets';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { Activity, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, useWindowDimensions } from "react-native";
@@ -231,12 +232,20 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   useEffect(() => { setRestores({}); }, [address]);
   const handleTabChange = useCallback((key: string) => {
     if (key === activeKey) return;
-    const offsets = tabOffsets.value;
-    const pinAt = headerHeight.value > 0 ? headerHeight.value + PROFILE_TABS_TOP_GAP : 0;
-    const target = profileTabTarget(offsets[activeKey] ?? profileScrollY.value, offsets[key], pinAt);
-    tabOffsets.value = { ...offsets, [key]: target };
-    activeKeyShared.value = key;
-    setRestores((prev) => ({ ...prev, [key]: { y: target, seq: (prev[key]?.seq ?? 0) + 1 } }));
+    // Read and written on the UI thread in one go, so the new tab's lists see
+    // the spot as they mount (a plain .value write from here lands later).
+    const placed = runOnUISync((from: string, to: string) => {
+      'worklet';
+      const offsets = tabOffsets.value;
+      const pinAt = headerHeight.value > 0 ? headerHeight.value + PROFILE_TABS_TOP_GAP : 0;
+      const current = offsets[from] ?? profileScrollY.value;
+      const y = profileTabTarget(current, offsets[to], pinAt);
+      tabOffsets.value = { ...offsets, [to]: y };
+      activeKeyShared.value = to;
+      return { y, pinAt, current };
+    }, activeKey, key);
+    noteProfileTabSwitch({ own: true, from: activeKey, to: key, ...placed });
+    setRestores((prev) => ({ ...prev, [key]: { y: placed.y, seq: (prev[key]?.seq ?? 0) + 1 } }));
     setActiveKey(key);
   }, [activeKey, tabOffsets, headerHeight, profileScrollY, activeKeyShared]);
   const paneMinHeight = headerH > 0 ? headerH + PROFILE_TABS_TOP_GAP + windowHeight : 0;

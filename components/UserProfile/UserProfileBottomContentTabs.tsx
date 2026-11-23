@@ -55,7 +55,8 @@ import ProfileTabBar, { type ProfileTabItem } from "../Profile/ProfileTabBar";
 import ProfileScrollViewport from "../Profile/ProfileScrollViewport";
 import ProfilePinnedBar, { type ProfilePinnedIdentity } from "../Profile/ProfilePinnedBar";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
-import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePaneScrollContext, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePaneScrollContext, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
+import { runOnUISync } from "react-native-worklets";
 import ProfileContentToolbar from "../Profile/ProfileContentToolbar";
 import ProfileArrangeSheet from "../Profile/ProfileArrangeSheet";
 import ProfileFilterDrawer from "../Profile/ProfileFilterDrawer";
@@ -518,12 +519,20 @@ const UserProfileBottomContentTabsInner: React.FC<
     (tab: ContentTab) => {
       if (tab === activeTab) return;
       if (isFullScreen) {
-        const offsets = tabOffsets.value;
-        const pinAt = headerHeightShared.value > 0 ? headerHeightShared.value + PROFILE_TABS_TOP_GAP : 0;
-        const target = profileTabTarget(offsets[activeTab] ?? 0, offsets[tab], pinAt);
-        tabOffsets.value = { ...offsets, [tab]: target };
-        activeTabShared.value = tab;
-        setRestores((prev) => ({ ...prev, [tab]: { y: target, seq: (prev[tab]?.seq ?? 0) + 1 } }));
+        // Read and written on the UI thread in one go, so the new tab's lists
+        // see the spot as they mount (a plain .value write lands later).
+        const placed = runOnUISync((from: string, to: string) => {
+          'worklet';
+          const offsets = tabOffsets.value;
+          const pinAt = headerHeightShared.value > 0 ? headerHeightShared.value + PROFILE_TABS_TOP_GAP : 0;
+          const current = offsets[from] ?? 0;
+          const y = profileTabTarget(current, offsets[to], pinAt);
+          tabOffsets.value = { ...offsets, [to]: y };
+          activeTabShared.value = to;
+          return { y, pinAt, current };
+        }, activeTab, tab);
+        noteProfileTabSwitch({ own: false, from: activeTab, to: tab, ...placed });
+        setRestores((prev) => ({ ...prev, [tab]: { y: placed.y, seq: (prev[tab]?.seq ?? 0) + 1 } }));
       }
       setActiveTab(tab);
     },

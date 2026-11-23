@@ -1,4 +1,4 @@
-import React, { createContext, forwardRef, useContext, useMemo, useRef } from "react";
+import React, { createContext, forwardRef, useContext, useEffect, useMemo, useRef } from "react";
 import { FlatList, ScrollView } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -31,6 +31,11 @@ export type ProfilePaneScroll = {
 export const ProfilePaneScrollContext = createContext<ProfilePaneScroll | null>(null);
 
 export { profileTabTarget } from "./profileTabTarget";
+
+/** Lets the simulator check see each switch (scripts/ios-nav/tour.ts). */
+export function noteProfileTabSwitch(info: Record<string, unknown>): void {
+  (globalThis as { __profileTabSwitch?: (info: Record<string, unknown>) => void }).__profileTabSwitch?.(info);
+}
 
 /** Holds one value object per tab, rebuilt only when that tab's numbers change. */
 export function useProfilePaneScrolls(
@@ -71,6 +76,10 @@ export function useProfilePaneScroll(): { contentOffset?: { x: number; y: number
     ? -1
     : (seq === mounted.current.seq ? mounted.current.y : pane.restoreY) + ((seq % 9) + 1) / 1000;
   const contentOffset = useMemo(() => (y >= 0 ? { x: 0, y } : undefined), [y]);
+  // The simulator check listens here (scripts/ios-nav/tour.ts); nothing else does.
+  useEffect(() => {
+    if (y >= 0) (globalThis as { __profilePaneOffset?: (y: number, seq: number) => void }).__profilePaneOffset?.(y, seq);
+  }, [y, seq]);
   const minHeight = pane?.minHeight ?? 0;
   const minHeightStyle = useMemo(() => (minHeight > 0 ? { minHeight } : undefined), [minHeight]);
   return { contentOffset, minHeightStyle };

@@ -2363,6 +2363,11 @@ async function runMoments(): Promise<void> {
  */
 async function runProfileTabs(): Promise<void> {
   extra = { startedAt: Date.now(), mode: "profiletabs" };
+  // The profile reports each switch and where each tab list is put (main's
+  // code has neither; then nothing is logged).
+  const g = globalThis as { __profileTabSwitch?: (info: unknown) => void; __profilePaneOffset?: (y: number, seq: number) => void };
+  g.__profileTabSwitch = (info) => console.error(`[perf-tour] switch ${JSON.stringify(info)}`);
+  g.__profilePaneOffset = (y, seq) => console.error(`[perf-tour] pane offset ${Math.round(y * 1000) / 1000} seq ${seq}`);
   const root = nav.getRootState();
   if (root?.routes[root.index]?.name !== ScreenNames.App) {
     nav.navigate(ScreenNames.App);
