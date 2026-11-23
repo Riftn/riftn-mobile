@@ -530,6 +530,7 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
               keyboardSwap.restore();
             }}
             onSelect={handlePickEmoji}
+            keepOpen
           />
         )}
       </WhenOpened>

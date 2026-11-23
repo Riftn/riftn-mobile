@@ -42,6 +42,7 @@ import MenuAccountSwitcher from "./MenuAccountSwitcher";
 import { DhbCoin } from "../common/DhbCoin";
 import Icon, { type IconName } from "../ui/Icon";
 import { formatCompactNumber } from "../../libs/numbers.util";
+import { HIDDEN_BALANCE, setBalanceHidden, useBalanceHidden } from "../../libs/balancePrivacy";
 import { filterNavRows } from "../../libs/navSearch";
 import { useUser, useAuthState, useAuthActions } from "../../context/AuthContext";
 import { canManageAgents } from '../../libs/agent-access';
@@ -911,6 +912,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const badgeImg = useMemo(() => getBadgeUrlFor(user as any), [user]);
   // The DHB the wallet actually holds; badgeBalance can include delegation.
   const dhbBalance = Math.floor(user?.ownBadgeBalance ?? user?.badgeBalance ?? 0);
+  const balanceHidden = useBalanceHidden();
 
   const renderItem = (item: DrawerItem, big = false) => {
     const key = ICON_KEYS[item.labelKey];
@@ -1136,17 +1138,32 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                   </View>
                 </TouchableOpacity>
                 {DIGITAL_PURCHASES_ENABLED && dhbBalance > 0 && (
-                  <TouchableOpacity
-                    accessibilityRole="button"
-                    accessibilityLabel={`${t("nav.wallet")} ${dhbBalance.toLocaleString()}`}
-                    onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
-                    activeOpacity={0.7}
-                    style={[styles.balanceChip, square && styles.square]}
-                  >
-                    <DhbCoin size={16} />
-                    {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
-                    <Text style={styles.balanceText}>{dhbBalance >= 10_000 ? formatCompactNumber(dhbBalance) : dhbBalance.toLocaleString()}</Text>
-                  </TouchableOpacity>
+                  <View style={[styles.balanceChip, square && styles.square]}>
+                    <TouchableOpacity
+                      accessibilityRole="button"
+                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${dhbBalance.toLocaleString()}`}
+                      onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
+                      activeOpacity={0.7}
+                      style={styles.balanceMain}
+                    >
+                      <DhbCoin size={16} />
+                      {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
+                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : dhbBalance >= 10_000 ? formatCompactNumber(dhbBalance) : dhbBalance.toLocaleString()}</Text>
+                    </TouchableOpacity>
+                    {/* Eye: hide or show the number on this device (Requests 4c8cc200). */}
+                    <TouchableOpacity
+                      accessibilityRole="button"
+                      accessibilityLabel={balanceHidden ? t("wallet.showBalance", { defaultValue: "Show balance" }) : t("wallet.hideBalance", { defaultValue: "Hide balance" })}
+                      accessibilityState={{ selected: balanceHidden }}
+                      onPress={() => setBalanceHidden(!balanceHidden)}
+                      activeOpacity={0.6}
+                      hitSlop={{ top: 8, bottom: 8, right: 6 }}
+                      style={styles.balanceEye}
+                      testID="drawer-balance-eye"
+                    >
+                      <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={15} color="hsla(0, 0%, 100%, 0.6)" />
+                    </TouchableOpacity>
+                  </View>
                 )}
                 <MenuAccountSwitcher
                   avatarUrl={avatarUrl}
@@ -1511,13 +1528,25 @@ const styles = StyleSheet.create({
   balanceChip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
     height: 34,
-    paddingHorizontal: 12,
     borderRadius: 10,
     backgroundColor: "rgba(255, 255, 255, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.16)",
+  },
+  balanceMain: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    height: "100%",
+    paddingLeft: 12,
+    paddingRight: 6,
+  },
+  balanceEye: {
+    height: "100%",
+    justifyContent: "center",
+    paddingLeft: 2,
+    paddingRight: 10,
   },
   balanceText: {
     color: "#FFFFFF",

@@ -2764,7 +2764,9 @@
     "solanaAddressHint": "Alleen SOL- en SPL-tokens",
     "solanaAddressCopied": "Solana-adres gekopieerd",
     "chooseNetwork": "Netwerk kiezen",
-    "solanaSendUnavailable": "Verzenden op Solana is nog niet beschikbaar"
+    "solanaSendUnavailable": "Verzenden op Solana is nog niet beschikbaar",
+    "showBalance": "Saldo tonen",
+    "hideBalance": "Saldo verbergen"
   },
   "bookmarks": {
     "title": "Jouw bladwijzers",

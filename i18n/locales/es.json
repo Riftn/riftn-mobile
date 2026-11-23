@@ -2576,7 +2576,9 @@
     "solanaAddressLabel": "Solana",
     "solanaAddressHint": "Solo tokens SOL y SPL",
     "solanaAddressCopied": "Dirección de Solana copiada",
-    "chooseNetwork": "Elegir red"
+    "chooseNetwork": "Elegir red",
+    "showBalance": "Mostrar saldo",
+    "hideBalance": "Ocultar saldo"
   },
   "bookmarks": {
     "title": "Tus Marcadores",

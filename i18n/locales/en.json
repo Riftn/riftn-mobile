@@ -2392,6 +2392,8 @@
     "tryAgain": "Try Again"
   },
   "wallet": {
+    "showBalance": "Show balance",
+    "hideBalance": "Hide balance",
     "connectUnavailable": "Connect Wallet isn't available in this build — restore with your recovery phrase instead.",
     "connectedWrongWallet": "That wallet is {{connected}}, not {{address}}. Nothing was changed.",
     "restoreWrongWallet": "That opens a different wallet, not {{address}}. Nothing was changed.",
