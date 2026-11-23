@@ -49,7 +49,8 @@ import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import { truncateAddress } from "../libs/strings.util";
 import { toastInfo, toastSuccess, toastError } from "../libs/toast";
 import { toast } from "sonner-native";
-import NotesSheet from "../components/DM/NotesSheet";
+import NotesSheet, { NotesStrip } from "../components/DM/NotesSheet";
+import type { NoteEntry } from "../services/notes.service";
 import { scheduleDelete, undoDelete, usePendingDeletes, UNDO_WINDOW_MS } from "../libs/undoable-delete";
 import { blockUser } from "../services/block.service";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
@@ -121,6 +122,8 @@ const DirectMessagesInner: React.FC = () => {
   const closeSearch = useCallback(() => { setQuery(""); setSearchOpen(false); }, [setQuery]);
   const [newChatKind, setNewChatKind] = useState<"group" | "channel" | null>(null);
   const [notesVisible, setNotesVisible] = useState(false);
+  const [notesView, setNotesView] = useState<NoteEntry | null>(null);
+  const openNotes = useCallback((entry: NoteEntry | null) => { setNotesView(entry); setNotesVisible(true); }, []);
   const { data: memberships } = useQuery({
     queryKey: ["communities", "user", myAddress],
     queryFn: () => getUserCommunities(myAddress),
@@ -819,6 +822,8 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
+      {/* Notes strip, only for people who have a note or see one. */}
+      {!!myAddress && tabFilter === "all" && !customTab && !showingArchive && !query.trim() && <NotesStrip onOpen={openNotes} />}
       {(tabFilter === "all" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
       <ChatCard unread={publicUnread > 0 || !!publicReactions}>
@@ -929,7 +934,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR],
+    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR, openNotes],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);
@@ -1084,13 +1089,14 @@ const DirectMessagesInner: React.FC = () => {
           open={newDmVisible}
           onOpenChange={setNewDmVisible}
           onSelect={(u) => startDMWith(u)}
-          onNote={() => setNotesVisible(true)}
+          onNote={() => openNotes(null)}
           onGroup={() => setNewChatKind("group")}
           onChannel={() => setNewChatKind("channel")}
         />
 
         <NotesSheet
           visible={notesVisible}
+          initialView={notesView}
           onClose={() => setNotesVisible(false)}
           onMessage={(a, reply) => startDMWith({ ...a, walletAddress: a.address } as unknown as User, reply)}
         />

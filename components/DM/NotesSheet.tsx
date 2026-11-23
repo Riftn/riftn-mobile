@@ -382,14 +382,36 @@ function NoteTextBubble({ text, onPress }: { text: string; onPress?: () => void 
   );
 }
 
-export default function NotesSheet({ visible, onClose, onMessage }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void }) {
+/**
+ * The strip at the top of Messages. It shows only for people who use Notes:
+ * your own note, or notes from people you follow. Nobody else sees anything,
+ * and Notes still open from the + for them.
+ */
+export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => void }) {
+  const { t } = useTranslation();
+  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000 });
+  const mine = data?.mine ?? null;
+  const notes = data?.notes ?? [];
+  if (!mine && notes.length === 0) return null;
+  const placeholder = t("notes.add", { defaultValue: "Note" });
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 12, paddingBottom: 8 }} keyboardShouldPersistTaps="handled">
+      {mine && <NoteTile author={mine.author} note={mine.note} label={t("notes.yourNote", { defaultValue: "Your note" })} placeholder={placeholder} onPress={() => onOpen(null)} />}
+      {notes.map((entry) => (
+        <NoteTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} placeholder={placeholder} onPress={() => onOpen(entry)} />
+      ))}
+    </ScrollView>
+  );
+}
+
+export default function NotesSheet({ visible, onClose, onMessage, initialView = null }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void; initialView?: NoteEntry | null }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
   const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled: visible });
   const [viewing, setViewing] = useState<NoteEntry | null>(null);
   const [playToken, setPlayToken] = useState(0);
-  useEffect(() => { if (!visible) setViewing(null); }, [visible]);
+  useEffect(() => { setViewing(visible ? initialView : null); }, [visible, initialView]);
   const mine = data?.mine?.note ?? null;
   const notes = data?.notes ?? [];
   const placeholder = t("notes.add", { defaultValue: "Note" });
