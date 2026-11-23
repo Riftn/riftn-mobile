@@ -34,6 +34,21 @@ final class LiveBroadcastSession {
   /// Called once, with the line iOS shows when the broadcast ends.
   var onFinished: ((String) -> Void)?
 
+  /// The Core Image orientation that stands a ReplayKit frame upright.
+  ///
+  /// ReplayKit's sideways tags point the other way from what
+  /// `CIImage.oriented` expects: a frame tagged `.left` needs turning as if it
+  /// were `.right`, and the other way round. Passed straight through, every
+  /// landscape share (games) reached viewers upside down. Portrait and
+  /// upside-down portrait are their own inverse, so they pass through.
+  static func upright(replayKit raw: UInt32) -> CGImagePropertyOrientation {
+    switch CGImagePropertyOrientation(rawValue: raw) ?? .up {
+    case .left: return .right
+    case .right: return .left
+    case let other: return other
+    }
+  }
+
   /// The waiting ticket, or nil when the app did not ask for a live share.
   static func claim() -> LiveBroadcastSession? {
     guard let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else { return nil }
@@ -74,7 +89,7 @@ final class LiveBroadcastSession {
   func video(_ sample: CMSampleBuffer) {
     guard let image = CMSampleBufferGetImageBuffer(sample) else { return }
     let raw = (CMGetAttachment(sample, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil) as? NSNumber)?.uint32Value ?? 1
-    let orientation = CGImagePropertyOrientation(rawValue: raw) ?? .up
+    let orientation = LiveBroadcastSession.upright(replayKit: raw)
     let pts = CMSampleBufferGetPresentationTimeStamp(sample)
     let time = pts.isValid ? CMTimeGetSeconds(pts) : CACurrentMediaTime()
     publisher.appendVideo(image, orientation: orientation, at: time)
