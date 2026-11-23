@@ -10296,7 +10296,9 @@
     "hereNow": "ኣብዚ ሕጂ እዋን",
     "nobodyYet": "ክሳብ ሕጂ ሓደ እኳ ኣይረኸበን ።",
     "topTippers": "Top tippers",
-    "rotate": "ስክሪን ቀይር"
+    "rotate": "ስክሪን ቀይር",
+    "bannedHere": "በዚህ ቀጥታ ስርጭት ውስጥ ምስ ካልኦት ክትዛረብ ተኸልኪልካ ኢኻ።",
+    "timedOutHere": "ካብዚ ዕላል ንግዚኡ ተኣጊድካ ኣለኻ።"
   },
   "search": {
     "endOfResults": "መወዳእታ ውጽኢታት",

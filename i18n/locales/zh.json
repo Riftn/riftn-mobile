@@ -10304,7 +10304,9 @@
     "mostActive": "最活跃",
     "hereNow": "现在就在这里",
     "nobodyYet": "还没有人",
-    "rotate": "旋转屏幕"
+    "rotate": "旋转屏幕",
+    "bannedHere": "你被禁止在这个直播间聊天。",
+    "timedOutHere": "你当前暂时无法继续此聊天。"
   },
   "search": {
     "endOfResults": "结果到底了",

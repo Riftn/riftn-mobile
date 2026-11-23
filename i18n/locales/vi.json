@@ -10391,7 +10391,9 @@
     "mostActive": "Hoạt động tích cực nhất",
     "hereNow": "Ở đây ngay bây giờ",
     "nobodyYet": "Chưa có ai",
-    "rotate": "Xoay màn hình"
+    "rotate": "Xoay màn hình",
+    "bannedHere": "Bạn bị cấm trò chuyện trong buổi phát trực tiếp này.",
+    "timedOutHere": "Bạn hiện đang bị tạm khóa khỏi cuộc trò chuyện này."
   },
   "search": {
     "endOfResults": "Hết kết quả",

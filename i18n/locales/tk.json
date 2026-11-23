@@ -10293,7 +10293,9 @@
     "hereNow": "Bu ýerde",
     "nobodyYet": "Häzir hiç kim",
     "watchingCount": "{{formatted}} watching",
-    "rotate": "Ekrany aýyrmak"
+    "rotate": "Ekrany aýyrmak",
+    "bannedHere": "Bu göni ýaýlymda söhbetdeşlik etmegiň gadagan edildi.",
+    "timedOutHere": "Häzirlikçe bu söhbetde ýazmakdan wagtlaýyn çäklendirildiňiz."
   },
   "search": {
     "endOfResults": "Netijeleriň ahyry",

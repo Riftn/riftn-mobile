@@ -10343,7 +10343,9 @@
     "mostActive": "Amilifu zaidi",
     "hereNow": "Hapa sasa",
     "nobodyYet": "Hakuna mtu bado",
-    "rotate": "Zungusha skrini"
+    "rotate": "Zungusha skrini",
+    "bannedHere": "Umebakiwa kutumia chat hapa katika live stream hili.",
+    "timedOutHere": "Umezuiwa kwa muda kushiriki kwenye gumzo hili."
   },
   "search": {
     "endOfResults": "Mwisho wa matokeo",

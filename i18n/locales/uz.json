@@ -10314,7 +10314,9 @@
     "mostActive": "Eng faol",
     "hereNow": "Hozir shu yerda",
     "nobodyYet": "Hali hech kim",
-    "rotate": "Ekranni aylantirish"
+    "rotate": "Ekranni aylantirish",
+    "bannedHere": "Sizga ushbu jonli efirda chatda yozish taqiqlangan.",
+    "timedOutHere": "Hozircha bu chatdan vaqtincha chetlatildingiz."
   },
   "search": {
     "endOfResults": "Natijalar tugadi",

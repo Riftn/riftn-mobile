@@ -10322,7 +10322,9 @@
     "mostActive": "Më aktivi",
     "hereNow": "Këtu tani",
     "nobodyYet": "Askush ende",
-    "rotate": "Rrotullo ekranin"
+    "rotate": "Rrotullo ekranin",
+    "bannedHere": "Je i/e ndaluar të bisedosh në këtë transmetim të drejtpërdrejtë.",
+    "timedOutHere": "Je pezulluar nga kjo bisedë për momentin."
   },
   "search": {
     "endOfResults": "Fundi i rezultateve",
