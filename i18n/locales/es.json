@@ -1,4 +1,42 @@
 {
+  "painting": {
+    "title": "Pintura",
+    "close": "Cerrar",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "done": "Listo",
+    "clear": "Borrar todo",
+    "size": "Tamaño",
+    "colour": "Color",
+    "customColour": "Color personalizado",
+    "fillShape": "Rellenar forma",
+    "shape": "Forma del lienzo",
+    "discardTitle": "¿Descartar esta pintura?",
+    "discard": "Descartar",
+    "keep": "Seguir pintando",
+    "saveFailed": "No se pudo guardar la pintura. Inténtalo de nuevo.",
+    "tools": {
+      "pencil": "Lápiz",
+      "brush": "Pincel",
+      "eraser": "Borrador",
+      "fill": "Relleno",
+      "line": "Línea",
+      "rect": "Rectángulo",
+      "ellipse": "Elipse",
+      "oil": "Óleo",
+      "pastel": "Pastel",
+      "watercolor": "Acuarela",
+      "charcoal": "Carboncillo"
+    },
+    "aspect": {
+      "portrait": "Vertical",
+      "square": "Cuadrado",
+      "wide": "Horizontal"
+    },
+    "hue": "Tono",
+    "saturation": "Saturación",
+    "brightness": "Brillo"
+  },
   "reviewCard": {
     "title": "¿Te gusta Riftn?",
     "body": "Una valoración rápida en {{store}} ayuda a que más gente nos encuentre.",
@@ -8443,6 +8481,14 @@
     "noContentResults": "No hay resultados de contenido",
     "recentSearches": "Búsquedas recientes",
     "noTrendingThisWeek": "No hay contenido de tendencia esta semana",
+    "trendReactions": "Reacciones",
+    "trendPpv": "PPV",
+    "trendTips": "Propinas",
+    "earnedTipped": "en propinas",
+    "earnedUnlocks_one": "{{count}} desbloqueo",
+    "earnedUnlocks_other": "{{count}} desbloqueos",
+    "noEarnedTips": "Ningún video ha recibido propinas esta semana. Dale propina a uno que te guste y aparecerá aquí.",
+    "noEarnedPpv": "Ningún video PPV se ha desbloqueado esta semana. Vuelve pronto.",
     "closeFilterOptions": "Cerrar opciones de filtro",
     "openFilterOptions": "Abrir opciones de filtro",
     "fillQuery": "Rellenar la búsqueda con \"{{query}}\"",
@@ -18003,7 +18049,47 @@
       "label": "Precios de mercado",
       "gold": "Oro (oz)"
     },
-    "withFriends": "Juega con amigos"
+    "withFriends": "Juega con amigos",
+    "sillycoin": {
+      "title": "SillyCoin",
+      "cardBlurb": "Toca para minar, compra mejoras y envía monedas a tus amigos. Solo por diversión, sin valor.",
+      "intro": "Toca para minar, mejora y envía monedas a tus amigos.",
+      "balanceLabel": "Tus SillyCoins",
+      "rates": "{{tap}} por toque · {{second}} por segundo",
+      "tapLabel": "Toca para minar",
+      "tapHint": "Toca la moneda para minar. Cuentan hasta 15 toques por segundo.",
+      "signInPrompt": "Inicia sesión para guardar tus SillyCoins, comprar mejoras y enviar monedas a tus amigos.",
+      "upgradesTitle": "Mejoras",
+      "upgrade": {
+        "pick": "Pico más grande",
+        "miner": "Minero automático",
+        "rig": "Taladro"
+      },
+      "bought": {
+        "pick": "Pico más grande comprado",
+        "miner": "Minero automático comprado",
+        "rig": "Taladro comprado"
+      },
+      "level": "Nv {{level}}",
+      "effectTap": "+{{n}} por toque",
+      "effectSecond": "+{{n}} por segundo",
+      "maxed": "Máx",
+      "idleNote": "Los mineros automáticos siguen cavando mientras no estás, hasta 8 horas.",
+      "awayToast": "Tus mineros cavaron {{coins}} SillyCoins mientras no estabas ({{hours}} h).",
+      "sendTitle": "Enviar SillyCoins",
+      "toPlaceholder": "@usuario",
+      "amountPlaceholder": "Cuántas",
+      "notePlaceholder": "Nota (opcional)",
+      "sendButton": "Enviar",
+      "sendMissing": "Elige a quién enviar y cuántas.",
+      "sent": "Enviaste {{coins}} SillyCoins a {{name}}",
+      "sendNote": "Reciben las monedas al instante. Las SillyCoins se quedan en el juego: sin billetera, sin token.",
+      "fromLine": "De {{name}}",
+      "toLine": "Para {{name}}",
+      "boardTitle": "Mejores mineros",
+      "boardEmpty": "Nadie ha minado todavía. Sé el primero.",
+      "disclaimer": "Las SillyCoins son solo por diversión y no tienen valor. No son una criptomoneda, nunca tocan tu billetera y no se pueden comprar, vender ni cobrar."
+    }
   },
   "notes": {
     "add": "Nota",

@@ -8,6 +8,7 @@ export type FeedSortBy = "score" | "likes" | "views" | "createdAt" | "tips" | "c
 export type FeedSortOrder = "asc" | "desc";
 export type FeedRange = "day" | "week" | "month" | "year";
 export type FeedStatus = "minted" | "signed" | "all";
+export type FeedEarned = "tips" | "ppv";
 
 export interface UnifiedFeedParams {
   // Pagination
@@ -35,6 +36,9 @@ export interface UnifiedFeedParams {
   to?: string;   // ISO 8601
   
   followingOnly?: boolean;
+
+  /** Trending's PPV / Tips tabs: rank by what posts earned, only posts that earned something. */
+  earned?: FeedEarned;
 
   // User filters
   minter?: string;  // Creator address
@@ -156,6 +160,12 @@ export interface UnifiedFeedItem {
    */
   totalViews?: number;
   likes?: number;
+  /** DHB tipped to the post, its running total. */
+  totalTips?: number;
+  /** How many people unlocked the PPV post. */
+  ppvBuyerCount?: number;
+  /** What PPV unlocks paid, sent only with `earned=ppv`. */
+  ppvEarnings?: number;
   dislikes?: number;
   commentCount?: number;
   videoDuration?: number;
@@ -282,6 +292,7 @@ function feedQuery(params?: UnifiedFeedParams, signal = false, visibleTokenIds: 
     owner: params?.owner,
     search: params?.search,
     followingOnly: params?.followingOnly,
+    earned: params?.earned,
   });
 
   return objectToQueryString(queryParams);

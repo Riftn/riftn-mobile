@@ -1,4 +1,42 @@
 {
+  "painting": {
+    "title": "Painting",
+    "close": "Close",
+    "undo": "Undo",
+    "redo": "Redo",
+    "done": "Done",
+    "clear": "Clear",
+    "size": "Size",
+    "colour": "Colour",
+    "customColour": "Custom colour",
+    "fillShape": "Fill shape",
+    "shape": "Canvas shape",
+    "discardTitle": "Discard this painting?",
+    "discard": "Discard",
+    "keep": "Keep painting",
+    "saveFailed": "Couldn't save the painting. Try again.",
+    "tools": {
+      "pencil": "Pencil",
+      "brush": "Brush",
+      "eraser": "Eraser",
+      "fill": "Fill",
+      "line": "Line",
+      "rect": "Rectangle",
+      "ellipse": "Ellipse",
+      "oil": "Oil",
+      "pastel": "Pastel",
+      "watercolor": "Watercolour",
+      "charcoal": "Charcoal"
+    },
+    "aspect": {
+      "portrait": "Portrait",
+      "square": "Square",
+      "wide": "Wide"
+    },
+    "hue": "Hue",
+    "saturation": "Saturation",
+    "brightness": "Brightness"
+  },
   "streamPet": {
     "stage": {
       "egg": "Egg",
@@ -8218,6 +8256,14 @@
     "noContentResults": "No content results",
     "recentSearches": "Recent Searches",
     "noTrendingThisWeek": "No trending content this week",
+    "trendReactions": "Reactions",
+    "trendPpv": "PPV",
+    "trendTips": "Tips",
+    "earnedTipped": "tipped",
+    "earnedUnlocks_one": "{{count}} unlock",
+    "earnedUnlocks_other": "{{count}} unlocks",
+    "noEarnedTips": "No video got tips this week yet. Tip one you enjoy and it shows up here.",
+    "noEarnedPpv": "No PPV video was unlocked this week yet. Check back soon.",
     "closeFilterOptions": "Close filter options",
     "openFilterOptions": "Open filter options",
     "fillQuery": "Fill search with \"{{query}}\"",
@@ -17512,7 +17558,47 @@
       "label": "Market prices",
       "gold": "Gold (oz)"
     },
-    "withFriends": "Play with friends"
+    "withFriends": "Play with friends",
+    "sillycoin": {
+      "title": "SillyCoin",
+      "cardBlurb": "Tap to mine, buy upgrades, send coins to friends. Just for fun, no value.",
+      "intro": "Tap to mine, upgrade, send coins to friends.",
+      "balanceLabel": "Your SillyCoins",
+      "rates": "{{tap}} per tap · {{second}} a second",
+      "tapLabel": "Tap to mine",
+      "tapHint": "Tap the coin to mine. Up to 15 taps a second count.",
+      "signInPrompt": "Sign in to save your SillyCoins, buy upgrades and send coins to friends.",
+      "upgradesTitle": "Upgrades",
+      "upgrade": {
+        "pick": "Bigger pick",
+        "miner": "Auto-miner",
+        "rig": "Drill rig"
+      },
+      "bought": {
+        "pick": "Bigger pick bought",
+        "miner": "Auto-miner bought",
+        "rig": "Drill rig bought"
+      },
+      "level": "Lv {{level}}",
+      "effectTap": "+{{n}} per tap",
+      "effectSecond": "+{{n}} a second",
+      "maxed": "Max",
+      "idleNote": "Auto-miners keep digging while you are away, for up to 8 hours.",
+      "awayToast": "Your miners dug {{coins}} SillyCoins while you were away ({{hours}} h).",
+      "sendTitle": "Send SillyCoins",
+      "toPlaceholder": "@username",
+      "amountPlaceholder": "How many",
+      "notePlaceholder": "Note (optional)",
+      "sendButton": "Send",
+      "sendMissing": "Pick who to send to and how many.",
+      "sent": "Sent {{coins}} SillyCoins to {{name}}",
+      "sendNote": "They get the coins straight away. SillyCoins stay in the game: no wallet, no token.",
+      "fromLine": "From {{name}}",
+      "toLine": "To {{name}}",
+      "boardTitle": "Top miners",
+      "boardEmpty": "Nobody has mined yet. Be the first.",
+      "disclaimer": "SillyCoins are just for fun and have no value. They are not a cryptocurrency, never touch your wallet, and cannot be bought, sold or cashed out."
+    }
   },
   "notes": {
     "add": "Note",

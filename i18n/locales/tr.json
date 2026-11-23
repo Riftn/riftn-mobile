@@ -1,4 +1,42 @@
 {
+  "painting": {
+    "title": "Resim",
+    "close": "Kapat",
+    "undo": "Geri al",
+    "redo": "Yinele",
+    "done": "Bitti",
+    "clear": "Temizle",
+    "size": "Boyut",
+    "colour": "Renk",
+    "customColour": "Özel renk",
+    "fillShape": "Şekli doldur",
+    "shape": "Tuval biçimi",
+    "discardTitle": "Bu resim silinsin mi?",
+    "discard": "Sil",
+    "keep": "Boyamaya devam et",
+    "saveFailed": "Resim kaydedilemedi. Tekrar dene.",
+    "tools": {
+      "pencil": "Kurşun kalem",
+      "brush": "Fırça",
+      "eraser": "Silgi",
+      "fill": "Doldur",
+      "line": "Çizgi",
+      "rect": "Dikdörtgen",
+      "ellipse": "Elips",
+      "oil": "Yağlı boya",
+      "pastel": "Pastel",
+      "watercolor": "Suluboya",
+      "charcoal": "Kömür kalem"
+    },
+    "aspect": {
+      "portrait": "Dikey",
+      "square": "Kare",
+      "wide": "Geniş"
+    },
+    "hue": "Ton",
+    "saturation": "Doygunluk",
+    "brightness": "Parlaklık"
+  },
   "reviewCard": {
     "title": "Riftn'i sevdin mi?",
     "body": "{{store}} üzerinde kısa bir puan, daha çok kişinin bizi bulmasına yardım eder.",
@@ -8443,6 +8481,14 @@
     "noContentResults": "İçerik sonucu yok",
     "recentSearches": "Son Aramalar",
     "noTrendingThisWeek": "Bu hafta trend içerik yok",
+    "trendReactions": "Tepkiler",
+    "trendPpv": "PPV",
+    "trendTips": "Bahşişler",
+    "earnedTipped": "bahşiş",
+    "earnedUnlocks_one": "{{count}} kilit açma",
+    "earnedUnlocks_other": "{{count}} kilit açma",
+    "noEarnedTips": "Bu hafta henüz bahşiş alan video yok. Beğendiğin birine bahşiş ver, burada görünsün.",
+    "noEarnedPpv": "Bu hafta henüz kilidi açılan PPV video yok. Yakında tekrar bak.",
     "closeFilterOptions": "Filtre seçeneklerini kapat",
     "openFilterOptions": "Filtre seçeneklerini aç",
     "fillQuery": "Aramaya \"{{query}}\" yaz",
@@ -18002,7 +18048,47 @@
       "label": "Piyasa fiyatları",
       "gold": "Altın (ons)"
     },
-    "withFriends": "Arkadaşlarla oyna"
+    "withFriends": "Arkadaşlarla oyna",
+    "sillycoin": {
+      "title": "SillyCoin",
+      "cardBlurb": "Kazmak için dokun, yükseltme al, arkadaşlarına coin gönder. Sadece eğlence için, değeri yok.",
+      "intro": "Kazmak için dokun, yükselt, arkadaşlarına coin gönder.",
+      "balanceLabel": "SillyCoin’lerin",
+      "rates": "dokunuş başına {{tap}} · saniyede {{second}}",
+      "tapLabel": "Kazmak için dokun",
+      "tapHint": "Kazmak için coin’e dokun. Saniyede en fazla 15 dokunuş sayılır.",
+      "signInPrompt": "SillyCoin’lerini kaydetmek, yükseltme almak ve arkadaşlarına coin göndermek için giriş yap.",
+      "upgradesTitle": "Yükseltmeler",
+      "upgrade": {
+        "pick": "Daha büyük kazma",
+        "miner": "Otomatik madenci",
+        "rig": "Sondaj makinesi"
+      },
+      "bought": {
+        "pick": "Daha büyük kazma alındı",
+        "miner": "Otomatik madenci alındı",
+        "rig": "Sondaj makinesi alındı"
+      },
+      "level": "Sv {{level}}",
+      "effectTap": "dokunuş başına +{{n}}",
+      "effectSecond": "saniyede +{{n}}",
+      "maxed": "Maks",
+      "idleNote": "Otomatik madenciler sen yokken de kazmaya devam eder, en fazla 8 saat.",
+      "awayToast": "Sen yokken madencilerin {{coins}} SillyCoin kazdı ({{hours}} sa).",
+      "sendTitle": "SillyCoin gönder",
+      "toPlaceholder": "@kullanıcıadı",
+      "amountPlaceholder": "Kaç tane",
+      "notePlaceholder": "Not (isteğe bağlı)",
+      "sendButton": "Gönder",
+      "sendMissing": "Kime ve kaç tane göndereceğini seç.",
+      "sent": "{{name}} kişisine {{coins}} SillyCoin gönderildi",
+      "sendNote": "Coin’ler hemen ulaşır. SillyCoin’ler oyunda kalır: cüzdan yok, token yok.",
+      "fromLine": "{{name}} gönderdi",
+      "toLine": "{{name}} kişisine",
+      "boardTitle": "En iyi madenciler",
+      "boardEmpty": "Henüz kimse kazmadı. İlk sen ol.",
+      "disclaimer": "SillyCoin’ler sadece eğlence içindir ve değeri yoktur. Kripto para değildir, cüzdanına asla dokunmaz; satın alınamaz, satılamaz veya nakde çevrilemez."
+    }
   },
   "notes": {
     "add": "Not",

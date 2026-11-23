@@ -73,6 +73,7 @@ import { useUserProfileSheet } from '../context/UserProfileSheetContext';
 import { usePerfProbe } from '../libs/perfTrace';
 import DeferredTextInput from "../components/ui/DeferredTextInput";
 import ExploreCleanList, { ExploreCategoryWords } from "../components/Search/ExploreCleanList";
+import { EarnedEmpty, EarnedLine, TrendSortWords, type TrendSort } from "../components/Search/TrendingEarned";
 import { useAppTheme } from "../context/ThemeContext";
 import { SEARCH_INPUT_CLEAR } from '../hooks/useSearchFieldMaterial';
 import {
@@ -307,6 +308,10 @@ const SearchScreen: React.FC = () => {
   // Trending
   const [trendingVideos, setTrendingVideos] = useState<UnifiedFeedItem[]>([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
+  // Reactions is the list as it always was; PPV and Tips rank the same week by
+  // what the posts earned. Live has no earnings tabs.
+  const [trendSort, setTrendSort] = useState<TrendSort>("reactions");
+  const earnedSort: TrendSort = activeTab === "live" ? "reactions" : trendSort;
   // A category word under the pill: the idle list shows its newest posts.
   const [browseCategory, setBrowseCategory] = useState<string | null>(null);
 
@@ -427,7 +432,7 @@ const SearchScreen: React.FC = () => {
   useEffect(() => {
     if (hasSearched) return; // don't refetch while viewing search results
     let cancelled = false;
-    const cacheKey = `${activeTab}|${browseCategory ?? ""}`;
+    const cacheKey = `${activeTab}|${browseCategory ?? ""}|${browseCategory ? "" : earnedSort}`;
     const seen = trendingCache.get(cacheKey);
     if (seen) {
       setTrendingVideos(seen);
@@ -454,6 +459,7 @@ const SearchScreen: React.FC = () => {
           range: "week",
           limit: 10,
           page: 1,
+          earned: earnedSort === "reactions" ? undefined : earnedSort,
         });
         trendingCache.set(cacheKey, res.result || []);
         if (!cancelled) setTrendingVideos(res.result || []);
@@ -464,7 +470,7 @@ const SearchScreen: React.FC = () => {
       }
     })();
     return () => { cancelled = true; };
-  }, [activeTab, hasSearched, browseCategory]);
+  }, [activeTab, hasSearched, browseCategory, earnedSort]);
 
   useEffect(() => {
     let cancelled = false;
@@ -760,11 +766,15 @@ const SearchScreen: React.FC = () => {
     trendingKeyExtractor as (item: unknown, index: number) => string,
     trendingVisibility,
   );
+  const earnedRows = !browseCategory && earnedSort !== "reactions";
   const renderTrendingItem = useCallback(
     ({ item, index }: { item: UnifiedFeedItem; index: number }) => (
-      <VisibleExploreCard item={item} rowKey={trendingKeyExtractor(item, index)} store={trendingVisibility} />
+      <>
+        {earnedRows ? <EarnedLine item={item} sort={earnedSort} rank={index + 1} /> : null}
+        <VisibleExploreCard item={item} rowKey={trendingKeyExtractor(item, index)} store={trendingVisibility} />
+      </>
     ),
-    [trendingKeyExtractor, trendingVisibility],
+    [trendingKeyExtractor, trendingVisibility, earnedRows, earnedSort],
   );
 
   // Only rows in view may hold a native player, and only one autoplays.
@@ -890,13 +900,13 @@ const SearchScreen: React.FC = () => {
         />
       </View>
     )}
-    {!browseCategory && hasTrending && (
+    {!browseCategory && (hasTrending || (activeTab !== "live" && (earnedSort !== "reactions" || !trendingLoading))) && (
       <ExploreSection icon="posts" title={t(TRENDING_LABEL[activeTab] || "search.trendingThisWeek")}>
-        <View />
+        {activeTab === "live" ? <View /> : <TrendSortWords value={earnedSort} onChange={setTrendSort} />}
       </ExploreSection>
     )}
     </>
-  ), [categories, browseCategory, pickBrowseCategory, searchHistory, handleSuggestionClick, handleRemoveHistory, handleClearHistory, handleExploreTopic, handleCleanListLayout, handleNewMembersLayout, hasTrending, activeTab, t]);
+  ), [categories, browseCategory, pickBrowseCategory, searchHistory, handleSuggestionClick, handleRemoveHistory, handleClearHistory, handleExploreTopic, handleCleanListLayout, handleNewMembersLayout, hasTrending, trendingLoading, activeTab, earnedSort, t]);
 
   const renderContent = () => {
     // Loading
@@ -1165,6 +1175,8 @@ const SearchScreen: React.FC = () => {
           <View className="px-2 pt-2">
             <FeedCardSkeleton count={3} />
           </View>
+        ) : earnedRows ? (
+          <EarnedEmpty sort={earnedSort} />
         ) : (
           <View className="flex-1 items-center justify-center px-6 pt-20">
             <Icon name="TrendingUp" size={48} color="#6B7280" />

@@ -126,7 +126,7 @@ export interface NotificationData {
   // Quote post reference
   quoteTokenId?: number;
   // Games with friends (game_turn)
-  game?: 'chess' | 'okey';
+  game?: 'chess' | 'okey' | 'sillycoin';
   gameId?: string;
 }
 
@@ -647,9 +647,14 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           }
           break;
 
-        // Your move in correspondence chess, or your turn at an Okey table.
+        // Your move in correspondence chess, your turn at an Okey table, or
+        // SillyCoins someone sent you.
         case 'game_turn' as NotificationType: {
           const link = typeof data.deepLink === 'string' ? data.deepLink : '';
+          if (data.game === 'sillycoin' || link.includes('/arcade/sillycoin')) {
+            navigation.navigate(ScreenNames.SillyCoin);
+            break;
+          }
           const gameId = typeof data.gameId === 'string' && data.gameId
             ? data.gameId
             : link.match(/[?&](?:game|table)=([^&#]+)/)?.[1];

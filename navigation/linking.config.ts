@@ -324,6 +324,7 @@ export const DeepLinkPaths = {
   // Games with friends. Literal slugs, so before ARCADE_GAME's :slug.
   ARCADE_CORRESPONDENCE_CHESS: 'arcade/correspondence-chess',
   ARCADE_OKEY: 'arcade/okey',
+  ARCADE_SILLYCOIN: 'arcade/sillycoin',
   // Mini apps. The dev runner before the player, which would otherwise read
   // "dev" as a slug and drop the /run.
   MINI_APP_DEV: 'apps/dev/run',
@@ -547,6 +548,8 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
             path: DeepLinkPaths.ARCADE_OKEY,
             parse: { table: (table: string) => table },
           },
+
+          [ScreenNames.SillyCoin]: DeepLinkPaths.ARCADE_SILLYCOIN,
 
           [ScreenNames.ArcadeGame]: {
             path: DeepLinkPaths.ARCADE_GAME,
