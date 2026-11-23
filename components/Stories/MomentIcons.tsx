@@ -45,3 +45,14 @@ export function MomentShare({ size = 22, color = "#fff" }: { size?: number; colo
     </Svg>
   );
 }
+
+/** "Share to Moment": a shelf tile (rounded square, like the Moment faces) with a plus. Same shape as web. */
+export function MomentAdd({ size = 20, color = "#fff" }: { size?: number; color?: string }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <Path d="M14 3.5H8A4.5 4.5 0 0 0 3.5 8v8A4.5 4.5 0 0 0 8 20.5h8a4.5 4.5 0 0 0 4.5-4.5v-6" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="M18.5 2.5v6M15.5 5.5h6" stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Path d="M9.5 9.5l5 2.5-5 2.5z" fill={color} />
+    </Svg>
+  );
+}

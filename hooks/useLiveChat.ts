@@ -86,6 +86,8 @@ export interface UseLiveChatReturn {
   myUser: LiveChatUser | null;
   isBanned: boolean;
   isModerator: boolean;
+  /** Whether a line's sender can be timed out or banned by this viewer: platform moderators only by a super moderator. */
+  canModerateUser: (address?: string | null) => boolean;
   /** Until when a stream creator's timeout keeps this viewer quiet in this room. */
   mutedUntil: number | null;
   canSend: boolean;
@@ -157,6 +159,8 @@ export const useLiveChat = (
   const [myUser, setMyUser] = useState<LiveChatUser | null>(null);
   const [isBanned, setIsBanned] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
+  const [staff, setStaff] = useState<string[]>([]);
+  const [isSuperModerator, setIsSuperModerator] = useState(false);
   const [canSend, setCanSend] = useState(false);
   /** Until when a stream timeout keeps this viewer quiet here, if one does. */
   const [mutedUntil, setMutedUntil] = useState<number | null>(null);
@@ -314,6 +318,8 @@ export const useLiveChat = (
         setIsBanned(data.isBanned);
         setCanSend(data.canSendMessages);
         setIsModerator(data.yourUser?.isModerator || false);
+        setIsSuperModerator(!!data.yourUser?.isSuperModerator);
+        setStaff(Array.isArray(data.staff) ? data.staff.map((a: unknown) => String(a).toLowerCase()) : []);
         setOnlineCount(data.onlineCount || data.room?.onlineCount || 0);
         // The join brings one page. A full page means older lines may exist;
         // this used to wait for 50, which the 20-line join never reaches, so
@@ -725,6 +731,11 @@ export const useLiveChat = (
     [messages, blockedVersion],
   );
 
+  const canModerateUser = useCallback(
+    (address?: string | null) => !!address && (isSuperModerator || !staff.includes(address.toLowerCase())),
+    [isSuperModerator, staff],
+  );
+
   return {
     connected,
     joining,
@@ -733,6 +744,7 @@ export const useLiveChat = (
     myUser,
     isBanned,
     isModerator,
+    canModerateUser,
     mutedUntil,
     canSend,
     typingUsers,

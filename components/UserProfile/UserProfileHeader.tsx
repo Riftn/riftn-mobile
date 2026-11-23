@@ -25,6 +25,7 @@ import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
 import MilestoneChips, { BadgeMuseumPanel } from "../Profile/BadgeMuseum";
+import { useMilestones } from "../../hooks/useMilestones";
 import { useTranslation as useI18n } from "react-i18next";
 import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
@@ -164,6 +165,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   const { width: windowWidth } = useWindowDimensions();
   const badgeRef = useRef<View>(null);
   const liveTarget = useLiveTarget(address, username);
+  // The chips by the name (early supporter and the milestone badges) follow
+  // the owner's Badge Museum switch: off means none.
+  const { data: museum } = useMilestones(address || username);
+  const showBadgeChips = !!museum && !museum.hidden;
   const live = !!liveTarget;
   // Bios go through the shared hook rather than a private translateText call,
   // which is what gets them auto-translation, the persisted cache and — the
@@ -447,11 +452,15 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             {/* A lent badge draws like any other badge everywhere else; this is
                 the one place that says whose it is. */}
             <BadgePatronChip lookupId={address || username} />
-            {/* One of their requests on the Requests board shipped. */}
-            <EarlySupporterChip address={address} username={username} />
-            {/* Badge Museum: their three rarest milestone badges. Tapping one
-                opens the whole museum. */}
-            <MilestoneChips address={address || username} own={isOwnProfile} />
+            {showBadgeChips && (
+              <>
+                {/* One of their requests on the Requests board shipped. */}
+                <EarlySupporterChip address={address} username={username} />
+                {/* Badge Museum: their three rarest milestone badges. Tapping one
+                    opens the whole museum. */}
+                <MilestoneChips address={address || username} own={isOwnProfile} />
+              </>
+            )}
           </View>
 
           {!!displayBio && (
@@ -542,9 +551,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           )}
         </View>
 
-        {/* Badge Museum: every earned badge in a framed grid under the
-            counts. Nothing until one is earned, or when the owner hides it. */}
-        {!isBlocked && <BadgeMuseumPanel address={address || username} own={isOwnProfile} />}
+        {/* Badge Museum: the rarest earned medals under the counts, only
+            when the owner has switched it on in Settings (off by default). */}
+        {!isBlocked && <BadgeMuseumPanel address={address || username} />}
 
         {/* The streamer ladder. Renders nothing until a stream has ended,
             so a non-streamer's profile is unchanged. */}

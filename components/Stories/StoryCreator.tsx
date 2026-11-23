@@ -10,6 +10,7 @@
  */
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   ScrollView,
   Keyboard,
   KeyboardAvoidingView,
@@ -45,6 +46,7 @@ import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime 
 import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
+import { loadPostMoment, PostMomentError } from "./post-moment";
 import type { TextLayer } from "./story-compose";
 import { PHOTO_BACKDROPS, PHOTO_LOOKS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
@@ -65,12 +67,13 @@ const SHARE_COLORS: Partial<Record<string, { from: string; to: string; ink: stri
 };
 const MAX_MENTIONS = 10;
 
-type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number };
+/** `postTokenId`: shared from one of your posts. A video one plays from the CDN and the server cuts it. */
+type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number; postTokenId?: number };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
 const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
 
-export default function StoryCreator({ onClose, remixSource }: { onClose: () => void; remixSource?: StoryRemixSource }) {
+export default function StoryCreator({ onClose, remixSource, postTokenId }: { onClose: () => void; remixSource?: StoryRemixSource; postTokenId?: number }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
@@ -80,7 +83,28 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     staleTime: 60_000,
     retry: false,
   });
-  const remixLabel = remixSource ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" }) : undefined;
+  const remixLabel = remixSource
+    ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" })
+    : postTokenId != null ? t("stories.fromYourPost", { defaultValue: "From your post" }) : undefined;
+
+  // "Share to Moment": start in the editor with the post already in it.
+  React.useEffect(() => {
+    if (postTokenId == null) return;
+    let alive = true;
+    loadPostMoment(postTokenId)
+      .then((m) => { if (alive) setPicked(m); })
+      .catch((err) => {
+        if (!alive) return;
+        const reason = err instanceof PostMomentError ? err.reason : "load";
+        toastError(reason === "gated"
+          ? t("stories.postNotPublic", { defaultValue: "Only public posts can be shared to a Moment." })
+          : reason === "kind"
+            ? t("stories.postNotMedia", { defaultValue: "Only photo and video posts can be shared to a Moment." })
+            : t("stories.pickFailed", { defaultValue: "Couldn't open that. Try another." }));
+        onClose();
+      });
+    return () => { alive = false; };
+  }, [postTokenId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const take = useCallback(
     async (from: "camera" | "library" | "video") => {
@@ -121,7 +145,14 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} customPhotoDuration={!!storyCapabilities?.supportsPhotoDuration} />
+          <Editor picked={picked} onBack={() => (picked.postTokenId != null ? onClose() : setPicked(null))} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} customPhotoDuration={!!storyCapabilities?.supportsPhotoDuration} />
+        ) : postTokenId != null ? (
+          <View style={[styles.root, { alignItems: "center", justifyContent: "center" }]}>
+            <ActivityIndicator color="#fff" />
+            <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.darkGlass, { position: "absolute", top: insets.top + 8, left: 12 }]} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+              <Icon name="X" size={20} color="#fff" />
+            </TouchableOpacity>
+          </View>
         ) : (
           <CameraStart onClose={onClose} remixLabel={remixLabel} onPick={(from) => void take(from)} onPhoto={setPicked} />
         )}
@@ -370,6 +401,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       const words = visible.map((l) => l.text.trim()).join(" ");
       let uri = picked.uri;
       let mimeType = picked.mimeType;
+      const fromPostVideo = picked.kind === "video" && picked.postTokenId != null;
       let overlayUri: string | null = null;
       let caption: string | undefined;
       if (compose) {
@@ -385,7 +417,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       shareMoment(
         {
           kind: picked.kind,
-          uri,
+          uri: fromPostVideo ? "" : uri,
           mimeType,
           overlayUri,
           preview: picked.kind === "photo" ? uri : "",
@@ -396,6 +428,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             muted: picked.kind === "video" ? muted : false,
             caption,
             remixSourceId,
+            postTokenId: picked.postTokenId,
             mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(visible) : undefined,
             ...(isPhoto ? { photoDurationSeconds: customPhotoDuration ? playbackSeconds : undefined } : { trimStart: 0, trimEnd: Math.min(playbackSeconds, maxSeconds) }),
           },

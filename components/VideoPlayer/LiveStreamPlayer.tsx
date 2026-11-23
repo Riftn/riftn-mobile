@@ -1969,7 +1969,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const heldAddress = String(held?.activity.user?.address || held?.activity.address || "").toLowerCase();
   const heldName = held?.activity.user?.displayName || held?.activity.user?.username || held?.activity.meta?.username || "";
   const heldText = String(held?.activity.meta?.content || "");
-  const heldCanModerate = canModerate && !!heldAddress && heldAddress !== me;
+  const heldCanModerate = canModerate && !!heldAddress && heldAddress !== me && liveChat.canModerateUser(heldAddress);
   const canInteract = !!isSignedIn && !!heldId && !!liveChat.connected;
   const holdTiles: HoldTile[] = [];
   if (held) {

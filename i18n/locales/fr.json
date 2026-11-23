@@ -109,7 +109,7 @@
     "addToMoment": "Ajouter à ton moment",
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
-    "watchOriginal": "Voir la story originale",
+    "watchOriginal": "Voir la story originale", "shareToMoment": "Partager en Moment", "goToPost": "Voir la publication", "fromYourPost": "De ta publication", "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.", "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
     "translate": "Traduire",
     "seeOriginal": "Voir l'original",
     "translating": "Traduction…",
@@ -1937,7 +1937,9 @@
       "neon": "Néon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Flouter les aperçus des Moments",
+    "blurMomentsDesc": "Les Moments des autres restent floutés sur l'accueil jusqu'à ce que tu les ouvres."
   },
   "common": {
     "loadMore": "Charger plus",
@@ -18310,9 +18312,13 @@
   },
   "badgeMuseum": {
     "title": "Musée des badges",
+    "saveFailed": "Échec de l'enregistrement. Réessayez.",
+    "seeAll": "Tout voir",
+    "earnedCount": "{{value}} obtenus",
+    "viewMine": "Voir mon Musée des badges",
     "showSetting": "Afficher le Musée des badges sur mon profil",
-    "showSettingHint": "Désactivé, les autres ne verront pas vos badges. Vous les voyez toujours.",
-    "hiddenNote": "Masqué pour les autres",
+    "showSettingHint": "Désactivé : vous seul pouvez le voir ici.",
+    "hiddenNote": "Visible par vous seul",
     "open": "Ouvrir le Musée des badges",
     "summary": "{{earned}} badges obtenus sur {{total}}",
     "loading": "Chargement des badges…",

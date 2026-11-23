@@ -112,7 +112,7 @@ import { FEED_BUFFER_OPTIONS } from "../libs/videoBuffering";
 import { useScrubGesture } from "../hooks/useScrubGesture";
 import { useDataSaver } from "../hooks/useDataSaver";
 import { isLowEndDevice } from "../libs/deviceTier";
-import { feedVolumeResponder } from "../libs/feed-volume-responder";
+import { useFeedVolumeResponder } from "../libs/feed-volume-responder";
 import { getVolume, setVolume as persistVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping, getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from "../libs/video-preferences";
 import { getCachedMuted, setMutedState, useMediaMuted } from "../libs/videoMutedState";
 import { LinearGradient } from "expo-linear-gradient";
@@ -3213,21 +3213,15 @@ const ShortsViewerScreen = () => {
     setMutedState(level === 0);
   }, []);
 
-  const volumePanResponder = useMemo(
-    () =>
-      PanResponder.create(
-        feedVolumeResponder({
-          onHoldStart: () => {
-            setVolumeAdjusting(true);
-            return isMuted ? 0 : volumeRef.current;
-          },
-          onVolume: applyVolume,
-          onTap: () => setMutedState(!getCachedMuted()),
-          onEnd: () => setVolumeAdjusting(false),
-        }),
-      ),
-    [applyVolume, isMuted],
-  );
+  const volumePanResponder = useFeedVolumeResponder({
+    onHoldStart: () => {
+      setVolumeAdjusting(true);
+      return isMuted ? 0 : volumeRef.current;
+    },
+    onVolume: applyVolume,
+    onTap: () => setMutedState(!getCachedMuted()),
+    onEnd: () => setVolumeAdjusting(false),
+  });
   const [playbackRate, setPlaybackRate] = useState<number>(() => getPlaybackRateFor(initialItems[initialIndex]?.minter || initialItems[initialIndex]?.minterUser?.address));
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
   const [showBoost, setShowBoost] = useState(false);
@@ -4081,6 +4075,7 @@ const ShortsViewerScreen = () => {
           onClose={() => setShowOptionsMenu(false)}
           tokenId={activeTokenId}
           isOwner={isOwnerOfActive}
+          post={activeItem}
           canReplaceVideo={isOwnerOfActive}
           isHidden={activeIsHidden}
           player={!activeItem.imageUrls?.length && activeItem.postType !== "feed-images" ? {

@@ -109,7 +109,7 @@
     "addToMoment": "Anına ekle",
     "moreActions": "Hikâye seçenekleri",
     "remixing": "{{name}} adlı kişinin hikâyesi remiksleniyor",
-    "watchOriginal": "Orijinal hikâyeyi izle",
+    "watchOriginal": "Orijinal hikâyeyi izle", "shareToMoment": "An'a paylaş", "goToPost": "Gönderiye git", "fromYourPost": "Gönderinden", "postNotPublic": "Yalnızca herkese açık gönderiler An'a paylaşılabilir.", "postNotMedia": "Yalnızca fotoğraf ve video gönderileri An'a paylaşılabilir.",
     "translate": "Çevir",
     "seeOriginal": "Orijinali gör",
     "translating": "Çevriliyor…",
@@ -1937,7 +1937,9 @@
       "neon": "Neon ışık",
       "3d": "3D",
       "flat": "Düz"
-    }
+    },
+    "blurMoments": "Anı önizlemelerini bulanıklaştır",
+    "blurMomentsDesc": "Diğer kişilerin Anları, sen açana kadar Ana sayfada bulanık kalır."
   },
   "common": {
     "loadMore": "Daha fazla yükle",
@@ -18305,9 +18307,13 @@
   },
   "badgeMuseum": {
     "title": "Rozet Müzesi",
+    "saveFailed": "Kaydedilemedi. Tekrar dene.",
+    "seeAll": "Tümünü gör",
+    "earnedCount": "{{value}} kazanıldı",
+    "viewMine": "Rozet Müzemi görüntüle",
     "showSetting": "Rozet Müzesi'ni profilimde göster",
-    "showSettingHint": "Kapalıyken diğer kişiler rozetlerini görmez. Sen yine görürsün.",
-    "hiddenNote": "Diğerlerinden gizli",
+    "showSettingHint": "Kapalıyken: yalnızca sen burada görebilirsin.",
+    "hiddenNote": "Yalnızca sen görebilirsin",
     "open": "Rozet Müzesini aç",
     "summary": "{{total}} rozetten {{earned}} tanesi kazanıldı",
     "loading": "Rozetler yükleniyor…",

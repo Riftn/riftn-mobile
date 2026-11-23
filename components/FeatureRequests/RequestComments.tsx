@@ -377,7 +377,11 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
               disabled={!canSend}
               accessibilityRole="button"
               accessibilityLabel={t("comments.postComment")}
-              style={[styles.sendBtn, { backgroundColor: canSend ? "#F9FBFF" : "rgba(255,255,255,0.1)" }]}
+              hitSlop={6}
+              // Stays bright while sending so the dark spinner shows; it used to
+              // turn grey with an invisible spinner and looked like the tap
+              // missed, so people kept pressing (Requests 90c35968).
+              style={[styles.sendBtn, { backgroundColor: canSend || busy ? "#F9FBFF" : "rgba(255,255,255,0.1)" }]}
             >
               {busy ? (
                 <ActivityIndicator size="small" color="#010305" />

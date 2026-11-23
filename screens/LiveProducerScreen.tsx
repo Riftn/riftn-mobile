@@ -1622,6 +1622,7 @@ const LiveProducerScreen: React.FC = () => {
                   addReaction={liveChat.addReaction}
                   removeReaction={liveChat.removeReaction}
                   deleteMessage={liveChat.deleteMessage}
+                  canModerateUser={liveChat.canModerateUser}
                 />
                 <CommentLikersSheet visible={!!reactorsFor} onClose={() => setReactorsFor(null)} commentId={null} chatMessageId={reactorsFor} />
 

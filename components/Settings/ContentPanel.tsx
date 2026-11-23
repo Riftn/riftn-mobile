@@ -20,6 +20,7 @@ import {
 import { SettingsScrollView } from './SettingsAnchor';
 import { useStoriesEnabled } from '../../hooks/useStoriesEnabled';
 import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
+import { setMomentPreviewsBlurred, useMomentPreviewsBlurred } from '../../libs/momentPreviewBlur';
 import { useMatureContent } from '../../hooks/useMatureContent';
 import { MATURE_CONTENT_ENABLED } from '../../config/storefront';
 import { useKidsMode } from '../../hooks/useKidsMode';
@@ -33,6 +34,7 @@ const ContentPanel: React.FC<{ onOpenPrivacy: () => void; defaultPostVisibility:
   const { t } = useTranslation();
   const { storiesEnabled, canChange, setStoriesEnabled } = useStoriesEnabled();
   const prefs = useAppPrefs();
+  const blurMoments = useMomentPreviewsBlurred();
   const { showMatureContent, setShowMatureContent, saving: savingMature } = useMatureContent();
   const { isKidsMode, enable: enableKids, disable: disableKids, saving: savingKids } = useKidsMode();
   const [kidsPadOpen, setKidsPadOpen] = React.useState(false);
@@ -125,6 +127,14 @@ const ContentPanel: React.FC<{ onOpenPrivacy: () => void; defaultPostVisibility:
           value={storiesEnabled}
           disabled={!canChange}
           onValueChange={setStoriesEnabled}
+        />
+        <Divider />
+        <SettingsToggleRow
+          icon="EyeOff"
+          label={t('settings.blurMoments', 'Blur Moment previews')}
+          description={t('settings.blurMomentsDesc', "Other people's Moments stay blurred on Home until you open them.")}
+          value={blurMoments}
+          onValueChange={setMomentPreviewsBlurred}
         />
         <Divider />
         <SettingsToggleRow

@@ -109,7 +109,7 @@
     "addToMoment": "Toevoegen aan je moment",
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
-    "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "watchOriginal": "Oorspronkelijk verhaal bekijken", "shareToMoment": "Delen als Moment", "goToPost": "Naar bericht", "fromYourPost": "Uit je bericht", "postNotPublic": "Alleen openbare berichten kunnen als Moment worden gedeeld.", "postNotMedia": "Alleen foto- en videoberichten kunnen als Moment worden gedeeld.",
     "translate": "Vertalen",
     "seeOriginal": "Origineel bekijken",
     "translating": "Vertalen…",
@@ -1937,7 +1937,9 @@
       "neon": "Neon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Momentvoorbeelden vervagen",
+    "blurMomentsDesc": "Momenten van anderen blijven vaag op Home tot je ze opent."
   },
   "common": {
     "loadMore": "Meer laden",
@@ -18557,9 +18559,13 @@
   },
   "badgeMuseum": {
     "title": "Badgemuseum",
+    "saveFailed": "Opslaan mislukt. Probeer het opnieuw.",
+    "seeAll": "Alles bekijken",
+    "earnedCount": "{{value}} verdiend",
+    "viewMine": "Mijn Badgemuseum bekijken",
     "showSetting": "Badgemuseum tonen op mijn profiel",
-    "showSettingHint": "Uit: anderen zien je badges niet. Jij ziet ze nog wel.",
-    "hiddenNote": "Verborgen voor anderen",
+    "showSettingHint": "Uit: alleen jij ziet het hier.",
+    "hiddenNote": "Alleen jij kunt het zien",
     "open": "Badgemuseum openen",
     "summary": "{{earned}} van {{total}} badges verdiend",
     "loading": "Badges laden…",

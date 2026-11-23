@@ -38,7 +38,7 @@ import {
 import { VideoView, VideoPlayer, isPictureInPictureSupported } from "expo-video";
 import PictureInPictureButton from "../common/PictureInPictureButton";
 import { configureForBackgroundPlayback, releaseBackgroundPlayback } from "../../libs/audioSession";
-import { feedVolumeResponder } from "../../libs/feed-volume-responder";
+import { useFeedVolumeResponder } from "../../libs/feed-volume-responder";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useScrubGesture } from "../../hooks/useScrubGesture";
 import { VideoScrubZone, VideoScrubButton, VIDEO_CONTROL_STRIP_HEIGHT } from "./VideoScrubZone";
@@ -1279,27 +1279,21 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     }
   }, [isMuted, stopPlayback]);
 
-  const volumePanResponder = useMemo(
-    () =>
-      PanResponder.create(
-        feedVolumeResponder({
-          onHoldStart: () => {
-            clearHideTimer();
-            if (!dubAvailable) setVolumeAdjusting(true);
-            // Muted, the slider is at the bottom whatever the stored level is.
-            return isMuted ? 0 : volumeRef.current;
-          },
-          onVolume: (next) => { if (!dubAvailable) applyVolume(next); },
-          onHoldRelease: () => { if (dubAvailable) setDubVolumeOpen(true); },
-          onTap: handleToggleMute,
-          onEnd: () => {
-            setVolumeAdjusting(false);
-            startHideTimer();
-          },
-        }),
-      ),
-    [applyVolume, handleToggleMute, isMuted, clearHideTimer, startHideTimer, dubAvailable],
-  );
+  const volumePanResponder = useFeedVolumeResponder({
+    onHoldStart: () => {
+      clearHideTimer();
+      if (!dubAvailable) setVolumeAdjusting(true);
+      // Muted, the slider is at the bottom whatever the stored level is.
+      return isMuted ? 0 : volumeRef.current;
+    },
+    onVolume: (next) => { if (!dubAvailable) applyVolume(next); },
+    onHoldRelease: () => { if (dubAvailable) setDubVolumeOpen(true); },
+    onTap: handleToggleMute,
+    onEnd: () => {
+      setVolumeAdjusting(false);
+      startHideTimer();
+    },
+  });
 
   // Feed autoplay pauses when the app is left; the post page keeps playing (PiP).
   useEffect(() => {

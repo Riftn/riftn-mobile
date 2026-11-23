@@ -24,7 +24,7 @@ import Slider from "@react-native-community/slider";
 import { Image } from "expo-image";
 import { apiClient } from "../../libs/api.client";
 import { outsideImage } from "../../libs/outside-image";
-import { clock, playableSoundUrl, soundWindow, soundWindowCorrection, withSoundWindow, SOUND_SOURCE_NAMES } from "../../libs/soundWindow";
+import { clock, playableSoundUrl, soundWindow, soundWindowCorrection, suggestedSoundStart, withSoundWindow, SOUND_SOURCE_NAMES } from "../../libs/soundWindow";
 import { useAudioPlayer } from "expo-audio";
 import { getUnifiedFeed, type UnifiedFeedItem } from "../../services/feed.unified.service";
 import { getAvatarUrl } from "../../libs";
@@ -330,9 +330,11 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
   const pick = useCallback((track: SoundCandidate) => {
     stopPreview();
     const same = currentSound && playableSoundUrl(currentSound.url) === track.url;
-    setStart(same ? soundWindow(currentSound!.url)?.start ?? 0 : 0);
+    // A new song opens on its likely chorus; re-opening the current one keeps its part.
+    const fresh = suggestedSoundStart(track.duration, fixedLength ?? length);
+    setStart(same ? soundWindow(currentSound!.url)?.start ?? 0 : fresh);
     setPicked(track);
-  }, [currentSound, stopPreview]);
+  }, [currentSound, stopPreview, fixedLength, length]);
 
   const confirm = useCallback(() => {
     if (!picked) return;
