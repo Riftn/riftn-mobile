@@ -8652,6 +8652,7 @@
     "groupVoiceCall": "Grup sesli araması",
     "groupVideoCall": "Grup görüntülü araması",
     "callingGroup": "Grup aranıyor...",
+    "waitingForPeople": "Katılımcılar bekleniyor...",
     "isCalling": "{{name}} arıyor",
     "leave": "Ayrıl",
     "joinCall": "Katıl",
