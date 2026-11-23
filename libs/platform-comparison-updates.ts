@@ -37,8 +37,8 @@ export const RIFTN_UPDATES: Record<string, ComparisonEntry> = {
   'login-with': e('riftnDevelopers', '"Sign in with Riftn" keys for ordinary websites.'),
   'desktop-app': e('riftnNew', 'Installs from the browser as its own app window on Chrome, Edge and Safari.', 'ecosystem'),
   soundtracks: e('riftnNew', 'Add free songs from Audius and Wikimedia Commons to photo, video and Shorts posts.'),
-  dex: e('riftnToken', 'The exchange opens when the $RIFT token launches. Trading is paused until then.', 'announced'),
-  'card-topup': e('riftnToken', 'Card purchases of tokens are paused until the $RIFT token launches.', 'announced'),
+  dex: e('riftnToken', 'The exchange opens when the tokens launch. Trading is paused until then.', 'announced'),
+  'card-topup': e('riftnToken', 'Card purchases of tokens are paused until the tokens launch.', 'announced'),
 };
 
 /** Competitor columns. */

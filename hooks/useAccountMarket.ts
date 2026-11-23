@@ -240,14 +240,14 @@ export function useBuyAccount() {
       }
       if (!tokenContract) throw new Error(_copy("copy.652a874aec99", { defaultValue: "Your wallet is not ready yet — try again in a moment." }));
       if (!quote.chains.some((c) => c.chainId === activeChainId)) {
-        throw new Error(_copy("copy.d37ad7829165", { defaultValue: "DHB cannot be sent on this network." }));
+        throw new Error(_copy("copy.d37ad7829165", { defaultValue: "Tokens cannot be sent on this network." }));
       }
 
       const amountWei = ethers.utils.parseUnits(String(quote.priceDhb), 18);
 
       // Fail before signing if the balance cannot cover it, the same preflight
       // the transfer sheet runs — an opaque on-chain revert is a bad payment UX.
-      const shortfallMessage = _copy("copy.3eff4d981d60", { defaultValue: "You need {{value1}} DHB to buy this account.", value1: quote.priceDhb.toLocaleString('en-US') });
+      const shortfallMessage = _copy("copy.3eff4d981d60", { defaultValue: "You need {{value1}} tokens to buy this account.", value1: quote.priceDhb.toLocaleString('en-US') });
       try {
         const signerAddr = await tokenContract.signer?.getAddress?.();
         const bal = await tokenContract.balanceOf(signerAddr);

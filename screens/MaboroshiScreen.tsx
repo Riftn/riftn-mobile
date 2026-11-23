@@ -1,3 +1,4 @@
+import { tokenLabel } from '../libs/token-label';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, Text, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
@@ -67,7 +68,7 @@ export default function MaboroshiScreen() {
       const quote = await getMaboroshiQuote(input, token, payer);
       if (activeWallet.current !== payer) throw new Error(t("copy.b505158732b1", { defaultValue: "The signed-in account changed." }));
       let submitted = false;
-      Alert.alert(t('creator.toolMaboroshi'), `${maboroshiStageLabel(quote.stage, quote.renderer)} · ${(quote.price_micros / 1000).toLocaleString()} DHB · $${(quote.price_micros / 1e6).toFixed(2)}`, [
+      Alert.alert(t('creator.toolMaboroshi'), `${maboroshiStageLabel(quote.stage, quote.renderer)} · ${(quote.price_micros / 1000).toLocaleString()} ${tokenLabel()} · $${(quote.price_micros / 1e6).toFixed(2)}`, [
         { text: t('common.cancel'), style: 'cancel', onPress: () => finish(t("copy.2dced6f368ad", { defaultValue: "Payment cancelled." }), true) },
         { text: t('common.confirm'), onPress: () => {
           if (submitted) return;

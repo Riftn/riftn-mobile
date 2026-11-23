@@ -2737,7 +2737,7 @@
     "ogHolders_one": "{{count}} OG holder",
     "ogHolders_other": "{{count}} OG holders",
     "ogChallengeTitle": "Bring back the OG holders",
-    "ogChallengeBody": "Invite people who still hold DHB. When they join with your invite link and keep their DHB in their Riftn wallet, they count for you here.",
+    "ogChallengeBody": "Invite people who still hold tokens. When they join with your invite link and keep their tokens in their Riftn wallet, they count for you here.",
     "ogChallengeCta": "Get your invite link",
     "directReferrals_one": "{{count}} direct",
     "directReferrals_other": "{{count}} direct",
@@ -5754,7 +5754,7 @@
     "noQuotesYet": "No quotes yet",
     "glossaryTipDesc": "Send Riftn tokens directly to a content creator as a reward for their content. Tips are recorded on-chain.",
     "glossaryPpvDesc": "Premium content that requires a payment in Riftn tokens to unlock. Creators set the price and earn revenue from each view.",
-    "glossaryDhbTokenDesc": "$RIFT is the ticker symbol for Riftn tokens, the native utility token of Riftn. Used for tipping, pay-per-view content, governance voting, and staking.",
+    "glossaryDhbTokenDesc": "The native utility currency of Riftn. Used for tipping, pay-per-view content, governance voting, and staking.",
     "glossaryWalletDesc": "Your on-chain wallet that holds your Riftn tokens and other crypto assets. Connected via Web3Auth for easy access.",
     "glossaryStakingDesc": "Lock your Riftn tokens to earn rewards over time. Staked tokens also give you increased voting power in governance.",
     "glossaryGovernanceDesc": "Submit and vote on proposals that shape the platform. Your voting power is weighted by how many Riftn tokens you hold.",
@@ -8166,6 +8166,7 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "chatPlaceholder": "type...",
     "loadingStream": "Loading stream...",
     "streamPaused": "Stream Paused",
     "connectionDropped": "The streamer's connection dropped.\nWaiting for them to reconnect...",
@@ -12703,7 +12704,7 @@
           "4": "To record a voice note, click the microphone icon.",
           "5": "To add a GIF, click the GIF icon and search for one.",
           "6": "Use #hashtags to categorize your post (e.g., #crypto, #defi).",
-          "7": "Use $cashtags to reference tokens (e.g., $RIFT, $ETH).",
+          "7": "Use $cashtags to reference tokens (e.g., $BTC, $ETH).",
           "8": "Use @mentions to tag other users (e.g., @username).",
           "9": "Click 'Post' to publish. Your post appears in the feed immediately."
         },

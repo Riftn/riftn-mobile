@@ -1,3 +1,4 @@
+import { tokenLabel } from '../libs/token-label';
 import { usePurchaseOfferVisible } from "../config/storefront";
 import { useCommentCount } from '../libs/comment-count-store';
 import RemixCredits from "../components/Post/RemixCredits";
@@ -2531,7 +2532,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           <ReelLockCard
             subscribers={subLocked}
             line={subLocked
-              ? (subQuote ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} DHB` : username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator"))
+              ? (subQuote ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} ${tokenLabel()}` : username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator"))
               : undefined}
             onPress={subLocked
               ? () => { const id = username || minterAddress; if (id) showUserProfile(id); }
