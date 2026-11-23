@@ -17536,5 +17536,8 @@
     "promptCatchUp": "Kemas kini saya tentang apa yang {{handle}} hantar baru-baru ini",
     "promptMessage": "Bantu saya tulis mesej kepada {{handle}}",
     "promptAbout": "Tentang {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Balas kepada {{name}}…"
   }
 }

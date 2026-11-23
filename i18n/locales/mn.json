@@ -17260,5 +17260,8 @@
     "promptCatchUp": "{{handle}} сүүлд юу нийтэлснийг товч хэлж өг",
     "promptMessage": "{{handle}}-д мессеж бичихэд туслаач",
     "promptAbout": "{{handle}}-ийн талаар: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-д хариулах…"
   }
 }

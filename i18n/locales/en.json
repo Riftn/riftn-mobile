@@ -8211,6 +8211,8 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "bannedHere": "You are banned from chatting in this live stream",
+    "timedOutHere": "You are timed out from this chat for now",
     "chatPlaceholder": "type...",
     "loadingStream": "Loading stream...",
     "streamPaused": "Stream Paused",

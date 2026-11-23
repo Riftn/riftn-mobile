@@ -17355,5 +17355,8 @@
     "addQuestion": "Sual əlavə et",
     "pointsLabel": "Düzgün cavab üçün xallar",
     "attachFailed": "Paylaşımınız yerləşdirilib, lakin viktorinanı əlavə etmək mümkün olmadı"
+  },
+  "notes": {
+    "replyTo": "{{name}}-a cavab ver…"
   }
 }

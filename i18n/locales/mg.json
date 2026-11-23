@@ -17359,5 +17359,8 @@
     "promptCatchUp": "Lazao ahy izay navoakan'i {{handle}} vao haingana",
     "promptMessage": "Ampio aho hanoratra hafatra ho an'i {{handle}}",
     "promptAbout": "Momba an'i {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Valio amin'i {{name}}…"
   }
 }

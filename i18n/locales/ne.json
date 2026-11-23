@@ -17300,5 +17300,8 @@
     "promptCatchUp": "{{handle}} ले हालै के पोस्ट गर्नुभएको छ, मलाई बताऊ",
     "promptMessage": "{{handle}} लाई सन्देश लेख्न मलाई मद्दत गर",
     "promptAbout": "{{handle}} बारे: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} लाई जवाफ दिनुहोस्…"
   }
 }

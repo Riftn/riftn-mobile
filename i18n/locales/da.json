@@ -17359,5 +17359,8 @@
     "addQuestion": "Tilføj spørgsmål",
     "pointsLabel": "Point pr. rigtigt svar",
     "attachFailed": "Dit opslag er oppe, men quizzen kunne ikke tilføjes"
+  },
+  "notes": {
+    "replyTo": "Svar til {{name}}…"
   }
 }

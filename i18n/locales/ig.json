@@ -17355,5 +17355,8 @@
     "addQuestion": "Tinye ajụjụ",
     "pointsLabel": "Isi maka azịza ọ bụla ziri ezi",
     "attachFailed": "E bipụtala ọkwa gị, mana enweghị ike itinye kwiiz ahụ"
+  },
+  "notes": {
+    "replyTo": "Zaghachi na {{name}}…"
   }
 }

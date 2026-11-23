@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Pastāsti, ko {{handle}} nesen publicējis",
     "promptMessage": "Palīdzi man uzrakstīt ziņu {{handle}}",
     "promptAbout": "Par {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Atbildēt uz {{name}}…"
   }
 }

@@ -17375,5 +17375,8 @@
     "addQuestion": "Aggiungi domanda",
     "pointsLabel": "Punti per risposta corretta",
     "attachFailed": "Il tuo post è online, ma non è stato possibile aggiungere il quiz"
+  },
+  "notes": {
+    "replyTo": "Rispondi a {{name}}…"
   }
 }

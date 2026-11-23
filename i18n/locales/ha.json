@@ -17351,5 +17351,8 @@
     "addQuestion": "Kara tambaya",
     "pointsLabel": "Maki ga kowace amsa daidai",
     "attachFailed": "An tura sakonka, amma ba a iya kara tambayar ba"
+  },
+  "notes": {
+    "replyTo": "Ka ba da amsa ga {{name}}…"
   }
 }

@@ -17355,5 +17355,8 @@
     "addQuestion": "Dodaj pitanje",
     "pointsLabel": "Bodova po točnom odgovoru",
     "attachFailed": "Tvoja objava je postavljena, ali kviz nije bilo moguće dodati"
+  },
+  "notes": {
+    "replyTo": "Odgovori na {{name}}…"
   }
 }

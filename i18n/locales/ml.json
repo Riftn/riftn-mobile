@@ -17260,5 +17260,8 @@
     "promptCatchUp": "{{handle}} അടുത്തിടെ എന്താണ് പോസ്റ്റ് ചെയ്തതെന്ന് പറയൂ",
     "promptMessage": "{{handle}}-ന് ഒരു സന്ദേശം എഴുതാൻ എന്നെ സഹായിക്കൂ",
     "promptAbout": "{{handle}}-നെക്കുറിച്ച്: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-ന് മറുപടി നൽകുക…"
   }
 }

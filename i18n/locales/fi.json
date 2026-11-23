@@ -17355,5 +17355,8 @@
     "addQuestion": "Lisää kysymys",
     "pointsLabel": "Pisteitä per oikea vastaus",
     "attachFailed": "Julkaisusi on näkyvillä, mutta tietovisaa ei voitu lisätä"
+  },
+  "notes": {
+    "replyTo": "Vastaa osoitteeseen {{name}}…"
   }
 }

@@ -17355,5 +17355,8 @@
     "addQuestion": "Lisa küsimus",
     "pointsLabel": "Punktid õige vastuse eest",
     "attachFailed": "Sinu postitus on üleval, kuid viktoriini ei õnnestunud lisada"
+  },
+  "notes": {
+    "replyTo": "Vasta {{name}}…"
   }
 }

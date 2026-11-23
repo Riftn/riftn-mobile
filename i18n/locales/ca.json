@@ -17355,5 +17355,8 @@
     "addQuestion": "Afegeix una pregunta",
     "pointsLabel": "Punts per resposta correcta",
     "attachFailed": "La teva publicació s'ha penjat, però no s'ha pogut afegir el qüestionari"
+  },
+  "notes": {
+    "replyTo": "Respon a {{name}}…"
   }
 }

@@ -17384,5 +17384,8 @@
     "addQuestion": "Frag dezue tue",
     "pointsLabel": "Pünkt pro richtigi Antwort",
     "attachFailed": "Dis Post isch online, aber s'Quiz hät nöd chöne dezue gfüegt werde"
+  },
+  "notes": {
+    "replyTo": "Antworte uf {{name}}…"
   }
 }

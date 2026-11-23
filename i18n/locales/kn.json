@@ -17259,5 +17259,8 @@
     "promptCatchUp": "{{handle}} ಇತ್ತೀಚೆಗೆ ಏನು ಪೋಸ್ಟ್ ಮಾಡಿದ್ದಾರೆ ಎಂದು ನನಗೆ ತಿಳಿಸು",
     "promptMessage": "{{handle}} ಅವರಿಗೆ ಸಂದೇಶ ಬರೆಯಲು ನನಗೆ ಸಹಾಯ ಮಾಡು",
     "promptAbout": "{{handle}} ಬಗ್ಗೆ: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} ಗೆ ಉತ್ತರಿಸಿ…"
   }
 }

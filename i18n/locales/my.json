@@ -17300,5 +17300,8 @@
     "promptCatchUp": "{{handle}} မကြာသေးမီက ဘာတွေတင်ခဲ့လဲ ပြောပြပါ",
     "promptMessage": "{{handle}} ထံ မက်ဆေ့ချ်ရေးရန် ကူညီပါ",
     "promptAbout": "{{handle}} အကြောင်း- {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}… ကို ပြန်ဖြေပါ"
   }
 }

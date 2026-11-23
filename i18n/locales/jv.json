@@ -17355,5 +17355,8 @@
     "addQuestion": "Tambah pitakonan",
     "pointsLabel": "Poin saben jawaban bener",
     "attachFailed": "Kiriman sampeyan wis tayang, nanging kuis gagal ditambahake"
+  },
+  "notes": {
+    "replyTo": "Kasih tau {{name}}…"
   }
 }

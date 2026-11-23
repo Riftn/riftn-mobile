@@ -17379,5 +17379,8 @@
     "addQuestion": "Přidat otázku",
     "pointsLabel": "Bodů za správnou odpověď",
     "attachFailed": "Tvůj příspěvek je zveřejněn, ale kvíz se nepodařilo přidat"
+  },
+  "notes": {
+    "replyTo": "Odpověz na {{name}}…"
   }
 }

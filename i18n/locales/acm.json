@@ -17352,5 +17352,8 @@
     "addQuestion": "ضيف سؤال",
     "pointsLabel": "نقاط لكل جواب صح",
     "attachFailed": "منشورك نزل، بس الكويز ما كدرنا نضيفه"
+  },
+  "notes": {
+    "replyTo": "رد على {{name}}…"
   }
 }

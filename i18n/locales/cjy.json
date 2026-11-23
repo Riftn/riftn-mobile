@@ -17396,5 +17396,8 @@
     "addQuestion": "添加问题",
     "pointsLabel": "每道题的积分",
     "attachFailed": "你的帖子已发布，但无法添加测验"
+  },
+  "notes": {
+    "replyTo": "回覆 {{name}}…"
   }
 }

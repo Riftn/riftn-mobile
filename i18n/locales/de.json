@@ -17397,5 +17397,8 @@
     "addQuestion": "Frage hinzufügen",
     "pointsLabel": "Punkte pro richtige Antwort",
     "attachFailed": "Dein Beitrag ist online, aber das Quiz konnte nicht hinzugefügt werden"
+  },
+  "notes": {
+    "replyTo": "Antworte auf {{name}}…"
   }
 }

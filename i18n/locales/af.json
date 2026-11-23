@@ -17480,5 +17480,8 @@
     "addQuestion": "Voeg vraag by",
     "pointsLabel": "Punte per regte antwoord",
     "attachFailed": "Jou plasing is op, maar die vasvra kon nie bygevoeg word nie"
+  },
+  "notes": {
+    "replyTo": "Antwoord aan {{name}}…"
   }
 }

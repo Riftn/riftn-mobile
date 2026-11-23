@@ -17359,5 +17359,8 @@
     "addQuestion": "Kérdés hozzáadása",
     "pointsLabel": "Pontok helyes válaszonként",
     "attachFailed": "A bejegyzésed kint van, de a kvízt nem sikerült hozzáadni"
+  },
+  "notes": {
+    "replyTo": "Válaszolj neki: {{name}}…"
   }
 }

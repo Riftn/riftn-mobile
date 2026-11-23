@@ -61,6 +61,8 @@ interface Props {
   viewportHeight: number;
   /** Chat */
   canSend: boolean;
+  /** Why this viewer can't type here, when it isn't about being signed out. */
+  blockedReason?: "banned" | "timedOut" | null;
   chatEnabled: boolean;
   isLive: boolean;
   isEnded: boolean;
@@ -90,6 +92,7 @@ interface Props {
 const LiveViewerActionBar: React.FC<Props> = ({
   viewportHeight,
   canSend,
+  blockedReason,
   chatEnabled,
   isLive,
   isEnded,
@@ -159,8 +162,12 @@ const LiveViewerActionBar: React.FC<Props> = ({
         ? _copy("copy.489ef3352bdf", { defaultValue: "Waiting for stream..." })
         : !chatEnabled
           ? _copy("copy.7acfdcb49adf", { defaultValue: "Chat is disabled" })
-          : !canSend
-            ? _copy("copy.048ff525a56b", { defaultValue: "Sign in to chat" })
+          : blockedReason === "banned"
+            ? t("liveViewer.bannedHere", { defaultValue: "You are banned from chatting in this live stream" })
+            : blockedReason === "timedOut"
+              ? t("liveViewer.timedOutHere", { defaultValue: "You are timed out from this chat for now" })
+              : !canSend
+                ? _copy("copy.048ff525a56b", { defaultValue: "Sign in to chat" })
             : t("liveViewer.chatPlaceholder", { defaultValue: "type..." });
 
   const handleSend = useCallback(async () => {

@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Whakamōhio mai ki ngā mea i whakairi a {{handle}} inakuanei",
     "promptMessage": "Āwhina mai ki te tuhi karere ki a {{handle}}",
     "promptAbout": "Mō {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Whakautu ki {{name}}…"
   }
 }

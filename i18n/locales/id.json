@@ -17375,5 +17375,8 @@
     "addQuestion": "Tambahkan pertanyaan",
     "pointsLabel": "Poin per jawaban benar",
     "attachFailed": "Postingan Anda sudah terbit, tetapi kuis tidak dapat ditambahkan"
+  },
+  "notes": {
+    "replyTo": "Balas ke {{name}}…"
   }
 }

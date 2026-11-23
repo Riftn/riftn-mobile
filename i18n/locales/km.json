@@ -17300,5 +17300,8 @@
     "promptCatchUp": "ប្រាប់ខ្ញុំពីអ្វីដែល {{handle}} បានបង្ហោះថ្មីៗនេះ",
     "promptMessage": "ជួយខ្ញុំសរសេរសារទៅ {{handle}}",
     "promptAbout": "អំពី {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "ឆ្លើយតបទៅកាន់ {{name}}…"
   }
 }

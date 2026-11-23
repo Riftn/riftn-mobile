@@ -17376,5 +17376,8 @@
     "addQuestion": "質問を追加",
     "pointsLabel": "正解ごとのポイント",
     "attachFailed": "投稿は完了しましたが、クイズを追加できませんでした"
+  },
+  "notes": {
+    "replyTo": "{{name}}…への返信です。"
   }
 }

@@ -17348,5 +17348,8 @@
     "addQuestion": "Sɛbɛnni fara a kan",
     "pointsLabel": "Pwen min bɛ sɔrɔ jaabi teli kelen bɛɛ la",
     "attachFailed": "I ka post bɔra, nka quiz ma se ka fara a kan"
+  },
+  "notes": {
+    "replyTo": "Jaabi si {{name}}…"
   }
 }

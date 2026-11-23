@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Papasakok, ką {{handle}} neseniai paskelbė",
     "promptMessage": "Padėk man parašyti žinutę {{handle}}",
     "promptAbout": "Apie {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Atsakykite į {{name}}…"
   }
 }

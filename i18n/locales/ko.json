@@ -17284,5 +17284,8 @@
     "promptCatchUp": "{{handle}}이(가) 최근에 올린 글을 알려줘",
     "promptMessage": "{{handle}}에게 보낼 메시지 쓰는 걸 도와줘",
     "promptAbout": "{{handle}}에 대해: {{question}}"
+  },
+  "notes": {
+    "replyTo": "답글 달기 {{name}}…"
   }
 }

@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Oppdater meg på hva {{handle}} har lagt ut i det siste",
     "promptMessage": "Hjelp meg å skrive en melding til {{handle}}",
     "promptAbout": "Om {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Svar på {{name}}…"
   }
 }

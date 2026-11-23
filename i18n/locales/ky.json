@@ -17260,5 +17260,8 @@
     "promptCatchUp": "{{handle}} акыркы убакта эмне жарыялаганын айтып бер",
     "promptMessage": "{{handle}} үчүн билдирүү жазууга жардам бер",
     "promptAbout": "{{handle}} жөнүндө: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} жооп берүү…"
   }
 }
