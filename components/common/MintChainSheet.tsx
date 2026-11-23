@@ -8,6 +8,8 @@
  * pays only the gas.
  */
 import React, { useEffect, useState } from "react";
+import EditionOptions from "../Collect/EditionOptions";
+import type { EditionChoice } from "../../services/nft.service";
 import { getDefaultChainId } from '../../libs/defaultChain';
 import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -60,14 +62,18 @@ interface Props {
   /** The chain the post was published on; picked first. */
   defaultChainId?: number;
   isMinting?: boolean;
-  onConfirm: (chainId: number) => void;
+  /** `edition` is the creator's copies and resale royalties. */
+  onConfirm: (chainId: number, edition: EditionChoice) => void;
+  /** Posts with a reward pool mint the default edition. */
+  hideEdition?: boolean;
   /** Override for previews; otherwise read from the sign-in method. */
   sponsored?: boolean;
   /** Override for previews; otherwise read from the creator's allowance. */
   homeAllowance?: Pick<PostQuotaStatus, "mintsPerDay" | "homeMintsRemaining">;
 }
 
-export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride, homeAllowance }: Props) {
+export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride, homeAllowance, hideEdition }: Props) {
+  const [edition, setEdition] = useState<{ value: EditionChoice; valid: boolean }>({ value: {}, valid: true });
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
   const chains = supportedChainIdsForMinting as number[];
@@ -98,7 +104,7 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
   const selectedName = TIP_CHAIN_NAMES[selected] ?? "";
 
   return (
-    <GlassModal visible={visible} onClose={isMinting ? () => {} : onClose} presentation="bottom">
+    <GlassModal visible={visible} onClose={isMinting ? () => {} : onClose} presentation="bottom" scrollable>
       <View style={[{ paddingHorizontal: 16, paddingBottom: 28, gap: 12 }, rootStyle]} testID="mint-chain-sheet">
         <View style={{ alignItems: "center", paddingTop: 12 }}>
           <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" }} />
@@ -156,6 +162,10 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
           })}
         </View>
 
+        {!hideEdition && visible ? (
+          <EditionOptions onChange={(value, valid) => setEdition({ value, valid })} disabled={isMinting} />
+        ) : null}
+
         {homeAllowance ? (
           <MintHomeAllowanceLine quota={homeAllowance} style={{ textAlign: "center" }} />
         ) : (
@@ -163,7 +173,7 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
         )}
 
         <Pressable
-          onPress={isMinting ? undefined : () => onConfirm(selected)}
+          onPress={isMinting || (!hideEdition && !edition.valid) ? undefined : () => onConfirm(selected, hideEdition ? {} : edition.value)}
           accessibilityRole="button"
           style={{
             flexDirection: "row",
@@ -173,7 +183,7 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
             paddingVertical: 14,
             borderRadius: 14,
             backgroundColor: "#FFFFFF",
-            opacity: isMinting ? 0.6 : 1,
+            opacity: isMinting || (!hideEdition && !edition.valid) ? 0.6 : 1,
           }}
         >
           {isMinting && <ActivityIndicator size="small" color="#000" />}
