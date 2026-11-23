@@ -30,6 +30,7 @@ import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 import { NoteFaceRing, NoteTag } from "./NotesSheet";
+import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { NoteEntry } from "../../services/notes.service";
 
 interface ConversationItemProps {
@@ -97,6 +98,9 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   const badgeImg = getBadgeUrlFor(other as any);
   const liveTarget = useLiveTarget(other?.address, username);
   const live = !!liveTarget;
+  // A Moment up: the face shows it on its corner, and a tap plays it.
+  const moment = useFaceMoment(other?.address);
+  const openMoments = useOpenMoments(other?.address);
 
   // Last message preview
   const { previewText, previewIcon } = useMemo(() => {
@@ -261,7 +265,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
           disabled={selecting}
-          onPress={liveTarget ? () => openLiveTarget(liveTarget) : handleAvatarPress}
+          onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : handleAvatarPress}
           activeOpacity={0.8}
           className="relative"
         >
@@ -276,6 +280,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
             live={live}
           />
           {note && !live && <NoteFaceRing note={note.note} />}
+          <MomentPeekBadge peek={moment} size={44} />
         </TouchableOpacity>
 
         <View className="flex-1 min-w-0 justify-center">
