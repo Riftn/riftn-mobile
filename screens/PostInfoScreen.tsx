@@ -1,3 +1,4 @@
+import { tokenLabel } from '../libs/token-label';
 /**
  * PostInfoScreen
  * ==============
@@ -126,7 +127,7 @@ export default function PostInfoScreen() {
   const isPPV = !!(post?.is_ppv || post?.streamInfo?.isPayPerView);
   const ppvPrice = post?.ppv_price ?? post?.streamInfo?.payPerViewAmount;
   const ppvCurrency = post?.ppv_currency || "DHB";
-  const ppvUnit = ppvCurrency.toUpperCase() === "DHB" ? <DhbCoin size={15} /> : ppvCurrency;
+  const ppvUnit = ppvCurrency.toUpperCase() === "DHB" ? <DhbCoin size={15} /> : tokenLabel(ppvCurrency);
 
   const { data: ppvSales } = useQuery({
     queryKey: ["ppv-sales-count", tokenId],

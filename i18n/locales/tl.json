@@ -4922,7 +4922,7 @@
     "ogHolders_one": "{{count}} OG holder",
     "ogHolders_other": "{{count}} OG holder",
     "ogChallengeTitle": "Ibalik ang mga OG holder",
-    "ogChallengeBody": "Imbitahan ang mga taong may hawak pang DHB. Kapag sumali sila gamit ang invite link mo at itinago ang DHB nila sa kanilang Riftn wallet, mabibilang sila para sa iyo rito.",
+    "ogChallengeBody": "Imbitahan ang mga taong may hawak pang token. Kapag sumali sila gamit ang invite link mo at itinago ang token nila sa kanilang Riftn wallet, mabibilang sila para sa iyo rito.",
     "ogChallengeCta": "Kunin ang invite link mo"
   },
   "explorePage": {
@@ -14606,7 +14606,7 @@
           "4": "Para mag-record ng voice note, i-click ang microphone icon.",
           "5": "Para magdagdag ng GIF, i-click ang GIF icon at maghanap ng isa.",
           "6": "Gumamit ng #hashtags para ikategorya ang iyong post (hal., #crypto, #defi).",
-          "7": "Gumamit ng $cashtags para tukuyin ang mga token (hal., $RIFT, $ETH).",
+          "7": "Gumamit ng $cashtags para tukuyin ang mga token (hal., $BTC, $ETH).",
           "8": "Gumamit ng @mentions para i-tag ang ibang mga user (hal., @username).",
           "9": "I-click ang 'Post' para i-publish. Ang iyong post ay agad na lalabas sa feed."
         },

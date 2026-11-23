@@ -102,7 +102,7 @@ function LockPriceRowInner({ value, onChange, kind }: Props) {
       </View>
       {on ? (
         <Text style={{ color: c.foreground }} className="text-[11px] font-medium mt-1">
-          {t("dmPaidLock.lockDhbNow", { defaultValue: "≈ {{dhb}} today. They always pay {{price}}, whatever DHB is worth.", dhb: formatLockDhb(lockDhbForUsd(value!)), price: formatLockUsd(value!) })}
+          {t("dmPaidLock.lockDhbNow", { defaultValue: "≈ {{dhb}} today. They always pay {{price}}, whatever tokens are worth.", dhb: formatLockDhb(lockDhbForUsd(value!)), price: formatLockUsd(value!) })}
         </Text>
       ) : null}
       {on ? (

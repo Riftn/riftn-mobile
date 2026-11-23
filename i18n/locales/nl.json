@@ -206,7 +206,9 @@
       "view": "1 weergave"
     },
     "destructSecs": "{{n}} sec",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Eén keer opnieuw toestaan",
+    "timerReplayBody": "Ze kunnen het nog één keer openen. De teller begint opnieuw."
   },
   "assistantCards": {
     "requestDraft": "Concept voor openbaar verzoek",
@@ -3044,7 +3046,7 @@
     "ogHolders_one": "{{count}} OG-holder",
     "ogHolders_other": "{{count}} OG-holders",
     "ogChallengeTitle": "Haal de OG-holders terug",
-    "ogChallengeBody": "Nodig mensen uit die nog DHB hebben. Als ze via jouw uitnodigingslink lid worden en hun DHB in hun Riftn-wallet houden, tellen ze hier voor jou.",
+    "ogChallengeBody": "Nodig mensen uit die nog tokens hebben. Als ze via je uitnodigingslink lid worden en hun tokens in hun Riftn-wallet houden, tellen ze hier voor je mee.",
     "ogChallengeCta": "Haal je uitnodigingslink op",
     "directReferrals_one": "{{count}} rechtstreeks",
     "directReferrals_other": "{{count}} rechtstreeks",
@@ -8261,7 +8263,13 @@
       "opened": "Geopend",
       "tapPhoto": "Tik om te bekijken",
       "tapVideo": "Tik om te kijken",
-      "goneAfter": "Verdwijnt {{time}} nadat je het opent"
+      "goneAfter": "Verdwijnt {{time}} nadat je het opent",
+      "left": "{{n}} s",
+      "replayAllowed": "Eén keer opnieuw toegestaan",
+      "tapReplay": "Tik om opnieuw te bekijken",
+      "lastView": "Laatste keer, {{time}}",
+      "goneAfterReplay": "Verdwijnt {{time}} nadat je het opent. Eén keer opnieuw.",
+      "replaying": "Opnieuw"
     },
     "messagePlaceholder": "Bericht…",
     "voiceNoteEmoji": "🎤 Spraakmemo",
@@ -8549,7 +8557,8 @@
     "mostActive": "Meest actief",
     "hereNow": "Nu hier",
     "nobodyYet": "Nog niemand",
-    "rotate": "Scherm roteren"
+    "rotate": "Scherm roteren",
+    "chatPlaceholder": "typ..."
   },
   "search": {
     "endOfResults": "Einde van de resultaten",
@@ -9439,7 +9448,7 @@
       },
       "dhb": {
         "term": "tokens",
-        "definition": "De native token van het DHB netwerk, gebruikt voor governance, staking en het belonen van deelnemers."
+        "definition": "De native token van het Riftn-netwerk, gebruikt voor governance, staking en het belonen van deelnemers."
       },
       "defi": {
         "term": "DeFi",
@@ -12779,7 +12788,7 @@
           "4": "Om een spraakmemo op te nemen, klikt u op het microfoonicoon.",
           "5": "Om een GIF toe te voegen, klikt u op het GIF-icoon en zoekt u er een.",
           "6": "Gebruik #hashtags om uw bericht te categoriseren (bijv. #crypto, #defi).",
-          "7": "Gebruik $cashtags om naar tokens te verwijzen (bijv. $RIFT, $ETH).",
+          "7": "Gebruik $cashtags om naar tokens te verwijzen (bijv. $BTC, $ETH).",
           "8": "Gebruik @vermeldingen om andere gebruikers te taggen (bijv. @gebruikersnaam).",
           "9": "Klik op 'Post' om te publiceren. Uw bericht verschijnt onmiddellijk in de feed."
         },
@@ -13007,7 +13016,8 @@
           "3": "Wanneer een bericht de limiet zou overschrijden, berekent de app eerst de prijs en controleert of uw portemonnee dit kan dekken voordat er iets wordt geüpload.",
           "4": "Het bericht wordt exact gepubliceerd zoals het binnen de limiet zou zijn — publicatie wacht nooit op een betaling.",
           "5": "Vervolgens keurt u één overboeking goed voor dat specifieke bericht, afgerekend op de Base of BNB Chain die voldoende Riftn tokens bevat.",
-          "6": "Beide pools worden om middernacht UTC gereset."
+          "6": "Beide pools worden om middernacht UTC gereset.",
+          "7": "Mints werken hetzelfde: je badge bepaalt hoeveel mints per dag de Home-feed bereiken, hetzelfde aantal als je tekstposts. Extra mints gaan gewoon door en staan op je profiel, in Volgend en op de fractiemarkt."
         },
         "tips": {
           "1": "Overschrijding is pro rata: 200 MB boven uw limiet kost 200 MB, niet een hele gigabyte.",
@@ -17246,6 +17256,7 @@
     "failed": "Je foto kon niet worden opgeslagen. Probeer het opnieuw."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} van {{total}} mints vandaag bereiken Home. Extra mints gaan naar je profiel en de markt.",
     "title": "Muntpaal",
     "subtitle": "Kies een keten. Prijzen zijn live en worden elke minuut bijgewerkt.",
     "free": "Gratis",
@@ -18448,5 +18459,30 @@
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",
     "noLanguage": "Ze hebben nog geen app-taal gekozen, dus je berichten gaan voorlopig zoals je ze typt"
+  },
+  "badgeMuseum": {
+    "title": "Badgemuseum",
+    "open": "Badgemuseum openen",
+    "summary": "{{earned}} van {{total}} badges verdiend",
+    "loading": "Badges laden…",
+    "earned": "Verdiend",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Badges worden vanzelf vrijgespeeld zodra een mijlpaal is bereikt.",
+    "name": {
+      "views": "{{value}} weergaven",
+      "videos": "{{value}} video's",
+      "followers": "{{value}} volgers",
+      "likes": "{{value}} likes",
+      "firstLive": "Eerste livestream",
+      "liveHours": "{{value}} uur live"
+    },
+    "hint": {
+      "views": "Weergaven op alle posts",
+      "videos": "Geüploade video's",
+      "followers": "Volgers",
+      "likes": "Ontvangen likes",
+      "firstLive": "Ga één keer live",
+      "liveHours": "Uren live gestreamd"
+    }
   }
 }

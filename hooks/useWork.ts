@@ -604,7 +604,7 @@ function useSettleWorkPayment() {
     send: async intent => {
      const send = await prepareWorkPayment(async () => {
       const contract = intent.currency === 'USDC' ? usdcContract : dhbContract;
-      if (!contract) throw new Error(_copy("copy.bae646a7db92", { defaultValue: "Switch to Base for USDC payouts, or Base/BNB for DHB payouts." }));
+      if (!contract) throw new Error(_copy("copy.bae646a7db92", { defaultValue: "Switch to Base for USDC payouts, or Base/BNB for token payouts." }));
       const { data: job, error } = await supabase.from(TBL_JOBS).select('fund_tx_hash,onchain_job_id').eq('id', intent.job_id).single();
       if (error) throw error;
       if ((job as any).fund_tx_hash) {

@@ -24,7 +24,7 @@ const TX_MESSAGES = {
   gasEstimate: { key: "copy.54d3d84df2d4", en: "Gas estimation failed — try a different amount or try again" },
   pendingTx: { key: "copy.fee5c3d3b67a", en: "There is a pending transaction — wait or speed it up in your wallet" },
   nonce: { key: "copy.2b471a6c978f", en: "Network nonce mismatch — wait for pending transactions to confirm" },
-  tokenTransfer: { key: "copy.a61592726098", en: "Token transfer failed — check your DHB balance and approval" },
+  tokenTransfer: { key: "copy.a61592726098", en: "Token transfer failed — check your token balance and approval" },
   reverted: { key: "copy.f70adfce140c", en: "Transaction reverted" },
   noSponsor: { key: "copy.53fc8b77b4d3", en: "No gas sponsor available — try again later or switch method" },
   sponsorDown: { key: "copy.0b08410d33f7", en: "Gas sponsor service unavailable — try again later" },

@@ -1,8 +1,10 @@
+import { tokenLabel } from '../../libs/token-label';
 import { usePerfProbe } from "../../libs/perfTrace";
 import { PersistentVideoView } from '../common/PersistentVideoView';
 import { isPictureInPicturePlayer, canStartVideo } from '../../libs/pictureInPicture';
 import { applyVideoVolume } from '../../libs/dub-mix';
 import DubVolumeSheet from '../VideoPlayerCore/DubVolumeSheet';
+import VolumeLevelTrack from '../VideoPlayerCore/VolumeLevelTrack';
 import WhenOpened from '../ui/WhenOpened';
 import { useMediaVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping } from '../../libs/video-preferences';
 import { useFeedPlaybackAllowed, useFeedSurfaceActive, useCallInProgress, visualActivity } from "../../libs/visualActivity";
@@ -1663,7 +1665,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
             resizeMode="contain"
           />
           <Text style={styles.bountyPillText}>
-            {formatCompactNumber(bountyAmount)} {bountyCurrency}
+            {formatCompactNumber(bountyAmount)} {tokenLabel(bountyCurrency)}
           </Text>
         </TouchableOpacity>
       )}
@@ -1694,11 +1696,21 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
             <Pressable {...mediaTap} style={StyleSheet.absoluteFill} accessibilityRole="button" accessibilityLabel={t(isPlaying ? "audioPost.pause" : "audioPost.play")} />
           )}
           {feedPreview && (
-            <Pressable onPress={handleToggleMute} hitSlop={8}
+            // Tap mutes; press and hold, then drag up or down, sets the level,
+            // the same gesture as the speaker on the post page's control row.
+            <View hitSlop={8} {...volumePanResponder.panHandlers}
               style={[styles.previewMute, { top: bareTop }]}
-              accessibilityRole="button" accessibilityLabel={t(isMuted ? 'common.unmute' : 'common.mute')}>
+              accessible accessibilityRole="button" accessibilityLabel={t(isMuted ? 'common.unmute' : 'common.mute')}
+              accessibilityActions={[{ name: 'activate' }, { name: 'increment' }, { name: 'decrement' }]}
+              onAccessibilityAction={event => {
+                const action = event.nativeEvent.actionName;
+                if (action === 'activate') handleToggleMute();
+                else if (action === 'increment') applyVolume((isMuted ? 0 : volumeRef.current) + 0.1);
+                else if (action === 'decrement') applyVolume((isMuted ? 0 : volumeRef.current) - 0.1);
+              }}>
               <BareIcon name={isMuted ? 'VolumeX' : 'Volume2'} plain />
-            </Pressable>
+              {volumeAdjusting && <VolumeLevelTrack level={isMuted ? 0 : volume} style={styles.previewVolumeTrack} />}
+            </View>
           )}
           {!feedPreview && !splitControls && !isStarting && (!isPlaying || showControls) && (
             <Animated.View style={[styles.centreButton, splitControls && { marginTop: -28 - VIDEO_CONTROL_STRIP_HEIGHT / 2 }, { opacity: isPlaying ? controlsOpacity : 1 }]}>
@@ -2157,6 +2169,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 30,
+  },
+  // Drops below the corner speaker, centred under its 40pt box.
+  previewVolumeTrack: {
+    top: 44,
+    left: 4,
   },
   bareButton: {
     width: 32,
