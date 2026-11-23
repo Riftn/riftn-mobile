@@ -41,7 +41,7 @@ export default function DexPoolPicker({ current, rightContent }: { current: DexP
     if (!q) return pools;
     return pools.filter((p) => p.symbol.toLowerCase().includes(q) || p.name.toLowerCase().includes(q) || p.token_address.toLowerCase() === q);
   }, [pools, query]);
-  const showHouse = !query || `dhb dehub tokens ${tokenLabel()}`.toLowerCase().includes(query.trim().toLowerCase());
+  const showHouse = !query || `dhb dehub rift riftn tokens ${tokenLabel()}`.toLowerCase().includes(query.trim().toLowerCase());
 
   const close = () => { setOpen(false); };
   const goHouse = () => { close(); if (current) navigation.navigate(ScreenNames.Dex); };

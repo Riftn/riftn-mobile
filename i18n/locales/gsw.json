@@ -4855,7 +4855,7 @@
     "ogHolders_one": "{{count}} OG-Holder",
     "ogHolders_other": "{{count}} OG-Holder",
     "ogChallengeTitle": "Hol d OG-Holder zrugg",
-    "ogChallengeBody": "Lad Lüüt ii, wo no DHB händ. Wenn si mit dim Iiladigslink beitrete und ihri DHB i ihrem Riftn-Wallet bhalted, zelled si da für dich.",
+    "ogChallengeBody": "Lad Lüüt ii, wo no Tokens händ. Wenn si mit dim Iiladigslink beitrete und ihri Tokens i ihrem Riftn-Wallet bhalted, zelled si da für dich.",
     "ogChallengeCta": "Hol din Iiladigslink"
   },
   "explorePage": {
@@ -14435,7 +14435,7 @@
           "4": "Zum e Stimmnotiz ufnäh, klick uf s Mikrofon-Symbol.",
           "5": "Zum es GIF dezue füege, klick uf s GIF-Symbol und sueche nach öpis.",
           "6": "Bruuch #Hashtags zum din Post kategorisiere (z.B. #crypto, #defi).",
-          "7": "Bruuch $Cashtags zum Tokens erwähne (z.B. $RIFT, $ETH).",
+          "7": "Bruuch $Cashtags zum Tokens erwähne (z.B. $BTC, $ETH).",
           "8": "Bruuch @Mentions zum anderi User markiere (z.B. @username).",
           "9": "Klick uf 'Post' zum veröffentliche. Din Post erscheint sofort i de Feed."
         },

@@ -4852,7 +4852,7 @@
     "ogHolders_one": "Mai riƙe OG {{count}}",
     "ogHolders_other": "Masu riƙe OG {{count}}",
     "ogChallengeTitle": "Dawo da masu riƙe OG",
-    "ogChallengeBody": "Gayyaci mutanen da har yanzu ke riƙe da DHB. Idan suka shiga da hanyar haɗin gayyatarka kuma suka ajiye DHB ɗinsu a walat ɗin Riftn, ana ƙidaya su a gare ka a nan.",
+    "ogChallengeBody": "Gayyaci mutanen da har yanzu ke riƙe da isassun. Idan suka shiga da hanyar haɗin gayyatarka kuma suka ajiye isassun ɗinsu a walat ɗin Riftn, ana ƙidaya su a gare ka a nan.",
     "ogChallengeCta": "Samu hanyar haɗin gayyatarka"
   },
   "explorePage": {
@@ -14402,7 +14402,7 @@
           "4": "Don yin rikodin bayanin murya, danna gunkin makirfo.",
           "5": "Don ƙara GIF, danna gunkin GIF kuma bincika ɗaya.",
           "6": "Yi amfani da #hashtags don rarraba sakonka (misali, #crypto, #defi).",
-          "7": "Yi amfani da $cashtags don nuna alamun kuɗi (misali, $RIFT, $ETH).",
+          "7": "Yi amfani da $cashtags don nuna alamun kuɗi (misali, $BTC, $ETH).",
           "8": "Yi amfani da @mentions don yiwa wasu masu amfani alama (misali, @username).",
           "9": "Danna 'Sako' don bugawa. Sakonka ya bayyana a cikin abincin nan take."
         },

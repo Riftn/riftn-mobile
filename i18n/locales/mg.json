@@ -4879,7 +4879,7 @@
     "ogHolders_one": "Mpitazona OG {{count}}",
     "ogHolders_other": "Mpitazona OG {{count}}",
     "ogChallengeTitle": "Ampodio ireo mpitazona OG",
-    "ogChallengeBody": "Asao ireo olona mbola mitazona DHB. Rehefa miditra amin'ny rohy fanasanao izy ireo ary mitazona ny DHB-ny ao amin'ny kitapom-bola Riftn, dia isaina ho anao eto izy ireo.",
+    "ogChallengeBody": "Asao ireo olona mbola mitazona marika. Rehefa miditra amin'ny rohy fanasanao izy ireo ary mitazona ny marika-ny ao amin'ny kitapom-bola Riftn, dia isaina ho anao eto izy ireo.",
     "ogChallengeCta": "Alaivo ny rohy fanasanao"
   },
   "explorePage": {
@@ -14505,7 +14505,7 @@
           "4": "Mba handrakitra feo, tsindrio ny sary mikrô.",
           "5": "Mba hampidirana GIF, tsindrio ny sary GIF ary tadiavo ny iray.",
           "6": "Ampiasao ny #hashtags mba hanasokajiana ny lahatsoratrao (ohatra, #crypto, #defi).",
-          "7": "Ampiasao ny $cashtags mba hanondroana ireo token (ohatra, $RIFT, $ETH).",
+          "7": "Ampiasao ny $cashtags mba hanondroana ireo token (ohatra, $BTC, $ETH).",
           "8": "Ampiasao ny @mentions mba hanondroana mpampiasa hafa (ohatra, @username).",
           "9": "Tsindrio ny 'Post' mba hamoahana. Ny lahatsoratrao dia hiseho eo amin'ny feed avy hatrany."
         },

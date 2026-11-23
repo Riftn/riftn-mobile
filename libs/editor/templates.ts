@@ -129,7 +129,7 @@ export const TEMPLATES: EditorTemplate[] = [
     ops: (t) => [
       { op: "set_canvas", aspect: "1:1", background: "#000000" },
       { op: "add_shape", shape: "rect", x: 0.5, y: 0.5, w: 0.88, h: 0.88, fill: "none", strokeColor: "#22c55e", strokeWidth: 4, radius: 40 },
-      { op: "add_text", text: "DHB", x: 0.5, y: 0.34, fontSize: 280, fontWeight: 700, fontFamily: "Space Grotesk", color: W, letterSpacing: -8 },
+      { op: "add_text", text: "Tokens", x: 0.5, y: 0.34, fontSize: 280, fontWeight: 700, fontFamily: "Space Grotesk", color: W, letterSpacing: -8 },
       { op: "add_text", text: t("editor.templates.crypto.change"), x: 0.5, y: 0.56, fontSize: 96, fontWeight: 700, fontFamily: "Space Grotesk", color: "#22c55e" },
       { op: "add_shape", shape: "arrow", x: 0.5, y: 0.73, w: 0.3, h: 0.05, rotation: -30, fill: "#22c55e", strokeColor: "#22c55e", strokeWidth: 12 },
       { op: "add_text", text: t("editor.templates.crypto.title"), x: 0.5, y: 0.87, fontSize: 38, fontWeight: 500, fontFamily: "Space Mono", color: "#71717a", uppercase: true },

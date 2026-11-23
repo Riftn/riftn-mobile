@@ -194,7 +194,7 @@ async function quoteUniswap(tokenIn: string, amountIn: bigint, recipient: string
 /** Kyber quotes exact input only: probe the rate, size the input, correct for price impact. */
 async function sizeDhbBuy(tokenIn: string, probeIn: bigint, dhbOut: bigint, recipient: string): Promise<SwapCall> {
   const probe = await quoteUniswap(tokenIn, probeIn, recipient);
-  if (probe.minAmountOut <= 0n) throw new FundingError('noRoute', 'No Uniswap route to DHB for this token right now');
+  if (probe.minAmountOut <= 0n) throw new FundingError('noRoute', 'No Uniswap route to tokens for this token right now');
   let amountIn = withBps((probeIn * dhbOut) / probe.minAmountOut, 30n);
   for (let attempt = 0; attempt < 4; attempt++) {
     const swap = await quoteUniswap(tokenIn, amountIn, recipient);
@@ -309,7 +309,7 @@ async function buyFromDpay(originAsset: string, tokensToReceive: number, chainId
   }
   const dhb = await waitForBalance(ChainId.BASE_MAINNET, DHB_BASE, wallet, needed, 10);
   if (dhb < needed) {
-    throw new FundingError('dpayDelayed', 'Riftn Pay has your payment and is sending the DHB. It will arrive in your wallet shortly; send again once it does.');
+    throw new FundingError('dpayDelayed', 'Riftn Pay has your payment and is sending your tokens. They will arrive in your wallet shortly; send again once it does.');
   }
 }
 
@@ -428,7 +428,7 @@ async function spendBaseUsdc(usdc: bigint, wallet: string, needed: bigint, dhbOn
   }
   const swap = await quoteUniswap(USDC_BASE, usdc, wallet);
   if (dhbOnBase + swap.minAmountOut < needed) {
-    throw new FundingError('priceMoved', 'DHB moved while your USDC was arriving. The USDC is in your wallet on Base; send again to finish.');
+    throw new FundingError('priceMoved', 'The token price moved while your USDC was arriving. The USDC is in your wallet on Base; send again to finish.');
   }
   stage('swap');
   await runSwap(swap, await safeOn(ChainId.BASE_MAINNET, wallet), wallet);
@@ -498,7 +498,7 @@ export async function fundTip(input: { source: TipFundingSource; amountDhb: numb
   }
 
   const dhb = await waitForBalance(ChainId.BASE_MAINNET, DHB_BASE, wallet, needed, 10);
-  if (dhb < needed) throw new FundingError('dhbPending', 'The DHB purchase confirmed but has not shown up yet. Send again in a moment.');
+  if (dhb < needed) throw new FundingError('dhbPending', 'The token purchase confirmed but has not shown up yet. Send again in a moment.');
 }
 
 export function formatPayAmount(plan: TipFundingPlan): string | null {

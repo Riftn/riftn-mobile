@@ -4876,7 +4876,7 @@
     "ogHolders_one": "{{count}} deținător OG",
     "ogHolders_other": "{{count}} deținători OG",
     "ogChallengeTitle": "Adu înapoi deținătorii OG",
-    "ogChallengeBody": "Invită persoane care încă dețin DHB. Când se înscriu cu linkul tău de invitație și își păstrează DHB în portofelul Riftn, contează pentru tine aici.",
+    "ogChallengeBody": "Invită persoane care încă dețin tokenuri. Când se înscriu cu linkul tău de invitație și își păstrează tokenuri în portofelul Riftn, contează pentru tine aici.",
     "ogChallengeCta": "Obține linkul de invitație"
   },
   "explorePage": {
@@ -14440,7 +14440,7 @@
           "4": "Pentru a înregistra o notă vocală, apăsați pictograma microfon.",
           "5": "Pentru a adăuga un GIF, apăsați pictograma GIF și căutați unul.",
           "6": "Folosește #hashtag-uri pentru a clasifica postarea (de ex., #crypto, #defi).",
-          "7": "Folosește $cashtag-uri pentru a face referire la token-uri (de ex., $RIFT, $ETH).",
+          "7": "Folosește $cashtag-uri pentru a face referire la token-uri (de ex., $BTC, $ETH).",
           "8": "Folosește @mențiuni pentru a eticheta alți utilizatori (de ex., @username).",
           "9": "Apăsați 'Postare' pentru a publica. Postarea ta apare imediat în flux."
         },

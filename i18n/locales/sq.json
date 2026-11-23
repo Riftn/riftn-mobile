@@ -4882,7 +4882,7 @@
     "ogHolders_one": "{{count}} mbajtës OG",
     "ogHolders_other": "{{count}} mbajtës OG",
     "ogChallengeTitle": "Rikthe mbajtësit OG",
-    "ogChallengeBody": "Fto njerëz që ende mbajnë DHB. Kur bashkohen me linkun tënd të ftesës dhe e mbajnë DHB-në në portofolin e tyre Riftn, ata llogariten për ty këtu.",
+    "ogChallengeBody": "Fto njerëz që ende mbajnë tokena. Kur bashkohen me linkun tënd të ftesës dhe e mbajnë tokena-në në portofolin e tyre Riftn, ata llogariten për ty këtu.",
     "ogChallengeCta": "Merr linkun tënd të ftesës"
   },
   "explorePage": {
@@ -14432,7 +14432,7 @@
           "4": "Për të regjistruar një shënim zanor, klikoni ikonën e mikrofonit.",
           "5": "Për të shtuar një GIF, klikoni ikonën e GIF dhe kërkoni për një.",
           "6": "Përdorni #hashtags për të kategorizuar postimin tuaj (p.sh., #crypto, #defi).",
-          "7": "Përdorni $cashtags për t'iu referuar tokeneve (p.sh., $RIFT, $ETH).",
+          "7": "Përdorni $cashtags për t'iu referuar tokeneve (p.sh., $BTC, $ETH).",
           "8": "Përdorni @mentions për të etiketuar përdorues të tjerë (p.sh., @username).",
           "9": "Klikoni 'Post' për të publikuar. Postimi juaj shfaqet në feed menjëherë."
         },

@@ -4856,7 +4856,7 @@
     "ogHolders_one": "{{count}} OG turētājs",
     "ogHolders_other": "{{count}} OG turētāji",
     "ogChallengeTitle": "Atgrieziet OG turētājus",
-    "ogChallengeBody": "Uzaiciniet cilvēkus, kuriem joprojām ir DHB. Kad viņi pievienojas ar jūsu uzaicinājuma saiti un tur savu DHB savā Riftn makā, viņi šeit tiek ieskaitīti jums.",
+    "ogChallengeBody": "Uzaiciniet cilvēkus, kuriem joprojām ir žetoni. Kad viņi pievienojas ar jūsu uzaicinājuma saiti un tur savu žetoni savā Riftn makā, viņi šeit tiek ieskaitīti jums.",
     "ogChallengeCta": "Saņemt uzaicinājuma saiti"
   },
   "explorePage": {
@@ -14406,7 +14406,7 @@
           "4": "Lai ierakstītu balss piezīmi, noklikšķiniet uz mikrofona ikonas.",
           "5": "Lai pievienotu GIF, noklikšķiniet uz GIF ikonas un meklējiet to.",
           "6": "Izmantojiet #hashtags, lai kategorizētu savu ziņu (piemēram, #crypto, #defi).",
-          "7": "Izmantojiet $cashtags, lai atsauktos uz žetoniem (piemēram, $RIFT, $ETH).",
+          "7": "Izmantojiet $cashtags, lai atsauktos uz žetoniem (piemēram, $BTC, $ETH).",
           "8": "Izmantojiet @mentions, lai atzīmētu citus lietotājus (piemēram, @lietotājvārds).",
           "9": "Noklikšķiniet uz \"Ziņa\", lai publicētu. Jūsu ziņa nekavējoties parādīsies plūsmā."
         },

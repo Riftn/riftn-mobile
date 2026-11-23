@@ -4857,7 +4857,7 @@
     "ogHolders_one": "Umnikazi we-OG ongu-{{count}}",
     "ogHolders_other": "Abanikazi be-OG abangu-{{count}}",
     "ogChallengeTitle": "Buyisa abanikazi be-OG",
-    "ogChallengeBody": "Mema abantu abasaphethe i-DHB. Uma bejoyina ngesixhumanisi sakho sesimemo futhi bagcine i-DHB yabo ku-wallet yabo ye-Riftn, babalelwa wena lapha.",
+    "ogChallengeBody": "Mema abantu abasaphethe i-amathokheni. Uma bejoyina ngesixhumanisi sakho sesimemo futhi bagcine i-amathokheni yabo ku-wallet yabo ye-Riftn, babalelwa wena lapha.",
     "ogChallengeCta": "Thola isixhumanisi sakho sesimemo"
   },
   "explorePage": {
@@ -14437,7 +14437,7 @@
           "4": "Ukuze urekhode inothi lezwi, chofoza isithonjana semakrofoni.",
           "5": "Ukuze ungeze i-GIF, chofoza isithonjana se-GIF bese uyifuna.",
           "6": "Sebenzisa ama-#hashtag ukuze ukategorise okuthunyelwe kwakho (isb., #crypto, #defi).",
-          "7": "Sebenzisa ama-$cashtag ukuze ubhekise kumathokheni (isb., $RIFT, $ETH).",
+          "7": "Sebenzisa ama-$cashtag ukuze ubhekise kumathokheni (isb., $BTC, $ETH).",
           "8": "Sebenzisa ama-@mention ukuze umake abanye abasebenzisi (isb., @username).",
           "9": "Chofoza u-'Thumela' ukuze ushicilele. Okuthunyelwe kwakho kuvela kokuphakelayo ngokushesha."
         },
