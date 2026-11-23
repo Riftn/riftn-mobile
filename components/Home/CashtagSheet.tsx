@@ -244,7 +244,7 @@ const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, o
 
             {/* Header */}
             <View style={styles.header}>
-              <Text style={styles.symbol}>${clean}</Text>
+              <Text style={styles.symbol}>{isDhb ? "$RIFT" : `$${clean}`}</Text>
               <TouchableOpacity onPress={closeSheet} hitSlop={8}>
                 <Icon name="X" size={20} color="#8B8D90" />
               </TouchableOpacity>

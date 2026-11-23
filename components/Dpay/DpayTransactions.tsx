@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import React, { useEffect, useCallback } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -118,7 +119,7 @@ const DpayTransactions: React.FC = () => {
             ) : (
               <View className="w-4 h-4 mr-2 rounded-full bg-theme-neutrals-700" />
             )}
-            <Text className="text-gray-300 text-xs">{!tx.tokenSymbol || tx.tokenSymbol === 'DHB' ? t("tip.tokensUnit") : tx.tokenSymbol.toUpperCase()}</Text>
+            <Text className="text-gray-300 text-xs">{tokenLabel(tx.tokenSymbol?.toUpperCase())}</Text>
           </View>
           <View className="flex-row items-center">
             {tx.stripeStatus ? <StatusPill label={String(tx.stripeStatus)} intent={stripeIntent} /> : null}

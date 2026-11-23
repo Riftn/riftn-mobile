@@ -1,3 +1,4 @@
+import { tokenLabel } from '../token-label';
 /**
  * Stream rules, as the stream API stores them. The twin of dehubweb
  * src/lib/live-overlay/rules.ts (and dehub-stream-backend
@@ -130,7 +131,7 @@ export function presetRule(
         trigger: { type: 'tip', minAmount: 100_000 },
         actions: [
           { type: 'sound', sound: 'airhorn' },
-          { type: 'alert', text: text.alert ?? '{name}: {amount} DHB', durationMs: 6000 },
+          { type: 'alert', text: text.alert ?? `{name}: {amount} ${tokenLabel()}`, durationMs: 6000 },
         ],
       };
     case 'thankFollowers':
