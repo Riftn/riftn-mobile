@@ -8,7 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { quotedPostViewerParams } from "../../navigation/quotedPostViewerParams";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
-import { getAvatarUrl, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getBadgeUrlFor } from "../../libs/misc";
+import { getAvatarUrl, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getBadgeUrlFor, buildCdnPath } from "../../libs/misc";
+import { cdnImage } from "../../libs/cdnImage";
 import { truncate } from "../../libs/strings.util";
 import { getNFT, revokeQuote } from "../../services/nft.service";
 import { useAuth } from "../../context/AuthContext";
@@ -60,6 +61,9 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
     const { user } = useAuth();
     const [removed, setRemoved] = useState(false);
     const [removing, setRemoving] = useState(false);
+    // Thumbnails that failed to load. The next candidate takes over, and with
+    // none left the box is dropped instead of staying an empty grey slab.
+    const [failedThumbs, setFailedThumbs] = useState<string[]>([]);
     const isRemoved = !!props.revoked || removed;
 
     const inlinePost = props.quotedPost;
@@ -183,10 +187,32 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
     const text = quotedPost.description || quotedPost.name || quotedPost.title || "";
     const truncatedText = text.length > 140 ? text.slice(0, 140) + "…" : text;
 
+    const isLivePost = quotedPost.postType === "live";
+
+    // A live's cover is stored at images/{tokenId}.{ext}, where web reads it.
+    // The API's imageUrl names the stream's own frame under live/thumbnails/
+    // instead, and getImageUrl kept only that file name and put it under
+    // images/, a file that does not exist: the quote showed an empty grey box.
+    const liveThumbnails = (): string[] => {
+      const raw: string = quotedPost.imageUrl || quotedPost.thumbnailUrl || "";
+      const id = quotedPost.tokenId ?? quotedPost.id ?? quotedTokenId;
+      const ext = (raw.split("?")[0].split(".").pop() || "").toLowerCase();
+      const cover = raw.startsWith("http") || raw.startsWith("images/")
+        ? raw
+        : id != null ? `images/${id}.${/^[a-z0-9]{2,5}$/.test(ext) ? ext : "jpg"}` : "";
+      // Then the stream's own frame, for a live set up without a cover.
+      const frame: string = quotedPost.stream?.thumbnail || (raw.startsWith("live/") ? raw : "");
+      const urls = [cover, frame]
+        .filter(Boolean)
+        .map((path) => cdnImage(path.startsWith("http") ? path : buildCdnPath(path)!, { width: 480 }));
+      return Array.from(new Set(urls));
+    };
+
     // Thumbnail for image/video posts
-    const thumbnailUrl = (() => {
+    const firstThumbnailUrl = (() => {
       // Audio posts don't use a thumbnail — they render the AudioPostPlayer
       if (quotedPost.postType === "feed-audio") return "";
+      if (isLivePost) return "";
       if (quotedPost.articleImageUrl) return buildFeedImageUrls([quotedPost.articleImageUrl], 480)[0];
       // feed-images: imageUrls are relative API paths, need getImageUrlApiSimple
       if (quotedPost.postType === "feed-images") {
@@ -205,6 +231,8 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
       }
       return getImageUrl(quotedPost.imageUrl || quotedPost.thumbnailUrl || "");
     })();
+    const thumbnailCandidates = isLivePost ? liveThumbnails() : [firstThumbnailUrl].filter(Boolean);
+    const thumbnailUrl = thumbnailCandidates.find((url) => !failedThumbs.includes(url)) || "";
 
     const isAudioPost = quotedPost.postType === "feed-audio" && !!quotedPost.audioUrl;
     const hasThumbnail = !!thumbnailUrl;
@@ -239,8 +267,9 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
               recyclingKey={thumbnailUrl}
               style={{ width: "100%", height: "100%" }}
               contentFit="cover"
+              onError={() => setFailedThumbs((failed) => failed.includes(thumbnailUrl) ? failed : [...failed, thumbnailUrl])}
             />
-            {quotedPost.postType === "video" && (
+            {(quotedPost.postType === "video" || isLivePost) && (
               <View className="absolute bottom-2 right-2 dark-surface bg-black/60 rounded px-1.5 py-0.5">
                 <Ionicons name="play" size={12} color="#fff" />
               </View>
