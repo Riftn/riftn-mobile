@@ -238,7 +238,9 @@
       "view": "1 weergave"
     },
     "destructSecs": "{{n}} sec",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Eén keer opnieuw toestaan",
+    "timerReplayBody": "Ze kunnen het nog één keer openen. De teller begint opnieuw."
   },
   "assistantCards": {
     "requestDraft": "Concept voor openbaar verzoek",
@@ -8293,7 +8295,13 @@
       "opened": "Geopend",
       "tapPhoto": "Tik om te bekijken",
       "tapVideo": "Tik om te kijken",
-      "goneAfter": "Verdwijnt {{time}} nadat je het opent"
+      "goneAfter": "Verdwijnt {{time}} nadat je het opent",
+      "left": "{{n}} s",
+      "replayAllowed": "Eén keer opnieuw toegestaan",
+      "tapReplay": "Tik om opnieuw te bekijken",
+      "lastView": "Laatste keer, {{time}}",
+      "goneAfterReplay": "Verdwijnt {{time}} nadat je het opent. Eén keer opnieuw.",
+      "replaying": "Opnieuw"
     },
     "messagePlaceholder": "Bericht…",
     "voiceNoteEmoji": "🎤 Spraakmemo",
@@ -13040,7 +13048,8 @@
           "3": "Wanneer een bericht de limiet zou overschrijden, berekent de app eerst de prijs en controleert of uw portemonnee dit kan dekken voordat er iets wordt geüpload.",
           "4": "Het bericht wordt exact gepubliceerd zoals het binnen de limiet zou zijn — publicatie wacht nooit op een betaling.",
           "5": "Vervolgens keurt u één overboeking goed voor dat specifieke bericht, afgerekend op de Base of BNB Chain die voldoende Riftn tokens bevat.",
-          "6": "Beide pools worden om middernacht UTC gereset."
+          "6": "Beide pools worden om middernacht UTC gereset.",
+          "7": "Mints werken hetzelfde: je badge bepaalt hoeveel mints per dag de Home-feed bereiken, hetzelfde aantal als je tekstposts. Extra mints gaan gewoon door en staan op je profiel, in Volgend en op de fractiemarkt."
         },
         "tips": {
           "1": "Overschrijding is pro rata: 200 MB boven uw limiet kost 200 MB, niet een hele gigabyte.",
@@ -17279,6 +17288,7 @@
     "failed": "Je foto kon niet worden opgeslagen. Probeer het opnieuw."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} van {{total}} mints vandaag bereiken Home. Extra mints gaan naar je profiel en de markt.",
     "title": "Muntpaal",
     "subtitle": "Kies een keten. Prijzen zijn live en worden elke minuut bijgewerkt.",
     "free": "Gratis",
@@ -18427,6 +18437,9 @@
     "hoursStreamed_other": "{{formatted}} uur gestreamd",
     "toNext_one": "Nog {{formatted}} snack tot {{stage}}",
     "toNext_other": "Nog {{formatted}} snacks tot {{stage}}",
+    "requestsToday_one": "Wachtende verzoeken: {{formatted}} snack vandaag",
+    "requestsToday_other": "Wachtende verzoeken: {{formatted}} snacks vandaag",
+    "requestsTomorrow": "Wachtende verzoeken: eerste snack morgen",
     "open": "{{pet}} openen",
     "feed": "Geef een snack",
     "fed": "{{pet}} heeft je snack opgegeten",
@@ -18457,6 +18470,7 @@
       "feeding": "Kijkers kunnen het voeren met kanaalpunten",
       "cost": "Punten per snack",
       "rules": "Elke kijker kan het tot 20 snacks per dag geven. Punten hebben geen geldwaarde.",
+      "requests": "Je verzoeken die nog wachten op het Verzoekenbord voeren het ook: 1 snack per dag per verzoek, tot 3 per dag, zodra het is uitgekomen.",
       "feeders": "Heeft het het meest gevoerd"
     }
   },
@@ -18481,5 +18495,30 @@
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",
     "noLanguage": "Ze hebben nog geen app-taal gekozen, dus je berichten gaan voorlopig zoals je ze typt"
+  },
+  "badgeMuseum": {
+    "title": "Badgemuseum",
+    "open": "Badgemuseum openen",
+    "summary": "{{earned}} van {{total}} badges verdiend",
+    "loading": "Badges laden…",
+    "earned": "Verdiend",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Badges worden vanzelf vrijgespeeld zodra een mijlpaal is bereikt.",
+    "name": {
+      "views": "{{value}} weergaven",
+      "videos": "{{value}} video's",
+      "followers": "{{value}} volgers",
+      "likes": "{{value}} likes",
+      "firstLive": "Eerste livestream",
+      "liveHours": "{{value}} uur live"
+    },
+    "hint": {
+      "views": "Weergaven op alle posts",
+      "videos": "Geüploade video's",
+      "followers": "Volgers",
+      "likes": "Ontvangen likes",
+      "firstLive": "Ga één keer live",
+      "liveHours": "Uren live gestreamd"
+    }
   }
 }

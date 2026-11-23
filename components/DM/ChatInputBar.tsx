@@ -40,7 +40,7 @@ import {
 import { runWithPermissions } from "../../libs/permissions.util";
 import { clipboardHasImage, clipboardImageFile } from "../../libs/clipboard-image";
 import { cleanVideoOptions, type DmVideoOptions } from "../../libs/dm-video-options";
-import { type DmDestructChoice } from "../../libs/dm-destruct";
+import { withReplay, type DmDestructChoice } from "../../libs/dm-destruct";
 import DmVideoStudio from "./DmVideoStudio";
 import LockPriceRow from "./LockPriceRow";
 
@@ -93,6 +93,8 @@ export type ChatMediaAttachment = {
   options?: DmVideoOptions;
   /** Self-destruct: gone after one view or a set time. */
   destruct?: DmDestructChoice | null;
+  /** On-open timers: one replay allowed (sent folded into `destruct`). */
+  destructReplay?: boolean;
   /** Photo editor: the untouched original and the edits over it. */
   editBaseUri?: string;
   studioEdits?: StudioEdits;
@@ -441,7 +443,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       setText.complete(text, "");
       for (let i = 0; i < queue.length; i++) {
         const m = queue[i];
-        const out = m.type === "video" ? { ...m, options: cleanVideoOptions(m.options, m.duration) } : m;
+        const base = m.type === "video" ? { ...m, options: cleanVideoOptions(m.options, m.duration) } : m;
+        const out = m.destruct ? { ...base, destruct: withReplay(m.destruct, m.destructReplay) ?? null } : base;
         if (!(await onSendMedia(out, i === 0 ? caption : undefined))) {
           setStudio(queue.slice(i));
           if (i === 0 && caption) setText(caption);
@@ -914,6 +917,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
               onOptionsChange={(o: DmVideoOptions) => patchStudio({ options: o })}
               destruct={cur.destruct ?? null}
               onDestructChange={(c: DmDestructChoice | null) => patchStudio({ destruct: c })}
+              destructReplay={!!cur.destructReplay}
+              onDestructReplayChange={(on: boolean) => patchStudio({ destructReplay: on })}
               onCoverFrame={(uri) => patchStudio({ thumbnailUri: uri })}
               lockPrice={allowLock ? cur.lockPrice ?? null : null}
               onLockPriceChange={allowLock ? (price) => patchStudio({ lockPrice: price }) : undefined}

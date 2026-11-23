@@ -238,7 +238,9 @@
       "view": "1 visualización"
     },
     "destructSecs": "{{n}} seg",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Permitir una repetición",
+    "timerReplayBody": "Pueden abrirlo una vez más. La cuenta atrás vuelve a empezar."
   },
   "assistantCards": {
     "requestDraft": "Borrador de solicitud pública",
@@ -8155,7 +8157,13 @@
       "opened": "Abierto",
       "tapPhoto": "Toca para ver",
       "tapVideo": "Toca para reproducir",
-      "goneAfter": "Desaparece {{time}} después de abrirlo"
+      "goneAfter": "Desaparece {{time}} después de abrirlo",
+      "left": "{{n}} s",
+      "replayAllowed": "Se permite una repetición",
+      "tapReplay": "Toca para volver a ver",
+      "lastView": "Última vez, {{time}}",
+      "goneAfterReplay": "Desaparece {{time}} después de abrirlo. Una repetición.",
+      "replaying": "Repetición"
     },
     "messagePlaceholder": "Mensaje…",
     "voiceNoteEmoji": "🎤 Nota de voz",
@@ -12789,7 +12797,8 @@
           "3": "Cuando una publicación excede el límite, la aplicación la valora primero y verifica si tu billetera puede cubrirla antes de que se suba nada.",
           "4": "La publicación se muestra exactamente como lo haría dentro de la asignación; la publicación nunca espera un pago.",
           "5": "Luego, apruebas una transferencia solo para esa publicación, liquidada en la cadena Base o BNB que tenga suficientes tokens de Riftn.",
-          "6": "Ambos grupos se reinician a medianoche UTC."
+          "6": "Ambos grupos se reinician a medianoche UTC.",
+          "7": "Los minteos funcionan igual: tu insignia fija cuántos minteos al día llegan al feed de Inicio, el mismo número que tus publicaciones de texto. Los minteos extra se completan igual y aparecen en tu perfil, en Siguiendo y en el mercado de fracciones."
         },
         "tips": {
           "1": "El exceso es prorrateado: 200 MB por encima de tu asignación cuestan 200 MB, no un gigabyte completo.",
@@ -17028,6 +17037,7 @@
     "failed": "No se pudo guardar tu foto. Inténtalo de nuevo."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} de {{total}} minteos de hoy llegan a Inicio. Los minteos extra van a tu perfil y al mercado.",
     "title": "Publicación de menta",
     "subtitle": "Elige una cadena. Los precios están disponibles y se actualizan cada minuto.",
     "free": "Gratis",
@@ -18176,6 +18186,9 @@
     "hoursStreamed_other": "{{formatted}} horas en directo",
     "toNext_one": "{{formatted}} bocado para {{stage}}",
     "toNext_other": "{{formatted}} bocados para {{stage}}",
+    "requestsToday_one": "Solicitudes en espera: {{formatted}} bocado hoy",
+    "requestsToday_other": "Solicitudes en espera: {{formatted}} bocados hoy",
+    "requestsTomorrow": "Solicitudes en espera: primer bocado mañana",
     "open": "Abrir {{pet}}",
     "feed": "Dar un bocado",
     "fed": "{{pet}} se comió tu bocado",
@@ -18206,6 +18219,7 @@
       "feeding": "Los espectadores pueden alimentarla con puntos del canal",
       "cost": "Puntos por bocado",
       "rules": "Cada espectador puede darle hasta 20 bocados al día. Los puntos no tienen valor en dinero.",
+      "requests": "Tus solicitudes que siguen esperando en el tablero de Solicitudes también lo alimentan: 1 bocado al día cada una, hasta 3 al día, una vez que haya nacido.",
       "feeders": "Quién más la alimentó"
     }
   },
@@ -18230,5 +18244,30 @@
     "offToast": "Tus mensajes aquí se envían tal como los escribes",
     "onToast": "Tus mensajes aquí ahora se envían en {{language}}",
     "noLanguage": "Aún no han elegido un idioma en la app, así que por ahora tus mensajes se envían tal como los escribes"
+  },
+  "badgeMuseum": {
+    "title": "Museo de insignias",
+    "open": "Abrir el Museo de insignias",
+    "summary": "{{earned}} de {{total}} insignias conseguidas",
+    "loading": "Cargando insignias…",
+    "earned": "Conseguida",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Las insignias se desbloquean solas al alcanzar cada hito.",
+    "name": {
+      "views": "{{value}} visualizaciones",
+      "videos": "{{value}} vídeos",
+      "followers": "{{value}} seguidores",
+      "likes": "{{value}} me gusta",
+      "firstLive": "Primer directo",
+      "liveHours": "{{value}} horas en directo"
+    },
+    "hint": {
+      "views": "Visualizaciones en todas las publicaciones",
+      "videos": "Vídeos subidos",
+      "followers": "Seguidores",
+      "likes": "Me gusta recibidos",
+      "firstLive": "Haz un directo una vez",
+      "liveHours": "Horas emitidas en directo"
+    }
   }
 }
