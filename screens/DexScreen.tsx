@@ -53,7 +53,7 @@ const listingPrice = (item: VerifiedPosition) => item.side === 'buy' ? item.maxP
 /** What was deposited, not what the position currently holds after partial conversion. */
 const listingSize = (item: VerifiedPosition) => item.side === 'buy'
   ? `${formatSize(Number((item as Listed).usdc_amount ?? item.amountUsdc))} USDC`
-  : `${formatSize(Number((item as Listed).dhb_amount ?? item.amountDhb))} DHB`;
+  : `${formatSize(Number((item as Listed).dhb_amount ?? item.amountDhb))} ${tokenLabel()}`;
 function formatWhen(item: VerifiedPosition) {
   const at = listedAt(item);
   if (!at) return '—';

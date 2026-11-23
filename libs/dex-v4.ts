@@ -178,7 +178,7 @@ export async function detectDhbChain(address: string): Promise<{
     readWithTimeout(new ethers.Contract(DEX_CHAINS[ChainId.BSC_MAINNET].dhb, ERC20, dexProvider(ChainId.BSC_MAINNET)).balanceOf(address) as Promise<ethers.BigNumber>, 'BNB balance'),
   ]);
   if (baseRead.status === 'rejected' && bnbRead.status === 'rejected') {
-    throw new Error(_translateCopy('copy.2095b6344189', { defaultValue: 'Could not read DHB balances on Base or BNB Chain' }));
+    throw new Error(_translateCopy('copy.2095b6344189', { defaultValue: 'Could not read token balances on Base or BNB Chain' }));
   }
   const base = baseRead.status === 'fulfilled' ? baseRead.value : ethers.constants.Zero;
   const bnb = bnbRead.status === 'fulfilled' ? bnbRead.value : ethers.constants.Zero;
@@ -255,7 +255,7 @@ export async function quoteSell(input: SellInput) {
     ? input.chainId === ChainId.BASE_MAINNET ? currentTick >= tickUpper : currentTick <= tickLower
     : input.chainId === ChainId.BASE_MAINNET ? currentTick <= tickLower : currentTick >= tickUpper;
   if (!oneSided) throw new Error(input.side === 'sell'
-    ? _translateCopy('copy.703b991a88fd', { defaultValue: 'This range overlaps the pool price. Move it above the market price to list DHB alone.' })
+    ? _translateCopy('copy.703b991a88fd', { defaultValue: 'This range overlaps the pool price. Move it above the market price to list tokens alone.' })
     : _translateCopy('copy.94601846122e', { defaultValue: 'This range overlaps the pool price. Move it below the market price to list USDC alone.' }));
   const pool = new Pool(dhb, usdc, FEE, SPACING, ethers.constants.AddressZero,
     sqrt, createPool ? '0' : liquidity.toString(), currentTick);
@@ -304,7 +304,7 @@ export async function sendTx(signingProvider: any, chainId: DexChainId, from: st
 export async function mintSell(input: SellInput, signingProvider: any, progress: (stage: OrderStage) => void = () => {}, submitted?: (hash: string) => void): Promise<{ tokenId: string; txHash: string }> {
   const accounts = await readWithTimeout(signingProvider.request({ method: 'eth_accounts' }) as Promise<string[]>, 'Wallet account');
   if (!accounts[0] || accounts[0].toLowerCase() !== input.walletAddress.toLowerCase()) {
-    throw new Error(_translateCopy('copy.50dd27affcc8', { defaultValue: 'The signing wallet does not match this DHB address' }));
+    throw new Error(_translateCopy('copy.50dd27affcc8', { defaultValue: 'The signing wallet does not match this token address' }));
   }
   progress('quote');
   let quote = await quoteSell(input);

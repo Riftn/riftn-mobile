@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useCallback, useMemo, useRef } from "react";
@@ -247,7 +248,7 @@ const DpayCheckoutStatus: React.FC<Props> = ({
           <Text className="text-white text-xl font-semibold mt-3">{t("dpay.success")}</Text>
           <Text className="text-gray-300 text-sm mt-1 text-center">
             {amountStr
-              ? t("dpay.sentTo", { amount: amountStr, symbol: tokenSymbol === "DHB" ? t("tip.tokensUnit") : tokenSymbol, address: miniAddress(address) })
+              ? t("dpay.sentTo", { amount: amountStr, symbol: tokenLabel(tokenSymbol), address: miniAddress(address) })
               : t("dpay.tokensSentTo", { address: miniAddress(address) })}
           </Text>
           {canShare && (

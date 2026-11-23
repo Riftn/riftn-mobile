@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 /**
  * Two creator widgets on a phone: the streamer's level and weekly streak, and a
  * gift jar that fills with paid gifts. The twin of dehubweb's level-and-jar.tsx.
@@ -123,7 +124,7 @@ export function TipJar({ settings, stats, box }: { settings: Record<string, unkn
         {title}
       </Text>
       <Text numberOfLines={1} style={{ color: "rgba(255,255,255,0.85)", fontWeight: "600", fontSize: w * 0.08 }}>
-        {`${Math.floor(value).toLocaleString()} / ${target.toLocaleString()} DHB`}
+        {`${Math.floor(value).toLocaleString()} / ${target.toLocaleString()} ${tokenLabel()}`}
       </Text>
     </View>
   );
