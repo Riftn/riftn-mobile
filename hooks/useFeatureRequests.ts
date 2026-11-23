@@ -922,7 +922,7 @@ export function useSetFeatureStatus() {
             ? _copy("copy.ae6a0ffbe609", { defaultValue: "Marked Queued" })
             : status === "declined"
               ? _copy("copy.79688f176607", { defaultValue: "Marked Not feasible" })
-              : _copy("copy.9db7b5ba03bb", { defaultValue: "Moved back to Requests" }),
+              : _copy("copy.9db7b5ba03bb", { defaultValue: "Moved back to Prompts" }),
       );
     },
     onError: (error) => {

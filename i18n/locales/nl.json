@@ -1,4 +1,42 @@
 {
+  "painting": {
+    "title": "Schilderen",
+    "close": "Sluiten",
+    "undo": "Ongedaan maken",
+    "redo": "Opnieuw",
+    "done": "Klaar",
+    "clear": "Wissen",
+    "size": "Grootte",
+    "colour": "Kleur",
+    "customColour": "Eigen kleur",
+    "fillShape": "Vorm vullen",
+    "shape": "Vorm van het doek",
+    "discardTitle": "Dit schilderij weggooien?",
+    "discard": "Weggooien",
+    "keep": "Verder schilderen",
+    "saveFailed": "Het schilderij kon niet worden opgeslagen. Probeer het opnieuw.",
+    "tools": {
+      "pencil": "Potlood",
+      "brush": "Penseel",
+      "eraser": "Gum",
+      "fill": "Vullen",
+      "line": "Lijn",
+      "rect": "Rechthoek",
+      "ellipse": "Ellips",
+      "oil": "Olieverf",
+      "pastel": "Pastel",
+      "watercolor": "Waterverf",
+      "charcoal": "Houtskool"
+    },
+    "aspect": {
+      "portrait": "Staand",
+      "square": "Vierkant",
+      "wide": "Breed"
+    },
+    "hue": "Tint",
+    "saturation": "Verzadiging",
+    "brightness": "Helderheid"
+  },
   "reviewCard": {
     "title": "Vind je Riftn leuk?",
     "body": "Een snelle beoordeling in {{store}} helpt meer mensen ons te vinden.",
@@ -72,6 +110,12 @@
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
     "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "translate": "Vertalen",
+    "seeOriginal": "Origineel bekijken",
+    "translating": "Vertalen…",
+    "alreadyYourLanguage": "Staat al in je taal",
+    "translateFailed": "Vertalen lukt nu niet. Probeer het opnieuw.",
+    "couldNotTranslate": "Dit kon niet worden vertaald. Misschien is het straattaal of een naam.",
     "originalUnavailable": "Het oorspronkelijke verhaal is niet meer beschikbaar.",
     "copyLinkFailed": "De link naar het verhaal kon niet worden gekopieerd.",
     "linkCopied": "Link gekopieerd",
@@ -206,7 +250,7 @@
   },
   "assistantCards": {
     "requestDraft": "Concept voor openbaar verzoek",
-    "postRequest": "Plaatsen bij Verzoeken",
+    "postRequest": "Plaatsen op Bouwen",
     "possibleDuplicates": "Mogelijke duplicaten",
     "viewPostedRequest": "Geplaatst verzoek bekijken",
     "fitting": "Passend",
@@ -1001,7 +1045,7 @@
     "wallet": "Portemonnee",
     "docs": "Documentatie",
     "roadmap": "Routekaart",
-    "featureRequests": "Verzoeken",
+    "featureRequests": "Bouwen",
     "staking": "Uitzetten",
     "superpowers": "Superkrachten",
     "governance": "Bestuur",
@@ -3115,11 +3159,11 @@
     "global": "Wereldwijd"
   },
   "features": {
-    "myRequests": "Mijn verzoeken",
+    "myRequests": "Mijn prompts",
     "prompts": "Voorstellen",
     "queued": "In de wachtrij",
-    "promptPageTitle": "Verzoeken",
-    "promptSubtitle": "Bouw mee aan Riftn met een voorstel",
+    "promptPageTitle": "Bouwen",
+    "promptSubtitle": "Bouw Riftn door ermee te praten.",
     "promptNew": "Nieuw voorstel",
     "promptSearch": "Voorstellen zoeken…",
     "promptHeading": "Wat moeten we hierna bouwen?",
@@ -4485,11 +4529,11 @@
     "requestDraftMenu": "Voeg {{query}} toe aan Riftn",
     "requestDraftSettings": "Een instelling voor {{query}}",
     "requestSend": "Verzoek sturen",
-    "requestPostsTo": "Komt op Verzoeken",
-    "requestHint": "Komt op Verzoeken onder jouw naam. We laten het weten zodra het live is.",
-    "requestSent": "Verstuurd naar Verzoeken",
+    "requestPostsTo": "Plaatst op Bouwen",
+    "requestHint": "Plaatst op Bouwen namens jou. We laten het je weten als het live is.",
+    "requestSent": "Verstuurd naar Bouwen",
     "requestSentHint": "We laten het weten zodra het live is.",
-    "requestSeeIt": "Bekijk het op Verzoeken"
+    "requestSeeIt": "Bekijk op Bouwen"
   },
   "comments": {
     "reportComment": "Opmerking melden",
@@ -15871,7 +15915,7 @@
     "31b471215872": "Scorebord",
     "0ad1b06f64f2": "AI-assistent",
     "86f8a694159b": "Bestuur",
-    "d737b736eae8": "Functieverzoeken",
+    "d737b736eae8": "Bouwen",
     "e139251e4f5b": "Bericht verwijderen",
     "c0bc2a34abff": "Voor iedereen",
     "f416afe76d99": "Video opslaan",
@@ -16487,10 +16531,10 @@
     "f223faa96f22": "Apple",
     "63eb38b938b8": "Markeren als in wachtrij",
     "2fffca525795": "Markeren als uitgebracht",
-    "3ee050a08bfa": "Terug naar Verzoeken",
+    "3ee050a08bfa": "Terug naar Bouwen",
     "ae6a0ffbe609": "Gemarkeerd als in wachtrij",
     "366cb56b38ce": "Gemarkeerd als uitgebracht",
-    "9db7b5ba03bb": "Terug naar Verzoeken verplaatst",
+    "9db7b5ba03bb": "Teruggeplaatst naar Prompts",
     "bb2be752e079": "Kon de status niet wijzigen",
     "2ab63e6ced90": "Niet haalbaar",
     "79688f176607": "Gemarkeerd als niet haalbaar",
@@ -18407,6 +18451,9 @@
     "hoursStreamed_other": "{{formatted}} uur gestreamd",
     "toNext_one": "Nog {{formatted}} snack tot {{stage}}",
     "toNext_other": "Nog {{formatted}} snacks tot {{stage}}",
+    "requestsToday_one": "Wachtende verzoeken: {{formatted}} snack vandaag",
+    "requestsToday_other": "Wachtende verzoeken: {{formatted}} snacks vandaag",
+    "requestsTomorrow": "Wachtende verzoeken: eerste snack morgen",
     "open": "{{pet}} openen",
     "feed": "Geef een snack",
     "fed": "{{pet}} heeft je snack opgegeten",
@@ -18437,6 +18484,7 @@
       "feeding": "Kijkers kunnen het voeren met kanaalpunten",
       "cost": "Punten per snack",
       "rules": "Elke kijker kan het tot 20 snacks per dag geven. Punten hebben geen geldwaarde.",
+      "requests": "Je verzoeken die nog wachten op het Verzoekenbord voeren het ook: 1 snack per dag per verzoek, tot 3 per dag, zodra het is uitgekomen.",
       "feeders": "Heeft het het meest gevoerd"
     }
   },
@@ -18461,5 +18509,30 @@
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",
     "noLanguage": "Ze hebben nog geen app-taal gekozen, dus je berichten gaan voorlopig zoals je ze typt"
+  },
+  "badgeMuseum": {
+    "title": "Badgemuseum",
+    "open": "Badgemuseum openen",
+    "summary": "{{earned}} van {{total}} badges verdiend",
+    "loading": "Badges laden…",
+    "earned": "Verdiend",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Badges worden vanzelf vrijgespeeld zodra een mijlpaal is bereikt.",
+    "name": {
+      "views": "{{value}} weergaven",
+      "videos": "{{value}} video's",
+      "followers": "{{value}} volgers",
+      "likes": "{{value}} likes",
+      "firstLive": "Eerste livestream",
+      "liveHours": "{{value}} uur live"
+    },
+    "hint": {
+      "views": "Weergaven op alle posts",
+      "videos": "Geüploade video's",
+      "followers": "Volgers",
+      "likes": "Ontvangen likes",
+      "firstLive": "Ga één keer live",
+      "liveHours": "Uren live gestreamd"
+    }
   }
 }

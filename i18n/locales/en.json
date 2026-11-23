@@ -1,4 +1,42 @@
 {
+  "painting": {
+    "title": "Painting",
+    "close": "Close",
+    "undo": "Undo",
+    "redo": "Redo",
+    "done": "Done",
+    "clear": "Clear",
+    "size": "Size",
+    "colour": "Colour",
+    "customColour": "Custom colour",
+    "fillShape": "Fill shape",
+    "shape": "Canvas shape",
+    "discardTitle": "Discard this painting?",
+    "discard": "Discard",
+    "keep": "Keep painting",
+    "saveFailed": "Couldn't save the painting. Try again.",
+    "tools": {
+      "pencil": "Pencil",
+      "brush": "Brush",
+      "eraser": "Eraser",
+      "fill": "Fill",
+      "line": "Line",
+      "rect": "Rectangle",
+      "ellipse": "Ellipse",
+      "oil": "Oil",
+      "pastel": "Pastel",
+      "watercolor": "Watercolour",
+      "charcoal": "Charcoal"
+    },
+    "aspect": {
+      "portrait": "Portrait",
+      "square": "Square",
+      "wide": "Wide"
+    },
+    "hue": "Hue",
+    "saturation": "Saturation",
+    "brightness": "Brightness"
+  },
   "streamPet": {
     "stage": {
       "egg": "Egg",
@@ -31,6 +69,9 @@
     "hoursStreamed_other": "{{formatted}} hours streamed",
     "toNext_one": "{{formatted}} snack to {{stage}}",
     "toNext_other": "{{formatted}} snacks to {{stage}}",
+    "requestsToday_one": "Requests waiting: {{formatted}} snack today",
+    "requestsToday_other": "Requests waiting: {{formatted}} snacks today",
+    "requestsTomorrow": "Requests waiting: first snack tomorrow",
     "open": "Open {{pet}}",
     "feed": "Feed a snack",
     "fed": "{{pet}} ate your snack",
@@ -61,6 +102,7 @@
       "feeding": "Viewers can feed it with channel points",
       "cost": "Points per snack",
       "rules": "Each viewer can feed it up to 20 snacks a day. Points have no cash value.",
+      "requests": "Your requests still waiting on the Requests board feed it too: 1 snack a day each, up to 3 a day, once it has hatched.",
       "feeders": "Fed it the most"
     }
   },
@@ -76,9 +118,9 @@
     "humor": "Humor",
     "life": "Life"
   },
-  "stories": {"comments": "Comments", "commentFailed": "Your comment didn't go up. Try again.", "noCommentsYet": "No comments yet. Say something everyone can see.", "signInToComment": "Sign in to comment", "addComment": "Add a comment for everyone", "post": "Post", "commentsOff": "Comments are off for this moment", "effects": "Effects", "backdrop": "Background", "looks": {"none": "Original", "warm": "Warm", "cool": "Cool", "vivid": "Vivid", "fade": "Fade", "mono": "Mono", "noir": "Noir", "retro": "Retro"}, "backdrops": {"blur": "Blur", "black": "Black", "dusk": "Dusk", "sunset": "Sunset", "ocean": "Ocean", "forest": "Forest"}, "stickers": "Stickers", "shapes": "Arrows and shapes. Tap one after adding it to change its colour, size or angle.", "closeFriends": "Close friends", "closeFriendsSaved": "Saved as your Close friends", "saveCloseFriends": "Save as Close friends", "muteAccount": "Mute", "unfollow": "Unfollow", "mutedToast": "Muted. You won't see their Moments or posts.", "unfollowedToast": "Unfollowed", "captionFont": "Caption font", "captionStyles": {"classic": "Classic", "minimal": "Minimal", "groove": "Groove", "poster": "Poster", "book": "Book", "editorial": "Editorial", "headline": "Headline", "mono": "Mono", "terminal": "Terminal", "typewriter": "Typewriter", "marker": "Marker", "script": "Script"}, "selectedPeople": "Only selected people", "hideFromPeople": "Hide from selected people", "momentArchive": "Moment archive", "lifetime": "Story duration", "momentPublished": "Your Moment is up", "addToMoment": "Add to your Moment", "moreActions": "Moment options", "remixing": "Remixing {{name}}'s moment", "watchOriginal": "Watch original moment", "originalUnavailable": "The original moment is no longer available.", "linkCopied": "Link copied", "copyLinkFailed": "Couldn't copy the moment link.", "viewProfile": "View profile", "back": "Back", "more": "More", "addMoment": "Add a moment", "boxOff": "Box off", "boxOn": "Box on", "cameraOff": "Camera access is off. Turn it on in Settings, or pick from Photos.", "delete": "Delete moment", "deleteConfirm": "Delete this moment?", "deleteFailed": "Couldn't delete it. Try again.", "deleted": "Moment deleted", "everyone": "Everyone", "followersOnly": "Followers", "like": "Like", "mute": "Sound", "newMoment": "New moment", "noViewsYet": "No one has watched yet.", "openCamera": "Camera", "pick": "Pick from device", "pickFailed": "Couldn't open that. Try another.", "repliedTo": "Replied to your moment", "replyFailed": "Couldn't send your reply.", "replyTo": "Reply to {{name}}", "report": "Report", "reportFailed": "Couldn't send the report.", "reportWhy": "Why are you reporting this?", "reported": "Thanks. We'll take a look.", "share": "Share", "shareFailed": "Your moment didn't go up. Tap your tile to try again.", "sharing": "Sharing…", "signInToReply": "Sign in to reply", "startSub": "A photo or a clip up to 60 seconds. It stays up for 24 hours.", "tapRetry": "Tap to retry", "flip": "Flip camera", "noCamera": "Camera is off", "posting": "Posting…", "repliesOff": "Replies are off", "shutter": "Take a photo, or hold to film", "shutterHint": "Tap for photo, hold for video", "text": "Text", "typeSomething": "Type something", "viewsCount": "{{formatted}} views", "whoWatched": "Who watched", "yourDay": "Your day", "momentUp": "Your moment is up for 24 hours", "tooLarge": "That file is too large.", "reason": {"spam": "Spam", "nudity": "Nudity or sexual content", "harassment": "Bullying or harassment", "violence": "Violence or dangerous acts", "hate": "Hate speech", "other": "Something else"}, "agoLabel": "{{time}} ago", "momentTag": "MOMENT", "hoursLeft": "{{n}}h left", "minutesLeft": "{{n}}m left", "watchedCount": "{{n}} watched", "nOfM": "{{n}} of {{m}}", "toEveryone": "Everyone", "toOnly": "Only {{name}}", "signInToSay": "Sign in to say something", "saySomething": "Say something…"},
+  "stories": {"comments": "Comments", "commentFailed": "Your comment didn't go up. Try again.", "noCommentsYet": "No comments yet. Say something everyone can see.", "signInToComment": "Sign in to comment", "addComment": "Add a comment for everyone", "post": "Post", "commentsOff": "Comments are off for this moment", "effects": "Effects", "backdrop": "Background", "looks": {"none": "Original", "warm": "Warm", "cool": "Cool", "vivid": "Vivid", "fade": "Fade", "mono": "Mono", "noir": "Noir", "retro": "Retro"}, "backdrops": {"blur": "Blur", "black": "Black", "dusk": "Dusk", "sunset": "Sunset", "ocean": "Ocean", "forest": "Forest"}, "stickers": "Stickers", "shapes": "Arrows and shapes. Tap one after adding it to change its colour, size or angle.", "closeFriends": "Close friends", "closeFriendsSaved": "Saved as your Close friends", "saveCloseFriends": "Save as Close friends", "muteAccount": "Mute", "unfollow": "Unfollow", "mutedToast": "Muted. You won't see their Moments or posts.", "unfollowedToast": "Unfollowed", "captionFont": "Caption font", "captionStyles": {"classic": "Classic", "minimal": "Minimal", "groove": "Groove", "poster": "Poster", "book": "Book", "editorial": "Editorial", "headline": "Headline", "mono": "Mono", "terminal": "Terminal", "typewriter": "Typewriter", "marker": "Marker", "script": "Script"}, "selectedPeople": "Only selected people", "hideFromPeople": "Hide from selected people", "momentArchive": "Moment archive", "lifetime": "Story duration", "momentPublished": "Your Moment is up", "addToMoment": "Add to your Moment", "moreActions": "Moment options", "remixing": "Remixing {{name}}'s moment", "watchOriginal": "Watch original moment", "translate": "Translate", "seeOriginal": "See original", "translating": "Translating…", "alreadyYourLanguage": "Already in your language", "translateFailed": "Couldn't translate right now. Try again.", "couldNotTranslate": "Couldn't translate this one. It may be slang or a name.", "originalUnavailable": "The original moment is no longer available.", "linkCopied": "Link copied", "copyLinkFailed": "Couldn't copy the moment link.", "viewProfile": "View profile", "back": "Back", "more": "More", "addMoment": "Add a moment", "boxOff": "Box off", "boxOn": "Box on", "cameraOff": "Camera access is off. Turn it on in Settings, or pick from Photos.", "delete": "Delete moment", "deleteConfirm": "Delete this moment?", "deleteFailed": "Couldn't delete it. Try again.", "deleted": "Moment deleted", "everyone": "Everyone", "followersOnly": "Followers", "like": "Like", "mute": "Sound", "newMoment": "New moment", "noViewsYet": "No one has watched yet.", "openCamera": "Camera", "pick": "Pick from device", "pickFailed": "Couldn't open that. Try another.", "repliedTo": "Replied to your moment", "replyFailed": "Couldn't send your reply.", "replyTo": "Reply to {{name}}", "report": "Report", "reportFailed": "Couldn't send the report.", "reportWhy": "Why are you reporting this?", "reported": "Thanks. We'll take a look.", "share": "Share", "shareFailed": "Your moment didn't go up. Tap your tile to try again.", "sharing": "Sharing…", "signInToReply": "Sign in to reply", "startSub": "A photo or a clip up to 60 seconds. It stays up for 24 hours.", "tapRetry": "Tap to retry", "flip": "Flip camera", "noCamera": "Camera is off", "posting": "Posting…", "repliesOff": "Replies are off", "shutter": "Take a photo, or hold to film", "shutterHint": "Tap for photo, hold for video", "text": "Text", "typeSomething": "Type something", "viewsCount": "{{formatted}} views", "whoWatched": "Who watched", "yourDay": "Your day", "momentUp": "Your moment is up for 24 hours", "tooLarge": "That file is too large.", "reason": {"spam": "Spam", "nudity": "Nudity or sexual content", "harassment": "Bullying or harassment", "violence": "Violence or dangerous acts", "hate": "Hate speech", "other": "Something else"}, "agoLabel": "{{time}} ago", "momentTag": "MOMENT", "hoursLeft": "{{n}}h left", "minutesLeft": "{{n}}m left", "watchedCount": "{{n}} watched", "nOfM": "{{n}} of {{m}}", "toEveryone": "Everyone", "toOnly": "Only {{name}}", "signInToSay": "Sign in to say something", "saySomething": "Say something…"},
   "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Hidden until they tap it", "scrub": "Scrub through the video", "addMore": "Add photos or videos", "coverAria": "Tap a frame to set the cover", "trimHint": "Drag the ends to trim", "coverHint": "Tap a frame to make it the cover", "uploadCover": "Upload a cover picture", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "They see it right away", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Blurred until they tap it", "hidePrice": "Hide behind a price", "hidePriceBody": "Blurred until they pay you", "priceUnavailable": "Not in this chat", "priceLabelUsd": "Price", "priceHint": "They see it blurred until they pay you. Locked items are not end-to-end encrypted.", "timerOffBody": "It stays in the chat.", "timerOnOpen": "Once they open it", "timerOpenBody": "Gone for both of you {{value1}} after they first open it.", "timerViewBody": "Gone for both of you once they have seen it.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover at {{value1}}", "lockedForUsd": "Unlock for {{value1}}", "timerTimeBody": "Gone for both of you {{value1}} after you send it.", "destruct": {"view": "1 view", "60": "1 min", "3600": "1 hour", "43200": "12 hours", "86400": "1 day", "604800": "1 week", "31536000": "1 year"}, "destructShort": {"view": "1 view", "60": "1m", "3600": "1h", "43200": "12h", "86400": "1d", "604800": "1w", "31536000": "1y"}, "destructSecs": "{{n}} sec", "destructShortSecs": "{{n}}s", "timerReplay": "Allow one replay", "timerReplayBody": "They can open it one more time. The countdown starts again."},
-  "assistantCards": {"requestDraft": "Public request draft", "postRequest": "Post to Requests", "possibleDuplicates": "Possible duplicates", "viewPostedRequest": "View posted request", "fitting": "Fitting", "loadFailed": "This card could not be loaded. Sign in, or ask again.", "failed": "That did not work. Try again.", "reactOne": "React to 1 post", "reactMany": "React to {{count}} posts", "follow": "Follow {{count}}", "unfollow": "Unfollow {{count}}", "allowChats": "Let the assistant read your chats?", "stopChats": "Stop the assistant reading your chats?", "confirmReact": "React", "confirmFollow": "Follow", "confirmUnfollow": "Unfollow", "confirmAllow": "Allow", "confirmStop": "Stop", "skipsAlready": "Skips {{count}} you already reacted to", "allowChatsWhy": "Only you see what it reads. Direct chats only, and end-to-end encrypted ones stay private. Ask it to stop any time.", "pickReaction": "Pick a reaction", "progress": "{{done}} of {{total}}", "doneReact": "Reacted to {{count}} posts", "doneAllow": "Allowed. Ask your question again.", "doneStop": "Stopped. It can no longer read your chats.", "doneFollow": "Done for {{count}}", "expired": "This card expired. Ask again.", "cancelled": "Cancelled", "cancel": "Not now"},
+  "assistantCards": {"requestDraft": "Public request draft", "postRequest": "Post to Build", "possibleDuplicates": "Possible duplicates", "viewPostedRequest": "View posted request", "fitting": "Fitting", "loadFailed": "This card could not be loaded. Sign in, or ask again.", "failed": "That did not work. Try again.", "reactOne": "React to 1 post", "reactMany": "React to {{count}} posts", "follow": "Follow {{count}}", "unfollow": "Unfollow {{count}}", "allowChats": "Let the assistant read your chats?", "stopChats": "Stop the assistant reading your chats?", "confirmReact": "React", "confirmFollow": "Follow", "confirmUnfollow": "Unfollow", "confirmAllow": "Allow", "confirmStop": "Stop", "skipsAlready": "Skips {{count}} you already reacted to", "allowChatsWhy": "Only you see what it reads. Direct chats only, and end-to-end encrypted ones stay private. Ask it to stop any time.", "pickReaction": "Pick a reaction", "progress": "{{done}} of {{total}}", "doneReact": "Reacted to {{count}} posts", "doneAllow": "Allowed. Ask your question again.", "doneStop": "Stopped. It can no longer read your chats.", "doneFollow": "Done for {{count}}", "expired": "This card expired. Ask again.", "cancelled": "Cancelled", "cancel": "Not now"},
   "chatReactions": {
     "many_one": "{{count}} reaction to your messages",
     "many_other": "{{count}} reactions to your messages",
@@ -907,7 +949,7 @@
     "wallet": "Wallet",
     "docs": "Docs",
     "roadmap": "Roadmap",
-    "featureRequests": "Requests",
+    "featureRequests": "Build",
     "staking": "Staking",
     "superpowers": "SuperPowers",
     "governance": "Governance",
@@ -2821,11 +2863,11 @@
       "mine": "You have this a day early. Everyone else gets it in {{hours}} h.",
       "others": "Its poster is trying this first. Out for everyone in {{hours}} h."
     },
-    "myRequests": "My Requests",
+    "myRequests": "My prompts",
     "prompts": "Prompts",
     "queued": "Queued",
-    "promptPageTitle": "Requests",
-    "promptSubtitle": "Build Riftn with a prompt",
+    "promptPageTitle": "Build",
+    "promptSubtitle": "Build Riftn by talking to it.",
     "promptNew": "New prompt",
     "promptSearch": "Search prompts…",
     "promptHeading": "What should we build next?",
@@ -4157,11 +4199,11 @@
     "requestDraftMenu": "Add {{query}} to Riftn",
     "requestDraftSettings": "A setting for {{query}}",
     "requestSend": "Send request",
-    "requestPostsTo": "Posts to Requests",
-    "requestHint": "Posts to Requests as you. We will tell you when it ships.",
-    "requestSent": "Sent to Requests",
+    "requestPostsTo": "Posts to Build",
+    "requestHint": "Posts to Build as you. We will tell you when it ships.",
+    "requestSent": "Sent to Build",
     "requestSentHint": "We will tell you when it ships.",
-    "requestSeeIt": "See it on Requests"
+    "requestSeeIt": "See it on Build"
   },
   "comments": {
     "attachAudioFile": "Audio file",
@@ -13947,10 +13989,10 @@
     "chatSlowDown": "Slow down! Too many messages in a row. Try again in {{wait}}, or wait for someone else to reply.",
     "63eb38b938b8": "Mark Queued",
     "2fffca525795": "Mark Shipped",
-    "3ee050a08bfa": "Back to Requests",
+    "3ee050a08bfa": "Back to Build",
     "ae6a0ffbe609": "Marked Queued",
     "366cb56b38ce": "Marked Shipped",
-    "9db7b5ba03bb": "Moved back to Requests",
+    "9db7b5ba03bb": "Moved back to Prompts",
     "bb2be752e079": "Couldn't change the status",
     "1d7234ff1b79": "in {{feed}}",
     "e122e5c2b563": "Drag up to close",
@@ -16387,7 +16429,7 @@
     "56acc0370df9": "Manage your account preferences, language, privacy settings, and appearance.",
     "91f30ce5eeb9": "Governance & Community",
     "86f8a694159b": "Governance",
-    "d737b736eae8": "Feature Requests",
+    "d737b736eae8": "Build",
     "ec9eff0f3f13": "Suggest new features and vote on community ideas. Popular requests get prioritized for development.",
     "bc7b4fda29f9": "Upvote",
     "a719eb990599": "Vote in favor of a governance proposal or feature request. Helps signal community support.",
@@ -17656,5 +17698,30 @@
     "offToast": "Your messages here go as you type them",
     "onToast": "Your messages here now go out in {{language}}",
     "noLanguage": "They haven't picked an app language yet, so your messages go as you type them for now"
+  },
+  "badgeMuseum": {
+    "title": "Badge Museum",
+    "open": "Open Badge Museum",
+    "summary": "{{earned}} of {{total}} badges earned",
+    "loading": "Loading badges…",
+    "earned": "Earned",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Badges unlock on their own as milestones are reached.",
+    "name": {
+      "views": "{{value}} views",
+      "videos": "{{value}} videos",
+      "followers": "{{value}} followers",
+      "likes": "{{value}} likes",
+      "firstLive": "First live",
+      "liveHours": "{{value}} hours live"
+    },
+    "hint": {
+      "views": "Views across all posts",
+      "videos": "Videos uploaded",
+      "followers": "Followers",
+      "likes": "Likes received",
+      "firstLive": "Go live once",
+      "liveHours": "Hours streamed live"
+    }
   }
 }

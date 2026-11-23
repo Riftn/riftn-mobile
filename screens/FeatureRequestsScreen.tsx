@@ -389,7 +389,7 @@ const FeatureCard: React.FC<{
           },
           ...(isQueued || isShipped || feature.status === "declined"
             ? [{
-                text: t("copy.3ee050a08bfa", { defaultValue: "Back to Requests" }),
+                text: t("copy.3ee050a08bfa", { defaultValue: "Back to Build" }),
                 onPress: () => statusMutation.mutate({ id: feature.id, status: "open" as const }),
               }]
             : []),
@@ -1122,10 +1122,10 @@ function FeatureRequestsBoard() {
           )}
           <View style={{ flex: 1, minWidth: 0 }}>
             <Text style={styles.pageTitle} numberOfLines={1}>
-              {t("features.promptPageTitle", "Requests")}
+              {t("features.promptPageTitle", "Build")}
             </Text>
             <Text style={styles.pageSubtitle} numberOfLines={1}>
-              {t("features.promptSubtitle", "Build Riftn with a prompt")}
+              {t("features.promptSubtitle", "Build Riftn by talking to it.")}
             </Text>
           </View>
           <Pressable
@@ -1165,7 +1165,7 @@ function FeatureRequestsBoard() {
               style={[styles.chip, styles.mineFilter, mineOnly && styles.chipActive]}
             >
               <Text numberOfLines={1} style={[styles.chipText, mineOnly && styles.chipTextActive]}>
-                {t("features.myRequests", "My Requests")}
+                {t("features.myRequests", "My prompts")}
               </Text>
             </Pressable>
           )}
