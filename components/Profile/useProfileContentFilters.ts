@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { FeedFilters } from "../Home/FeedFilterPanel";
 import { getCategoriesCached } from "../../services/nft.service";
+import { namedFeedFor } from "../../libs/feed-presets";
 import { PROFILE_SORT_PARAMS, type ProfileSortMode } from "./ProfileContentToolbar";
 import type {
   FeedPostType,
@@ -143,7 +144,7 @@ export function useProfileContentFilters(activeTab: string, resetKey?: string, h
     };
   }, [sort, debouncedSearch, selectedCategory, filters.dateRange, filters.contentAccess]);
 
-  const homePostType: FeedPostType = showPostType ? filters.postType : "all";
+  const homePostType: FeedPostType = showPostType ? ((namedFeedFor(filters.postType)?.apiPostType ?? filters.postType) as FeedPostType) : "all";
 
   // Stable bundles: the toolbar sits in the profile list's header, and a new
   // object here on every render handed the list a new header each time, so

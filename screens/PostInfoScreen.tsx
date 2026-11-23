@@ -52,6 +52,8 @@ import PostStatsSection from "../components/Post/stats/PostStatsSection";
 import { setPostStartTime } from "../libs/post-start-time";
 import { Image } from "expo-image";
 import { getTokenHolders } from "../libs/token-holders";
+import CollectorPanel, { useEditionSupply } from "../components/Collect/CollectorPanel";
+import type { EditionChoice } from "../services/nft.service";
 import { peekPostDetailSeed, takeWarmRequest } from "../libs/navPrefetch";
 
 import { formatCount } from '../libs/format-count';
@@ -122,6 +124,7 @@ export default function PostInfoScreen() {
   });
 
   const isUnminted = post?.status === "signed";
+  const editionSupply = useEditionSupply(post?.status === "minted" ? tokenId : undefined).data?.supply ?? TOTAL_FRACTIONS;
   const isMinted = post?.status === "minted";
   const chainId = Number(post?.chainId) || DEFAULT_FRACTION_CHAIN;
   const isPPV = !!(post?.is_ppv || post?.streamInfo?.isPayPerView);
@@ -179,9 +182,9 @@ export default function PostInfoScreen() {
   };
 
   const [mintSheet, setMintSheet] = useState(false);
-  const handleMint = async (chosenChainId: number) => {
+  const handleMint = async (chosenChainId: number, edition?: EditionChoice) => {
     if (!post?.tokenId) return;
-    const ok = await mint(Number(post.tokenId), chainId, chosenChainId);
+    const ok = await mint(Number(post.tokenId), chainId, chosenChainId, edition);
     if (ok) {
       setMintSheet(false);
       await refetch();
@@ -394,18 +397,20 @@ export default function PostInfoScreen() {
           </Section>
         )}
 
+        {isMinted && tokenId ? <CollectorPanel tokenId={tokenId} /> : null}
+
         {!DIGITAL_PURCHASES_ENABLED && (isMinted || (isUnminted && isOwner)) && (
           <WebPurchaseLink path={`/app/post/${tokenId}/info`} style={{ marginHorizontal: 16, marginTop: 12 }} />
         )}
         {isMinted && DIGITAL_PURCHASES_ENABLED && (
           <Section
             title={t("postInfo.fractionOwnership")}
-            right={<Text style={styles.faint}>{t("postInfo.total", { count: TOTAL_FRACTIONS })}</Text>}
+            right={<Text style={styles.faint}>{t("postInfo.total", { count: editionSupply })}</Text>}
           >
             {!!myBalance && myBalance > 0 && (
               <View style={styles.rowBetween}>
                 <Text style={[styles.value, { flexShrink: 1 }]}>
-                  {t("postInfo.yourFractions", { count: myBalance, total: TOTAL_FRACTIONS })}
+                  {t("postInfo.yourFractions", { count: myBalance, total: editionSupply })}
                 </Text>
                 <Pressable
                   style={styles.smallButton}
@@ -473,7 +478,7 @@ export default function PostInfoScreen() {
                     <View style={{ flex: 1, minWidth: 0 }}>
                       <Text style={[styles.value, styles.holderAddress]} numberOfLines={1}>{shortAddress(h.address)}</Text>
                       <Text style={styles.muted}>
-                        {h.balance}/{TOTAL_FRACTIONS}
+                        {h.balance}/{editionSupply}
                         {t("copy.854cbbb4f34f", { defaultValue: " fractions (" })}
                         {h.percentage}%)
                       </Text>
@@ -614,6 +619,7 @@ export default function PostInfoScreen() {
           onClose={() => setMintSheet(false)}
           defaultChainId={chainId}
           isMinting={isMinting}
+          hideEdition={!!(post as any)?.streamInfo?.isAddBounty}
           onConfirm={handleMint}
         />
       )}

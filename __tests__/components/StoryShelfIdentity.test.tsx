@@ -91,18 +91,13 @@ it('uses a thin grey outline on all three tile types in light mode', () => {
   }
 });
 
-it('shows the time on a glass chip the size of the face opposite it', () => {
+it('shows no time chip on moment tiles; the time lives inside the moment', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const flatten = (style: unknown): Record<string, unknown> =>
     Array.isArray(style) ? Object.assign({}, ...style.filter(Boolean).map(flatten)) : (style as Record<string, unknown>) ?? {};
   const rims = tree.root.findAll(node => typeof node.type === 'string'
     && flatten(node.props.style).borderColor === 'rgba(255,255,255,0.55)');
-  expect(rims.length).toBeGreaterThan(0);
-  // One rim, drawn on top, and no drop shadow under it.
-  expect(flatten(rims[0].props.style)).toMatchObject({ borderRadius: 8, borderWidth: 1 });
-  const chip = flatten(rims[0].parent?.props.style);
-  expect(chip).toMatchObject({ height: 24, minWidth: 24, borderRadius: 8, top: 7, right: 7, borderWidth: 0 });
-  expect(chip.boxShadow).toBeUndefined();
+  expect(rims).toHaveLength(0);
   act(() => tree.unmount());
 });

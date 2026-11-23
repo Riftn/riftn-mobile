@@ -44,7 +44,11 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
   const { hideUserProfile } = useUserProfileSheet();
   const [selling, setSelling] = useState<SellTarget | null>(null);
   const { data: allPositions, isLoading, isError, refetch, isRefetching } = useFractionPortfolio(address);
-  const positions = useMemo(() => livePositions(allPositions || []), [allPositions]);
+  const everything = useMemo(() => livePositions(allPositions || []), [allPositions]);
+  const [shelf, setShelf] = useState<"all" | "created" | "collected">("all");
+  const created = useMemo(() => everything.filter((p) => p.isCreator), [everything]);
+  const collected = useMemo(() => everything.filter((p) => !p.isCreator), [everything]);
+  const positions = shelf === "created" ? created : shelf === "collected" ? collected : everything;
 
   const openPost = useCallback(
     (tokenId: string) => {
@@ -93,7 +97,7 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
     );
   }
 
-  if (!address || positions.length === 0) {
+  if (!address || everything.length === 0) {
     return (
       <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
@@ -130,6 +134,25 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
         ListHeaderComponent={
           <>
             {listHeader}
+            {created.length > 0 && collected.length > 0 ? (
+              <View style={styles.shelves} accessibilityRole="tablist">
+                {([
+                  ["all", t("collect.shelfAll", { defaultValue: "All" })],
+                  ["created", t("collect.shelfCreated", { defaultValue: "Created" })],
+                  ["collected", t("collect.shelfCollected", { defaultValue: "Collected" })],
+                ] as const).map(([id, label]) => (
+                  <TouchableOpacity
+                    key={id}
+                    onPress={() => setShelf(id)}
+                    style={[styles.shelf, shelf === id && styles.shelfActive]}
+                    accessibilityRole="tab"
+                    accessibilityState={{ selected: shelf === id }}
+                  >
+                    <Text style={[styles.shelfText, shelf === id && styles.shelfTextActive]}>{label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ) : null}
             <Text style={styles.count}>
               {t("fractions.fractionCount", { count: totalHeld })}{" "}
               {t("fractions.acrossPosts", { count: positions.length })}
@@ -150,6 +173,11 @@ const styles = StyleSheet.create({
   grid: { padding: 16, paddingBottom: 80, gap: 12 },
   row: { gap: 12 },
   count: { color: "#A6A9AC", fontSize: 12, marginBottom: 12 },
+  shelves: { flexDirection: "row", gap: 8, marginBottom: 12 },
+  shelf: { paddingHorizontal: 14, height: 32, justifyContent: "center", borderRadius: 16, backgroundColor: "rgba(255,255,255,0.06)", borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
+  shelfActive: { backgroundColor: "#FFFFFF", borderColor: "#FFFFFF" },
+  shelfText: { color: "#FFFFFF", fontSize: 13, fontWeight: "600" },
+  shelfTextActive: { color: "#000000" },
   errorText: { color: "#8B8D90", fontSize: 14, textAlign: "center" },
   retryBtn: { backgroundColor: "rgba(255,255,255,0.10)", borderRadius: 10, paddingHorizontal: 20, paddingVertical: 10 },
   marketBtn: {

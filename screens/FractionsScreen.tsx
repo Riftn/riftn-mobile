@@ -23,6 +23,7 @@ import ScreenHeader from "../components/ScreenHeader";
 import BrowseFractionsTab from "../components/Fractions/BrowseFractionsTab";
 import PortfolioTab from "../components/Fractions/PortfolioTab";
 import ActivityTab from "../components/Fractions/ActivityTab";
+import DropsTab from "../components/Collect/DropsTab";
 import BuyFractionSheet from "../components/Fractions/BuyFractionSheet";
 import SellFractionsSheet, { type SellTarget } from "../components/Fractions/SellFractionsSheet";
 import SendFractionsSheet, { type SendTarget } from "../components/Fractions/SendFractionsSheet";
@@ -40,12 +41,13 @@ import {
   type FractionListing,
 } from "../hooks/useFractionMarket";
 
-type Tab = "browse" | "nfts" | "portfolio" | "activity";
+type Tab = "browse" | "nfts" | "drops" | "portfolio" | "activity";
 
 /** Tab artwork: theme icon keys (theme/icons.ts). */
 const ALL_TABS: { key: Tab; icon: string; labelKey: string; fallback?: string }[] = [
   { key: "browse", icon: "search", labelKey: "fractions.title" },
   { key: "nfts", icon: "nfts", labelKey: "nftMarket.shortTitle", fallback: "NFTs" },
+  { key: "drops", icon: "events", labelKey: "collect.dropsTab", fallback: "Drops" },
   { key: "portfolio", icon: "fractions", labelKey: "fractions.tabPortfolio" },
   { key: "activity", icon: "stats", labelKey: "fractions.tabActivity" },
 ];
@@ -128,6 +130,8 @@ export default function FractionsScreen() {
       <View style={styles.body}>
         {tab === "nfts" ? (
           <NftMarketView embedded />
+        ) : tab === "drops" ? (
+          <DropsTab signedIn={!!wallet} onOpenPost={openPost} />
         ) : tab === "browse" ? (
           <BrowseFractionsTab onOpenListing={setBuying} />
         ) : tab === "portfolio" ? (

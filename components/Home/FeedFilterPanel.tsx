@@ -40,7 +40,8 @@ import {
  */
 export type SortOption = "score" | "random" | "createdAt" | "views" | "likes" | "comments" | "tips" | "following";
 export type DateRangeOption = "" | "day" | "week" | "month" | "year";
-export type PostTypeOption = "all" | "video" | "feed-images" | "feed-audio" | "article" | "feed-simple" | "short" | "live";
+/** "pulse" / "motion" / "echo" are the named Home filters (libs/feed-presets NAMED_FEEDS). */
+export type PostTypeOption = "all" | "video" | "feed-images" | "feed-audio" | "article" | "feed-simple" | "short" | "live" | "pulse" | "motion" | "echo";
 export type ContentAccessOption = "ppv" | "bounty" | "locked";
 
 export interface FeedFilters {

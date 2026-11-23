@@ -14,6 +14,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { FractionSheet as Sheet, Note, Panel, PanelRow, PrimaryButton, NumberField, sheetStyles } from "../Fractions/SheetParts";
 import { NftArt, formatPrice } from "./NftTile";
+import AuctionBox from "./AuctionBox";
 import { toastError, toastSuccess } from "../../libs/toast";
 import { WEBSITE_LINK } from "../../config/links";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
@@ -282,6 +283,21 @@ const NftSheet: React.FC<Props> = ({ target, onClose, onSignIn, signer, canTrade
         </Panel>
       ) : detail.data ? (
         <Note text={t("nftMarket.notListed", { defaultValue: "Not listed for sale right now." })} />
+      ) : null}
+
+      {target && detail.data ? (
+        <AuctionBox
+          target={target}
+          signer={signer}
+          canTrade={canTrade && !wrongChain}
+          holds={holds}
+          standard={standard}
+          dhb={offerCurrencies.find((c) => c.symbol === "DHB")}
+          offers={offers}
+          name={name}
+          image={image}
+          disabled={tradeLocked}
+        />
       ) : null}
 
       {offers.length ? (

@@ -1190,8 +1190,8 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           defaultChainId={postChainId ?? defaultChainId}
           isMinting={isMinting}
           onClose={() => { setShowMintSheet(false); closeAll(); }}
-          onConfirm={(chainId) => {
-            mintExisting(Number(tokenId), postChainId ?? defaultChainId, chainId).then((ok) => {
+          onConfirm={(chainId, edition) => {
+            mintExisting(Number(tokenId), postChainId ?? defaultChainId, chainId, edition).then((ok) => {
               if (ok) { setShowMintSheet(false); closeAll(); }
             });
           }}

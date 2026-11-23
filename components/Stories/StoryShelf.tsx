@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -19,7 +19,7 @@ import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, LiveFace, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
-import { ageLabel, avatarOf, coverOf, nameOf, playable } from "./story-utils";
+import { avatarOf, coverOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 
@@ -168,8 +168,9 @@ function StoryShelf() {
   );
 }
 
-function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
+function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, children }: {
   cover?: string | null;
+  seen?: boolean;
   avatar: React.ReactNode | null;
   label: string;
   onPress: () => void;
@@ -179,7 +180,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
 }) {
   const { isLight } = useAppTheme();
   return (
-    <View className="dark-surface" style={styles.tile}>
+    <View className="dark-surface" style={[styles.tile, seen && styles.tileSeen]}>
       <TouchableOpacity
         style={StyleSheet.absoluteFill}
         activeOpacity={0.85}
@@ -201,6 +202,8 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
         {avatar ? <View pointerEvents="none" style={styles.avatar}>{avatar}</View> : null}
         {badge}
         {children}
+        {/* Watched moments fade to grey so new ones stand out. */}
+        {seen ? <View pointerEvents="none" style={styles.seenWash} /> : null}
       </TouchableOpacity>
       {action}
     </View>
@@ -307,65 +310,19 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   );
 }
 
-/**
- * The time chip, as on web: liquid glass the size of the face opposite it
- * (24 px, 8 px corners, 7 px in). Web blurs the photo behind it with
- * backdrop-filter; here the tile's own photo is drawn again inside the chip,
- * blurred and lined up with the tile, so the chip shows the frosted photo
- * behind it on Android and iPhone alike without a live blur. Then a pale
- * sheen, a bright rim and a highlight along the top edge.
- */
+/** Dark shade over each tile photo: top for the face, bottom for the name. */
 const TILE_SHADE = ["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"] as const;
 const TILE_SHADE_AT = [0, 0.36, 0.5, 1] as const;
 
-function GlassTime({ label, seen, cover }: { label: string; seen?: boolean; cover?: string | null }) {
-  const [chipW, setChipW] = useState(0);
-  return (
-    <View
-      pointerEvents="none"
-      style={[styles.cornerBadge, styles.glassChip, cover ? styles.glassChipOverPhoto : null]}
-      onLayout={({ nativeEvent }) => setChipW(nativeEvent.layout.width)}
-    >
-      {cover && chipW > 0 ? (
-        <>
-          <Image
-            source={{ uri: cover }}
-            recyclingKey={`glass-${cover}`}
-            blurRadius={10}
-            contentFit="cover"
-            cachePolicy="memory-disk"
-            style={[styles.glassBackdrop, { left: -(TILE_W - CHIP_INSET - chipW) }]}
-          />
-          {/* The tile's top shade sits over the photo, so the copy behind the
-              glass gets it too; without it the chip reads milky on bright skies. */}
-          <LinearGradient
-            colors={TILE_SHADE}
-            locations={TILE_SHADE_AT}
-            style={[styles.glassBackdrop, { left: -(TILE_W - CHIP_INSET - chipW) }]}
-          />
-        </>
-      ) : null}
-      <LinearGradient colors={["rgba(255,255,255,0.3)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
-      <View style={styles.glassSheen} />
-      <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
-      {/* The rim is drawn last, on top. A border on the chip itself sits under
-          the photo copy on Android, and with a drop shadow below it read as a
-          double line along the bottom. */}
-      <View style={[styles.glassRim, seen && styles.glassRimSeen]} />
-    </View>
-  );
-}
-
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
   const name = nameOf(entry.author);
-  const age = ageLabel(entry.items[entry.items.length - 1]?.createdAt);
   return (
     <ShelfTile
       cover={coverOf(entry)}
+      seen={entry.seen}
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
-      badge={age ? <GlassTime label={age} seen={entry.seen} cover={coverOf(entry)} /> : null}
     >
       <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
     </ShelfTile>
@@ -373,6 +330,8 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
 }
 
 const styles = StyleSheet.create({
+  tileSeen: { opacity: 0.6 },
+  seenWash: { ...StyleSheet.absoluteFillObject, backgroundColor: "hsla(0, 0%, 45%, 0.45)" },
   wrap: { marginTop: 6, marginBottom: 8, flexGrow: 0 },
   row: { gap: 8, paddingVertical: 2 },
   tile: {

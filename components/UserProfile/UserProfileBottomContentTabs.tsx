@@ -502,12 +502,29 @@ const UserProfileBottomContentTabsInner: React.FC<
   // Underline indicator for tabs
   // Tab change: the pane and the pinned bar are brought in line with that
   // tab's own offset by the effect on activeTab above.
+  // The header stays where it is on a switch: above the pinned bar the new tab
+  // opens at the same height; once the bar is pinned it stays pinned and the
+  // new tab starts right under it (or where it was left, if further down).
   const handleTabChange = useCallback(
     (tab: ContentTab) => {
       if (tab === activeTab) return;
+      if (isFullScreen) {
+        const offsets = tabOffsets.value;
+        const current = offsets[activeTab] ?? 0;
+        const pinAt = headerHeightShared.value > 0 ? headerHeightShared.value + PROFILE_TABS_TOP_GAP : 0;
+        const target = pinAt > 0 && current >= pinAt - 4 ? Math.max(offsets[tab] ?? pinAt, pinAt) : current;
+        let tries = 0;
+        const place = () => {
+          const list = listRefFor(tab).current;
+          if (list) list.scrollToOffset({ offset: target, animated: false });
+          // A fresh tab may still be loading and too short to reach the spot; try again for a moment.
+          if (tries++ < 12 && Math.abs((tabOffsets.value[tab] ?? 0) - target) > 2) setTimeout(place, 50);
+        };
+        if (target > 0) requestAnimationFrame(place);
+      }
       setActiveTab(tab);
     },
-    [activeTab],
+    [activeTab, isFullScreen, tabOffsets, headerHeightShared, listRefFor],
   );
 
   // Clean underline tab bar — horizontally scrollable so all content tabs fit.
