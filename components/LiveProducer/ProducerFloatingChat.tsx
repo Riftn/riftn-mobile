@@ -12,6 +12,7 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  Pressable,
   useWindowDimensions,
 } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
@@ -23,7 +24,8 @@ import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl } from "../../libs/misc";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
-import type { UserReference } from "../LiveViewer/LiveViewerChat";
+import type { UserReference, ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
+import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { PointsIcon } from "../LiveViewer/PointsIcon";
 
 export interface ProducerChatActivity {
@@ -40,6 +42,10 @@ export interface ProducerChatActivity {
     message?: string;
   };
   optimistic?: boolean;
+  /** The chat line's id, once the room has it. */
+  id?: string;
+  /** emoji -> who reacted. */
+  reactions?: Record<string, string[]>;
 }
 
 interface ProducerFloatingChatProps {
@@ -51,6 +57,12 @@ interface ProducerFloatingChatProps {
   onSendMessage: (content: string) => Promise<boolean>;
   onToggleChatEnabled?: () => void;
   settingsUpdating?: boolean;
+  /** Hold a line: reactions, who reacted, Copy, Moderate, Delete. */
+  onHold?: (activity: ProducerChatActivity, layout: ChatHoldLayout | null) => void;
+  /** Tap a reaction: who left it. */
+  onShowReactors?: (messageId: string) => void;
+  /** The creator's wallet, lower case: their own reaction lands bigger. */
+  me?: string;
 }
 
 /** Shortened wallet address display */
@@ -125,6 +137,9 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   onSendMessage,
   onToggleChatEnabled,
   settingsUpdating,
+  onHold,
+  onShowReactors,
+  me,
 }) => {
   const { t } = useTranslation();
   const [message, setMessage] = useDraftState(draftScope, "");
@@ -168,9 +183,9 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
 
   const renderItem = useCallback(
     ({ item }: { item: ProducerChatActivity }) => (
-      <ChatBubble item={item} onUserPress={handleUserPress} />
+      <ChatBubble item={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={onShowReactors} me={me} />
     ),
-    [handleUserPress]
+    [handleUserPress, onHold, onShowReactors, me]
   );
 
   const keyExtractor = useCallback(
@@ -212,6 +227,8 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
       {/* The list dissolves at its top edge rather than stopping dead. The
           list is inverted, so "top" is the far end of the data — the mask is
           still just a gradient over the viewport, opaque at the bottom. */}
+      {/* Reactions fly in over the list, outside the fade so they are never cut. */}
+      <ReactionArrivalScope style={{ maxHeight: listMaxHeight, flexShrink: 1, minHeight: 0 }} pointerEvents="box-none">
       <MaskedView
         style={{ maxHeight: listMaxHeight, flexShrink: 1, minHeight: 0 }}
         // box-none, not none: the mask must stay inert but the list underneath
@@ -239,6 +256,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
           keyboardShouldPersistTaps="handled"
         />
       </MaskedView>
+      </ReactionArrivalScope>
 
       {canSend && isLive ? (
         <View style={{ marginTop: 8 }}>
@@ -287,8 +305,14 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
 };
 
 /** Individual chat bubble */
-const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: string) => void }> = memo(
-  ({ item, onUserPress }) => {
+const ChatBubble: React.FC<{
+  item: ProducerChatActivity;
+  onUserPress: (id: string) => void;
+  onHold?: (activity: ProducerChatActivity, layout: ChatHoldLayout | null) => void;
+  onShowReactors?: (messageId: string) => void;
+  me?: string;
+}> = memo(
+  ({ item, onUserPress, onHold, onShowReactors, me }) => {
     const { t } = useTranslation();
     const displayName = resolveDisplayName(item);
     const avatarUrl = resolveAvatarUrl(item);
@@ -298,11 +322,41 @@ const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: strin
       if (profileId) onUserPress(profileId);
     }, [profileId, onUserPress]);
 
+    // Hold a line, measured so the sheet keeps it in view (as viewers get).
+    const rowRef = useRef<View>(null);
+    const canHold = !!onHold && !!item.id && !item.optimistic;
+    const handleHold = useCallback(() => {
+      if (!onHold || !item.id) return;
+      const row = rowRef.current;
+      if (!row) { onHold(item, null); return; }
+      let done = false;
+      const fallback = setTimeout(() => { if (!done) { done = true; onHold(item, null); } }, 120);
+      row.measureInWindow((x, y, width, height) => {
+        if (done) return;
+        done = true;
+        clearTimeout(fallback);
+        onHold(item, width ? { x, y, width, height } : null);
+      });
+    }, [onHold, item]);
+    const reactionEntries = useMemo(
+      () => Object.entries(item.reactions ?? {}).filter(([, who]) => who?.length > 0),
+      [item.reactions],
+    );
+    useReactionHost(item.id);
+
     switch (item.status) {
       case StreamActivityType.MESSAGE: {
         return (
-          <View className="flex-row items-start mb-1.5 px-0.5 py-1 self-start max-w-[92%]">
-            <TouchableOpacity onPress={handlePress} activeOpacity={0.7} className="mr-1.5 mt-0.5">
+          <Pressable
+            ref={rowRef}
+            collapsable={false}
+            onLongPress={canHold ? handleHold : undefined}
+            delayLongPress={300}
+            disabled={!canHold}
+            className="mb-1.5 px-0.5 py-1 self-start max-w-[92%]"
+          >
+          <View className="flex-row items-start">
+            <TouchableOpacity onPress={handlePress} onLongPress={canHold ? handleHold : undefined} delayLongPress={300} activeOpacity={0.7} className="mr-1.5 mt-0.5">
               <Avatar uri={avatarUrl} size={18} name={displayName} />
             </TouchableOpacity>
             <Text
@@ -310,6 +364,7 @@ const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: strin
               style={{ color: colorForUser(displayName), ...onVideo }}
               numberOfLines={1}
               onPress={handlePress}
+              onLongPress={canHold ? handleHold : undefined}
             >
               {displayName}
             </Text>
@@ -326,6 +381,26 @@ const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: strin
               <Text className="text-white/30 text-[9px] ml-1">...</Text>
             ) : null}
           </View>
+          {reactionEntries.length > 0 && item.id ? (
+            <View className="mt-1 flex-row flex-wrap gap-1" style={{ marginLeft: 24 }}>
+              {reactionEntries.map(([emoji, who]) => (
+                <Pressable
+                  key={emoji}
+                  disabled={!onShowReactors}
+                  onPress={() => { if (item.id) onShowReactors?.(item.id); }}
+                  onLongPress={canHold ? handleHold : undefined}
+                  delayLongPress={300}
+                  hitSlop={6}
+                  className="flex-row items-center rounded-full px-1.5 py-0.5"
+                  style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+                >
+                  <ReactionGlyph messageId={item.id!} emoji={emoji} addresses={who} me={me} size={11} />
+                  {who.length > 1 ? <View style={{ marginLeft: 3 }}><RollingCount value={who.length} style={{ ...onVideo, color: "#fff", fontSize: 10 }} /></View> : null}
+                </Pressable>
+              ))}
+            </View>
+          ) : null}
+          </Pressable>
         );
       }
       case StreamActivityType.TIP: {
