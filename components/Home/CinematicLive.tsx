@@ -77,6 +77,8 @@ interface Stream {
   viewers: string;
   thumbnail: string;
   isLive: boolean;
+  /** An ended broadcast with a ready recording to watch back. */
+  hasReplay: boolean;
 }
 
 function toStream(row: LiveStreamEntity, index: number, fallbackGame: string): Stream {
@@ -99,6 +101,7 @@ function toStream(row: LiveStreamEntity, index: number, fallbackGame: string): S
     viewers: watching == null ? "" : compactCount(watching),
     thumbnail,
     isLive: isStreamLive(row),
+    hasReplay: (row as any).recording?.status === "ready" && !!(row as any).recording?.url,
   };
 }
 
@@ -202,7 +205,13 @@ const StreamTile: React.FC<{ stream: Stream; width: number; onPress: () => void 
             </View>
           </>
         )}
-        {stream.isLive ? <LiveBadge style={styles.tileLive} /> : null}
+        {stream.isLive ? (
+          <LiveBadge style={styles.tileLive} />
+        ) : stream.hasReplay ? (
+          <View style={[styles.liveBadge, styles.replayBadge, styles.tileLive]}>
+            <Text style={styles.liveBadgeText}>{t("stageCover.replay")}</Text>
+          </View>
+        ) : null}
         {stream.viewers ? (
           <View style={styles.viewers}>
             <Icon name="Eye" size={10} color="#FFFFFF" />
@@ -301,10 +310,15 @@ const CinematicLive: React.FC<CinematicLiveProps> = ({
       : Array.isArray((data as any)?.result)
         ? (data as any).result
         : [];
-    return [...rows].sort((a, b) =>
-      (Date.parse(b.startedAt || b.createdAt || "") || 0) -
-      (Date.parse(a.startedAt || a.createdAt || "") || 0)
-    ).map((row, i) => toStream(row, i, fallbackGame));
+    // On air first (newest start), then replays (newest end): the list also
+    // carries recent recordings, and start time alone put a replay above a
+    // stream that has been live for longer.
+    const onAir = (row: LiveStreamEntity) => (isStreamLive(row) ? 0 : 1);
+    const at = (row: LiveStreamEntity) =>
+      Date.parse((onAir(row) === 0 ? row.startedAt : (row as any).endedAt || row.startedAt) || row.createdAt || "") || 0;
+    return [...rows]
+      .sort((a, b) => onAir(a) - onAir(b) || at(b) - at(a))
+      .map((row, i) => toStream(row, i, fallbackGame));
   }, [data, fallbackGame]);
 
   // One ring per creator who is on air right now.
@@ -536,6 +550,7 @@ const styles = StyleSheet.create({
   tileCenter: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
   tileAvatar: { width: 40, height: 40, borderRadius: 8, borderWidth: 2, borderColor: "rgba(255,255,255,0.3)" },
   tileLive: { position: "absolute", left: 6, top: 6 },
+  replayBadge: { backgroundColor: "rgba(0,0,0,0.65)" },
   viewers: {
     position: "absolute",
     right: 6,
