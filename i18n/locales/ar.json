@@ -109,7 +109,12 @@
     "addToMoment": "إضافة إلى لحظتك",
     "moreActions": "خيارات القصة",
     "remixing": "إعادة مزج قصة {{name}}",
-    "watchOriginal": "مشاهدة القصة الأصلية", "shareToMoment": "مشاركة في لحظة", "goToPost": "الانتقال إلى المنشور", "fromYourPost": "من منشورك", "postNotPublic": "يمكن مشاركة المنشورات العامة فقط في لحظة.", "postNotMedia": "يمكن مشاركة منشورات الصور والفيديو فقط في لحظة.",
+    "watchOriginal": "مشاهدة القصة الأصلية",
+    "shareToMoment": "مشاركة في لحظة",
+    "goToPost": "الانتقال إلى المنشور",
+    "fromYourPost": "من منشورك",
+    "postNotPublic": "يمكن مشاركة المنشورات العامة فقط في لحظة.",
+    "postNotMedia": "يمكن مشاركة منشورات الصور والفيديو فقط في لحظة.",
     "translate": "ترجمة",
     "seeOriginal": "عرض الأصل",
     "translating": "جارٍ الترجمة…",
@@ -8489,7 +8494,9 @@
     "hereNow": "هنا الآن",
     "nobodyYet": "لا أحد حتى الآن",
     "rotate": "تدوير الشاشة",
-    "chatPlaceholder": "اكتب..."
+    "chatPlaceholder": "اكتب...",
+    "bannedHere": "أنت ممنوع من الدردشة في هذا البث المباشر.",
+    "timedOutHere": "تم حظرك مؤقتًا من هذه الدردشة الآن."
   },
   "search": {
     "endOfResults": "نهاية النتائج",
@@ -18140,7 +18147,7 @@
     "gifHost": "اختر صورة متحركة من تبويب GIF للملاحظات.",
     "back": "العودة إلى الملاحظات",
     "fromFollowing": "من الأشخاص الذين تتابعهم",
-    "replyTo": "Reply to {{name}}…",
+    "replyTo": "الرد على {{name}}…",
     "send": "Send",
     "optionDetail": "سطر قصير أو أغنية أو صورة متحركة لمدة 24 ساعة",
     "who": "يمكن لمتابعيك رؤيتها لمدة 24 ساعة.",

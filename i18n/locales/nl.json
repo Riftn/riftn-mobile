@@ -109,7 +109,12 @@
     "addToMoment": "Toevoegen aan je moment",
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
-    "watchOriginal": "Oorspronkelijk verhaal bekijken", "shareToMoment": "Delen als Moment", "goToPost": "Naar bericht", "fromYourPost": "Uit je bericht", "postNotPublic": "Alleen openbare berichten kunnen als Moment worden gedeeld.", "postNotMedia": "Alleen foto- en videoberichten kunnen als Moment worden gedeeld.",
+    "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "shareToMoment": "Delen als Moment",
+    "goToPost": "Naar bericht",
+    "fromYourPost": "Uit je bericht",
+    "postNotPublic": "Alleen openbare berichten kunnen als Moment worden gedeeld.",
+    "postNotMedia": "Alleen foto- en videoberichten kunnen als Moment worden gedeeld.",
     "translate": "Vertalen",
     "seeOriginal": "Origineel bekijken",
     "translating": "Vertalen…",
@@ -8603,7 +8608,9 @@
     "hereNow": "Nu hier",
     "nobodyYet": "Nog niemand",
     "rotate": "Scherm roteren",
-    "chatPlaceholder": "typ..."
+    "chatPlaceholder": "typ...",
+    "bannedHere": "Je mag niet meer chatten in deze livestream.",
+    "timedOutHere": "Je bent voorlopig uit deze chat verwijderd."
   },
   "search": {
     "endOfResults": "Einde van de resultaten",
@@ -18359,7 +18366,7 @@
     "gifHost": "Kies een GIF uit het GIF-tabblad voor notities.",
     "back": "Terug naar notities",
     "fromFollowing": "Van mensen die je volgt",
-    "replyTo": "Reply to {{name}}…",
+    "replyTo": "Reageer op {{name}}…",
     "send": "Send",
     "optionDetail": "Een korte zin, nummer of GIF voor 24 uur",
     "who": "Mensen die jou volgen kunnen hem 24 uur zien.",

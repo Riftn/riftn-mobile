@@ -10329,7 +10329,9 @@
     "mostActive": "Mees aktiewe",
     "hereNow": "Hier nou",
     "nobodyYet": "Niemand nog nie",
-    "rotate": "Roteer skerm"
+    "rotate": "Roteer skerm",
+    "bannedHere": "Jy is verbied om in hierdie regstreekse uitsending te gesels.",
+    "timedOutHere": "Jy is vir eers uit hierdie klets geskors."
   },
   "search": {
     "endOfResults": "Einde van resultate",
@@ -17480,5 +17482,8 @@
     "addQuestion": "Voeg vraag by",
     "pointsLabel": "Punte per regte antwoord",
     "attachFailed": "Jou plasing is op, maar die vasvra kon nie bygevoeg word nie"
+  },
+  "notes": {
+    "replyTo": "Antwoord aan {{name}}…"
   }
 }

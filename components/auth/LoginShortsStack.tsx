@@ -11,6 +11,7 @@ import { useReducedMotion } from "react-native-reanimated";
 import { KeepDarkScope } from "../../libs/jsx/tone";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { loginClipLanes } from "../../libs/login-clip-lanes";
+import { steadyHeight } from "../../libs/steady-height";
 import { useLoginLook } from "../../libs/login-look";
 import LoginSign from "./LoginSign";
 import { LOGIN_CLIPS as CLIPS } from "./login-clip-assets";
@@ -151,6 +152,8 @@ export interface LoginStackHeadline {
   accent: string;
 }
 
+const HEADLINE_OVERLAP = -32;
+
 export default function LoginShortsStack({ viewportHeight, reservedHeight = 360, headline }: { viewportHeight?: number; reservedHeight?: number; headline?: LoginStackHeadline }) {
   const { t } = useTranslation();
   const { theme, isLight } = useAppTheme();
@@ -179,7 +182,13 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
   // Native navigation can give the sheet less space than the window reports.
   // Budget against the actual scroll frame, reserving room for the form.
   const availableHeight = viewportHeight ?? screenH - insets.top - insets.bottom;
-  const lanesH = Math.floor(Math.max(160, availableHeight - reservedHeight));
+  // The headline sits under the lanes (pulled up 32 into their fade) and
+  // wraps to three lines in some languages (Turkish, German), so the lanes
+  // give up whatever it really takes. Reserving only the form's height left
+  // the sign-in options cut off under the legal line.
+  const [signH, setSignH] = useState(0);
+  const headlineExtra = Math.max(0, signH + HEADLINE_OVERLAP);
+  const lanesH = Math.floor(Math.max(160, availableHeight - reservedHeight - headlineExtra));
 
   return (
     <View style={styles.root}>
@@ -201,7 +210,9 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
           </View>
         </MaskedView>
       </KeepDarkScope>
-      <LoginSign style={styles.headline} look={look} text={headlineText} theme={theme} isLight={isLight} still={still} />
+      <View style={styles.headline} onLayout={(e) => setSignH(steadyHeight(e.nativeEvent.layout.height))}>
+        <LoginSign look={look} text={headlineText} theme={theme} isLight={isLight} still={still} />
+      </View>
     </View>
   );
 }
@@ -229,5 +240,5 @@ const styles = StyleSheet.create({
   aiText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800", letterSpacing: 0.2 },
   // The headline is two lines (each fits on one), so the sign sits a line lower
   // than when the first line used to break in two.
-  headline: { marginTop: -32 },
+  headline: { marginTop: HEADLINE_OVERLAP },
 });

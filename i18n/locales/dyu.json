@@ -10289,7 +10289,9 @@
     "hereNow": "Yan sisan",
     "nobodyYet": "Mɔgɔ si ma deli ka",
     "watchingCount": "{{formatted}} watching",
-    "rotate": "Sɛnɛkɛyɔrɔ"
+    "rotate": "Sɛnɛkɛyɔrɔ",
+    "bannedHere": "I ka bali ka kuma niɲɛta kɔnɔ nin live stream kɔnɔ.",
+    "timedOutHere": "I bɛ ɲini ka kɛɲɛ ka taa ɲɛfɛ ka bɔ nin kuma ɲɔgɔnna sisan fɔlɔ."
   },
   "search": {
     "endOfResults": "Jaabiw laban",
@@ -17348,5 +17350,8 @@
     "addQuestion": "Sɛbɛnni fara a kan",
     "pointsLabel": "Pwen min bɛ sɔrɔ jaabi teli kelen bɛɛ la",
     "attachFailed": "I ka post bɔra, nka quiz ma se ka fara a kan"
+  },
+  "notes": {
+    "replyTo": "Jaabi si {{name}}…"
   }
 }

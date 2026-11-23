@@ -10296,7 +10296,9 @@
     "hereNow": "İndi burada",
     "nobodyYet": "Hələ heç kim yoxdur",
     "hereCount": "{{formatted}} here",
-    "rotate": "Ekranı fırlat"
+    "rotate": "Ekranı fırlat",
+    "bannedHere": "Bu canlı yayımda söhbət etmək qadağandır.",
+    "timedOutHere": "Hələlik bu söhbətdə iştirakınız məhdudlaşdırılıb."
   },
   "search": {
     "endOfResults": "Nəticələrin sonu",
@@ -17355,5 +17357,8 @@
     "addQuestion": "Sual əlavə et",
     "pointsLabel": "Düzgün cavab üçün xallar",
     "attachFailed": "Paylaşımınız yerləşdirilib, lakin viktorinanı əlavə etmək mümkün olmadı"
+  },
+  "notes": {
+    "replyTo": "{{name}}-a cavab ver…"
   }
 }

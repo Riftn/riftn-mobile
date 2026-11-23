@@ -10366,7 +10366,9 @@
     "mostActive": "Am aktivsten",
     "hereNow": "Jetzt hier",
     "nobodyYet": "Noch niemand",
-    "rotate": "Bildschirm drehen"
+    "rotate": "Bildschirm drehen",
+    "bannedHere": "Du darfst in diesem Livestream nicht mehr chatten.",
+    "timedOutHere": "Du bist vorerst von diesem Chat ausgeschlossen."
   },
   "search": {
     "endOfResults": "Ende der Ergebnisse",
@@ -17397,5 +17399,8 @@
     "addQuestion": "Frage hinzufügen",
     "pointsLabel": "Punkte pro richtige Antwort",
     "attachFailed": "Dein Beitrag ist online, aber das Quiz konnte nicht hinzugefügt werden"
+  },
+  "notes": {
+    "replyTo": "Antworte auf {{name}}…"
   }
 }

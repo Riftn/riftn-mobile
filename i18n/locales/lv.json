@@ -10296,7 +10296,9 @@
     "mostActive": "Aktīvākie",
     "hereNow": "Šeit tagad",
     "nobodyYet": "Vēl neviens",
-    "rotate": "Pagriezt ekrānu"
+    "rotate": "Pagriezt ekrānu",
+    "bannedHere": "Jums ir aizliegts tērzēt šajā tiešraidē.",
+    "timedOutHere": "Pagaidām jums ir liegta piekļuve šai tērzēšanai."
   },
   "search": {
     "endOfResults": "Rezultātu beigas",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "Pastāsti, ko {{handle}} nesen publicējis",
     "promptMessage": "Palīdzi man uzrakstīt ziņu {{handle}}",
     "promptAbout": "Par {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Atbildēt uz {{name}}…"
   }
 }

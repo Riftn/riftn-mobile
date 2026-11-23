@@ -69,6 +69,13 @@ export async function configureForBackgroundPlayback(): Promise<void> {
 /**
  * Hand the session back to its foreground-only default.
  *
+ * The default MIXES with other apps. Nothing in the app is audible at this
+ * point, and a non-mixing playback category (what "doNotMix" gives) stops the
+ * viewer's own music or podcast the moment iOS applies it, even though every
+ * video on screen is muted. Music now keeps going until something here plays
+ * with sound, which claims the session again through
+ * configureForBackgroundPlayback() or expo-video's own "auto" mixing.
+ *
  * Pair this with configureForBackgroundPlayback() when a deliberate playback
  * surface unmounts. Skip it and the *next* thing to play — a muted feed
  * preview, a voice note — inherits a session that keeps running in the
@@ -80,7 +87,7 @@ export async function releaseBackgroundPlayback(): Promise<void> {
     allowsRecording: false,
     playsInSilentMode: true,
     shouldPlayInBackground: false,
-    interruptionMode: "doNotMix",
+    interruptionMode: "mixWithOthers",
   });
 }
 

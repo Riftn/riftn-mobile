@@ -10297,7 +10297,9 @@
     "mostActive": "Julọ ti nṣiṣe lọwọ",
     "hereNow": "Níhìn-ín nísinsìnyí",
     "nobodyYet": "Kò sí ẹnìkan tó tíì",
-    "rotate": "Yipada iboju"
+    "rotate": "Yipada iboju",
+    "bannedHere": "O ti di fún ọ láti bá àwọn ènìyàn sọ̀rọ̀ nínú ìgbóhùnsáfẹ́fẹ́ yìí.",
+    "timedOutHere": "O ti kọjá àkókò tí a yàn fún ọ nínú ìbánisọ̀rọ̀ yìí fún ìgbà díẹ̀."
   },
   "search": {
     "endOfResults": "Òpin àwọn èsì",
@@ -17261,5 +17263,8 @@
     "promptCatchUp": "Sọ fún mi ohun tí {{handle}} ti fi síta láìpẹ́",
     "promptMessage": "Ràn mí lọ́wọ́ láti kọ ìfiranṣẹ́ sí {{handle}}",
     "promptAbout": "Nípa {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Fèsì sí {{name}}…"
   }
 }

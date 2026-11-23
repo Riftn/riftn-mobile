@@ -10291,7 +10291,9 @@
     "mostActive": "Најактивнији",
     "hereNow": "Ево сада",
     "nobodyYet": "Још нико",
-    "rotate": "Ротирај екран"
+    "rotate": "Ротирај екран",
+    "bannedHere": "Забрањено вам је да ћаскате у овом ливе стреаму",
+    "timedOutHere": "Тренутно вам је забрањено да ћаскате."
   },
   "search": {
     "endOfResults": "Крај резултата",
@@ -17257,5 +17259,8 @@
     "promptCatchUp": "Реци ми укратко шта је {{handle}} недавно објавио",
     "promptMessage": "Помози ми да напишем поруку за {{handle}}",
     "promptAbout": "О {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Одговори на {{name}}…"
   }
 }

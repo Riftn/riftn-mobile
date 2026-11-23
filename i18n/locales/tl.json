@@ -10362,7 +10362,9 @@
     "mostActive": "Pinakaaktibo",
     "hereNow": "Narito ngayon",
     "nobodyYet": "Wala pang tao",
-    "rotate": "I - rotate ang screen"
+    "rotate": "I - rotate ang screen",
+    "bannedHere": "Bawal kang makipag-chat sa livestream na ito.",
+    "timedOutHere": "Ikaw ay napag-timeout sa pag-uusap sa oras na ito para sa ngayon."
   },
   "search": {
     "endOfResults": "Katapusan ng mga resulta",
@@ -17460,5 +17462,8 @@
     "promptCatchUp": "Ibalita mo sa akin ang mga pinost ni {{handle}} kamakailan",
     "promptMessage": "Tulungan mo akong sumulat ng mensahe kay {{handle}}",
     "promptAbout": "Tungkol kay {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Sumagot kay {{name}}…"
   }
 }

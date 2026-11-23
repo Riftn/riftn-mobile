@@ -10296,7 +10296,9 @@
     "mostActive": "Ko te nuinga o te mahi",
     "hereNow": "I konei inaianei",
     "nobodyYet": "Kaore ano tetahi",
-    "rotate": "Mata hurihuri"
+    "rotate": "Mata hurihuri",
+    "bannedHere": "Kua aukatia koe kia kōrero i tēnei roma ora.",
+    "timedOutHere": "Kua aukatia koe i tēnei kōrerorero mō nāianei."
   },
   "search": {
     "endOfResults": "Mutunga o ngā hua",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "Whakamōhio mai ki ngā mea i whakairi a {{handle}} inakuanei",
     "promptMessage": "Āwhina mai ki te tuhi karere ki a {{handle}}",
     "promptAbout": "Mō {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Whakautu ki {{name}}…"
   }
 }

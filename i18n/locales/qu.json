@@ -10327,7 +10327,9 @@
     "mostActive": "Aswan activo",
     "hereNow": "Kaypi kunan",
     "nobodyYet": "Manaraqmi pipas",
-    "rotate": "Pantalla muyuchiy"
+    "rotate": "Pantalla muyuchiy",
+    "bannedHere": "Kaypi live stream nisqapi rimanaykipaq hark'asqanki.",
+    "timedOutHere": "Kay rimaymanta kunanqa pacha tukukunki."
   },
   "search": {
     "endOfResults": "Tarisqakuna tukuy",
@@ -17291,5 +17293,8 @@
     "promptCatchUp": "{{handle}} qayllapi ima churasqanta willaway",
     "promptMessage": "{{handle}}-man willakuyta qillqanaypaq yanapaway",
     "promptAbout": "{{handle}}-manta: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}…man kutichiy"
   }
 }

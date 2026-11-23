@@ -10296,7 +10296,9 @@
     "hereCount": "{{formatted}} دلته",
     "watchingCount": "{{formatted}} ګوري",
     "startedAgo": "پیل شو {{time}}",
-    "rotate": "د سکرین شاټ بدل کړئ"
+    "rotate": "د سکرین شاټ بدل کړئ",
+    "bannedHere": "تاسو په دې ژوندۍ خپرونه کې له خبرو کولو منع شوي یاست.",
+    "timedOutHere": "تاسو د اوس لپاره له دې چټ څخه موقتي بند شوي یاست."
   },
   "search": {
     "endOfResults": "د پایلو پای",
@@ -17259,5 +17261,8 @@
     "promptCatchUp": "خبر مې کړه چې {{handle}} پدې وروستیو کې څه پوسټ کړي",
     "promptMessage": "د {{handle}} لپاره د پیغام په لیکلو کې مرسته راسره وکړه",
     "promptAbout": "د {{handle}} په اړه: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} ته ځواب ورکړه…"
   }
 }

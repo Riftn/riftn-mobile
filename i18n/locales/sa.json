@@ -10297,7 +10297,9 @@
     "hereNow": "इदानीम् अत्र",
     "nobodyYet": "अद्यापि कोऽपि",
     "watchingCount": "{{formatted}} watching",
-    "rotate": "स्क्रीन घुमाएं"
+    "rotate": "स्क्रीन घुमाएं",
+    "bannedHere": "अस्मिन् प्रत्यक्षप्रवाहे वार्तालापात् त्वं निषिद्धः।",
+    "timedOutHere": "अस्मात् संवादात् त्वं सम्प्रति विरामितः।"
   },
   "search": {
     "endOfResults": "फलानाम् अन्तः",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "{{handle}} अद्यतनकाले किं प्रकाशितवान् इति मां वद",
     "promptMessage": "{{handle}} प्रति सन्देशलेखने मम साहाय्यं कुरु",
     "promptAbout": "{{handle}} विषये: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}… इति प्रत्युत्तरं ददातु"
   }
 }

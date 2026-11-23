@@ -10296,7 +10296,9 @@
     "mostActive": "سب توں سرگرم",
     "hereNow": "ہن ایتھ",
     "nobodyYet": "ہن تک کوئی نئیں",
-    "rotate": "سکرین گھُماؤ"
+    "rotate": "سکرین گھُماؤ",
+    "bannedHere": "تُساں اِیں لائیو سٹریم وِچ گَل بات کرݨ توں پابند او۔",
+    "timedOutHere": "تساں فی الحال ایں چیٹ توں ٹائم آؤٹ تھی گئے او۔"
   },
   "search": {
     "endOfResults": "نتیجیاں دا آخر",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "میکوں ڈسو {{handle}} حالیہ کیا پوسٹ کیتے",
     "promptMessage": "{{handle}} کوں پیغام لکھݨ وچ میݙی مدد کرو",
     "promptAbout": "{{handle}} بارے: {{question}}"
+  },
+  "notes": {
+    "replyTo": "جواب دیو {{name}}…"
   }
 }

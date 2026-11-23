@@ -10294,7 +10294,9 @@
     "hereNow": "Halkan hadda",
     "nobodyYet": "Ilaa iyo hadda ma jirto cid",
     "whosHere": "Yaa halkan jooga",
-    "rotate": "Rotate shaashadda"
+    "rotate": "Rotate shaashadda",
+    "bannedHere": "Waa lagaa mamnuucay inaad ku sheekaysato baahintan tooska ah.",
+    "timedOutHere": "Waqtigan xaadirka ah, si ku-meel-gaar ah ayaa lagaa saaray wada sheekaysigan."
   },
   "search": {
     "endOfResults": "Dhammaadka natiijooyinka",

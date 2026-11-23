@@ -10296,7 +10296,9 @@
     "hereCount": "{{formatted}} дар ин ҷо",
     "watchingCount": "{{formatted}} тамошо мекунанд",
     "topTippers": "Беҳтарин хайриякунандагон",
-    "rotate": "Даврзанонии экран"
+    "rotate": "Даврзанонии экран",
+    "bannedHere": "Шумо аз сӯҳбат кардан дар ин пахши мустақим манъ шудаед.",
+    "timedOutHere": "Ҳоло шумо аз ин чат муваққатан хориҷ карда шудаед."
   },
   "search": {
     "endOfResults": "Охири натиҷаҳо",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "Маро огоҳ кун, ки {{handle}} охирҳо чӣ нашр кардааст",
     "promptMessage": "Ба ман кӯмак кун, ки ба {{handle}} паём нависам",
     "promptAbout": "Дар бораи {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Ба {{name}} ҷавоб диҳед…"
   }
 }

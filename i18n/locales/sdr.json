@@ -9692,7 +9692,9 @@
     "upcomingStream": "आवेवाला स्ट्रीम",
     "startsIn": "{{time}} सुरु होई",
     "notStartedYet": "स्ट्रीमर अभी तक प्रसारन सुरु नी करल हय",
-    "leftStream": "स्ट्रीम छोड़ देलक"
+    "leftStream": "स्ट्रीम छोड़ देलक",
+    "bannedHere": "तोरा ए लाइव स्ट्रीम मं गप करे से रोक देल गेल हे।",
+    "timedOutHere": "तुम्हें अभी खातिर ई चैट से टाइम आउट कर देल गेल हे।"
   },
   "search": {
     "close": "खोज बंद करें",
@@ -17252,5 +17254,8 @@
     "promptCatchUp": "मोके बतावा कि {{handle}} हाल में का पोस्ट करलक",
     "promptMessage": "{{handle}} के मैसेज लिखेक में मोर मदद करा",
     "promptAbout": "{{handle}} कर बारे में: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} ला जवाब दे…"
   }
 }
