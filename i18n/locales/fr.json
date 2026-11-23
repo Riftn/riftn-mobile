@@ -8447,7 +8447,8 @@
     "mostActive": "Les plus actifs",
     "hereNow": "Ici maintenant",
     "nobodyYet": "Personne pour le moment",
-    "rotate": "Faire pivoter l'écran"
+    "rotate": "Faire pivoter l'écran",
+    "chatPlaceholder": "écris..."
   },
   "search": {
     "endOfResults": "Fin des résultats",

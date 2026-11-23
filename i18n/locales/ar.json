@@ -8467,7 +8467,8 @@
     "mostActive": "الأكثر نشاطًا",
     "hereNow": "هنا الآن",
     "nobodyYet": "لا أحد حتى الآن",
-    "rotate": "تدوير الشاشة"
+    "rotate": "تدوير الشاشة",
+    "chatPlaceholder": "اكتب..."
   },
   "search": {
     "endOfResults": "نهاية النتائج",

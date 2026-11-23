@@ -8442,7 +8442,8 @@
     "mostActive": "En aktif",
     "hereNow": "Şimdi burada",
     "nobodyYet": "Henüz hiç kimse",
-    "rotate": "Ekranı döndür"
+    "rotate": "Ekranı döndür",
+    "chatPlaceholder": "yaz..."
   },
   "search": {
     "open": "Ara",
