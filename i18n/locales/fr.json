@@ -200,7 +200,9 @@
       "view": "1 vue"
     },
     "destructSecs": "{{n}} sec",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Autoriser une relecture",
+    "timerReplayBody": "Ils peuvent l’ouvrir une fois de plus. Le compte à rebours repart."
   },
   "assistantCards": {
     "requestDraft": "Brouillon de demande publique",
@@ -8121,7 +8123,13 @@
       "opened": "Ouvert",
       "tapPhoto": "Appuyez pour voir",
       "tapVideo": "Appuyez pour regarder",
-      "goneAfter": "Disparaît {{time}} après l’ouverture"
+      "goneAfter": "Disparaît {{time}} après l’ouverture",
+      "left": "{{n}} s",
+      "replayAllowed": "Une relecture autorisée",
+      "tapReplay": "Appuyez pour revoir",
+      "lastView": "Dernière vue, {{time}}",
+      "goneAfterReplay": "Disparaît {{time}} après l’ouverture. Une relecture.",
+      "replaying": "Relecture"
     },
     "messagePlaceholder": "Message",
     "voiceNoteEmoji": "🎤 Note vocale",

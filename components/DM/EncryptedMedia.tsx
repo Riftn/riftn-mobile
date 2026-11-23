@@ -11,6 +11,7 @@
  */
 import DmVideoTile from "./DmVideoTile";
 import type { DmDestruct } from "../../libs/dm-destruct";
+import DmTimeLeft from "./DmTimeLeft";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator, useWindowDimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -212,24 +213,26 @@ const EncryptedMediaComponent: React.FC<Props> = ({
 
   if (d.kind === "image") {
     return (
-      <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}>
-        <View className="bg-theme-neutrals-700" style={{ width: boxW, height: boxH }}>
-          {shown ? (
-            <SmartImage
-              source={{ uri: shown }}
-              recyclingKey={shown}
-              style={{ width: boxW, height: boxH }}
-              contentFit="cover"
-              // Plaintext stays in our own cache file, not expo-image's disk cache.
-              cachePolicy="memory"
-              onError={() => { void rebuild(); }}
-            />
-          ) : (
-            placeholder
-          )}
-          {!shown && overlay(null)}
-        </View>
-      </TouchableOpacity>
+      <DmTimeLeft destruct={destruct}>
+        <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}>
+          <View className="bg-theme-neutrals-700" style={{ width: boxW, height: boxH }}>
+            {shown ? (
+              <SmartImage
+                source={{ uri: shown }}
+                recyclingKey={shown}
+                style={{ width: boxW, height: boxH }}
+                contentFit="cover"
+                // Plaintext stays in our own cache file, not expo-image's disk cache.
+                cachePolicy="memory"
+                onError={() => { void rebuild(); }}
+              />
+            ) : (
+              placeholder
+            )}
+            {!shown && overlay(null)}
+          </View>
+        </TouchableOpacity>
+      </DmTimeLeft>
     );
   }
 

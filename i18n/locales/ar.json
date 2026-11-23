@@ -200,7 +200,9 @@
       "view": "مشاهدة واحدة"
     },
     "destructSecs": "{{n}} ثانية",
-    "destructShortSecs": "{{n}}ث"
+    "destructShortSecs": "{{n}}ث",
+    "timerReplay": "السماح بإعادة واحدة",
+    "timerReplayBody": "يمكنهم فتحه مرة أخرى. يبدأ العد التنازلي من جديد."
   },
   "assistantCards": {
     "requestDraft": "مسودة طلب عام",
@@ -8141,7 +8143,13 @@
       "opened": "تم الفتح",
       "tapPhoto": "اضغط للعرض",
       "tapVideo": "اضغط للمشاهدة",
-      "goneAfter": "يختفي بعد {{time}} من فتحه"
+      "goneAfter": "يختفي بعد {{time}} من فتحه",
+      "left": "{{n}} ث",
+      "replayAllowed": "مسموح بإعادة واحدة",
+      "tapReplay": "اضغط للإعادة",
+      "lastView": "آخر مشاهدة، {{time}}",
+      "goneAfterReplay": "يختفي بعد {{time}} من فتحه. إعادة واحدة.",
+      "replaying": "إعادة"
     },
     "messagePlaceholder": "رسالة...",
     "voiceNoteEmoji": "🎤 ملاحظة صوتية",

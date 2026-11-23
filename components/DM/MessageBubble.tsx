@@ -62,6 +62,7 @@ import LockedMedia from "./LockedMedia";
 import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
 import type { DmDestruct } from "../../libs/dm-destruct";
+import DmTimeLeft from "./DmTimeLeft";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
 import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm, primeDmPair } from "../../libs/dm-translation-store";
@@ -1090,13 +1091,14 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       onLongPress={handleLongPress}
                     />
                   ) : (
-                    <AutoImage
-                      key={idx}
-                      uri={item.url}
-                      isGif={item.kind === "gif"}
-                      onPress={() => handleImageTap(item.url, idx)}
-                      onLongPress={handleLongPress}
-                    />
+                    <DmTimeLeft key={idx} destruct={message.destruct}>
+                      <AutoImage
+                        uri={item.url}
+                        isGif={item.kind === "gif"}
+                        onPress={() => handleImageTap(item.url, idx)}
+                        onLongPress={handleLongPress}
+                      />
+                    </DmTimeLeft>
                   ),
                 )}
                 {/* Upload progress / failure overlay */}

@@ -1722,7 +1722,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         duration: attachment.duration,
         lockPrice: attachment.lockPrice || undefined,
         ...(attachment.type === "video" && attachment.options ? { mediaOptions: attachment.options } : {}),
-        ...(attachment.type === "video" && attachment.destruct ? { destruct: attachment.destruct } : {}),
+        // Timers ride on photos and videos alike (the studio offers them for both).
+        ...((attachment.type === "video" || attachment.type === "image") && attachment.destruct ? { destruct: attachment.destruct } : {}),
         caption: caption?.trim(),
         replyTo,
         dmFee,
