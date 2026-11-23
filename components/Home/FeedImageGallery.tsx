@@ -77,7 +77,8 @@ function FeedImageGallery({ images, width, fallbackWidth, active, prioritizeMedi
   const { liteMode } = useDataSaver();
   const { height: screenHeight } = useWindowDimensions();
   const { isMinimal } = useAppTheme();
-  const edgeToEdge = isMinimal || !!useFeedBleed();
+  const bleed = useFeedBleed();
+  const edgeToEdge = isMinimal || !!bleed;
   const aspects = useGalleryAspects(images);
   // The strip is as tall as its tallest photo, in a thin frame. Shorter
   // photos are cropped to fill it, so no post shows blank space inside. Photos not measured yet borrow the tallest

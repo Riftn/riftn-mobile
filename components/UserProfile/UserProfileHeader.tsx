@@ -2,7 +2,8 @@ import { PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from '../Profile/usePr
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
 import React, { useCallback, useMemo, useRef } from "react";
-import { View, Text, TouchableOpacity, Pressable, ActivityIndicator, StyleSheet, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, Pressable, ActivityIndicator, StyleSheet, useWindowDimensions, Linking } from "react-native";
+import { readAccountCategory, readContactEmail } from "../../libs/account-type";
 import Animated from "react-native-reanimated";
 import { openBadgeShowcase } from "../../libs/badgeShowcase";
 import SmartImage from "../common/SmartImage";
@@ -19,11 +20,14 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { TranslateButton } from "../ui/TranslateButton";
 import MutualFollowers from "./MutualFollowers";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
+import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
+import EarlySupporterChip from "../common/EarlySupporterChip";
 import { useTranslation as useI18n } from "react-i18next";
-import { formatNumber } from "../../libs/numbers.util";
+import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
+import ProfileBio from "../Profile/ProfileBio";
 import TotalReachPill from "../Profile/TotalReachPill";
 import ProfileLinksPill from "../Profile/ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -34,7 +38,7 @@ import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList, { type ProfileField } from "../Profile/ProfileFieldsList";
-import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 
 const GLASS_GRADIENT: [string, string, string] = [
   "rgba(255,255,255,0.20)",
@@ -72,6 +76,8 @@ export interface UserProfileHeaderProps {
   /** Label/value lines under the bio — see ProfileFieldsList. */
   profileFields?: ProfileField[] | null;
   publicTimeZone?: string;
+  /** The profile's `customs`: account type, category and business contact email. */
+  customs?: Record<string, unknown>;
   isFollowing?: boolean;
   isFollowRequestPending?: boolean;
   followLoading?: boolean;
@@ -123,6 +129,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   bioLanguage,
   profileFields,
   publicTimeZone,
+  customs,
   isFollowing = false,
   isFollowRequestPending = false,
   followLoading = false,
@@ -359,6 +366,20 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   </View>
                 </TouchableOpacity>
               )}
+              {!isBlocked && !isOwnProfile && !!readContactEmail(customs) && (
+                <TouchableOpacity
+                  onPress={() => { void Linking.openURL(`mailto:${readContactEmail(customs)}`); }}
+                  activeOpacity={0.7}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("accountType.contact")}
+                  style={[btn, s.iconBtn, isMinimal && s.minimalIconBtn]}
+                >
+                  {glassLayers}
+                  <View style={s.glassBtnContent}>
+                    <Icon name="Mail" size={16} color="#fff" />
+                  </View>
+                </TouchableOpacity>
+              )}
               {!!onOpenOptions && (
                 <TouchableOpacity
                   onPress={onOpenOptions}
@@ -425,18 +446,24 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             {/* A lent badge draws like any other badge everywhere else; this is
                 the one place that says whose it is. */}
             <BadgePatronChip lookupId={address || username} />
+            {/* One of their requests on the Requests board shipped. */}
+            <EarlySupporterChip address={address} username={username} />
           </View>
 
-          {!!bio && (
+          {!!displayBio && (
             <View className="mt-3">
-              <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{displayBio}</Text>
+              <ProfileBio text={displayBio} />
             </View>
           )}
 
+          {/* Creator or Business category, Instagram style. */}
+          {!!readAccountCategory(customs) && (
+            <Text className="mt-2 text-sm text-zinc-400">{t(`accountType.cat.${readAccountCategory(customs)}`)}</Text>
+          )}
           <ProfileFieldsList fields={profileFields} />
           {localTime ? (
             <Text className="mt-1 text-sm text-zinc-400">
-              {t("profile.localTime", { defaultValue: "Local time {{time}}", time: localTime })}
+              {localTimeLine(t as never, localTime, publicTimeZone)}
             </Text>
           ) : null}
 
@@ -464,7 +491,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   activeOpacity={onStatPress ? 0.7 : 1}
                 >
                   <Text style={{ fontSize: 16, lineHeight: 22 }}>
-                    <Text className="text-white font-bold">{formatNumber(followingItem.value, 0)}</Text>
+                    <Text className="text-white font-bold">{formatCount(followingItem.value)}</Text>
                     <Text className="text-zinc-400"> {t("profile.following")}</Text>
                   </Text>
                 </TouchableOpacity>
@@ -475,7 +502,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   activeOpacity={onStatPress ? 0.7 : 1}
                 >
                   <Text style={{ fontSize: 16, lineHeight: 22 }}>
-                    <Text className="text-white font-bold">{formatNumber(followersItem.value, 0)}</Text>
+                    <Text className="text-white font-bold">{formatCount(followersItem.value)}</Text>
                     <Text className="text-zinc-400"> {t("profile.followers")}</Text>
                   </Text>
                 </TouchableOpacity>
@@ -484,6 +511,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   counts under its `customs` come along with the links. */}
               {followersItem && (
                 <TotalReachPill
+                  wallet={address}
                   source={socials as Record<string, unknown> | undefined}
                   followers={followersItem.value}
                 />
@@ -513,6 +541,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
         {/* The streamer ladder. Renders nothing until a stream has ended,
             so a non-streamer's profile is unchanged. */}
         {isOwnProfile && !isBlocked && <StreamerLevelCard address={address} className="mt-3" />}
+
+        {/* The creator's stream pet, for everyone. Nothing for someone without one. */}
+        {!isBlocked && <ProfilePetCard address={address} own={isOwnProfile} className="mt-3" />}
 
         {/* Followers can subscribe to the creator's pinned plans. */}
         {!isOwnProfile && !isBlocked && isFollowing && plansLoading && !hasPlans ? (

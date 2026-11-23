@@ -29,6 +29,7 @@ export interface SerializedPollData {
   question: string;
   options: string[];
   expiresAt: string;
+  durationHours?: number;
   isMultipleChoice: boolean;
 }
 
@@ -210,6 +211,12 @@ let ACTIVE_KEY: string | null = null;
  * ended up in another's slot.
  */
 let switchingAccount = false;
+let accountGeneration = 0;
+let hydrated = false;
+
+export function ownsUploadJob(job: UploadJob): boolean {
+  return !!ACTIVE_KEY && ACTIVE_KEY === CACHE_PREFIX + ":" + job.walletAddress?.toLowerCase();
+}
 
 /**
  * Write whatever is queued under the key it belongs to, before letting go.
@@ -230,7 +237,7 @@ const flushOutgoingQueue = (): void => {
     clearTimeout(persistTimer);
     persistTimer = null;
   }
-  if (outgoingKey && outgoing.length) {
+  if (outgoingKey && (hydrated || outgoing.length)) {
     AsyncStorage.setItem(outgoingKey, JSON.stringify({ jobs: outgoing })).catch(() => {});
   }
 };
@@ -241,6 +248,8 @@ export const setUploadCacheKey = (walletAddress: string | null): void => {
 
   flushOutgoingQueue();
 
+  accountGeneration++;
+  hydrated = false;
   switchingAccount = true;
   ACTIVE_KEY = next;
   // Drop the outgoing account's jobs immediately rather than leaving them
@@ -253,19 +262,35 @@ export const hydrateUploadStore = async (): Promise<void> => {
     switchingAccount = false;
     return;
   }
+  const generation = accountGeneration;
+  const key = ACTIVE_KEY;
   try {
-    const raw = await AsyncStorage.getItem(ACTIVE_KEY);
+    const raw = await AsyncStorage.getItem(key);
+    if (generation !== accountGeneration) return;
     // No stored queue is a real answer — this account has nothing pending —
     // and the store was already emptied by setUploadCacheKey, so returning
     // here now leaves it empty rather than leaving the previous account's
     // jobs in place to be written out under this key.
-    if (!raw) return;
+    if (!raw) { hydrated = true; return; }
     const data = JSON.parse(raw) as Partial<UploadStoreState>;
     if (Array.isArray(data.jobs)) {
+      hydrated = true;
       // Reset any in-flight jobs to "queued" on restart (file might still be valid)
-      uploadState.jobs = data.jobs.map((j) => {
+      const enqueued = uploadState.jobs;
+      const ids = new Set(enqueued.map(job => job.id));
+      const restored = data.jobs.filter(j => !ids.has(j.id) && ownsUploadJob(j)).map((j) => {
         // Nothing follows a post's video across a restart.
         const base = { ...j, retryCount: j.retryCount ?? 0, video: undefined };
+        // Older queues dated polls from composition, even for scheduled posts.
+        const poll = base.payload?.pollData;
+        if (base.payload?.scheduledAt && poll && poll.durationHours == null) {
+          const duration = Date.parse(poll.expiresAt) - base.createdAt;
+          const scheduled = Date.parse(base.payload.scheduledAt);
+          if (Number.isFinite(duration) && duration > 0 && scheduled > base.createdAt) {
+            base.payload = { ...base.payload, pollData: { ...poll, durationHours: duration / 3_600_000,
+              expiresAt: new Date(scheduled + duration).toISOString() } };
+          }
+        }
         if (base.status === "uploading" || base.status === "processing") {
           return { ...base, status: "queued" as const, progress: 0 };
         }
@@ -274,11 +299,15 @@ export const hydrateUploadStore = async (): Promise<void> => {
         }
         return base;
       });
+      uploadState.jobs = [...restored, ...enqueued];
     }
   } catch {
     // noop
   } finally {
-    switchingAccount = false;
+    if (generation === accountGeneration) {
+      switchingAccount = false;
+      uploadState.jobs = [...uploadState.jobs];
+    }
   }
 };
 
@@ -295,9 +324,11 @@ const persist = async (): Promise<void> => {
 let persistTimer: ReturnType<typeof setTimeout> | null = null;
 subscribe(uploadState, () => {
   // Mid-switch the store is a staging area, not this account's queue.
-  if (switchingAccount) return;
-  if (persistTimer) clearTimeout(persistTimer);
+  if (switchingAccount || (!hydrated && !uploadState.jobs.length)) return;
+  // Frequent progress events must not postpone the disk checkpoint indefinitely.
+  if (persistTimer) return;
   persistTimer = setTimeout(() => {
+    persistTimer = null;
     persist().catch(() => {});
   }, 800);
 });
@@ -403,8 +434,9 @@ export const uploadActions = {
   },
 
   getNextJob(): UploadJob | undefined {
+    if (switchingAccount) return undefined;
     return uploadState.jobs.find(
-      (j) => j.status === "queued" || (j.status === "processing" && j.mintParams),
+      (j) => ownsUploadJob(j) && (j.status === "queued" || (j.status === "processing" && j.mintParams)),
     );
   },
 };
@@ -424,6 +456,9 @@ export const uploadActions = {
  */
 export const clearUploadStore = (): void => {
   flushOutgoingQueue();
+  accountGeneration++;
+  hydrated = false;
+  switchingAccount = false;
   ACTIVE_KEY = null;
   uploadState.jobs = [];
 };

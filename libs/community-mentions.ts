@@ -26,17 +26,23 @@ export interface ParsedMentions {
   here: boolean;
 }
 
+/** Positions use the original casing and leave sentence punctuation outside the link. */
+export function* chatMentionSpans(content: string) {
+  for (const match of content.matchAll(MENTION_PATTERN)) {
+    const username = match[2].replace(/[.-]+$/, '');
+    const start = match.index! + match[1].length;
+    yield { start, end: start + username.length + 1, username, broadcast: HERE_TOKENS.has(username.toLowerCase()) };
+  }
+}
+
 export function parseCommunityMentions(content: string | null | undefined): ParsedMentions {
   const usernames: string[] = [];
   const seen = new Set<string>();
   let here = false;
 
-  for (const match of (content ?? '').matchAll(MENTION_PATTERN)) {
-    // Trailing separators belong to the sentence, not the handle.
-    const handle = match[2].replace(/[.-]+$/, '').toLowerCase();
-    if (!handle) continue;
-
-    if (HERE_TOKENS.has(handle)) {
+  for (const { username, broadcast } of chatMentionSpans(content ?? '')) {
+    const handle = username.toLowerCase();
+    if (broadcast) {
       here = true;
       continue;
     }

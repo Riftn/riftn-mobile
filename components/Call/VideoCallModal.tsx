@@ -9,6 +9,7 @@ import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot } from "./CallChrome";
 import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import { usePeerIdentity } from "./usePeerIdentity";
+import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
 
 const VideoCallModal: React.FC = () => {
   const {
@@ -21,6 +22,7 @@ const VideoCallModal: React.FC = () => {
     isCameraOff,
     localCanvas,
     remoteCanvas,
+    remoteVideoEpoch,
     remoteUid,
     peerAddress,
     isMinimized,
@@ -30,6 +32,9 @@ const VideoCallModal: React.FC = () => {
     toggleSpeaker,
     toggleCamera,
     switchCamera,
+    callBackground,
+    callBackgroundSupported,
+    setCallBackground,
   } = useCall();
 
   const { t } = useTranslation();
@@ -42,6 +47,7 @@ const VideoCallModal: React.FC = () => {
   // Own camera sits just above the controls, and rises with them when subtitles show.
   // Kept above the early return so the hook order never changes between renders.
   const [footHeight, setFootHeight] = React.useState(0);
+  const [fxOpen, setFxOpen] = React.useState(false);
 
   if (!isVisible || isMinimized) return null;
 
@@ -57,7 +63,7 @@ const VideoCallModal: React.FC = () => {
     <CallStage peer={peer} live={live} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
       {live ? (
         <>
-          <RtcSurfaceView style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
+          <RtcSurfaceView key={`remote-${remoteUid}-${remoteVideoEpoch}`} style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
           {/* Name and timer ride over the other person's video once it is up. */}
           <View style={[styles.top, { paddingTop: insets.top + 14 }]} pointerEvents="none">
             <View style={styles.chip}>
@@ -89,8 +95,15 @@ const VideoCallModal: React.FC = () => {
         ) : null}
       </View>
 
+      {callBackgroundSupported ? (
+        <CallFxButton open={fxOpen} active={callBackground !== "none"} onToggle={() => setFxOpen(open => !open)} />
+      ) : null}
+
       <CallFoot onHeight={setFootHeight}>
         {isCallActive ? <CallCaptionsOverlay /> : null}
+        {callBackgroundSupported && fxOpen ? (
+          <CallBackgroundPanel value={callBackground} onPick={setCallBackground} onClose={() => setFxOpen(false)} />
+        ) : null}
         {isCallActive ? <CallCaptionsControl variant="chip" /> : null}
         <CallDock compact>
           <CallControl

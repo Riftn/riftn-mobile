@@ -60,6 +60,9 @@ import { TopBuildersCard, TopBuildersProvider } from "../components/FeatureReque
 import GlassModal from "../components/ui/GlassModal";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastWarning } from "../libs/toast";
+import { useComposeTranslate, languageLabel } from "../hooks/useComposeTranslate";
+import LanguageSelectModal from "../components/Settings/LanguageSelectModal";
+import type { DraftSetter } from "../hooks/useDraftState";
 import { localFileSize } from "../libs/storage-upload";
 import { featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
@@ -115,6 +118,8 @@ import {
 } from "../hooks/useFeatureRequests";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
+import HoldToTalkButton from "../components/FeatureRequests/HoldToTalkButton";
+import RequestStatusRow from "../components/FeatureRequests/RequestStatusRow";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
@@ -158,28 +163,6 @@ function categoryLabel(t: TFunction, category: FeatureCategory): string {
   const key = CATEGORY_I18N[category] ?? CATEGORY_I18N.other;
   return t(key, CATEGORY_LABELS[category] ?? CATEGORY_LABELS.other);
 }
-
-const STATUS_I18N: Record<string, string> = {
-  open: "features.statusOpen",
-  under_review: "features.statusUnderReview",
-  planned: "features.statusPlanned",
-  in_progress: "features.statusInProgress",
-  completed: "features.statusCompleted",
-  shipped: "features.shipped",
-  declined: "copy.2ab63e6ced90",
-};
-
-/**
- * Statuses worth a badge on an open request. `open` is the default and adds
- * nothing; shipped and completed live on their own tab. Same set, same hues as
- * web's STATUS_BADGE_STYLES.
- */
-const STATUS_BADGE: Partial<Record<FeatureStatus, { fg: string; bg: string; bd: string }>> = {
-  under_review: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  planned: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  in_progress: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  declined: { fg: "#F4F4F5", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-};
 
 function timeAgo(iso: string, t: TFunction): string {
   const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
@@ -362,17 +345,17 @@ const FeatureCard: React.FC<{
 
   // Same auto-translate as posts: a request in another language reads in the
   // reader's own, with the usual "Translated from ... / Show original" line.
-  const translationTexts = useMemo(() => ({ title: feature.title || "", description: feature.description || "" }),
-    [feature.title, feature.description]);
+  const translationTexts = useMemo(() => ({ title: feature.title || "", description: feature.description || "", statusNote: feature.status_note?.trim() || "" }),
+    [feature.title, feature.description, feature.status_note]);
   const translation = useAutoTranslate(translationTexts, undefined, true, true, feature.id);
   const shownTitle = translation.isTranslated ? (translation.translatedTexts.title || feature.title) : feature.title;
   const shownDescription = translation.isTranslated
     ? (translation.translatedTexts.description || feature.description)
     : feature.description;
 
-  const badge = STATUS_BADGE[feature.status];
+  const statusNote = (translation.isTranslated && translation.translatedTexts.statusNote) || feature.status_note?.trim() || "";
   const isNotFeasible = feature.status === "declined";
-  const notFeasibleReason = isNotFeasible ? feature.status_note?.trim() || "" : "";
+  const notFeasibleReason = isNotFeasible ? statusNote : "";
   // Owner typing the optional Not feasible reason; null when closed.
   const [reasonDraft, setReasonDraft] = useState<string | null>(null);
   const saveNotFeasible = () =>
@@ -628,26 +611,17 @@ const FeatureCard: React.FC<{
 
           <Attachments feature={feature} />
 
-          <View style={styles.badgeRow}>
-            <View style={styles.catBadge}>
-              <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
-            </View>
-            {badge && (
-              <View
-                style={[styles.statusBadge, { backgroundColor: badge.bg, borderColor: badge.bd }]}
-              >
-                <Text style={[styles.statusBadgeText, { color: badge.fg }]}>
-                  {t(STATUS_I18N[feature.status], STATUS_LABELS[feature.status])}
-                </Text>
+          <RequestStatusRow
+            status={feature.status}
+            note={statusNote}
+            earlyAccessUntil={feature.early_access_until}
+            isPoster={isAuthor}
+            categoryChip={
+              <View style={styles.catBadge}>
+                <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
               </View>
-            )}
-            {/* A short tag on a live request, e.g. "Future review" on Queued. */}
-            {feature.status !== "declined" && !!feature.status_note?.trim() && (
-              <View style={[styles.statusBadge, { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.25)" }]}>
-                <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{feature.status_note.trim()}</Text>
-              </View>
-            )}
-          </View>
+            }
+          />
 
           {/* The owners' reason for ruling it out. */}
           {!!notFeasibleReason && (
@@ -713,6 +687,34 @@ const PhotoStudio = optionalSkia(
   () => require("../components/Upload/PhotoStudio").default as typeof import("../components/Upload/PhotoStudio").default,
 );
 
+function TranslateRequestField({ text, setText, limit, disabled }: {
+  text: string;
+  setText: DraftSetter<string>;
+  limit: number;
+  disabled: boolean;
+}) {
+  const { t, i18n } = useTranslation();
+  const translator = useComposeTranslate(text, translated => {
+    if (translated.length > limit) {
+      toastWarning(t("articles.bodyTooLong", { count: translated.length - limit }));
+      return;
+    }
+    setText(current => current === text ? translated : current);
+  }, i18n.language?.split("-")[0] || "en");
+  if (!text.trim()) return null;
+  return (
+    <>
+      <Pressable accessibilityRole="button" onPress={translator.openPicker}
+        disabled={disabled || translator.busy} style={styles.promptDetails}>
+        {translator.busy ? <ActivityIndicator size="small" /> : <Icon name="Languages" size={16} color="#808089" />}
+        <Text style={styles.promptHint}>{t("common.translate")} · {languageLabel(translator.lang)}</Text>
+      </Pressable>
+      {translator.pickerOpen && <LanguageSelectModal visible selected={translator.lang}
+        title={t("common.translate")} subtitle="" onClose={translator.closePicker} onSelect={translator.choose} />}
+    </>
+  );
+}
+
 const PromptComposer: React.FC<{
   focusRequest: number;
   onSubmit: (v: { title: string; description: string; category: FeatureCategory; attachments: FeatureAttachment[] }) => Promise<unknown>;
@@ -733,9 +735,18 @@ const PromptComposer: React.FC<{
   const inputRef = React.useRef<TextInput>(null);
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
   const { isSignedIn, needsUsername } = useAuthState();
+  const user = useUser();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
   const valid = description.trim().length > 0 && description.length <= DESC_MAX;
+  const addSpoken = useCallback((spoken: string) => {
+    setDescription(previous => {
+      if (previous.length >= DESC_MAX) return previous;
+      const spacer = previous && !/\s$/.test(previous) ? " " : "";
+      return (previous + spacer + spoken).slice(0, DESC_MAX);
+    });
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, [setDescription]);
 
   const pickMedia = useCallback(async () => {
     if (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) return;
@@ -783,6 +794,7 @@ const PromptComposer: React.FC<{
         placeholder={t("features.promptPlaceholder", "Describe an idea, improvement, or bug…")}
         placeholderTextColor="#808089" multiline maxLength={DESC_MAX} editable={!submitting}
         style={[styles.input, styles.promptInput]} textAlignVertical="top" />
+      <TranslateRequestField text={description} setText={setDescription} limit={DESC_MAX} disabled={submitting} />
       {attachments.length > 0 && <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" style={styles.promptPreviews}>
         {attachments.map((attachment, index) => <View key={`${attachment.uri}-${index}`} style={styles.promptAttachment}>
           <ThemePanel style={styles.promptThumbnail}>
@@ -831,6 +843,11 @@ const PromptComposer: React.FC<{
           <Icon name="ImagePlus" size={18} color="#A1A1AA" />
           <Text style={styles.promptAttachText}>{t("features.promptAttach", "Attach images")}</Text>
         </Pressable>
+        <HoldToTalkButton wallet={user ? (user.walletAddress || user.address)?.toLowerCase() : undefined}
+          disabled={submitting || description.length >= DESC_MAX}
+          beforeStart={() => { if (isSignedIn && !needsUsername) return false; openSignIn(); return true; }}
+          onText={addSpoken} />
+        <View style={{ flex: 1 }} />
         <Text style={styles.promptCount}>{description.length}/{DESC_MAX}</Text>
       </View>
       <Text style={[styles.promptCount, { marginBottom: 8 }]}>{t("features.deviceInfoNote", "Device info is attached to help us fix bugs.")}</Text>
@@ -846,6 +863,7 @@ const PromptComposer: React.FC<{
       <Collapsible open={detailsOpen}>
         <Text style={styles.fieldLabel}>{t("features.titleLabel")}</Text>
         <TextInput value={title} onChangeText={setTitle} maxLength={TITLE_MAX} editable={!submitting} style={styles.input} />
+        <TranslateRequestField text={title} setText={setTitle} limit={TITLE_MAX} disabled={submitting} />
         <Text style={styles.fieldLabel}>{t("features.categoryLabel")}</Text>
         <View style={styles.catWrap}>{CATEGORY_KEYS.map(key => <Pressable key={key} onPress={() => setCategory(key)} disabled={submitting}
           accessibilityRole="button" accessibilityState={{ selected: category === key }} style={[styles.sheetChip, category === key && styles.sheetChipActive]}>
@@ -876,6 +894,10 @@ function FeatureRequestsBoard() {
   const canPop = useCanGoBack();
   const { isSignedIn, needsUsername } = useAuthState();
   const isAuthed = isSignedIn && !needsUsername;
+  const user = useUser();
+  const wallet = isAuthed ? (user?.walletAddress || user?.address)?.toLowerCase() : undefined;
+  const [mineOnly, setMineOnly] = useState(false);
+  const authorWallet = mineOnly ? wallet : undefined;
 
   const [tab, setTab] = useState<PageTab>("requests");
   const [sort, setSort] = useState<FeatureSort>("newest");
@@ -907,21 +929,14 @@ function FeatureRequestsBoard() {
     return () => clearTimeout(id);
   }, [search]);
 
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-    isRefetching,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useFeatureRequests(sort, listCategory, debouncedSearch);
+  const requests = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = requests;
 
-  const shipped = useShippedFeatures();
-  const inProgress = useInProgressFeatures();
-  const notFeasible = useNotFeasibleFeatures();
-  const { data: counts } = useFeatureCounts();
+
+  const shipped = useShippedFeatures(authorWallet);
+  const inProgress = useInProgressFeatures(authorWallet);
+  const notFeasible = useNotFeasibleFeatures(authorWallet);
+  const { data: counts } = useFeatureCounts(authorWallet);
   const { data: votes } = useUserVotes();
   const voteMutation = useVoteFeatureRequest();
   const submitMutation = useSubmitFeatureRequest();
@@ -933,7 +948,7 @@ function FeatureRequestsBoard() {
   const route = useRoute<any>();
   const focusedRequestId: string | undefined = route.params?.requestId;
   const focusedCommentId: string | undefined = route.params?.commentId;
-  const { data: focusedRequest } = useFeatureRequest(focusedRequestId);
+  const { data: focusedRequest } = useFeatureRequest(authorWallet ? undefined : focusedRequestId);
   // "View shipped requests" on the shipped-feedback notice opens on that tab.
   const initialTab: PageTab | undefined = route.params?.tab;
   React.useEffect(() => {
@@ -955,7 +970,7 @@ function FeatureRequestsBoard() {
     },
     [listCategory, debouncedSearch],
   );
-  const isFiltering = debouncedSearch.trim().length > 0 || listCategory !== "all";
+  const isFiltering = !!authorWallet || debouncedSearch.trim().length > 0 || listCategory !== "all";
   const rawItems = useMemo(
     () =>
       showNotFeasible
@@ -1007,27 +1022,24 @@ function FeatureRequestsBoard() {
 
   const keyExtractor = useCallback((f: FeatureRequest) => f.id, []);
 
-  const loading = showNotFeasible
-    ? notFeasible.isLoading
-    : tab === "shipped" ? shipped.isLoading : tab === "shipping" ? inProgress.isLoading : isLoading;
-  const refreshing = showNotFeasible
-    ? notFeasible.isRefetching
-    : tab === "shipped"
-      ? shipped.isRefetching
-      : tab === "shipping"
-        ? inProgress.isRefetching
-        : isRefetching;
-  const onRefresh = showNotFeasible
-    ? notFeasible.refetch
-    : tab === "shipped" ? shipped.refetch : tab === "shipping" ? inProgress.refetch : refetch;
-  const showListError = isError && tab === "requests" && !showNotFeasible;
+  const activeList = showNotFeasible ? notFeasible
+    : tab === "shipped" ? shipped : tab === "shipping" ? inProgress : requests;
+  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError: showListError } = activeList;
 
-  const openSheet = () => {
+  const openSheet = useCallback(() => {
     changeTab("requests");
     setCategory((current) => (current === NOT_FEASIBLE ? "all" : current));
     listRef.current?.scrollToOffset({ offset: 0, animated: true });
     setComposerFocus(value => value + 1);
-  };
+  }, [changeTab]);
+
+  const composeRequest = route.params?.composeRequest;
+  React.useEffect(() => {
+    if (composeRequest) {
+      navigation.setParams({ composeRequest: undefined });
+      openSheet();
+    }
+  }, [composeRequest, navigation, openSheet]);
 
   /**
    * One tab's width: screen − 16 page gutter − 32 bento padding − 8 strip
@@ -1067,8 +1079,8 @@ function FeatureRequestsBoard() {
               title: t("features.noShippingYet", "Nothing in progress"),
               body: t("features.shippingAppearHere", "Requests being built will appear here."),
             }
-        : debouncedSearch
-          ? { title: t("features.noSearchResults"), body: "" }
+        : isFiltering
+          ? noMatchCopy
           : { title: t("features.noRequestsYet"), body: t("features.beFirstIdea") };
 
   // The root SafeAreaView above the navigator already pays the status bar
@@ -1128,19 +1140,33 @@ function FeatureRequestsBoard() {
         </View>
 
         {/* Search */}
-        <View style={styles.searchWrap}>
-          <Icon name="Search" size={16} color="#808089" />
-          <TextInput
-            value={search}
-            onChangeText={setSearch}
-            placeholder={t("features.promptSearch", "Search prompts…")}
-            placeholderTextColor="#808089"
-            style={styles.searchInput}
-            returnKeyType="search"
-          />
-          {search.length > 0 && (
-            <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
-              <Icon name="X" size={15} color="#808089" />
+        <View style={styles.searchRow}>
+          <View style={styles.searchWrap}>
+            <Icon name="Search" size={16} color="#808089" />
+            <TextInput
+              value={search}
+              onChangeText={setSearch}
+              placeholder={t("features.promptSearch", "Search prompts…")}
+              placeholderTextColor="#808089"
+              style={styles.searchInput}
+              returnKeyType="search"
+            />
+            {search.length > 0 && (
+              <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
+                <Icon name="X" size={15} color="#808089" />
+              </Pressable>
+            )}
+          </View>
+          {!!wallet && (
+            <Pressable
+              accessibilityRole="togglebutton"
+              accessibilityState={{ checked: mineOnly }}
+              onPress={() => setMineOnly(previous => !previous)}
+              style={[styles.chip, styles.mineFilter, mineOnly && styles.chipActive]}
+            >
+              <Text numberOfLines={1} style={[styles.chipText, mineOnly && styles.chipTextActive]}>
+                {t("features.myRequests", "My Requests")}
+              </Text>
             </Pressable>
           )}
         </View>
@@ -1297,7 +1323,7 @@ function FeatureRequestsBoard() {
                 return result;
               }} />
             </View>
-            {tab === "requests" && !debouncedSearch && category === "all" && <TopBuildersCard compact />}
+            {tab === "requests" && !isFiltering && !showNotFeasible && <TopBuildersCard compact />}
             {focusedRequest && <FeatureCard feature={focusedRequest} myVote={votes?.[focusedRequest.id]}
               onVote={v => handleVote(focusedRequest, v)} isAuthed={isAuthed} defaultCommentsOpen={!!focusedCommentId} highlightCommentId={focusedCommentId} onHighlightMeasured={scrollToFocusedComment} />}
           </>}
@@ -1322,7 +1348,7 @@ function FeatureRequestsBoard() {
           ListEmptyComponent={loading ? <View style={styles.center}><DeHubLoader size={56} /></View> : showListError ? (
             <ThemePanel style={[styles.emptyBento, Platform.OS === "android" && skin?.card, isMinimal && minimalFlat]}>
               <Text style={styles.emptyTitle}>{t("features.loadFailed")}</Text>
-              <Pressable onPress={() => refetch()} style={styles.glassBtnSm}>
+              <Pressable onPress={() => onRefresh()} style={styles.glassBtnSm}>
                 <Text style={styles.glassBtnText}>{t("common.retry")}</Text>
               </Pressable>
             </ThemePanel>
@@ -1374,7 +1400,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   promptFilename: { fontSize: 10, color: "#A1A1AA", marginTop: 4 },
-  promptToolbar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
+  promptToolbar: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
   promptAttach: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8 },
   promptAttachText: { color: "#A1A1AA", fontSize: 13 },
   promptCount: { color: "#808089", fontSize: 11 },
@@ -1422,7 +1448,11 @@ const styles = StyleSheet.create({
   },
 
   // Search — 40pt, zinc-800 on a zinc-700 hairline.
+  searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
+  mineFilter: { maxWidth: "48%", height: 40, borderColor: "#3F3F46" },
   searchWrap: {
+    flex: 1,
+    minWidth: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -1432,7 +1462,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#27272A",
     borderWidth: 1,
     borderColor: "#3F3F46",
-    marginBottom: 12,
   },
   searchInput: { flex: 1, minWidth: 0, color: "#FFFFFF", fontSize: 14, padding: 0 },
 
@@ -1552,7 +1581,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
   },
 
-  badgeRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 8 },
   catBadge: {
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -1562,8 +1590,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.20)",
   },
   catBadgeText: { color: "#D4D4D8", fontSize: 10, fontWeight: "500", flexShrink: 0 },
-  statusBadge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8, borderWidth: 1 },
-  statusBadgeText: { fontSize: 10, fontWeight: "500", flexShrink: 0 },
 
   actionRow: {
     flexDirection: "row",

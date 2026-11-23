@@ -7,10 +7,12 @@
  *
  * Only load this through `optionalSkia` (libs/skia).
  */
-import { Skia, FontWeight, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
-import { Platform } from "react-native";
+import { Skia, FontSlant, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
 import * as FileSystem from "expo-file-system/legacy";
 import type { StoryMention } from "../../services/stories.service";
+
+import { captionFontStyle, type CaptionFont } from "./caption-fonts";
+import { lookMatrix, PHOTO_BACKDROPS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
 export const OUT_W = 1080;
 export const OUT_H = 1920;
@@ -23,21 +25,26 @@ export interface TextLayer {
   y: number;
   /** Font size as a fraction of the stage width. */
   size: number;
+  font?: CaptionFont;
   color: string;
   box: boolean;
+  /** Clockwise degrees around the centre. */
+  rotation?: number;
   mentionAddress?: string;
 }
-
-const FAMILIES = Platform.select({ ios: ["Helvetica Neue"], default: ["sans-serif"] });
 
 function layoutLine(line: string, px: number, layer: TextLayer) {
   // Paragraph shaping falls back to the system emoji font for joined sequences.
   const builder = Skia.ParagraphBuilder.Make({ maxLines: 1 });
+  const font = captionFontStyle(layer.font);
   builder.pushStyle({
     color: Skia.Color(layer.color),
     fontSize: px,
-    fontFamilies: FAMILIES,
-    fontStyle: { weight: FontWeight.Bold },
+    fontFamilies: [font.fontFamily],
+    fontStyle: {
+      weight: Number(font.fontWeight),
+      slant: font.fontStyle === "italic" ? FontSlant.Italic : FontSlant.Upright,
+    },
     ...(layer.box ? {} : {
       shadows: [{ color: Skia.Color("rgba(0,0,0,0.45)"), blurRadius: px * 0.12, offset: { x: 0, y: 0 } }],
     }),
@@ -57,6 +64,8 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
   const lineH = px * 1.18;
   const cx = layer.x * OUT_W;
   const top = layer.y * OUT_H - (lines.length * lineH) / 2;
+  canvas.save();
+  canvas.rotate(layer.rotation ?? 0, cx, layer.y * OUT_H);
   lines.forEach((line, i) => {
     const paragraph = layoutLine(line, px, layer);
     const w = paragraph.getLongestLine();
@@ -73,6 +82,7 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
     }
     paragraph.paint(canvas, cx - w / 2, lineTop + (lineH - paragraph.getHeight()) / 2);
   });
+  canvas.restore();
 }
 
 /** Tap targets use the same paragraph and padding as the exported labels. */
@@ -90,26 +100,35 @@ export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
   });
 }
 
-function drawCover(canvas: SkCanvas, image: SkImage) {
+function drawCover(canvas: SkCanvas, image: SkImage, look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur") {
   const sw = image.width();
   const sh = image.height();
-  const ratio = sw / sh;
-  const paint = Skia.Paint();
-  const cover = () => {
-    const scale = Math.max(OUT_W / sw, OUT_H / sh);
-    const w = sw * scale;
-    const h = sh * scale;
-    canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect((OUT_W - w) / 2, (OUT_H - h) / 2, w, h), paint);
+  const source = Skia.XYWHRect(0, 0, sw, sh);
+  const centeredRect = (scale: number) => {
+    const width = sw * scale;
+    const height = sh * scale;
+    return Skia.XYWHRect((OUT_W - width) / 2, (OUT_H - height) / 2, width, height);
   };
-  if (ratio <= 0.75) return cover();
-  // Much wider than tall: the whole picture over a dimmed, blurred copy.
-  const blur = Skia.Paint();
-  blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
-  blur.setColorFilter(Skia.ColorFilter.MakeMatrix([0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 1, 0]));
-  const scale = Math.max(OUT_W / sw, OUT_H / sh);
-  canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect((OUT_W - sw * scale) / 2, (OUT_H - sh * scale) / 2, sw * scale, sh * scale), blur);
-  const h = OUT_W / ratio;
-  canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect(0, (OUT_H - h) / 2, OUT_W, h), paint);
+  const fit = Math.min(OUT_W / sw, OUT_H / sh);
+  const fill = Math.max(OUT_W / sw, OUT_H / sh);
+  const stops = PHOTO_BACKDROPS[backdrop];
+  if (fill > fit && stops) {
+    const bg = Skia.Paint();
+    bg.setShader(Skia.Shader.MakeLinearGradient(
+      { x: 0, y: 0 }, { x: OUT_W * 0.35, y: OUT_H },
+      [Skia.Color(stops[0]), Skia.Color(stops[1])], null, TileMode.Clamp,
+    ));
+    canvas.drawRect(Skia.XYWHRect(0, 0, OUT_W, OUT_H), bg);
+  } else if (fill > fit) {
+    const blur = Skia.Paint();
+    blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
+    blur.setColorFilter(Skia.ColorFilter.MakeMatrix([0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 1, 0]));
+    canvas.drawImageRect(image, source, centeredRect(fill), blur);
+  }
+  const photo = Skia.Paint();
+  const matrix = lookMatrix(look);
+  if (matrix) photo.setColorFilter(Skia.ColorFilter.MakeMatrix(matrix));
+  canvas.drawImageRect(image, source, centeredRect(fit), photo);
 }
 
 async function save(snapshot: SkImage, png: boolean): Promise<string> {
@@ -121,7 +140,7 @@ async function save(snapshot: SkImage, png: boolean): Promise<string> {
 }
 
 /** The photo and its words, flattened into one 1080 x 1920 JPEG. */
-export async function composePhoto(uri: string, layers: TextLayer[]): Promise<string> {
+export async function composePhoto(uri: string, layers: TextLayer[], look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur"): Promise<string> {
   const data = await Skia.Data.fromURI(uri);
   const image = Skia.Image.MakeImageFromEncoded(data);
   if (!image) throw new Error("could not decode image");
@@ -129,7 +148,7 @@ export async function composePhoto(uri: string, layers: TextLayer[]): Promise<st
   if (!surface) throw new Error("could not allocate surface");
   const canvas = surface.getCanvas();
   canvas.clear(Skia.Color("#000000"));
-  drawCover(canvas, image);
+  drawCover(canvas, image, look, backdrop);
   layers.forEach((l) => drawText(canvas, l));
   surface.flush();
   return save(surface.makeImageSnapshot().makeNonTextureImage(), false);
@@ -140,7 +159,7 @@ export async function composeOverlay(layers: TextLayer[]): Promise<string | null
   const visible = layers.filter((l) => l.text.trim());
   if (!visible.length) return null;
   const surface = Skia.Surface.Make(OUT_W, OUT_H) ?? Skia.Surface.MakeOffscreen(OUT_W, OUT_H);
-  if (!surface) return null;
+  if (!surface) throw new Error("could not allocate overlay surface");
   const canvas = surface.getCanvas();
   canvas.clear(Skia.Color("transparent"));
   visible.forEach((l) => drawText(canvas, l));

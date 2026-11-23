@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Kansikuva", "trim": "Leikkaa", "mirror": "Peili", "rotate": "Käännä", "hide": "Piilota", "timer": "Ajastin", "close": "Sulje", "photo": "Valokuva", "remove": "Poista", "pause": "Tauko", "play": "Toista video", "hiddenUntilTap": "Piilotettu, kunnes he napauttavat sitä", "scrub": "Selaa videota", "addMore": "Lisää valokuvia tai videoita", "coverAria": "Napauta kuvaa asettaaksesi sen kansikuvaksi", "trimHint": "Vedä päät leikkääksesi", "coverHint": "Napauta kuvaa tehdäksesi siitä kansikuvan", "uploadCover": "Lataa kansikuva", "mirrored": "Peilattu", "original": "Alkuperäinen", "rotate90": "Käännä 90°", "timerOff": "Pois", "showNormally": "Näytä normaalisti", "showNormallyBody": "He näkevät sen heti", "hideUntilTap": "Piilota, kunnes napautetaan", "hideUntilTapBody": "Sumennettu, kunnes he napauttavat sitä", "hidePrice": "Piilota hintan takana", "hidePriceBody": "Sumennettu, kunnes maksat", "priceUnavailable": "Ei tässä keskustelussa", "priceLabelUsd": "Hinta", "priceHint": "He näkevät sen sumennettuna, kunnes maksat. Lokeatut kohteet eivät ole päästä päähän salattuja.", "timerOffBody": "Se pysyy chatissa.", "timerViewBody": "Kuin pois molemmille teille, kun he ovat nähneet sen.", "confirm": "Vahvista", "editItem": "Muokkaa kohdetta {{value1}}", "coverSet": "Kansio osoitteessa {{value1}}", "lockedForUsd": "Avaa lukitus käyttäjälle {{value1}}", "timerTimeBody": "Poistunut molemmille teille {{value1}} lähettämisen jälkeen."},
+  "dmVideo": {
+    "cover": "Kansikuva",
+    "trim": "Leikkaa",
+    "mirror": "Peili",
+    "rotate": "Käännä",
+    "hide": "Piilota",
+    "timer": "Ajastin",
+    "close": "Sulje",
+    "photo": "Valokuva",
+    "remove": "Poista",
+    "pause": "Tauko",
+    "play": "Toista video",
+    "hiddenUntilTap": "Piilotettu, kunnes he napauttavat sitä",
+    "scrub": "Selaa videota",
+    "addMore": "Lisää valokuvia tai videoita",
+    "coverAria": "Napauta kuvaa asettaaksesi sen kansikuvaksi",
+    "trimHint": "Vedä päät leikkääksesi",
+    "coverHint": "Napauta kuvaa tehdäksesi siitä kansikuvan",
+    "uploadCover": "Lataa kansikuva",
+    "mirrored": "Peilattu",
+    "original": "Alkuperäinen",
+    "rotate90": "Käännä 90°",
+    "timerOff": "Pois",
+    "showNormally": "Näytä normaalisti",
+    "showNormallyBody": "He näkevät sen heti",
+    "hideUntilTap": "Piilota, kunnes napautetaan",
+    "hideUntilTapBody": "Sumennettu, kunnes he napauttavat sitä",
+    "hidePrice": "Piilota hintan takana",
+    "hidePriceBody": "Sumennettu, kunnes maksat",
+    "priceUnavailable": "Ei tässä keskustelussa",
+    "priceLabelUsd": "Hinta",
+    "priceHint": "He näkevät sen sumennettuna, kunnes maksat. Lokeatut kohteet eivät ole päästä päähän salattuja.",
+    "timerOffBody": "Se pysyy chatissa.",
+    "timerViewBody": "Kuin pois molemmille teille, kun he ovat nähneet sen.",
+    "confirm": "Vahvista",
+    "editItem": "Muokkaa kohdetta {{value1}}",
+    "coverSet": "Kansio osoitteessa {{value1}}",
+    "lockedForUsd": "Avaa lukitus käyttäjälle {{value1}}",
+    "timerTimeBody": "Poistunut molemmille teille {{value1}} lähettämisen jälkeen.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 tunti",
+      "43200": "12 tuntia",
+      "86400": "1 päivä",
+      "604800": "1 viikko",
+      "31536000": "1 vuosi",
+      "view": "1 katselukerta"
+    },
+    "destructShort": {
+      "60": "1 min",
+      "3600": "1 t",
+      "43200": "12 t",
+      "86400": "1 pv",
+      "604800": "1 vk",
+      "31536000": "1 v",
+      "view": "1 katselukerta"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Reunus",
     "theme": "Teema",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Hinnoittelu",
     "reorderHint": "Järjestä uudelleen pitämällä mitä tahansa kuvaketta painettuna ja vetämällä",
+    "reorderHintGroups": "Pidä kuvaketta painettuna ja raahaa sitä järjestääksesi sen uudelleen, tai raahaa se toiseen välilehteen siirtääksesi sen.",
+    "moveGroupHint": "Pudota toiseen välilehteen siirtääksesi sen sinne",
     "reorderReset": "Tyhjennä",
     "groups": {
       "create": "Luo",
@@ -7025,6 +7086,17 @@
       "moveRuleDown": "Siirrä sääntöä alaspäin",
       "deleteRule": "Poista sääntö",
       "rights": {
+        "sendMessages": "Lähetä viestejä",
+        "sendMessagesHint": "Jaa yhteisön chatissa",
+        "sendMedia": "Lähetä mediaa",
+        "sendMediaHint": "Liitä kuvat ja GIFit",
+        "embedLinks": "Upota linkit",
+        "embedLinksHint": "Näytä linkkiesikatselmat",
+        "addMembers": "Lisää jäseniä",
+        "addMembersHint": "Jaa yhteisö muille",
+        "createEvents": "Luo tapahtumia",
+        "createEventsHint": "Suunnittele yhteisötilaisuuksia",
+        "changeInfoMemberHint": "Muokkaa yhteisön nimeä ja kuvauksetta",
         "changeInfo": "Muuta yhteisön tietoja",
         "changeInfoHint": "Muokkaa nimeä, kuvausta, avataria ja banneria",
         "deleteMessages": "Poista viestejä",
@@ -7102,12 +7174,41 @@
       "noInvites": "Ei vielä kutsulinkkejä. Luo sellainen kutsuaksesi ihmisiä suoraan.",
       "permissionsUpdated": "Käyttöoikeudet päivitetty",
       "slowModeUpdated": "Hidas tila päivitetty",
+      "slowMode": {
+        "off": "Pois",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 tunti"
+      },
       "slowModeOffHint": "Jäsenet voivat lähettää viestejä viipymättä.",
       "slowModeOnHint": "Jäsenet voivat lähettää yhden viestin {{label}} välein. Ylläpitäjät ovat vapautettuja.",
       "defaultPermissions": "Oletusjäsenten käyttöoikeudet",
       "defaultPermissionsHint": "Mitä kaikki voivat tehdä täällä, ellei ylläpitäjän oikeus toisin määrää.",
       "slowModeTitle": "Hidas tila",
       "log": {
+        "verbs": {
+          "promote_admin": "yleistetty",
+          "demote_admin": "alennettu",
+          "transfer_ownership": "siirsi omistuksen",
+          "ban_member": "kielletty",
+          "unban_member": "ei enää kielletty",
+          "kick_member": "Poistettu",
+          "mute_member": "mykistetty",
+          "unmute_member": "äänettömänä",
+          "approve_member": "hyväksytty",
+          "reject_member": "hylätty",
+          "delete_message": "poisti viestin",
+          "purge_messages": "poisti kaikki viestit kohteesta",
+          "pin_message": "kiinnitti viestin lähettäjältä",
+          "unpin_message": "poistettu viesti",
+          "update_settings": "päivitti yhteisön asetukset",
+          "create_invite": "loi kutsulinkin",
+          "revoke_invite": "perutti kutsulinkin",
+          "invite_used": "Kutsu"
+        },
         "justNow": "juuri nyt",
         "minutesAgo": "{{value}}m sitten",
         "hoursAgo": "{{value}}h sitten",
@@ -13564,53 +13665,52 @@
     "cinema": {
       "close": "Sulje",
       "performance": {
-        "label": "Suorituskyky",
         "0": "Iloinen",
         "1": "Melankolinen",
         "2": "Ahdistunut",
         "3": "Itsevarma",
         "4": "Haltioitunut",
         "5": "Hillitty",
-        "6": "Leikkisä"
+        "6": "Leikkisä",
+        "label": "Suorituskyky"
       },
       "title": "Elokuvallinen ohjaus",
       "hint": "Ohjaa seuraavan kuvasi tai videosi visuaalista tyyliä. Tulokset vaihtelevat malleittain.",
       "none": "Ei ohjausta",
       "reset": "Tyhjennä ohjaus",
       "camera": {
-        "label": "Kameran ilme",
         "0": "Digitaalinen elokuva",
         "1": "35 mm filmi",
         "2": "16 mm filmi",
         "3": "Suurkoko",
-        "4": "Vanha videokamera"
+        "4": "Vanha videokamera",
+        "label": "Kameran ilme"
       },
       "lens": {
-        "label": "Objektiivin ilme",
         "0": "Sfäärinen",
         "1": "Anamorfinen",
         "2": "Vintage-pehmeä lasi",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektiivin ilme"
       },
       "focalLength": {
-        "label": "Polttoväli",
         "0": "18 mm laaja",
         "1": "24 mm laaja",
         "2": "35 mm luonnollinen",
         "3": "50 mm normaali",
         "4": "85 mm muotokuva",
-        "5": "135 mm tele"
+        "5": "135 mm tele",
+        "label": "Polttoväli"
       },
       "aperture": {
-        "label": "Syväterävyys",
         "0": "f/1.4 hyvin kapea",
         "1": "f/2.8 kapea",
         "2": "f/5.6 kohtalainen",
-        "3": "f/11 syvä tarkennus"
+        "3": "f/11 syvä tarkennus",
+        "label": "Syväterävyys"
       },
       "movement": {
-        "label": "Kameran liike",
         "0": "Kiinteä jalusta",
         "1": "Hidas dolly sisään",
         "2": "Hidas dolly ulos",
@@ -13618,27 +13718,27 @@
         "4": "Kohteen kiertäminen",
         "5": "Käsivara",
         "6": "Nosturinousu",
-        "7": "Hidas panorointi"
+        "7": "Hidas panorointi",
+        "label": "Kameran liike"
       },
       "lighting": {
-        "label": "Valaistus",
         "0": "Pehmeä päivänvalo",
         "1": "Kultainen tunti",
         "2": "Low-key chiaroscuro",
         "3": "High-key studio",
         "4": "Neonvalot kuvassa",
         "5": "Siluetti vastavalossa",
-        "6": "Pilvinen hajavalo"
+        "6": "Pilvinen hajavalo",
+        "label": "Valaistus"
       },
       "tempo": {
-        "label": "Kuvan tempo",
         "0": "Yksi yhtenäinen otos",
         "1": "Rauhallinen, kiireetön toiminta",
         "2": "Dynaaminen, energinen toiminta",
-        "3": "Kaoottinen, hurja toiminta"
+        "3": "Kaoottinen, hurja toiminta",
+        "label": "Kuvan tempo"
       },
       "era": {
-        "label": "Aikakausi",
         "0": "1920-luku",
         "1": "1950-luku",
         "2": "1960-luku",
@@ -13646,10 +13746,10 @@
         "4": "1980-luku",
         "5": "1990-luku",
         "6": "Nykypäivä",
-        "7": "Lähitulevaisuus"
+        "7": "Lähitulevaisuus",
+        "label": "Aikakausi"
       },
       "genre": {
-        "label": "Lajityyppi",
         "0": "Dokumentti",
         "1": "Draama",
         "2": "Film noir",
@@ -13657,16 +13757,17 @@
         "4": "Fantasia",
         "5": "Romanttinen komedia",
         "6": "Trilleri",
-        "7": "Western"
+        "7": "Western",
+        "label": "Lajityyppi"
       },
       "palette": {
-        "label": "Väripaletti",
         "0": "Lämmin meripihka",
         "1": "Viileä sininen",
         "2": "Hillityt maanläheiset sävyt",
         "3": "Pastelli",
         "4": "Korkeakontrastinen mustavalko",
-        "5": "Kylläiset päävärit"
+        "5": "Kylläiset päävärit",
+        "label": "Väripaletti"
       }
     },
     "audioNoSpeech": "Ei löytynyt puhetta tallennetuista äänitiedoista",
@@ -17159,5 +17260,100 @@
     "promptCatchUp": "Kerro, mitä {{handle}} on julkaissut viime aikoina",
     "promptMessage": "Auta minua kirjoittamaan viesti käyttäjälle {{handle}}",
     "promptAbout": "Käyttäjästä {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Piilota vastaus",
+    "unhide": "Poista piilotus",
+    "hiddenBadge": "Piilotettu",
+    "hiddenTitle": "Vain sinä ja vastauksen kirjoittaja voitte nähdä tämän",
+    "hiddenToast": "Vastaus piilotettu. Vain sinä ja vastauksen kirjoittaja voitte nähdä sen",
+    "unhiddenToast": "Vastaus on taas näkyvissä",
+    "failed": "Vastauksen piilottaminen epäonnistui"
+  },
+  "accountType": {
+    "title": "Tilityyppi",
+    "hint": "Sisällöntuottaja- ja yritystilit näyttävät kategorian nimesi alla. Yritystili lisää yhteystietopainikkeen. Kaikki ominaisuudet ovat käytettävissä kaikilla tileillä.",
+    "type": {
+      "personal": "Henkilökohtainen",
+      "creator": "Sisällöntuottaja",
+      "business": "Yritys"
+    },
+    "category": "Kategoria",
+    "contactEmail": "Julkinen yhteyssähköpostiosoite",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Sähköpostiosoite ei näytä oikealta",
+    "save": "Tallenna tilityyppi",
+    "saving": "Tallennetaan…",
+    "saved": "Tilityyppi tallennettu",
+    "saveFailed": "Tilityypin tallentaminen epäonnistui",
+    "contact": "Yhteystiedot",
+    "cat": {
+      "artist": "Taiteilija",
+      "musician": "Muusikko",
+      "gamer": "Pelaaja",
+      "streamer": "Striimaaja",
+      "writer": "Kirjailija",
+      "podcaster": "Podcast-tekijä",
+      "educator": "Kouluttaja",
+      "athlete": "Urheilija",
+      "photographer": "Valokuvaaja",
+      "video_creator": "Videoiden tekijä",
+      "comedian": "Koomikko",
+      "developer": "Kehittäjä",
+      "public_figure": "Julkisuuden henkilö",
+      "other": "Muu",
+      "brand": "Brändi",
+      "shop": "Kauppa",
+      "restaurant": "Ravintola",
+      "cafe": "Kahvila",
+      "agency": "Toimisto",
+      "community": "Yhteisö",
+      "media": "Media",
+      "app": "Sovellus",
+      "project": "Projekti",
+      "nonprofit": "Voittoa tavoittelematon organisaatio",
+      "local_business": "Paikallinen yritys"
+    }
+  },
+  "photoTags": {
+    "title": "Tägää ihmisiä",
+    "hint": "Napauta kuvaa kohdasta, jossa joku on, ja valitse sitten hänen nimensä.",
+    "search": "Etsi ihmisiä",
+    "remove": "Poista tägäys",
+    "done": "Valmis",
+    "taggedCount": "{{value}} tägätty",
+    "showTags": "Näytä tägätyt henkilöt",
+    "hideTags": "Piilota tägäykset",
+    "saved": "Tägäykset tallennettu",
+    "saveFailed": "Tägäyksiä ei voitu tallentaa",
+    "removeMe": "Poista minut tästä kuvasta",
+    "removedMe": "Tägäyksesi poistettiin"
+  },
+  "quiz": {
+    "title": "Visailu",
+    "add": "Lisää visailu",
+    "remove": "Poista tietovisa",
+    "taken": "{{value}} suoritti sen",
+    "questionOf": "Kysymys {{n}} / {{total}}",
+    "pointsEach": "{{points}} pistettä per kysymys",
+    "badgeBoost": "Merkkisi antaa sinulle {{x}}x pistettä",
+    "earnedToast": "{{correct}} / {{total}} oikein, +{{points}} pistettä",
+    "noPointsToast": "{{correct}} / {{total}} oikein",
+    "answerFailed": "Vastausten lähettäminen epäonnistui",
+    "resultPoints": "{{correct}} / {{total}} oikein, ansaitsit {{points}} pistettä",
+    "result": "{{correct}} / {{total}} oikein",
+    "creatorNote": "Tietovisasi. Oikeat vastaukset on merkitty; ihmiset ansaitsevat kanavapisteitäsi.",
+    "writeFailed": "Kysymysten kirjoittaminen epäonnistui, kokeile muita sanoja",
+    "topicPlaceholder": "Kuvaile tietovisaasi muutamalla sanalla",
+    "rewrite": "Kirjoita uudelleen",
+    "write": "Kirjoita kysymyksiä",
+    "editorHint": "Tarkista jokainen kysymys ennen julkaisua. Jokainen saa yhden yrityksen.",
+    "questionPlaceholder": "Kysymys",
+    "removeQuestion": "Poista kysymys",
+    "markRight": "Oikea vastaus",
+    "optionPlaceholder": "Vastaus {{n}}",
+    "addQuestion": "Lisää kysymys",
+    "pointsLabel": "Pisteitä per oikea vastaus",
+    "attachFailed": "Julkaisusi on näkyvillä, mutta tietovisaa ei voitu lisätä"
   }
 }

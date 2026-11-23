@@ -9,6 +9,7 @@ import {
   publishOnline,
   usePresenceReaders,
 } from "../libs/online-presence";
+import { SEEN_PING_MS, getShowLastSeen, pingSeen } from "../libs/last-seen";
 
 /**
  * Joins the shared presence channel when opted in or a focused dot needs it,
@@ -19,14 +20,16 @@ import {
 export function useOnlinePresence() {
   const user = useUser() as any;
   const me = ((user?.walletAddress || user?.address || "") as string).toLowerCase() || null;
-  const showOnline = useMemo(() => {
+  const optIns = useMemo(() => {
     const raw = user?.customs;
     let customs = raw;
     if (typeof raw === "string") {
       try { customs = JSON.parse(raw); } catch { customs = null; }
     }
-    return getShowOnline(customs);
+    return { online: getShowOnline(customs), lastSeen: getShowLastSeen(customs) };
   }, [user?.customs]);
+  const showOnline = optIns.online;
+  const showLastSeen = optIns.lastSeen;
   const [active, setActive] = useState(AppState.currentState === "active");
   const hasReaders = usePresenceReaders();
   const needed = showOnline || hasReaders;
@@ -50,4 +53,14 @@ export function useOnlinePresence() {
       publishOnline(new Set());
     };
   }, [me, showOnline, active, needed]);
+
+  // "Last seen": while opted in, tell the API we're here every few minutes
+  // and once more as the app goes to the background.
+  useEffect(() => {
+    if (!me || !showLastSeen) return;
+    void pingSeen();
+    if (!active) return;
+    const timer = setInterval(() => void pingSeen(), SEEN_PING_MS);
+    return () => clearInterval(timer);
+  }, [me, showLastSeen, active]);
 }

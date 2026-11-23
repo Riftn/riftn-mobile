@@ -72,6 +72,7 @@ export const justDropped = () => Date.now() - lastDropAt < 350;
 interface Options {
   ids: string[];
   onCommit: (ids: string[]) => void;
+  onDropOutside?: (id: string, x: number, y: number) => boolean;
   disabled?: boolean;
   horizontal?: boolean;
   /** Scale while lifted: 1.06 for tiles, 1.08 for small icons. */
@@ -107,10 +108,10 @@ export interface ReorderCtx {
   hitTest: () => void;
   settle: (force: boolean) => void;
   pending: SharedValue<number>;
-  end: (next: string[], committed: boolean) => void;
+  end: (next: string[], committed: boolean, id: string, x: number, y: number) => void;
 }
 
-export function useReorder({ ids, onCommit, disabled = false, horizontal = false, liftScale = 1.06 }: Options) {
+export function useReorder({ ids, onCommit, onDropOutside, disabled = false, horizontal = false, liftScale = 1.06 }: Options) {
   const [liveOrder, setLiveOrder] = useState<string[] | null>(null);
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [resetIndex, setResetIndex] = useState<Map<string, number> | null>(null);
@@ -151,20 +152,27 @@ export function useReorder({ ids, onCommit, disabled = false, horizontal = false
   const commitRef = useRef(onCommit);
   commitRef.current = onCommit;
 
+  const dropOutside = useRef(onDropOutside);
+  dropOutside.current = onDropOutside;
+
   const begin = useCallback((id: string) => {
     setDraggingId(id);
     setLiveOrder(idsRef.current);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => { /* no haptics */ });
   }, []);
   const moved = useCallback((next: string[]) => setLiveOrder(next), []);
-  const end = useCallback((next: string[], committed: boolean) => {
+  const end = useCallback((next: string[], committed: boolean, id: string, x: number, y: number) => {
     lastDropAt = Date.now();
     setDraggingId(null);
     setLiveOrder(null);
     const before = idsRef.current;
     const changed = next.length !== before.length || next.some((id, i) => id !== before[i]);
-    if (committed && changed) commitRef.current(next);
-  }, []);
+    if (!committed || dropOutside.current?.(id, x, y)) {
+      orderSV.value = before;
+      return;
+    }
+    if (changed) commitRef.current(next);
+  }, [orderSV]);
 
   // The slot the finger is resting over, and since when (-1: none).
   const pending = useSharedValue(-1);
@@ -364,7 +372,7 @@ export function ReorderItem({ id, ctx, children, style }: ItemProps) {
       absY.value = e.absoluteY;
       hitTest();
     })
-    .onFinalize(() => {
+    .onFinalize((e, success) => {
       "worklet";
       if (active.value !== id) {
         if (scale.value !== 1) scale.value = withTiming(1, { duration: 150, easing: EASE });
@@ -388,7 +396,7 @@ export function ReorderItem({ id, ctx, children, style }: ItemProps) {
         dropY.value = withTiming(0, { duration: DROP_MS, easing: EASE });
       }
       active.value = "";
-      runOnJS(end)(ord, true);
+      runOnJS(end)(ord, success, id, e.absoluteX, e.absoluteY);
     }), [disabled, horizontal, liftScale, id, scale, active, order, layouts, slots, startIndex, scroll, scrollStart, tx, ty, absX, absY, dropX, dropY, dropping, begin, hitTest, settle, pending, end]);
 
   const lifted = useAnimatedStyle(() => {

@@ -31,7 +31,6 @@ import { mergeLiveCounts } from "../../libs/liveCounts";
 import { isPostDeletedSync, useDeletedPostsVersion, warmDeletedPosts } from "../../libs/deleted-posts-store";
 import { isLiveItem, isVideoItem } from "../../services/feed.unified.service";
 import { resolveContentType } from "../Home/FeedCard";
-import { useWatchedVideoIds, filterWatched } from "../../hooks/useWatchedVideos";
 import { tabPressIntentOf } from "../../navigation/tabPressIntent";
 import { feedEvents } from "../../libs/eventBus";
 import { createFeedVisibilityStore, useRowVisibility, type FeedVisibilityStore } from "../../libs/feedVisibility";
@@ -368,8 +367,6 @@ const InfiniteFeedBase: React.FC<
 
   // Locally-deleted posts keep coming back from cached pages until a refetch;
   // the tombstone store exists for exactly this and was written but never read.
-  const { watchedIds, hideWatched } = useWatchedVideoIds();
-
   const [tombstonesReady, setTombstonesReady] = useState(false);
   useEffect(() => {
     warmDeletedPosts().then(() => setTombstonesReady(true)).catch(() => {});
@@ -386,13 +383,10 @@ const InfiniteFeedBase: React.FC<
     [data, tombstonesReady, deletedVersion],
   );
 
-  // Videos already played, dropped only when the reader asked for that in
-  // Settings. Kept as its own memo so the expensive flatMap above does not
-  // re-run when the watch history refreshes.
-  const items = useMemo<FeedItem[]>(
-    () => filterWatched(rawItems, watchedIds, hideWatched),
-    [rawItems, watchedIds, hideWatched],
-  );
+  // Every post stays. "Hide watched videos" is for Home and the Videos feed;
+  // a profile or community page that skipped the ones you'd played looked like
+  // it had no videos at all.
+  const items = rawItems;
 
   // FlashList only reports rows whose index changed viewability, so a new
   // page, a refresh or a delete can leave the wrong card marked visible or

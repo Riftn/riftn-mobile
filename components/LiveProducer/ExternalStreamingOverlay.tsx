@@ -154,6 +154,15 @@ const ExternalStreamingOverlay: React.FC<ExternalStreamingOverlayProps> = ({
         </Text>
       ) : null}
 
+      {/* An encoder left on "auto" sends a keyframe every 8 seconds or so, and
+          a viewer cannot start watching until the next one arrives. */}
+      <Text className="text-white/40 text-center text-[10px] leading-4 mt-2 max-w-xs">
+        {t(
+          'goLive.encoderSettingsTip',
+          'So your stream opens fast for viewers, set Keyframe Interval to 2 seconds in your encoder (OBS: Settings → Output), and B-frames to 0 if it has that setting. Left on auto, viewers can wait up to 8 seconds for the picture.',
+        )}
+      </Text>
+
       {/* Alerts and widgets live beside the key: the OBS overlay link is set up there. */}
       <TouchableOpacity
         onPress={() => navigation.navigate(ScreenNames.LiveStudio)}

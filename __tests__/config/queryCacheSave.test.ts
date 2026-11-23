@@ -35,3 +35,21 @@ it("saves straight to disk when asked", () => {
   expect(saved.clientState.queries[0].state.data.pages).toEqual([[1]]);
   queryClient.clear();
 });
+
+it("cancels the launch save and AppState subscription on unmount", () => {
+  jest.useFakeTimers();
+  try {
+    const { AppState } = require("react-native");
+    const remove = jest.fn();
+    AppState.addEventListener.mockReturnValue({ remove });
+    const write = require("../../libs/queryCacheStore").writeSavedQueryCache;
+    write.mockClear();
+    const stop = require("../../config/queryClient").startQueryCachePersistence();
+    stop();
+    jest.advanceTimersByTime(10000);
+    expect(remove).toHaveBeenCalledTimes(1);
+    expect(write).not.toHaveBeenCalled();
+  } finally {
+    jest.useRealTimers();
+  }
+});

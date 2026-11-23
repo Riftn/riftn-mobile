@@ -19,6 +19,7 @@ import {
   Keyboard,
   type GestureResponderEvent,
   Platform,
+  StyleSheet,
 } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { DeHubLoader } from "../components/DeHubLoader";
@@ -60,6 +61,8 @@ import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { setPublicChatOpen } from "../libs/public-chat-alerts";
+import { hideLineForMe, useHiddenLines } from "../libs/public-chat-hidden";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
 import { publicChatUnread } from "../hooks/usePublicChatUnread";
 import { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING } from "../components/ui/HoldSheet";
 
@@ -86,6 +89,8 @@ const getDateLabel = (iso: string, t: TFunction, lang?: string): string => {
 const MAINTAIN_POSITION = { minIndexForVisible: 0 } as const;
 
 const MAX_READ_SPOT_PAGES = 10;
+/** Longest the list stays hidden waiting for the unread line before it opens at the newest. */
+const REVEAL_CAP_MS = 1800;
 
 type ListItem =
   | { type: "message"; data: LiveChatMessageData }
@@ -254,9 +259,15 @@ const LiveChatScreen: React.FC = () => {
     [user]
   );
 
+  // Lines deleted "for me" only (libs/public-chat-hidden).
+  const hiddenLines = useHiddenLines(myAddress);
+  const shownMessages = useMemo(
+    () => (hiddenLines.size ? messages.filter((m) => !hiddenLines.has(m._id)) : messages),
+    [messages, hiddenLines],
+  );
   const listItems = useMemo(
-    () => buildListItems(messages, t, i18n.language, room?.pinnedMessages),
-    [messages, room?.pinnedMessages, t, i18n.language],
+    () => buildListItems(shownMessages, t, i18n.language, room?.pinnedMessages),
+    [shownMessages, room?.pinnedMessages, t, i18n.language],
   );
 
   const scrollToBottom = useCallback((animated = true) => {
@@ -406,13 +417,26 @@ const LiveChatScreen: React.FC = () => {
   const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
+  // The list stays hidden until it is where it opens: at the newest line, or
+  // on the unread line once that is known. Showing it at the newest line and
+  // then jumping up to the unread line made the chat jolt on every open.
+  // Capped, so a slow read spot still opens at the newest line.
+  const [landed, setLanded] = useState(false);
+  useEffect(() => {
+    if (!initialScrollDone || landed) return;
+    const timer = setTimeout(() => setLanded(true), REVEAL_CAP_MS);
+    return () => clearTimeout(timer);
+  }, [initialScrollDone, landed]);
   useEffect(() => {
     if (readDecided || !initialScrollDone || !messages.length || !readSpot.ready) return;
     const decide = (anchor: UnreadAnchor | null) => {
       setReadDecided(true);
       setUnreadAnchor(anchor);
       if (anchor) isAtBottomRef.current = false;
-      else readTrackingRef.current = true;
+      else {
+        readTrackingRef.current = true;
+        setLanded(true);
+      }
     };
     if (!readSpot.opening || hasNewer) { decide(null); return; }
     const lines = messages.map((m) => ({
@@ -455,6 +479,8 @@ const LiveChatScreen: React.FC = () => {
       try {
         flatListRef.current?.scrollToIndex({ index, animated: false, viewPosition: 0 });
       } catch { /* onScrollToIndexFailed */ }
+      // Shown once the rows at the marker have drawn.
+      requestAnimationFrame(() => requestAnimationFrame(() => setLanded(true)));
       setTimeout(() => { readTrackingRef.current = true; reportReadSpotRef.current(); }, 600);
     }, 150);
     return () => clearTimeout(timer);
@@ -765,20 +791,27 @@ const LiveChatScreen: React.FC = () => {
     setConfirmModal((prev) => ({ ...prev, visible: false }));
   }, []);
 
-  const handleDelete = useCallback(
+  // "Delete for everyone" (yours, or any line for a moderator) or "Delete for
+  // me", the same sheet and saved choice as DMs and community chats.
+  const [deleteRequest, setDeleteRequest] = useState<DeleteRequest | null>(null);
+  const askDelete = useCallback(
     (msg: LiveChatMessageData) => {
-      showConfirm({
-        title: t("liveChat.deleteMessage"),
-        description: t("liveChat.deleteConfirm"),
-        confirmText: t("common.delete"),
-        confirmKind: "danger",
-        onConfirm: () => {
-          deleteMessage(msg._id);
-          dismissConfirm();
+      const mine = !!myAddress && (msg.senderAddress || msg.sender?.address || "").toLowerCase() === myAddress;
+      setDeleteRequest(resolveDelete({
+        count: 1,
+        canDeleteForEveryone: mine || isModerator,
+        onDelete: (scope) => {
+          if (scope === "everyone" && (mine || isModerator)) deleteMessage(msg._id);
+          else hideLineForMe(myAddress, msg._id);
         },
-      });
+      }));
     },
-    [deleteMessage, showConfirm, dismissConfirm]
+    [myAddress, isModerator, deleteMessage]
+  );
+
+  const handleDelete = useCallback(
+    (msg: LiveChatMessageData) => askDelete(msg),
+    [askDelete]
   );
 
   const handleAvatarPress = useCallback(
@@ -844,19 +877,8 @@ const LiveChatScreen: React.FC = () => {
   }, []);
 
   const handleContextDelete = useCallback(
-    (msg: LiveChatMessageData) => {
-      showConfirm({
-        title: t("liveChat.deleteMessage"),
-        description: t("liveChat.deleteConfirm"),
-        confirmText: t("common.delete"),
-        confirmKind: "danger",
-        onConfirm: () => {
-          deleteMessage(msg._id);
-          dismissConfirm();
-        },
-      });
-    },
-    [deleteMessage, showConfirm, dismissConfirm]
+    (msg: LiveChatMessageData) => askDelete(msg),
+    [askDelete]
   );
 
   const handleContextPin = useCallback(
@@ -1275,7 +1297,7 @@ const LiveChatScreen: React.FC = () => {
           scrollEnabled={!contextMenuVisible}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          style={{ opacity: initialScrollDone || listItems.length === 0 ? 1 : 0 }}
+          style={{ opacity: (initialScrollDone && landed) || listItems.length === 0 ? 1 : 0 }}
           contentContainerStyle={
             listItems.length === 0
               ? { flex: 1 }
@@ -1319,6 +1341,13 @@ const LiveChatScreen: React.FC = () => {
         />
         </ReactionArrivalScope>
         </Animated.View>
+
+        {listItems.length > 0 && !(initialScrollDone && landed) ? (
+          // Same loader as joining, while the list finds where it opens.
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+            <DeHubLoader size={56} />
+          </View>
+        ) : null}
 
         {(() => {
           // Same control as DMs: up to the unread line until it has been seen,
@@ -1461,6 +1490,7 @@ const LiveChatScreen: React.FC = () => {
         />
       ) : null}
 
+      <DeleteMessageSheet request={deleteRequest} onClose={() => setDeleteRequest(null)} />
       <WhenOpened open={confirmModal.visible}>
         {() => (
           <ConfirmModal

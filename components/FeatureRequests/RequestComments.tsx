@@ -30,6 +30,9 @@ import WhenOpened from "../ui/WhenOpened";
 import EmojiSheet from "../Upload/EmojiSheet";
 import MentionSuggestions from "../common/MentionSuggestions";
 import type { TranslateToggle } from "../ui/TranslateButton";
+import { languageLabel, useComposeTranslate } from "../../hooks/useComposeTranslate";
+import LanguageSelectModal from "../Settings/LanguageSelectModal";
+import { toastError } from "../../libs/toast";
 import { useMentions } from "../../hooks/useMentions";
 import { useGrowingTextInput } from "../../hooks/useGrowingTextInput";
 import { useSurfaceDraft } from "../../hooks/useSurfaceDraft";
@@ -60,7 +63,7 @@ interface Props {
 }
 
 const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddress, isAuthed, highlightCommentId, onHighlightMeasured }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
   const { showUserProfile } = useUserProfileSheet();
@@ -68,6 +71,13 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
   const { submit, edit, remove, react } = useFeatureThreadActions(featureId, { title: featureTitle, authorAddress });
 
   const [text, setText] = useSurfaceDraft(`request-comments:${featureId}:text`, "");
+  const translator = useComposeTranslate(text, translated => {
+    if (translated.length > 500) {
+      toastError(t("articles.bodyTooLong", { count: translated.length - 500 }));
+      return;
+    }
+    setText(current => current === text ? translated : current);
+  }, i18n.language?.split("-")[0] || "en");
   const mentions = useMentions(text, (value) => setText(value.slice(0, 500)));
   const growing = useGrowingTextInput(text, 22, 140);
   const inputRef = useRef<TextInput>(null);
@@ -173,7 +183,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
 
   const send = useCallback(() => requireAuth(() => {
     const content = text.trim();
-    if (submit.isPending || edit.isPending) return;
+    if (submit.isPending || edit.isPending || translator.busy) return;
     if (editing) {
       const row = rowFor(editing);
       if (!row || !content) return;
@@ -196,10 +206,10 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
         setMedia(null);
       },
     });
-  }), [requireAuth, text, submit, edit, editing, rowFor, setText, media, replyTo, mentions]);
+  }), [requireAuth, text, submit, edit, editing, rowFor, setText, media, replyTo, mentions, translator.busy]);
 
   const busy = submit.isPending || edit.isPending;
-  const canSend = !busy && (!!text.trim() || (!!media && !editing));
+  const canSend = !busy && !translator.busy && (!!text.trim() || (!!media && !editing));
 
   // ── Render ────────────────────────────────────────────────────────────────
 
@@ -291,11 +301,17 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
         </Pressable>
       ) : recorder.isRecording ? (
         <VoiceNoteRecordingOverlay recorder={recorder} />
-      ) : media ? (
+      ) : media && (media.type === "audio" || media.type === "audiofile") ? (
         <CommentMediaPreview media={media} onRemove={() => setMedia(null)} onSend={send} sending={submit.isPending} />
       ) : (
+        <>
+        {/* A picked photo, GIF or video sits above the text box instead of
+            replacing it, so it can go out with a message. */}
+        {media && (
+          <CommentMediaPreview media={media} onRemove={() => setMedia(null)} onSend={send} sending={submit.isPending} hideSend />
+        )}
         <View style={styles.composer}>
-          {!editing && (
+          {!editing && !media && (
             <>
               <Pressable
                 onPress={() => requireAuth(openAttachPicker)}
@@ -329,7 +345,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
               onSelectionChange={mentions.handleSelectionChange}
               onContentSizeChange={growing.onContentSizeChange}
               scrollEnabled={growing.scrollEnabled}
-              placeholder={editing ? t("comments.editPlaceholder") : replyTo ? t("comments.replyPlaceholder") : t("features.addComment")}
+              placeholder={editing ? t("comments.editPlaceholder") : media ? t("dm.addCaption") : replyTo ? t("comments.replyPlaceholder") : t("features.addComment")}
               placeholderTextColor="#6F7174"
               style={[styles.input, growing.sizeStyle()]}
               maxLength={500}
@@ -345,7 +361,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
               <Text style={{ fontSize: 18 }}>🙂</Text>
             </Pressable>
           </View>
-          {!text.trim() && !editing ? (
+          {!text.trim() && !editing && !media ? (
             <Pressable
               onPress={() => requireAuth(() => { Keyboard.dismiss(); void recorder.startRecording(); })}
               hitSlop={8}
@@ -371,8 +387,44 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
             </Pressable>
           )}
         </View>
+        </>
       )}
 
+      {isAuthed && !!text.trim() && !media && !recorder.isRecording && (
+        <View style={styles.translateRow}>
+          <Pressable
+            onPress={() => void translator.translate()}
+            disabled={busy || translator.busy}
+            accessibilityRole="button"
+            style={styles.translateAction}
+          >
+            {translator.busy ? <ActivityIndicator size="small" /> : <Icon name="Languages" size={16} color="#A1A1AA" />}
+            <Text style={styles.translateText}>{t("common.translate")}</Text>
+          </Pressable>
+          <Pressable
+            onPress={translator.openPicker}
+            disabled={busy || translator.busy}
+            accessibilityRole="button"
+            accessibilityLabel={`${t("settings.language")} · ${languageLabel(translator.lang)}`}
+            style={styles.translateAction}
+          >
+            <Text style={styles.translateText}>{languageLabel(translator.lang)}</Text>
+            <Icon name="ChevronDown" size={12} color="#A1A1AA" />
+          </Pressable>
+        </View>
+      )}
+      <WhenOpened open={translator.pickerOpen}>
+        {() => (
+          <LanguageSelectModal
+            visible={translator.pickerOpen}
+            onSelect={translator.choose}
+            onClose={translator.closePicker}
+            selected={translator.lang}
+            title={t("common.translate")}
+            subtitle=""
+          />
+        )}
+      </WhenOpened>
       {attachSheet}
       <WhenOpened open={gifOpen}>
         {() => (
@@ -447,6 +499,9 @@ const styles = StyleSheet.create({
   banner: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 6, gap: 8 },
   bannerText: { color: "#A1A1AA", fontSize: 12, flex: 1 },
   composer: { flexDirection: "row", alignItems: "flex-end", gap: COMPOSER.gap / 2, paddingTop: 6 },
+  translateRow: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 2 },
+  translateAction: { flexDirection: "row", alignItems: "center", gap: 4, minHeight: 40 },
+  translateText: { fontSize: 12, color: "#A1A1AA" },
   inputBox: {
     flex: 1,
     minWidth: 0,

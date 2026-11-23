@@ -1,4 +1,4 @@
-import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed, purchaseOfferVisible } from "../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed, usePurchaseOfferVisible } from "../config/storefront";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
@@ -88,6 +88,7 @@ const MEMBERS_PAGE = 30;
 type Tab = "posts" | "chat" | "events" | "members" | "about";
 
 const CommunityDetailScreen: React.FC = () => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const { width: windowWidth } = useWindowDimensions();
   const navigation = useNavigation<any>();
@@ -664,7 +665,7 @@ const CommunityDetailScreen: React.FC = () => {
                     ? t("communities.newChat.channel", { defaultValue: "Channel" })
                     : t("communities.newChat.group", { defaultValue: "Group" })}
                 </Text>
-                {entryPrice > 0 && purchaseOfferVisible() && (
+                {entryPrice > 0 && showPurchaseOffer && (
                   <>
                     <Text className="text-zinc-300 text-xs">·</Text>
                     <Image source={DEHUB_COIN} style={{ width: 14, height: 14 }} contentFit="contain" />
@@ -806,7 +807,7 @@ const CommunityDetailScreen: React.FC = () => {
               </TouchableOpacity>
             ) : null}
             {isMember && kind === "group" ? (
-              <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} />
+              <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} canStart={abilities.isOwner || abilities.isAdmin || abilities.can("start_calls")} />
             ) : null}
           </View>
         ) : undefined}

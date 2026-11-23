@@ -20,7 +20,7 @@ import { MessageReportModal, type MessageReport } from "../common/MessageReportH
 const QUICK_REACTIONS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const MAX_LEN = 500;
 
-export default function EventChat({ eventId }: { eventId: string }) {
+export default function EventChat({ eventId, restricted }: { eventId: string; restricted?: boolean }) {
   const { t } = useTranslation();
   const user = useUser() as any;
   const { isSignedIn } = useAuthState();
@@ -28,7 +28,7 @@ export default function EventChat({ eventId }: { eventId: string }) {
   const { showUserProfile } = useUserProfileSheet();
   const wallet: string | null = user?.walletAddress || user?.address || null;
   const me = wallet?.toLowerCase();
-  const { messages, isLoading, sendMessage, editMessage, addReaction, removeReaction } = useEventChat(eventId, wallet);
+  const { messages, isLoading, sendMessage, editMessage, addReaction, removeReaction } = useEventChat(eventId, wallet, restricted);
 
   const [text, setText] = useState("");
   const [replyTo, setReplyTo] = useState<EventChatMessage | null>(null);

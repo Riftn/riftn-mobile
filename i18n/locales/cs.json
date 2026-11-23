@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Kryt", "trim": "Oříznout", "mirror": "Zrcadlit", "rotate": "Otočit", "hide": "Skrýt", "timer": "Časovač", "close": "Zavřít", "photo": "Fotografie", "remove": "Odebrat", "pause": "Pozastavit", "play": "Přehrát video", "hiddenUntilTap": "Skryté, dokud na to neklepnou", "scrub": "Procházet video", "addMore": "Přidat fotky nebo videa", "coverAria": "Klepnutím na snímek nastavíš titulní obrázek", "trimHint": "Přetažením konců video zkrať", "coverHint": "Klepnutím na snímek jej nastavíš jako obal", "uploadCover": "Nahrát úvodní obrázek", "mirrored": "Zrcadlově obrácené", "original": "Původní", "rotate90": "Otočit o 90°", "timerOff": "Vypnuto", "showNormally": "Zobrazit normálně", "showNormallyBody": "Uvidí to hned", "hideUntilTap": "Skrýt, dokud se na něj neklepne", "hideUntilTapBody": "Rozmazané, dokud na něj neklepnou", "hidePrice": "Skrýt za cenou", "hidePriceBody": "Rozmazané, dokud ti nezaplatí", "priceUnavailable": "Ne v tomto chatu", "priceLabelUsd": "Cena", "priceHint": "Dokud vám nezaplatí, uvidí ho rozmazaně. Uzamčené položky nejsou šifrovány end-to-end.", "timerOffBody": "Zůstane v chatu.", "timerViewBody": "Jakmile si to prohlédnou, zmizí to pro vás oba.", "confirm": "Potvrdit", "editItem": "Upravit položku {{value1}}", "coverSet": "Zakrýt v {{value1}}", "lockedForUsd": "Odemknout pro {{value1}}", "timerTimeBody": "Po odeslání zmizí pro vás oba {{value1}}."},
+  "dmVideo": {
+    "cover": "Kryt",
+    "trim": "Oříznout",
+    "mirror": "Zrcadlit",
+    "rotate": "Otočit",
+    "hide": "Skrýt",
+    "timer": "Časovač",
+    "close": "Zavřít",
+    "photo": "Fotografie",
+    "remove": "Odebrat",
+    "pause": "Pozastavit",
+    "play": "Přehrát video",
+    "hiddenUntilTap": "Skryté, dokud na to neklepnou",
+    "scrub": "Procházet video",
+    "addMore": "Přidat fotky nebo videa",
+    "coverAria": "Klepnutím na snímek nastavíš titulní obrázek",
+    "trimHint": "Přetažením konců video zkrať",
+    "coverHint": "Klepnutím na snímek jej nastavíš jako obal",
+    "uploadCover": "Nahrát úvodní obrázek",
+    "mirrored": "Zrcadlově obrácené",
+    "original": "Původní",
+    "rotate90": "Otočit o 90°",
+    "timerOff": "Vypnuto",
+    "showNormally": "Zobrazit normálně",
+    "showNormallyBody": "Uvidí to hned",
+    "hideUntilTap": "Skrýt, dokud se na něj neklepne",
+    "hideUntilTapBody": "Rozmazané, dokud na něj neklepnou",
+    "hidePrice": "Skrýt za cenou",
+    "hidePriceBody": "Rozmazané, dokud ti nezaplatí",
+    "priceUnavailable": "Ne v tomto chatu",
+    "priceLabelUsd": "Cena",
+    "priceHint": "Dokud vám nezaplatí, uvidí ho rozmazaně. Uzamčené položky nejsou šifrovány end-to-end.",
+    "timerOffBody": "Zůstane v chatu.",
+    "timerViewBody": "Jakmile si to prohlédnou, zmizí to pro vás oba.",
+    "confirm": "Potvrdit",
+    "editItem": "Upravit položku {{value1}}",
+    "coverSet": "Zakrýt v {{value1}}",
+    "lockedForUsd": "Odemknout pro {{value1}}",
+    "timerTimeBody": "Po odeslání zmizí pro vás oba {{value1}}.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 hodina",
+      "43200": "12 hodin",
+      "86400": "1 den",
+      "604800": "1 týden",
+      "31536000": "1 rok",
+      "view": "1 zhlédnutí"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1t",
+      "31536000": "1r",
+      "view": "1 zhlédnutí"
+    },
+    "destructSecs": "{{n}} s",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Okraj",
     "theme": "Motiv",
@@ -2997,6 +3056,8 @@
     "premium": "Prémiový",
     "pricing": "Ceník",
     "reorderHint": "Držte a přetáhněte libovolnou ikonu pro přeuspořádání",
+    "reorderHintGroups": "Zachyťte a přetáhněte libovolný ikon, abyste ho přehodnotili, nebo na jinou kartu, abyste ho přesunuli.",
+    "moveGroupHint": "Zapni další kartu a přesuň ji tam",
     "reorderReset": "Reset",
     "groups": {
       "create": "Vytvořit",
@@ -3168,7 +3229,26 @@
     "postCount_other": "{{count}} příspěvků"
   },
   "settings": {
-    "loginLook": {"title": "Přihlašovací obrazovka", "desc": "Jak se logo a slogan Riftn pohybují na přihlašovací obrazovce tohoto zařízení.", "tube": "Obrazovková TV", "vhs": "Kazeta VHS", "led": "LED stěna", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Plochý"}, "arrivalLook": {"title": "Po přihlášení", "desc": "Co se přehraje, než se načte účet a tvoje fotka dorazí na stránku. Na tomto zařízení.", "trace": "Stopa", "tune": "Naladit", "rift": "Trhlina", "deck": "Balíček", "glass": "Skleněná kapka"},
+    "loginLook": {
+      "title": "Přihlašovací obrazovka",
+      "desc": "Jak se logo a slogan Riftn pohybují na přihlašovací obrazovce tohoto zařízení.",
+      "tube": "Obrazovková TV",
+      "vhs": "Kazeta VHS",
+      "led": "LED stěna",
+      "holo": "Hologram",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Plochý"
+    },
+    "arrivalLook": {
+      "title": "Po přihlášení",
+      "desc": "Co se přehraje, než se načte účet a tvoje fotka dorazí na stránku. Na tomto zařízení.",
+      "trace": "Stopa",
+      "tune": "Naladit",
+      "rift": "Trhlina",
+      "deck": "Balíček",
+      "glass": "Skleněná kapka"
+    },
     "glass": "Sklovité",
     "shortsEnabled": "Šortky",
     "shortsEnabledDesc": "Zobrazit kartu Shorts feed a Shorts carousels na Home.",
@@ -7031,6 +7111,17 @@
       "moveRuleDown": "Přesunout pravidlo dolů",
       "deleteRule": "Smazat pravidlo",
       "rights": {
+        "sendMessages": "Odesílat zprávy",
+        "sendMessagesHint": "Postupte do komunity chat",
+        "sendMedia": "Odeslat média",
+        "sendMediaHint": "Připojte obrázky a GIFy",
+        "embedLinks": "Zanořte odkazy",
+        "embedLinksHint": "Zobrazit předhledy odkazů",
+        "addMembers": "Přidejte členy",
+        "addMembersHint": "Sdílejte komunitu s ostatními",
+        "createEvents": "Vytvořit události",
+        "createEventsHint": "Plánovat komunity události",
+        "changeInfoMemberHint": "Upravte název a popis komunity",
         "changeInfo": "Změnit informace o komunitě",
         "changeInfoHint": "Upravit název, popis, avatar a banner",
         "deleteMessages": "Smazat zprávy",
@@ -7107,12 +7198,41 @@
       "noInvites": "Zatím žádné pozvánky. Vytvořte jednu, abyste přímě pozvali lidi.",
       "permissionsUpdated": "Oprávnění aktualizována",
       "slowModeUpdated": "Pomalý režim aktualizován",
+      "slowMode": {
+        "off": "Vypnuto",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 hodina"
+      },
       "slowModeOffHint": "Členové mohou posílat zprávy bez prodlevy.",
       "slowModeOnHint": "Členové mohou posílat jednu zprávu každých {{label}}. Správci jsou osvobozeni.",
       "defaultPermissions": "Výchozí oprávnění členů",
       "defaultPermissionsHint": "Co může každý dělat zde, pokud správce neříká jinak.",
       "slowModeTitle": "Pomalý režim",
       "log": {
+        "verbs": {
+          "promote_admin": "promoted",
+          "demote_admin": "demotován",
+          "transfer_ownership": "převzal vlastnictví",
+          "ban_member": "zakázáno",
+          "unban_member": "neblokováno",
+          "kick_member": "odebráno",
+          "mute_member": "ztlumeno",
+          "unmute_member": "neomezené",
+          "approve_member": "schváleno",
+          "reject_member": "odmítnuto",
+          "delete_message": "smazal jsem zprávu od",
+          "purge_messages": "smazal jsem všechny zprávy od",
+          "pin_message": "připevnil zprávu od",
+          "unpin_message": "odpínač zprávy od",
+          "update_settings": "aktualizoval/a nastavení komunity",
+          "create_invite": "vytvořil pozvánkový odkaz",
+          "revoke_invite": "zrušeno pozvánkové odkazy",
+          "invite_used": "zváno"
+        },
         "justNow": "právě teď",
         "minutesAgo": "{{value}}m zpět",
         "hoursAgo": "{{value}}h zpět",
@@ -13569,53 +13689,52 @@
     "cinema": {
       "close": "Zavřít",
       "performance": {
-        "label": "Výkon",
         "0": "Radostný",
         "1": "Melancholický",
         "2": "Úzkostný",
         "3": "Sebevědomý",
         "4": "Ohromený",
         "5": "Zdrženlivý",
-        "6": "Hravý"
+        "6": "Hravý",
+        "label": "Výkon"
       },
       "title": "Filmová režie",
       "hint": "Určete vizuální styl svého dalšího obrázku nebo videa. Výsledky se liší podle modelu.",
       "none": "Bez režie",
       "reset": "Vymazat režii",
       "camera": {
-        "label": "Vzhled kamery",
         "0": "Digitální kino",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Velký formát",
-        "4": "Vintage videokamera"
+        "4": "Vintage videokamera",
+        "label": "Vzhled kamery"
       },
       "lens": {
-        "label": "Vzhled objektivu",
         "0": "Sférický",
         "1": "Anamorfický",
         "2": "Vintage měkké sklo",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Vzhled objektivu"
       },
       "focalLength": {
-        "label": "Ohnisková vzdálenost",
         "0": "18mm široký",
         "1": "24mm široký",
         "2": "35mm přirozený",
         "3": "50mm standardní",
         "4": "85mm portrétní",
-        "5": "135mm teleobjektiv"
+        "5": "135mm teleobjektiv",
+        "label": "Ohnisková vzdálenost"
       },
       "aperture": {
-        "label": "Hloubka ostrosti",
         "0": "f/1.4 velmi mělká",
         "1": "f/2.8 mělká",
         "2": "f/5.6 střední",
-        "3": "f/11 hluboká ostrost"
+        "3": "f/11 hluboká ostrost",
+        "label": "Hloubka ostrosti"
       },
       "movement": {
-        "label": "Pohyb kamery",
         "0": "Pevný stativ",
         "1": "Pomalý nájezd",
         "2": "Pomalý odjezd",
@@ -13623,27 +13742,27 @@
         "4": "Kroužení kolem subjektu",
         "5": "Z ruky",
         "6": "Zdvih jeřábem",
-        "7": "Pomalý švenk"
+        "7": "Pomalý švenk",
+        "label": "Pohyb kamery"
       },
       "lighting": {
-        "label": "Osvětlení",
         "0": "Měkké denní světlo",
         "1": "Zlatá hodinka",
         "2": "Low-key šerosvit",
         "3": "High-key studio",
         "4": "Neonová praktická světla",
         "5": "Silueta v protisvětle",
-        "6": "Rozptýlené zatažené světlo"
+        "6": "Rozptýlené zatažené světlo",
+        "label": "Osvětlení"
       },
       "tempo": {
-        "label": "Tempo záběru",
         "0": "Jeden souvislý záběr",
         "1": "Klidná, neuspěchaná akce",
         "2": "Dynamická, energická akce",
-        "3": "Chaotická, zběsilá akce"
+        "3": "Chaotická, zběsilá akce",
+        "label": "Tempo záběru"
       },
       "era": {
-        "label": "Éra",
         "0": "20. léta",
         "1": "50. léta",
         "2": "60. léta",
@@ -13651,10 +13770,10 @@
         "4": "80. léta",
         "5": "90. léta",
         "6": "Současnost",
-        "7": "Blízká budoucnost"
+        "7": "Blízká budoucnost",
+        "label": "Éra"
       },
       "genre": {
-        "label": "Žánr",
         "0": "Dokument",
         "1": "Drama",
         "2": "Film noir",
@@ -13662,16 +13781,17 @@
         "4": "Fantasy",
         "5": "Romantická komedie",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Žánr"
       },
       "palette": {
-        "label": "Barevná paleta",
         "0": "Teplá jantarová",
         "1": "Chladná modrá",
         "2": "Tlumené zemité tóny",
         "3": "Pastelová",
         "4": "Kontrastní monochrom",
-        "5": "Syté základní barvy"
+        "5": "Syté základní barvy",
+        "label": "Barevná paleta"
       }
     },
     "audioNoSpeech": "V této nahrávce nebyla nalezena žádná řeč.",
@@ -17164,5 +17284,100 @@
     "promptCatchUp": "Shrň mi, co {{handle}} poslední dobou zveřejnil",
     "promptMessage": "Pomoz mi napsat zprávu pro {{handle}}",
     "promptAbout": "O {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Skrýt odpověď",
+    "unhide": "Zobrazit odpověď",
+    "hiddenBadge": "Skryto",
+    "hiddenTitle": "Toto vidíte pouze vy a autor příspěvku",
+    "hiddenToast": "Odpověď skryta. Vidíte ji pouze vy a autor příspěvku",
+    "unhiddenToast": "Odpověď je opět viditelná",
+    "failed": "Tuto odpověď se nepodařilo skrýt"
+  },
+  "accountType": {
+    "title": "Typ účtu",
+    "hint": "Účty tvůrců a firemní účty zobrazují pod vaším jménem kategorii. Firemní účty přidávají tlačítko Kontakt. Všechny funkce zůstávají dostupné pro každý účet.",
+    "type": {
+      "personal": "Osobní",
+      "creator": "Tvůrce",
+      "business": "Firma"
+    },
+    "category": "Kategorie",
+    "contactEmail": "Veřejný kontaktní e-mail",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Tento e-mail nevypadá správně",
+    "save": "Uložit typ účtu",
+    "saving": "Ukládání…",
+    "saved": "Typ účtu uložen",
+    "saveFailed": "Typ účtu se nepodařilo uložit",
+    "contact": "Kontakt",
+    "cat": {
+      "artist": "Umělec",
+      "musician": "Hudebník",
+      "gamer": "Hráč",
+      "streamer": "Streamer",
+      "writer": "Spisovatel",
+      "podcaster": "Podcaster",
+      "educator": "Pedagog",
+      "athlete": "Sportovec",
+      "photographer": "Fotograf",
+      "video_creator": "Tvůrce videí",
+      "comedian": "Komik",
+      "developer": "Vývojář",
+      "public_figure": "Veřejně známá osobnost",
+      "other": "Ostatní",
+      "brand": "Značka",
+      "shop": "Obchod",
+      "restaurant": "Restaurace",
+      "cafe": "Kavárna",
+      "agency": "Agentura",
+      "community": "Komunita",
+      "media": "Média",
+      "app": "Aplikace",
+      "project": "Projekt",
+      "nonprofit": "Nezisková organizace",
+      "local_business": "Místní firma"
+    }
+  },
+  "photoTags": {
+    "title": "Označit lidi",
+    "hint": "Klepněte na fotku tam, kde někdo je, a pak vyberte jeho jméno.",
+    "search": "Hledat lidi",
+    "remove": "Odebrat označení",
+    "done": "Hotovo",
+    "taggedCount": "{{value}} označen(a)",
+    "showTags": "Zobrazit označené osoby",
+    "hideTags": "Skrýt označení",
+    "saved": "Označení uložena",
+    "saveFailed": "Označení se nepodařilo uložit",
+    "removeMe": "Odebrat mě z této fotky",
+    "removedMe": "Vaše označení bylo odebráno"
+  },
+  "quiz": {
+    "title": "Kvíz",
+    "add": "Přidat kvíz",
+    "remove": "Odstranit kvíz",
+    "taken": "{{value}} ho vyplnil(a)",
+    "questionOf": "Otázka {{n}} z {{total}}",
+    "pointsEach": "{{points}} bodů za každou",
+    "badgeBoost": "Tvůj odznak ti dává {{x}}x bodů",
+    "earnedToast": "{{correct}} z {{total}} správně, +{{points}} bodů",
+    "noPointsToast": "{{correct}} z {{total}} správně",
+    "answerFailed": "Nepodařilo se odeslat tvé odpovědi",
+    "resultPoints": "{{correct}} z {{total}} správně, získal(a) jsi {{points}} bodů",
+    "result": "{{correct}} z {{total}} správně",
+    "creatorNote": "Tvůj kvíz. Správné odpovědi jsou označeny; lidé získávají tvé kanálové body.",
+    "writeFailed": "Nepodařilo se vytvořit otázky, zkus jiná slova",
+    "topicPlaceholder": "Popiš svůj kvíz několika slovy",
+    "rewrite": "Napsat znovu",
+    "write": "Napsat otázky",
+    "editorHint": "Před zveřejněním zkontroluj každou otázku. Každý má jeden pokus.",
+    "questionPlaceholder": "Otázka",
+    "removeQuestion": "Odstranit otázku",
+    "markRight": "Správná odpověď",
+    "optionPlaceholder": "Odpověď {{n}}",
+    "addQuestion": "Přidat otázku",
+    "pointsLabel": "Bodů za správnou odpověď",
+    "attachFailed": "Tvůj příspěvek je zveřejněn, ale kvíz se nepodařilo přidat"
   }
 }

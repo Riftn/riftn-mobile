@@ -4,8 +4,11 @@ import { act, renderHook } from '@testing-library/react-native';
 import { useMentions } from '../../hooks/useMentions';
 import { mentionSearch } from '../../services/mention.service';
 
+import { resetMentionPeople } from '../../libs/mentionPeople';
+
 jest.mock('../../services/mention.service', () => ({
   mentionSearch: jest.fn(),
+  mentionSeed: jest.fn(async () => []),
   communityMentionSearch: jest.fn(async () => []),
   pageMentionSearch: jest.fn(() => []),
 }));
@@ -35,6 +38,7 @@ async function edit(result: Hook, next: string) {
 describe('hooks/useMentions', () => {
   beforeEach(() => {
     jest.useFakeTimers();
+    resetMentionPeople();
     search.mockReset();
     search.mockResolvedValue([{ username: 'alice' }]);
   });
@@ -103,5 +107,69 @@ describe('hooks/useMentions', () => {
       result.current.selectMention(result.current.suggestions[1]);
     });
     expect(result.current.text).toBe('see https://riftn.com/app/communities/builders ');
+  });
+  it('shows names it already knows at once, before the server answers', async () => {
+    search.mockResolvedValue([
+      { username: 'alice', displayName: 'Alice', address: '0xa1', avatarImageUrl: '', isFollowing: true },
+      { username: 'albert', displayName: 'Albert', address: '0xa2', avatarImageUrl: '', isFollowing: false },
+      { username: 'amy', displayName: 'Amy', address: '0xa3', avatarImageUrl: '', isFollowing: false },
+    ]);
+    const { result } = setup();
+    await edit(result, 'hi @a');
+    expect(result.current.suggestions.map((u) => u.username)).toEqual(['alice', 'albert', 'amy']);
+
+    // The next letter: the answer to "a" is narrowed on the spot, with the
+    // request for "al" not even sent yet.
+    search.mockClear();
+    search.mockResolvedValue([{ username: 'albert', displayName: 'Albert', address: '0xa2', avatarImageUrl: '', isFollowing: false }]);
+    act(() => {
+      result.current.handleChangeText('hi @al');
+    });
+    expect(search).not.toHaveBeenCalled();
+    expect(result.current.showSuggestions).toBe(true);
+    expect(result.current.suggestions.map((u) => u.username)).toEqual(['alice', 'albert']);
+
+    // Then the server's own list takes over.
+    await edit(result, 'hi @al');
+    expect(search).toHaveBeenCalledWith('al');
+    expect(result.current.suggestions.map((u) => u.username)).toEqual(['albert']);
+    expect(result.current.loading).toBe(false);
+  });
+
+  it('does not ask again for letters it was just given an answer for', async () => {
+    search.mockResolvedValue([{ username: 'alice', displayName: 'Alice', address: '0xa1', avatarImageUrl: '', isFollowing: false }]);
+    const first = setup();
+    await edit(first.result, '@ali');
+    expect(search).toHaveBeenCalledTimes(1);
+
+    // Another box, the same letters: the list is there with no request.
+    const second = setup();
+    act(() => {
+      second.result.current.handleChangeText('@ali');
+    });
+    expect(second.result.current.suggestions.map((u) => u.username)).toEqual(['alice']);
+    expect(second.result.current.loading).toBe(false);
+    await edit(second.result, '@ali');
+    expect(search).toHaveBeenCalledTimes(1);
+  });
+
+  it('offers a person who was picked before first', async () => {
+    search.mockResolvedValue([
+      { username: 'sam', displayName: 'Sam', address: '0xs1', avatarImageUrl: '', isFollowing: false },
+      { username: 'sara', displayName: 'Sara', address: '0xs2', avatarImageUrl: '', isFollowing: false },
+    ]);
+    const { result } = setup();
+    await edit(result, '@s');
+    act(() => {
+      result.current.handleSelectionChange({ nativeEvent: { selection: { start: 2, end: 2 } } } as any);
+      result.current.selectMention(result.current.suggestions[1]);
+    });
+    expect(result.current.text).toBe('@sara ');
+
+    search.mockResolvedValue([]);
+    act(() => {
+      result.current.handleChangeText('@sara @sa');
+    });
+    expect(result.current.suggestions.map((u) => u.username)).toEqual(['sara', 'sam']);
   });
 });

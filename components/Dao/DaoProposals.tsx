@@ -5,7 +5,7 @@
  * page for that proposal, where the multi-chain payment flow lives.
  */
 import { openWebPurchase } from "../common/WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useMemo, useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -61,6 +61,7 @@ const STATUS_TONE: Record<string, { fg: string; bg: string }> = {
 };
 
 function ProposalCard({ proposal, ownVote, ownWeight, focused }: { proposal: DaoProposal; ownVote?: 1 | -1; ownWeight: number; focused?: boolean }) {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const user = useUser() as any;
   const { isSignedIn } = useAuthState();
@@ -214,7 +215,7 @@ function ProposalCard({ proposal, ownVote, ownWeight, focused }: { proposal: Dao
         </Text>
       )}
 
-      {proposal.status === "accepted" && proposal.kind === "buy" && isBuyer && purchaseOfferVisible() && (
+      {proposal.status === "accepted" && proposal.kind === "buy" && isBuyer && showPurchaseOffer && (
         <KitButton
           label={t("copy.a4f6b2e41037", { defaultValue: " Transfer payment" }).trim()}
           onPress={() => (DIGITAL_PURCHASES_ENABLED

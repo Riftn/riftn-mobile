@@ -2,6 +2,9 @@ import React, { useMemo, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../../services/supabase";
+import type { ConnectedReachCount } from "../../libs/social-reach";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import { formatCompactNumber } from "../../libs/numbers.util";
@@ -29,6 +32,7 @@ const PLATFORM_SVG: Record<SocialPlatform, string> = {
 const ICON_COLOR = "#9ca3af";
 
 interface TotalReachPillProps {
+  wallet?: string;
   /** The account record: social links top level, self-reported counts under `customs`. */
   source: Record<string, unknown> | null | undefined;
   /** Riftn followers as counted by Riftn. */
@@ -45,16 +49,23 @@ const ReachRow = ({ icon, label, value }: { icon: React.ReactNode; label: string
   </View>
 );
 
-/**
- * "Total reach" beside the follower count: Riftn followers plus what the
- * creator reports for each linked social. Renders nothing until a social
- * carries a count, so a profile with links alone looks as it always did.
- * Tapping it opens the per-platform breakdown.
- */
-const TotalReachPill: React.FC<TotalReachPillProps> = ({ source, followers }) => {
+/** Public profile reach, with connected counts taking precedence over manually entered counts. */
+const TotalReachPill: React.FC<TotalReachPillProps> = ({ source, followers, wallet }) => {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
-  const reach = useMemo(() => computeSocialReach(source, followers), [source, followers]);
+  const address = wallet?.toLowerCase() ?? "";
+  const { data: connected } = useQuery({
+    queryKey: ["social-reach", address],
+    enabled: /^0x[a-f0-9]{40}$/.test(address),
+    staleTime: 10 * 60_000,
+    retry: false,
+    queryFn: async (): Promise<ConnectedReachCount[]> => {
+      const { data, error } = await supabase.functions.invoke("social-reach", { body: { action: "get", wallet: address } });
+      if (error) throw error;
+      return Array.isArray(data?.accounts) ? data.accounts : [];
+    },
+  });
+  const reach = useMemo(() => computeSocialReach(source, followers, connected), [source, followers, connected]);
   if (!hasSocialReach(reach)) return null;
 
   const total = formatCompactNumber(reach.total);
@@ -95,7 +106,7 @@ const TotalReachPill: React.FC<TotalReachPillProps> = ({ source, followers }) =>
                   height={18}
                 />
               }
-              label={entry.label}
+              label={entry.verified ? `${entry.label} · ${t("miniApps.badge.verified")}` : entry.label}
               value={entry.count}
             />
           ))}
@@ -104,7 +115,9 @@ const TotalReachPill: React.FC<TotalReachPillProps> = ({ source, followers }) =>
             <Text className="text-white text-sm font-bold">{total}</Text>
           </View>
         </View>
-        <Text className="mx-5 mt-3 mb-5 text-theme-neutrals-400 text-xs">{t("profile.reach.selfReported")}</Text>
+        {reach.socials.every(entry => !entry.verified) && (
+          <Text className="mx-5 mt-3 mb-5 text-theme-neutrals-400 text-xs">{t("profile.reach.selfReported")}</Text>
+        )}
       </GlassModal>
     </>
   );

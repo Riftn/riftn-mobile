@@ -3,12 +3,14 @@ import type { useProfileCollapse } from '../Profile/useProfileCollapse';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Platform, View, Text, TouchableOpacity, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
-import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, usePurchaseOfferVisible } from "../../config/storefront";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
 import UserProfileSkeleton from "./UserProfileSkeleton";
 import type { ProfileIdentitySeed } from "../../hooks/useUserProfileData";
 import UserProfileHeader from "./UserProfileHeader";
+import { ProfileMuteRow } from "./ProfileMuteRow";
+import { BioTagRemoveRow } from "./BioTagRemoveRow";
 import PinnedCommunities from "../Communities/PinnedCommunities";
 import UserProfileBottomContentTabs from "./UserProfileBottomContentTabs";
 import { ProfilePostBgArtContext, ProfilePostBgContext, useResolvedPostBg } from "../Profile/PostBackground";
@@ -22,7 +24,8 @@ import LendBadgeSheet from "./LendBadgeSheet";
 import ProfileAskAiRows, { AskAiMenuRow } from "./ProfileAskAiRows";
 import Icon from "../ui/Icon";
 import { copyToClipboard } from "../../libs";
-import { shareProfile, getBadgeHoverOpticalStyle } from "../../libs/misc";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
+import { getBadgeHoverOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
 import StreamerBadge from "../Live/StreamerBadge";
 import { useMutualFollowers } from "../../hooks/useMutualFollowers";
@@ -131,6 +134,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   lookupName,
   onAskAi,
 }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const viewer = useUser();
@@ -237,13 +241,14 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     closeMenuThen(() => setShowLendBadge(true));
   }, [closeMenuThen]);
 
-  const handleMenuShare = useCallback(() => {
-    const slug = profileData?.username || profileData?.address;
-    if (!slug) return;
-    const url = ShareLinks.profile(slug);
-    const message = t("copy.13de76e4ca28", { defaultValue: "Check out {{value1}} on Riftn {{value2}}", value1: profileData?.displayName || t("copy.0913f7bb109b", { defaultValue: "this user" }), value2: url });
-    closeMenuThen(() => { shareProfile(url, message); });
-  }, [closeMenuThen, profileData, t]);
+  const [shareDmOpen, setShareDmOpen] = useState(false);
+  const shareSlug = profileData?.username || profileData?.address;
+  const shareFromProfile = useCallback(() => {
+    if (!shareSlug) return;
+    if (viewer) setShareDmOpen(true);
+    else onShare();
+  }, [shareSlug, viewer, onShare]);
+  const handleMenuShare = useCallback(() => closeMenuThen(shareFromProfile), [closeMenuThen, shareFromProfile]);
 
   const handleMenuCopyUrl = useCallback(() => {
     const slug = profileData?.username || profileData?.address;
@@ -297,6 +302,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           bio={data?.aboutMe}
           profileFields={(data as any)?.profileFields}
           publicTimeZone={data?.customs?.publicTimeZone}
+          customs={data?.customs as Record<string, unknown> | undefined}
           bioLanguage={(data as any)?.detectedLanguage}
           isFollowing={isFollowing}
           isFollowRequestPending={isFollowRequestPending}
@@ -307,7 +313,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           onFollow={onFollow}
           onOpenUnfollow={onOpenUnfollow}
           onOpenImage={onOpenImage}
-          onShare={onShare}
+          onShare={shareFromProfile}
           onMessage={isOwnProfile || messagesDisabled ? undefined : onMessage}
           onOpenOptions={isOwnProfile ? undefined : handleOpenMenu}
           onEditProfile={onEditProfile}
@@ -318,8 +324,8 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           socials={data}
           mutuals={mutuals}
           mutualsTotal={mutualsTotal}
-          hasPlans={purchaseOfferVisible() && hasPlans}
-          plansLoading={purchaseOfferVisible() && plansLoading}
+          hasPlans={showPurchaseOffer && hasPlans}
+          plansLoading={showPurchaseOffer && plansLoading}
           onSubscribe={DIGITAL_PURCHASES_ENABLED
             ? handleSubscribePress
             : () => { openWebPurchase(`/${profileData?.username || profileData?.address || ""}`); }}
@@ -372,7 +378,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     followLoading,
     isOwnProfile,
     onOpenImage,
-    onShare,
+    shareFromProfile,
     onMessage,
     handleOpenMenu,
     onFollow,
@@ -462,6 +468,9 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     <ProfilePostBgArtContext.Provider value={/^https?:/.test(avatarUrl || "") ? avatarUrl : null}>
     <ProfileArticleTileContext.Provider value={articleTile}>
     <View className="flex-1">
+      {shareDmOpen && shareSlug && (
+        <ShareToDmSheet visible url={ShareLinks.profile(shareSlug)} onClose={() => setShareDmOpen(false)} onSystemShare={onShare} />
+      )}
       {!isFullScreen && ProfileHeader}
       <UserProfileBottomContentTabs
         pinnedIdentity={{
@@ -552,7 +561,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
 
             <View className="mx-5 my-1 h-px bg-white/10" />
 
-            {purchaseOfferVisible() && (
+            {showPurchaseOffer && (
             <TouchableOpacity
               onPress={handleMenuTip}
               disabled={paymentsHidden}
@@ -573,7 +582,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
 
             {/* Lending a badge is not offered in the App Store build: its slots
                 come from staking. Its divider goes with it unless a tip row sits above. */}
-            {(!IS_APP_STORE_BUILD || purchaseOfferVisible()) && <View className="mx-5 my-1 h-px bg-white/10" />}
+            {(!IS_APP_STORE_BUILD || showPurchaseOffer) && <View className="mx-5 my-1 h-px bg-white/10" />}
 
             {!IS_APP_STORE_BUILD && (
             <>
@@ -669,12 +678,25 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
                     <Text className="text-white text-[15px] font-medium">
                       {t("profileOptions.removeFollower")}
                     </Text>
-                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">{_copy("copy.5948954e3b49", { defaultValue: "Remove " })}{profileData?.displayName || _copy("copy.0913f7bb109b", { defaultValue: "this user" })}{_copy("copy.3ff441f1f484", { defaultValue: " from your followers" })}</Text>
+                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">{t("profileOptions.removeFollowerHint", { name: profileData?.displayName || t("profileOptions.thisUser") })}</Text>
                   </View>
                 </TouchableOpacity>
 
                 <View className="mx-5 my-1 h-px bg-white/10" />
               </>
+            )}
+
+            {showProfileMenu && !isOwnProfile && !isBlocked && viewer && profileAddress && (
+              <ProfileMuteRow address={profileAddress} viewerAddress={viewer.walletAddress || viewer.address || ""} />
+            )}
+
+            {showProfileMenu && !isOwnProfile && viewer && profileAddress && (
+              <BioTagRemoveRow
+                ownerAddress={profileAddress}
+                bio={data?.aboutMe}
+                viewerUsername={viewer.username}
+                onDone={() => setShowProfileMenu(false)}
+              />
             )}
 
             <TouchableOpacity
@@ -691,9 +713,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
               </View>
               <View className="flex-1">
                 <Text style={{ color: "#F4F4F5" }} className="text-[15px] font-medium">
-                  {youBlocked
-                    ? _copy("copy.46785e0aacc9", { defaultValue: "Unblock {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })
-                    : _copy("copy.8d3f3e35915d", { defaultValue: "Block {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })}
+                  {youBlocked ? t("profileOptions.unblock") : t("profileOptions.block")}
                 </Text>
                 <Text className="text-theme-neutrals-500 text-xs mt-0.5">
                   {youBlocked
@@ -714,7 +734,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
                 <Ionicons name="flag-outline" size={18} color="#D4D4D8" />
               </View>
               <View className="flex-1">
-                <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{_copy("copy.83e2982ce44d", { defaultValue: "Report " })}{profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" })}
+                <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{t("postOptions.report")}
                 </Text>
                 <Text className="text-theme-neutrals-500 text-xs mt-0.5">
                   {t("profileOptions.reportHint")}

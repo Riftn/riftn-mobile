@@ -24,7 +24,8 @@ export type MemberRight =
   | "add_members"
   | "create_events"
   | "pin_messages"
-  | "change_info";
+  | "change_info"
+  | "start_calls";
 
 export type CommunityRight = AdminRight | MemberRight;
 

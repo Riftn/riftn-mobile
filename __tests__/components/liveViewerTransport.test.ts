@@ -95,8 +95,22 @@ describe('live viewer silent WebRTC', () => {
   const hook = readSource('hooks', 'useWhepStream.ts');
 
   it('waits for a real picture, not just a connection, before keeping WebRTC', () => {
-    expect(hook).not.toContain("state === 'playing'");
+    // Only a picture stops the start timeout; a connection does not.
+    expect(hook).toContain('if (cancelled || pictured) return;');
     expect(hook).toContain('if (isRealPicture(size)) pictureRef.current();');
     expect(hook).toContain('rememberWhepSilent(playbackId);');
+  });
+
+  it('gives a connection that never comes up two seconds, then skips WebRTC on this network', () => {
+    expect(hook).toContain('const CONNECT_TIMEOUT_MS = 2000;');
+    expect(hook).toContain('if (cancelled || connected || pictured) return;');
+    expect(hook).toContain('rememberWebRtcBlocked();');
+    expect(hook).toContain('whepRecentlySilent(playbackId) || webRtcRecentlyBlocked()');
+  });
+
+  it('sends the offer on the first candidate instead of waiting for every STUN answer', () => {
+    const whep = readSource('libs', 'whep.ts');
+    expect(whep).toContain("pc.addEventListener?.('icecandidate', onCandidate);");
+    expect(whep).toContain('throw new WhepRefusedError(response.status)');
   });
 });

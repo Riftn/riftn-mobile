@@ -16,6 +16,17 @@ describe('config/storefront', () => {
     expect(s.DIGITAL_PURCHASES_ENABLED).toBe(false);
   });
 
+  it('uses the App Store country and closes checkout when StoreKit has no country', () => {
+    let country: string | null = 'USA';
+    jest.doMock('expo-modules-core', () => ({ requireOptionalNativeModule: () => ({ storefrontCountry: () => country }) }));
+    const s = load('ios');
+    expect(s.purchaseOfferVisible()).toBe(true);
+    country = 'GBR';
+    expect(s.purchaseOfferVisible()).toBe(false);
+    country = null;
+    expect(s.purchaseOfferVisible()).toBe(false);
+  });
+
   it('leaves Android untouched', () => {
     const s = load('android');
     expect(s.IS_APP_STORE_BUILD).toBe(false);

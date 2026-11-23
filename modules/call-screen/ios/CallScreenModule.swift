@@ -19,6 +19,10 @@ public class CallScreenModule: Module {
       CallCenter.shared.end(sessionId: sessionId)
     }.runOnQueue(.main)
 
+    AsyncFunction("completeMute") { (requestId: String, applied: Bool) in
+      CallCenter.shared.completeMute(requestId, applied: applied)
+    }.runOnQueue(.main)
+
     // Android only.
     AsyncFunction("requestUnlock") {}
 

@@ -23,6 +23,12 @@ jest.mock('../../libs/device', () => ({
   getDeviceName: jest.fn(() => 'Galaxy S24'),
 }));
 
+jest.mock('../../modules/call-screen', () => ({
+  getVoipToken: jest.fn(async () => null),
+  callScreenSupported: () => true,
+}));
+import { Platform } from 'react-native';
+import { getVoipToken } from '../../modules/call-screen';
 import { apiClient } from '../../libs/api.client';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
 
@@ -138,6 +144,53 @@ describe('services/push.service device identity', () => {
       }),
       { isAuthRequired: true },
     );
+  });
+
+  it('registers a VoIP token that arrives during the original request', async () => {
+    const token = 'ExponentPushToken[stable-token]';
+    const os = Platform.OS;
+    Platform.OS = 'ios';
+    let complete!: (value: { success: boolean }) => void;
+    let started!: () => void;
+    const posted = new Promise<void>(resolve => { started = resolve; });
+    const post = apiClient.post as jest.Mock;
+    post.mockImplementationOnce(() => {
+      started();
+      return new Promise(resolve => { complete = resolve; });
+    }).mockResolvedValue({ success: true });
+    try {
+      (getVoipToken as jest.Mock).mockResolvedValue(null);
+      const first = registerPushTokenWithBackend(token);
+      await posted;
+      (getVoipToken as jest.Mock).mockResolvedValue('new-voip-token');
+      const second = registerPushTokenWithBackend(token);
+      const repeat = registerPushTokenWithBackend(token);
+      complete({ success: true });
+      expect(await Promise.all([first, second, repeat])).toEqual([true, true, true]);
+      expect(post.mock.calls.map(([, payload]) => payload.voipToken)).toEqual([undefined, 'new-voip-token']);
+    } finally {
+      Platform.OS = os;
+      (getVoipToken as jest.Mock).mockResolvedValue(null);
+    }
+  });
+
+  it('drops queued registrations from the previous account after the cache is cleared', async () => {
+    let complete!: (value: { success: boolean }) => void;
+    let started!: () => void;
+    const posted = new Promise<void>(resolve => { started = resolve; });
+    const post = apiClient.post as jest.Mock;
+    post.mockImplementationOnce(() => {
+      started();
+      return new Promise(resolve => { complete = resolve; });
+    }).mockResolvedValue({ success: true });
+    const initial = registerPushTokenWithBackend('ExponentPushToken[old]');
+    await posted;
+    const queued = registerPushTokenWithBackend('ExponentPushToken[stale]');
+    clearPushTokenCache();
+    const current = registerPushTokenWithBackend('ExponentPushToken[current]');
+    complete({ success: true });
+    expect(await Promise.all([initial, queued, current])).toEqual([false, false, true]);
+    expect(post.mock.calls.map(([, payload]) => payload.token)).toEqual(['ExponentPushToken[old]', 'ExponentPushToken[current]']);
   });
 
   it('unregisters the same persistent device id', async () => {

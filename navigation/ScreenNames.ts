@@ -101,6 +101,8 @@ export enum ScreenNames {
   Arcade = 'Arcade',
   ArcadeGame = 'ArcadeGame',
   ArcadeChessOnline = 'ArcadeChessOnline',
+  CorrespondenceChess = 'CorrespondenceChess',
+  Okey = 'Okey',
   Apps = 'Apps',
   MiniApp = 'MiniApp',
   /** Same component as MiniApp, in developer mode: any URL, clearly marked. */

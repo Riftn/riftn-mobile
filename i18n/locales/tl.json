@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Nakatago hanggang sa i-tap nila ito", "scrub": "Mag-scrub sa video", "addMore": "Magdagdag ng mga larawan o video", "coverAria": "I-tap ang frame para gawing cover", "trimHint": "I-drag ang mga dulo para i-trim", "coverHint": "I-tap ang frame para gawin itong cover", "uploadCover": "Mag-upload ng cover picture", "mirrored": "Naka-mirror", "original": "Orihinal", "rotate90": "I-rotate nang 90°", "timerOff": "Off", "showNormally": "Ipakita nang normal", "showNormallyBody": "Nakikita nila ito agad", "hideUntilTap": "Itago hanggang sa i-tap", "hideUntilTapBody": "Blurred hanggang sa i-tap nila ito", "hidePrice": "Itago sa likod ng presyo", "hidePriceBody": "Blurred hanggang sa magbayad sila sa iyo", "priceUnavailable": "Hindi sa chat na ito", "priceLabelUsd": "Presyo", "priceHint": "Malabo ang nakikita nila hanggang sa magbayad sila sa iyo. Ang mga naka-lock na item ay hindi end-to-end encrypted.", "timerOffBody": "Mananatili ito sa chat.", "timerViewBody": "Mawawala para sa inyong dalawa kapag nakita na nila ito.", "confirm": "Kumpirmahin", "editItem": "I-edit ang item {{value1}}", "coverSet": "Cover sa {{value1}}", "lockedForUsd": "I-unlock para sa {{value1}}", "timerTimeBody": "Mawawala para sa inyong dalawa {{value1}} pagkatapos mong ipadala ito."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "hiddenUntilTap": "Nakatago hanggang sa i-tap nila ito",
+    "scrub": "Mag-scrub sa video",
+    "addMore": "Magdagdag ng mga larawan o video",
+    "coverAria": "I-tap ang frame para gawing cover",
+    "trimHint": "I-drag ang mga dulo para i-trim",
+    "coverHint": "I-tap ang frame para gawin itong cover",
+    "uploadCover": "Mag-upload ng cover picture",
+    "mirrored": "Naka-mirror",
+    "original": "Orihinal",
+    "rotate90": "I-rotate nang 90°",
+    "timerOff": "Off",
+    "showNormally": "Ipakita nang normal",
+    "showNormallyBody": "Nakikita nila ito agad",
+    "hideUntilTap": "Itago hanggang sa i-tap",
+    "hideUntilTapBody": "Blurred hanggang sa i-tap nila ito",
+    "hidePrice": "Itago sa likod ng presyo",
+    "hidePriceBody": "Blurred hanggang sa magbayad sila sa iyo",
+    "priceUnavailable": "Hindi sa chat na ito",
+    "priceLabelUsd": "Presyo",
+    "priceHint": "Malabo ang nakikita nila hanggang sa magbayad sila sa iyo. Ang mga naka-lock na item ay hindi end-to-end encrypted.",
+    "timerOffBody": "Mananatili ito sa chat.",
+    "timerViewBody": "Mawawala para sa inyong dalawa kapag nakita na nila ito.",
+    "confirm": "Kumpirmahin",
+    "editItem": "I-edit ang item {{value1}}",
+    "coverSet": "Cover sa {{value1}}",
+    "lockedForUsd": "I-unlock para sa {{value1}}",
+    "timerTimeBody": "Mawawala para sa inyong dalawa {{value1}} pagkatapos mong ipadala ito.",
+    "destruct": {
+      "60": "1 minuto",
+      "3600": "1 oras",
+      "43200": "12 oras",
+      "86400": "1 araw",
+      "604800": "1 linggo",
+      "31536000": "1 taon",
+      "view": "1 view"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 view"
+    },
+    "destructSecs": "{{n}} segundo",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Border",
     "theme": "Tema",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Presyo",
     "reorderHint": "I - hold at i - drag ang anumang icon upang muling ayusin",
+    "reorderHintGroups": "Pindutin at hilain ang anumang icon upang ayusin muli, o ilipat ito sa ibang tab",
+    "moveGroupHint": "I-save sa tab na ibang para ma-move doon.",
     "reorderReset": "I - reset",
     "groups": {
       "create": "Gumawa",
@@ -3168,7 +3229,26 @@
     "postCount_other": "{{count}} mga post"
   },
   "settings": {
-    "loginLook": {"title": "Screen ng pag-sign in", "desc": "Kung paano gumagalaw ang logo at slogan ng Riftn sa screen ng pag-sign in sa device na ito.", "tube": "Tube TV", "vhs": "VHS tape", "led": "LED wall", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Patag"}, "arrivalLook": {"title": "Pagkatapos mag-sign in", "desc": "Ang ipinapakita habang naglo-load ang account mo, bago lumapag ang larawan mo sa page. Sa device na ito.", "trace": "Bakas", "tune": "I-tune in", "rift": "Lamat", "deck": "Baraha", "glass": "Patak ng salamin"},
+    "loginLook": {
+      "title": "Screen ng pag-sign in",
+      "desc": "Kung paano gumagalaw ang logo at slogan ng Riftn sa screen ng pag-sign in sa device na ito.",
+      "tube": "Tube TV",
+      "vhs": "VHS tape",
+      "led": "LED wall",
+      "holo": "Hologram",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Patag"
+    },
+    "arrivalLook": {
+      "title": "Pagkatapos mag-sign in",
+      "desc": "Ang ipinapakita habang naglo-load ang account mo, bago lumapag ang larawan mo sa page. Sa device na ito.",
+      "trace": "Bakas",
+      "tune": "I-tune in",
+      "rift": "Lamat",
+      "deck": "Baraha",
+      "glass": "Patak ng salamin"
+    },
     "glass": "Salamin",
     "shortsEnabled": "Pantalon",
     "shortsEnabledDesc": "Ipakita ang tab na Shorts feed at Shorts carousels sa Home.",
@@ -7072,6 +7152,17 @@
       "moveRuleDown": "Ilipat ang tuntunin pababa",
       "deleteRule": "Burahin ang tuntunin",
       "rights": {
+        "sendMessages": "Magpadala ng mensahe",
+        "sendMessagesHint": "Ipost sa chat ng komunidad",
+        "sendMedia": "Magpadala ng media",
+        "sendMediaHint": "Mag-attach ng mga larawan at GIF",
+        "embedLinks": "Magdagdag ng mga link",
+        "embedLinksHint": "Ipakita ang mga preview ng link",
+        "addMembers": "Magdagdag ng mga miyembro",
+        "addMembersHint": "I-share ang komunidad sa iba",
+        "createEvents": "Makagawa ng mga pangyayari",
+        "createEventsHint": "Isagawa ang mga pangyayari ng komunidad",
+        "changeInfoMemberHint": "I-edit ang pangalan ng komunidad at deskripsyon",
         "changeInfo": "Baguhin ang impormasyon ng komunidad",
         "changeInfoHint": "I-edit ang pangalan, deskripsyon, avatar, at banner",
         "deleteMessages": "Burahin ang mga mensahe",
@@ -7148,12 +7239,41 @@
       "noInvites": "Walang paunang inaayos na mga link ng inaanyo. Makalikha ng isa para sa direktang pag-iimbita ng mga tao.",
       "permissionsUpdated": "Pinatibay ang mga karapatan",
       "slowModeUpdated": "Pinatibay ang slow mode",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "Tatlumpu't dalawampu",
+        "oneMinute": "1 minuto",
+        "fiveMinutes": "5 minuto",
+        "fifteenMinutes": "15 minuto",
+        "oneHour": "1 oras"
+      },
       "slowModeOffHint": "Ang mga miyembro ay pwedeng magpadala ng mensahe nang walang paghihintay.",
       "slowModeOnHint": "Ang mga miyembro ay pwedeng magpadala ng isang mensahe bawat {{label}}. Ang mga admin ay hindi kasama.",
       "defaultPermissions": "Ang mga karapatan ng miyembro ng default",
       "defaultPermissionsHint": "Ang lahat ng mga bagay na ang mga tao ay pwedeng gawin dito maliban kung mayroon kang karapatan ng admin na nagsasabi ng iba.",
       "slowModeTitle": "Ang slow mode",
       "log": {
+        "verbs": {
+          "promote_admin": "naka-promote",
+          "demote_admin": "na-demote",
+          "transfer_ownership": "Nag-transfer ng pagmamay-ari sa",
+          "ban_member": "pinagbawalan",
+          "unban_member": "unbanned",
+          "kick_member": "inalis",
+          "mute_member": "na - mute",
+          "unmute_member": "walang pinagbawalan",
+          "approve_member": "naaprubahan",
+          "reject_member": "tinanggihan",
+          "delete_message": "nagbura ng mensahe mula sa",
+          "purge_messages": "tinanggal ang lahat ng mga mensahe mula sa",
+          "pin_message": "nakasabit ang isang mensahe mula",
+          "unpin_message": "unpinned ang isang mensahe mula sa",
+          "update_settings": "Nag-upgrade ang mga setting ng komunidad",
+          "create_invite": "gumawa ng link ng imbitasyon",
+          "revoke_invite": "kinuha ang link ng inimbitahan",
+          "invite_used": "naiinvited"
+        },
         "justNow": "nang ngayon",
         "minutesAgo": "{{value}}m na ang nakalipas",
         "hoursAgo": "{{value}}h na ang nakalipas",
@@ -13745,53 +13865,52 @@
     "cinema": {
       "close": "Isara",
       "performance": {
-        "label": "Pagtatanghal",
         "0": "Masaya",
         "1": "Malungkot",
         "2": "Balisa",
         "3": "Kumpiyansa",
         "4": "Namangha",
         "5": "Pigil",
-        "6": "Mapaglaro"
+        "6": "Mapaglaro",
+        "label": "Pagtatanghal"
       },
       "title": "Direksyong pang-sinema",
       "hint": "Gabayan ang visual na estilo ng susunod mong larawan o video. Nag-iiba ang resulta depende sa model.",
       "none": "Walang direksyon",
       "reset": "I-clear ang direksyon",
       "camera": {
-        "label": "Itsura ng camera",
         "0": "Digital na sinema",
         "1": "35mm na pelikula",
         "2": "16mm na pelikula",
         "3": "Large format",
-        "4": "Vintage na camcorder"
+        "4": "Vintage na camcorder",
+        "label": "Itsura ng camera"
       },
       "lens": {
-        "label": "Itsura ng lens",
         "0": "Spherical",
         "1": "Anamorphic",
         "2": "Vintage na malambot na salamin",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Itsura ng lens"
       },
       "focalLength": {
-        "label": "Focal length",
         "0": "18mm malapad",
         "1": "24mm malapad",
         "2": "35mm natural",
         "3": "50mm standard",
         "4": "85mm portrait",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Focal length"
       },
       "aperture": {
-        "label": "Lalim ng field",
         "0": "f/1.4 napakababaw",
         "1": "f/2.8 mababaw",
         "2": "f/5.6 katamtaman",
-        "3": "f/11 malalim na focus"
+        "3": "f/11 malalim na focus",
+        "label": "Lalim ng field"
       },
       "movement": {
-        "label": "Galaw ng camera",
         "0": "Nakapirmeng tripod",
         "1": "Mabagal na dolly papasok",
         "2": "Mabagal na dolly palabas",
@@ -13799,27 +13918,27 @@
         "4": "Umikot sa paksa",
         "5": "Hawak-kamay",
         "6": "Pataas na crane",
-        "7": "Mabagal na pan"
+        "7": "Mabagal na pan",
+        "label": "Galaw ng camera"
       },
       "lighting": {
-        "label": "Ilaw",
         "0": "Malambot na liwanag ng araw",
         "1": "Golden hour",
         "2": "Madilim na chiaroscuro",
         "3": "Maliwanag na studio",
         "4": "Mga neon na ilaw",
         "5": "Silhouette na backlight",
-        "6": "Makulimlim at diffuse"
+        "6": "Makulimlim at diffuse",
+        "label": "Ilaw"
       },
       "tempo": {
-        "label": "Bilis ng shot",
         "0": "Isang tuloy-tuloy na shot",
         "1": "Kalmado at hindi nagmamadaling aksyon",
         "2": "Dinamiko at masiglang aksyon",
-        "3": "Magulo at mabilis na aksyon"
+        "3": "Magulo at mabilis na aksyon",
+        "label": "Bilis ng shot"
       },
       "era": {
-        "label": "Panahon",
         "0": "Dekada 1920",
         "1": "Dekada 1950",
         "2": "Dekada 1960",
@@ -13827,10 +13946,10 @@
         "4": "Dekada 1980",
         "5": "Dekada 1990",
         "6": "Kasalukuyan",
-        "7": "Malapit na hinaharap"
+        "7": "Malapit na hinaharap",
+        "label": "Panahon"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumentaryo",
         "1": "Drama",
         "2": "Film noir",
@@ -13838,16 +13957,17 @@
         "4": "Pantasya",
         "5": "Romantic comedy",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Paleta ng kulay",
         "0": "Mainit na amber",
         "1": "Malamig na asul",
         "2": "Malamlam na kulay-lupa",
         "3": "Pastel",
         "4": "High contrast na monochrome",
-        "5": "Matitingkad na pangunahing kulay"
+        "5": "Matitingkad na pangunahing kulay",
+        "label": "Paleta ng kulay"
       }
     },
     "audioNoSpeech": "Walang sinabi ang natagpuan sa pag-record.",

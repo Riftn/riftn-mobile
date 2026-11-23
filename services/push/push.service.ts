@@ -11,6 +11,8 @@ import { IS_APP_STORE_BUILD } from '../../config/storefront';
 import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '../../libs/call-ring-support';
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
+import { listenForReplies, registerMessageReplyCategory } from './message-reply';
+import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
 
@@ -92,6 +94,8 @@ export interface NotificationData {
   type: string;
   category?: string;
   deepLink?: string;
+  /** Address of the account the push was sent to. */
+  recipient?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
@@ -138,15 +142,33 @@ Notifications.setNotificationHandler({
       && AppState.currentState === 'active'
       && isConversationOpen(conversationId);
     const show = !isCall && !inOpenChat;
+    // A message while the app is open drops in as Riftn's own banner, which
+    // can be pulled down to reply. It stays in the notification list too.
+    const bannered = show
+      && data.type === 'new_message'
+      && AppState.currentState === 'active'
+      && typeof conversationId === 'string'
+      && showMessageBanner({
+        id: notification.request.identifier,
+        conversationId,
+        group: data.conversationType === 'group',
+        title: notification.request.content.title || data.senderName || '',
+        body: notification.request.content.body || '',
+        recipient: typeof data.recipient === 'string' ? data.recipient : undefined,
+      });
     return {
-      shouldShowAlert: show,
+      shouldShowAlert: show && !bannered,
       shouldPlaySound: show,
       shouldSetBadge: show,
-      shouldShowBanner: show,
+      shouldShowBanner: show && !bannered,
       shouldShowList: show,
     };
   },
 });
+
+// Replies typed into a message notification are sent from here, even when the
+// app was woken in the background and no screen ever mounts.
+listenForReplies();
 
 // Singleton state for token registration
 let cachedExpoPushToken: string | null = null;
@@ -297,6 +319,7 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
     }
 
     void registerHiddenPreviewLines();
+    void registerMessageReplyCategory();
 
     setRegistrationState('registered');
     return token;
@@ -452,7 +475,8 @@ async function setupAndroidChannels(): Promise<void> {
 
 // Track the last token registered with backend to avoid duplicates
 let lastBackendRegisteredToken: string | null = null;
-let backendRegistrationInProgress = false;
+let backendRegistration = Promise.resolve(false);
+let registrationGeneration = 0;
 
 /**
  * Register push token with backend for the authenticated user.
@@ -467,29 +491,26 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
     throw new Error('Invalid Expo push token format');
   }
 
-  const voipToken = Platform.OS === 'ios' ? await getVoipToken() : null;
-  const registrationKey = `${token}|${voipToken ?? ''}`;
+  // PushKit can deliver its token while the initial Expo registration is in flight.
+  // Read the latest native token once the preceding write has settled.
+  const generation = registrationGeneration;
+  const register = () => savePushRegistration(token, generation);
+  backendRegistration = backendRegistration.then(register, register);
+  return backendRegistration;
+}
 
-  // Skip if same token already registered
-  if (lastBackendRegisteredToken === registrationKey) {
-    logger.debug('Token already registered with backend, skipping');
-    return true;
-  }
-
-  // Skip if registration already in progress
-  if (backendRegistrationInProgress) {
-    logger.debug('Backend registration already in progress, skipping');
-    return false;
-  }
-
-  backendRegistrationInProgress = true;
-
+async function savePushRegistration(token: string, generation: number): Promise<boolean> {
+  if (generation !== registrationGeneration) return false;
   try {
+    const voipToken = Platform.OS === 'ios' ? await getVoipToken() : null;
+    const registrationKey = `${token}|${voipToken ?? ''}`;
+    if (lastBackendRegisteredToken === registrationKey) return true;
     // Use the same persisted native identifier as auth sessions and request
     // headers. A display name is neither unique nor stable, and changing it
     // while Expo keeps the same token creates two rows for one token.
     const deviceId = await getDeviceId();
-    
+    if (generation !== registrationGeneration) return false;
+
     const payload: PushTokenPayload = {
       token,
       platform: Platform.OS as 'ios' | 'android',
@@ -502,6 +523,7 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
 
     const response = await apiClient.post('/push/token', payload, { isAuthRequired: true });
     
+    if (generation !== registrationGeneration) return false;
     if (response?.success) {
       logger.info('Push token registered with backend');
       lastBackendRegisteredToken = registrationKey;
@@ -513,8 +535,6 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
   } catch (error) {
     logger.error('Failed to register push token with backend', error);
     return false;
-  } finally {
-    backendRegistrationInProgress = false;
   }
 }
 
@@ -532,6 +552,7 @@ export async function refreshPushRegistration(): Promise<boolean> {
  * Clear the cached registration state (call on logout).
  */
 export function clearPushTokenCache(): void {
+  registrationGeneration += 1;
   cachedExpoPushToken = null;
   lastBackendRegisteredToken = null;
   androidChannelsConfigured = false;

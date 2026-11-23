@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Application from "expo-application";
+import { Linking, Platform } from "react-native";
 import { createLogger } from "./logger";
 import { track } from "./analytics";
 
@@ -83,5 +84,93 @@ export async function noteNotificationMoment(type: string | undefined): Promise<
     }
   } catch (error) {
     log.warn("Could not record notification moment", error);
+  }
+}
+
+// ── The Home card ──────────────────────────────────────────────────────────
+// A slim "Enjoying Riftn? Rate us" card on Home, for people who keep coming
+// back. It links to the store's own review page rather than the OS sheet: the
+// OS may silently show nothing (Apple allows three a year), and a button that
+// does nothing reads as broken. Shown rarely:
+//  - only after the install grace and outside the 90-day cooldown above;
+//  - only once Home has been opened on REVIEW_CARD_DAYS different days;
+//  - "Not now" hides it for 30 days, the second "Not now" for good;
+//  - once someone taps Rate, never again.
+
+const HOME_DAYS_KEY = "dehub-review-home-days";
+const CARD_STATE_KEY = "dehub-review-card";
+export const REVIEW_CARD_DAYS = 4;
+export const REVIEW_CARD_SNOOZE_MS = 30 * DAY;
+export const REVIEW_CARD_MAX_DISMISSALS = 2;
+
+const IOS_REVIEW_URL = "https://apps.apple.com/app/id6770382811?action=write-review";
+const IOS_REVIEW_DEEP_URL = "itms-apps://apps.apple.com/app/id6770382811?action=write-review";
+const ANDROID_REVIEW_DEEP_URL = "market://details?id=io.dehub.mobile";
+const ANDROID_REVIEW_URL = "https://play.google.com/store/apps/details?id=io.dehub.mobile";
+
+type CardState = { rated?: boolean; dismissals?: number; snoozeUntil?: number };
+
+async function readJson<T>(key: string, fallback: T): Promise<T> {
+  try {
+    const raw = await AsyncStorage.getItem(key);
+    return raw ? { ...fallback, ...(JSON.parse(raw) as T) } : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function dayStamp(now: number): string {
+  const d = new Date(now);
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+
+/** Counts each local day Home is opened; returns how many days so far. */
+export async function noteHomeVisitDay(now = Date.now()): Promise<number> {
+  const seen = await readJson<{ last?: string; count?: number }>(HOME_DAYS_KEY, {});
+  const today = dayStamp(now);
+  if (seen.last === today) return seen.count ?? 0;
+  const count = (seen.count ?? 0) + 1;
+  await AsyncStorage.setItem(HOME_DAYS_KEY, JSON.stringify({ last: today, count }));
+  return count;
+}
+
+/** Records today's Home visit and says whether the review card may show. */
+export async function shouldShowReviewCard(now = Date.now()): Promise<boolean> {
+  try {
+    if (Platform.OS !== "ios" && Platform.OS !== "android") return false;
+    const days = await noteHomeVisitDay(now);
+    const state = await readJson<CardState>(CARD_STATE_KEY, {});
+    if (state.rated) return false;
+    if ((state.dismissals ?? 0) >= REVIEW_CARD_MAX_DISMISSALS) return false;
+    if (state.snoozeUntil && now < state.snoozeUntil) return false;
+    if (days < REVIEW_CARD_DAYS) return false;
+    return await canPromptForReview(now);
+  } catch (error) {
+    log.warn("Review card check failed", error);
+    return false;
+  }
+}
+
+export async function dismissReviewCard(now = Date.now()): Promise<void> {
+  const state = await readJson<CardState>(CARD_STATE_KEY, {});
+  const dismissals = (state.dismissals ?? 0) + 1;
+  await AsyncStorage.setItem(CARD_STATE_KEY, JSON.stringify({ ...state, dismissals, snoozeUntil: now + REVIEW_CARD_SNOOZE_MS }));
+  track("review_card_dismissed", { dismissals });
+}
+
+/** Opens the store's write-a-review page and retires the card for good. */
+export async function openStoreReviewPage(now = Date.now()): Promise<void> {
+  const state = await readJson<CardState>(CARD_STATE_KEY, {});
+  await AsyncStorage.setItem(CARD_STATE_KEY, JSON.stringify({ ...state, rated: true }));
+  // Counts as a review ask, so the OS sheet waits out its cooldown too.
+  await AsyncStorage.setItem(LAST_PROMPT_KEY, String(now));
+  track("review_card_rate", { platform: Platform.OS });
+  const [deep, web] = Platform.OS === "ios"
+    ? [IOS_REVIEW_DEEP_URL, IOS_REVIEW_URL]
+    : [ANDROID_REVIEW_DEEP_URL, ANDROID_REVIEW_URL];
+  try {
+    await Linking.openURL(deep);
+  } catch {
+    await Linking.openURL(web).catch((error) => log.warn("Could not open the store review page", error));
   }
 }

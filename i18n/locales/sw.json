@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Jalada", "trim": "Punguza", "mirror": "Kioo", "rotate": "Zungusha", "hide": "Ficha", "timer": "Kipima muda", "close": "Funga", "photo": "Picha", "remove": "Ondoa", "pause": "Sitisha", "play": "Cheza video", "hiddenUntilTap": "Imefichwa hadi watakapogonga", "scrub": "Sogeza video", "addMore": "Ongeza picha au video", "coverAria": "Gonga fremu ili kuweka jalada", "trimHint": "Buruta ncha ili kupunguza", "coverHint": "Gonga fremu ili kuifanya kuwa jalada", "uploadCover": "Pakia picha ya jalada", "mirrored": "Imeakisiwa", "original": "Asilia", "rotate90": "Zungusha 90°", "timerOff": "Zima", "showNormally": "Onyesha kawaida", "showNormallyBody": "Wanaiona mara moja", "hideUntilTap": "Ficha hadi igongwe", "hideUntilTapBody": "Imefifishwa hadi watakapogonga", "hidePrice": "Ficha nyuma ya bei", "hidePriceBody": "Imefifishwa hadi wakulipe", "priceUnavailable": "Si katika gumzo hili", "priceLabelUsd": "Bei", "priceHint": "Wanaiona ikiwa na ukungu hadi pale wanapokulipa. Vipengee vilivyofungwa havijasimbwa kwa njia fiche kutoka mwisho hadi mwisho.", "timerOffBody": "Inabaki kwenye gumzo.", "timerViewBody": "Imekwisha kwa nyinyi wawili pindi tu watakapokiona.", "confirm": "Thibitisha", "editItem": "Hariri kipengee {{value1}}", "coverSet": "Kifuniko kwa {{value1}}", "lockedForUsd": "Fungua kwa ajili ya {{value1}}", "timerTimeBody": "Imeondoka kwa ajili yenu nyote wawili {{value1}} baada ya kuituma."},
+  "dmVideo": {
+    "cover": "Jalada",
+    "trim": "Punguza",
+    "mirror": "Kioo",
+    "rotate": "Zungusha",
+    "hide": "Ficha",
+    "timer": "Kipima muda",
+    "close": "Funga",
+    "photo": "Picha",
+    "remove": "Ondoa",
+    "pause": "Sitisha",
+    "play": "Cheza video",
+    "hiddenUntilTap": "Imefichwa hadi watakapogonga",
+    "scrub": "Sogeza video",
+    "addMore": "Ongeza picha au video",
+    "coverAria": "Gonga fremu ili kuweka jalada",
+    "trimHint": "Buruta ncha ili kupunguza",
+    "coverHint": "Gonga fremu ili kuifanya kuwa jalada",
+    "uploadCover": "Pakia picha ya jalada",
+    "mirrored": "Imeakisiwa",
+    "original": "Asilia",
+    "rotate90": "Zungusha 90°",
+    "timerOff": "Zima",
+    "showNormally": "Onyesha kawaida",
+    "showNormallyBody": "Wanaiona mara moja",
+    "hideUntilTap": "Ficha hadi igongwe",
+    "hideUntilTapBody": "Imefifishwa hadi watakapogonga",
+    "hidePrice": "Ficha nyuma ya bei",
+    "hidePriceBody": "Imefifishwa hadi wakulipe",
+    "priceUnavailable": "Si katika gumzo hili",
+    "priceLabelUsd": "Bei",
+    "priceHint": "Wanaiona ikiwa na ukungu hadi pale wanapokulipa. Vipengee vilivyofungwa havijasimbwa kwa njia fiche kutoka mwisho hadi mwisho.",
+    "timerOffBody": "Inabaki kwenye gumzo.",
+    "timerViewBody": "Imekwisha kwa nyinyi wawili pindi tu watakapokiona.",
+    "confirm": "Thibitisha",
+    "editItem": "Hariri kipengee {{value1}}",
+    "coverSet": "Kifuniko kwa {{value1}}",
+    "lockedForUsd": "Fungua kwa ajili ya {{value1}}",
+    "timerTimeBody": "Imeondoka kwa ajili yenu nyote wawili {{value1}} baada ya kuituma.",
+    "destruct": {
+      "60": "dakika 1",
+      "3600": "saa 1",
+      "43200": "saa 12",
+      "86400": "siku 1",
+      "604800": "wiki 1",
+      "31536000": "mwaka 1",
+      "view": "mtazamo 1"
+    },
+    "destructShort": {
+      "60": "dakika 1",
+      "3600": "saa 1",
+      "43200": "saa 12",
+      "86400": "siku 1",
+      "604800": "wiki 1",
+      "31536000": "mwaka 1",
+      "view": "mtazamo 1"
+    },
+    "destructSecs": "{{n}} sekunde",
+    "destructShortSecs": "{{n}}s"
+  },
   "comic": {
     "toComic": "Geuza kuwa katuni",
     "toCarousel": "Onyesha kama jukwa",
@@ -3023,6 +3082,8 @@
     "premium": "Ya starehe",
     "pricing": "Bei",
     "reorderHint": "Shikilia na buruta ikoni yoyote ili kupanga upya",
+    "reorderHintGroups": "Shikilia na uburute ikoni yoyote ili kupanga upya, au uipeleke kwenye kichupo kingine ili kuihamisha",
+    "moveGroupHint": "Iburute kwenye kichupo kingine ili kuihamishia huko",
     "reorderReset": "Weka upya",
     "groups": {
       "create": "Unda",
@@ -3194,7 +3255,26 @@
     "postCount_other": "machapisho {{count}}"
   },
   "settings": {
-    "loginLook": {"title": "Skrini ya kuingia", "desc": "Jinsi nembo na kauli mbiu ya Riftn zinavyosonga kwenye skrini ya kuingia kwenye kifaa hiki.", "tube": "TV ya bomba", "vhs": "Kanda ya VHS", "led": "Ukuta wa LED", "holo": "Hologramu", "neon": "Neoni", "3d": "3D", "flat": "Bapa"}, "arrivalLook": {"title": "Baada ya kuingia", "desc": "Kinachocheza akaunti yako ikipakia, kabla picha yako haijatua kwenye ukurasa. Kwenye kifaa hiki.", "trace": "Mstari", "tune": "Tafuta kituo", "rift": "Ufa", "deck": "Karata", "glass": "Tone la kioo"},
+    "loginLook": {
+      "title": "Skrini ya kuingia",
+      "desc": "Jinsi nembo na kauli mbiu ya Riftn zinavyosonga kwenye skrini ya kuingia kwenye kifaa hiki.",
+      "tube": "TV ya bomba",
+      "vhs": "Kanda ya VHS",
+      "led": "Ukuta wa LED",
+      "holo": "Hologramu",
+      "neon": "Neoni",
+      "3d": "3D",
+      "flat": "Bapa"
+    },
+    "arrivalLook": {
+      "title": "Baada ya kuingia",
+      "desc": "Kinachocheza akaunti yako ikipakia, kabla picha yako haijatua kwenye ukurasa. Kwenye kifaa hiki.",
+      "trace": "Mstari",
+      "tune": "Tafuta kituo",
+      "rift": "Ufa",
+      "deck": "Karata",
+      "glass": "Tone la kioo"
+    },
     "glass": "Kioo",
     "shortsEnabled": "Shati fupi",
     "shortsEnabledDesc": "Onyesha kichupo cha malisho ya Kaptula na carouseli za Kaptula kwenye Nyumba.",
@@ -7053,6 +7133,17 @@
       "moveRuleDown": "Sogeza sheria chini",
       "deleteRule": "Futa sheria",
       "rights": {
+        "sendMessages": "Tuma habari",
+        "sendMessagesHint": "Posti katika chati ya kijamii",
+        "sendMedia": "Tuma vyombo vya habari",
+        "sendMediaHint": "Ongeza picha na GIFs",
+        "embedLinks": "Weka linki",
+        "embedLinksHint": "Onyesha hakiki za kiunganishi",
+        "addMembers": "Weka wanachama",
+        "addMembersHint": "Shiriki jumuiya na wengine",
+        "createEvents": "Kuunda matukio",
+        "createEventsHint": "Ratibu matukio ya jumuiya",
+        "changeInfoMemberHint": "Hariri jina la jumuiya na maelezo",
         "changeInfo": "Badilisha maelezo ya jumuiya",
         "changeInfoHint": "Hariri jina, maelezo, avatar na bendera",
         "deleteMessages": "Futa jumbe",
@@ -7130,12 +7221,41 @@
       "noInvites": "Hakuna viunganishi vya mwaliko bado. Unda moja ili kuwaalika watu moja kwa moja.",
       "permissionsUpdated": "Ruhusa zimesasishwa",
       "slowModeUpdated": "Hali ya polepole imesasishwa",
+      "slowMode": {
+        "off": "Zima",
+        "tenSeconds": "Miaka ya 10",
+        "thirtySeconds": "Miaka ya 30",
+        "oneMinute": "Dakika 1",
+        "fiveMinutes": "Dakika 5",
+        "fifteenMinutes": "Dakika 15",
+        "oneHour": "Saa 1"
+      },
       "slowModeOffHint": "Wanachama wanaweza kutuma ujumbe bila kuchelewa.",
       "slowModeOnHint": "Wanachama wanaweza kutuma ujumbe mmoja kila {{label}}. Wasimamizi wana msamaha.",
       "defaultPermissions": "Ruhusa chaguo-msingi za mwanachama",
       "defaultPermissionsHint": "Kile ambacho kila mtu anaweza kufanya hapa isipokuwa haki ya msimamizi inasema vinginevyo.",
       "slowModeTitle": "Hali ya polepole",
       "log": {
+        "verbs": {
+          "promote_admin": "zimepandishwa cheo",
+          "demote_admin": "kutengwa",
+          "transfer_ownership": "Imetoa ushawishi kwa mwenye nafasi",
+          "ban_member": "imepigwa marufuku",
+          "unban_member": "haijapigwa marufuku",
+          "kick_member": "iliyotolewa",
+          "mute_member": "imebadilishwa",
+          "unmute_member": "bila kuumwa",
+          "approve_member": "Imetambuliwa",
+          "reject_member": "imekataliwa",
+          "delete_message": "amefuta ujumbe kutoka kwa",
+          "purge_messages": "ilifuta ujumbe wote kutoka",
+          "pin_message": "yaliyopigwa kisanduku kutoka",
+          "unpin_message": "kutokana na",
+          "update_settings": "Imetoongezwa maadili ya jumuiya",
+          "create_invite": "iliwezesha linki ya kuwapa kujieleza",
+          "revoke_invite": "ulipitisha linki ya kuwahamisha",
+          "invite_used": "inatambulika"
+        },
         "justNow": "sasa hivi",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",
@@ -13592,53 +13712,52 @@
     "cinema": {
       "close": "Funga",
       "performance": {
-        "label": "Utendaji",
         "0": "Mwenye furaha",
         "1": "Mwenye huzuni",
         "2": "Mwenye wasiwasi",
         "3": "Mwenye kujiamini",
         "4": "Mwenye mshangao",
         "5": "Mtulivu",
-        "6": "Mcheshi"
+        "6": "Mcheshi",
+        "label": "Utendaji"
       },
       "title": "Mwelekeo wa sinema",
       "hint": "Ongoza mtindo wa picha wa picha au video yako inayofuata. Matokeo hutofautiana kulingana na modeli.",
       "none": "Hakuna mwelekeo",
       "reset": "Futa mwelekeo",
       "camera": {
-        "label": "Mwonekano wa kamera",
         "0": "Sinema ya kidijitali",
         "1": "Filamu ya 35mm",
         "2": "Filamu ya 16mm",
         "3": "Muundo mkubwa",
-        "4": "Kamkoda ya zamani"
+        "4": "Kamkoda ya zamani",
+        "label": "Mwonekano wa kamera"
       },
       "lens": {
-        "label": "Mwonekano wa lenzi",
         "0": "Duara",
         "1": "Anamorphic",
         "2": "Kioo laini cha zamani",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Mwonekano wa lenzi"
       },
       "focalLength": {
-        "label": "Urefu wa fokasi",
         "0": "18mm pana",
         "1": "24mm pana",
         "2": "35mm asilia",
         "3": "50mm ya kawaida",
         "4": "85mm ya picha ya mtu",
-        "5": "135mm ya telephoto"
+        "5": "135mm ya telephoto",
+        "label": "Urefu wa fokasi"
       },
       "aperture": {
-        "label": "Kina cha uwanja",
         "0": "f/1.4 kina kidogo sana",
         "1": "f/2.8 kina kidogo",
         "2": "f/5.6 wastani",
-        "3": "f/11 fokasi ya kina"
+        "3": "f/11 fokasi ya kina",
+        "label": "Kina cha uwanja"
       },
       "movement": {
-        "label": "Mwendo wa kamera",
         "0": "Tripodi isiyosogea",
         "1": "Dolly ya polepole kuingia",
         "2": "Dolly ya polepole kutoka",
@@ -13646,27 +13765,27 @@
         "4": "Zunguka mhusika",
         "5": "Kushikwa mkononi",
         "6": "Kupanda kwa kreni",
-        "7": "Pan ya polepole"
+        "7": "Pan ya polepole",
+        "label": "Mwendo wa kamera"
       },
       "lighting": {
-        "label": "Mwanga",
         "0": "Mwanga laini wa mchana",
         "1": "Saa ya dhahabu",
         "2": "Chiaroscuro ya mwanga hafifu",
         "3": "Studio ya mwanga mwingi",
         "4": "Taa za neon",
         "5": "Kivuli dhidi ya mwanga wa nyuma",
-        "6": "Mwanga uliotawanyika wa mawingu"
+        "6": "Mwanga uliotawanyika wa mawingu",
+        "label": "Mwanga"
       },
       "tempo": {
-        "label": "Kasi ya picha",
         "0": "Picha moja mfululizo",
         "1": "Kitendo tulivu, kisicho na haraka",
         "2": "Kitendo chenye nguvu na msisimko",
-        "3": "Kitendo cha vurugu na kasi"
+        "3": "Kitendo cha vurugu na kasi",
+        "label": "Kasi ya picha"
       },
       "era": {
-        "label": "Enzi",
         "0": "Miaka ya 1920",
         "1": "Miaka ya 1950",
         "2": "Miaka ya 1960",
@@ -13674,10 +13793,10 @@
         "4": "Miaka ya 1980",
         "5": "Miaka ya 1990",
         "6": "Siku hizi",
-        "7": "Siku za usoni karibu"
+        "7": "Siku za usoni karibu",
+        "label": "Enzi"
       },
       "genre": {
-        "label": "Aina",
         "0": "Makala halisi",
         "1": "Drama",
         "2": "Film noir",
@@ -13685,16 +13804,17 @@
         "4": "Njozi",
         "5": "Vichekesho vya mapenzi",
         "6": "Msisimko",
-        "7": "Western"
+        "7": "Western",
+        "label": "Aina"
       },
       "palette": {
-        "label": "Rangi",
         "0": "Kahawia ya joto",
         "1": "Bluu baridi",
         "2": "Rangi hafifu za udongo",
         "3": "Rangi laini",
         "4": "Nyeusi na nyeupe yenye utofautishaji mkubwa",
-        "5": "Rangi za msingi zilizokolea"
+        "5": "Rangi za msingi zilizokolea",
+        "label": "Rangi"
       }
     },
     "audioNoSpeech": "Haikuwa na sauti yoyote iliyopatikana katika mawasiliano hayo.",

@@ -44,4 +44,13 @@ describe("menu groups", () => {
     expect(isMenuLayout("folders")).toBe(true);
     expect(isMenuLayout("grid")).toBe(false);
   });
+
+  it("moves a row to the group it was dropped on, and only there", () => {
+    const rows = MENU_GROUPS.flatMap((g) => g.keys).map((labelKey) => ({ labelKey }));
+    const groups = groupMenuItems(rows, { "nav.wallet": "create" });
+    expect(groups.find((g) => g.id === "main")!.items.map((i) => i.labelKey)).not.toContain("nav.wallet");
+    expect(groups.find((g) => g.id === "create")!.items.map((i) => i.labelKey)).toContain("nav.wallet");
+    expect(groups.flatMap((g) => g.items).filter((i) => i.labelKey === "nav.wallet")).toHaveLength(1);
+  });
 });
+

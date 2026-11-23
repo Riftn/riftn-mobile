@@ -60,17 +60,33 @@ const ICE_SERVERS = [
   { urls: 'stun:stun.cloudflare.com:3478' },
 ];
 
-/** Resolves once ICE gathering completes, or once the cap elapses. */
+/** Short wait after the first candidate, so the rest of its round lands too. */
+const ICE_ENOUGH_GRACE_MS = 150;
+
+/**
+ * Resolves once there is a candidate to offer, or once the cap elapses.
+ *
+ * It used to wait for gathering to COMPLETE, which means every STUN server
+ * has answered. On a carrier that blocks or delays STUN that never happens,
+ * the full cap sat in front of the offer, and the start timeout in
+ * useWhepStream ran out before the picture could arrive: the iPhone gave up
+ * on WebRTC for a stream that would have played. The ingest has a public
+ * address and learns where the phone is from its first connectivity check,
+ * so the offer needs no STUN answer in it. The first candidate is enough.
+ */
 function waitForIceGathering(pc: any): Promise<void> {
   if (pc.iceGatheringState === 'complete') return Promise.resolve();
   return new Promise((resolve) => {
     let settled = false;
+    let grace: ReturnType<typeof setTimeout> | undefined;
     const finish = () => {
       if (settled) return;
       settled = true;
       clearTimeout(timer);
+      clearTimeout(grace);
       try {
         pc.removeEventListener?.('icegatheringstatechange', onChange);
+        pc.removeEventListener?.('icecandidate', onCandidate);
       } catch {
         /* the connection is already gone */
       }
@@ -79,14 +95,33 @@ function waitForIceGathering(pc: any): Promise<void> {
     const onChange = () => {
       if (pc.iceGatheringState === 'complete') finish();
     };
+    const onCandidate = (event: any) => {
+      if (grace || !event?.candidate) return;
+      grace = setTimeout(finish, ICE_ENOUGH_GRACE_MS);
+    };
     try {
       pc.addEventListener?.('icegatheringstatechange', onChange);
+      pc.addEventListener?.('icecandidate', onCandidate);
     } catch {
       finish();
       return;
     }
     const timer = setTimeout(finish, ICE_GATHERING_TIMEOUT_MS);
   });
+}
+
+/**
+ * The playback server answered, and the answer was no: the stream is not on
+ * air, or it carries something WebRTC cannot (H.264 with B-frames). Asking
+ * again gets the same answer, so the caller goes straight to HLS.
+ */
+export class WhepRefusedError extends Error {
+  readonly status: number;
+  constructor(status: number) {
+    super(`whep ${status}`);
+    this.name = 'WhepRefusedError';
+    this.status = status;
+  }
 }
 
 /** The session resource to DELETE on the way out, if the server named one. */
@@ -176,9 +211,7 @@ export async function subscribeToWhep({
       headers: { 'content-type': 'application/sdp' },
       body: sdp,
     });
-    if (!response.ok) {
-      throw new Error(`whep ${response.status}`);
-    }
+    if (!response.ok) throw new WhepRefusedError(response.status);
 
     const answer = await response.text();
     if (!answer.trim()) throw new Error('empty answer');

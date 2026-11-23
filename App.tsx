@@ -1,3 +1,4 @@
+import { pendingTransfers } from "./libs/confirmed-transfer";
 import { EscapedMusicNotesHost } from './components/Home/EscapedMusicNotesHost';
 import { VideoDownloadProvider } from "./context/VideoDownloadContext";
 import { ScreenNames } from "./navigation/ScreenNames";
@@ -23,6 +24,7 @@ import {
   queryClient,
   queryCachePersister,
   markRestoredCacheStale,
+  startQueryCachePersistence,
   PERSIST_MAX_AGE,
   PERSIST_BUSTER,
 } from "./config/queryClient";
@@ -65,6 +67,7 @@ import StoriesHost from "./components/Stories/StoriesHost";
 import { UserProfileSheetProvider } from "./context/UserProfileSheetContext";
 import NewMemberRegistrar from "./components/common/NewMemberRegistrar";
 import ShippedFeatureNotice from "./components/FeatureRequests/ShippedFeatureNotice";
+import MessageBannerHost from "./components/Notifications/MessageBannerHost";
 import OnlinePresenceHost from "./components/common/OnlinePresenceHost";
 import RootNavigator from "./navigation/RootNavigator";
 import StageNavFallback from "./components/Stages/StageNavFallback";
@@ -125,6 +128,7 @@ import { FrostedBackdropProvider } from "./components/ui/FrostedBackdrop";
 import { loadIconFont } from "./libs/iconFont";
 import { watchTransformOrigin } from "./libs/cdnImage";
 import { setEdgeToEdgeMedia as publishEdgeToEdgeMedia } from "./libs/edgeToEdgeMedia";
+import DarkRoomStrips from "./components/DarkRoomStrips";
 import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScreenReady";
 
 const logger = createLogger("App");
@@ -148,6 +152,7 @@ ExpoSplashScreen.preventAutoHideAsync().catch(() => {
 const iconFontLoad = loadIconFont();
 
 export default function App() {
+  useEffect(startQueryCachePersistence, []);
   const { hasInternet, checkConnection } = useNetworkStatus();
 
   // Manrope is the app's global typeface. These are bundled TTFs, not a network fetch, so the wait is negligible —
@@ -448,15 +453,29 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
 
 
   useEffect(() => {
-    if (isAuthenticated && user?.walletAddress) {
-      setUploadCacheKey(user.walletAddress);
-      setScreenViewAddress(user.walletAddress);
+    const wallet = user?.walletAddress || user?.address;
+    if (isAuthenticated && wallet) {
+      setUploadCacheKey(wallet);
+      setScreenViewAddress(wallet);
       hydrateUploadStore();
+      for (const operation of pendingTransfers(wallet)) {
+        if (operation[0] === "fraction") {
+          void import("./hooks/useFractionCheckout").then(m => m.recoverFractionTransfer(wallet, operation))
+            .then(async data => {
+              if (data) (await import("./hooks/useFractionMarket")).invalidateFractionQueries(queryClient, data.trade?.token_id);
+            }).catch(() => { /* Receipt stays available for the next confirmation. */ });
+        } else if (operation[0] === "multipost" && typeof operation[2] === "number") {
+          const credits = operation[2];
+          void import("./services/multipost.service").then(m => m.recoverCreditTransfer(wallet, credits))
+            .then(() => queryClient.invalidateQueries({ queryKey: ["multipost", "status", wallet] }))
+            .catch(() => { /* Receipt stays available for the next confirmation. */ });
+        }
+      }
     } else {
       setScreenViewAddress(null);
       clearUploadStore();
     }
-  }, [isAuthenticated, user?.walletAddress]);
+  }, [isAuthenticated, user?.walletAddress, user?.address]);
 
   // Navigation persistence with error handling
   const { isReady, initialState, onStateChange } =
@@ -608,6 +627,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
 
   return (
     <>
+      <DarkRoomStrips />
       {mountNav ? (
         <SafeAreaView className="flex-1" edges={edgeToEdgeMedia ? ["left", "right", "bottom"] : ["top", "left", "right", "bottom"]}>
           <StatusBar
@@ -664,6 +684,8 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
                         <OnlinePresenceHost />
                         <CallModalsHost />
                         <CallMiniPlayer />
+                        {/* New messages while the app is open: pull down to reply. */}
+                        <MessageBannerHost />
                         <StagesModalsHost />
                         <StoriesHost />
                         <StageNavFallback navigationRef={navigationRef} />

@@ -29,6 +29,7 @@ import {
 import { Gesture, GestureDetector, ScrollView as GestureScrollView } from "react-native-gesture-handler";
 import { COMPOSER_SHEET, useComposerSheet } from "../hooks/useComposerSheet";
 import { useKeyboardLiftValue } from "../hooks/useKeyboardLiftValue";
+import { selfLiftingComposers } from "../hooks/useComposerKeyboard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SmartImage from "../components/common/SmartImage";
 import { useNavigation, useRoute, CommonActions, useFocusEffect } from "@react-navigation/native";
@@ -138,9 +139,8 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import { uploadState } from "../store/upload.store";
 import { postLandingActions } from "../libs/postLanding";
 import type { PostLandingStyle } from "../libs/postLandingStyle";
-import CrossPostPicker, { CrossPostButton, useCrossPostAccountCount } from "../components/Upload/CrossPostPicker";
+import CrossPostPicker, { CrossPostButton, useCrossPostDestinations } from "../components/Upload/CrossPostPicker";
 import MultiPostSheet from "../components/Upload/MultiPostSheet";
-import { crossPostState } from "../libs/crosspost-store";
 import QuotedPostEmbed from "../components/common/QuotedPostEmbed";
 import { enhanceText } from "../services/ai.service";
 import type { EnhanceMode } from "../services/ai.service";
@@ -152,6 +152,7 @@ import { haptic } from "../libs/haptics";
 import { useAppTheme, useThemeRootStyle } from "../context/ThemeContext";
 import LinkPreviewCard from "../components/common/LinkPreviewCard";
 import { extractUrlsFromText } from "../libs/link-preview";
+import { PostDictationButton } from "../components/Upload/PostDictationButton";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
@@ -315,7 +316,6 @@ const DIALOG_INK = { color: "#FFFFFF" };
 const DIALOG_SOFT = { color: "rgba(255,255,255,0.8)" };
 const DIALOG_MUTED = { color: "#A6A9AC" };
 
-const fmtTrim = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
 export default function UploadScreen() {
   usePerfProbe("UploadScreen");
@@ -387,6 +387,16 @@ export default function UploadScreen() {
   const safeBottom = useSafeAreaInsets().bottom;
   const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
+  // The composer lifts its own bar and its editor scrolls to the caret, so the
+  // app-wide keyboard pan must leave it alone. On a long post the text box runs
+  // past the bottom of the editor, the pan read that as "covered by the keys"
+  // and slid the whole screen up: the header went under the status bar and a
+  // blank band opened between the bar and the keyboard.
+  const composerRootRef = useRef<View>(null);
+  useEffect(() => {
+    selfLiftingComposers.add(composerRootRef);
+    return () => { selfLiftingComposers.delete(composerRootRef); };
+  }, []);
   // While the title or text is being typed in, the options box below gives
   // up most of its height so the writing area has room to show (and scroll
   // through) the title and several lines, not just the last two.
@@ -545,7 +555,18 @@ export default function UploadScreen() {
   // The plain frame the cover was taken from, so edits are painted on it only once.
   const rawThumbRef = useRef<string | null>(null);
   const bakedThumbs = useRef(new Set<string>());
+  const restoringVideo = useRef<Draft | null>(null);
   useEffect(() => {
+    const saved = restoringVideo.current;
+    if (saved && saved.videoUri === pickedVideo?.uri) {
+      restoringVideo.current = null;
+      setVideoTrim(saved.videoTrim ?? null);
+      setVideoEdits(saved.videoEdits ?? null);
+      setVideoDestruct(saved.videoDestruct ?? null);
+      setVideoCoverAt(saved.videoCoverAt);
+      return;
+    }
+    setVideoCoverAt(undefined);
     setVideoTrim(null);
     setVideoEdits(null);
     setVideoDestruct(null);
@@ -566,7 +587,7 @@ export default function UploadScreen() {
   const audioMeterBarsRef = useRef<number[]>([]);
   const [showAudioMenu, setShowAudioMenu] = useState(false);
   const [showPostOptions, setShowPostOptions] = useState(false);
-  const selectedCrossPostCount = useCrossPostAccountCount();
+  const crossPostDestinations = useCrossPostDestinations();
   const audioPreviewRef = useRef<AudioPlayer | null>(null);
   const audioPreviewListenerRef = useRef<{ remove: () => void } | null>(null);
   const [isAudioPreviewPlaying, setIsAudioPreviewPlaying] = useState(false);
@@ -595,7 +616,7 @@ export default function UploadScreen() {
 
   const [isLiveMode, setIsLiveMode] = useState(!!route.params?.live);
   const [isStageMode, setIsStageMode] = useState(false);
-  const crossPostCount = visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode ? selectedCrossPostCount : 0;
+  const crossPostCount = visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode ? crossPostDestinations.length : 0;
   const [showLiveOptions, setShowLiveOptions] = useState(false);
   const [liveSettings, setLiveSettings] = useState<LiveSettingsState>(INITIAL_LIVE_SETTINGS);
   const [showLiveSettings, setShowLiveSettings] = useState(false);
@@ -1060,12 +1081,15 @@ export default function UploadScreen() {
       skipPhotoAutoEdit.current = true;
       setPickedImages(assets);
     }
+    if (incomingDraft.audio) setPickedAudio(incomingDraft.audio);
     // Restore video
     if (incomingDraft.videoUri) {
+      restoringVideo.current = incomingDraft;
       setPickedVideo({
         uri: incomingDraft.videoUri,
-        width: 0,
-        height: 0,
+        duration: incomingDraft.videoDuration,
+        width: incomingDraft.videoWidth ?? 0,
+        height: incomingDraft.videoHeight ?? 0,
         assetId: undefined,
         description: incomingDraft.videoAlt ?? undefined,
       } as any);
@@ -1410,7 +1434,8 @@ export default function UploadScreen() {
       pollData: pollIsValid ? {
         question: pollQuestion.trim(),
         options: pollOptions.filter(o => o.trim()).map(o => o.trim()),
-        expiresAt: new Date(Date.now() + pollDurationHours * 3600 * 1000).toISOString(),
+        durationHours: pollDurationHours,
+        expiresAt: new Date(Math.max(Date.now(), scheduledDate?.getTime() ?? 0) + pollDurationHours * 3600 * 1000).toISOString(),
         isMultipleChoice: pollIsMultiple,
       } : undefined,
       scheduledAt: scheduledDate ?? undefined,
@@ -1425,7 +1450,7 @@ export default function UploadScreen() {
       shopListingIds,
       // Never for a followers-only or direct post: another network would
       // publish it to everyone there.
-      crossPostAccountIds: articleMode || visibility !== "public" ? [] : [...crossPostState.selected],
+      crossPostAccountIds: crossPostCount ? crossPostDestinations : [],
       mediaDescriptions: mediaDescriptionsOf(pickedVideo, pickedImages),
       layout: comicLayout,
       mediaCaptions: comicLayout && pickedImages.some(img => img.caption?.trim()) ? pickedImages.map(img => img.caption?.trim() || "") : undefined,
@@ -1438,7 +1463,7 @@ export default function UploadScreen() {
       // A livestream is always public.
       visibility: visibility !== "public" && !isLiveMode ? visibility : undefined,
     };
-  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy, visibility, isLiveMode, comicLayout, comicBorder]);
+  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy, visibility, crossPostCount, crossPostDestinations, isLiveMode, comicLayout, comicBorder]);
 
   const handleTogglePoll = useCallback(() => {
     if (pollEnabled) {
@@ -1867,6 +1892,11 @@ export default function UploadScreen() {
     categories,
     imageUris: pickedImages.map((img) => img.uri),
     videoUri: pickedVideo?.uri ?? null,
+    videoDuration: pickedVideo?.duration,
+    videoWidth: pickedVideo?.width,
+    videoHeight: pickedVideo?.height,
+    audio: pickedAudio,
+    videoTrim, videoEdits, videoDestruct, videoCoverAt,
     thumbnailUri,
     coverUri,
     monetization,
@@ -1893,7 +1923,7 @@ export default function UploadScreen() {
     replyPolicy,
     imageAlts: pickedImages.map((img) => img.description ?? null),
     videoAlt: pickedVideo?.description ?? null,
-  }), [bodyText, titleText, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, thumbnailUri, coverUri, monetization, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, isMature, isForKids, visibility, contentWarning, quotePolicy, replyPolicy]);
+  }), [bodyText, titleText, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, pickedAudio, videoTrim, videoEdits, videoDestruct, videoCoverAt, thumbnailUri, coverUri, monetization, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, isMature, isForKids, visibility, contentWarning, quotePolicy, replyPolicy]);
 
   /** "Draft" button in top bar */
   const handleDraftButton = useCallback(() => {
@@ -2645,7 +2675,7 @@ export default function UploadScreen() {
   }
 
   const composer = (
-    <View className="flex-1 bg-theme-background">{/* don't add top inset */}
+    <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
         <View className="flex-row items-center justify-center pt-2 pb-1" collapsable={false}>
           <View className="w-10 h-1 rounded-full bg-white/30" />
@@ -3096,11 +3126,7 @@ export default function UploadScreen() {
                   onPress={openVideoEditor}
                   hasSound={!!attachedSound}
                   accessibilityLabel={t("upload.editVideo", { defaultValue: "Edit video" })}
-                  label={videoTrim
-                    ? fmtTrim(videoTrim.end - videoTrim.start)
-                    : (videoEdits || videoDestruct || pickedVideo.description || attachedSound)
-                      ? t("upload.edited", { defaultValue: "Edited" })
-                      : t("upload.edit", { defaultValue: "Edit" })}
+                  label={t("upload.editVideo", { defaultValue: "Edit video" })}
                 />
                 <Pressable onPress={() => setIsMuted((m) => !m)} hitSlop={10} testID="upload-video-sound"
                   accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
@@ -3324,6 +3350,15 @@ export default function UploadScreen() {
       {/* Character count sits under the scrolling editor, not inside it, so it
           stays in view however many lines the post runs to. */}
       {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        {!isLiveMode && !isStageMode && !postInFlight && !isAudioRecording && !showAudioMenu && !!(authUser?.walletAddress || authUser?.address) && (
+          <PostDictationButton
+            key={JSON.stringify([authUser.walletAddress || authUser.address, draftScope])}
+            wallet={(authUser.walletAddress || authUser.address)!}
+            atLimit={bodyText.length >= DESCRIPTION_MAX}
+            setText={setBodyText}
+            maxChars={DESCRIPTION_MAX}
+          />
+        )}
         <Text
           className={`text-xs ${
             bodyText.length >= DESCRIPTION_MAX

@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Viršelis", "trim": "Apkirpti", "mirror": "Veidrodinis vaizdas", "rotate": "Pasukti", "hide": "Slėpti", "timer": "Laikmatis", "close": "Uždaryti", "photo": "Nuotrauka", "remove": "Pašalinti", "pause": "Pristabdyti", "play": "Leisti vaizdo įrašą", "hiddenUntilTap": "Paslėpta, kol palies", "scrub": "Slinkti per vaizdo įrašą", "addMore": "Pridėti nuotraukų ar vaizdo įrašų", "coverAria": "Palieskite kadrą, kad nustatytumėte viršelį", "trimHint": "Tempkite galus, kad apkirptumėte", "coverHint": "Palieskite kadrą, kad padarytumėte jį viršeliu", "uploadCover": "Įkelti viršelio nuotrauką", "mirrored": "Veidrodinis", "original": "Originalas", "rotate90": "Pasukti 90°", "timerOff": "Išjungta", "showNormally": "Rodyti įprastai", "showNormallyBody": "Jie mato iškart", "hideUntilTap": "Slėpti, kol palies", "hideUntilTapBody": "Sulietas, kol palies", "hidePrice": "Slėpti už kainos", "hidePriceBody": "Sulietas, kol sumokės", "priceUnavailable": "Ne šiame pokalbyje", "priceLabelUsd": "Kaina", "priceHint": "Jie mato tai neryškiai, kol nesumoka tau. Užrakinti elementai nėra šifruojami nuo galo iki galo.", "timerOffBody": "Tai lieka pokalbyje.", "timerViewBody": "Išnyksta abiem pusėms, kai jie tai pamato.", "confirm": "Patvirtinti", "editItem": "Redaguoti elementą {{value1}}", "coverSet": "Viršelis ties {{value1}}", "lockedForUsd": "Atrakinti už {{value1}}", "timerTimeBody": "Išnyksta abiem pusėms {{value1}} po to, kai išsiunčiate."},
+  "dmVideo": {
+    "cover": "Viršelis",
+    "trim": "Apkirpti",
+    "mirror": "Veidrodinis vaizdas",
+    "rotate": "Pasukti",
+    "hide": "Slėpti",
+    "timer": "Laikmatis",
+    "close": "Uždaryti",
+    "photo": "Nuotrauka",
+    "remove": "Pašalinti",
+    "pause": "Pristabdyti",
+    "play": "Leisti vaizdo įrašą",
+    "hiddenUntilTap": "Paslėpta, kol palies",
+    "scrub": "Slinkti per vaizdo įrašą",
+    "addMore": "Pridėti nuotraukų ar vaizdo įrašų",
+    "coverAria": "Palieskite kadrą, kad nustatytumėte viršelį",
+    "trimHint": "Tempkite galus, kad apkirptumėte",
+    "coverHint": "Palieskite kadrą, kad padarytumėte jį viršeliu",
+    "uploadCover": "Įkelti viršelio nuotrauką",
+    "mirrored": "Veidrodinis",
+    "original": "Originalas",
+    "rotate90": "Pasukti 90°",
+    "timerOff": "Išjungta",
+    "showNormally": "Rodyti įprastai",
+    "showNormallyBody": "Jie mato iškart",
+    "hideUntilTap": "Slėpti, kol palies",
+    "hideUntilTapBody": "Sulietas, kol palies",
+    "hidePrice": "Slėpti už kainos",
+    "hidePriceBody": "Sulietas, kol sumokės",
+    "priceUnavailable": "Ne šiame pokalbyje",
+    "priceLabelUsd": "Kaina",
+    "priceHint": "Jie mato tai neryškiai, kol nesumoka tau. Užrakinti elementai nėra šifruojami nuo galo iki galo.",
+    "timerOffBody": "Tai lieka pokalbyje.",
+    "timerViewBody": "Išnyksta abiem pusėms, kai jie tai pamato.",
+    "confirm": "Patvirtinti",
+    "editItem": "Redaguoti elementą {{value1}}",
+    "coverSet": "Viršelis ties {{value1}}",
+    "lockedForUsd": "Atrakinti už {{value1}}",
+    "timerTimeBody": "Išnyksta abiem pusėms {{value1}} po to, kai išsiunčiate.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 valanda",
+      "43200": "12 valandų",
+      "86400": "1 diena",
+      "604800": "1 savaitė",
+      "31536000": "1 metai",
+      "view": "1 peržiūra"
+    },
+    "destructShort": {
+      "60": "1 min.",
+      "3600": "1 val.",
+      "43200": "12 val.",
+      "86400": "1 d.",
+      "604800": "1 sav.",
+      "31536000": "1 m.",
+      "view": "1 peržiūra"
+    },
+    "destructSecs": "{{n}} sek.",
+    "destructShortSecs": "{{n}}s"
+  },
   "comic": {
     "showAll": "Rodyti visus {{count}} puslapius",
     "tab": "Komiškas",
@@ -3023,6 +3082,8 @@
     "premium": "Premium",
     "pricing": "Kainos",
     "reorderHint": "Laikykite ir vilkite bet kurią piktogramą, kad pertvarkytumėte",
+    "reorderHintGroups": "Palaikykite ir tempkite bet kurią piktogramą, kad pakeistumėte jos vietą, arba užtempkite ant kito skirtuko, kad perkeltumėte.",
+    "moveGroupHint": "Išleiskite į kitą kortelę, kad perkelti ją ten",
     "reorderReset": "Nustatyti iš naujo",
     "groups": {
       "create": "Kurti",
@@ -7051,6 +7112,17 @@
       "moveRuleDown": "Perkelti taisyklę žemyn",
       "deleteRule": "Ištrinti taisyklę",
       "rights": {
+        "sendMessages": "Siųsti žinutes",
+        "sendMessagesHint": "Išplėsti bendruomenės chatą",
+        "sendMedia": "Siųsti mediją",
+        "sendMediaHint": "Prisegti nuotraukas ir GIF-us",
+        "embedLinks": "Įterpti nuorodas",
+        "embedLinksHint": "Rodyti ryšio apžvalgas",
+        "addMembers": "Pridėti narius",
+        "addMembersHint": "Pasidalinkite bendruomene su kitais",
+        "createEvents": "Sukurti įvykius",
+        "createEventsHint": "Organizuokite bendruomenės įvykius",
+        "changeInfoMemberHint": "Redaguoti bendruomenės pavadinimą ir aprašymą",
         "changeInfo": "Keisti bendruomenės informaciją",
         "changeInfoHint": "Redaguoti pavadinimą, aprašymą, avatarą ir reklamjuostę",
         "deleteMessages": "Ištrinti žinutes",
@@ -7128,12 +7200,41 @@
       "noInvites": "Dar nėra pakvietimo nuorodų. Sukurkite jį, kad pakviestumėte žmones tiesiogiai.",
       "permissionsUpdated": "Leidimai atnaujinti",
       "slowModeUpdated": "Lėtasis režimas atnaujintas",
+      "slowMode": {
+        "off": "Išjungta",
+        "tenSeconds": "10 sek.",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min.",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 valanda"
+      },
       "slowModeOffHint": "Nariai gali siųsti žinutes be delsimo.",
       "slowModeOnHint": "Nariai gali siųsti po vieną žinutę kas {{label}}. Administratoriai yra išimti.",
       "defaultPermissions": "Numatytieji narių leidimai",
       "defaultPermissionsHint": "Ką čia gali padaryti kiekvienas, nebent administratoriaus teisėje nurodyta kitaip.",
       "slowModeTitle": "Lėtasis režimas",
       "log": {
+        "verbs": {
+          "promote_admin": "paaukštintas",
+          "demote_admin": "Nuleistas",
+          "transfer_ownership": "perleido nuosavybę",
+          "ban_member": "uždraustas",
+          "unban_member": "nebūna uždrausta",
+          "kick_member": "pašalinta",
+          "mute_member": "nutildytas",
+          "unmute_member": "neužblokavus",
+          "approve_member": "patvirtinta",
+          "reject_member": "atmesta",
+          "delete_message": "ištrinta žinutė iš",
+          "purge_messages": "ištrynė visas žinutes iš",
+          "pin_message": "paskelbė pranešimą",
+          "unpin_message": "iššalinęs pranešimą",
+          "update_settings": "atnaujino bendruomenės nustatymus",
+          "create_invite": "Sukurta sveikinimo nuoroda",
+          "revoke_invite": "atšauktas pakviestuvės ryšys",
+          "invite_used": "Invituota"
+        },
         "justNow": "ką tik",
         "minutesAgo": "{{value}} prieš m.",
         "hoursAgo": "{{value}} prieš val.",
@@ -13590,53 +13691,52 @@
     "cinema": {
       "close": "Uždaryti",
       "performance": {
-        "label": "Našumas",
         "0": "Džiugus",
         "1": "Melancholiškas",
         "2": "Nerimastingas",
         "3": "Pasitikintis",
         "4": "Apstulbęs",
         "5": "Santūrus",
-        "6": "Žaismingas"
+        "6": "Žaismingas",
+        "label": "Našumas"
       },
       "title": "Kino režisūra",
       "hint": "Nukreipkite kito vaizdo ar vaizdo įrašo vizualinį stilių. Rezultatai priklauso nuo modelio.",
       "none": "Be režisūros",
       "reset": "Išvalyti režisūrą",
       "camera": {
-        "label": "Kameros išvaizda",
         "0": "Skaitmeninis kinas",
         "1": "35 mm juosta",
         "2": "16 mm juosta",
         "3": "Didelis formatas",
-        "4": "Senovinė vaizdo kamera"
+        "4": "Senovinė vaizdo kamera",
+        "label": "Kameros išvaizda"
       },
       "lens": {
-        "label": "Objektyvo išvaizda",
         "0": "Sferinis",
         "1": "Anamorfinis",
         "2": "Senovinis minkštas stiklas",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektyvo išvaizda"
       },
       "focalLength": {
-        "label": "Židinio nuotolis",
         "0": "18 mm platus",
         "1": "24 mm platus",
         "2": "35 mm natūralus",
         "3": "50 mm standartinis",
         "4": "85 mm portretinis",
-        "5": "135 mm teleobjektyvas"
+        "5": "135 mm teleobjektyvas",
+        "label": "Židinio nuotolis"
       },
       "aperture": {
-        "label": "Ryškumo gylis",
         "0": "f/1.4 labai seklus",
         "1": "f/2.8 seklus",
         "2": "f/5.6 vidutinis",
-        "3": "f/11 gilus fokusas"
+        "3": "f/11 gilus fokusas",
+        "label": "Ryškumo gylis"
       },
       "movement": {
-        "label": "Kameros judesys",
         "0": "Nejudantis stovas",
         "1": "Lėtas priartėjimas vežimėliu",
         "2": "Lėtas atitolimas vežimėliu",
@@ -13644,27 +13744,27 @@
         "4": "Sukimasis aplink objektą",
         "5": "Iš rankų",
         "6": "Pakilimas kranu",
-        "7": "Lėta panorama"
+        "7": "Lėta panorama",
+        "label": "Kameros judesys"
       },
       "lighting": {
-        "label": "Apšvietimas",
         "0": "Švelni dienos šviesa",
         "1": "Auksinė valanda",
         "2": "Tamsus kjaroskuro",
         "3": "Šviesi studija",
         "4": "Neoniniai šviesos šaltiniai",
         "5": "Siluetas su galiniu apšvietimu",
-        "6": "Išsklaidyta debesuota šviesa"
+        "6": "Išsklaidyta debesuota šviesa",
+        "label": "Apšvietimas"
       },
       "tempo": {
-        "label": "Kadro tempas",
         "0": "Vienas nepertraukiamas kadras",
         "1": "Ramus, neskubus veiksmas",
         "2": "Dinamiškas, energingas veiksmas",
-        "3": "Chaotiškas, pašėlęs veiksmas"
+        "3": "Chaotiškas, pašėlęs veiksmas",
+        "label": "Kadro tempas"
       },
       "era": {
-        "label": "Epocha",
         "0": "XX a. 3 deš.",
         "1": "XX a. 6 deš.",
         "2": "XX a. 7 deš.",
@@ -13672,10 +13772,10 @@
         "4": "XX a. 9 deš.",
         "5": "XX a. 10 deš.",
         "6": "Dabartis",
-        "7": "Artima ateitis"
+        "7": "Artima ateitis",
+        "label": "Epocha"
       },
       "genre": {
-        "label": "Žanras",
         "0": "Dokumentinis",
         "1": "Drama",
         "2": "Film noir",
@@ -13683,16 +13783,17 @@
         "4": "Fantastika",
         "5": "Romantinė komedija",
         "6": "Trileris",
-        "7": "Vesternas"
+        "7": "Vesternas",
+        "label": "Žanras"
       },
       "palette": {
-        "label": "Spalvų paletė",
         "0": "Šiltas gintarinis",
         "1": "Šalta mėlyna",
         "2": "Prislopinti žemės atspalviai",
         "3": "Pasteliniai",
         "4": "Kontrastinga nespalvota",
-        "5": "Sodrios pagrindinės spalvos"
+        "5": "Sodrios pagrindinės spalvos",
+        "label": "Spalvų paletė"
       }
     },
     "audioNoSpeech": "Nerasta kalbos tuo įraše.",

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { View, ScrollView, ActivityIndicator, Pressable, Text, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
@@ -129,14 +129,6 @@ const ImagesRoute: React.FC<ImagesRouteProps> = ({
     [images, navigation, address],
   );
 
-  // ProfileImageGrid requires a defined id per item (used as the React key);
-  // UnifiedFeedItem's id is optional, so fall back to tokenId — always present
-  // for real posts — rather than widening ProfileImageGrid's contract.
-  const gridImages = useMemo(
-    () => images.map((img) => ({ ...img, id: img.id ?? img.tokenId ?? "" })),
-    [images],
-  );
-
   if (loading) {
     return (
       <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
@@ -182,7 +174,7 @@ const ImagesRoute: React.FC<ImagesRouteProps> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <ProfileImageGrid images={gridImages} onImagePress={handleImagePress} onScroll={onScroll} ListHeaderComponent={listHeader} />
+      <ProfileImageGrid images={images} onImagePress={handleImagePress} onScroll={onScroll} ListHeaderComponent={listHeader} />
       {loadingMore && (
         <View style={{ alignItems: "center", paddingVertical: 16 }}>
           <ActivityIndicator color="#fff" />

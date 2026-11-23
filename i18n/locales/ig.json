@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Kpuchie", "trim": "Bee", "mirror": "Tụgharịa", "rotate": "Gbanwee akụkụ", "hide": "Zoo", "timer": "Oge", "close": "Mechie", "photo": "Foto", "remove": "Wepụ", "pause": "Kwụsịtụ", "play": "Kpọọ vidiyo", "hiddenUntilTap": "Zoro ezo ruo mgbe ha pịrị ya", "scrub": "Gagharịa na vidiyo ahụ", "addMore": "Tinye foto ma ọ bụ vidiyo", "coverAria": "Pịa okpokoro iji tọọ mkpuchi", "trimHint": "Dọrọ nsọtụ ya iji bee ya", "coverHint": "Pịa okpokoro iji mee ya mkpuchi", "uploadCover": "Bulite foto mkpuchi", "mirrored": "Tụgharịrị", "original": "Nke mbụ", "rotate90": "Tụgharịa 90°", "timerOff": "Gbanyụọ", "showNormally": "Gosi n'ụzọ nkịtị", "showNormallyBody": "Ha na-ahụ ya ozugbo", "hideUntilTap": "Zoo ruo mgbe a pịrị ya", "hideUntilTapBody": "Gbagwojuru anya ruo mgbe ha pịrị ya", "hidePrice": "Zoo n'azụ ọnụahịa", "hidePriceBody": "Gbagwojuru anya ruo mgbe ha kwụrụ gị ụgwọ", "priceUnavailable": "Ọ bụghị na nkata a", "priceLabelUsd": "Ọnụahịa", "priceHint": "Ha na-ahụ ya ka ọ gbarụrụ agbarụ ruo mgbe ha kwụrụ gị ụgwọ. Ihe ndị e kpọchiri akpọchi abụghị ndị e zoro ezo site na mmalite ruo na njedebe.", "timerOffBody": "Ọ na-anọ na mkparịta ụka ahụ.", "timerViewBody": "Ọ na-apụ n'anya maka unu abụọ ozugbo ha hụchara ya.", "confirm": "Kwenye", "editItem": "Dezie ihe {{value1}}", "coverSet": "Ihe mkpuchi na {{value1}}", "lockedForUsd": "Kpọghe maka {{value1}}", "timerTimeBody": "Ọ na-apụ n'anya maka unu abụọ {{value1}} mgbe ị zigasịrị ya."},
+  "dmVideo": {
+    "cover": "Kpuchie",
+    "trim": "Bee",
+    "mirror": "Tụgharịa",
+    "rotate": "Gbanwee akụkụ",
+    "hide": "Zoo",
+    "timer": "Oge",
+    "close": "Mechie",
+    "photo": "Foto",
+    "remove": "Wepụ",
+    "pause": "Kwụsịtụ",
+    "play": "Kpọọ vidiyo",
+    "hiddenUntilTap": "Zoro ezo ruo mgbe ha pịrị ya",
+    "scrub": "Gagharịa na vidiyo ahụ",
+    "addMore": "Tinye foto ma ọ bụ vidiyo",
+    "coverAria": "Pịa okpokoro iji tọọ mkpuchi",
+    "trimHint": "Dọrọ nsọtụ ya iji bee ya",
+    "coverHint": "Pịa okpokoro iji mee ya mkpuchi",
+    "uploadCover": "Bulite foto mkpuchi",
+    "mirrored": "Tụgharịrị",
+    "original": "Nke mbụ",
+    "rotate90": "Tụgharịa 90°",
+    "timerOff": "Gbanyụọ",
+    "showNormally": "Gosi n'ụzọ nkịtị",
+    "showNormallyBody": "Ha na-ahụ ya ozugbo",
+    "hideUntilTap": "Zoo ruo mgbe a pịrị ya",
+    "hideUntilTapBody": "Gbagwojuru anya ruo mgbe ha pịrị ya",
+    "hidePrice": "Zoo n'azụ ọnụahịa",
+    "hidePriceBody": "Gbagwojuru anya ruo mgbe ha kwụrụ gị ụgwọ",
+    "priceUnavailable": "Ọ bụghị na nkata a",
+    "priceLabelUsd": "Ọnụahịa",
+    "priceHint": "Ha na-ahụ ya ka ọ gbarụrụ agbarụ ruo mgbe ha kwụrụ gị ụgwọ. Ihe ndị e kpọchiri akpọchi abụghị ndị e zoro ezo site na mmalite ruo na njedebe.",
+    "timerOffBody": "Ọ na-anọ na mkparịta ụka ahụ.",
+    "timerViewBody": "Ọ na-apụ n'anya maka unu abụọ ozugbo ha hụchara ya.",
+    "confirm": "Kwenye",
+    "editItem": "Dezie ihe {{value1}}",
+    "coverSet": "Ihe mkpuchi na {{value1}}",
+    "lockedForUsd": "Kpọghe maka {{value1}}",
+    "timerTimeBody": "Ọ na-apụ n'anya maka unu abụọ {{value1}} mgbe ị zigasịrị ya.",
+    "destruct": {
+      "60": "1 nkeji",
+      "3600": "1 awa",
+      "43200": "12 awa",
+      "86400": "1 ụbọchị",
+      "604800": "1 izu",
+      "31536000": "1 afọ",
+      "view": "1 nlele"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 nlele"
+    },
+    "destructSecs": "{{n}} sekọnd",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Ọnụ ọnụ",
     "theme": "Isiokwu",
@@ -2997,6 +3056,8 @@
     "premium": "Nke kacha mma",
     "pricing": "Ọnụahịa",
     "reorderHint": "Jide ma dọrọ aịkọn ọ bụla ka ị hazie ọzọ",
+    "reorderHintGroups": "Jide ma dọrọ akara ngosi ọ bụla iji hazie ya, ma ọ bụ dọrọ ya gaa na taabụ ọzọ iji bugharịa ya",
+    "moveGroupHint": "Dọrọ ya gaa na taabụ ọzọ iji bufee ya ebe ahụ",
     "reorderReset": "Tọgharịa",
     "groups": {
       "create": "Mepụta",
@@ -7027,6 +7088,17 @@
       "moveRuleDown": "Bugharịa iwu ala",
       "deleteRule": "Hichapụ iwu",
       "rights": {
+        "sendMessages": "Ziga ozi",
+        "sendMessagesHint": "Post na obodo chat",
+        "sendMedia": "Belarusian",
+        "sendMediaHint": "Tinye onyonyo na GIF",
+        "embedLinks": "Tinye ụzọ njikọ",
+        "embedLinksHint": "Gosi nlele njikọ",
+        "addMembers": "Tinye ndị òtù",
+        "addMembersHint": "Soro ndị ọzọ kerịta obodo ahụ",
+        "createEvents": "Mepụta mmemme",
+        "createEventsHint": "Schedule community events",
+        "changeInfoMemberHint": "Dezie aha na nkọwa obodo",
         "changeInfo": "Gbanwee ozi obodo",
         "changeInfoHint": "Dezie aha, nkọwa, avatar na ọkọlọtọ",
         "deleteMessages": "Hichapụ ozi",
@@ -7102,12 +7174,41 @@
       "noInvites": "Enweghị njikọ akpọku ọ bụla. Mepụta otu iji kpọku ndị mmadụ ozugbo.",
       "permissionsUpdated": "E meliri ikike",
       "slowModeUpdated": "E meliri ọnọdụ nwayọọ",
+      "slowMode": {
+        "off": "Gbanyụọ",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 nkeji",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 awa"
+      },
       "slowModeOffHint": "Ndị otu nwere ike izipu ozi na-enweghị igbu oge.",
       "slowModeOnHint": "Ndị otu nwere ike izipu otu ozi kwa {{label}}. Ndị nchịkwa agaghị enwe ya.",
       "defaultPermissions": "Ikike ndị otu ndabere",
       "defaultPermissionsHint": "Ihe onye ọ bụla nwere ike ime ebe a ma ọ bụrụ na ikike onye nchịkwa ekwughị ihe ọzọ.",
       "slowModeTitle": "Ọnọdụ nwayọọ",
       "log": {
+        "verbs": {
+          "promote_admin": "nkwalite",
+          "demote_admin": "Ọgụgụ n'ọchịchịrịọ",
+          "transfer_ownership": "nyefere nwe ya na",
+          "ban_member": "mmachibido iwu",
+          "unban_member": "ewepụrụ mmachibido iwu",
+          "kick_member": "ewepụrụ",
+          "mute_member": "mbadamba ụrọ",
+          "unmute_member": "ewepụrụ ogbi",
+          "approve_member": "akwadoro",
+          "reject_member": "ajụrụ",
+          "delete_message": "ehichapụ a ozi si",
+          "purge_messages": "ehichapụla ozi niile sitere na",
+          "pin_message": "pinned a ozi si",
+          "unpin_message": "ewepụla ozi na ntụtụ",
+          "update_settings": "emelitela ntọala obodo",
+          "create_invite": "mepụtara njikọ òkù",
+          "revoke_invite": "kagburu njikọ ịkpọ òkù",
+          "invite_used": "òkù"
+        },
         "justNow": "ugbu a",
         "minutesAgo": "{{value}}m gara aga",
         "hoursAgo": "{{value}}h gara aga",
@@ -13546,53 +13647,52 @@
     "cinema": {
       "close": "Mechie",
       "performance": {
-        "label": "Arụmọrụ",
         "0": "Ọṅụ",
         "1": "Mwute",
         "2": "Nchegbu",
         "3": "Obi ike",
         "4": "Ịtụ egwu",
         "5": "Njide onwe",
-        "6": "Egwuregwu"
+        "6": "Egwuregwu",
+        "label": "Arụmọrụ"
       },
       "title": "Ntụziaka sinima",
       "hint": "Duzie ụdị anya nke foto ma ọ bụ vidiyo gị na-esote. Nsonaazụ na-adị iche site na model.",
       "none": "Enweghị ntụziaka",
       "reset": "Hichapụ ntụziaka",
       "camera": {
-        "label": "Ọdịdị kamera",
         "0": "Sinima dijitalụ",
         "1": "Fim 35mm",
         "2": "Fim 16mm",
         "3": "Format buru ibu",
-        "4": "Camcorder ochie"
+        "4": "Camcorder ochie",
+        "label": "Ọdịdị kamera"
       },
       "lens": {
-        "label": "Ọdịdị lens",
         "0": "Spherical",
         "1": "Anamorphic",
         "2": "Iko ochie dị nro",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Ọdịdị lens"
       },
       "focalLength": {
-        "label": "Ogologo focal",
         "0": "18mm sara mbara",
         "1": "24mm sara mbara",
         "2": "35mm nkịtị",
         "3": "50mm nkịtị",
         "4": "85mm portrait",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Ogologo focal"
       },
       "aperture": {
-        "label": "Omimi mpaghara",
         "0": "f/1.4 emighị emi nke ukwuu",
         "1": "f/2.8 emighị emi",
         "2": "f/5.6 n'etiti",
-        "3": "f/11 focus miri emi"
+        "3": "f/11 focus miri emi",
+        "label": "Omimi mpaghara"
       },
       "movement": {
-        "label": "Mmegharị kamera",
         "0": "Tripod kwụ chịm",
         "1": "Dolly nwayọọ abanye",
         "2": "Dolly nwayọọ apụ",
@@ -13600,27 +13700,27 @@
         "4": "Gburugburu isiokwu",
         "5": "N'aka",
         "6": "Crane na-ebili",
-        "7": "Pan nwayọọ"
+        "7": "Pan nwayọọ",
+        "label": "Mmegharị kamera"
       },
       "lighting": {
-        "label": "Ìhè",
         "0": "Ìhè ehihie dị nro",
         "1": "Oge ọla edo",
         "2": "Chiaroscuro gbara ọchịchịrị",
         "3": "Studio nwere ìhè zuru oke",
         "4": "Ìhè neon",
         "5": "Ìhè azụ onyinyo",
-        "6": "Igwe ojii gbasara"
+        "6": "Igwe ojii gbasara",
+        "label": "Ìhè"
       },
       "tempo": {
-        "label": "Ọsọ shot",
         "0": "Otu shot na-aga n'ihu",
         "1": "Omume dị jụụ, na-enweghị ọsọ",
         "2": "Omume nwere ike, dị ọkụ",
-        "3": "Omume ọgbaghara, dị ọsọ ọsọ"
+        "3": "Omume ọgbaghara, dị ọsọ ọsọ",
+        "label": "Ọsọ shot"
       },
       "era": {
-        "label": "Oge",
         "0": "Afọ 1920",
         "1": "Afọ 1950",
         "2": "Afọ 1960",
@@ -13628,10 +13728,10 @@
         "4": "Afọ 1980",
         "5": "Afọ 1990",
         "6": "Taa",
-        "7": "Ọdịnihu dị nso"
+        "7": "Ọdịnihu dị nso",
+        "label": "Oge"
       },
       "genre": {
-        "label": "Ụdị",
         "0": "Akwụkwọ akụkọ",
         "1": "Ejije",
         "2": "Film noir",
@@ -13639,16 +13739,17 @@
         "4": "Fantasị",
         "5": "Ihe ọchị ịhụnanya",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Ụdị"
       },
       "palette": {
-        "label": "Agba",
         "0": "Amber dị ọkụ",
         "1": "Acha anụnụ jụrụ oyi",
         "2": "Agba ala dị nro",
         "3": "Pastel",
         "4": "Monochrome nwere ọdịiche dị elu",
-        "5": "Agba isi juru eju"
+        "5": "Agba isi juru eju",
+        "label": "Agba"
       }
     },
     "audioNoSpeech": "Ahụghị okwu ọ bụla na ndekọ ahụ.",
@@ -17159,5 +17260,100 @@
     "promptCatchUp": "Gwa m ihe {{handle}} biputere n'oge na-adịbeghị anya",
     "promptMessage": "Nyere m aka dee ozi nye {{handle}}",
     "promptAbout": "Gbasara {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Zoo azịza",
+    "unhide": "Wepụ nzuzo",
+    "hiddenBadge": "E zoro ya",
+    "hiddenTitle": "Naanị gị na onye dere ya nwere ike ịhụ nke a",
+    "hiddenToast": "Azịza e zoro. Naanị gị na onye dere ya nwere ike ịhụ ya",
+    "unhiddenToast": "Azịza ahụ apụtawo ọzọ",
+    "failed": "Enweghị ike izo azịza ahụ"
+  },
+  "accountType": {
+    "title": "Ụdị akaụntụ",
+    "hint": "Akaụntụ onye okike na nke azụmahịa na-egosi udi n'okpuru aha gị. Nke azụmahịa na-agbakwunye bọtịnụ kọntaktị. Ihe niile na-emeghe maka akaụntụ ọ bụla.",
+    "type": {
+      "personal": "Nkeonwe",
+      "creator": "Onye okike",
+      "business": "Azụmahịa"
+    },
+    "category": "Udi",
+    "contactEmail": "Email kọntaktị ọha",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Email ahụ adịghị ka nke ziri ezi",
+    "save": "Chekwaa ụdị akaụntụ",
+    "saving": "A na-echekwa…",
+    "saved": "Echekwara ụdị akaụntụ",
+    "saveFailed": "Enweghị ike ịchekwa ụdị akaụntụ gị",
+    "contact": "Kọntaktị",
+    "cat": {
+      "artist": "Onye na-ese ihe",
+      "musician": "Onye na-egwu egwu",
+      "gamer": "Onye na-egwu egwuregwu",
+      "streamer": "Onye na-agbasa ozi",
+      "writer": "Onye na-ede akwụkwọ",
+      "podcaster": "Onye na-eme pọdkastị",
+      "educator": "Onye nkuzi",
+      "athlete": "Onye na-eme egwuregwu",
+      "photographer": "Onye na-ese foto",
+      "video_creator": "Onye na-emepụta vidio",
+      "comedian": "Onye na-eme ọchị",
+      "developer": "Onye mmepe",
+      "public_figure": "Onye ama ama",
+      "other": "Nke ọzọ",
+      "brand": "Ụdị ngwaahịa",
+      "shop": "Ụlọ ahịa",
+      "restaurant": "Ụlọ oriri na ọṅụṅụ",
+      "cafe": "Ụlọ kọfị",
+      "agency": "Ụlọ ọrụ",
+      "community": "Obodo",
+      "media": "Mgbasa ozi",
+      "app": "Ngwa",
+      "project": "Ọrụ",
+      "nonprofit": "Nke na-abụghị maka uru",
+      "local_business": "Azụmahịa mpaghara"
+    }
+  },
+  "photoTags": {
+    "title": "Kaa ndị mmadụ akara",
+    "hint": "Pịa ebe onye nọ na foto ahụ, wee họrọ aha ha.",
+    "search": "Chọọ ndị mmadụ",
+    "remove": "Wepụ akara",
+    "done": "Emela",
+    "taggedCount": "{{value}} akara",
+    "showTags": "Gosi ndị e debere akara",
+    "hideTags": "Zoo akara",
+    "saved": "Echekwala akara",
+    "saveFailed": "Enweghị ike ịchekwa akara",
+    "removeMe": "Wepụ m na foto a",
+    "removedMe": "E wepụrụ akara gị"
+  },
+  "quiz": {
+    "title": "Ajụjụ ọnụ",
+    "add": "Tinye ajụjụ ọnụ",
+    "remove": "Wepụ kwiiz",
+    "taken": "{{value}} were ya",
+    "questionOf": "Ajụjụ {{n}} nke {{total}}",
+    "pointsEach": "{{points}} isi nke ọ bụla",
+    "badgeBoost": "Badji gị na-enye gị {{x}}x isi",
+    "earnedToast": "{{correct}} nke {{total}} ziri ezi, +{{points}} isi",
+    "noPointsToast": "{{correct}} nke {{total}} ziri ezi",
+    "answerFailed": "Enweghị ike izipu azịza gị",
+    "resultPoints": "{{correct}} nke {{total}} ziri ezi, ị nwetara {{points}} isi",
+    "result": "{{correct}} nke {{total}} ziri ezi",
+    "creatorNote": "Kwiiz gị. E gosipụtara azịza ndị ziri ezi; ndị mmadụ na-enweta isi na ọwa gị.",
+    "writeFailed": "Enweghị ike ide ajụjụ, nwaa okwu ndị ọzọ",
+    "topicPlaceholder": "Kọwaa kwiiz gị n'obere okwu",
+    "rewrite": "Dee ọzọ",
+    "write": "Dee ajụjụ",
+    "editorHint": "Lelee ajụjụ ọ bụla tupu ibipụta ya. Onye ọ bụla na-enweta otu ohere.",
+    "questionPlaceholder": "Ajụjụ",
+    "removeQuestion": "Wepụ ajụjụ",
+    "markRight": "Azịza ziri ezi",
+    "optionPlaceholder": "Azịza {{n}}",
+    "addQuestion": "Tinye ajụjụ",
+    "pointsLabel": "Isi maka azịza ọ bụla ziri ezi",
+    "attachFailed": "E bipụtala ọkwa gị, mana enweghị ike itinye kwiiz ahụ"
   }
 }

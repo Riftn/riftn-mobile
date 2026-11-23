@@ -1,18 +1,9 @@
-/**
- * Profile view mode: the All tab shows posts as a grid of tiles or as the
- * full post list.
- *
- * The profile's owner picks which one visitors start on (Settings > Profile
- * posts layout, saved in the account's public `customs.defaultProfileView`,
- * the same key web uses). A visitor can still flip the toolbar toggle; the
- * flip holds for that profile until the app is closed, then the owner's
- * choice applies again.
- *
- * The profile tabs provide the mode through ProfileViewModeContext so the
- * toolbar toggle and the tab that draws the posts agree. Without a provider
- * both fall back to one shared in-memory mode.
+/** All, Images and Videos share one grid/list choice per reader and profile.
+ * The owner's public default and the reader's account preferences apply until
+ * the reader picks a layout for this profile on this device.
  */
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore } from "react";
+import { storage } from "./storage";
 
 export type ProfileViewMode = "grid" | "list";
 
@@ -52,34 +43,48 @@ export function startingProfileView(ownerDefault: ProfileViewMode, readerPref: P
 }
 
 const listeners = new Set<() => void>();
-let flips: Record<string, ProfileViewMode> = {};
+const memory = new Map<string, ProfileViewMode>();
 
-function emit(): void {
-  listeners.forEach((fn) => fn());
+function preferenceKey(profile: string | null | undefined, reader?: string | null) {
+  return profile ? `riftn.profileView.${reader?.toLowerCase() || 'guest'}.${profile.toLowerCase()}` : '';
 }
 
-function subscribe(fn: () => void): () => void {
+function notify() {
+  listeners.forEach(fn => fn());
+}
+
+function subscribe(fn: () => void) {
   listeners.add(fn);
-  return () => {
-    listeners.delete(fn);
-  };
+  return () => { listeners.delete(fn); };
 }
 
-function snapshot(): Record<string, ProfileViewMode> {
-  return flips;
+function readMode(key: string): ProfileViewMode | undefined {
+  if (memory.has(key)) return memory.get(key);
+  if (key) {
+    try {
+      const value = storage.getString(key);
+      if (value === 'list' || value === 'grid') return value;
+    } catch { /* fall back to memory when storage is unavailable */ }
+  }
+  return undefined;
 }
 
-/** Key used when no profile provides its own. */
-const LOOSE_KEY = "__loose__";
+function writeMode(key: string, mode?: ProfileViewMode) {
+  if (mode) memory.set(key, mode);
+  else memory.delete(key);
+  if (key) {
+    try {
+      if (mode) storage.set(key, mode);
+      else storage.delete(key);
+      memory.delete(key);
+    } catch { /* keep the selection for this session */ }
+  }
+  notify();
+}
 
-/** Drop the flip for a profile, so its owner's default shows again. */
+/** An explicit change to the owner's layout in Settings supersedes the toolbar choice. */
 export function clearProfileViewFlip(profileKey: string | null | undefined): void {
-  if (!profileKey) return;
-  const key = profileKey.toLowerCase();
-  if (!(key in flips)) return;
-  const { [key]: _dropped, ...rest } = flips;
-  flips = rest;
-  emit();
+  if (profileKey) writeMode(preferenceKey(profileKey, profileKey));
 }
 
 export interface ProfileViewModeState {
@@ -87,18 +92,10 @@ export interface ProfileViewModeState {
   setMode: (mode: ProfileViewMode) => void;
 }
 
-/**
- * The view for one profile: the visitor's flip if they made one, else the
- * owner's saved default.
- */
-export function useProfileViewState(profileKey: string | null | undefined, ownerDefault: ProfileViewMode): ProfileViewModeState {
-  const all = useSyncExternalStore(subscribe, snapshot, snapshot);
-  const key = profileKey ? profileKey.toLowerCase() : LOOSE_KEY;
-  const mode = all[key] ?? ownerDefault;
-  const setMode = useCallback((next: ProfileViewMode) => {
-    flips = { ...flips, [key]: next };
-    emit();
-  }, [key]);
+export function useProfileViewState(profile: string | null | undefined, ownerDefault: ProfileViewMode, reader?: string | null): ProfileViewModeState {
+  const key = preferenceKey(profile, reader);
+  const mode = useSyncExternalStore(subscribe, () => readMode(key) ?? ownerDefault, () => ownerDefault);
+  const setMode = useCallback((next: ProfileViewMode) => writeMode(key, next), [key]);
   return useMemo(() => ({ mode, setMode }), [mode, setMode]);
 }
 

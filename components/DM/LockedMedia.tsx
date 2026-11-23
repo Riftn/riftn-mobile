@@ -12,7 +12,7 @@
  */
 import React, { memo, useEffect, useState } from "react";
 import { ActivityIndicator, Linking, Platform, Pressable, Text, View } from "react-native";
-import { iosWebPurchaseLinkAllowed } from "../../config/storefront";
+import { useWebPurchaseLinkAllowed } from "../../config/storefront";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import SmartImage from "../common/SmartImage";
@@ -57,6 +57,7 @@ interface LockedMediaProps {
 }
 
 function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, onLongPress, offline }: LockedMediaProps) {
+  const iosCanLinkOut = useWebPurchaseLinkAllowed();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
   const ws = useWebSocketApi();
@@ -65,7 +66,6 @@ function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, 
   const [paying, setPaying] = useState(false);
   const isIos = Platform.OS === "ios";
   // Outside the US the App Store build may not point at web checkout at all.
-  const iosCanLinkOut = iosWebPurchaseLinkAllowed();
   // Android: confirm in a sheet, then the photo opens with a reveal.
   const [sheetOpen, setSheetOpen] = useState(false);
   const [phase, setPhase] = useState<UnlockPhase>("idle");

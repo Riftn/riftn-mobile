@@ -4,11 +4,10 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { View, Text, StyleSheet, Platform, type TextStyle } from "react-native";
-import { GestureDetector, ScrollView } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, Platform, Modal, type TextStyle } from "react-native";
+import { GestureDetector, GestureHandlerRootView, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useComposerSheet } from "../../hooks/useComposerSheet";
-import { toastError } from "../../libs";
 import { Trans, useTranslation } from "react-i18next";
 import { AuthErrorNotice, authColors, authText } from "../../components/auth/AuthControls";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,6 +19,7 @@ import SocialLoginIcons from "../../components/auth/SocialLoginIcons";
 import { ScreenWalletPicker } from "../../components/auth/WalletRuntimeHost";
 import SignInSavedProfiles from "../../components/auth/SignInSavedProfiles";
 import EmailCodeEntry from "../../components/auth/EmailCodeEntry";
+import { UsernameRequiredForm } from "../../components/auth/UsernameRequiredForm";
 import LoginShortsStack from "../../components/auth/LoginShortsStack";
 import WalletSetupScreen, {
   type WalletSetupRequest,
@@ -35,11 +35,10 @@ import { useKeyboardOffset } from "../../hooks/useKeyboardLayout";
 import { AuthService } from "../../services";
 import { createLogger } from "../../libs/logger";
 import { beginAuthTrace, readAuthTrace } from "../../libs/auth-trace";
-import { isSignInCancelled } from "../../libs/auth-error-text";
+import { isSignInCancelled, serverAuthText } from "../../libs/auth-error-text";
 import {
   sendEmailOtp,
   verifyEmailOtp,
-  signInWithEmailPassword,
   sendPhoneOtp,
   verifyPhoneOtp,
   signInWithGoogle,
@@ -86,7 +85,20 @@ interface SignInScreenProps {
   navigation: any;
 }
 
-const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
+function SignInScreen({ navigation }: SignInScreenProps) {
+  const isFocused = useIsFocused();
+  return <SignInFlow navigation={navigation} isFocused={isFocused} />;
+}
+
+export function SignInOverlay({ onClose }: { onClose: () => void }) {
+  return <SignInFlow isFocused onClose={onClose} />;
+}
+
+function SignInFlow({ navigation, isFocused, onClose }: {
+  navigation?: SignInScreenProps["navigation"];
+  isFocused: boolean;
+  onClose?: () => void;
+}) {
   // The keyboard offset is the chrome above the KeyboardAvoidingView, which
   // here is the status-bar inset alone. A literal 64 over-lifted the form by
   // up to 44pt on SE/8-class iPhones and iPads.
@@ -98,17 +110,12 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const [sessionWait, setSessionWait] = useState(false);
   const [currentProvider, setCurrentProvider] = useState("");
   const { t } = useTranslation();
+  const [inlineError, setInlineError] = useState<string | null>(null);
   const [passkeyError, setPasskeyError] = useState<string | null>(null);
   const [passkeySuggestCreate, setPasskeySuggestCreate] = useState(false);
   const [authStep, setAuthStep] = useState<"main" | "email-code" | "phone-code">("main");
   const [loginViewportHeight, setLoginViewportHeight] = useState<number>();
   const [loginFormHeight, setLoginFormHeight] = useState(244);
-  const [loginLegalHeight, setLoginLegalHeight] = useState(84);
-  // The heights above are estimates; whatever the page still has spare (or is
-  // over by) once it is drawn goes to the clips, so there is no empty band
-  // above or below the form on tall phones.
-  const [loginContentHeight, setLoginContentHeight] = useState<number>();
-  const [lanesSlack, setLanesSlack] = useState(0);
   // Email/Phone expand a field mid-stack and autoFocus it; without this the
   // keyboard opens over the field that was just revealed.
   const { scrollViewProps, scrollIntoView } = useScrollFieldIntoView();
@@ -135,16 +142,22 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   }, [authStep, walletSetupRequest, currentProvider]);
 
   const { provisionalUser, isLoading: authLoading, needsUsername, isSignedIn } = useAuthState();
-  const { signInWithWallet, signInWithSupabaseSession } = useAuthActions();
+  const { signInWithWallet, signInWithSupabaseSession, completeUsername, signOut } = useAuthActions();
   const { isWalletLoading, isWalletSheetOpen, isSignupBlocked, handleWalletConnect } = useWalletAuth();
+  const isLoading = authLoading || isLocalLoading || isWalletLoading;
+  const dismissible = !isLoading && !needsUsername && !isWalletSheetOpen;
+  const dismiss = useCallback(() => {
+    if (onClose) onClose();
+    else if (navigation?.canGoBack()) navigation.goBack();
+  }, [navigation, onClose]);
   // Android, opened over the app from "Log in": a sheet that follows a pull
   // down, closes past half way (or on a flick) and springs back otherwise.
   // As the first screen of the signed-out flow there is nothing under it, so
   // it stays a plain page. Only the app stack opens it as that overlay; the
   // signed-out stack is the one that also holds SetProfile.
   const [asSheet] = useState(() => {
-    const names: string[] = navigation.getState?.()?.routeNames ?? [];
-    return !names.includes(ScreenNames.SetProfile) && !!navigation.canGoBack?.();
+    const names: string[] = navigation?.getState?.()?.routeNames ?? [];
+    return !!onClose || (!names.includes(ScreenNames.SetProfile) && !!navigation?.canGoBack?.());
   });
   // iPhone opens this page from "Log in" as a native modal, which UIKit puts
   // above the app's root view, where the wallet picker normally lives. The
@@ -152,17 +165,16 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // Connect Wallet opens it out of sight. While it is up, a pull on its list
   // must not close the page underneath.
   // Only while on top: a page left mounted under another must not hold it.
-  const isFocused = useIsFocused();
   const ownsWalletPicker = Platform.OS === "ios" && asSheet && isFocused;
   useEffect(() => {
-    if (!ownsWalletPicker) return;
-    navigation.setOptions?.({ gestureEnabled: !isWalletSheetOpen });
-  }, [ownsWalletPicker, isWalletSheetOpen, navigation]);
+    if (!ownsWalletPicker || !navigation) return;
+    navigation.setOptions?.({ gestureEnabled: dismissible });
+  }, [ownsWalletPicker, dismissible, navigation]);
   const sheet = useComposerSheet({
     navigation,
     active: asSheet,
-    enabled: asSheet && !(authLoading || isLocalLoading || isWalletLoading) && !needsUsername,
-    onDismiss: useCallback(() => { if (navigation.canGoBack()) navigation.goBack(); }, [navigation]),
+    enabled: asSheet && dismissible,
+    onDismiss: dismiss,
     willPrompt: useCallback(() => false, []),
     onDragStart: useCallback(() => {
       const up = Keyboard.isVisible();
@@ -179,7 +191,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // away; the real options and the closed wallet sheet are built a
   // frame later, while it is already moving. Building them inside the tap is
   // what made "Log in" feel late.
-  const [built, setBuilt] = useState(!asSheet);
+  const [built, setBuilt] = useState(!asSheet || !navigation);
   useEffect(() => {
     if (built) return;
     const id = requestAnimationFrame(() => setBuilt(true));
@@ -200,7 +212,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
    * Uses reset to clear the auth stack from history
    */
   const navigateToApp = useCallback(() => {
-    if (!isMountedRef.current) return;
+    if (!isMountedRef.current || !navigation) return;
     
     log.info("Navigating to App");
 
@@ -224,9 +236,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // Opened over a page: tell the auth layer when it goes, so an action that
   // was waiting on a sign-in that never came is dropped.
   useEffect(() => {
-    if (!asSheet) return;
+    if (!asSheet || !navigation) return;
     return () => noteSignInPageClosed();
-  }, [asSheet]);
+  }, [asSheet, navigation]);
 
   /**
    * Navigate to SetProfile screen
@@ -236,9 +248,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
    * To handle both, reset to the Auth stack with SetProfile as the initial route.
    */
   const navigateToSetProfile = useCallback(() => {
-    if (!isMountedRef.current) return;
+    if (!isMountedRef.current || !navigation) return;
     
-    log.info("Navigating to SetProfiless");
+    log.info("Navigating to SetProfile");
     
     navigation.dispatch(
       CommonActions.reset({
@@ -258,7 +270,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // Handle auth state changes for navigation
   useEffect(() => {
     // Skip if already navigating or still loading
-    if (hasNavigatedRef.current || authLoading || isLocalLoading) {
+    if (!navigation || !isFocused || hasNavigatedRef.current || authLoading || isLocalLoading) {
       return;
     }
 
@@ -278,6 +290,8 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       return;
     }
   }, [
+    navigation,
+    isFocused,
     isSignedIn, 
     needsUsername, 
     provisionalUser, 
@@ -380,7 +394,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
           return;
         case "error":
           log.error("provision:outcome-error", outcome.message);
-          toastError(outcome.message);
+          setInlineError(outcome.message);
           return;
       }
     },
@@ -578,6 +592,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const handleGoogleLogin = useCallback(async () => {
     hasNavigatedRef.current = false;
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider("google");
     try {
@@ -587,7 +602,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     } catch (e: any) {
       if (isMountedRef.current) setSessionWait(false);
       log.error("Google login error", e?.stack || e);
-      if (!isSignInCancelled(e)) toastError(e, t("auth.loginFailedRetry"));
+      if (!isSignInCancelled(e)) setInlineError(serverAuthText(e?.message, t("auth.loginFailedRetry")));
       hasNavigatedRef.current = false;
     } finally {
       if (isMountedRef.current) {
@@ -599,6 +614,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const handleAppleLogin = useCallback(async () => {
     hasNavigatedRef.current = false;
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider("apple");
     try {
@@ -606,7 +622,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       await runProvisionAndSignIn(supabaseUserId);
     } catch (e: any) {
       log.error("Apple login error", e?.stack || e);
-      if (!isSignInCancelled(e)) toastError(e, t("auth.loginFailedRetry"));
+      if (!isSignInCancelled(e)) setInlineError(serverAuthText(e?.message, t("auth.loginFailedRetry")));
       hasNavigatedRef.current = false;
     } finally {
       if (isMountedRef.current) {
@@ -622,13 +638,14 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     const url = takeHeldCallback();
     if (!url) return;
     hasNavigatedRef.current = false;
+    setInlineError(null);
     setIsLocalLoading(true);
     (async () => {
       try {
         await runProvisionAndSignIn(await finishSignInCallback(url));
       } catch (e: any) {
         log.error("Resumed sign-in error", e?.message);
-        if (!isSignInCancelled(e)) toastError(e, t("auth.loginFailedRetry"));
+        if (!isSignInCancelled(e)) setInlineError(serverAuthText(e?.message, t("auth.loginFailedRetry")));
         hasNavigatedRef.current = false;
       } finally {
         if (isMountedRef.current) setIsLocalLoading(false);
@@ -644,6 +661,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
    */
   const handlePasskey = useCallback(async (mode: "signin" | "signup") => {
     hasNavigatedRef.current = false;
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider(mode === "signup" ? "passkey-signup" : "passkey-signin");
     setPasskeyError(null);
@@ -676,6 +694,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const handleTelegramLogin = useCallback(async () => {
     hasNavigatedRef.current = false;
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider("telegram");
     try {
@@ -685,7 +704,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       log.error("Telegram login error", e?.stack || e);
       // Closing Telegram's consent screen is a choice, not a failure.
       if (!isSignInCancelled(e)) {
-        toastError(e, t("auth.loginFailedRetry"));
+        setInlineError(serverAuthText(e?.message, t("auth.loginFailedRetry")));
       }
       hasNavigatedRef.current = false;
     } finally {
@@ -697,6 +716,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   }, [runProvisionAndSignIn, t]);
 
   const handleEmailSubmit = useCallback(async (email: string) => {
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider("email");
     try {
@@ -705,7 +725,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       setAuthStep("email-code");
     } catch (e: any) {
       log.error("Email OTP send error", e);
-      toastError(e, t("auth.sendCodeFailedRetry"));
+      setInlineError(serverAuthText(e?.message, t("auth.sendCodeFailedRetry")));
     } finally {
       if (isMountedRef.current) {
         setIsLocalLoading(false);
@@ -717,13 +737,14 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const handleEmailCodeSubmit = useCallback(
     async (code: string) => {
       hasNavigatedRef.current = false;
+      setInlineError(null);
       setIsLocalLoading(true);
       try {
         const supabaseUserId = await verifyEmailOtp(pendingEmail, code);
         await runProvisionAndSignIn(supabaseUserId);
       } catch (e: any) {
         log.error("Email code verify error", e);
-        toastError(e, t("auth.invalidCodeRetry"));
+        setInlineError(serverAuthText(e?.message, t("auth.invalidCodeRetry")));
         hasNavigatedRef.current = false;
       } finally {
         if (isMountedRef.current) setIsLocalLoading(false);
@@ -732,37 +753,12 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     [pendingEmail, runProvisionAndSignIn, t]
   );
 
-  /**
-   * Password sign-in. Same destination as the code flow — only the proof of
-   * identity differs — so it hands off to runProvisionAndSignIn untouched.
-   */
-  const handleEmailPasswordSubmit = useCallback(
-    async (email: string, password: string) => {
-      hasNavigatedRef.current = false;
-      setIsLocalLoading(true);
-      setCurrentProvider("email");
-      try {
-        const supabaseUserId = await signInWithEmailPassword(email, password);
-        await runProvisionAndSignIn(supabaseUserId);
-      } catch (e: any) {
-        log.error("Email password login error", e);
-        toastError(e, t("auth.invalidEmailOrPassword"));
-        hasNavigatedRef.current = false;
-      } finally {
-        if (isMountedRef.current) {
-          setIsLocalLoading(false);
-          setCurrentProvider("");
-        }
-      }
-    },
-    [runProvisionAndSignIn, t]
-  );
-
   const handleResendEmailCode = useCallback(() => {
     handleEmailSubmit(pendingEmail);
   }, [pendingEmail, handleEmailSubmit]);
 
   const handlePhoneSubmit = useCallback(async (phone: string) => {
+    setInlineError(null);
     setIsLocalLoading(true);
     setCurrentProvider("phone");
     try {
@@ -771,7 +767,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       setAuthStep("phone-code");
     } catch (e: any) {
       log.error("Phone OTP send error", e);
-      toastError(e, t("auth.sendCodeFailedRetry"));
+      setInlineError(serverAuthText(e?.message, t("auth.sendCodeFailedRetry")));
     } finally {
       if (isMountedRef.current) {
         setIsLocalLoading(false);
@@ -783,13 +779,14 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const handlePhoneCodeSubmit = useCallback(
     async (code: string) => {
       hasNavigatedRef.current = false;
+      setInlineError(null);
       setIsLocalLoading(true);
       try {
         const supabaseUserId = await verifyPhoneOtp(pendingPhone, code);
         await runProvisionAndSignIn(supabaseUserId);
       } catch (e: any) {
         log.error("Phone code verify error", e);
-        toastError(e, t("auth.invalidCodeRetry"));
+        setInlineError(serverAuthText(e?.message, t("auth.invalidCodeRetry")));
         hasNavigatedRef.current = false;
       } finally {
         if (isMountedRef.current) setIsLocalLoading(false);
@@ -802,21 +799,24 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     handlePhoneSubmit(pendingPhone);
   }, [pendingPhone, handlePhoneSubmit]);
 
-  useEffect(() => {
-    if (authStep !== "main" || !loginViewportHeight || !loginContentHeight) return;
-    // With the keyboard up the page is meant to scroll, not squeeze the clips.
-    if (Keyboard.isVisible()) return;
-    const spare = loginViewportHeight - loginContentHeight;
-    if (Math.abs(spare) < 2) return;
-    setLanesSlack((s) => Math.max(-600, Math.min(600, s + spare)));
-  }, [authStep, loginViewportHeight, loginContentHeight]);
-
-  const isLoading = authLoading || isLocalLoading || isWalletLoading;
   const showLoader = (sessionWait || isWalletLoading) && !needsUsername;
-  const content = (
+  const content = onClose && needsUsername && provisionalUser ? (
+    <SafeAreaView className="flex-1 bg-theme-background">
+      <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={keyboardOffset} style={{ flex: 1 }}>
+        <ScrollView {...scrollViewProps} keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 24 }}>
+          <UsernameRequiredForm
+            visible
+            provisionalUser={provisionalUser}
+            onComplete={completeUsername}
+            onSignOut={() => { void signOut().catch(() => {}); }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  ) : (
     <SafeAreaView className="flex-1 bg-theme-background">
       {showLoader && (
-        <SignInWaitVeil atRoot label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
+        <SignInWaitVeil atRoot={!onClose} label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
       )}
 
       {/* "padding" on BOTH platforms, deliberately. The manifest still says
@@ -837,96 +837,88 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         style={{ flex: 1 }}
       >
         <GestureDetector gesture={sheet.scroll}>
-        <ScrollView
-          {...scrollViewProps}
-          onScroll={(event) => {
-            scrollViewProps.onScroll(event);
-            sheet.onScroll(event);
-          }}
-          onLayout={(event) => {
-            scrollViewProps.onLayout(event);
-            setLoginViewportHeight(steadyHeight(event.nativeEvent.layout.height));
-          }}
-          contentContainerStyle={{ flexGrow: 1 }}
-          className="px-6"
-        >
-          {authStep === "main" ? (
-            <View style={{ marginBottom: 24 }}>
-              <LoginShortsStack viewportHeight={loginViewportHeight} reservedHeight={loginFormHeight + loginLegalHeight + 24 - lanesSlack} />
+          <ScrollView
+            {...scrollViewProps}
+            onScroll={(event) => {
+              scrollViewProps.onScroll(event);
+              sheet.onScroll(event);
+            }}
+            onLayout={(event) => {
+              scrollViewProps.onLayout(event);
+              if (!Keyboard.isVisible()) {
+                setLoginViewportHeight(steadyHeight(event.nativeEvent.layout.height));
+              }
+            }}
+            contentContainerStyle={{ flexGrow: 1 }}
+            className="px-6"
+          >
+            <View style={{ marginBottom: 20 }}>
+              <LoginShortsStack viewportHeight={loginViewportHeight} reservedHeight={loginFormHeight + 20} />
             </View>
-          ) : null}
-
-          {authStep === "main" && isSignupBlocked ? (
-            <AuthErrorNotice message={t("auth.walletSignupBlocked")} style={{ marginBottom: 16 }} />
-          ) : null}
-
-          {/* Sign-in options: Email, Phone, Google, Apple, and Connect Wallet
-              are all live. */}
-          {authStep === "main" ? (
             <View onLayout={(event) => setLoginFormHeight(steadyHeight(event.nativeEvent.layout.height))}>
-            {/* Accounts still saved on this phone (logging out of one keeps
-                the others), same rows as the sign-in sheet. */}
-            {built ? <SignInSavedProfiles disabled={isLoading} /> : null}
-            {!built ? <View style={{ height: loginFormHeight }} /> : <SocialLoginIcons
-              onGoogle={handleGoogleLogin}
-              onApple={handleAppleLogin}
-              onTelegram={handleTelegramLogin}
-              onPasskeySignIn={() => void handlePasskey("signin")}
-              onPasskeySignUp={() => void handlePasskey("signup")}
-              passkeyError={passkeyError}
-              passkeySuggestCreate={passkeySuggestCreate}
-              onEmailSubmit={handleEmailSubmit}
-              onEmailPasswordSubmit={handleEmailPasswordSubmit}
-              onPhoneSubmit={handlePhoneSubmit}
-              onConnectWallet={handleWalletConnect}
-              busyProvider={isLocalLoading ? currentProvider : isWalletLoading ? "wallet" : undefined}
-              disabled={isLoading}
-              onFieldExpand={scrollIntoView}
-              layout="stack"
-            />}
+              <AuthErrorNotice
+                message={inlineError ?? (authStep === "main" && isSignupBlocked ? t("auth.walletSignupBlocked") : null)}
+                style={{ marginBottom: 16 }}
+              />
+              {authStep === "main" ? (
+                <>
+                {/* Accounts still saved on this phone (logging out of one keeps
+                    the others), same rows as the sign-in sheet. */}
+                {built ? <SignInSavedProfiles disabled={isLoading} /> : null}
+                {!built ? <View style={{ height: loginFormHeight }} /> : <SocialLoginIcons
+                  onGoogle={handleGoogleLogin}
+                  onApple={handleAppleLogin}
+                  onTelegram={handleTelegramLogin}
+                  onPasskeySignIn={() => void handlePasskey("signin")}
+                  onPasskeySignUp={() => void handlePasskey("signup")}
+                  passkeyError={passkeyError}
+                  passkeySuggestCreate={passkeySuggestCreate}
+                  onEmailSubmit={handleEmailSubmit}
+                  onPhoneSubmit={handlePhoneSubmit}
+                  onConnectWallet={handleWalletConnect}
+                  busyProvider={isLocalLoading ? currentProvider : isWalletLoading ? "wallet" : undefined}
+                  disabled={isLoading}
+                  onFieldExpand={scrollIntoView}
+                />}
+                </>
+              ) : authStep === "email-code" ? (
+                <EmailCodeEntry
+                  email={pendingEmail}
+                  onSubmit={handleEmailCodeSubmit}
+                  onBack={() => { setInlineError(null); setAuthStep("main"); }}
+                  onResend={handleResendEmailCode}
+                  loading={isLocalLoading}
+                  disabled={authLoading}
+                  onFieldExpand={scrollIntoView}
+                />
+              ) : (
+                <EmailCodeEntry
+                  email={pendingPhone}
+                  onSubmit={handlePhoneCodeSubmit}
+                  onBack={() => { setInlineError(null); setAuthStep("main"); }}
+                  onResend={handleResendPhoneCode}
+                  loading={isLocalLoading}
+                  disabled={authLoading}
+                  onFieldExpand={scrollIntoView}
+                />
+              )}
             </View>
-          ) : authStep === "email-code" ? (
-            <EmailCodeEntry
-              email={pendingEmail}
-              onSubmit={handleEmailCodeSubmit}
-              onBack={() => setAuthStep("main")}
-              onResend={handleResendEmailCode}
-              loading={isLocalLoading}
-              disabled={authLoading}
-            />
-          ) : (
-            <EmailCodeEntry
-              email={pendingPhone}
-              onSubmit={handlePhoneCodeSubmit}
-              onBack={() => setAuthStep("main")}
-              onResend={handleResendPhoneCode}
-              loading={isLocalLoading}
-              disabled={authLoading}
-            />
-          )}
+            {built && <WalletSetupScreen
+              visible={!!walletSetupRequest}
+              request={walletSetupRequest}
+              onClose={() => setWalletSetupRequest(null)}
+              onUnlock={handleWalletUnlock}
+              onBiometricUnlock={handleWalletBiometricUnlock}
+              onCreate={handleWalletCreate}
+              onCreateConfirmed={handleWalletCreateConfirmed}
+              onSwitchAccount={handleWalletSwitchAccount}
+              onResetWallet={handleResetWallet}
+            />}
 
 
-          {built && <WalletSetupScreen
-            visible={!!walletSetupRequest}
-            request={walletSetupRequest}
-            onClose={() => setWalletSetupRequest(null)}
-            onUnlock={handleWalletUnlock}
-            onBiometricUnlock={handleWalletBiometricUnlock}
-            onCreate={handleWalletCreate}
-            onCreateConfirmed={handleWalletCreateConfirmed}
-            onSwitchAccount={handleWalletSwitchAccount}
-            onResetWallet={handleResetWallet}
-          />}
-
-
-          {/* Terms and Privacy: snug at the bottom on the main step so the
-              clips above take the spare height. */}
-          <View style={authStep === "main" ? { paddingTop: 12, paddingBottom: 12 } : { paddingVertical: 24 }} onLayout={(event) => {
-            const { y, height } = event.nativeEvent.layout;
-            setLoginLegalHeight(steadyHeight(height));
-            // The legal line is the last thing on the page: its bottom is how tall the content really is.
-            setLoginContentHeight(steadyHeight(y + height));
-          }}>
+          </ScrollView>
+        </GestureDetector>
+        <View style={{ paddingHorizontal: 24, paddingTop: 8, paddingBottom: 16 }}>
             <Text style={[authText.caption, { textAlign: "center" }]}>
               {/* The links travel with the sentence so languages that reorder
                   the terms and the policy still read correctly. */}
@@ -950,35 +942,45 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
                 }}
               />
             </Text>
-          </View>
-
-        </ScrollView>
-        </GestureDetector>
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 
   if (!asSheet) return content;
-  // iPhone: a native modal, which draws its own card, corners and dim. A
-  // second, smaller rounding and dim inside it showed as a lumpy double
-  // corner at the top of the page.
-  if (Platform.OS === "ios") {
-    return (
-      <View style={{ flex: 1 }}>
-        {content}
-        {ownsWalletPicker ? <ScreenWalletPicker /> : null}
-      </View>
-    );
-  }
-  return (
+  const isAndroid = Platform.OS === "android";
+  const sheetContent = isAndroid ? (
     <View style={{ flex: 1 }}>
       <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }, sheet.dimStyle]} />
       <GestureDetector gesture={sheet.sheetPan}>
-        <Animated.View style={[{ flex: 1, borderTopLeftRadius: 16, borderTopRightRadius: 16, overflow: "hidden" }, sheet.sheetStyle]}>{content}</Animated.View>
+        <Animated.View style={[{ flex: 1 }, sheet.sheetStyle]}>{content}</Animated.View>
       </GestureDetector>
+    </View>
+  ) : (
+    <View style={{ flex: 1 }}>
+      {content}
       {ownsWalletPicker ? <ScreenWalletPicker /> : null}
     </View>
   );
-};
+
+  if (!onClose) return sheetContent;
+
+  return (
+    <Modal
+      visible={!isAndroid || !isWalletSheetOpen}
+      transparent={isAndroid}
+      statusBarTranslucent={isAndroid}
+      navigationBarTranslucent={isAndroid}
+      presentationStyle={isAndroid ? "overFullScreen" : "pageSheet"}
+      animationType={isAndroid ? "none" : "slide"}
+      allowSwipeDismissal={dismissible}
+      onRequestClose={() => { if (dismissible) dismiss(); }}
+    >
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {sheetContent}
+      </GestureHandlerRootView>
+    </Modal>
+  );
+}
 
 export default SignInScreen;

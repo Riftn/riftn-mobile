@@ -213,6 +213,14 @@ run() {
             # moment it was sent is what the next short's start is timed from.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
             idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+          vpair:*)
+            # Shorts: the same flick, then two seconds later one that starts
+            # on the timeline row, a finger above the player's buttons.
+            python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
+            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed"
+            sleep 2
+            python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.lowswipes"
+            idb ui swipe --udid "$UDID" --duration 0.25 196 796 196 420 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           vback:*)
             # Shorts: a quick downward flick, back to the short before.
             idb ui swipe --udid "$UDID" --duration 0.25 196 260 196 640 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;

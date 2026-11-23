@@ -10,6 +10,23 @@ const { packages } = require('./patch-security-dependencies.cjs');
 for (const pkg of packages()) {
   const label = pkg.name + '@' + pkg.version + ' ' + pkg.dir;
   const from = relative => require(path.join(pkg.dir, relative));
+  if (pkg.name === 'glob' && pkg.version.startsWith('13.')) test(label + ' exits a cancelled walk', () => {
+    const { GlobUtil } = from('dist/commonjs/walker.js');
+    const walker = new GlobUtil([], null, { signal: AbortSignal.abort() });
+    let completed = 0;
+    walker.walkCB2 = () => assert.fail('walk continued after cancellation');
+    walker.walkCB2Sync = walker.walkCB2;
+    walker.walkCB(null, [], () => completed++);
+    walker.walkCBSync(null, [], () => completed++);
+    assert.equal(completed, 2);
+  });
+  if (pkg.name === 'minimatch' && pkg.version.startsWith('10.')) test(label + ' honors the preprocessing budget', () => {
+    const { Minimatch } = from('dist/commonjs/index.js');
+    const matcher = new Minimatch('photos/**/*.jpg', { optimizationLevel: 2, braceExpandMax: 1 });
+    assert.equal(matcher.match('photos/2026/beach.jpg'), true);
+    const parts = matcher.firstPhasePreProcess([['**', '..', 'photos', 'beach.jpg']]);
+    assert.equal(parts.length, 1);
+  });
   if (pkg.name === 'deepmerge') test(label + ' preserves safe own properties', () => {
     const merge = from('dist/cjs.js');
     for (const input of [

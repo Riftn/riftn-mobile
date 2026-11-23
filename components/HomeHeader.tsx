@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, memo } from "react";
+import React, { useCallback, useRef, memo } from "react";
 import { View, TouchableOpacity, I18nManager } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -7,12 +7,12 @@ import DockLogoTarget from "./common/DockLogoTarget";
 import { useFeedPillRefreshing } from "../libs/feed-pill-refresh";
 import Avatar from "./common/Avatar";
 import NotificationBell from "./common/NotificationBell";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { useUser, useAuthState } from "../context/AuthContext";
 import { getAvatarUrl } from "../libs/misc";
-import { registerOwnAvatar } from "../libs/signInHandoff";
+import { useOwnAvatarTarget } from "../libs/signInHandoff";
 import { useAppTheme } from "../context/ThemeContext";
 import { NAV_PILL_SIDE_INSET } from "./Home/FeedNavBar";
 import { HeaderAccountButton } from "./Home/HeaderAccountButton";
@@ -48,8 +48,10 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
   const unreadCount = user?.notificationCount || 0;
   const avatarUrl = getAvatarUrl(user?.avatarImageUrl);
   // Where the sign-in hand-off sends the account's picture.
+  // Only while this page is in front: a header left mounted under another
+  // page would pull the picture to a spot that isn't on screen.
   const ownAvatarRef = useRef<View>(null);
-  useEffect(() => registerOwnAvatar(ownAvatarRef), []);
+  const ownAvatarHidden = useOwnAvatarTarget(ownAvatarRef, AVATAR_RADIUS, useIsFocused());
 
   const handleNotificationPress = useCallback(() => {
     navigation.navigate(ScreenNames.Notifications);
@@ -90,7 +92,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
           accessibilityLabel={t("common.openMenu")}
           className="w-11 h-11 items-start justify-center"
         >
-          <View ref={ownAvatarRef} collapsable={false}>
+          <View ref={ownAvatarRef} collapsable={false} style={ownAvatarHidden ? { opacity: 0 } : undefined}>
             <Avatar uri={avatarUrl} size={ICON} name={user?.displayName || user?.username} radius={AVATAR_RADIUS} />
           </View>
         </TouchableOpacity>}

@@ -1,5 +1,5 @@
 import { outsideImage } from "../../libs/outside-image";
-import { purchaseOfferVisible } from "../../config/storefront";
+import { usePurchaseOfferVisible } from "../../config/storefront";
 import { COMMENT_ICON_SIZE } from '../Home/feed-icon-size';
 import { useReplyDelivery } from '../../libs/reply-delivery';
 import BadgeArtwork from "../common/BadgeArtwork";
@@ -19,7 +19,7 @@ import Icon from "../ui/Icon";
 import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useCopy } from "react-i18next";
-import type { TFunction } from "i18next";
+import { formatCommentTime } from "../../libs/comment-time";
 import Avatar from "../common/Avatar";
 import NewMemberChip from "../common/NewMemberChip";
 import VoiceNotePlayer from "./VoiceNotePlayer";
@@ -70,6 +70,7 @@ import type { CommentHoldExtra, CommentLayout } from "./CommentContextMenu";
 import { WEBSITE_LINK } from "../../config";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 import { AssetRefCards, MAX_ASSET_CARDS_PER_MESSAGE } from "../common/AssetRefCard";
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
@@ -86,30 +87,6 @@ function formatTipTotal(n: number): string {
   if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
   if (n >= 1e3) return `${(n / 1e3).toFixed(1)}K`;
   return String(Math.round(n));
-}
-
-// The units come from the locale: "3h" and "2w" were typed into this function,
-// so every language read the age of a comment in English letters.
-function formatShortTime(date: Date | string | undefined, t: TFunction): string {
-  if (!date) return "";
-  const now = new Date();
-  const then = new Date(date);
-  const diffMs = now.getTime() - then.getTime();
-  const diffSec = Math.floor(diffMs / 1000);
-  const diffMin = Math.floor(diffSec / 60);
-  const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
-  const diffWeek = Math.floor(diffDay / 7);
-  const diffMonth = Math.floor(diffDay / 30);
-  const diffYear = Math.floor(diffDay / 365);
-
-  if (diffYear > 0) return t("communities.time.years", { count: diffYear });
-  if (diffMonth > 0) return t("communities.time.months", { count: diffMonth });
-  if (diffWeek > 0) return t("communities.time.weeks", { count: diffWeek });
-  if (diffDay > 0) return t("communities.time.days", { count: diffDay });
-  if (diffHour > 0) return t("comments.timeHours", { count: diffHour });
-  if (diffMin > 0) return t("comments.timeMinutes", { count: diffMin });
-  return t("comments.timeSeconds", { count: Math.max(1, diffSec) });
 }
 
 interface CommentItemProps {
@@ -141,6 +118,8 @@ interface CommentItemProps {
    * rules — own comment, top-level only — are applied here, as the menu does.
    */
   onPin?: (comment: Comment) => void;
+  /** Hide/unhide on the viewer's own post. Also marks a hidden reply for them. */
+  onHide?: (comment: Comment) => void;
   onReport?: (comment: Comment) => void;
   onDelete?: (comment: Comment) => void;
   onLongPress?: (comment: Comment, layout: CommentLayout, extra: CommentHoldExtra) => void;
@@ -179,6 +158,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   onUserPress,
   onEdit,
   onPin,
+  onHide,
   onReport,
   onDelete,
   onLongPress,
@@ -192,6 +172,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   loadingReplies = false,
   postCreator,
 }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useCopy();
   const delivery = useReplyDelivery(tokenId, comment.id);
   const isPending = comment.id < 0 || delivery?.status === 'sending' || delivery?.status === 'failed';
@@ -356,7 +337,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
     [user?.address, user?.displayName, user?.username, comment.address, postCreator],
   );
 
-  const timeAgo = formatShortTime(comment.createdAt, t);
+  const timeAgo = formatCommentTime(comment.createdAt, t);
 
   const translationTexts = useMemo(() => ({ content: comment.content || '' }), [comment.content]);
   const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
@@ -555,7 +536,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   }, [tokenId, comment.id, t]);
 
   const hasMedia = !!(comment.imageUrl || comment.gifUrl || comment.audioUrl || comment.videoUrl);
-  const canTip = !!onTip && purchaseOfferVisible() && !!(comment.user?.address || comment.address);
+  const canTip = !!onTip && showPurchaseOffer && !!(comment.user?.address || comment.address);
   const showRepliesToggle = !!onToggleReplies && (hiddenReplyCount > 0 || repliesExpanded);
   const repliesToggleLabel = repliesExpanded
     ? t("comments.hideReplies")
@@ -649,7 +630,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
       accessibilityActions={isPending ? [] : a11yActions}
       onAccessibilityAction={handleAccessibilityAction}
     >
-      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, landStyle]}>
+      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, landStyle, onHide && comment.hiddenByCreator ? { opacity: 0.5 } : null]}>
         <Pressable onPress={handleUserPress}>
           {landsNow && (
             <Animated.View
@@ -721,6 +702,29 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
             {/* Why this comment is at the top. Without it a pinned comment
                 just looks like the newest one, and the creator's choice reads
                 as an accident of ordering. */}
+            {/* Only the creator sees this: the writer is never told. */}
+            {onHide && comment.hiddenByCreator && (
+              <View
+                accessibilityLabel={t("hideReply.hiddenTitle")}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 2,
+                  paddingHorizontal: 6,
+                  paddingVertical: 2,
+                  borderRadius: 6,
+                  backgroundColor: "rgba(255,255,255,0.12)",
+                  borderWidth: 1,
+                  borderColor: "rgba(255,255,255,0.12)",
+                  ...(isMinimal ? MINIMAL_UNFILLED : null),
+                }}
+              >
+                <Icon name="EyeOff" size={10} color="rgba(255,255,255,0.75)" />
+                <Text style={{ fontSize: 10, fontWeight: "600", color: "rgba(255,255,255,0.75)" }}>
+                  {t("hideReply.hiddenBadge")}
+                </Text>
+              </View>
+            )}
             {comment.isPinned && (
               <View
                 accessibilityLabel={t("comments.pinnedByCreator")}
@@ -816,7 +820,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
                     {part.text}
                   </Text>
                 ) : (
-                  <Text key={idx}>{expandEmojiTokens(part.text, { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
+                  <Text key={idx}>{expandEmojiTokens(renderLinkEmojis(part.text, { keyPrefix: `lk-${idx}` }), { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
                 )
               )}
             </Animated.Text>

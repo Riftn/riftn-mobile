@@ -1,4 +1,5 @@
 import { tokenLabel } from '../../libs/token-label';
+import { useIsNotInterested } from "../../libs/not-interested-store";
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useClockLabel } from "../../libs/minuteClock";
 import { useCommentCount } from '../../libs/comment-count-store';
@@ -43,7 +44,8 @@ import MatureContentGate, { useMatureGate } from "./MatureContentGate";
 import ContentWarningGate, { useContentWarning } from "./ContentWarningGate";
 import AudioPostPlayer from "./ProtectedAudioPostPlayer";
 import FeedVideoPlayer from "./FeedVideoPlayer";
-import { rememberGalleryIndex } from "../../libs/media-presentation";
+import { downloadGalleryImage } from "../../libs/downloadGalleryImage";
+import { galleryIndex, rememberGalleryIndex } from "../../libs/media-presentation";
 import { nextPhotoViewerKey, pingPhotoViewerHost, registerPhotoViewerHost, type PhotoViewerPost } from "../../libs/photoViewerPost";
 import StatusBadge from "./StatusBadge";
 import { CommentBottomSheet } from "../Comments";
@@ -58,7 +60,7 @@ import { markContentWarningSeen } from '../../libs/contentWarningSeen';
 import ReactionInfoSheet from "./ReactionInfoSheet";
 import { useFeedSplitComments } from "./feedSplitComments";
 import PostStatsSheet from "../Post/stats/PostStatsSheet";
-import PostOptionsMenu, { type PostLookRow } from "../common/PostOptionsMenu";
+import PostOptionsMenu, { type CopyMediaRow, type PostLookRow } from "../common/PostOptionsMenu";
 import ImageTranslationSheet from "../common/ImageTranslationSheet";
 import QuotedPostEmbed from "../common/QuotedPostEmbed";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
@@ -95,7 +97,7 @@ import LiveFeedReactionFlow, { type SelfReaction } from "../LiveProducer/LiveFee
 import { useWebSocketApi } from "../../context/WebSocketContext";
 import { liveReactionType } from "../../libs/live-reaction-flow";
 import { LivestreamEvents } from "../../services/enums/livestream.enum";
-import { cdnImage } from "../../libs/cdnImage";
+import { cdnImage, cdnImageSource } from "../../libs/cdnImage";
 import { FEED_BENTO_RADIUS } from "../../libs/feed-image-layout";
 import { hlsUrlFor, isBigEvent, liveThumbnailFor } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
@@ -142,12 +144,17 @@ import { appliedEngagementWeight } from "../../libs/engagement-weight";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useCoAuthorState } from "../../libs/coAuthors";
 import PollCard from "../DM/PollCard";
+import QuizCard from "../Quiz/QuizCard";
+import QuizEditorSheet from "../Quiz/QuizEditorSheet";
+import PhotoTagsOverlay from "../PhotoTags/PhotoTagsOverlay";
+import PhotoTagSheet from "../PhotoTags/PhotoTagSheet";
+import { removeMyPhotoTag, setPhotoTags, type PhotoTag } from "../../services/photo-tags.service";
 // Direct module imports, not the `libs` barrel — it `export *`s the axios
 // client and auth utils into every card module.
 import { getAvatarUrl, getBadgeUrlFor, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getVideoUrl, getPlaybackUrl, getShortsThumbnailUrl, resolveThumbnail, DEFAULT_BANNER_SENTINEL } from "../../libs/misc";
 import { useHlsFallback } from "../../libs/hls-fallback";
 import { formatCompactNumber } from "../../libs/numbers.util";
-import { toastError, toastSuccess } from "../../libs/toast";
+import { toastError, toastSuccess, toastWithAction } from "../../libs/toast";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import {
   usePostLinkCopyCount,
@@ -250,8 +257,8 @@ type PostEdits = {
   hiddenLinkPreviews?: string[];
   quotePolicy?: "public" | "followers" | "nobody";
   replyPolicy?: "public" | "followers" | "following" | "mentioned";
-  /** Opened up to everyone from the edit sheet. */
-  visibility?: "public";
+  /** Who can see it, changed from the edit sheet ("self" = Only me). */
+  visibility?: "public" | "followers" | "self";
   /** Comic or carousel, switched from the menu. null = carousel. */
   layout?: "comic" | null;
 };
@@ -626,6 +633,16 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // A followers-only or direct post cannot be reposted, quoted, embedded or
   // sent in a message — each would hand it to people it was not written for.
   const isPublicPost = !item.visibility || item.visibility === "public";
+  // Quiz on the post, and people tagged on its photos (riftn-backend
+  // src/quiz, src/photo-tags). Tags change from this card's menu, so the card
+  // holds its own copy once edited.
+  const [quizAdded, setQuizAdded] = useState(false);
+  const hasQuiz = !!(item as any).hasQuiz || quizAdded;
+  const [showQuizEditor, setShowQuizEditor] = useState(false);
+  const [tagsOverride, setTagsOverride] = useState<PhotoTag[] | null>(null);
+  const photoTags: PhotoTag[] = tagsOverride ?? (Array.isArray((item as any).imageTags) ? (item as any).imageTags : []);
+  const [showPhotoTagger, setShowPhotoTagger] = useState(false);
+  const iAmTagged = !!userAddress && photoTags.some((tag) => tag.address?.toLowerCase() === userAddress.toLowerCase());
 
   // The shared frosted wallpaper (components/theme/CardFrost) is up: the card
   // paints its tint over that instead of over the sharp scene.
@@ -974,6 +991,23 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // is for whoever is holding the phone.
   const matureGate = useMatureGate(localContentRating, postKey);
   const contentWarning = useContentWarning(edits.spoilerText ?? item.spoilerText, postKey);
+  const canDownloadImage = postImage && !isActuallyGated && (!isBounty || isOwnerPost) && !matureGate.isGated && !contentWarning.hidden;
+  // Copy image / video in the hold menu: the same open-post rule as Download.
+  // A video copies its file link (no phone clipboard holds a video); a
+  // private or paid one is left out so its file never gets passed around.
+  const copyMediaRow = useMemo<CopyMediaRow | undefined>(() => {
+    if (canDownloadImage) {
+      const first = cdnImageSource(galleryImages[0] || "");
+      return {
+        kind: /\.gif(?:$|[?#])/i.test(first) ? "gif" : "image",
+        url: () => cdnImageSource(galleryImages[Math.min(galleryIndex(String(tokenId)), galleryImages.length - 1)] || ""),
+      };
+    }
+    if (isVideo && !isLive && !requiresVideoAccess && !isActuallyGated && !matureGate.isGated && !contentWarning.hidden && postFileUrl) {
+      return { kind: "video", url: () => postFileUrl };
+    }
+    return undefined;
+  }, [canDownloadImage, galleryImages, tokenId, isVideo, isLive, requiresVideoAccess, isActuallyGated, matureGate.isGated, contentWarning.hidden, postFileUrl]);
   const isHidden = edits.hidden ?? !!(item as any).isHidden;
   const [follow, setFollow] = useKeyedState<{ following: boolean; pending: boolean } | null>(followKey, null);
   const isFollowingCreator = follow ? follow.following : !!(item as any).isFollowing;
@@ -1200,10 +1234,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       images: galleryImages,
       galleryKey: String(tokenId),
       initialIndex: index,
+      allowDownload: canDownloadImage,
       soundtrack: !isActuallyGated && !matureGate.isGated ? soundtrack : undefined,
       postKey: tokenId != null ? photoViewerKey : undefined,
     });
-  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey]);
+  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey, canDownloadImage]);
 
   const handleTranslateImage = useCallback(() => {
     const imageUrl = galleryImages[0];
@@ -1383,13 +1418,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               return;
             }
             if (willBeSaved) {
-              setShowAddToFolder(true);
+              toastWithAction("success", t("toasts.saved_to_bookmarks"), t("addToFolder.title"), () => setShowAddToFolder(true));
             }
           })
           .catch(rollback);
       }
     });
-  }, [tokenId, userAddress, saved, engagementKey, requireAuth, setShowAddToFolder]);
+  }, [tokenId, userAddress, saved, engagementKey, requireAuth, setShowAddToFolder, t]);
 
   // An off-chain post shares as its own slug (/newpost/<n>), never as the
   // NFT-style /app/post/<tokenId> it hasn't earned. The slug survives minting
@@ -1579,6 +1614,25 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     warmRequest(`info:${tokenId}`, () => getNFT(tokenId));
     navigation.navigate(ScreenNames.PostInfo, { tokenId: String(tokenId) });
   }, [navigation, tokenId, item]);
+
+  const savePhotoTags = useCallback(async (next: PhotoTag[]) => {
+    if (tokenId == null) return;
+    try {
+      const res = await setPhotoTags(Number(tokenId), next);
+      setTagsOverride(res?.imageTags ?? next);
+      toastSuccess(t("photoTags.saved"));
+    } catch (err: any) {
+      toastError(err?.message || t("photoTags.saveFailed"));
+      throw err;
+    }
+  }, [tokenId, t]);
+
+  const handleRemoveMyTag = useCallback(() => {
+    if (tokenId == null) return;
+    removeMyPhotoTag(Number(tokenId))
+      .then((res) => { setTagsOverride(res?.imageTags ?? []); toastSuccess(t("photoTags.removedMe")); })
+      .catch((err: any) => toastError(err?.message || t("photoTags.saveFailed")));
+  }, [tokenId, t]);
 
   const handleOpenOptions = useCallback(() => {
     perfMark("post:menu");
@@ -2001,6 +2055,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       return (
         <View>
           <ComicDeck
+            galleryKey={String(tokenId)}
             images={galleryImages}
             captions={item.mediaCaptions}
             border={item.comicBorder}
@@ -2322,7 +2377,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       }
       case "image":
       default: {
-        const media = renderImageContent();
+        const rawMedia = renderImageContent();
+        const media = rawMedia && photoTags.length > 0 && !isActuallyGated ? (
+          <View>
+            {rawMedia}
+            <PhotoTagsOverlay tags={photoTags} onPressUser={showUserProfile} />
+          </View>
+        ) : rawMedia;
         if (!soundtrackOnMedia || !media) return bleed(media);
         // The badge sits beside the photo's clip, not inside it: idle it floats
         // on the photo's corner, playing it docks as a bar under the photo.
@@ -2558,7 +2619,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           currentSpoilerText={edits.spoilerText ?? item.spoilerText}
           currentQuotePolicy={edits.quotePolicy ?? item.quotePolicy}
           currentReplyPolicy={edits.replyPolicy ?? item.replyPolicy}
-          currentVisibility={edits.visibility ?? (item.visibility as any)}
+          currentVisibility={edits.visibility ?? ((item as any).justMe ? "self" : (item.visibility as any))}
           currentLayout={postLayout === "comic" ? "comic" : null}
           photoCount={galleryImages.length}
           onLayoutChange={isOwnerPost ? handleLayoutChange : undefined}
@@ -2572,6 +2633,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           onEditSuccess={handleEditSuccess}
           onDeleteSuccess={handleDeleteSuccess}
           onSendToDm={isSignedIn ? () => setShowShareToDm(true) : undefined}
+          onTagPeople={isOwnerPost && tokenId != null && galleryImages.length > 0 && !isVideo && !isLive ? () => setShowPhotoTagger(true) : undefined}
+          onRemoveMyTag={!isOwnerPost && iAmTagged && tokenId != null ? handleRemoveMyTag : undefined}
+          onAddQuiz={isOwnerPost && !hasQuiz && tokenId != null && /^\d+$/.test(String(tokenId)) && !isLive ? () => setShowQuizEditor(true) : undefined}
           quick={tokenId != null && !isLive ? {
             myReaction,
             onReact: handleReaction,
@@ -2584,6 +2648,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             text: [localTitle, captionText].filter(Boolean).join("\n\n"),
             look: menuHost?.look,
           } : undefined}
+          copyMedia={copyMediaRow}
           // The sheet is mounted below rather than inside the menu: the menu is
           // conditionally rendered, so onClose unmounts it and any state set in
           // the same handler goes with it.
@@ -2600,6 +2665,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           onTranslatePress={handleTranslate}
           onTranslateImagePress={hasImages ? handleTranslateImage : undefined}
           canCast={isVideo && !isLive && !isActuallyGated && !matureGate.isGated}
+          onDownloadImage={canDownloadImage ? () => void downloadGalleryImage(galleryImages, String(tokenId)) : undefined}
           onDownloadVideo={isVideo && !isLive && !isActuallyGated && !matureGate.isGated
             ? () => { const url = postFileUrl; if (url) void downloadVideo({ url, title: localTitle || "video", username: minterUser?.username || item.minterUsername }); }
             : undefined}
@@ -2678,7 +2744,29 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     </>
     );
   };
-  const sheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} onAnyOpenChange={isMenuHost ? setAnySheetOpen : undefined} />;
+  const cardSheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} onAnyOpenChange={isMenuHost ? setAnySheetOpen : undefined} />;
+  const sheets = showPhotoTagger || showQuizEditor ? (
+    <>
+      {cardSheets}
+      {showPhotoTagger && (
+        <PhotoTagSheet
+          visible={showPhotoTagger}
+          images={galleryImages}
+          initialTags={photoTags}
+          onClose={() => setShowPhotoTagger(false)}
+          onDone={savePhotoTags}
+        />
+      )}
+      {showQuizEditor && tokenId != null && (
+        <QuizEditorSheet
+          visible={showQuizEditor}
+          tokenId={Number(tokenId)}
+          onClose={() => setShowQuizEditor(false)}
+          onSaved={() => setQuizAdded(true)}
+        />
+      )}
+    </>
+  ) : cardSheets;
 
   if (tabletPortrait) {
     return (
@@ -2728,10 +2816,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
               <AssetRefCards refs={assetRefs} />
               {tokenId != null && !(item as any).isQuotePost && <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />}
+              {tokenId != null && hasQuiz && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
               <ShopBoard key={postKey} tokenId={tokenId} links={localShopLinks ?? (item as any).shopLinks} listingCount={localShopListingCount ?? (item as any).shopListingCount} />
               <View style={{ marginTop: 'auto', paddingTop: 16 }}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
-                  <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+                  <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
                   {showTranslate && <TranslateButton isTranslated={isTranslated} isLoading={translating} detectedLanguage={translationSourceLang} onTranslate={handleTranslate} onShowOriginal={handleShowOriginal} inline />}
                 </View>
                 {actionBar}
@@ -2849,6 +2938,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         {tokenId != null && !isLive && !(item as any).isQuotePost && (
           <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
         )}
+        {tokenId != null && hasQuiz && !isLive && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
         {!isLive && (
           <ShopBoard
             key={postKey}
@@ -2858,7 +2948,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           />
         )}
         <View className="flex-row flex-wrap items-center gap-3 pt-2" testID="post-stage-meta">
-          <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility ?? item.visibility} />
+          <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
           {showTranslate && (
             <TranslateButton
               isTranslated={isTranslated}
@@ -3201,6 +3291,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           {tokenId != null && !isLive && !(item as any).isQuotePost && (
             <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
           )}
+          {tokenId != null && hasQuiz && !isLive && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
           {!isLive && (
             <ShopBoard
               key={postKey}
@@ -3212,7 +3303,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         </View>
         {(
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: 8, flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
-            <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+            <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
             {translateButton}
           </View>
         )}
@@ -3463,6 +3554,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       {tokenId != null && !isLive && !desk && !(item as any).isQuotePost && (
         <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
       )}
+      {tokenId != null && hasQuiz && !isLive && !desk && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
 
       {/* The creator's Shop board — affiliate links, opened in a sheet. The
           live card links through to the player, which draws its own overlay
@@ -3484,7 +3576,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             by an order of magnitude. */}
         <PostMetaItems
           createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats}
-          visibility={edits.visibility ?? item.visibility}
+          visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)}
           icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"}
           count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`}
         />
@@ -3570,7 +3662,9 @@ const FeedCard = memo(function GuardedFeedCard(props: FeedCardProps) {
   const item = props.item as any;
   // Someone the viewer blocked: gone at once, and back if they unblock.
   const authorBlocked = useIsAuthorBlocked(item?.minterUser?.address || item?.minter || item?.owner);
-  if (authorBlocked) return null;
+  // Marked "Not interested" from its menu: gone at once.
+  const notInterested = useIsNotInterested(item?.tokenId);
+  if (authorBlocked || notInterested) return null;
   return (
     <ErrorBoundary scope="feed-card" renderFallback={hideCard}>
       {/* The viewer's muted words — see KeywordFilterGate. */}

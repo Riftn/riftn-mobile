@@ -31,12 +31,13 @@ export function useCreatorPlans(creatorAddress?: string | null) {
   return {
     plans,
     publishedPlans,
-    planIds: publishedPlans.map((p: any) => String(p.id ?? p._id)).filter(Boolean),
+    planIds: publishedPlans.map((p: any) => p.id ?? p._id).filter(id => id != null && id !== "").map(String),
     /** Whether the creator has a plan a reader could actually buy. */
     hasPlans: publishedPlans.length > 0,
     hasPinnedPlans: publishedPlans.some((plan) => plan.isPinned === true),
     /** Any plan at all, published or draft — for telling the two states apart. */
     hasAnyPlan: plans.length > 0,
     isLoading: query.isLoading,
+    isSuccess: query.isSuccess,
   };
 }

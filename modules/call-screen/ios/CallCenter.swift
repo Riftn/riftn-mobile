@@ -47,6 +47,7 @@ final class CallCenter: NSObject, PKPushRegistryDelegate, CXProviderDelegate {
   private(set) var voipToken: String?
   /** Calls on the call screen: session id and call type. */
   private var calls: [UUID: [String: String]] = [:]
+  private var muteActions: [UUID: CXSetMutedCallAction] = [:]
   private var answered = Set<UUID>()
   private var timers: [UUID: DispatchWorkItem] = [:]
   private var pending: [[String: String]] = []
@@ -162,6 +163,9 @@ final class CallCenter: NSObject, PKPushRegistryDelegate, CXProviderDelegate {
   }
 
   private func forget(_ uuid: UUID) {
+    for action in muteActions.values.filter({ $0.callUUID == uuid }) {
+      completeMute(action.uuid.uuidString, applied: false)
+    }
     calls.removeValue(forKey: uuid)
     answered.remove(uuid)
     timers.removeValue(forKey: uuid)?.cancel()
@@ -179,6 +183,8 @@ final class CallCenter: NSObject, PKPushRegistryDelegate, CXProviderDelegate {
 
   func providerDidReset(_ provider: CXProvider) {
     calls.keys.forEach { timers.removeValue(forKey: $0)?.cancel() }
+    for action in muteActions.values { action.fail() }
+    muteActions.removeAll()
     calls.removeAll()
     answered.removeAll()
   }
@@ -203,7 +209,22 @@ final class CallCenter: NSObject, PKPushRegistryDelegate, CXProviderDelegate {
   }
 
   func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
-    action.fulfill()
+    guard let session = calls[action.callUUID]?["sessionId"], let onEvent else {
+      action.fail()
+      return
+    }
+    muteActions[action.uuid] = action
+    onEvent(["action": "mute", "sessionId": session, "requestId": action.uuid.uuidString,
+             "muted": action.isMuted ? "true" : "false"])
+  }
+
+  func completeMute(_ requestId: String, applied: Bool) {
+    guard let id = UUID(uuidString: requestId), let action = muteActions.removeValue(forKey: id) else { return }
+    if applied { action.fulfill() } else { action.fail() }
+  }
+
+  func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
+    muteActions.removeValue(forKey: action.uuid)
   }
 
   func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {}

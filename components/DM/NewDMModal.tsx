@@ -82,11 +82,12 @@ export type NewDMModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (user: User) => void;
+  onNote?: () => void;
   onGroup?: () => void;
   onChannel?: () => void;
 };
 
-const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, onGroup, onChannel }) => {
+const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, onNote, onGroup, onChannel }) => {
   const { t } = useTranslation();
   const user = useUser();
   const me = String((user as any)?.walletAddress || (user as any)?.address || "").toLowerCase();
@@ -264,8 +265,15 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
           ) : null}
         </View>
 
-        {!q && (onGroup || onChannel) ? (
+        {!q && (onNote || onGroup || onChannel) ? (
           <View className="flex-row px-4 pt-3" style={{ gap: 8 }}>
+            {onNote ? (
+              <TouchableOpacity onPress={() => { close(); onNote(); }} accessibilityRole="button" testID="new-chat-note"
+                className="flex-row items-center rounded-full px-3 py-1.5 border border-theme-neutrals-700 bg-theme-neutrals-800/60" style={{ gap: 6 }}>
+                <Icon name="Quote" size={14} color="#E4E4E7" />
+                <Text className="text-white text-[12px] font-semibold">{t("notes.yourNote", { defaultValue: "Your note" })}</Text>
+              </TouchableOpacity>
+            ) : null}
             {onGroup ? (
               <TouchableOpacity onPress={() => { close(); onGroup(); }} accessibilityRole="button" testID="new-chat-group"
                 className="flex-row items-center rounded-full px-3 py-1.5 border border-theme-neutrals-700 bg-theme-neutrals-800/60" style={{ gap: 6 }}>

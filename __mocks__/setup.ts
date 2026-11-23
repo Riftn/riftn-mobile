@@ -107,6 +107,11 @@ jest.mock('react-native-mmkv', () => {
 
   class MMKV {
     private store: Record<string, string | number | boolean>;
+    private listeners = new Set<(mockChangedKey: string) => void>();
+    addOnValueChangedListener(listener: (mockChangedKey: string) => void) {
+      this.listeners.add(listener);
+      return { remove: () => this.listeners.delete(listener) };
+    }
 
     constructor(config?: { id?: string }) {
       const id = config?.id ?? 'mmkv.default';
@@ -114,6 +119,8 @@ jest.mock('react-native-mmkv', () => {
       this.store = stores[id];
     }
 
+    getAllKeys() { return Object.keys(this.store); }
+    contains(key: string) { return Object.prototype.hasOwnProperty.call(this.store, key); }
     getString(key: string): string | undefined {
       const v = this.store[key];
       return typeof v === 'string' ? v : undefined;
@@ -128,9 +135,11 @@ jest.mock('react-native-mmkv', () => {
     }
     set(key: string, value: string | number | boolean): void {
       this.store[key] = value;
+      this.listeners.forEach(listener => listener(key));
     }
     delete(key: string): void {
       delete this.store[key];
+      this.listeners.forEach(listener => listener(key));
     }
     clearAll(): void {
       // Emptied in place, not rebound: the map is shared with every other
@@ -138,7 +147,14 @@ jest.mock('react-native-mmkv', () => {
       for (const key of Object.keys(this.store)) delete this.store[key];
     }
   }
-  return { MMKV };
+  function useMMKVString(key: string, kv: MMKV) {
+    const React = require('react');
+    const value = React.useSyncExternalStore((notify: () => void) =>
+      kv.addOnValueChangedListener(changed => { if (changed === key) notify(); }).remove,
+      () => kv.getString(key));
+    return [value, (next: string) => kv.set(key, next)];
+  }
+  return { MMKV, useMMKVString };
 });
 
 jest.mock('expo-haptics', () => ({

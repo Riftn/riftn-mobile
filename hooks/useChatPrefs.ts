@@ -4,11 +4,14 @@ import { getChatPrefs, setChatPref, type ChatPref } from "../services/dm/dm.api"
 import { toastError } from "../libs/toast";
 import { translateCopy as _translateCopy } from "../i18n/copy";
 import { setEncryptedChats } from "../libs/dm-e2ee/encrypt-choice";
+import { setTranslateOutChats } from "../libs/dm-translate-out";
 
 const KEY = ["dm-chat-prefs"] as const;
 
 type Patch = {
   pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean;
+  /** DMs: send your messages in the other person's language. */
+  translateOut?: boolean;
   /** ISO time, 'forever', or null to unmute. */
   mutedUntil?: string | null;
 };
@@ -18,6 +21,12 @@ const FOREVER = "2999-12-31T00:00:00.000Z";
 /** True while this chat's mute is still running. */
 export function isPrefMuted(pref?: ChatPref | null): boolean {
   return !!pref?.mutedUntil && new Date(pref.mutedUntil).getTime() > Date.now();
+}
+
+/** A newer message restores an unmuted DM to the inbox, as on the website. */
+export function isPrefArchived(pref?: ChatPref, lastMessageAt?: string | null): boolean {
+  if (!pref?.archivedAt) return false;
+  return isPrefMuted(pref) || !lastMessageAt || Date.parse(lastMessageAt) <= Date.parse(pref.archivedAt);
 }
 
 /**
@@ -31,7 +40,7 @@ export function useChatPrefs(enabled = true) {
   const { data } = useQuery({ queryKey: KEY, queryFn: getChatPrefs, enabled, staleTime: 60_000, refetchInterval: 30_000 });
 
   // Sending reads "Encrypt chat" from here (see encrypt-choice).
-  useEffect(() => { if (data) setEncryptedChats(data); }, [data]);
+  useEffect(() => { if (data) { setEncryptedChats(data); setTranslateOutChats(data); } }, [data]);
 
   const byId = useMemo(() => {
     const map = new Map<string, ChatPref>();
@@ -46,20 +55,23 @@ export function useChatPrefs(enabled = true) {
     const next: ChatPref = {
       ...(prev ?? { conversationId: id, pinnedAt: null, archivedAt: null, mutedUntil: null, markedUnread: false }),
       ...(patch.pinned !== undefined ? { pinnedAt: patch.pinned ? now : null } : {}),
-      ...(patch.archived !== undefined ? { archivedAt: patch.archived ? now : null } : {}),
+      ...(patch.archived !== undefined ? { archivedAt: patch.archived ? now : null, ...(patch.archived ? { pinnedAt: null } : {}) } : {}),
       ...(patch.unread !== undefined ? { markedUnread: patch.unread } : {}),
       ...(patch.listed !== undefined ? { listedAt: patch.listed ? now : null } : {}),
       ...(patch.encrypted !== undefined ? { encryptedAt: patch.encrypted ? now : null } : {}),
+      ...(patch.translateOut !== undefined ? { translateOutAt: patch.translateOut ? now : null } : {}),
       ...(patch.mutedUntil !== undefined ? { mutedUntil: patch.mutedUntil === "forever" ? FOREVER : patch.mutedUntil } : {}),
     };
     const after = [...before.filter((p) => p.conversationId !== id), next];
     queryClient.setQueryData<ChatPref[]>(KEY, after);
     if (patch.encrypted !== undefined) setEncryptedChats(after);
+    if (patch.encrypted !== undefined || patch.translateOut !== undefined) setTranslateOutChats(after);
     try {
       await setChatPref(id, patch);
     } catch {
       queryClient.setQueryData<ChatPref[]>(KEY, before);
       setEncryptedChats(before);
+      setTranslateOutChats(before);
       toastError(_translateCopy("chatMenu.saveFailed", { defaultValue: "Couldn't save that, try again" }));
     }
   }, [queryClient]);

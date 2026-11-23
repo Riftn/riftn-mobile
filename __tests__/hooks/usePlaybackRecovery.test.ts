@@ -97,6 +97,100 @@ describe('native playback recovery', () => {
       act(() => events.get('playingChange')?.({ isPlaying: false }));
       expect(player.play).toHaveBeenCalledTimes(1);
     });
+    it('asks again when the play it asked for left the player paused', () => {
+      const { player, hook } = start();
+      act(() => { hook.result.current.recovery.start(); });
+      expect(player.play).toHaveBeenCalledTimes(1);
+      // Still paused a moment later: the request was lost, not refused.
+      act(() => { jest.advanceTimersByTime(500); });
+      expect(player.play).toHaveBeenCalledTimes(2);
+      expect(player.pause).not.toHaveBeenCalled();
+      // Running now: left alone.
+      player.playing = true;
+      player.currentTime = 0.2;
+      act(() => { jest.advanceTimersByTime(250); });
+      player.currentTime = 0.45;
+      act(() => { jest.advanceTimersByTime(2000); });
+      expect(player.play).toHaveBeenCalledTimes(2);
+      expect(hook.result.current.phase).toBe('playing');
+    });
+    it('pauses and plays a player that calls itself playing but sits still on banked video', () => {
+      const { player, events, hook } = start();
+      player.bufferedPosition = 6;
+      act(() => { hook.result.current.recovery.start(); });
+      player.playing = true;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      act(() => { jest.advanceTimersByTime(1000); });
+      expect(player.pause).toHaveBeenCalledTimes(1);
+      expect(player.play).toHaveBeenCalledTimes(2);
+      // Its own pause is not taken for the clip stopping.
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(hook.result.current.recovery.wanted).toBe(true);
+      expect(player.play).toHaveBeenCalledTimes(2);
+    });
+    it('does not disturb a start that is still waiting for its first data', () => {
+      const { player, events, hook } = start();
+      player.bufferedPosition = 0;
+      act(() => { hook.result.current.recovery.start(); });
+      player.playing = true;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      act(() => { jest.advanceTimersByTime(3000); });
+      expect(player.pause).not.toHaveBeenCalled();
+      expect(player.play).toHaveBeenCalledTimes(1);
+    });
+    it('starts again when a pause nobody asked for lands on a short that has only just been asked to play', () => {
+      const { player, events, hook } = start();
+      player.bufferedPosition = 6;
+      act(() => { hook.result.current.recovery.start(); });
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(hook.result.current.recovery.wanted).toBe(true);
+      expect(player.play).toHaveBeenCalledTimes(2);
+    });
+    it('lets a pause from outside stand once the short has been running', () => {
+      const { player, events, hook } = start();
+      player.bufferedPosition = 20;
+      act(() => { hook.result.current.recovery.start(); });
+      player.playing = true;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      player.currentTime = 0.2;
+      act(() => { jest.advanceTimersByTime(250); });
+      player.currentTime = 0.45;
+      act(() => { jest.advanceTimersByTime(250); });
+      player.currentTime = 5;
+      act(() => { jest.advanceTimersByTime(4500); });
+      const plays = player.play.mock.calls.length;
+      player.playing = false;
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(hook.result.current.recovery.wanted).toBe(false);
+      expect(player.play).toHaveBeenCalledTimes(plays);
+    });
+    it('carries on a clip that ran dry after the player had already said it was loading', () => {
+      const { player, events, hook } = start();
+      act(() => { hook.result.current.recovery.start(); });
+      player.playing = true;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      player.currentTime = 0.2;
+      act(() => { jest.advanceTimersByTime(250); });
+      player.currentTime = 0.45;
+      act(() => { jest.advanceTimersByTime(250); });
+      Object.assign(player, { currentTime: 4, bufferedPosition: 4.1, status: 'loading', playing: false });
+      act(() => { jest.advanceTimersByTime(4000); });
+      const plays = player.play.mock.calls.length;
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(player.bufferOptions.waitsToMinimizeStalling).toBe(true);
+      expect(player.play).toHaveBeenCalledTimes(plays + 1);
+      expect(hook.result.current.recovery.wanted).toBe(true);
+    });
+    it('takes the end of a clip for the end, not a start gone wrong', () => {
+      const { player, events, hook } = start();
+      Object.assign(player, { duration: 1.5, bufferedPosition: 1.5 });
+      act(() => { hook.result.current.recovery.start(); });
+      player.currentTime = 1.5;
+      const plays = player.play.mock.calls.length;
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(hook.result.current.recovery.wanted).toBe(false);
+      expect(player.play).toHaveBeenCalledTimes(plays);
+    });
   });
   it('picks a live back up when AVPlayer drops it on an empty buffer, and lets a real pause stand', async () => {
     const { player, events } = setup();

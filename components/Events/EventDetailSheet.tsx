@@ -3,13 +3,12 @@
  *
  * Shows the cover (tap for full screen), date, place and details; Going /
  * Interested; who is coming; the event chat; and the share link. Gated events
- * take their entry fee as a fixed tip to the creator (recorded in
- * event_gate_payments like web), private events take access requests the
+ * verify a Base payment before admitting the guest. Private events take requests the
  * creator approves or denies here. The creator, or a community admin with the
  * manage events right, can edit or delete.
  */
 import { openWebPurchase } from "../common/WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Share, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
@@ -19,7 +18,7 @@ import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { DhbCoin } from "../common/DhbCoin";
-import GlassTipSheet from "../Tip/GlassTipSheet";
+import EventCheckoutSheet from "./EventCheckoutSheet";
 import EventChat from "./EventChat";
 import EventFormSheet from "./EventFormSheet";
 import { useThemeRootStyle } from "../../context/ThemeContext";
@@ -39,13 +38,11 @@ import {
   getEventRsvps,
   hasPaidEventGate,
   manageRsvp,
-  recordEventGatePayment,
   toggleRsvp,
   type CommunityEvent,
   type EventRsvp,
 } from "../../services/events.service";
 
-const BASE_CHAIN_ID = 8453;
 
 interface Props {
   event: CommunityEvent | null;
@@ -58,6 +55,7 @@ function short(addr: string) {
 }
 
 export default function EventDetailSheet({ event, visible, onClose }: Props) {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
   const { width } = useWindowDimensions();
@@ -256,12 +254,12 @@ export default function EventDetailSheet({ event, visible, onClose }: Props) {
                       <Icon name="CircleCheck" size={14} color="#4ADE80" />
                       <Text style={styles.okText}>{t("copy.93cb6b12aa06", { defaultValue: " Paid" }).trim()}</Text>
                     </View>
-                  ) : !purchaseOfferVisible() ? (
+                  ) : !showPurchaseOffer ? (
                     <Text style={styles.faint}>{t("storefront.unavailable")}</Text>
                   ) : (
                     <Pressable
                       style={[styles.primaryBtn, checkingPaid && { opacity: 0.5 }]}
-                      disabled={checkingPaid}
+                      disabled={checkingPaid || Boolean(wallet && isPrivateBlocked)}
                       onPress={() => {
                         if (!DIGITAL_PURCHASES_ENABLED) { openWebPurchase(`/app/events/${event.event_number}`); return; }
                         if (!needAuth()) setShowPay(true);
@@ -416,7 +414,7 @@ export default function EventDetailSheet({ event, visible, onClose }: Props) {
             )}
 
             {canInteract ? (
-              <EventChat eventId={event.id} />
+              <EventChat eventId={event.id} restricted={hasFee || isPrivate} />
             ) : (
               <View style={styles.locked}>
                 <Icon name="Lock" size={18} color="#52525B" />
@@ -480,31 +478,11 @@ export default function EventDetailSheet({ event, visible, onClose }: Props) {
         <EventFormSheet visible={editing} onClose={() => setEditing(false)} event={event} />
       )}
 
-      {showPay && (
-        <GlassTipSheet
-          visible={showPay}
-          onClose={() => setShowPay(false)}
-          toAddress={event.creator_wallet_address}
-          tokenId={0}
-          tipContext="user"
-          recipientName={creatorName}
-          lockedAmount={event.gate_fee}
-          onSuccess={(amount, txHash, paid) => {
+      {visible && showPay && wallet && DIGITAL_PURCHASES_ENABLED && (
+        <EventCheckoutSheet key={event.id + wallet} event={event} wallet={wallet} onClose={() => setShowPay(false)}
+          onPaid={() => {
+            queryClient.invalidateQueries({ queryKey: ["event-gate-paid", event.id] });
             setShowPay(false);
-            if (!txHash || !wallet) return;
-            // Record the chain the wallet actually paid on and the account that
-            // signed — not an assumed Base and profile wallet, or the payment
-            // cannot be verified and the guest stays locked out after paying.
-            recordEventGatePayment({
-              eventId: event.id,
-              payer: paid?.payer ?? wallet,
-              creator: event.creator_wallet_address,
-              amount,
-              txHash,
-              chainId: paid?.chainId ?? BASE_CHAIN_ID,
-            })
-              .catch(() => toastError(null, t("common.somethingWentWrong")))
-              .finally(() => queryClient.invalidateQueries({ queryKey: ["event-gate-paid", event.id] }));
           }}
         />
       )}

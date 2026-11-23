@@ -1,6 +1,5 @@
 // Shared post-Supabase-login flow — mirrors dehubweb's proceedToWalletPhase +
-// completeLoginWithoutUnlock. Both SignInScreen and SignInGatewayModal converge
-// here so the two entry points can't drift.
+// completeLoginWithoutUnlock. Used by the shared native sign-in flow.
 import { ChainId } from "../config/constants";
 import {
   getPreferredChainId,

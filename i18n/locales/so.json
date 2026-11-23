@@ -1,5 +1,62 @@
 {
-  "dmVideo": {"cover": "Dabool", "mirror": "Muraayad", "rotate": "Wareeji", "hide": "Qari", "timer": "Saacad-joojiyaha", "close": "Xir", "photo": "Sawir", "remove": "Ka saar", "pause": "Jooji", "play": "Daar muuqaalka", "hiddenUntilTap": "Qari ilaa ay taabtaan", "scrub": "Soo rog muuqaalka", "addMore": "Ku dar sawirro ama muuqaallo", "coverAria": "Taabo qaab si aad u dejiso daboolka", "trimHint": "Jiid darafyada si aad u gooyso", "coverHint": "Taabo qaab si aad uga dhigto daboolka", "uploadCover": "Soo geli sawirka daboolka", "mirrored": "Muraayadaysan", "original": "Asalka", "timerOff": "Ka bax", "showNormally": "Muuji si caadi ah", "showNormallyBody": "Waxay u arkaan isla markiiba", "hideUntilTap": "Qari ilaa laga taabto", "hideUntilTapBody": "Waa la qariyey ilaa ay taabtaan", "hidePrice": "Ka dhuumo qiimo", "hidePriceBody": "Waa la qariyay ilaa ay ku siiyaan lacagta", "priceUnavailable": "Chat-kan kuma jiro", "priceLabelUsd": "Qiimo", "priceHint": "Waxay u arkaan mid qoran ilaa ay kuu bixiyaan lacagta. Waxyaabaha xiran ma aha kuwo leh sir-galin dhamaad-ilaa-dhamaad ah (end-to-end encrypted).", "timerOffBody": "Waxay ku sii jiraysaa wada-hadalka.", "timerViewBody": "Way ka tirtirmaysaa labadiinaba marka ay arkaan.", "confirm": "Xaqiiji", "editItem": "Wax ka beddel shayga {{value1}}", "coverSet": "Daboolka {{value1}}", "lockedForUsd": "Fur {{value1}}", "timerTimeBody": "Way ka tirtirmaysaa labadiinaba {{value1}} marka aad dirto ka dib."},
+  "dmVideo": {
+    "cover": "Dabool",
+    "mirror": "Muraayad",
+    "rotate": "Wareeji",
+    "hide": "Qari",
+    "timer": "Saacad-joojiyaha",
+    "close": "Xir",
+    "photo": "Sawir",
+    "remove": "Ka saar",
+    "pause": "Jooji",
+    "play": "Daar muuqaalka",
+    "hiddenUntilTap": "Qari ilaa ay taabtaan",
+    "scrub": "Soo rog muuqaalka",
+    "addMore": "Ku dar sawirro ama muuqaallo",
+    "coverAria": "Taabo qaab si aad u dejiso daboolka",
+    "trimHint": "Jiid darafyada si aad u gooyso",
+    "coverHint": "Taabo qaab si aad uga dhigto daboolka",
+    "uploadCover": "Soo geli sawirka daboolka",
+    "mirrored": "Muraayadaysan",
+    "original": "Asalka",
+    "timerOff": "Ka bax",
+    "showNormally": "Muuji si caadi ah",
+    "showNormallyBody": "Waxay u arkaan isla markiiba",
+    "hideUntilTap": "Qari ilaa laga taabto",
+    "hideUntilTapBody": "Waa la qariyey ilaa ay taabtaan",
+    "hidePrice": "Ka dhuumo qiimo",
+    "hidePriceBody": "Waa la qariyay ilaa ay ku siiyaan lacagta",
+    "priceUnavailable": "Chat-kan kuma jiro",
+    "priceLabelUsd": "Qiimo",
+    "priceHint": "Waxay u arkaan mid qoran ilaa ay kuu bixiyaan lacagta. Waxyaabaha xiran ma aha kuwo leh sir-galin dhamaad-ilaa-dhamaad ah (end-to-end encrypted).",
+    "timerOffBody": "Waxay ku sii jiraysaa wada-hadalka.",
+    "timerViewBody": "Way ka tirtirmaysaa labadiinaba marka ay arkaan.",
+    "confirm": "Xaqiiji",
+    "editItem": "Wax ka beddel shayga {{value1}}",
+    "coverSet": "Daboolka {{value1}}",
+    "lockedForUsd": "Fur {{value1}}",
+    "timerTimeBody": "Way ka tirtirmaysaa labadiinaba {{value1}} marka aad dirto ka dib.",
+    "destruct": {
+      "60": "1 daqiiqo",
+      "3600": "1 saac",
+      "43200": "12 saacadood",
+      "86400": "1 maalin",
+      "604800": "1 toddobaad",
+      "31536000": "1 sano",
+      "view": "1 daawasho"
+    },
+    "destructShort": {
+      "60": "1daq",
+      "3600": "1saac",
+      "43200": "12saac",
+      "86400": "1m",
+      "604800": "1t",
+      "31536000": "1s",
+      "view": "1 daawasho"
+    },
+    "destructSecs": "{{n}} ilbiriqsi",
+    "destructShortSecs": "{{n}}ilb"
+  },
   "comicBorder": {
     "title": "Xuduud",
     "theme": "Muuqaal",
@@ -2997,6 +3054,8 @@
     "premium": "Daboolka",
     "pricing": "Qiimaha",
     "reorderHint": "Qabso oo jiido icon kasta si ay dib u abaabulaan",
+    "reorderHintGroups": "Hayso oo jiid astaam kasta si aad dib ugu habeyso, ama ku dul tab kale si aad u guurto",
+    "moveGroupHint": "Daji tab kale si aad ugu guurto halkaas",
     "reorderReset": "Dib u deji",
     "groups": {
       "create": "Samee",
@@ -7025,6 +7084,17 @@
       "moveRuleDown": "U guur qalluumaadka hoos",
       "deleteRule": "Tirtir qalluumaadka",
       "rights": {
+        "sendMessages": "Send messages",
+        "sendMessagesHint": "Post in wada sheekaysiga bulshada",
+        "sendMedia": "Dir warbaahinta",
+        "sendMediaHint": "Ku lifaaq sawirro iyo GIF-yo",
+        "embedLinks": "Embed links",
+        "embedLinksHint": "Muuji horudhaca xiriiriyaha",
+        "addMembers": "Ku dar xubno",
+        "addMembersHint": "La wadaag bulshada dadka kale",
+        "createEvents": "Abuur dhacdooyin",
+        "createEventsHint": "Qorshee dhacdooyinka bulshada",
+        "changeInfoMemberHint": "Ku dambeyso nabadgelyo",
         "changeInfo": "Beddel macluumaadka bulshada",
         "changeInfoHint": "Tifatir magaca, sharaxaada, avatar-ka iyo banner-ka",
         "deleteMessages": "Tirtir fariimaha",
@@ -7102,12 +7172,41 @@
       "noInvites": "Ma jiraan xiriiryo martiqaad ah weli. Samee mid si aad dadka ugu martiqaaddo si toos ah.",
       "permissionsUpdated": "Oggolaanshaha waa la cusbooneysiiyay",
       "slowModeUpdated": "Habka gaabiska ah waa la cusbooneysiiyay",
+      "slowMode": {
+        "off": "Ka bax",
+        "tenSeconds": "10ka",
+        "thirtySeconds": "30 ilbiriqsi",
+        "oneMinute": "1 daqiiqo",
+        "fiveMinutes": "5 daqiiqo",
+        "fifteenMinutes": "15 daqiiqo",
+        "oneHour": "1 saac"
+      },
       "slowModeOffHint": "Xubnuhu waxay u diri karaan fariimaha iyagoo aan lahayn dib u dhac.",
       "slowModeOnHint": "Xubnuhu waxay u diri karaan hal fariin {{label}} kasta. Maamulayaasha waa laga reebay.",
       "defaultPermissions": "Oggolaanshaha xubnaha caadiga ah",
       "defaultPermissionsHint": "Wax kasta oo qof walba halkan ka samayn karo haddii aanay oggolaansho maamul ka reebin.",
       "slowModeTitle": "Habka gaabiska ah",
       "log": {
+        "verbs": {
+          "promote_admin": "la dallacsiiyay",
+          "demote_admin": "demoted",
+          "transfer_ownership": "ayaa u wareejiyay lahaanshaha",
+          "ban_member": "la mamnuucay",
+          "unban_member": "laga qaaday xayiraaddii",
+          "kick_member": "la saaray",
+          "mute_member": "badiyadka to muted",
+          "unmute_member": "codka la furay",
+          "approve_member": "approved",
+          "reject_member": "la diiday",
+          "delete_message": "tirtiray fariin ka timid",
+          "purge_messages": "tirtiray dhammaan fariimaha ka",
+          "pin_message": "Waxaa la xidhiidhaabtay abuurin",
+          "unpin_message": "ka soo saaray farriin ka timid",
+          "update_settings": "ayaa cusboonaysiiyay goobaha bulshada",
+          "create_invite": "ayaa abuuray xiriiriye casuumaad",
+          "revoke_invite": "ayaa buriyay xiriiriyaha casumaadda",
+          "invite_used": "la casuumay"
+        },
         "justNow": "hada",
         "minutesAgo": "{{value}}m ka hor",
         "hoursAgo": "{{value}}h ka hor",
@@ -13539,53 +13638,52 @@
     "cinema": {
       "close": "Xir",
       "performance": {
-        "label": "Waxqabadka",
         "0": "Farxad leh",
         "1": "Murugo leh",
         "2": "Walwal leh",
         "3": "Kalsooni leh",
         "4": "Yaab leh",
         "5": "Is-celin leh",
-        "6": "Ciyaar leh"
+        "6": "Ciyaar leh",
+        "label": "Waxqabadka"
       },
       "title": "Hagidda shineemada",
       "hint": "Hag qaabka muuqaalka sawirkaaga ama fiidiyowgaaga xiga. Natiijooyinku way kala duwan yihiin moodelka.",
       "none": "Hagid ma jirto",
       "reset": "Nadiifi hagidda",
       "camera": {
-        "label": "Muuqaalka kamaradda",
         "0": "Shineemo dijitaal ah",
         "1": "Filim 35mm",
         "2": "Filim 16mm",
         "3": "Qaab weyn",
-        "4": "Camcorder qadiimi ah"
+        "4": "Camcorder qadiimi ah",
+        "label": "Muuqaalka kamaradda"
       },
       "lens": {
-        "label": "Muuqaalka muraayadda",
         "0": "Kurin ah",
         "1": "Anamorphic",
         "2": "Muraayad jilicsan oo qadiimi ah",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Muuqaalka muraayadda"
       },
       "focalLength": {
-        "label": "Dhererka focal-ka",
         "0": "18mm ballaadhan",
         "1": "24mm ballaadhan",
         "2": "35mm dabiici ah",
         "3": "50mm caadi ah",
         "4": "85mm portrait",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Dhererka focal-ka"
       },
       "aperture": {
-        "label": "Qoto-dheerida goobta",
         "0": "f/1.4 aad u gaaban",
         "1": "f/2.8 gaaban",
         "2": "f/5.6 dhexdhexaad",
-        "3": "f/11 diiradda qoto dheer"
+        "3": "f/11 diiradda qoto dheer",
+        "label": "Qoto-dheerida goobta"
       },
       "movement": {
-        "label": "Dhaqdhaqaaqa kamaradda",
         "0": "Saddex-lugood go'an",
         "1": "Dolly tartiib ah oo gudaha u socda",
         "2": "Dolly tartiib ah oo dibadda u socda",
@@ -13593,27 +13691,27 @@
         "4": "Ku wareeg mawduuca",
         "5": "Gacanta lagu hayo",
         "6": "Kor u kac crane",
-        "7": "Pan tartiib ah"
+        "7": "Pan tartiib ah",
+        "label": "Dhaqdhaqaaqa kamaradda"
       },
       "lighting": {
-        "label": "Iftiinka",
         "0": "Iftiin maalmeed jilicsan",
         "1": "Saacadda dahabiga ah",
         "2": "Chiaroscuro mugdi ah",
         "3": "Istuudiyo iftiin badan",
         "4": "Nalal neon ah",
         "5": "Hadh iftiin gadaal ah",
-        "6": "Daruuro faafsan"
+        "6": "Daruuro faafsan",
+        "label": "Iftiinka"
       },
       "tempo": {
-        "label": "Xawaaraha muuqaalka",
         "0": "Hal muuqaal oo joogto ah",
         "1": "Ficil deggan oo aan degdeg lahayn",
         "2": "Ficil firfircoon oo xoog leh",
-        "3": "Ficil qasan oo xamaasad leh"
+        "3": "Ficil qasan oo xamaasad leh",
+        "label": "Xawaaraha muuqaalka"
       },
       "era": {
-        "label": "Xilliga",
         "0": "1920-meeyadii",
         "1": "1950-meeyadii",
         "2": "1960-meeyadii",
@@ -13621,10 +13719,10 @@
         "4": "1980-meeyadii",
         "5": "1990-meeyadii",
         "6": "Maanta",
-        "7": "Mustaqbalka dhow"
+        "7": "Mustaqbalka dhow",
+        "label": "Xilliga"
       },
       "genre": {
-        "label": "Nooca",
         "0": "Dokumentari",
         "1": "Riwaayad",
         "2": "Film noir",
@@ -13632,16 +13730,17 @@
         "4": "Khayaal",
         "5": "Majaajillo jacayl",
         "6": "Xiise",
-        "7": "Galbeedka"
+        "7": "Galbeedka",
+        "label": "Nooca"
       },
       "palette": {
-        "label": "Midabada",
         "0": "Cambar diirran",
         "1": "Buluug qabow",
         "2": "Midabo dhulka oo daciif ah",
         "3": "Pastel",
         "4": "Madow-cad farqi weyn leh",
-        "5": "Midabo aasaasi ah oo qoyan"
+        "5": "Midabo aasaasi ah oo qoyan",
+        "label": "Midabada"
       }
     },
     "audioNoSpeech": "Cod lagama helin duubistaas.",

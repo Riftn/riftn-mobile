@@ -36,9 +36,23 @@ const confirmedFeeCache = new Map<string, { conversationId: ID; amount?: number 
 const DM_CACHE_PREFIX = "dm-cache-v2";
 let ACTIVE_STORAGE_KEY: string | null = null;
 
+let generation = 0;
+let hydrated = false;
+export const dmGeneration = () => generation;
+
 export const setDmCacheKey = (key: string | null): void => {
-  ACTIVE_STORAGE_KEY = key ? `${DM_CACHE_PREFIX}:${key}` : null;
+  const next = key ? `${DM_CACHE_PREFIX}:${key}` : null;
+  if (next !== ACTIVE_STORAGE_KEY) {
+    if (persistTimer) clearTimeout(persistTimer);
+    if (hydrated) void persist();
+    hydrated = false;
+    generation++;
+  }
+  ACTIVE_STORAGE_KEY = next;
 };
+
+export const isDmAccount = (address: string): boolean =>
+  ACTIVE_STORAGE_KEY === DM_CACHE_PREFIX + ":" + address;
 
 export const getDmCacheKey = (): string | null => ACTIVE_STORAGE_KEY;
 
@@ -49,10 +63,13 @@ export const hydrateDmFromStorage = async (
     const key = keyOverride
       ? `${DM_CACHE_PREFIX}:${keyOverride}`
       : ACTIVE_STORAGE_KEY || DM_CACHE_PREFIX;
+    const owner = generation;
     const raw = await AsyncStorage.getItem(key);
-    if (!raw) return;
+    if (owner !== generation || key !== ACTIVE_STORAGE_KEY) return;
+    if (!raw) { hydrated = true; return; }
     const data = JSON.parse(raw) as Partial<DmEntities>;
-    Object.assign(dmState.contactsById, data.contactsById || {});
+    hydrated = true;
+    Object.assign(dmState.contactsById, { ...data.contactsById, ...dmState.contactsById });
     Object.assign(
       dmState.messagesByConversation,
       data.messagesByConversation || {},
@@ -82,6 +99,7 @@ const persist = async (): Promise<void> => {
 
 let persistTimer: ReturnType<typeof setTimeout> | null = null;
 subscribe(dmState, () => {
+  if (!hydrated) return;
   if (persistTimer) clearTimeout(persistTimer);
   persistTimer = setTimeout(() => {
     persist().catch(() => {});
@@ -221,6 +239,7 @@ export const dmActions = {
       content: edit.content,
       isEdited: edit.isEdited ?? true,
       editedAt: edit.editedAt,
+      ...(edit.original !== undefined ? { original: edit.original } : {}),
     });
 
     const list = dmState.messagesByConversation[edit.dmId];

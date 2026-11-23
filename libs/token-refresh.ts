@@ -73,7 +73,33 @@ const REFRESH_TIMEOUT_MS = 20_000;
  * ceiling with room for the storage reads either side of it, so a genuinely
  * slow refresh is waited out rather than duplicated.
  */
-const REFRESH_STUCK_AFTER_MS = REFRESH_TIMEOUT_MS + 15_000;
+const REFRESH_STUCK_AFTER_MS = 30_000 + 4_000 + REFRESH_TIMEOUT_MS + 15_000;
+
+/**
+ * Waits before a second and third try of a refresh that failed without an
+ * answer about the token itself (timeout, offline, 5xx, 409).
+ *
+ * The server may have finished a rotation whose answer never arrived (a slow
+ * deploy did exactly that on 2026-11-22). It hands the same new pair back when
+ * the old token is sent again within a few minutes, so a quick retry recovers
+ * the session instead of leaving the old token to be refused later as reuse.
+ */
+let retryDelaysMs: number[] = [1_500, 4_000];
+/** No new try is started once this long has passed since the first. */
+const REFRESH_RETRY_BUDGET_MS = 30_000;
+
+/** Test hook: shorten or turn off the waits above. */
+export function setRefreshRetryDelaysForTests(delays: number[]): void {
+  retryDelaysMs = delays;
+}
+
+function isRetryableRefreshError(error: unknown): boolean {
+  if (error instanceof RefreshRejectedError) {
+    return error.status === 409 || error.status === 429 || error.status >= 500;
+  }
+  // Timeout, offline, DNS: no answer about the token at all.
+  return true;
+}
 
 let isRefreshing = false;
 /** When the in-flight refresh began, for the stuck check above. */
@@ -227,7 +253,32 @@ export const tokenRefreshManager = {
           return null;
         }
 
-        const data = await callRefreshEndpoint(storedRefreshToken);
+        let data: Awaited<ReturnType<typeof callRefreshEndpoint>>;
+        let tokenToSend = storedRefreshToken;
+        const firstTryAt = Date.now();
+        for (let attempt = 0; ; attempt++) {
+          try {
+            data = await callRefreshEndpoint(tokenToSend);
+            break;
+          } catch (error) {
+            const delay = retryDelaysMs[attempt];
+            if (
+              delay === undefined ||
+              !isRetryableRefreshError(error) ||
+              Date.now() - firstTryAt > REFRESH_RETRY_BUDGET_MS
+            ) {
+              throw error;
+            }
+            console.warn(`[tokenRefresh] Refresh failed without an answer, trying again: ${String((error as Error)?.message ?? error)}`);
+            if (delay > 0) await new Promise((resolve) => setTimeout(resolve, delay));
+            // A switch of account while waiting ends this refresh; it must not
+            // send one account's token on behalf of another.
+            if (!sameSessionOwner(ownerAtStart, await readSessionOwner())) throw error;
+            // Send whatever is stored now: the same token (the server hands the
+            // finished rotation back) or a newer one another caller saved.
+            tokenToSend = (await getRefreshToken()) || tokenToSend;
+          }
+        }
 
         const ownerNow = await readSessionOwner();
         if (sameSessionOwner(ownerAtStart, ownerNow)) {

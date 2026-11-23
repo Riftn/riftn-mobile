@@ -45,6 +45,15 @@ describe('services/translation.service', () => {
       });
     });
 
+    it('keeps unrelated example paragraphs out of a short message and its cache', async () => {
+      const expanded = "Example text\n" + "Translate this example sentence. ".repeat(10);
+      mockInvoke.mockResolvedValueOnce({ data: { translatedText: expanded }, error: null })
+        .mockResolvedValueOnce({ data: { translatedText: 'Deneme' }, error: null });
+      const { translateText } = loadService();
+      await expect(translateText('Test', 'tr')).rejects.toThrow();
+      await expect(translateText('Test', 'tr')).resolves.toMatchObject({ translatedText: 'Deneme' });
+    });
+
     it('flags the request public only when asked', async () => {
       mockInvoke.mockResolvedValue({ data: { translatedText: 'Merhaba' }, error: null });
 

@@ -1,4 +1,4 @@
-import { purchaseOfferVisible } from "../../config/storefront";
+import { usePurchaseOfferVisible } from "../../config/storefront";
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useMentions } from "../../hooks/useMentions";
 import MentionSuggestions from "../common/MentionSuggestions";
@@ -122,6 +122,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   onPointsPress,
   commands,
 }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const [draft, setDraft] = useDraftState(draftScope, "");
@@ -385,7 +386,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
               <Text style={styles.gifLabel}>GIF</Text>
             </Pressable>
           ) : null}
-          {isLive && purchaseOfferVisible() ? (
+          {isLive && showPurchaseOffer ? (
             <Pressable
               onPress={onGiftPress}
               hitSlop={CHROME_HIT_SLOP}

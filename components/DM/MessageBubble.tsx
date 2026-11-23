@@ -3,7 +3,7 @@ import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
 import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
-import { translateCopy as _translateCopy } from "../../i18n/copy";
+import { formatMessageTime } from "../../libs/date.util";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -44,6 +44,8 @@ import type { MessageLayout } from "./MessageContextMenu";
 import DehubLinkCard from "../common/DehubLinkCard";
 import LinkedText from "../common/LinkedText";
 import { useChatTextScale } from "../../hooks/useAppPrefs";
+import MomentReplyPreview from "./MomentReplyPreview";
+import { parseMomentReply, parseSharedMoment } from "../../libs/moment-reply";
 import LinkPreviewCard from "../common/LinkPreviewCard";
 import { findDehubLink, stripDehubLinkMatches } from "../../libs/dehub-links";
 import {
@@ -54,6 +56,7 @@ import {
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
 import { haptic } from "../../libs/haptics";
 import { TipGemIcon } from "../Home/TipGemIcon";
+import DmOpenTimerMedia from "./DmOpenTimerMedia";
 import EncryptedMedia from "./EncryptedMedia";
 import LockedMedia from "./LockedMedia";
 import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
@@ -61,7 +64,9 @@ import type { DmVideoOptions } from "../../libs/dm-video-options";
 import type { DmDestruct } from "../../libs/dm-destruct";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
-import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm } from "../../libs/dm-translation-store";
+import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm, primeDmPair } from "../../libs/dm-translation-store";
+import { languageName } from "../../libs/dm-translate-out";
+import { useMetaGrey } from "../../theme/metaGrey";
 import { autoTranslateEnabled, subscribeAutoTranslate } from "../../libs/auto-translate-setting";
 import { queueAutoTranslate } from "../../libs/auto-translate-queue";
 import { getUserLanguage } from "../../services/translation.service";
@@ -118,16 +123,6 @@ const resolveUrl = (path: string): string => {
     return path;
   }
   return buildCdnPath(path) ?? path;
-};
-
-const formatTime = (date?: string): string => {
-  if (!date) return "";
-  const d = new Date(date);
-  const h = d.getHours();
-  const m = d.getMinutes().toString().padStart(2, "0");
-  const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
-  const h12 = h % 12 || 12;
-  return `${h12}:${m} ${ampm}`;
 };
 
 const isImageMime = (mime?: string): boolean =>
@@ -517,12 +512,21 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
         : [],
     [isMine, msgType, callPeerAddress, message.content],
   );
-  const bodyContent = assistantActions.length
-    ? withoutAssistantActionLinks(message.content ?? "")
-    : message.content;
+  // Sent with "Send in their language": `content` is the line in the
+  // recipient's language, `original` what the sender typed. The sender sees
+  // their own words, the recipient sees theirs, and either can flip.
+  const sentPair = msgType === "msg" && message._id && message.original?.content ? message.original : null;
+  if (sentPair) primeDmPair(message._id, isMine ? message.content ?? "" : sentPair.content);
+  const bodyContent = sentPair && isMine
+    ? sentPair.content
+    : assistantActions.length
+      ? withoutAssistantActionLinks(message.content ?? "")
+      : message.content;
 
+  const momentReply = useMemo(() => msgType === "msg" && !encMedia && !mediaItems.length
+    ? parseMomentReply(bodyContent) ?? parseSharedMoment(bodyContent) : null, [msgType, encMedia, mediaItems.length, bodyContent]);
   const sharedLink = useMemo(() => {
-    if (isVoice || isGif || encMedia || mediaItems.length > 0) return null;
+    if (momentReply || isVoice || isGif || encMedia || mediaItems.length > 0) return null;
     const link = findDehubLink(bodyContent ?? "");
     if (!link) return null;
     // Everything except the carded link itself is the caption.
@@ -534,16 +538,16 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     // link instead of as debris.
     const caption = stripDehubLinkMatches(bodyContent ?? "", [link]).trim();
     return { link, caption };
-  }, [bodyContent, isVoice, isGif, encMedia, mediaItems.length]);
+  }, [momentReply, bodyContent, isVoice, isGif, encMedia, mediaItems.length]);
 
   // Market references in a plain message. Skipped when the message is an entity
   // share, which has its own card.
   const assetRefs = useMemo(
     () =>
-      sharedLink
+      sharedLink || momentReply
         ? []
         : findAssetRefs(bodyContent ?? "").slice(0, MAX_ASSET_CARDS_PER_MESSAGE),
-    [bodyContent, sharedLink],
+    [bodyContent, sharedLink, momentReply],
   );
   const assetDisplayText = useMemo(
     () => (assetRefs.length ? stripAssetRefs(bodyContent ?? "", assetRefs) : bodyContent),
@@ -561,13 +565,37 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const autoEnabled = React.useSyncExternalStore(subscribeAutoTranslate, autoTranslateEnabled);
   const { i18n: autoI18n } = useTranslation();
   useEffect(() => {
-    if (isMine || isCallMsg || !autoEnabled || !message._id) return;
+    if (isMine || isCallMsg || !autoEnabled || !message._id || sentPair) return;
     if (msgType !== "msg" && !(msgType === "media" && message.content)) return;
     const readerLang = getUserLanguage();
     if (!shouldAutoTranslateDm(message.content, readerLang)) return;
     return queueAutoTranslate(() => autoTranslateDm(message._id, message.content));
-  }, [isMine, isCallMsg, autoEnabled, message._id, message.content, msgType, autoI18n.language]);
-  const translationStatus = translation ? (
+  }, [isMine, isCallMsg, autoEnabled, message._id, message.content, msgType, autoI18n.language, sentPair]);
+  const metaGrey = useMetaGrey();
+  const pairShown = translation?.status === "shown";
+  // The small note under a line sent in their language: which version this is.
+  const pairNote = !sentPair ? ""
+    : isMine
+      ? (pairShown
+        ? t("dmTranslateOut.asTheySee", { defaultValue: "As they see it" })
+        : t("dmTranslateOut.sentIn", { defaultValue: "Sent in {{language}}", language: languageName(sentPair.lang, getUserLanguage()) }))
+      : (pairShown
+        ? t("dmTranslateOut.original", { defaultValue: "Original" })
+        : t("dmTranslateOut.translated", { defaultValue: "Translated" }));
+  const translationStatus = sentPair ? (
+    <View className="px-3 pt-1">
+      <TouchableOpacity
+        onPress={() => void toggleDmTranslation(message._id, message.content)}
+        activeOpacity={0.7}
+        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+        accessibilityRole="button"
+        style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+      >
+        <Icon name="Languages" size={12} color={isMine ? "hsla(0, 0%, 100%, 0.72)" : metaGrey} />
+        <Text style={{ fontSize: 12, color: isMine ? "hsla(0, 0%, 100%, 0.72)" : metaGrey }}>{pairNote}</Text>
+      </TouchableOpacity>
+    </View>
+  ) : translation ? (
     <View className="px-3 pt-1">
       <TranslateButton
         inline
@@ -646,7 +674,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   }, [t]);
 
 
-  const timeStr = formatTime(message.createdAt);
+  const timeStr = formatMessageTime(message.createdAt);
 
   // Whether this message was sent with an on-chain payment (per-message fee or voluntary tip)
   const isPaidMsg = !!(message.paymentTxHash || message.paymentStatus || message.tipAmount);
@@ -738,7 +766,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     return (
       <CallNoteCard
         content={message.content || ""}
-        time={formatTime(message.createdAt)}
+        time={formatMessageTime(message.createdAt)}
         isMine={isMine}
         peerAddress={callPeerAddress}
       />
@@ -990,7 +1018,18 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {mediaItems.length > 0 && !isVoice && !(isMedia && message.lock) && (
               <View>
                 {mediaItems.map((item, idx) =>
-                  item.kind === "audio" ? (
+                  message.destruct?.mode === "open" && (item.kind === "image" || item.kind === "video") ? (
+                    <DmOpenTimerMedia
+                      key={idx}
+                      messageId={message._id}
+                      mine={isMine}
+                      destruct={message.destruct}
+                      kind={item.kind}
+                      src={item.url}
+                      onOpenOwn={() => (item.kind === "video" ? handleVideoTap(item.url) : handleImageTapUrl(item.url))}
+                      onLongPress={handleLongPress}
+                    />
+                  ) : item.kind === "audio" ? (
                     <View key={idx} className="px-2 py-1 min-w-[220px]" style={{ maxWidth: MAX_IMAGE_WIDTH }}>
                       <VoiceNotePlayer audioUrl={item.url} compact />
                       {(item as any).name ? (
@@ -1121,7 +1160,15 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             })()}
 
             {/* Shared Riftn link — rich preview card that opens it on tap */}
-            {sharedLink ? (
+            {momentReply ? (
+              <View style={{ maxWidth: MAX_IMAGE_WIDTH }}>
+                <MomentReplyPreview shared={"shared" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
+                {!!momentReply.text && <LinkedText text={translated ?? momentReply.text} onLongPress={handleLongPress}
+                  className={`px-3 pt-2 text-[15px] ${isMine ? "text-white" : "text-theme-neutrals-100"}`}
+                  style={chatTextStyle} fontSize={15 * textScale} />}
+                {translationStatus}
+              </View>
+            ) : sharedLink ? (
               <>
                 {/* The card leads the bubble and the caption follows it, the
                     way a photo with a caption reads. The post card folds the

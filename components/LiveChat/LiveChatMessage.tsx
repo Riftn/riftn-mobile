@@ -1,5 +1,5 @@
 import { ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
-import { useChatTextScale } from "../../hooks/useAppPrefs";
+import { useAppPrefs, useChatTextScale } from "../../hooks/useAppPrefs";
 import * as Haptics from "expo-haptics";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -15,12 +15,13 @@ import Animated, {
   withDelay,
 } from "react-native-reanimated";
 import Icon from "../ui/Icon";
-import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
+import type { TranslateToggle } from "../ui/TranslateButton";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from "../../libs/misc";
-import { openInApp } from "../../libs/links.utils";
+import { chatMentionSpans } from "../../libs/community-mentions";
+import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ASSISTANT_USERNAME, isAssistantAddress } from "../../libs/assistant";
 import { resolveChatGif, gifCaption, gifBox } from "../../libs/chat-gif";
 import { replyQuoteText } from "../../libs/livechat-cache";
@@ -31,6 +32,8 @@ import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
+import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 
 const formatTime = (iso: string): string => {
@@ -58,32 +61,33 @@ interface LiveChatMessageProps {
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 
-const URL_RE = /(?:https?:\/\/|www\.)[^\s<>)"']+/gi;
-
-const renderLinkedText = (text: string, onHold?: () => void, fontSize = 15) => {
-  const parts: React.ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  const re = new RegExp(URL_RE.source, "gi");
-  while ((match = re.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
+const renderLinkedText = (text: string, openProfile: (username: string) => void, onHold?: () => void, fontSize = 15) => {
+  // Links read as a tappable 🔗 like web Public Chat; the card below says where it goes.
+  const parts = renderLinkEmojis(text, { onLongPress: onHold, textLinkStyle: { color: "#D4D4D8" } });
+  const linked = parts.flatMap((part, partIndex): React.ReactNode[] => {
+    if (typeof part !== "string") return [part];
+    const nodes: React.ReactNode[] = [];
+    let offset = 0;
+    for (const { start, end, username, broadcast } of chatMentionSpans(part)) {
+      if (broadcast) continue;
+      if (start > offset) nodes.push(part.slice(offset, start));
+      nodes.push(
+        <Text
+          key={`mention-${partIndex}-${start}`}
+          accessibilityRole="link"
+          style={{ color: "#fff", fontWeight: "600", textDecorationLine: "underline" }}
+          onPress={(event) => { event.stopPropagation(); openProfile(username); }}
+          onLongPress={onHold}
+        >
+          {part.slice(start, end)}
+        </Text>
+      );
+      offset = end;
     }
-    const url = match[0];
-    parts.push(
-      <Text
-        key={match.index}
-        style={{ color: "#D4D4D8" }}
-        onPress={() => openInApp(url)}
-        onLongPress={onHold}
-      >
-        {url}
-      </Text>
-    );
-    lastIndex = re.lastIndex;
-  }
-  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-  return expandEmojiTokens(parts, { fontSize });
+    if (offset < part.length) nodes.push(part.slice(offset));
+    return nodes;
+  });
+  return expandEmojiTokens(linked, { fontSize });
 };
 
 const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
@@ -99,6 +103,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   replying = false,
 }) => {
   const { t: _copy } = _useCopy();
+  const { showUserProfile } = useUserProfileSheet();
   const { t } = useI18n();
   // Reader's chat text size (Settings → Appearance), on top of the phone's own font size.
   const textScale = useChatTextScale();
@@ -107,6 +112,8 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   // Both sides can be empty — a signed-out reader has no address, and a
   // message can arrive with no author — and empty must not match empty.
   const isMe = !!myAddress && message.senderAddress?.toLowerCase() === myAddress;
+  // Settings → Appearance: your own lines on a bubble, like private chats.
+  const ownBubble = useAppPrefs().chatOwnBubble && isMe;
   const isSystem = message.messageType === "system";
   // The @assistant bot posts as a real account, so its reply arrives here like
   // any other message — it just gets an AI tag instead of a holder badge.
@@ -175,11 +182,9 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   const shownBody = useMemo(() => stripDehubLinkMatches(bodyText, dehubLinks).trim(), [bodyText, dehubLinks]);
 
   const translationTexts = useMemo(() => ({ content: bodyText }), [bodyText]);
-  const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
+  const { isTranslated, translatedTexts, handleTranslate, handleShowOriginal, shouldShow: showTranslate } =
     useTranslation(translationTexts, (message as any).detectedLanguage, 'chat', true);
 
-  // Translate is in the long-press menu and, for lines in another language,
-  // a small button under the line as on web.
   const handleLongPress = useCallback(() => {
     // A light tick the moment the hold lands, so it reads as caught before the sheet arrives.
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -231,6 +236,15 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
       className="flex-row px-4 py-2"
       style={{ opacity: message.isDeleted ? 0.4 : 1 }}
     >
+      {ownBubble && !replying ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute", top: 2, bottom: 2, left: FRAME_INSET, right: FRAME_INSET, borderRadius: 18,
+            borderWidth: 1, borderColor: "rgba(244,244,245,0.10)", backgroundColor: "rgba(244,244,245,0.08)",
+          }}
+        />
+      ) : null}
       {/* The line being replied to keeps the glowing card it had in the hold sheet. */}
       {replying ? (
         <View
@@ -343,6 +357,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                   isTranslated
                     ? stripDehubLinkMatches(translatedTexts.content || bodyText, dehubLinks).trim()
                     : shownBody,
+                  showUserProfile,
                   handleLongPress,
                   bodySize,
                 )}
@@ -355,15 +370,10 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
               </View>
             )}
 
-            {showTranslate && !!bodyText && (
-              <TranslateButton
-                isTranslated={isTranslated}
-                isLoading={translating}
-                detectedLanguage={translationSourceLang}
-                onTranslate={handleTranslate}
-                onShowOriginal={handleShowOriginal}
-              />
-            )}
+            {/* An outside link gets its share card (image, title, site), as on web. */}
+            <View style={{ width: "100%", maxWidth: 320 }}>
+              <LinkPreviewCard text={bodyText} />
+            </View>
 
             {gif && (
               <View className="mt-1 rounded-xl overflow-hidden bg-white/5" style={{ maxWidth: 240 }}>

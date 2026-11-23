@@ -60,10 +60,8 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     () => user?.walletAddress || user?.address || undefined,
     [user],
   );
-  // Grid or list on the All tab: your saved default (Settings), unless you
-  // flipped the toggle since the app opened.
-  // Flipping the toggle here saves it as your layout, so it survives a restart.
-  const profileView = useSaveOwnProfileView(useProfileViewState(address, getProfileViewDefault(user)), !!address);
+  // Your toolbar choice also sets the public default for your profile.
+  const profileView = useSaveOwnProfileView(useProfileViewState(address, getProfileViewDefault(user), address), !!address);
   // Your text-post backdrop on your own tiles (customs.postBg).
   const postBg = useResolvedPostBg(address, user?.customs);
   const rawArt = user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) : "";
@@ -262,7 +260,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
           endpoints, where sorting by "most viewed" would do nothing. */}
       {CONTENT_BACKED_TABS.includes(activeKey) && (
         <>
-          <ProfileContentToolbar {...toolbar} showViewToggle={activeKey === "home"} onArrange={address ? openArrange : undefined} />
+          <ProfileContentToolbar {...toolbar} showViewToggle onArrange={address ? openArrange : undefined} />
           <ProfileFilterDrawer {...panel} onClose={toolbar.onFiltersClose} />
           {arrangeOpen && !!address && (
             <ProfileArrangeSheet visible onClose={closeArrange} address={address} hasCustomOrder={hasCustomOrder} onSaved={handleOrderSaved} />

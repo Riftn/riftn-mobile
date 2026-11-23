@@ -11,6 +11,7 @@ interface EmailCodeEntryProps {
   onResend: () => void;
   loading?: boolean;
   disabled?: boolean;
+  onFieldExpand?: (node: View | null) => void;
 }
 
 const EmailCodeEntry: React.FC<EmailCodeEntryProps> = ({
@@ -20,6 +21,7 @@ const EmailCodeEntry: React.FC<EmailCodeEntryProps> = ({
   onResend,
   loading,
   disabled,
+  onFieldExpand,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -47,23 +49,25 @@ const EmailCodeEntry: React.FC<EmailCodeEntryProps> = ({
         <Text style={authText.emphasis}>{email}</Text>
       </Text>
 
-      <AuthField
-        ref={inputRef}
-        icon="key"
-        value={code}
-        onChangeText={setCode}
-        placeholder={t("auth.sixDigitCode")}
-        accessibilityLabel={t("auth.verificationCode")}
-        editable={!loading && !disabled}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        autoComplete="one-time-code"
-        maxLength={6}
-        autoFocus
-        returnKeyType="go"
-        onSubmitEditing={handleSubmit}
-        style={{ letterSpacing: 4 }}
-      />
+      <View ref={onFieldExpand} collapsable={false}>
+        <AuthField
+          ref={inputRef}
+          icon="key"
+          value={code}
+          onChangeText={setCode}
+          placeholder={t("auth.sixDigitCode")}
+          accessibilityLabel={t("auth.verificationCode")}
+          editable={!loading && !disabled}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          autoComplete="one-time-code"
+          maxLength={6}
+          autoFocus
+          returnKeyType="go"
+          onSubmitEditing={handleSubmit}
+          style={{ letterSpacing: 4 }}
+        />
+      </View>
 
       <AuthButton
         variant="primary"

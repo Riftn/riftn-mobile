@@ -1,21 +1,43 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { proxy } from "valtio";
+import { useEffect } from "react";
+import { useMMKVString } from "react-native-mmkv";
+import { storage } from "./storage";
 
-const KEY = "dehub_crosspost_selected";
+const legacyKey = "dehub_crosspost_selected";
+const keyFor = (wallet: string) => legacyKey + ":" + wallet.toLowerCase();
 
-// Persists between posts on purpose: people cross-post to the same places every time.
-export const crossPostState = proxy<{ selected: string[] }>({ selected: [] });
+function ids(raw?: string | null): string[] {
+  try {
+    const value = JSON.parse(raw ?? "[]");
+    return Array.isArray(value) ? value.filter(id => typeof id === "string") : [];
+  } catch { return []; }
+}
 
-AsyncStorage.getItem(KEY)
-  .then((raw) => {
-    if (raw) crossPostState.selected = JSON.parse(raw);
-  })
-  .catch(() => {});
+type Account = { id: string; pending?: boolean };
 
-export function toggleCrossPostAccount(accountId: string) {
-  const selected = crossPostState.selected.includes(accountId)
-    ? crossPostState.selected.filter((id) => id !== accountId)
-    : [...crossPostState.selected, accountId];
-  crossPostState.selected = selected;
-  AsyncStorage.setItem(KEY, JSON.stringify(selected)).catch(() => {});
+export function useSelectedCrossPosts(wallet: string | null, accounts?: Account[]) {
+  const key = keyFor(wallet ?? "");
+  const [raw] = useMMKVString(key, storage);
+  useEffect(() => {
+    if (!wallet || !accounts?.length || storage.contains(key)) return;
+    let current = true;
+    void AsyncStorage.getItem(legacyKey).then(value => {
+      if (!current || storage.contains(key)) return;
+      const legacy = ids(value);
+      const owned = accounts.filter(account => !account.pending && legacy.includes(account.id));
+      storage.set(key, JSON.stringify(owned.map(account => account.id)));
+    }).catch(() => {});
+    return () => { current = false; };
+  }, [key, wallet, accounts]);
+  const selected = ids(raw);
+  return wallet ? (accounts ?? []).filter(a => !a.pending && selected.includes(a.id)).map(a => a.id) : [];
+}
+
+export function selectCrossPostAccount(wallet: string | null, id: string, enabled: boolean) {
+  if (!wallet) return;
+  const key = keyFor(wallet);
+  const selected = new Set(ids(storage.getString(key)));
+  if (enabled) selected.add(id);
+  else selected.delete(id);
+  storage.set(key, JSON.stringify([...selected]));
 }

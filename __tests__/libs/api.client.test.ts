@@ -194,6 +194,19 @@ describe('libs/api.client', () => {
   });
 
   describe('401 retry', () => {
+    it('refreshes an expired session when the JSON error body is malformed', async () => {
+      const { tokenRefreshManager } = require('../../libs/token-refresh');
+      tokenRefreshManager.attemptRefresh.mockResolvedValueOnce('new-token');
+      mockStore.__store.auth_token = 'old-token';
+      const json = jest.fn().mockRejectedValue(new SyntaxError('truncated'));
+      const headers = { get: () => 'application/json' };
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 401, headers, json })
+        .mockResolvedValueOnce({ ok: true, status: 200, headers, json: async () => ({ ok: true }) });
+      await expect(apiClient.get('/account_info/alice')).resolves.toEqual({ ok: true });
+      expect(json).toHaveBeenCalledTimes(1);
+      expect(tokenRefreshManager.attemptRefresh).toHaveBeenCalledTimes(1);
+    });
+
     it.each([429, 403, 503])('preserves HTTP %i after token refresh instead of reporting an auth failure', async (status) => {
       const { tokenRefreshManager } = require('../../libs/token-refresh');
       tokenRefreshManager.attemptRefresh.mockResolvedValueOnce('new-token');

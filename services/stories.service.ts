@@ -12,7 +12,7 @@ import { apiClient } from "../libs";
 import { xhrUploadFormData } from "../libs/xhr-upload";
 import { ResumableUnsupportedError, resumableUploadFile } from "../libs/resumable-upload";
 
-export type StoryAudience = "everyone" | "followers";
+export type StoryAudience = "everyone" | "followers" | "selected" | "except";
 export const STORY_LIFETIMES = [6, 12, 24] as const;
 export type StoryLifetime = (typeof STORY_LIFETIMES)[number];
 
@@ -64,6 +64,8 @@ export interface StoryItem {
   expiresAt: string;
   viewed: boolean;
   liked: boolean;
+  /** Public comments (older servers leave it out). */
+  commentCount?: number;
   viewCount?: number;
   likeCount?: number;
   replyCount?: number;
@@ -91,7 +93,7 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean }> {
+export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean; supportsPhotoDuration?: boolean; supportsCustomAudience?: boolean }> {
   // Signed out still gets public moments; the token is only sent when there is one.
   return apiClient.get("/stories/shelf", {
     isAuthRequired: signedIn,
@@ -102,6 +104,10 @@ export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ s
 
 export function getStory(id: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; item: StoryItem }> {
   return apiClient.get(`/stories/${enc(id)}`, { isAuthRequired: signedIn, quiet: true });
+}
+
+export function getStoryArchive(cursor?: string): Promise<{ items: StoryItem[]; next: string | null }> {
+  return apiClient.get("/stories/archive", { isAuthRequired: true, quiet: true, params: { cursor } });
 }
 
 export function deleteStory(id: string): Promise<{ ok: boolean }> {
@@ -131,7 +137,9 @@ export function reportStory(id: string, reason: string): Promise<unknown> {
 
 export interface CreateStoryFields {
   audience: StoryAudience;
+  audienceAddresses?: string[];
   expiresInHours?: StoryLifetime;
+  photoDurationSeconds?: number;
   allowReplies?: boolean;
   muted?: boolean;
   caption?: string;
@@ -153,6 +161,9 @@ export function createStory(
   const fd = new FormData();
   fd.append("type", fields.draftVideoId ? "video" : "photo");
   fd.append("audience", fields.audience);
+  const customAudience = fields.audience === "selected" || fields.audience === "except";
+  if (customAudience) fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
+  if (fields.photoDurationSeconds != null) fd.append("photoDurationSeconds", String(fields.photoDurationSeconds));
   if (fields.expiresInHours != null) fd.append("expiresInHours", String(fields.expiresInHours));
   fd.append("allowReplies", String(fields.allowReplies !== false));
   fd.append("muted", String(!!fields.muted));
@@ -169,7 +180,7 @@ export function createStory(
   if (files.photo) fd.append("file", files.photo as any);
   // @ts-ignore React Native FormData file shape
   if (files.overlay) fd.append("overlay", files.overlay as any);
-  return xhrUploadFormData<StoryItem>({ endpoint: "/stories", formData: fd, onProgress });
+  return xhrUploadFormData<StoryItem>({ endpoint: customAudience ? "/stories/custom-audience" : "/stories", formData: fd, onProgress });
 }
 
 /** Send a clip as a short draft; resolves with its draft id. */
@@ -198,4 +209,24 @@ export async function uploadStoryClip(
   const draftId = res?.draftId ?? res?.result?.draftId;
   if (!draftId) throw new Error("upload failed");
   return String(draftId);
+}
+
+export interface StoryComment {
+  id: string;
+  text: string;
+  createdAt: string;
+  author: StoryAuthor;
+  canDelete: boolean;
+}
+
+export function getStoryComments(id: string, signedIn: boolean, cursor?: string): Promise<{ commentCount: number; allowComments: boolean; comments: StoryComment[]; next: string | null }> {
+  return apiClient.get(`/stories/${enc(id)}/comments`, { isAuthRequired: signedIn, quiet: true, ...(cursor ? { params: { cursor } } : {}) });
+}
+
+export function addStoryComment(id: string, text: string): Promise<StoryComment> {
+  return apiClient.post(`/stories/${enc(id)}/comments`, { text });
+}
+
+export function deleteStoryComment(id: string, commentId: string): Promise<{ ok: boolean }> {
+  return apiClient.delete(`/stories/${enc(id)}/comments/${enc(commentId)}`);
 }

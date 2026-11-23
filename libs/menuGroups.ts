@@ -28,18 +28,41 @@ export interface MenuGroup<T> extends MenuGroupDef {
   items: T[];
 }
 
-/** Sort the visible rows into the groups, each in its default order; empty groups drop. */
-export function groupMenuItems<T extends { labelKey: string }>(items: readonly T[]): MenuGroup<T>[] {
+/** The group a row sits in by default, if any. */
+export function defaultMenuGroupOf(labelKey: string): MenuGroupId | null {
+  return MENU_GROUPS.find((def) => def.keys.includes(labelKey))?.id ?? null;
+}
+
+/**
+ * Sort the visible rows into the groups, each in its default order; empty
+ * groups drop. Rows the person moved to another group (libs/menuGroupMoves,
+ * keyed by `idOf`) go to the end of that group instead.
+ */
+export function groupMenuItems<T extends { labelKey: string }>(
+  items: readonly T[],
+  moves: Readonly<Record<string, MenuGroupId>> = {},
+  idOf: (labelKey: string) => string = (k) => k,
+): MenuGroup<T>[] {
   const byKey = new Map(items.map((item) => [item.labelKey, item]));
+  const movedTo = (key: string) => moves[idOf(key)];
   const placed = new Set<string>(MENU_UNGROUPED);
   const groups = MENU_GROUPS.map((def) => {
     const groupItems: T[] = [];
     for (const key of def.keys) {
       const item = byKey.get(key);
-      if (item) { groupItems.push(item); placed.add(key); }
+      if (!item) continue;
+      const target = movedTo(key);
+      if (target && target !== def.id) continue;
+      groupItems.push(item); placed.add(key);
     }
     return { ...def, items: groupItems };
   });
+  for (const item of items) {
+    if (placed.has(item.labelKey)) continue;
+    const target = movedTo(item.labelKey);
+    const group = target ? groups.find((g) => g.id === target) : undefined;
+    if (group) { group.items.push(item); placed.add(item.labelKey); }
+  }
   const leftovers = items.filter((item) => !placed.has(item.labelKey));
   if (leftovers.length) groups[groups.length - 1].items.push(...leftovers);
   return groups.filter((group) => group.items.length > 0);

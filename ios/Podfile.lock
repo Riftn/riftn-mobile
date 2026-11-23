@@ -11,7 +11,7 @@ PODS:
   - EXJSONUtils (55.0.2)
   - EXManifests (55.0.21):
     - ExpoModulesCore
-  - Expo (55.0.31):
+  - Expo (55.0.32):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -36,15 +36,15 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-client (55.0.40):
+  - expo-dev-client (55.0.41):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (55.0.41):
+  - expo-dev-launcher (55.0.42):
     - EXManifests
-    - expo-dev-launcher/Main (= 55.0.41)
+    - expo-dev-launcher/Main (= 55.0.42)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -73,7 +73,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Main (55.0.41):
+  - expo-dev-launcher/Main (55.0.42):
     - EXManifests
     - expo-dev-launcher/Unsafe
     - expo-dev-menu
@@ -104,7 +104,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Unsafe (55.0.41):
+  - expo-dev-launcher/Unsafe (55.0.42):
     - EXManifests
     - expo-dev-menu
     - expo-dev-menu-interface
@@ -134,8 +134,8 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu (55.0.34):
-    - expo-dev-menu/Main (= 55.0.34)
+  - expo-dev-menu (55.0.35):
+    - expo-dev-menu/Main (= 55.0.35)
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -158,7 +158,7 @@ PODS:
     - ReactNativeDependencies
     - Yoga
   - expo-dev-menu-interface (55.0.2)
-  - expo-dev-menu/Main (55.0.34):
+  - expo-dev-menu/Main (55.0.35):
     - EXManifests
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -241,7 +241,7 @@ PODS:
   - ExpoMediaLibrary (55.0.21):
     - ExpoModulesCore
     - React-Core
-  - ExpoModulesCore (55.0.26):
+  - ExpoModulesCore (55.0.27):
     - ExpoModulesJSI
     - hermes-engine
     - RCTRequired
@@ -266,7 +266,7 @@ PODS:
     - ReactNativeDependencies
     - RNWorklets
     - Yoga
-  - ExpoModulesJSI (55.0.26):
+  - ExpoModulesJSI (55.0.27):
     - hermes-engine
     - React-Core
     - React-runtimescheduler
@@ -3558,10 +3558,10 @@ SPEC CHECKSUMS:
   EXConstants: dd0b0af9c628c00bc5ce556964210c4465ac9ffe
   EXJSONUtils: 04bc3807d351331a5fe154ce1da596ec15d99169
   EXManifests: c9ac464913660ef8580236b0d3d6fad7a7bce552
-  Expo: 80a983dbbd818bf4e16a0ae0f3b0624ae58fe2be
-  expo-dev-client: fd23d6dc2b6b4fe9756923ab9410aaa1298243a1
-  expo-dev-launcher: dcfef6b411e22e09ea45423b9c20ef48ec3f9ad5
-  expo-dev-menu: 3cf08b0700a8f238f5c8cbcbc9e2f3fbc4f1a5e2
+  Expo: 64f7f381b50f670eaed4fe17fcc452b8d46a6383
+  expo-dev-client: dcaba9b12f9d44f23b451c1e08b68342adf2d72e
+  expo-dev-launcher: 012b3763b8dc741e0713fad012bbc26053341587
+  expo-dev-menu: 83254aafd7e7481098c04c1e004a061a67f3e304
   expo-dev-menu-interface: 833795f4c98a674d36cbc12b11b21756c38e01e8
   ExpoAppleAuthentication: ab3d5d027724c02652f5be78bf81e43ac0e684c6
   ExpoAsset: 64ff088f684d008431f518c0d40fccefb9cda593
@@ -3587,8 +3587,8 @@ SPEC CHECKSUMS:
   ExpoLocalization: 20f7023e9e1a5278616bb7141378c8d3f2f13f5b
   ExpoLogBox: 87ffef2b3ae204b602748ab4020eb1cc5454a6d6
   ExpoMediaLibrary: 98bef99fe8d75621176690193a12fb376c41eb6f
-  ExpoModulesCore: b961022cb1a93143b04c5812d5aa5b777c288c77
-  ExpoModulesJSI: 37c1f4647b4506df11abf061ab1e4c30c307b023
+  ExpoModulesCore: 17d1f77ac72021b046885bed4ee26d2b3bdbe69b
+  ExpoModulesJSI: 7cb45efa8cb4769647b45bcdddec73c2fd5c4df8
   ExpoNotifications: 793cb016faf9ee414ed9ae94e8951c95ca31d619
   ExpoScreenCapture: 77cbeb6d559e1ab83edd30c020893fd6451a6c24
   ExpoScreenOrientation: aaaba2df20ba84e856b826ee199283a1fc34a789

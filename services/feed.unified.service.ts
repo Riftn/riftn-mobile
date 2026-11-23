@@ -83,6 +83,7 @@ export interface UnifiedFeedItem {
   id?: string;
   
   // Content
+  contentRating?: string;
   name?: string;
   title?: string;
   description?: string;
@@ -441,7 +442,7 @@ export async function getShortsFeed(params?: ShortsFeedParams): Promise<ShortsFe
       followingOnly: params?.followingOnly, status: "all" }),
   ]);
   return { ...videos,
-    result: interleaveShorts(videos.result, photos.result.filter(isShortsPhoto)),
+    result: interleaveShorts(videos.result, photos.result.filter(photo => isShortsPhoto(photo))),
     pagination: { ...videos.pagination,
       hasMore: videos.pagination.hasMore || photos.pagination.hasMore,
       totalCount: videos.pagination.totalCount + photos.pagination.totalCount,

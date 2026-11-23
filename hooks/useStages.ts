@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { newStageChannelName } from "../libs/stage-radio-show";
 import { Platform, PermissionsAndroid } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import createAgoraRtcEngine, {
@@ -99,6 +100,8 @@ export interface ScheduleSpaceInput {
   scheduledAt: string;
   /** Public URL of an already-uploaded cover graphic. */
   coverImageUrl?: string | null;
+  /** A radio show: music first, listed in Explore's Radio row. */
+  radio?: boolean;
 }
 
 export type SpaceRole = "host" | "speaker" | "listener";
@@ -229,7 +232,7 @@ export interface UseStagesReturn {
   isTranscriptLoading: boolean;
   openModal: (view?: "browse" | "create" | "live") => void;
   closeModal: () => void;
-  createSpace: (title: string, description?: string, coverImageUrl?: string | null) => Promise<AudioSpace | null>;
+  createSpace: (title: string, description?: string, coverImageUrl?: string | null, options?: { radio?: boolean }) => Promise<AudioSpace | null>;
   scheduleSpace: (input: ScheduleSpaceInput) => Promise<AudioSpace | null>;
   startScheduledSpace: (spaceId: string) => Promise<boolean>;
   cancelScheduledSpace: (spaceId: string) => Promise<boolean>;
@@ -260,8 +263,8 @@ export interface UseStagesReturn {
   sendReaction: (emoji: string) => void;
   dismissFloatingReaction: (id: number) => void;
   applyVoiceEffect: (effectId: string) => void;
-  fetchTtsVoices: () => Promise<void>;
-  generateTts: (text: string, voiceId: string) => Promise<void>;
+  fetchTtsVoices: () => Promise<TtsVoice[]>;
+  generateTts: (text: string, voiceId?: string) => Promise<boolean>;
   /** Pad currently playing through the channel, or null. */
   playingSoundId: string | null;
   /**
@@ -816,38 +819,51 @@ export function useStages(): UseStagesReturn {
 
   // ── TTS ────────────────────────────────────────────────────────────────────
 
-  const fetchTtsVoices = useCallback(async () => {
-    if (ttsVoices.length > 0 || isTtsVoicesLoading) return;
+  const pendingVoices = useRef<Promise<TtsVoice[]> | null>(null);
+  const sendingSpeech = useRef(false);
+  const fetchTtsVoices = useCallback(async (): Promise<TtsVoice[]> => {
+    if (ttsVoices.length) return ttsVoices;
+    if (pendingVoices.current) return pendingVoices.current;
     setIsTtsVoicesLoading(true);
-    try {
-      const res = await fetch(
-        `${env.SUPABASE_URL}/functions/v1/elevenlabs-voices?page_size=30&provider=google&language=${encodeURIComponent(i18n.resolvedLanguage || i18n.language || 'en-US')}`,
-        {
-          headers: {
-            apikey: env.SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${env.SUPABASE_PUBLISHABLE_KEY}`,
-            // Signed out this still answers, with the stock library. Signed in
-            // it also returns the caller's own cloned voices — without the
-            // token a host could not pick the voice they cloned for the stage.
-            ...(await dehubAuthHeaders(userAddress)),
-          },
-        },
-      );
-      if (!res.ok) throw new Error("Failed to fetch voices");
+    pendingVoices.current = (async () => {
+      const base = `${env.SUPABASE_URL}/functions/v1/elevenlabs-voices?page_size=30`;
+      const headers = {
+        apikey: env.SUPABASE_PUBLISHABLE_KEY,
+        Authorization: `Bearer ${env.SUPABASE_PUBLISHABLE_KEY}`,
+        ...(await dehubAuthHeaders(userAddress)),
+      };
+      const language = encodeURIComponent(i18n.resolvedLanguage || i18n.language || 'en-US');
+      let res = await fetch(`${base}&provider=google&language=${language}`, { headers });
+      if (res.status >= 500) res = await fetch(base, { headers });
+      if (!res.ok) throw new Error(t('stages.loadVoices'));
       const data = await res.json() as { voices?: TtsVoice[] };
-      setTtsVoices(data.voices || []);
-    } catch (err) {
+      const voices = (data.voices || []).filter(voice => !!voice.voice_id);
+      if (!voices.length) throw new Error(t('stages.loadVoices'));
+      setTtsVoices(voices);
+      return voices;
+    })().catch((err) => {
       log.error("Failed to fetch TTS voices:", err);
-    } finally {
+      toastError(t('stages.previewFailed'));
+      return [];
+    }).finally(() => {
+      pendingVoices.current = null;
       setIsTtsVoicesLoading(false);
-    }
-  }, [ttsVoices.length, isTtsVoicesLoading, userAddress]);
+    });
+    return pendingVoices.current;
+  }, [ttsVoices, userAddress]);
 
-  const generateTts = useCallback(async (text: string, voiceId: string) => {
-    if (!text.trim() || !voiceId || isTtsGenerating) return;
-    if (!hasAiConsent() && !(await ensureAiConsent())) return;
+  const generateTts = useCallback(async (text: string, selectedVoice?: string) => {
+    const spaceId = currentSpaceRef.current?.id;
+    if (!text.trim() || !spaceId || sendingSpeech.current) return false;
+    const canPlayHere = () => currentSpaceRef.current?.id === spaceId &&
+      (myRoleRef.current === "host" || myRoleRef.current === "speaker");
+    if (!canPlayHere()) return false;
+    sendingSpeech.current = true;
     setIsTtsGenerating(true);
     try {
+      if (!hasAiConsent() && !(await ensureAiConsent())) return false;
+      const voiceId = selectedVoice || (await fetchTtsVoices())[0]?.voice_id;
+      if (!voiceId || !canPlayHere()) return false;
       const response = await fetch(
         `${env.SUPABASE_URL}/functions/v1/elevenlabs-tts`,
         {
@@ -884,14 +900,19 @@ export function useStages(): UseStagesReturn {
       const rawTempPath = tempPath.startsWith("file://")
         ? decodeURIComponent(tempPath.substring(7))
         : tempPath;
-      getStageEngine().startAudioMixing(rawTempPath, false, 1);
+      if (!canPlayHere()) return false;
+      const result = getStageEngine().startAudioMixing(rawTempPath, false, 1);
+      if (result !== 0) throw new Error(t('stages.previewFailed'));
+      return true;
     } catch (err) {
       log.error("TTS generation failed:", err);
       toastError(err instanceof Error ? err.message : t('stages.previewFailed'));
+      return false;
     } finally {
+      sendingSpeech.current = false;
       setIsTtsGenerating(false);
     }
-  }, [isTtsGenerating, userAddress]);
+  }, [fetchTtsVoices, userAddress]);
 
   /**
    * Soundboard playback.
@@ -1118,14 +1139,14 @@ export function useStages(): UseStagesReturn {
     return true;
   }, []);
 
-  const createSpace = useCallback(async (title: string, description?: string, coverImageUrl?: string | null): Promise<AudioSpace | null> => {
+  const createSpace = useCallback(async (title: string, description?: string, coverImageUrl?: string | null, options?: { radio?: boolean }): Promise<AudioSpace | null> => {
     if (!userAddress) return null;
     if (roomSwitchInFlightRef.current) return null;
     roomSwitchInFlightRef.current = true;
     setIsLoading(true);
     try {
       if (!(await vacateCurrentRoom(null))) return null;
-      const channelName = `stage_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const channelName = newStageChannelName(!!options?.radio);
       const { data, error } = await signed(
         supabase
           .from("audio_spaces")
@@ -1202,7 +1223,7 @@ export function useStages(): UseStagesReturn {
     try {
       // Minted now and kept for the whole life of the stage, so the link handed
       // out today is the room people walk into.
-      const channelName = `stage_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const channelName = newStageChannelName(!!input.radio);
       const { data, error } = await signed(
         supabase
           .from("audio_spaces")

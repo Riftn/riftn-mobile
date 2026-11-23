@@ -7,7 +7,9 @@
  * installs.
  */
 export type CallScreenAction = {
-  action: "answer" | "decline" | "hangup" | "incoming" | "token";
+  action: "answer" | "decline" | "hangup" | "incoming" | "token" | "mute";
+  requestId?: string;
+  muted?: "true" | "false";
   sessionId?: string;
   callType?: string;
   token?: string;
@@ -18,6 +20,8 @@ type Native = {
   getVoipToken: () => Promise<string | null>;
   takePendingActions: () => Promise<CallScreenAction[]>;
   endCall: (sessionId: string) => Promise<void>;
+  completeDecline?: (workId: string, success: boolean) => Promise<void>;
+  completeMute?: (requestId: string, applied: boolean) => Promise<void>;
   requestUnlock: () => Promise<void>;
   addListener: (event: "onCallAction", fn: (e: CallScreenAction) => void) => { remove: () => void };
 };
@@ -68,4 +72,12 @@ export function addCallScreenListener(fn: (action: CallScreenAction) => void): (
   } catch {
     return () => {};
   }
+}
+
+export function completeNativeMute(requestId: string, applied: boolean): void {
+  void native()?.completeMute?.(requestId, applied).catch(() => {});
+}
+
+export async function completeNativeDecline(workId: string, success: boolean): Promise<void> {
+  await native()?.completeDecline?.(workId, success);
 }

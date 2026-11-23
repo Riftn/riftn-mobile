@@ -14,7 +14,7 @@ import Icon from "../ui/Icon";
 import { DhbCoin } from "../common/DhbCoin";
 import { deadlineLabel, fmt, shortAddress, WARN } from "./fractionFormat";
 import { useOpenTrades, useFractionWallet, type FractionTrade } from "../../hooks/useFractionMarket";
-import { useSettleTrade } from "../../hooks/useFractionCheckout";
+import { useSettleTrade, isFreeClaim } from "../../hooks/useFractionCheckout";
 
 const TradeRow: React.FC<{
   trade: FractionTrade;
@@ -22,7 +22,11 @@ const TradeRow: React.FC<{
   actionLabel: string;
   onAction?: () => void;
   pending?: boolean;
-}> = ({ trade, direction, actionLabel, onAction, pending }) => {
+  /** A second, quieter button (Decline on a free claim). */
+  secondaryLabel?: string;
+  onSecondary?: () => void;
+  secondaryPending?: boolean;
+}> = ({ trade, direction, actionLabel, onAction, pending, secondaryLabel, onSecondary, secondaryPending }) => {
   const { t } = useTranslation();
   const { text, overdue } = deadlineLabel(trade.settle_by, t);
   const counterparty = direction === "out" ? trade.buyer_address : trade.seller_address;
@@ -44,11 +48,32 @@ const TradeRow: React.FC<{
       <View style={styles.rowBody}>
         <View style={styles.rowMain}>
           <Text style={styles.qty}>{t("fractions.fractionCount", { count: trade.quantity })}</Text>
-          <View style={styles.amount}>
-            <DhbCoin size={12} />
-            <Text style={styles.amountText}>{fmt(trade.quantity * trade.price_per_fraction)}</Text>
-          </View>
+          {isFreeClaim(trade) ? (
+            <Text style={styles.amountText}>{t("fractions.freeClaim")}</Text>
+          ) : (
+            <View style={styles.amount}>
+              <DhbCoin size={12} />
+              <Text style={styles.amountText}>{fmt(trade.quantity * trade.price_per_fraction)}</Text>
+            </View>
+          )}
         </View>
+        {!!secondaryLabel && (
+          <Pressable
+            onPress={onSecondary}
+            disabled={pending || secondaryPending}
+            accessibilityRole="button"
+            accessibilityLabel={secondaryLabel}
+            hitSlop={6}
+          >
+            <View style={styles.secondary}>
+              {secondaryPending ? (
+                <ActivityIndicator size="small" color="#A1A1AA" />
+              ) : (
+                <Text style={styles.secondaryText}>{secondaryLabel}</Text>
+              )}
+            </View>
+          </Pressable>
+        )}
         {onAction ? (
           <Pressable
             onPress={onAction}
@@ -75,7 +100,7 @@ const SettlementRail: React.FC = () => {
   const { t } = useTranslation();
   const wallet = useFractionWallet();
   const { data } = useOpenTrades(wallet);
-  const { deliver, pay } = useSettleTrade();
+  const { deliver, pay, decline } = useSettleTrade();
 
   if (!wallet || !data) return null;
   const count = data.toDeliver.length + data.toPay.length + data.waiting.length;
@@ -91,9 +116,12 @@ const SettlementRail: React.FC = () => {
           key={trade.id}
           trade={trade}
           direction="out"
-          actionLabel={t("fractions.sendFractions")}
+          actionLabel={isFreeClaim(trade) ? t("fractions.approveClaim") : t("fractions.sendFractions")}
           pending={deliver.isPending && deliver.variables?.id === trade.id}
           onAction={() => deliver.mutate(trade)}
+          secondaryLabel={isFreeClaim(trade) ? t("fractions.declineClaim") : undefined}
+          onSecondary={() => decline.mutate(trade)}
+          secondaryPending={decline.isPending && decline.variables?.id === trade.id}
         />
       ))}
       {data.toPay.map((trade) => (
@@ -111,9 +139,11 @@ const SettlementRail: React.FC = () => {
           key={trade.id}
           trade={trade}
           direction={trade.status === "awaiting_delivery" ? "in" : "out"}
-          actionLabel={t(
-            trade.status === "awaiting_delivery" ? "fractions.waitingOnSeller" : "fractions.waitingOnBuyer",
-          )}
+          actionLabel={
+            isFreeClaim(trade)
+              ? t("fractions.waitingOnOwner")
+              : t(trade.status === "awaiting_delivery" ? "fractions.waitingOnSeller" : "fractions.waitingOnBuyer")
+          }
         />
       ))}
     </View>
@@ -153,6 +183,13 @@ const styles = StyleSheet.create({
   actionPending: { opacity: 0.6 },
   actionText: { color: "#09090B", fontSize: 12.5, fontWeight: "700", flexShrink: 0 },
   waiting: { color: "#808089", fontSize: 11.5, flexShrink: 0 },
+  secondary: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.06)",
+  },
+  secondaryText: { color: "#D4D4D8", fontSize: 12.5, fontWeight: "600", flexShrink: 0 },
 });
 
 export default SettlementRail;

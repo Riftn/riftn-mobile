@@ -3,8 +3,7 @@ import { useRoute, type RouteProp } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { View, Pressable, StyleSheet, Alert } from "react-native";
 import ScreenHeader from "../components/ScreenHeader";
-import { PageTabs, useFlatPage } from "../components/page/PageKit";
-import { useAppTheme } from "../context/ThemeContext";
+import { PageTabs } from "../components/page/PageKit";
 import PostsInfiniteList from "../components/Profile/PostsInfiniteList";
 import { useAuthState } from "../context/AuthContext";
 import { useGateToHome } from "../hooks/useGateToHome";
@@ -69,15 +68,6 @@ const MyLibraryScreen: React.FC = () => {
     setActiveTab(key);
   }, []);
 
-  // Ink on the active tab chip, matching the page kit: white on the bright
-  // canvas accents, near-black on white (System) and the rest.
-  const appTheme = useAppTheme() as ReturnType<typeof useAppTheme> & { accent?: unknown };
-  const flatPage = useFlatPage();
-  const activeInk =
-    !flatPage && !!appTheme.accent && ["hazy", "swarms", "lavalamp", "island"].includes(appTheme.theme)
-      ? "#FFFFFF"
-      : "#0B0B0C";
-
   // Arriving again while the screen is still mounted (React Navigation reuses
   // it) moves to the requested tab. Keyed on the params object, as DpayScreen
   // does, so a repeat tap still lands after the reader switched tabs by hand.
@@ -112,7 +102,7 @@ const MyLibraryScreen: React.FC = () => {
             tabs={TABS.map((tab) => ({
               id: tab.key,
               label: t(tab.labelKey),
-              icon: <Icon name={tab.icon} size={14} color={activeTab === tab.key ? activeInk : "#A1A1AA"} />,
+              icon: (ink: string) => <Icon name={tab.icon} size={14} color={ink} />,
             }))}
             style={{ paddingBottom: 10 }}
           />

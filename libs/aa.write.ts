@@ -44,6 +44,7 @@ export async function writeContractAA(
     value?: string | number | ethers.BigNumber;
     gasLimit?: string | number | ethers.BigNumber;
     context?: string;
+    beforeSubmit?: () => Promise<void>;
   }
 ): Promise<{ hash?: string; wait: (confirmations?: number) => Promise<any> }> {
   if (!contract) throw new Error("Contract instance is required");
@@ -92,6 +93,7 @@ export async function writeContractAA(
     const overrides: any = {};
     if (valueHex) overrides.value = valueHex;
     if (gasLimitBN) overrides.gasLimit = gasLimitBN;
+    if (options?.beforeSubmit) await options.beforeSubmit();
     const resp = await contract[functionName](...args, overrides);
     const hash: string | undefined = resp?.hash;
     let badgeRefresh: Promise<void> | undefined;
@@ -119,7 +121,7 @@ export async function writeContractAA(
     // TEMP DEBUG (remove once Pimlico sponsorship issue is diagnosed)
     console.error("[TipDebug] send raw error:", eoaErr?.message, eoaErr?.error?.message, eoaErr?.data?.message, eoaErr);
     const friendly = parseTxError(eoaErr, context);
-    throw new Error(friendly);
+    throw Object.assign(new Error(friendly), { code: eoaErr?.code });
   }
 }
 

@@ -49,6 +49,24 @@ export function forgetWhepSilent(playbackId: string | null | undefined) {
   write(current);
 }
 
+/**
+ * A network that does not carry WebRTC at all (the server answers, the media
+ * never arrives: an office wifi, some mobile carriers). That is the network,
+ * not one stream, so every live opens on HLS for a while instead of waiting
+ * on a connection that will not come. Kept in memory only: a different
+ * network after a restart starts clean.
+ */
+const BLOCKED_FOR_MS = 10 * 60_000;
+let webRtcBlockedAt = 0;
+
+export function webRtcRecentlyBlocked(): boolean {
+  return webRtcBlockedAt > 0 && Date.now() - webRtcBlockedAt < BLOCKED_FOR_MS;
+}
+
+export function rememberWebRtcBlocked() {
+  webRtcBlockedAt = Date.now();
+}
+
 /** A real picture, not the 2x2 placeholder a silent track can report. */
 export function isRealPicture(size: { width: number; height: number }): boolean {
   return size.width >= 16 && size.height >= 16;

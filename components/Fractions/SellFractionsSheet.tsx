@@ -10,6 +10,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, Text, View, ActivityIndicator, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { DhbCoin } from "../common/DhbCoin";
+import Icon from "../ui/Icon";
 import {
   FractionSheet,
   Note,
@@ -44,6 +45,8 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
   const [quantity, setQuantity] = useState(0);
   const [price, setPrice] = useState("");
   const createListing = useCreateListing();
+  // "Give away free" lists at price 0: people claim, you approve each one.
+  const [free, setFree] = useState(false);
   const { data: balance, isLoading: loadingBalance } = useFractionBalance(target?.tokenId, target?.chainId);
   const { data: listings = [] } = useFractionListings(target?.tokenId);
   const { data: prices } = useTokenPrices();
@@ -61,7 +64,9 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
 
   // The cheapest ask on this post's book — the closest thing to a spot price.
   const floorPrice = useMemo(() => {
-    const asks = listings.filter((l) => l.quantity - l.filled_quantity > 0).map((l) => l.price_per_fraction);
+    const asks = listings
+      .filter((l) => l.quantity - l.filled_quantity > 0 && l.price_per_fraction > 0)
+      .map((l) => l.price_per_fraction);
     return asks.length ? Math.min(...asks) : null;
   }, [listings]);
 
@@ -72,14 +77,15 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
     if (!target) return;
     setQuantity(sellable > 0 ? Math.max(1, Math.floor(sellable / 10)) : 0);
     setPrice(floorPrice ? String(floorPrice) : "");
+    setFree(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [target?.tokenId, balance === undefined]);
 
   if (!target) return null;
 
-  const prc = parseFloat(price) || 0;
+  const prc = free ? 0 : parseFloat(price) || 0;
   const total = quantity * prc;
-  const isValid = quantity > 0 && quantity <= sellable && prc > 0;
+  const isValid = quantity > 0 && quantity <= sellable && (free || prc > 0);
   const busy = createListing.isPending;
 
   const handleSubmit = async () => {
@@ -94,7 +100,11 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
       })
       .catch(() => null);
     if (!result) return;
-    toastSuccess(t("fractions.listedToast", { count: quantity, price: prc }));
+    toastSuccess(
+      free
+        ? t("fractions.giveawayListed", { count: quantity })
+        : t("fractions.listedToast", { count: quantity, price: prc }),
+    );
     onClose();
   };
 
@@ -136,6 +146,29 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
           ))}
         </View>
 
+        <View style={styles.modes} accessibilityRole="tablist">
+          {[false, true].map((isFree) => {
+            const on = free === isFree;
+            return (
+              <Pressable
+                key={String(isFree)}
+                onPress={() => setFree(isFree)}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: on }}
+                style={styles.modeTap}
+              >
+                <View style={[styles.mode, on && styles.modeOn]}>
+                  <Icon name={isFree ? "Gift" : "Tag"} size={15} color={on ? "#FFFFFF" : "#A1A1AA"} />
+                  <Text style={[styles.modeText, on && styles.modeTextOn]} numberOfLines={1}>
+                    {isFree ? t("fractions.modeFree") : t("fractions.modeSell")}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+
+        {!free && (
         <NumberField
           label={t("fractions.pricePerFraction")}
           value={price}
@@ -150,23 +183,36 @@ const SellFractionsSheet: React.FC<Props> = ({ target, onClose }) => {
             ) : null
           }
         />
+        )}
 
         <Panel>
           <PanelRow label={t("fractions.shareOfPost")}>
             <Text style={sheetStyles.value}>{((quantity / TOTAL_FRACTIONS) * 100).toFixed(1)}%</Text>
           </PanelRow>
           <PanelRow label={t("fractions.youReceive")} strong>
-            <DhbCoin size={15} />
-            <Text style={sheetStyles.valueStrong}>{fmt(total)}</Text>
+            {free ? (
+              <Text style={sheetStyles.valueStrong}>{t("fractions.freeBadge")}</Text>
+            ) : (
+              <>
+                <DhbCoin size={15} />
+                <Text style={sheetStyles.valueStrong}>{fmt(total)}</Text>
+              </>
+            )}
           </PanelRow>
           {dhbUsd > 0 && total > 0 && <Text style={sheetStyles.sub}>≈ ${fmt(total * dhbUsd)}</Text>}
         </Panel>
 
-        <Text style={sheetStyles.footnote}>{t("fractions.listingFreeNote")}</Text>
+        <Text style={sheetStyles.footnote}>{free ? t("fractions.freeListNote") : t("fractions.listingFreeNote")}</Text>
 
         <PrimaryButton
-          icon="Tag"
-          label={busy ? t("fractions.listingInProgress") : t("fractions.listNFractions", { count: quantity })}
+          icon={free ? "Gift" : "Tag"}
+          label={
+            busy
+              ? t("fractions.listingInProgress")
+              : free
+                ? t("fractions.giveNFree", { count: quantity })
+                : t("fractions.listNFractions", { count: quantity })
+          }
           onPress={handleSubmit}
           loading={busy}
           disabled={!isValid}
@@ -197,6 +243,29 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.10)",
   },
   presetText: { color: "#D4D4D8", fontSize: 12, fontWeight: "600", flexShrink: 0 },
+  modes: {
+    flexDirection: "row",
+    gap: 4,
+    padding: 4,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  modeTap: { flex: 1 },
+  // Fill on an inner View: Pressable fills get repainted by the controls pass.
+  mode: {
+    height: 36,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingHorizontal: 8,
+  },
+  modeOn: { backgroundColor: "rgba(255,255,255,0.15)" },
+  modeText: { color: "#A1A1AA", fontSize: 13, fontWeight: "600", flexShrink: 1 },
+  modeTextOn: { color: "#FFFFFF" },
 });
 
 export default SellFractionsSheet;

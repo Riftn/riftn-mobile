@@ -40,7 +40,7 @@ jest.mock('../../components/auth/PasskeyLoginFlow', () => () => {
 });
 
 it('replaces the email form when selecting another method and keeps provider choices available', () => {
-  const view = render(<SocialLoginIcons layout="stack" onGoogle={jest.fn()} onApple={jest.fn()} onPhoneSubmit={jest.fn()} onEmailSubmit={jest.fn()} onPasskeySignIn={jest.fn()} onPasskeySignUp={jest.fn()} />);
+  const view = render(<SocialLoginIcons onGoogle={jest.fn()} onApple={jest.fn()} onPhoneSubmit={jest.fn()} onEmailSubmit={jest.fn()} onPasskeySignIn={jest.fn()} onPasskeySignUp={jest.fn()} />);
   expect(view.getByText('Email form')).toBeTruthy();
 
   fireEvent.press(view.getByRole('button', { name: 'loginStack.phone' }));

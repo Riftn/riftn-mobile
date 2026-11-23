@@ -49,7 +49,11 @@ const BrowseFractionsTab: React.FC<Props> = ({ onOpenListing }) => {
 
   // Cheapest ask on the whole board — whether fractions are worth anything yet.
   const floor = useMemo(
-    () => (listings.length ? Math.min(...listings.map((l) => l.price_per_fraction)) : null),
+    () => {
+      // Free giveaways are not an asking price.
+      const paid = listings.filter((l) => l.price_per_fraction > 0);
+      return paid.length ? Math.min(...paid.map((l) => l.price_per_fraction)) : null;
+    },
     [listings],
   );
 
@@ -60,6 +64,7 @@ const BrowseFractionsTab: React.FC<Props> = ({ onOpenListing }) => {
     const available = item.quantity - item.filled_quantity;
     const totalDhb = available * item.price_per_fraction;
     const sharePct = ((available / TOTAL_FRACTIONS) * 100).toFixed(1);
+    const free = Number(item.price_per_fraction) === 0;
     return (
       <FractionTile
         tokenId={item.token_id}
@@ -68,6 +73,7 @@ const BrowseFractionsTab: React.FC<Props> = ({ onOpenListing }) => {
         postType={item.post_type}
         units={available}
         showYours={item.seller_address.toLowerCase() === wallet}
+        showFree={free}
         onPress={() => onOpenListing(item)}
       >
         <View style={styles.inline}>
@@ -76,15 +82,26 @@ const BrowseFractionsTab: React.FC<Props> = ({ onOpenListing }) => {
             {item.creator_username || shortAddress(item.seller_address)}
           </Text>
         </View>
-        <View style={styles.inline}>
-          <DhbCoin size={14} />
-          <Text style={styles.price}>{fmt(item.price_per_fraction, 4)}</Text>
-          <Text style={styles.unit}>{t("fractions.perFractionShort")}</Text>
-        </View>
-        <Text style={styles.meta} numberOfLines={2}>
-          {fmt(totalDhb)} <DhbCoin size={10} /> {t("fractions.forShareOfPost", { pct: sharePct })}
-          {dhbUsd > 0 ? ` · $${fmt(totalDhb * dhbUsd)}` : ""}
-        </Text>
+        {free ? (
+          <>
+            <Text style={styles.price}>{t("fractions.claim")}</Text>
+            <Text style={styles.meta} numberOfLines={2}>
+              {t("fractions.freeShare", { pct: sharePct })}
+            </Text>
+          </>
+        ) : (
+          <>
+            <View style={styles.inline}>
+              <DhbCoin size={14} />
+              <Text style={styles.price}>{fmt(item.price_per_fraction, 4)}</Text>
+              <Text style={styles.unit}>{t("fractions.perFractionShort")}</Text>
+            </View>
+            <Text style={styles.meta} numberOfLines={2}>
+              {fmt(totalDhb)} <DhbCoin size={10} /> {t("fractions.forShareOfPost", { pct: sharePct })}
+              {dhbUsd > 0 ? ` · $${fmt(totalDhb * dhbUsd)}` : ""}
+            </Text>
+          </>
+        )}
         <SellerTrustBadge stats={sellerStats[item.seller_address.toLowerCase()]} compact />
       </FractionTile>
     );

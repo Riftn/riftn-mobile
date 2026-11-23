@@ -47,7 +47,6 @@ interface SocialLoginIconsProps {
   passkeyError?: string | null;
   passkeySuggestCreate?: boolean;
   onEmailSubmit: (email: string) => void;
-  onEmailPasswordSubmit?: (email: string, password: string) => void;
   onPhoneSubmit: (phone: string) => void;
   onConnectWallet?: () => void;
   busyProvider?: string; // 'google' | 'apple' | 'email' | 'phone' | 'wallet' | 'passkey-signin' | 'passkey-signup'
@@ -58,13 +57,6 @@ interface SocialLoginIconsProps {
    * clear of the keyboard that input's own autoFocus just raised.
    */
   onFieldExpand?: (node: View | null) => void;
-  /**
-   * `stack` is the email-first sign-in (Shorts Stack): the email field open,
-   * then round buttons for the rest (the host shows wallet options as links
-   * via ImportWallet variant="links"). `list` is the original
-   * one-row-per-provider stack.
-   */
-  layout?: "list" | "stack";
 }
 
 // Brand names stay as they are in every language.
@@ -98,13 +90,7 @@ const OptionDisc: React.FC<OptionDiscProps> = ({ label, onPress, disabled, loadi
   </TouchableOpacity>
 );
 
-/**
- * The sign-in option stack. Mirrors dehubweb's LoginModal main step: one
- * full-width white-glass row per provider, same height, same radius, same
- * 16pt label — previously Google/Apple/Wallet were `rounded-2xl bg-neutral-800`
- * at 60pt while Email sat next to them as `rounded-xl bg-white/10` with a 20pt
- * label.
- */
+/** Email-first sign-in options with alternate provider buttons. */
 export const SocialLoginIcons: React.FC<SocialLoginIconsProps> = ({
   onGoogle,
   onApple,
@@ -119,7 +105,6 @@ export const SocialLoginIcons: React.FC<SocialLoginIconsProps> = ({
   busyProvider,
   disabled,
   onFieldExpand,
-  layout = "list",
 }) => {
   const { t } = useTranslation();
   const passkeyReady = !!onPasskeySignIn && !!onPasskeySignUp && isPasskeyLoginAvailable();
@@ -134,189 +119,108 @@ export const SocialLoginIcons: React.FC<SocialLoginIconsProps> = ({
   const [importUsed, setImportUsed] = useState(false);
   useEffect(() => { if (importVisible) setImportUsed(true); }, [importVisible]);
 
-  if (layout === "stack") {
-    // The open method's disc turns into Email, so the row keeps the same
-    // shape and switching back is the same tap in the same place.
-    const emailDisc = (
-      <OptionDisc
-        label={t("loginStack.email", "Email")}
-        onPress={() => { Keyboard.dismiss(); setOpenFlow(null); }}
-        disabled={disabled}
-        renderIcon={(c, sz) => <Ionicons name="mail" color={c} size={sz - 2} />}
-      />
-    );
-    return (
-      <View style={{ width: "100%", gap: 18 }}>
-        <View style={{ minHeight: 124, gap: 8 }}>
-        {openFlow === null && <EmailLoginFlow
-          startOpen
-          onSubmit={(_provider, email) => {
-            if (email) onEmailSubmit(email);
-          }}
-          loading={busyProvider === "email"}
-          disabled={disabled}
-          onExpand={onFieldExpand}
-        />}
-        {openFlow === "phone" && (
-          <PhoneLoginFlow startOpen onSubmit={onPhoneSubmit} loading={busyProvider === "phone"} disabled={disabled} onExpand={onFieldExpand} />
-        )}
-        {openFlow === "wallet" && (
-          <View style={{ gap: 10 }}>
-            {onConnectWallet && isWalletConnectAvailable && (
-              <AuthButton icon="wallet" label={t("loginModal.connectWallet", "Connect Wallet")} onPress={onConnectWallet} disabled={disabled} loading={busyProvider === "wallet"} />
-            )}
-            <AuthButton icon="key" label={t("auth.importWallet", "Import Wallet")} onPress={() => setImportVisible(true)} disabled={disabled} />
-          </View>
-        )}
-        {openFlow === "passkey" && passkeyReady && (
-          <PasskeyLoginFlow startOpen compact onSignIn={onPasskeySignIn!} onSignUp={onPasskeySignUp!} busy={busyProvider === "passkey-signin" ? "signin" : busyProvider === "passkey-signup" ? "signup" : null} disabled={disabled} error={passkeyError} suggestCreate={passkeySuggestCreate} />
-        )}
-        </View>
-
-        <View style={styles.divider}>
-          <View style={styles.rule} />
-          <Text style={styles.dividerText}>{t("loginStack.orContinueWith", "or continue with")}</Text>
-          <View style={styles.rule} />
-        </View>
-
-        <View style={styles.row}>
-          <OptionDisc
-            label={BRAND_NAMES.google}
-            onPress={onGoogle}
-            disabled={disabled}
-            loading={busyProvider === "google"}
-            renderIcon={(c, sz) => <SvgXml xml={googleIcon("currentColor")} color={c} width={sz} height={sz} />}
-          />
-          <OptionDisc
-            label={BRAND_NAMES.apple}
-            onPress={onApple}
-            disabled={disabled}
-            loading={busyProvider === "apple"}
-            renderIcon={(c, sz) => <SvgXml xml={appleIcon("currentColor")} color={c} width={sz} height={sz} />}
-          />
-          {openFlow === "phone" ? emailDisc : (
-            <OptionDisc
-              label={t("loginStack.phone", "Phone")}
-              onPress={() => toggleFlow("phone")}
-              disabled={disabled}
-              loading={busyProvider === "phone"}
-              renderIcon={(c, sz) => <Ionicons name="call" color={c} size={sz - 2} />}
-            />
-          )}
-          {passkeyReady && (openFlow === "passkey" ? emailDisc : (
-            <OptionDisc
-              label={t("loginStack.fingerprint", "Bio")}
-              onPress={() => toggleFlow("passkey")}
-              disabled={disabled}
-              loading={busyProvider === "passkey-signin" || busyProvider === "passkey-signup"}
-              renderIcon={(c, sz) => <Ionicons name="finger-print" color={c} size={sz} />}
-            />
-          ))}
-          {onTelegram && (
-            <OptionDisc
-              label={BRAND_NAMES.telegram}
-              onPress={onTelegram}
-              disabled={disabled}
-              loading={busyProvider === "telegram"}
-              renderIcon={(c, sz) => <SvgXml xml={telegramIcon("currentColor")} color={c} width={sz} height={sz} />}
-            />
-          )}
-          {/* One way in for every wallet: connect one or import a key, both
-              under this button. */}
-          {openFlow === "wallet" ? emailDisc : (
-            <OptionDisc
-              label={t("nav.wallet", "Wallet")}
-              onPress={() => toggleFlow("wallet")}
-              disabled={disabled}
-              loading={busyProvider === "wallet"}
-              renderIcon={(c, sz) => <Ionicons name="wallet" color={c} size={sz - 2} />}
-            />
-          )}
-        </View>
-
-        {/* Built on first use: a closed native Modal still costs a mount in
-            the frame the sign-in sheet opens on. */}
-        {(importVisible || importUsed) && <ImportWalletModal visible={importVisible} onClose={() => setImportVisible(false)} />}
-      </View>
-    );
-  }
-
+  // The open method's disc turns into Email, so the row keeps the same
+  // shape and switching back is the same tap in the same place.
+  const emailDisc = (
+    <OptionDisc
+      label={t("loginStack.email", "Email")}
+      onPress={() => { Keyboard.dismiss(); setOpenFlow(null); }}
+      disabled={disabled}
+      renderIcon={(c, sz) => <Ionicons name="mail" color={c} size={sz - 2} />}
+    />
+  );
   return (
-    <View style={{ width: "100%", gap: 12 }}>
-      <EmailLoginFlow
+    <View style={{ width: "100%", gap: 18 }}>
+      <View style={{ minHeight: 124, gap: 8 }}>
+      {openFlow === null && <EmailLoginFlow
+        startOpen
         onSubmit={(_provider, email) => {
           if (email) onEmailSubmit(email);
         }}
         loading={busyProvider === "email"}
         disabled={disabled}
         onExpand={onFieldExpand}
-      />
-
-      {passkeyReady && (
-        <PasskeyLoginFlow
-          onSignIn={onPasskeySignIn!}
-          onSignUp={onPasskeySignUp!}
-          busy={busyProvider === "passkey-signin" ? "signin" : busyProvider === "passkey-signup" ? "signup" : null}
-          disabled={disabled}
-          error={passkeyError}
-          suggestCreate={passkeySuggestCreate}
-        />
+      />}
+      {openFlow === "phone" && (
+        <PhoneLoginFlow startOpen onSubmit={onPhoneSubmit} loading={busyProvider === "phone"} disabled={disabled} onExpand={onFieldExpand} />
       )}
-
-      <AuthButton
-        label={t("loginModal.continueGoogle", "Continue with Google")}
-        onPress={onGoogle}
-        disabled={disabled}
-        loading={busyProvider === "google"}
-        renderIcon={(color, size) => (
-          <SvgXml xml={googleIcon(color)} width={size} height={size} />
-        )}
-      />
-
-      <AuthButton
-        label={t("loginModal.continueApple", "Continue with Apple")}
-        onPress={onApple}
-        disabled={disabled}
-        loading={busyProvider === "apple"}
-        renderIcon={(color, size) => (
-          <SvgXml xml={appleIcon(color)} width={size} height={size} />
-        )}
-      />
-
-      {onTelegram && (
-        <AuthButton
-          label={t("loginModal.continueTelegram", "Continue with Telegram")}
-          onPress={onTelegram}
-          disabled={disabled}
-          loading={busyProvider === "telegram"}
-          renderIcon={(color, size) => (
-            <SvgXml xml={telegramIcon(color)} width={size} height={size} />
+      {openFlow === "wallet" && (
+        <View style={{ gap: 10 }}>
+          {onConnectWallet && isWalletConnectAvailable && (
+            <AuthButton icon="wallet" label={t("loginModal.connectWallet", "Connect Wallet")} onPress={onConnectWallet} disabled={disabled} loading={busyProvider === "wallet"} />
           )}
-        />
+          <AuthButton icon="key" label={t("auth.importWallet", "Import Wallet")} onPress={() => setImportVisible(true)} disabled={disabled} />
+        </View>
       )}
+      {openFlow === "passkey" && passkeyReady && (
+        <PasskeyLoginFlow startOpen compact onSignIn={onPasskeySignIn!} onSignUp={onPasskeySignUp!} busy={busyProvider === "passkey-signin" ? "signin" : busyProvider === "passkey-signup" ? "signup" : null} disabled={disabled} error={passkeyError} suggestCreate={passkeySuggestCreate} />
+      )}
+      </View>
 
-      <PhoneLoginFlow
-        onSubmit={onPhoneSubmit}
-        loading={busyProvider === "phone"}
-        disabled={disabled}
-        onExpand={onFieldExpand}
-      />
+      <View style={styles.divider}>
+        <View style={styles.rule} />
+        <Text style={styles.dividerText}>{t("loginStack.orContinueWith", "or continue with")}</Text>
+        <View style={styles.rule} />
+      </View>
 
-      {/* Connect Wallet — authenticate with an external wallet app (MetaMask,
-          Trust Wallet, Coinbase Wallet, ...) via Reown/WalletConnect. Hidden
-          when AppKit could not be configured (missing REOWN_PROJECT_ID, bad
-          chain list): reown.config no longer takes the whole app down over
-          that, so the button has to answer for itself rather than open a sheet
-          that can never connect. */}
-      {onConnectWallet && isWalletConnectAvailable && (
-        <AuthButton
-          icon="wallet"
-          label={t("loginModal.connectWallet", "Connect Wallet")}
-          onPress={onConnectWallet}
+      <View style={styles.row}>
+        <OptionDisc
+          label={BRAND_NAMES.google}
+          onPress={onGoogle}
           disabled={disabled}
-          loading={busyProvider === "wallet"}
+          loading={busyProvider === "google"}
+          renderIcon={(c, sz) => <SvgXml xml={googleIcon("currentColor")} color={c} width={sz} height={sz} />}
         />
-      )}
+        <OptionDisc
+          label={BRAND_NAMES.apple}
+          onPress={onApple}
+          disabled={disabled}
+          loading={busyProvider === "apple"}
+          renderIcon={(c, sz) => <SvgXml xml={appleIcon("currentColor")} color={c} width={sz} height={sz} />}
+        />
+        {openFlow === "phone" ? emailDisc : (
+          <OptionDisc
+            label={t("loginStack.phone", "Phone")}
+            onPress={() => toggleFlow("phone")}
+            disabled={disabled}
+            loading={busyProvider === "phone"}
+            renderIcon={(c, sz) => <Ionicons name="call" color={c} size={sz - 2} />}
+          />
+        )}
+        {passkeyReady && (openFlow === "passkey" ? emailDisc : (
+          <OptionDisc
+            label={t("loginStack.fingerprint", "Bio")}
+            onPress={() => toggleFlow("passkey")}
+            disabled={disabled}
+            loading={busyProvider === "passkey-signin" || busyProvider === "passkey-signup"}
+            renderIcon={(c, sz) => <Ionicons name="finger-print" color={c} size={sz} />}
+          />
+        ))}
+        {onTelegram && (
+          <OptionDisc
+            label={BRAND_NAMES.telegram}
+            onPress={onTelegram}
+            disabled={disabled}
+            loading={busyProvider === "telegram"}
+            renderIcon={(c, sz) => <SvgXml xml={telegramIcon("currentColor")} color={c} width={sz} height={sz} />}
+          />
+        )}
+        {/* One way in for every wallet: connect one or import a key, both
+            under this button. */}
+        {openFlow === "wallet" ? emailDisc : (
+          <OptionDisc
+            label={t("nav.wallet", "Wallet")}
+            onPress={() => toggleFlow("wallet")}
+            disabled={disabled}
+            loading={busyProvider === "wallet"}
+            renderIcon={(c, sz) => <Ionicons name="wallet" color={c} size={sz - 2} />}
+          />
+        )}
+      </View>
+
+      {/* Built on first use: a closed native Modal still costs a mount in
+          the frame the sign-in sheet opens on. */}
+      {(importVisible || importUsed) && <ImportWalletModal visible={importVisible} onClose={() => setImportVisible(false)} />}
     </View>
   );
 };

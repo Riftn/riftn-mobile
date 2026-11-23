@@ -321,6 +321,9 @@ export const DeepLinkPaths = {
   // King's Gambit's online lobby. Before ARCADE_GAME, which would otherwise
   // leave the trailing /online unmatched and drop the link.
   ARCADE_CHESS_ONLINE: 'arcade/kings-gambit/online',
+  // Games with friends. Literal slugs, so before ARCADE_GAME's :slug.
+  ARCADE_CORRESPONDENCE_CHESS: 'arcade/correspondence-chess',
+  ARCADE_OKEY: 'arcade/okey',
   // Mini apps. The dev runner before the player, which would otherwise read
   // "dev" as a slug and drop the /run.
   MINI_APP_DEV: 'apps/dev/run',
@@ -534,6 +537,16 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
           [ScreenNames.Events]: DeepLinkPaths.EVENT,
 
           [ScreenNames.ArcadeChessOnline]: DeepLinkPaths.ARCADE_CHESS_ONLINE,
+
+          [ScreenNames.CorrespondenceChess]: {
+            path: DeepLinkPaths.ARCADE_CORRESPONDENCE_CHESS,
+            parse: { game: (game: string) => game },
+          },
+
+          [ScreenNames.Okey]: {
+            path: DeepLinkPaths.ARCADE_OKEY,
+            parse: { table: (table: string) => table },
+          },
 
           [ScreenNames.ArcadeGame]: {
             path: DeepLinkPaths.ARCADE_GAME,
@@ -949,7 +962,12 @@ export const ShareLinks = {
    * sold or left to expire. Web's profile header offers both for the same
    * reason, and its canonical still points at /username.
    */
-  ensProfile: (ensName: string) => `${SHARE_BASE}/${encodeURIComponent(ensName)}`,
+  // Android's legacy pathPattern matches through the first dot. The @ route
+  // also opens multi-label and mixed-case names on earlier Android releases.
+  ensProfile: (ensName: string) => {
+    const prefix = /^[^.]+\.eth$/.test(ensName) ? "/" : "/@";
+    return SHARE_BASE + prefix + encodeURIComponent(ensName);
+  },
   /** Comment on a post — dehub.io/app/post/:tokenId?c=commentId */
   comment: (tokenId: string | number, commentId: string | number) =>
     `${SHARE_BASE}/app/post/${encodeURIComponent(String(tokenId))}?c=${encodeURIComponent(String(commentId))}`,

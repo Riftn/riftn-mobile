@@ -37,22 +37,23 @@ export interface ChatProfile {
   badgeBalance?: number;
 }
 
-export function useEventChat(eventId: string | undefined, walletAddress: string | null | undefined) {
+export function useEventChat(eventId: string | undefined, walletAddress: string | null | undefined, restricted = false) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const key = useMemo(() => [QUERY_KEY, eventId], [eventId]);
+  const key = useMemo(() => [QUERY_KEY, eventId, walletAddress?.toLowerCase()], [eventId, walletAddress]);
 
   const { data: raw = [], isLoading } = useQuery({
     queryKey: key,
     enabled: !!eventId,
+    refetchInterval: restricted ? 5000 : false,
     staleTime: 30_000,
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await withWalletHeader(supabase
         .from("event_chat_messages" as any)
         .select("*")
         .eq("event_id", eventId!)
         .order("created_at", { ascending: false })
-        .limit(200);
+        .limit(200), walletAddress);
       if (error) throw error;
       // The newest 200, shown oldest first.
       return ((data || []) as unknown as EventChatMessage[]).reverse();
@@ -84,20 +85,7 @@ export function useEventChat(eventId: string | undefined, walletAddress: string 
       .on(
         "postgres_changes" as any,
         { event: "*", schema: "public", table: "event_chat_messages", filter: `event_id=eq.${eventId}` },
-        (payload: any) => {
-          queryClient.setQueryData<EventChatMessage[]>(key, (old = []) => {
-            if (payload.eventType === "INSERT") {
-              const row = payload.new as EventChatMessage;
-              return old.some((m) => m.id === row.id) ? old : [...old, row];
-            }
-            if (payload.eventType === "UPDATE") {
-              const row = payload.new as EventChatMessage;
-              return old.map((m) => (m.id === row.id ? { ...m, ...row } : m));
-            }
-            if (payload.eventType === "DELETE") return old.filter((m) => m.id !== payload.old?.id);
-            return old;
-          });
-        },
+        () => { void queryClient.invalidateQueries({ queryKey: key }); },
       )
       .subscribe((status: string) => {
         if (status === "SUBSCRIBED") queryClient.invalidateQueries({ queryKey: key });
@@ -130,48 +118,21 @@ export function useEventChat(eventId: string | undefined, walletAddress: string 
         toastError(t("copy.66b8e077d85f", { defaultValue: "Failed to send message" }));
         throw error;
       }
+      await queryClient.invalidateQueries({ queryKey: key });
     },
-    [eventId, walletAddress, t],
+    [eventId, walletAddress, queryClient, key, t],
   );
 
-  const setReactions = useCallback(
-    async (messageId: string, mutate: (r: Record<string, string[]>, me: string) => Record<string, string[]> | null) => {
-      if (!walletAddress || !eventId) return;
-      const msg = raw.find((m) => m.id === messageId);
-      if (!msg) return;
-      const next = mutate({ ...(msg.reactions || {}) }, walletAddress.toLowerCase());
-      if (!next) return;
-      queryClient.setQueryData<EventChatMessage[]>(key, (old = []) =>
-        old.map((m) => (m.id === messageId ? { ...m, reactions: next } : m)),
-      );
-      await withWalletHeader(
-        supabase.from("event_chat_messages" as any).update({ reactions: next } as any).eq("id", messageId),
-        walletAddress,
-      );
-    },
-    [raw, walletAddress, eventId, key, queryClient],
-  );
-
-  const addReaction = useCallback(
-    (messageId: string, emoji: string) =>
-      setReactions(messageId, (r, me) => {
-        const list = r[emoji] || [];
-        if (list.some((a) => a.toLowerCase() === me)) return null;
-        r[emoji] = [...list, me];
-        return r;
-      }),
-    [setReactions],
-  );
-
-  const removeReaction = useCallback(
-    (messageId: string, emoji: string) =>
-      setReactions(messageId, (r, me) => {
-        r[emoji] = (r[emoji] || []).filter((a) => a.toLowerCase() !== me);
-        if (r[emoji].length === 0) delete r[emoji];
-        return r;
-      }),
-    [setReactions],
-  );
+  const setReaction = useCallback(async (messageId: string, emoji: string, add: boolean) => {
+    if (!eventId || !walletAddress) return;
+    const { error } = await withWalletHeader(supabase.rpc('set_event_chat_reaction' as any, {
+      p_event: eventId, p_message: messageId, p_emoji: emoji, p_add: add,
+    } as any), walletAddress);
+    if (error) toastError(error);
+    await queryClient.invalidateQueries({ queryKey: key });
+  }, [eventId, walletAddress, queryClient, key]);
+  const addReaction = useCallback((id: string, emoji: string) => setReaction(id, emoji, true), [setReaction]);
+  const removeReaction = useCallback((id: string, emoji: string) => setReaction(id, emoji, false), [setReaction]);
 
   const editMessage = useCallback(
     async (messageId: string, newContent: string) => {

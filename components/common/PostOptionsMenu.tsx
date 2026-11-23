@@ -40,6 +40,8 @@ import {
 import { followUser, unfollowUser } from "../../services/user.service";
 import { blockUser, unblockUser } from "../../services/block.service";
 import { muteUser, unmuteUser } from "../../services/mute.service";
+import { setNotInterested } from "../../services/user.service";
+import { markNotInterested } from "../../libs/not-interested-store";
 
 /**
  * Who this phone muted or blocked from a post menu since the app opened.
@@ -54,7 +56,7 @@ import { WEBSITE_LINK } from "../../config";
 import { markPostDeleted } from "../../libs/deleted-posts-store";
 import { useMintExistingPost } from "../../hooks/useMintExistingPost";
 import MintChainSheet from "./MintChainSheet";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import { openWebPurchase } from "./WebPurchaseLink";
 import { useIsPostPinned, useTogglePin } from "../../hooks/usePinnedPosts";
 import { openCoAuthorSheet, useCoAuthorState } from "../../libs/coAuthors";
@@ -65,6 +67,7 @@ import { refreshLinkPreview } from "../../libs/link-preview";
 import { firstExternalUrl } from "./LinkPreviewCard";
 import { REACTION_LIST, type PostReaction } from "../../libs/reactions";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { copyMessageMedia, type CopyMediaKind } from "../../libs/copyMessageMedia";
 
 export interface PostOptionsMenuProps {
   visible: boolean;
@@ -121,7 +124,7 @@ export interface PostOptionsMenuProps {
   /** Who may reply to the post, for the edit sheet. */
   currentReplyPolicy?: "public" | "followers" | "following" | "mentioned";
   /** Who may see the post; the edit sheet can open a narrower one up to everyone. */
-  currentVisibility?: "public" | "followers" | "direct" | null;
+  currentVisibility?: "public" | "followers" | "direct" | "self" | null;
   /** Photo posts: 'comic' when it shows as collector cards. Drives the comic/carousel switch. */
   currentLayout?: "comic" | null;
   /** How many photos the post has; the switch shows for 2+ or for a comic. */
@@ -138,6 +141,12 @@ export interface PostOptionsMenuProps {
   onDeleteSuccess?: () => void;
   /** Called when user taps Send to DM */
   onSendToDm?: () => void;
+  /** Owner, photo posts: open the tagger. Same caller-owned sheet rule as onSendToDm. */
+  onTagPeople?: () => void;
+  /** Someone tagged on this post's photos: take their own tag off. */
+  onRemoveMyTag?: () => void;
+  /** Owner: add a quiz to the post. */
+  onAddQuiz?: () => void;
   /**
    * Called when the owner taps Boost.
    *
@@ -190,6 +199,7 @@ export interface PostOptionsMenuProps {
    */
   onToggleSave?: () => void;
   onDownloadVideo?: () => void;
+  onDownloadImage?: () => void;
   /** Video posts: offers "Cast to TV" (AirPlay on iPhone, screen cast on Android). */
   canCast?: boolean;
   /** Live streams: opens the clip editor on the last minute ("Clip this moment"). */
@@ -223,6 +233,7 @@ export interface PostOptionsMenuProps {
    * post opens this menu, so everything you can do to a post is in one place.
    */
   quick?: QuickActions;
+  copyMedia?: CopyMediaRow;
 }
 
 export interface QuickActions {
@@ -238,6 +249,16 @@ export interface QuickActions {
   text?: string | null;
   /** Your own text post or article on your profile: its look picker. */
   look?: PostLookRow;
+}
+
+/**
+ * Copy image / GIF / video. Open posts only: a paid, locked or hidden one
+ * leaves it out. `url` runs on the press, so a gallery copies the photo on
+ * screen right then.
+ */
+export interface CopyMediaRow {
+  kind: CopyMediaKind;
+  url: () => string | null | undefined;
 }
 
 export interface PostLookRow {
@@ -411,6 +432,9 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onEditSuccess,
   onDeleteSuccess,
   onSendToDm,
+  onTagPeople,
+  onRemoveMyTag,
+  onAddQuiz,
   onBoostPress,
   onGiftBoostPress,
   onTranslatePress,
@@ -422,13 +446,15 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   isSaved = false,
   onToggleSave,
   onDownloadVideo,
+  onDownloadImage,
   canCast = false,
   onClip,
   onRemix,
   onInfoPress,
   onAskAi,
   linkText,
-  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,}) => {
+  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,  copyMedia,}) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
   const coAuthors = useCoAuthorState(tokenId, post);
@@ -647,7 +673,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   }, [openSubModal]);
 
   const handleEditDone = useCallback(
-    (data: { name?: string; description?: string; category?: string[]; commentsDisabled?: boolean; contentRating?: string; forKids?: boolean; shopLinks?: ShopLink[]; shopListingCount?: number; visibility?: "public" }) => {
+    (data: { name?: string; description?: string; category?: string[]; commentsDisabled?: boolean; contentRating?: string; forKids?: boolean; shopLinks?: ShopLink[]; shopListingCount?: number; visibility?: "public" | "followers" | "self" }) => {
       setShowEdit(false);
       onEditSuccess?.(data);
     },
@@ -694,6 +720,23 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
       }
     });
   }, [requireAuth, onClose, creatorIdentifier, creatorKey, isMuted, creatorDisplayName, onMuteChange, t]);
+
+  /** "Not interested": the card leaves now, and Home shows fewer like it. */
+  const handleNotInterested = useCallback(() => {
+    requireAuth?.(async () => {
+      const id = Number(tokenId);
+      if (!Number.isFinite(id) || id <= 0) return;
+      onClose();
+      try {
+        await setNotInterested(id);
+        markNotInterested(id);
+        toastSuccess(t("postOptions.notInterestedDone"));
+      } catch (e) {
+        console.error("[PostOptionsMenu] not interested error", e);
+        toastError(t("common.tryAgain"));
+      }
+    });
+  }, [requireAuth, onClose, tokenId, t]);
 
   const handleConfirmBlock = useCallback(async () => {
     if (!creatorIdentifier) return;
@@ -780,6 +823,25 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           {!!onClip && (
             <OptionRow icon="Scissors" label={t("liveClips.button", { defaultValue: "Clip this moment" })}
               onPress={() => { onClose(); onClip(); }} />
+          )}
+          {!!copyMedia && (
+            <OptionRow
+              icon={copyMedia.kind === "video" ? "Video" : "Images"}
+              label={copyMedia.kind === "video"
+                ? t("postOptions.copyVideo", { defaultValue: "Copy video" })
+                : copyMedia.kind === "gif"
+                  ? t("postOptions.copyGif", { defaultValue: "Copy GIF" })
+                  : t("postOptions.copyImage", { defaultValue: "Copy image" })}
+              onPress={() => {
+                onClose();
+                const url = copyMedia.url();
+                if (url) void copyMessageMedia(url, copyMedia.kind);
+              }}
+            />
+          )}
+          {!!onDownloadImage && (
+            <OptionRow icon="Download" label={t("player.downloadImage")}
+              onPress={() => { onClose(); onDownloadImage(); }} />
           )}
           {!!onDownloadVideo && (
             <OptionRow icon="Download" label={t("postOptions.download")}
@@ -889,6 +951,32 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             />
           )}
 
+          {!!onTagPeople && (
+            <OptionRow
+              icon="UserRound"
+              label={t("photoTags.title")}
+              sublabel={t("photoTags.hint")}
+              onPress={() => { onClose(); setTimeout(() => onTagPeople(), 300); }}
+            />
+          )}
+
+          {!!onAddQuiz && (
+            <OptionRow
+              icon="Trophy"
+              label={t("quiz.add")}
+              sublabel={t("quiz.editorHint")}
+              onPress={() => { onClose(); setTimeout(() => onAddQuiz(), 300); }}
+            />
+          )}
+
+          {!!onRemoveMyTag && (
+            <OptionRow
+              icon="UserMinus"
+              label={t("photoTags.removeMe")}
+              onPress={() => { onClose(); onRemoveMyTag(); }}
+            />
+          )}
+
           {/* Translate text */}
           {!!onTranslatePress && (
             <OptionRow
@@ -982,7 +1070,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
               )}
               {/* Only for posts published off-chain — 'signed' is the status
                   the backend keeps them at for life. */}
-              {postStatus === "signed" && tokenId != null && purchaseOfferVisible() && (
+              {postStatus === "signed" && tokenId != null && showPurchaseOffer && (
                 <OptionRow
                   icon="Gem"
                   label={t("upload.mintPost")}
@@ -1043,6 +1131,15 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
                   destructive red: it is the one most people actually want, and
                   it severs nothing. Only shown when not already blocked —
                   muting someone you have blocked would change nothing. */}
+              {Number(tokenId) > 0 && (
+                <OptionRow
+                  icon="EyeOff"
+                  label={t("postOptions.notInterested")}
+                  sublabel={t("postOptions.notInterestedHint")}
+                  onPress={handleNotInterested}
+                />
+              )}
+
               {!isBlocked && (
                 <OptionRow
                   icon={isMuted ? "Volume2" : "VolumeX"}

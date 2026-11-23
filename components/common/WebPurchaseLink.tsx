@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { KitButton } from "../page/PageKit";
 import { WEBSITE_LINK } from "../../config/links";
-import { iosWebPurchaseLinkAllowed } from "../../config/storefront";
+import { iosWebPurchaseLinkAllowed, IS_APP_STORE_BUILD, usePurchaseOfferVisible } from "../../config/storefront";
 
 /** Full riftn.com URL for a site path such as "/app/buy". */
 export function webPurchaseUrl(path: string): string {
@@ -45,7 +45,8 @@ export default function WebPurchaseLink({
   onOpened?: () => void;
 }) {
   const { t } = useTranslation();
-  if (!iosWebPurchaseLinkAllowed()) return null;
+  const available = usePurchaseOfferVisible();
+  if (!IS_APP_STORE_BUILD || !available) return null;
   return (
     <KitButton
       variant={variant}

@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Modal,
+  Alert,
   Platform,
   TouchableOpacity,
   ScrollView,
@@ -15,6 +16,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { shareWithRef } from "../../libs/shareRef";
 import SmartImage from "../common/SmartImage";
 import { storageImage } from "../../libs/cdnImage";
@@ -33,6 +35,7 @@ import type { SpaceParticipant, RaiseHandRequest, FloatingReaction } from "../..
 import { VOICE_EFFECTS, sameWallet } from "../../hooks/useStages";
 import { ShareLinks } from "../../navigation/linking.config";
 import StageSoundboard from "./StageSoundboard";
+import StageMusicDeck from "./StageMusicDeck";
 import StageScreenShare from "./StageScreenShare";
 import { useBookBoost, useSuperpowers } from "../../hooks/useSuperpowers";
 import { toastError, toastSuccess } from "../../libs";
@@ -406,19 +409,43 @@ const LiveStageModal: React.FC = () => {
 
   const [ttsText, setTtsText] = useSurfaceDraft("components/Stages/LiveStageModal.tsx:ttsText", "");
   const [selectedVoiceId, setSelectedVoiceId] = useState("");
+  const speakerTools = useRef<ScrollView>(null);
+  const speechFocused = useRef(false);
+  const revealSpeechInput = () => {
+    if (speechFocused.current) speakerTools.current?.scrollToEnd({ animated: false });
+  };
+  const sendSpeech = async () => {
+    const submitted = ttsText;
+    if (await generateTts(submitted, selectedVoiceId)) setTtsText.complete(submitted, "");
+  };
+
 
   const spaceTitle = currentSpace?.title ?? "";
   const { t } = useTranslation();
+  const [dmStageId, setDmStageId] = useState<string | null>(null);
+  useEffect(() => {
+    if (!isModalOpen) setDmStageId(null);
+  }, [isModalOpen]);
+
   const handleShare = useCallback(() => {
     if (!currentSpace) return;
     // The link is the point. This used to send "Join me on Riftn Stages" and
     // nothing to tap; it is the same link the stage cards share.
-    shareWithRef(
+    const shareLink = () => shareWithRef(
       { message: `${t("stages.joinMe", { title: spaceTitle })}\n\n${ShareLinks.stage(currentSpace)}`, title: spaceTitle },
       undefined,
       "stage",
     ).catch(() => {});
-  }, [currentSpace, spaceTitle, t]);
+    if (!user) {
+      void shareLink();
+      return;
+    }
+    Alert.alert(t("stages.share"), undefined, [
+      { text: t("feedCard.sendInMessage"), onPress: () => setDmStageId(currentSpace.id) },
+      { text: t("communities.shareLink"), onPress: shareLink },
+      { text: t("common.cancel"), style: "cancel" },
+    ]);
+  }, [currentSpace, spaceTitle, t, user]);
 
   // Front Row is the Blue Whale rung. `status.powers` decides whether this
   // account has it — the badge the client draws from a live wallet read
@@ -698,6 +725,9 @@ const LiveStageModal: React.FC = () => {
         )}
 
         <ScrollView
+          ref={speakerTools}
+          onLayout={revealSpeechInput}
+          onContentSizeChange={revealSpeechInput}
           style={{ flex: 1, minHeight: 0 }}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 20, paddingBottom: 20 }}
@@ -907,6 +937,9 @@ const LiveStageModal: React.FC = () => {
 
         {/* Soundboard (host/speaker only) — clips ride the same channel
             injection TTS uses, so listeners hear them even while muted. */}
+        {/* Host's own songs, played to the room (radio shows open with it out). */}
+        {isHostRole && <StageMusicDeck />}
+
         {canSpeak && <StageSoundboard />}
 
         {/* TTS (host/speaker only) */}
@@ -964,6 +997,8 @@ const LiveStageModal: React.FC = () => {
             <View style={{ flexDirection: "row", gap: 8, alignItems: "flex-end" }}>
               <View style={{ flex: 1 }}>
                 <TextInput
+                  onFocus={() => { speechFocused.current = true; revealSpeechInput(); }}
+                  onBlur={() => { speechFocused.current = false; }}
                   value={ttsText}
                   onChangeText={t => setTtsText(t.slice(0, 500))}
                   placeholder={t("stages.ttsPlaceholder")}
@@ -986,11 +1021,7 @@ const LiveStageModal: React.FC = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => {
-                  if (ttsVoices.length === 0) { fetchTtsVoices(); return; }
-                  const vid = selectedVoiceId || ttsVoices[0]?.voice_id;
-                  if (vid) generateTts(ttsText, vid);
-                }}
+                onPress={sendSpeech}
                 disabled={isTtsGenerating || !ttsText.trim()}
                 style={{
                   width: 44, height: 44, borderRadius: 12,
@@ -1140,6 +1171,10 @@ const LiveStageModal: React.FC = () => {
         </View>
         </KeyboardAvoidingView>
       </View>
+      {dmStageId === currentSpace.id && (
+          <ShareToDmSheet visible url={ShareLinks.stage(currentSpace)} postTitle={spaceTitle}
+            onClose={() => setDmStageId(null)} />
+      )}
     </Modal>
   );
 };

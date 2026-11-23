@@ -28,5 +28,7 @@ def notificationsVersion = new groovy.json.JsonSlurper().parse(
 dependencies {
   compileOnly "host.exp.exponent:expo.modules.notifications:${notificationsVersion}"
   compileOnly 'com.google.firebase:firebase-messaging:25.0.1'
+  implementation 'androidx.work:work-runtime-ktx:2.10.1'
+  implementation 'com.facebook.react:react-android'
   implementation 'androidx.core:core:1.17.0'
 }

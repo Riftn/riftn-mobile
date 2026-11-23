@@ -23,7 +23,7 @@ import { writeContractAA } from '../../libs/aa.write';
 import { copyToClipboard } from '../../libs/clipboard.utils';
 import { toastInfo, toastSuccess } from '../../libs/toast';
 import { ScreenNames } from '../../navigation/ScreenNames';
-import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from '../../config/storefront';
+import { DIGITAL_PURCHASES_ENABLED, useWebPurchaseLinkAllowed } from '../../config/storefront';
 import { openWebPurchase } from '../common/WebPurchaseLink';
 import { FIELD_TEXT } from '../../theme/inputs';
 import TradeSheet from './TradeSheet';
@@ -71,6 +71,7 @@ function AddressQr({ address }: { address: string }) {
 }
 
 export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; onStake: () => void }) {
+  const webCheckoutAllowed = useWebPurchaseLinkAllowed();
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
   const user = useUser();
@@ -145,7 +146,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <Action label={t('wallet.send')} icon="Send" onPress={() => (appTokensOn ? setAppSend(true) : openSend(funded))} />
           {/* Buying, staking, bridging and trading are not offered in the App
               Store build (config/storefront, guideline 3.1.1). */}
-          {!DIGITAL_PURCHASES_ENABLED && iosWebPurchaseLinkAllowed() && (
+          {!DIGITAL_PURCHASES_ENABLED && webCheckoutAllowed && (
             <Action label={t('wallet.buy')} icon="ShoppingCart" onPress={() => { openWebPurchase('/app/buy'); }} />
           )}
           {DIGITAL_PURCHASES_ENABLED && <>

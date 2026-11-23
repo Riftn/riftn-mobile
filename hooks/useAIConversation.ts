@@ -24,6 +24,8 @@ import { useDraftConversation } from './useDraftConversation';
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { sha256 } from '@noble/hashes/sha256';
+import { bytesToHex, utf8ToBytes } from '@noble/hashes/utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../services/supabase';
 import { withWalletHeader } from '../libs/supabase-wallet-client';
@@ -47,6 +49,7 @@ export interface ConversationEntry {
 
 export interface ConversationData {
   messages: AIChatMessage[];
+  mirrored?: number;
   postContext?: AIPostContext;
   remoteId?: string;
 }
@@ -209,23 +212,30 @@ async function persistMediaUrl(
   }
 }
 
+// Stable UUIDs let Postgres acknowledge a retry whose first response was lost.
+function mirrorId(...parts: (string | number)[]): string {
+  const bytes = sha256(utf8ToBytes(JSON.stringify(parts))).slice(0, 16);
+  bytes[6] = (bytes[6] & 15) | 0x80;
+  bytes[8] = (bytes[8] & 63) | 0x80;
+  const hex = bytesToHex(bytes);
+  return [hex.slice(0, 8), hex.slice(8, 12), hex.slice(12, 16), hex.slice(16, 20), hex.slice(20)].join("-");
+}
+
 async function createRemoteConversation(
   wallet: string,
   firstMessage: string,
+  localId: string,
 ): Promise<string | null> {
   try {
     const title =
       firstMessage.length > 50 ? `${firstMessage.substring(0, 50)}...` : firstMessage;
-    const { data, error } = await withWalletHeader(
-      supabase
-        .from('ai_conversations')
-        .insert({ wallet_address: wallet.toLowerCase(), title })
-        .select('id')
-        .single(),
-      wallet,
+    const id = mirrorId("conversation", wallet.toLowerCase(), localId);
+    const { error } = await withWalletHeader(
+      supabase.from('ai_conversations').upsert({ id, wallet_address: wallet.toLowerCase(), title },
+        { onConflict: 'id', ignoreDuplicates: true }), wallet,
     );
     if (error) throw error;
-    return data?.id ?? null;
+    return id;
   } catch (err) {
     log.error('remote conversation create failed:', err);
     return null;
@@ -236,7 +246,8 @@ async function appendRemoteMessage(
   wallet: string,
   remoteId: string,
   message: AIChatMessage,
-): Promise<void> {
+  position: number,
+): Promise<boolean> {
   try {
     const [imageUrl, videoUrl, audioUrl, attachedImage] = await Promise.all([
       persistMediaUrl(message.imageUrl, 'image'),
@@ -246,7 +257,8 @@ async function appendRemoteMessage(
     ]);
 
     const { error } = await withWalletHeader(
-      supabase.from('ai_messages').insert({
+      supabase.from('ai_messages').upsert({
+        id: mirrorId(remoteId, message.id ?? position),
         conversation_id: remoteId,
         role: message.role,
         // The column is NOT NULL and an image-only turn has no text, which is
@@ -256,7 +268,7 @@ async function appendRemoteMessage(
         video_url: videoUrl,
         audio_url: audioUrl,
         attached_image: attachedImage,
-      }),
+      }, { onConflict: "id", ignoreDuplicates: true }),
       wallet,
     );
     if (error) throw error;
@@ -268,8 +280,10 @@ async function appendRemoteMessage(
         .eq('id', remoteId),
       wallet,
     );
+    return true;
   } catch (err) {
     log.error('remote message append failed:', err);
+    return false;
   }
 }
 
@@ -536,11 +550,19 @@ export function useAIConversation(userId: string, surface = 'assistant') {
         setMessages(data.messages);
         setPostContext(data.postContext);
         remoteIdRef.current = data.remoteId ?? entry.remoteId ?? null;
-        mirroredCountRef.current = data.messages.length;
+        mirroredCountRef.current = data.mirrored ?? (remoteIdRef.current ? data.messages.length : 0);
+        if (signedIn && mirroredCountRef.current < data.messages.length) {
+          const context = { id: entry.id, remote: remoteIdRef.current, mirrored: mirroredCountRef.current };
+          const current = () => isMounted.current && version === selectionVersion.current;
+          const replay = () => current()
+            ? persistRef.current(data.messages, entry.id, current, context, userId, data.postContext)
+            : Promise.resolve();
+          saveQueue.current = saveQueue.current.then(replay, replay).catch(err => log.warn('Mirror retry failed', err));
+        }
       }
       } finally { if (isMounted.current && version === selectionVersion.current) setRestoring(false); }
     },
-    [userId, updateConversationId],
+    [userId, signedIn, updateConversationId],
   );
 
   const restoreId = useRef(conversationId);
@@ -606,17 +628,16 @@ export function useAIConversation(userId: string, surface = 'assistant') {
           writeContext.remote = await createRemoteConversation(
             userId,
             firstUser?.content || 'New conversation',
+            cid,
           );
         }
         if (writeContext.remote) {
           for (const message of newlyAdded) {
-            await appendRemoteMessage(userId, writeContext.remote, message);
+            if (!await appendRemoteMessage(userId, writeContext.remote, message, writeContext.mirrored)) break;
+            writeContext.mirrored++;
           }
         }
       }
-      // Count them as mirrored either way: a failed upload must not queue the
-      // same turn again on the next keystroke.
-      writeContext.mirrored = newMessages.length;
       if (isCurrent()) {
         remoteIdRef.current = writeContext.remote;
         mirroredCountRef.current = writeContext.mirrored;
@@ -626,6 +647,7 @@ export function useAIConversation(userId: string, surface = 'assistant') {
         messages: await slimForStorage(newMessages, dataUrlFilesRef.current),
         postContext,
         remoteId: writeContext.remote ?? undefined,
+        mirrored: writeContext.mirrored,
       });
 
       const index = await readIndex(userId);

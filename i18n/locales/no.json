@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Omslag", "trim": "Trim", "mirror": "Speilvend", "rotate": "Roter", "hide": "Skjul", "timer": "Tidtaker", "close": "Lukk", "photo": "Bilde", "remove": "Fjern", "pause": "Pause", "play": "Spill av video", "hiddenUntilTap": "Skjult til de trykker på den", "scrub": "Skroll gjennom videoen", "addMore": "Legg til bilder eller videoer", "coverAria": "Trykk på en ramme for å velge omslag", "trimHint": "Dra i endene for å trimme", "coverHint": "Trykk på en ramme for å gjøre det til omslag", "uploadCover": "Last opp et omslagsbilde", "mirrored": "Speilvendt", "original": "Original", "rotate90": "Roter 90°", "timerOff": "Av", "showNormally": "Vis normalt", "showNormallyBody": "De ser det med en gang", "hideUntilTap": "Skjul til det trykkes på", "hideUntilTapBody": "Uskarpt til de trykker på det", "hidePrice": "Skjul bak en pris", "hidePriceBody": "Uskarpt til de betaler deg", "priceUnavailable": "Ikke i denne chatten", "priceLabelUsd": "Pris", "priceHint": "De ser det uskarpt helt til de betaler deg. Låste elementer er ikke ende-til-ende-kryptert.", "timerOffBody": "Det blir værende i chatten.", "timerViewBody": "Borte for dere begge når de har sett det.", "confirm": "Bekreft", "editItem": "Rediger element {{value1}}", "coverSet": "Omslag på {{value1}}", "lockedForUsd": "Lås opp for {{value1}}", "timerTimeBody": "Borte for dere begge {{value1}} etter at du har sendt det."},
+  "dmVideo": {
+    "cover": "Omslag",
+    "trim": "Trim",
+    "mirror": "Speilvend",
+    "rotate": "Roter",
+    "hide": "Skjul",
+    "timer": "Tidtaker",
+    "close": "Lukk",
+    "photo": "Bilde",
+    "remove": "Fjern",
+    "pause": "Pause",
+    "play": "Spill av video",
+    "hiddenUntilTap": "Skjult til de trykker på den",
+    "scrub": "Skroll gjennom videoen",
+    "addMore": "Legg til bilder eller videoer",
+    "coverAria": "Trykk på en ramme for å velge omslag",
+    "trimHint": "Dra i endene for å trimme",
+    "coverHint": "Trykk på en ramme for å gjøre det til omslag",
+    "uploadCover": "Last opp et omslagsbilde",
+    "mirrored": "Speilvendt",
+    "original": "Original",
+    "rotate90": "Roter 90°",
+    "timerOff": "Av",
+    "showNormally": "Vis normalt",
+    "showNormallyBody": "De ser det med en gang",
+    "hideUntilTap": "Skjul til det trykkes på",
+    "hideUntilTapBody": "Uskarpt til de trykker på det",
+    "hidePrice": "Skjul bak en pris",
+    "hidePriceBody": "Uskarpt til de betaler deg",
+    "priceUnavailable": "Ikke i denne chatten",
+    "priceLabelUsd": "Pris",
+    "priceHint": "De ser det uskarpt helt til de betaler deg. Låste elementer er ikke ende-til-ende-kryptert.",
+    "timerOffBody": "Det blir værende i chatten.",
+    "timerViewBody": "Borte for dere begge når de har sett det.",
+    "confirm": "Bekreft",
+    "editItem": "Rediger element {{value1}}",
+    "coverSet": "Omslag på {{value1}}",
+    "lockedForUsd": "Lås opp for {{value1}}",
+    "timerTimeBody": "Borte for dere begge {{value1}} etter at du har sendt det.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 time",
+      "43200": "12 timer",
+      "86400": "1 dag",
+      "604800": "1 uke",
+      "31536000": "1 år",
+      "view": "1 visning"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1t",
+      "43200": "12t",
+      "86400": "1d",
+      "604800": "1u",
+      "31536000": "1å",
+      "view": "1 visning"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Kant",
     "theme": "Tema",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Hold og dra et hvilket som helst ikon for å omorganisere",
+    "reorderHintGroups": "Hold inne og dra et ikon for å omorganisere, eller slipp det på en annen fane for å flytte det",
+    "moveGroupHint": "Slipp i en annen fane for å flytte den dit",
     "reorderReset": "Tilbakestill",
     "groups": {
       "create": "Opprett",
@@ -7025,6 +7086,17 @@
       "moveRuleDown": "Flytt regel ned",
       "deleteRule": "Slett regel",
       "rights": {
+        "sendMessages": "Send meldinger",
+        "sendMessagesHint": "Post i samfunnschatten",
+        "sendMedia": "Send media",
+        "sendMediaHint": "Bilddokumenter og GIF-er",
+        "embedLinks": "Innbygging av lenker",
+        "embedLinksHint": "Vis lenke-forevisninger",
+        "addMembers": "Legg til medlemmer",
+        "addMembersHint": "Del samfunnet med andre",
+        "createEvents": "Opprett hendelser",
+        "createEventsHint": "Planlegg samfunnsarrangementer",
+        "changeInfoMemberHint": "Rediger fellesskapsnavnet og beskrivelsen",
         "changeInfo": "Endre fellesskapsinfo",
         "changeInfoHint": "Rediger navn, beskrivelse, avatar og banner",
         "deleteMessages": "Slett meldinger",
@@ -7102,12 +7174,41 @@
       "noInvites": "Ingen invitasjonslenker ennå. Lag en for å invitere folk direkte.",
       "permissionsUpdated": "Tilleggstillatelse oppdatert",
       "slowModeUpdated": "Sakte modus oppdatert",
+      "slowMode": {
+        "off": "Av",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30-årene",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 time"
+      },
       "slowModeOffHint": "Medlemmer kan sende meldinger uten forsinkelse.",
       "slowModeOnHint": "Medlemmer kan sende en melding hver {{label}}. Administrere er utesluttet.",
       "defaultPermissions": "Standard medlemstillatelse",
       "defaultPermissionsHint": "Det som alle kan gjøre her, med mindre en administratørstillatelse sier noe annet.",
       "slowModeTitle": "Sakte modus",
       "log": {
+        "verbs": {
+          "promote_admin": "forfremmet",
+          "demote_admin": "nedgradert",
+          "transfer_ownership": "overførte eierskap til",
+          "ban_member": "utestengt",
+          "unban_member": "ikke-bant",
+          "kick_member": "Fjernet",
+          "mute_member": "dempet",
+          "unmute_member": "dempet",
+          "approve_member": "godkjent",
+          "reject_member": "avvist",
+          "delete_message": "slettet en melding fra",
+          "purge_messages": "slettet alle meldinger fra",
+          "pin_message": "pinned en melding fra",
+          "unpin_message": "Uppinned en melding fra",
+          "update_settings": "oppdatert fellesinnstillinger",
+          "create_invite": "opprettet en invitasjonsside",
+          "revoke_invite": "opphevet en invitasjonslenke",
+          "invite_used": "Invitert"
+        },
         "justNow": "nå",
         "minutesAgo": "{{value}}m siden",
         "hoursAgo": "{{value}}h siden",
@@ -13564,53 +13665,52 @@
     "cinema": {
       "close": "Lukk",
       "performance": {
-        "label": "Ytelse",
         "0": "Glad",
         "1": "Melankolsk",
         "2": "Engstelig",
         "3": "Selvsikker",
         "4": "Ærefryktig",
         "5": "Behersket",
-        "6": "Leken"
+        "6": "Leken",
+        "label": "Ytelse"
       },
       "title": "Filmregi",
       "hint": "Styr den visuelle stilen på ditt neste bilde eller video. Resultatene varierer etter modell.",
       "none": "Ingen regi",
       "reset": "Fjern regi",
       "camera": {
-        "label": "Kamerautseende",
         "0": "Digital kino",
         "1": "35 mm film",
         "2": "16 mm film",
         "3": "Storformat",
-        "4": "Retro-videokamera"
+        "4": "Retro-videokamera",
+        "label": "Kamerautseende"
       },
       "lens": {
-        "label": "Objektivpreg",
         "0": "Sfærisk",
         "1": "Anamorfisk",
         "2": "Mykt vintageglass",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektivpreg"
       },
       "focalLength": {
-        "label": "Brennvidde",
         "0": "18 mm vidvinkel",
         "1": "24 mm vidvinkel",
         "2": "35 mm naturlig",
         "3": "50 mm standard",
         "4": "85 mm portrett",
-        "5": "135 mm tele"
+        "5": "135 mm tele",
+        "label": "Brennvidde"
       },
       "aperture": {
-        "label": "Dybdeskarphet",
         "0": "f/1.4 svært grunn",
         "1": "f/2.8 grunn",
         "2": "f/5.6 moderat",
-        "3": "f/11 dyp fokus"
+        "3": "f/11 dyp fokus",
+        "label": "Dybdeskarphet"
       },
       "movement": {
-        "label": "Kamerabevegelse",
         "0": "Fast stativ",
         "1": "Langsom dolly inn",
         "2": "Langsom dolly ut",
@@ -13618,27 +13718,27 @@
         "4": "Kretse rundt motivet",
         "5": "Håndholdt",
         "6": "Kranløft",
-        "7": "Langsom panorering"
+        "7": "Langsom panorering",
+        "label": "Kamerabevegelse"
       },
       "lighting": {
-        "label": "Lys",
         "0": "Mykt dagslys",
         "1": "Gyllen time",
         "2": "Mørk chiaroscuro",
         "3": "Lyst studio",
         "4": "Neonlys i bildet",
         "5": "Silhuett i motlys",
-        "6": "Diffust overskyet"
+        "6": "Diffust overskyet",
+        "label": "Lys"
       },
       "tempo": {
-        "label": "Opptakstempo",
         "0": "Ett sammenhengende opptak",
         "1": "Rolig, avslappet handling",
         "2": "Dynamisk, energisk handling",
-        "3": "Kaotisk, hektisk handling"
+        "3": "Kaotisk, hektisk handling",
+        "label": "Opptakstempo"
       },
       "era": {
-        "label": "Epoke",
         "0": "1920-tallet",
         "1": "1950-tallet",
         "2": "1960-tallet",
@@ -13646,10 +13746,10 @@
         "4": "1980-tallet",
         "5": "1990-tallet",
         "6": "I dag",
-        "7": "Nær fremtid"
+        "7": "Nær fremtid",
+        "label": "Epoke"
       },
       "genre": {
-        "label": "Sjanger",
         "0": "Dokumentar",
         "1": "Drama",
         "2": "Film noir",
@@ -13657,16 +13757,17 @@
         "4": "Fantasy",
         "5": "Romantisk komedie",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Sjanger"
       },
       "palette": {
-        "label": "Fargepalett",
         "0": "Varm rav",
         "1": "Kjølig blå",
         "2": "Dempede jordfarger",
         "3": "Pastell",
         "4": "Monokrom med høy kontrast",
-        "5": "Mettede primærfarger"
+        "5": "Mettede primærfarger",
+        "label": "Fargepalett"
       }
     },
     "audioNoSpeech": "Ingen tale ble funnet i denne opptaket.",

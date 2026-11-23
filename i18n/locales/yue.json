@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "封面", "trim": "裁剪", "mirror": "鏡像", "rotate": "旋轉", "hide": "隱藏", "timer": "計時器", "close": "關閉", "photo": "相片", "remove": "移除", "pause": "暫停", "play": "播放影片", "hiddenUntilTap": "點擊前隱藏", "scrub": "拖動影片進度條", "addMore": "加入相片或影片", "coverAria": "點擊影格以設定封面", "trimHint": "拖動兩端以裁剪", "coverHint": "點擊影格將其設為封面", "uploadCover": "上傳封面圖片", "mirrored": "已鏡像", "original": "原始", "rotate90": "旋轉 90°", "timerOff": "關閉", "showNormally": "正常顯示", "showNormallyBody": "立即顯示", "hideUntilTap": "點擊前隱藏", "hideUntilTapBody": "點擊前模糊顯示", "hidePrice": "隱藏於價格後", "hidePriceBody": "付款前模糊顯示", "priceUnavailable": "不在本對話中", "priceLabelUsd": "價格", "priceHint": "佢哋畀錢你之前睇到嘅係模糊嘅。已鎖定項目並非端對端加密。", "timerOffBody": "佢會留喺對話入面。", "timerViewBody": "佢哋睇完之後，對你哋雙方嚟講都會消失。", "confirm": "確認", "editItem": "編輯項目 {{value1}}", "coverSet": "封面 {{value1}}", "lockedForUsd": "解鎖 {{value1}}", "timerTimeBody": "你發送之後 {{value1}}，對你哋雙方嚟講都會消失。"},
+  "dmVideo": {
+    "cover": "封面",
+    "trim": "裁剪",
+    "mirror": "鏡像",
+    "rotate": "旋轉",
+    "hide": "隱藏",
+    "timer": "計時器",
+    "close": "關閉",
+    "photo": "相片",
+    "remove": "移除",
+    "pause": "暫停",
+    "play": "播放影片",
+    "hiddenUntilTap": "點擊前隱藏",
+    "scrub": "拖動影片進度條",
+    "addMore": "加入相片或影片",
+    "coverAria": "點擊影格以設定封面",
+    "trimHint": "拖動兩端以裁剪",
+    "coverHint": "點擊影格將其設為封面",
+    "uploadCover": "上傳封面圖片",
+    "mirrored": "已鏡像",
+    "original": "原始",
+    "rotate90": "旋轉 90°",
+    "timerOff": "關閉",
+    "showNormally": "正常顯示",
+    "showNormallyBody": "立即顯示",
+    "hideUntilTap": "點擊前隱藏",
+    "hideUntilTapBody": "點擊前模糊顯示",
+    "hidePrice": "隱藏於價格後",
+    "hidePriceBody": "付款前模糊顯示",
+    "priceUnavailable": "不在本對話中",
+    "priceLabelUsd": "價格",
+    "priceHint": "佢哋畀錢你之前睇到嘅係模糊嘅。已鎖定項目並非端對端加密。",
+    "timerOffBody": "佢會留喺對話入面。",
+    "timerViewBody": "佢哋睇完之後，對你哋雙方嚟講都會消失。",
+    "confirm": "確認",
+    "editItem": "編輯項目 {{value1}}",
+    "coverSet": "封面 {{value1}}",
+    "lockedForUsd": "解鎖 {{value1}}",
+    "timerTimeBody": "你發送之後 {{value1}}，對你哋雙方嚟講都會消失。",
+    "destruct": {
+      "60": "1 分鐘",
+      "3600": "1 小時",
+      "43200": "12 小時",
+      "86400": "1 日",
+      "604800": "1 星期",
+      "31536000": "1 年",
+      "view": "1 次觀看"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 次觀看"
+    },
+    "destructSecs": "{{n}} 秒",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "邊框",
     "theme": "主題",
@@ -2997,6 +3056,8 @@
     "premium": "高級版",
     "pricing": "定價",
     "reorderHint": "按住同拖曳任何圖示嚟重新排列",
+    "reorderHintGroups": "撳住任何圖示並拖曳嚟重新排列，或者拖去另一個分頁嚟移動佢",
+    "moveGroupHint": "拖去另一個分頁就可以將佢移過去",
     "reorderReset": "重設",
     "groups": {
       "create": "建立",
@@ -3168,7 +3229,26 @@
     "postCount_other": "{{count}} 個帖子"
   },
   "settings": {
-    "loginLook": {"title": "登入畫面", "desc": "呢部裝置登入畫面入面 Riftn 標誌同標語點樣郁。", "tube": "映像管電視", "vhs": "VHS 錄影帶", "led": "LED 牆", "holo": "全息投影", "neon": "霓虹", "3d": "3D", "flat": "扁平"}, "arrivalLook": {"title": "登入之後", "desc": "帳戶載入緊、頭像落到頁面之前播嘅效果。只限呢部裝置。", "trace": "描邊", "tune": "調台", "rift": "裂縫", "deck": "一副牌", "glass": "玻璃水滴"},
+    "loginLook": {
+      "title": "登入畫面",
+      "desc": "呢部裝置登入畫面入面 Riftn 標誌同標語點樣郁。",
+      "tube": "映像管電視",
+      "vhs": "VHS 錄影帶",
+      "led": "LED 牆",
+      "holo": "全息投影",
+      "neon": "霓虹",
+      "3d": "3D",
+      "flat": "扁平"
+    },
+    "arrivalLook": {
+      "title": "登入之後",
+      "desc": "帳戶載入緊、頭像落到頁面之前播嘅效果。只限呢部裝置。",
+      "trace": "描邊",
+      "tune": "調台",
+      "rift": "裂縫",
+      "deck": "一副牌",
+      "glass": "玻璃水滴"
+    },
     "glass": "玻璃般嘅",
     "shortsEnabled": "短褲",
     "shortsEnabledDesc": "喺主頁顯示「短褲」資訊提供標籤同「短褲」旋轉木馬。",
@@ -7026,6 +7106,17 @@
       "moveRuleDown": "向下移動規則",
       "deleteRule": "刪除規則",
       "rights": {
+        "sendMessages": "發送訊息",
+        "sendMessagesHint": "發表留言",
+        "sendMedia": "傳送媒體",
+        "sendMediaHint": "附上圖片同 GIF",
+        "embedLinks": "嵌入連結",
+        "embedLinksHint": "顯示連結預覽",
+        "addMembers": "加入成員",
+        "addMembersHint": "分享社區給其他人",
+        "createEvents": "創建活動",
+        "createEventsHint": "安排社區活動",
+        "changeInfoMemberHint": "編輯社群名稱同描述",
         "changeInfo": "更改社群資訊",
         "changeInfoHint": "編輯名稱、描述、頭像和橫幅",
         "deleteMessages": "刪除訊息",
@@ -7103,12 +7194,41 @@
       "noInvites": "尚未有邀請鏈接。創建鏈接直接邀請人。",
       "permissionsUpdated": "權限更新",
       "slowModeUpdated": "慢模式更新",
+      "slowMode": {
+        "off": "關閉",
+        "tenSeconds": "10秒",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 分鐘",
+        "fiveMinutes": "5 分鐘",
+        "fifteenMinutes": "15 分鐘",
+        "oneHour": "1 小時"
+      },
       "slowModeOffHint": "成員可以不受延遲發送訊息。",
       "slowModeOnHint": "成員只能發送一則訊息，{{label}}。管理員除外。",
       "defaultPermissions": "預設成員權限",
       "defaultPermissionsHint": "除非管理員權限說明，否則任何人都可以在這裡做的東西。",
       "slowModeTitle": "慢模式",
       "log": {
+        "verbs": {
+          "promote_admin": "升咗職",
+          "demote_admin": "被降級",
+          "transfer_ownership": "已轉讓擁有權給",
+          "ban_member": "已封鎖",
+          "unban_member": "解禁",
+          "kick_member": "移除咗",
+          "mute_member": "靜音咗",
+          "unmute_member": "取消靜音",
+          "approve_member": "批准",
+          "reject_member": "已拒絕",
+          "delete_message": "刪除咗一條訊息由",
+          "purge_messages": "已刪除所有來自",
+          "pin_message": "釘住咗一條訊息",
+          "unpin_message": "未釘住嘅一則訊息",
+          "update_settings": "已更新社群設定",
+          "create_invite": "建立咗一條邀請連結",
+          "revoke_invite": "撤銷邀請鏈接",
+          "invite_used": "被邀請"
+        },
         "justNow": "剛剛",
         "minutesAgo": "{{value}}分鐘前",
         "hoursAgo": "{{value}}小時前",
@@ -13565,53 +13685,52 @@
     "cinema": {
       "close": "關閉",
       "performance": {
-        "label": "效能",
         "0": "歡樂",
         "1": "憂鬱",
         "2": "焦慮",
         "3": "自信",
         "4": "驚嘆",
         "5": "克制",
-        "6": "活潑"
+        "6": "活潑",
+        "label": "效能"
       },
       "title": "電影指導",
       "hint": "引導你下一張圖片或者影片嘅視覺風格。結果因模型而異。",
       "none": "冇指導",
       "reset": "清除指導",
       "camera": {
-        "label": "鏡頭風格",
         "0": "數碼電影",
         "1": "35mm 菲林",
         "2": "16mm 菲林",
         "3": "大片幅",
-        "4": "復古攝錄機"
+        "4": "復古攝錄機",
+        "label": "鏡頭風格"
       },
       "lens": {
-        "label": "鏡頭質感",
         "0": "球面鏡",
         "1": "變形寬銀幕",
         "2": "復古柔焦鏡",
         "3": "微距",
-        "4": "移軸"
+        "4": "移軸",
+        "label": "鏡頭質感"
       },
       "focalLength": {
-        "label": "焦距",
         "0": "18mm 廣角",
         "1": "24mm 廣角",
         "2": "35mm 自然",
         "3": "50mm 標準",
         "4": "85mm 人像",
-        "5": "135mm 長焦"
+        "5": "135mm 長焦",
+        "label": "焦距"
       },
       "aperture": {
-        "label": "景深",
         "0": "f/1.4 極淺",
         "1": "f/2.8 淺",
         "2": "f/5.6 中等",
-        "3": "f/11 深焦"
+        "3": "f/11 深焦",
+        "label": "景深"
       },
       "movement": {
-        "label": "鏡頭移動",
         "0": "固定腳架",
         "1": "慢速推入",
         "2": "慢速拉出",
@@ -13619,27 +13738,27 @@
         "4": "環繞主體",
         "5": "手持",
         "6": "升降機上升",
-        "7": "慢速搖鏡"
+        "7": "慢速搖鏡",
+        "label": "鏡頭移動"
       },
       "lighting": {
-        "label": "燈光",
         "0": "柔和日光",
         "1": "黃金時段",
         "2": "低調明暗對比",
         "3": "高調影樓",
         "4": "霓虹實景燈",
         "5": "剪影逆光",
-        "6": "陰天柔光"
+        "6": "陰天柔光",
+        "label": "燈光"
       },
       "tempo": {
-        "label": "鏡頭節奏",
         "0": "單一連續鏡頭",
         "1": "平靜、從容嘅動作",
         "2": "動感、充滿活力嘅動作",
-        "3": "混亂、狂熱嘅動作"
+        "3": "混亂、狂熱嘅動作",
+        "label": "鏡頭節奏"
       },
       "era": {
-        "label": "年代",
         "0": "1920 年代",
         "1": "1950 年代",
         "2": "1960 年代",
@@ -13647,10 +13766,10 @@
         "4": "1980 年代",
         "5": "1990 年代",
         "6": "現代",
-        "7": "近未來"
+        "7": "近未來",
+        "label": "年代"
       },
       "genre": {
-        "label": "類型",
         "0": "紀錄片",
         "1": "劇情",
         "2": "黑色電影",
@@ -13658,16 +13777,17 @@
         "4": "奇幻",
         "5": "浪漫喜劇",
         "6": "驚悚",
-        "7": "西部片"
+        "7": "西部片",
+        "label": "類型"
       },
       "palette": {
-        "label": "色調",
         "0": "暖琥珀色",
         "1": "冷藍色",
         "2": "柔和大地色",
         "3": "粉色系",
         "4": "高對比黑白",
-        "5": "飽和原色"
+        "5": "飽和原色",
+        "label": "色調"
       }
     },
     "audioNoSpeech": "未能在錄音中找到任何演講。",

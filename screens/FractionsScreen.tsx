@@ -25,6 +25,7 @@ import PortfolioTab from "../components/Fractions/PortfolioTab";
 import ActivityTab from "../components/Fractions/ActivityTab";
 import BuyFractionSheet from "../components/Fractions/BuyFractionSheet";
 import SellFractionsSheet, { type SellTarget } from "../components/Fractions/SellFractionsSheet";
+import SendFractionsSheet, { type SendTarget } from "../components/Fractions/SendFractionsSheet";
 import MakeOfferSheet, { type OfferTarget } from "../components/Fractions/MakeOfferSheet";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ShareLinks } from "../navigation/linking.config";
@@ -67,6 +68,7 @@ export default function FractionsScreen() {
   const nftsOnly = TABS.length === 1;
   const [buying, setBuying] = useState<FractionListing | null>(null);
   const [selling, setSelling] = useState<SellTarget | null>(null);
+  const [sending, setSending] = useState<SendTarget | null>(null);
   const [offering, setOffering] = useState<OfferTarget | null>(null);
   const { data: openTrades } = useOpenTrades(wallet);
 
@@ -143,6 +145,17 @@ export default function FractionsScreen() {
                 },
               })
             }
+            onSend={(p) =>
+              setSending({
+                tokenId: p.tokenId,
+                chainId: p.chainId,
+                post: {
+                  title: p.title || undefined,
+                  imageUrl: p.imageUrl || undefined,
+                  type: p.postType || undefined,
+                },
+              })
+            }
           />
         ) : (
           <ActivityTab onOpenPost={openPost} />
@@ -165,6 +178,7 @@ export default function FractionsScreen() {
         }}
       />
       <SellFractionsSheet target={selling} onClose={() => setSelling(null)} />
+      <SendFractionsSheet target={sending} onClose={() => setSending(null)} />
       <MakeOfferSheet target={offering} onClose={() => setOffering(null)} />
     </View>
   );

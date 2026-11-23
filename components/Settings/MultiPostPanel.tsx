@@ -19,7 +19,7 @@ import {
   MULTIPOST_PLATFORMS, MULTIPOST_REDIRECT, PLATFORM_NAMES,
   buyCredits, disconnectAccount, getMultipostStatus, startConnect,
 } from "../../services/multipost.service";
-import { crossPostState, toggleCrossPostAccount } from "../../libs/crosspost-store";
+import { selectCrossPostAccount } from "../../libs/crosspost-store";
 
 const PLATFORM_ICON: Record<string, IconName> = { twitter: "Twitter", instagram: "Instagram", facebook: "Facebook" };
 export const platformIcon = (platform: string): IconName => PLATFORM_ICON[platform] ?? "Globe";
@@ -43,7 +43,7 @@ export function useMultipostSetup({ inPost = false }: { inPost?: boolean } = {})
   const qc = useQueryClient();
   const [buying, setBuying] = useState(false);
   const [connecting, setConnecting] = useState<string | null>(null);
-  const knownIds = useRef<Set<string> | null>(null);
+  const knownIds = useRef<{ wallet: string | null; ids: Set<string> } | null>(null);
 
   const status = useQuery({
     queryKey: multipostQueryKey(wallet),
@@ -58,15 +58,16 @@ export function useMultipostSetup({ inPost = false }: { inPost?: boolean } = {})
   // A newly connected account goes straight into this post.
   const accounts = status.data?.accounts;
   useEffect(() => {
-    if (!inPost || !knownIds.current || !accounts) return;
-    const fresh = accounts.filter((a) => !a.pending && !knownIds.current!.has(a.id)).map((a) => a.id);
+    const prior = knownIds.current;
+    if (!inPost || !prior || prior.wallet !== wallet || !accounts) return;
+    const fresh = accounts.filter((a) => !a.pending && !prior.ids.has(a.id)).map((a) => a.id);
     if (!fresh.length) return;
     knownIds.current = null;
-    fresh.forEach((id) => { if (!crossPostState.selected.includes(id)) toggleCrossPostAccount(id); });
-  }, [inPost, accounts]);
+    fresh.forEach(id => selectCrossPostAccount(wallet, id, true));
+  }, [inPost, accounts, wallet]);
 
   const handleConnect = async (platform: string) => {
-    knownIds.current = new Set((status.data?.accounts ?? []).filter((a) => !a.pending).map((a) => a.id));
+    knownIds.current = { wallet, ids: new Set((status.data?.accounts ?? []).filter((a) => !a.pending).map((a) => a.id)) };
     setConnecting(platform);
     try {
       const authUrl = await startConnect(wallet, platform);
@@ -100,6 +101,7 @@ export function useMultipostSetup({ inPost = false }: { inPost?: boolean } = {})
   const handleDisconnect = async (accountId: string) => {
     try {
       await disconnectAccount(wallet, accountId);
+      selectCrossPostAccount(wallet, accountId, false);
       toastSuccess(t("multiPost.disconnected"));
       refresh();
     } catch (e) {

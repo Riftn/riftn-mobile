@@ -21,16 +21,19 @@
  * flight home are shared.
  */
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import { Animated, Easing, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
 import Svg, { Defs, Ellipse, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg';
 import { useAuthState, useUser } from '../../context/AuthContext';
 import { useAppTheme } from '../../context/ThemeContext';
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from '../../libs/misc';
 import BadgeArtwork from '../common/BadgeArtwork';
+import { withAlpha } from '../ui/glow';
 import {
+  measureInWindowSoon,
   measureOwnAvatar,
   noteSignInWaitStarted,
+  setOwnAvatarHidden,
   noteSignInWaiting,
   peekArrivingAccount,
   rootSignInWaiting,
@@ -88,6 +91,8 @@ const ACCOUNT_MAX_AGE_MS = 15_000;
 const WAIT_GRACE_MS = 1200;
 /** The veil behind the rift: the sign-in page dims to near black. */
 const VEIL = 'rgba(6,7,9,0.92)';
+/** Light themes: the sign-in page is light, so a near-black veil read as a dark wave sweeping over it. They get a pale veil and no rift. */
+const LIGHT_VEIL = 'rgba(247,248,250,0.96)';
 const VEIL_IN_MS = 220;
 const VEIL_OUT_MS = 260;
 /** The spin's ease, cubic-bezier(0.12, 0.7, 0.3, 1), as points (native-driven interpolation takes no easing). */
@@ -161,6 +166,34 @@ const styles = StyleSheet.create({
 });
 
 /** One speck drifting into the stroke, on its own loop. */
+/**
+ * A soft glow that follows what is drawn inside, like web's stacked
+ * `drop-shadow(0 0 Npx c)`: [blur px, colour, alpha], innermost first.
+ * Android draws the same drop-shadow filter as web; iPhone a layer shadow per
+ * glow. Padded so the glow is never clipped at the view's edge. No stroked
+ * bands: those read as outlines, not light.
+ */
+const Glow: React.FC<{ layers: Array<[number, string, number]>; pad: number; children: React.ReactNode }> = ({ layers, pad, children }) => {
+  const box = { padding: pad, alignItems: 'center' as const, justifyContent: 'center' as const };
+  if (!layers.length) return <View style={box}>{children}</View>;
+  if (Platform.OS === 'web') {
+    const filter = layers.map(([blur, color, a]) => `drop-shadow(0 0 ${blur}px ${withAlpha(color, a)})`).join(' ');
+    return <View style={[box, { filter } as any]}>{children}</View>;
+  }
+  if (Platform.OS === 'android') {
+    const filter = layers.map(([blur, color, a]) => ({
+      dropShadow: { offsetX: 0, offsetY: 0, standardDeviation: blur / 2, color: withAlpha(color, a) },
+    }));
+    return <View style={[box, { filter } as any]}>{children}</View>;
+  }
+  // iPhone: each layer's shadow follows everything inside it, so nesting stacks them.
+  return layers.reduce<React.ReactNode>((inner, [blur, color, a], i) => (
+    <View style={[i === layers.length - 1 ? box : null, { shadowColor: color, shadowOpacity: a, shadowRadius: blur / 2, shadowOffset: { width: 0, height: 0 } }]}>
+      {inner}
+    </View>
+  ), children) as React.ReactElement;
+};
+
 const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; phase: number; size: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, phase, size, color, burst }) => {
   // The first drift starts part-way in, so the cloud is there with the line
   // rather than building up over a few seconds.
@@ -263,7 +296,10 @@ const Rift: React.FC<{
     Animated.timing(tear, { toValue: 1, duration: OPEN_MS, easing: ease, useNativeDriver: true }).start();
   }, [opened, instantOpen, tear]);
 
-  const lineIn = spin.interpolate({ inputRange: [0, 0.85, 1], outputRange: [0, 0, 1] });
+  // Fades are timed on the clock (time), as web's keyframes are; only the turn
+  // itself is eased. The logo stays solid until it is nearly edge-on, then
+  // hands over to the line, so the line forms out of the logo's edge.
+  const lineIn = clock.interpolate({ inputRange: [0, 0.855, 1], outputRange: [0, 0, 1] });
   const gone = tear.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
   // Never a "?": an account with no name yet shows the plain frame.
   const initial = (name || '').trim().charAt(0).toUpperCase();
@@ -272,8 +308,8 @@ const Rift: React.FC<{
       key={trail}
       style={[styles.abs, {
         opacity: trail
-          ? spin.interpolate({ inputRange: [0, 0.2, 0.6, 1], outputRange: [0, 0.22 / trail, 0, 0] })
-          : spin.interpolate({ inputRange: [0, 0.22, 0.88, 1], outputRange: [0, 1, 1, 0] }),
+          ? clock.interpolate({ inputRange: [0, 0.2, 0.6, 1], outputRange: [0, 0.22 / trail, 0, 0] })
+          : clock.interpolate({ inputRange: [0, 0.22, 0.88, 1], outputRange: [0, 1, 1, 0] }),
         transform: [
           { perspective: 600 },
           { rotateY: spin.interpolate({ inputRange: [0, 1], outputRange: [`${-30 * trail}deg`, `${990 - 4 * trail}deg`] }) },
@@ -281,10 +317,11 @@ const Rift: React.FC<{
         ],
       }]}
     >
-      <Svg width={110} height={110} viewBox="351 223 1210 1210">
-        {!trail ? <Path d={MARK_PATH} fill={colors.a} fillOpacity={0.35} stroke={colors.a} strokeOpacity={0.35} strokeWidth={60} /> : null}
-        <Path d={MARK_PATH} fill="#ffffff" />
-      </Svg>
+      <Glow layers={trail ? [] : [[10, colors.a, 1]]} pad={24}>
+        <Svg width={110} height={110} viewBox="351 223 1210 1210">
+          <Path d={MARK_PATH} fill="#ffffff" />
+        </Svg>
+      </Glow>
     </Animated.View>
   );
   return (
@@ -372,7 +409,8 @@ const Rift: React.FC<{
           ) },
         ],
       }]}>
-        <Svg width={LINE_W + 16} height={LINE_H + 16} viewBox="-8 -8 22 128">
+        <Glow layers={[[4, '#ffffff', 1], [12, colors.a, 1], [30, colors.a, 0.6]]} pad={40}>
+        <Svg width={LINE_W} height={LINE_H} viewBox="0 0 6 112">
           <Defs>
             <LinearGradient id="riftFill" x1="0" y1="0" x2="1" y2="0">
               <Stop offset="0" stopColor={colors.b} />
@@ -381,11 +419,9 @@ const Rift: React.FC<{
               <Stop offset="1" stopColor={colors.b} />
             </LinearGradient>
           </Defs>
-          {/* a soft edge of the theme colour, standing in for a glow */}
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.16} strokeWidth={14} strokeLinejoin="round" />
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.4} strokeWidth={5} strokeLinejoin="round" />
           <Path d={LINE_PATH} fill="url(#riftFill)" />
         </Svg>
+        </Glow>
       </Animated.View>
     </View>
   );
@@ -473,6 +509,7 @@ export const SignInWaitVeil: React.FC<{ label?: string; atRoot?: boolean }> = ({
 };
 
 const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
+  const { isLight } = useAppTheme();
   const fade = useRef(new Animated.Value(0)).current;
   const look = useArrivalLook();
   const arriving = useArriving();
@@ -520,14 +557,14 @@ const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
     // must not flip these greys.
     <View className="dark-surface" style={styles.veilHost}>
       <Animated.View
-        style={[styles.veil, { opacity: fade }]}
+        style={[styles.veil, { opacity: fade }, isLight && { backgroundColor: LIGHT_VEIL }]}
         accessible
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         testID="signin-wait-veil"
       >
-        <ArrivalMarks look={look} picture={picture} name={arriving?.name || ''} opened={opened} />
-        {nameOn && arriving?.name ? (
+        {!isLight && <ArrivalMarks look={look} picture={picture} name={arriving?.name || ''} opened={opened} />}
+        {!isLight && nameOn && arriving?.name ? (
           <ArrivalName name={arriving.name} badge={arriving.badge} color="#ffffff" style={{ top: '50%', marginTop: FRAME / 2 + 12 }} />
         ) : null}
       </Animated.View>
@@ -556,6 +593,7 @@ type Session = {
  * swapping in under it is never seen; it clears as the picture flies.
  */
 export const SignInArrival: React.FC = () => {
+  const { isLight } = useAppTheme();
   const { isSignedIn, needsUsername } = useAuthState();
   const user = useUser();
   const { width, height } = useWindowDimensions();
@@ -574,6 +612,13 @@ export const SignInArrival: React.FC = () => {
   const nameOpacity = useRef(new Animated.Value(0)).current;
   const move = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const scale = useRef(new Animated.Value(1)).current;
+  // The picture crossfades to the landing spot's own corner on the way.
+  const landIn = useRef(new Animated.Value(0)).current;
+  const marksOut = useMemo(() => landIn.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 1, 0] }), [landIn]);
+  const [landing, setLanding] = useState<{ radius: number } | null>(null);
+  const frameRef = useRef<View>(null);
+  // Never leave the page's own picture hidden.
+  useEffect(() => () => setOwnAvatarHidden(false), []);
 
   const begin = (s: Session, veilUp: boolean) => {
     veil.stopAnimation();
@@ -582,6 +627,9 @@ export const SignInArrival: React.FC = () => {
     nameOpacity.setValue(s.fromSheet ? 1 : 0);
     move.setValue({ x: 0, y: 0 });
     scale.setValue(1);
+    landIn.setValue(0);
+    setLanding(null);
+    setOwnAvatarHidden(false);
     veil.setValue(veilUp ? 1 : 0);
     if (!veilUp) Animated.timing(veil, { toValue: 1, duration: VEIL_IN_MS, useNativeDriver: true }).start();
     setOpened(s.instant);
@@ -689,33 +737,49 @@ export const SignInArrival: React.FC = () => {
   useEffect(() => {
     if (!session || !opened || !session.taken) return;
     let cancelled = false;
-    const end = () => { if (!cancelled) { setSession(null); setOpened(false); } };
+    const end = () => { setOwnAvatarHidden(false); if (!cancelled) { setSession(null); setOpened(false); setLanding(null); } };
     const concept = isConceptLook(look);
     const nameDelay = session.instant ? 0 : concept ? CONCEPT_NAME_MS[look as ConceptLook] : 200;
     Animated.timing(nameOpacity, { toValue: 1, duration: 240, delay: nameDelay, useNativeDriver: true }).start();
+    // The page's own picture stays hidden while the arrival shows its copy:
+    // one picture on screen, which then flies into its place.
+    setOwnAvatarHidden(true);
+    let safety: ReturnType<typeof setTimeout> | undefined;
     const timer = setTimeout(async () => {
-      const to = await measureOwnAvatar();
+      const [to, from] = await Promise.all([measureOwnAvatar({ width, height }), measureInWindowSoon(frameRef.current)]);
       if (cancelled) return;
       Animated.timing(nameOpacity, { toValue: 0, duration: 140, useNativeDriver: true }).start();
       Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }).start();
       if (!to) {
+        setOwnAvatarHidden(false);
         Animated.parallel([
           Animated.timing(opacity, { toValue: 0, duration: 240, useNativeDriver: true }),
           Animated.timing(scale, { toValue: 0.92, duration: 240, useNativeDriver: true }),
         ]).start(end);
         return;
       }
+      // From where the frame really is: the window's height can leave out the
+      // system bars the overlay covers, which put the landing a bar off.
+      const fromX = from && from.width > 8 ? from.x + from.width / 2 : width / 2;
+      const fromY = from && from.height > 8 ? from.y + from.height / 2 : height / 2;
+      const k = to.width / FRAME;
+      if (picture) setLanding({ radius: to.radius / k });
       const ease = Easing.bezier(0.2, 0.8, 0.2, 1);
       Animated.parallel([
         Animated.timing(move, {
-          toValue: { x: to.x + to.width / 2 - width / 2, y: to.y + to.height / 2 - height / 2 },
+          toValue: { x: to.x + to.width / 2 - fromX, y: to.y + to.height / 2 - fromY },
           duration: FLY_MS, easing: ease, useNativeDriver: true,
         }),
-        Animated.timing(scale, { toValue: to.width / FRAME, duration: FLY_MS, easing: ease, useNativeDriver: true }),
-        Animated.timing(opacity, { toValue: 0, duration: 160, delay: FLY_MS - 80, useNativeDriver: true }),
-      ]).start(end);
+        Animated.timing(scale, { toValue: k, duration: FLY_MS, easing: ease, useNativeDriver: true }),
+        Animated.timing(landIn, { toValue: 1, duration: FLY_MS * 0.55, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+      ]).start(() => {
+        // Landed on the spot: show the page's picture under it, then let go.
+        setOwnAvatarHidden(false);
+        Animated.timing(opacity, { toValue: 0, duration: 120, delay: 40, useNativeDriver: true }).start(end);
+      });
+      safety = setTimeout(() => setOwnAvatarHidden(false), FLY_MS + 600);
     }, session.instant ? HOLD_MS : concept ? CONCEPT_HOLD_MS : OPEN_MS + HOLD_MS);
-    return () => { cancelled = true; clearTimeout(timer); };
+    return () => { cancelled = true; clearTimeout(timer); if (safety) clearTimeout(safety); setOwnAvatarHidden(false); };
     // `look` is read, not followed, as above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.taken, session?.at, opened, width, height]);
@@ -723,8 +787,9 @@ export const SignInArrival: React.FC = () => {
   if (!session) return null;
   return (
     <View className="dark-surface" style={styles.arrival} pointerEvents="none" testID="signin-arrival">
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: VEIL, opacity: veil }]} />
-      <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: isLight ? LIGHT_VEIL : VEIL, opacity: veil }]} />
+      {!isLight && <Animated.View ref={frameRef} collapsable={false} style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
+        <Animated.View style={[styles.frame, { opacity: marksOut }]}>
         <ArrivalMarks
           key={session.at}
           look={look}
@@ -735,8 +800,14 @@ export const SignInArrival: React.FC = () => {
           skipIntro={session.skipIntro}
           introElapsed={session.introElapsed}
         />
-      </Animated.View>
-      {name && opened ? (
+        </Animated.View>
+        {landing && picture ? (
+          <Animated.View style={[styles.frame, { borderRadius: landing.radius, overflow: 'hidden', backgroundColor: '#16181d', opacity: landIn }]}>
+            <Image source={{ uri: picture }} style={styles.picture} contentFit="cover" accessible={false} />
+          </Animated.View>
+        ) : null}
+      </Animated.View>}
+      {!isLight && name && opened ? (
         // White on the veil, which is up for as long as the name shows.
         <ArrivalName name={name} badge={badge} color="#ffffff" style={{ opacity: nameOpacity, top: height / 2 + FRAME / 2 + 12 }} />
       ) : null}

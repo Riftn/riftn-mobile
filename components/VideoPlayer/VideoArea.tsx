@@ -1,5 +1,5 @@
 import { openWebPurchase } from "../common/WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useMemo, useState, useCallback } from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -59,6 +59,7 @@ const VideoArea: React.FC<VideoAreaProps> = ({
   muted,
   onVideoSize,
 }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const normalizedUrl: string | null =
     effectiveVideoUrl === undefined ? null : effectiveVideoUrl;
@@ -270,7 +271,7 @@ const VideoArea: React.FC<VideoAreaProps> = ({
                 : t("copy.ff701a069af2", { defaultValue: "Verify & Unlock" })}
             </Text>
           </TouchableOpacity>
-          {purchaseOfferVisible() && (
+          {showPurchaseOffer && (
           <TouchableOpacity
             onPress={() => (DIGITAL_PURCHASES_ENABLED ? handleTopUp(neededAmt, neededSymbol) : openWebPurchase("/app/buy"))}
             className="mt-2 bg-white/10 border border-white/20 rounded-xl px-5 py-2"

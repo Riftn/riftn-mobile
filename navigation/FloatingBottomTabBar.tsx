@@ -574,7 +574,6 @@ const FloatingBottomTabBar: React.FC<BottomTabBarProps & { noEntrance?: boolean 
   const myUserId = ((user as any)?._id || (user as any)?.id) as string | undefined;
   const dmUnread = useTotalUnreadMessagesCount(myUserId);
   const publicChatUnread = usePublicChatUnreadCount();
-  const messagesUnread = dmUnread + publicChatUnread;
   // Resting state by default: a mount that happens underneath the boot
   // preloader (every cold start) must appear settled, or the user catches the
   // tail of this choreography as movement right on top of the reveal. The
@@ -616,6 +615,13 @@ const FloatingBottomTabBar: React.FC<BottomTabBarProps & { noEntrance?: boolean 
     if (!isKidsMode && CENTER_TAB) out.splice(Math.min(CREATE_SLOT, out.length), 0, CREATE_ID);
     return out;
   }, [barReorder.order, isKidsMode]);
+  // Public Chat unread shows on the envelope only while Public Chat has no icon
+  // of its own on screen; once it sits in the pill it carries its own count.
+  const publicChatOnBar = useMemo(() => {
+    const at = barSlots.indexOf(navOrderId("publicChat.title"));
+    return at >= 0 && at < TABS.length;
+  }, [barSlots]);
+  const messagesUnread = dmUnread + (publicChatOnBar ? 0 : publicChatUnread);
 
   // Forty-odd slots, each a drag handle, a natively animated button and a layout
   // listener: building them all took ~130ms on a Galaxy S24+, and every copy of

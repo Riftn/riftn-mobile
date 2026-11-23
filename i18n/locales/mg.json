@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Sarony", "trim": "Hetezo", "mirror": "Fitaratra", "rotate": "Ahodino", "hide": "Afeno", "timer": "Fanamariham-potoana", "close": "Akaro", "photo": "Sary", "remove": "Esory", "pause": "Atsaharo", "play": "Alefaso ny horonan-tsary", "hiddenUntilTap": "Afenina mandra-kitikiny azy", "scrub": "Hetezo ny horonan-tsary", "addMore": "Manampy sary na horonan-tsary", "coverAria": "Kitiho ny sary iray mba hanaovana azy ho sarony", "trimHint": "Tariho ny sisiny mba hanetezana azy", "coverHint": "Kitiho ny sary iray mba hanaovana azy ho sarony", "uploadCover": "Ampidiro ny sary ho sarony", "mirrored": "Fitaratra", "original": "Tany am-boalohany", "rotate90": "Ahodino 90°", "timerOff": "Vonoina", "showNormally": "Asehoy ara-dalàna", "showNormallyBody": "Hitany avy hatrany izany", "hideUntilTap": "Afeno mandra-kitika", "hideUntilTapBody": "Manjavozavo mandra-kitikiny azy", "hidePrice": "Afeno ao ambadiky ny vidiny", "hidePriceBody": "Manjavozavo mandra-pandoany vola anao", "priceUnavailable": "Tsy ato amin'ity chat ity", "priceLabelUsd": "Vidiny", "priceHint": "Hitan'izy ireo manjavozavo izany mandra-pandoany vola anao. Tsy voaaro amin'ny alalan'ny fanafenana angona (end-to-end encryption) ireo zavatra mihidy.", "timerOffBody": "Mijanona ao anatin'ny chat izany.", "timerViewBody": "Lasa ho anareo roa rehefa avy hitan'izy ireo izany.", "confirm": "Hamafisina", "editItem": "Hanova ny zavatra {{value1}}", "coverSet": "Sarony amin'ny {{value1}}", "lockedForUsd": "Hamohana amin'ny {{value1}}", "timerTimeBody": "Lasa ho anareo roa {{value1}} aorian'ny fandefasanao azy."},
+  "dmVideo": {
+    "cover": "Sarony",
+    "trim": "Hetezo",
+    "mirror": "Fitaratra",
+    "rotate": "Ahodino",
+    "hide": "Afeno",
+    "timer": "Fanamariham-potoana",
+    "close": "Akaro",
+    "photo": "Sary",
+    "remove": "Esory",
+    "pause": "Atsaharo",
+    "play": "Alefaso ny horonan-tsary",
+    "hiddenUntilTap": "Afenina mandra-kitikiny azy",
+    "scrub": "Hetezo ny horonan-tsary",
+    "addMore": "Manampy sary na horonan-tsary",
+    "coverAria": "Kitiho ny sary iray mba hanaovana azy ho sarony",
+    "trimHint": "Tariho ny sisiny mba hanetezana azy",
+    "coverHint": "Kitiho ny sary iray mba hanaovana azy ho sarony",
+    "uploadCover": "Ampidiro ny sary ho sarony",
+    "mirrored": "Fitaratra",
+    "original": "Tany am-boalohany",
+    "rotate90": "Ahodino 90°",
+    "timerOff": "Vonoina",
+    "showNormally": "Asehoy ara-dalàna",
+    "showNormallyBody": "Hitany avy hatrany izany",
+    "hideUntilTap": "Afeno mandra-kitika",
+    "hideUntilTapBody": "Manjavozavo mandra-kitikiny azy",
+    "hidePrice": "Afeno ao ambadiky ny vidiny",
+    "hidePriceBody": "Manjavozavo mandra-pandoany vola anao",
+    "priceUnavailable": "Tsy ato amin'ity chat ity",
+    "priceLabelUsd": "Vidiny",
+    "priceHint": "Hitan'izy ireo manjavozavo izany mandra-pandoany vola anao. Tsy voaaro amin'ny alalan'ny fanafenana angona (end-to-end encryption) ireo zavatra mihidy.",
+    "timerOffBody": "Mijanona ao anatin'ny chat izany.",
+    "timerViewBody": "Lasa ho anareo roa rehefa avy hitan'izy ireo izany.",
+    "confirm": "Hamafisina",
+    "editItem": "Hanova ny zavatra {{value1}}",
+    "coverSet": "Sarony amin'ny {{value1}}",
+    "lockedForUsd": "Hamohana amin'ny {{value1}}",
+    "timerTimeBody": "Lasa ho anareo roa {{value1}} aorian'ny fandefasanao azy.",
+    "destruct": {
+      "60": "1 minitra",
+      "3600": "1 ora",
+      "43200": "12 ora",
+      "86400": "1 andro",
+      "604800": "1 herinandro",
+      "31536000": "1 taona",
+      "view": "1 fijerena"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1a",
+      "604800": "1h",
+      "31536000": "1t",
+      "view": "1 fijerena"
+    },
+    "destructSecs": "{{n}} segondra",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Sisiny",
     "theme": "Lohahevitra",
@@ -2997,6 +3056,8 @@
     "premium": "Premium",
     "pricing": "Vidiny",
     "reorderHint": "Tazony ary zarao izay kisary hanamboarana",
+    "reorderHintGroups": "Tazomy ary tariho ny kisary rehetra mba handamina azy indray, na apetraho eo amin'ny kiheba hafa mba hamindrana azy",
+    "moveGroupHint": "Apetraho amin'ny kiheba hafa mba hamindrana azy any",
     "reorderReset": "Averina",
     "groups": {
       "create": "Mamorona",
@@ -7048,6 +7109,17 @@
       "moveRuleDown": "Afindra midina ny fitsipika",
       "deleteRule": "Fafao ny fitsipika",
       "rights": {
+        "sendMessages": "Mandefa hafatra",
+        "sendMessagesHint": "Mamoaha hafatra ao amin'ny chat-n'ny vondrom-piarahamonina",
+        "sendMedia": "Mandefa media",
+        "sendMediaHint": "Ampidiro ny sary sy ny GIF",
+        "embedLinks": "Ampidiro ny rohy",
+        "embedLinksHint": "Asehoy ny topimason'ny rohy",
+        "addMembers": "Mpanoratra mpanoratra",
+        "addMembersHint": "Zarao amin'ny hafa ny vondrom-piarahamonina",
+        "createEvents": "Mamorona hetsika",
+        "createEventsHint": "Handahatra hetsika ho an'ny vondrom-piarahamonina",
+        "changeInfoMemberHint": "Ovay ny anaran'ny vondrom-piarahamonina sy ny famaritana",
         "changeInfo": "Ovay ny mombamomba ny vondrom-piarahamonina",
         "changeInfoHint": "Ovay ny anarana, famaritana, avatar ary sora-baventy",
         "deleteMessages": "Fafao ny hafatra",
@@ -7125,12 +7197,41 @@
       "noInvites": "Tsy mbola misy rohy fanasana. Mamoròna iray hanasana mivantana ny olona.",
       "permissionsUpdated": "Nohavaozina ny fahazoan-dàlana",
       "slowModeUpdated": "Nohavaozina ny fomba miadana",
+      "slowMode": {
+        "off": "Vonoina",
+        "tenSeconds": "Taona 2010",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 minitra",
+        "fifteenMinutes": "15 minitra",
+        "oneHour": "1 ora"
+      },
       "slowModeOffHint": "Afaka mandefa hafatra tsy misy fahatarana ny mpikambana.",
       "slowModeOnHint": "Afaka mandefa hafatra iray isaky ny {{label}} ny mpikambana. Tsy voakasik'ireo admin.",
       "defaultPermissions": "Fahazoan-dàlana default ho an'ny mpikambana",
       "defaultPermissionsHint": "Izay azon’ny rehetra atao eto raha tsy misy lalàna hafa milaza hafa avy amin’ny admin.",
       "slowModeTitle": "Fomba miadana",
       "log": {
+        "verbs": {
+          "promote_admin": "nampiroboroboina",
+          "demote_admin": "nahena ny laharana",
+          "transfer_ownership": "namindra ny fananana tamin'ny",
+          "ban_member": "voarara",
+          "unban_member": "nesorina ny fandrarana",
+          "kick_member": "nesorina",
+          "mute_member": "avy sctot",
+          "unmute_member": "tsy moana",
+          "approve_member": "ankatoavina",
+          "reject_member": "nolavina",
+          "delete_message": "nanafoana hafatra avy amin'ny",
+          "purge_messages": "nanaisotra ny hafatra rehetra avy amin'ny",
+          "pin_message": "nametraka hafatra an-tsoratra",
+          "unpin_message": "nanala ny fanindriana hafatra iray avy amin'ny",
+          "update_settings": "nanavao ny toe-javatra ho an'ny vondrom-piarahamonina",
+          "create_invite": "namorona rohy fanasana",
+          "revoke_invite": "manafoana ny rohy fanasana",
+          "invite_used": "nasaina"
+        },
         "justNow": "tamim-potoana",
         "minutesAgo": "{{value}} minitra lasa",
         "hoursAgo": "{{value}} ora lasa",
@@ -13663,53 +13764,52 @@
     "cinema": {
       "close": "Hidio",
       "performance": {
-        "label": "Fahombiazan'ny asa",
         "0": "Faly",
         "1": "Malahelo",
         "2": "Manahy",
         "3": "Matoky tena",
         "4": "Gaga be",
         "5": "Voafehy",
-        "6": "Milalao"
+        "6": "Milalao",
+        "label": "Fahombiazan'ny asa"
       },
       "title": "Fitarihana sinema",
       "hint": "Tariho ny fomba hita maso amin'ny sary na horonan-tsary manaraka. Miovaova arakaraka ny modely ny vokatra.",
       "none": "Tsy misy fitarihana",
       "reset": "Fafao ny fitarihana",
       "camera": {
-        "label": "Endriky ny fakan-tsary",
         "0": "Sinema nomerika",
         "1": "Sarimihetsika 35mm",
         "2": "Sarimihetsika 16mm",
         "3": "Endrika lehibe",
-        "4": "Camcorder taloha"
+        "4": "Camcorder taloha",
+        "label": "Endriky ny fakan-tsary"
       },
       "lens": {
-        "label": "Endriky ny lens",
         "0": "Boribory",
         "1": "Anamorphic",
         "2": "Fitaratra malefaka taloha",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Endriky ny lens"
       },
       "focalLength": {
-        "label": "Halavan'ny focal",
         "0": "18mm midadasika",
         "1": "24mm midadasika",
         "2": "35mm voajanahary",
         "3": "50mm mahazatra",
         "4": "85mm sarin'olona",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Halavan'ny focal"
       },
       "aperture": {
-        "label": "Halalin'ny saha",
         "0": "f/1.4 tena marivo",
         "1": "f/2.8 marivo",
         "2": "f/5.6 antonony",
-        "3": "f/11 lalina"
+        "3": "f/11 lalina",
+        "label": "Halalin'ny saha"
       },
       "movement": {
-        "label": "Fihetsiky ny fakan-tsary",
         "0": "Tripod tsy mihetsika",
         "1": "Dolly miditra miadana",
         "2": "Dolly mivoaka miadana",
@@ -13717,27 +13817,27 @@
         "4": "Mihodina manodidina ny lohahevitra",
         "5": "Tazonina an-tanana",
         "6": "Crane miakatra",
-        "7": "Pan miadana"
+        "7": "Pan miadana",
+        "label": "Fihetsiky ny fakan-tsary"
       },
       "lighting": {
-        "label": "Hazavana",
         "0": "Hazavan'ny andro malefaka",
         "1": "Ora volamena",
         "2": "Chiaroscuro maizina",
         "3": "Studio mazava be",
         "4": "Jiro neon",
         "5": "Silhouette hazavana avy ao aoriana",
-        "6": "Rahona miparitaka"
+        "6": "Rahona miparitaka",
+        "label": "Hazavana"
       },
       "tempo": {
-        "label": "Gadona ny sary",
         "0": "Sary iray mitohy",
         "1": "Hetsika milamina, tsy maika",
         "2": "Hetsika mavitrika, be hery",
-        "3": "Hetsika mikorontana, mafy"
+        "3": "Hetsika mikorontana, mafy",
+        "label": "Gadona ny sary"
       },
       "era": {
-        "label": "Vanim-potoana",
         "0": "Taona 1920",
         "1": "Taona 1950",
         "2": "Taona 1960",
@@ -13745,10 +13845,10 @@
         "4": "Taona 1980",
         "5": "Taona 1990",
         "6": "Ankehitriny",
-        "7": "Ho avy akaiky"
+        "7": "Ho avy akaiky",
+        "label": "Vanim-potoana"
       },
       "genre": {
-        "label": "Karazany",
         "0": "Fanadihadiana",
         "1": "Tantara mampihetsi-po",
         "2": "Film noir",
@@ -13756,16 +13856,17 @@
         "4": "Nofinofy",
         "5": "Hatsikana tantaram-pitiavana",
         "6": "Mampientanentana",
-        "7": "Western"
+        "7": "Western",
+        "label": "Karazany"
       },
       "palette": {
-        "label": "Paletin'ny loko",
         "0": "Volon-tantely mafana",
         "1": "Manga mangatsiaka",
         "2": "Lokon'ny tany malefaka",
         "3": "Pastel",
         "4": "Mainty sy fotsy mifanohitra mafy",
-        "5": "Loko fototra mamirapiratra"
+        "5": "Loko fototra mamirapiratra",
+        "label": "Paletin'ny loko"
       }
     },
     "audioNoSpeech": "Tsy nisy feo hita tao amin'io fandraisam-peo io.",

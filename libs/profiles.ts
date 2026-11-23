@@ -97,17 +97,30 @@ export interface StoredProfile {
    * simply contributes no tier, exactly as web treats a missing balance.
    */
   badgeBalance: number | string | null;
+  badgeLock?: { tier: string; requirement: number } | null;
+  hideBadgeAndBalance?: boolean;
   /** Null once the session is gone — switching to it asks for sign-in again. */
   session: StoredProfileSession | null;
 }
 
 interface CachedUser {
+  id?: string | number;
+  _id?: string;
   displayName?: string;
   username?: string;
   avatarImageUrl?: string;
   address?: string;
   /** Staking balance, kept so the device allowance can be priced offline. */
   badgeBalance?: number | string | null;
+  badgeLock?: StoredProfile['badgeLock'];
+  hideBadgeAndBalance?: boolean;
+}
+
+function profileName(value: unknown, user: CachedUser | null): string | null {
+  if (typeof value !== 'string') return null;
+  const label = value.trim();
+  if (!label || /^0x[\da-f]{6,}$/i.test(label) || label === String(user?.id ?? user?._id ?? '')) return null;
+  return label;
 }
 
 function emitChanged() {
@@ -310,7 +323,7 @@ function withoutStaleDuplicates(profiles: StoredProfile[]): StoredProfile[] {
 /** The Supabase client persists its session under one of these keys. */
 const SB_KEY_PATTERN = /^sb-.+-auth-token$/;
 
-async function readSupabaseSession(): Promise<StoredProfileSession['supabase']> {
+async function readSupabaseSession(ownerUid: string | null): Promise<StoredProfileSession['supabase']> {
   try {
     const keys = await AsyncStorage.getAllKeys();
     for (const key of keys) {
@@ -318,6 +331,12 @@ async function readSupabaseSession(): Promise<StoredProfileSession['supabase']> 
       const raw = await AsyncStorage.getItem(key);
       if (!raw) continue;
       const parsed = JSON.parse(raw);
+      // A Google sign-in lands its session before the outgoing account's keys
+      // are cleared (stageIncomingIdentity keeps it on purpose). Filing that
+      // under the outgoing account made switching back to it fail with
+      // "Could not switch account": the restored session was someone else's.
+      const sessionUid = parsed?.user?.id ?? null;
+      if (sessionUid && ownerUid && sessionUid !== ownerUid) continue;
       if (parsed?.access_token && parsed?.refresh_token) {
         return {
           storageKey: key,
@@ -377,15 +396,17 @@ async function snapshotSession(adopt: boolean): Promise<void> {
     id: identity.id,
     uid: identity.uid,
     address: identity.address,
-    name: user?.displayName ?? null,
-    username: user?.username ?? null,
-    avatarUrl: user?.avatarImageUrl ?? null,
+    name: profileName(user?.displayName, user) ?? profileName(existing?.name, user),
+    username: profileName(user?.username, user) ?? profileName(existing?.username, user),
+    avatarUrl: user?.avatarImageUrl ?? existing?.avatarUrl ?? null,
     addedAt: existing?.addedAt ?? now,
     lastActiveAt: now,
     badgeBalance: user?.badgeBalance ?? existing?.badgeBalance ?? null,
+    badgeLock: user?.badgeLock,
+    hideBadgeAndBalance: user?.hideBadgeAndBalance ?? existing?.hideBadgeAndBalance,
     session: {
       tokens,
-      supabase: await readSupabaseSession(),
+      supabase: (await readSupabaseSession(identity.uid)) ?? existing?.session?.supabase,
     },
   };
 

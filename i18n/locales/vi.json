@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Ảnh bìa", "trim": "Cắt", "mirror": "Phản chiếu", "rotate": "Xoay", "hide": "Ẩn", "timer": "Hẹn giờ", "close": "Đóng", "photo": "Ảnh", "remove": "Xóa", "pause": "Tạm dừng", "play": "Phát video", "hiddenUntilTap": "Ẩn cho đến khi họ nhấn vào", "scrub": "Tua video", "addMore": "Thêm ảnh hoặc video", "coverAria": "Nhấn vào một khung hình để đặt làm ảnh bìa", "trimHint": "Kéo các đầu để cắt", "coverHint": "Nhấn vào một khung hình để đặt làm ảnh bìa", "uploadCover": "Tải lên ảnh bìa", "mirrored": "Đã phản chiếu", "original": "Gốc", "rotate90": "Xoay 90°", "timerOff": "Tắt", "showNormally": "Hiển thị bình thường", "showNormallyBody": "Họ nhìn thấy ngay lập tức", "hideUntilTap": "Ẩn cho đến khi được nhấn", "hideUntilTapBody": "Làm mờ cho đến khi họ nhấn vào", "hidePrice": "Ẩn sau một mức giá", "hidePriceBody": "Làm mờ cho đến khi họ thanh toán cho bạn", "priceUnavailable": "Không có trong cuộc trò chuyện này", "priceLabelUsd": "Giá", "priceHint": "Họ thấy nó bị làm mờ cho đến khi họ trả tiền cho bạn. Các mục bị khóa không được mã hóa đầu cuối.", "timerOffBody": "Nó vẫn nằm trong cuộc trò chuyện.", "timerViewBody": "Biến mất đối với cả hai người sau khi họ đã xem nó.", "confirm": "Xác nhận", "editItem": "Chỉnh sửa mục {{value1}}", "coverSet": "Ảnh bìa tại {{value1}}", "lockedForUsd": "Mở khóa với giá {{value1}}", "timerTimeBody": "Biến mất đối với cả hai người {{value1}} sau khi bạn gửi nó."},
+  "dmVideo": {
+    "cover": "Ảnh bìa",
+    "trim": "Cắt",
+    "mirror": "Phản chiếu",
+    "rotate": "Xoay",
+    "hide": "Ẩn",
+    "timer": "Hẹn giờ",
+    "close": "Đóng",
+    "photo": "Ảnh",
+    "remove": "Xóa",
+    "pause": "Tạm dừng",
+    "play": "Phát video",
+    "hiddenUntilTap": "Ẩn cho đến khi họ nhấn vào",
+    "scrub": "Tua video",
+    "addMore": "Thêm ảnh hoặc video",
+    "coverAria": "Nhấn vào một khung hình để đặt làm ảnh bìa",
+    "trimHint": "Kéo các đầu để cắt",
+    "coverHint": "Nhấn vào một khung hình để đặt làm ảnh bìa",
+    "uploadCover": "Tải lên ảnh bìa",
+    "mirrored": "Đã phản chiếu",
+    "original": "Gốc",
+    "rotate90": "Xoay 90°",
+    "timerOff": "Tắt",
+    "showNormally": "Hiển thị bình thường",
+    "showNormallyBody": "Họ nhìn thấy ngay lập tức",
+    "hideUntilTap": "Ẩn cho đến khi được nhấn",
+    "hideUntilTapBody": "Làm mờ cho đến khi họ nhấn vào",
+    "hidePrice": "Ẩn sau một mức giá",
+    "hidePriceBody": "Làm mờ cho đến khi họ thanh toán cho bạn",
+    "priceUnavailable": "Không có trong cuộc trò chuyện này",
+    "priceLabelUsd": "Giá",
+    "priceHint": "Họ thấy nó bị làm mờ cho đến khi họ trả tiền cho bạn. Các mục bị khóa không được mã hóa đầu cuối.",
+    "timerOffBody": "Nó vẫn nằm trong cuộc trò chuyện.",
+    "timerViewBody": "Biến mất đối với cả hai người sau khi họ đã xem nó.",
+    "confirm": "Xác nhận",
+    "editItem": "Chỉnh sửa mục {{value1}}",
+    "coverSet": "Ảnh bìa tại {{value1}}",
+    "lockedForUsd": "Mở khóa với giá {{value1}}",
+    "timerTimeBody": "Biến mất đối với cả hai người {{value1}} sau khi bạn gửi nó.",
+    "destruct": {
+      "60": "1 phút",
+      "3600": "1 giờ",
+      "43200": "12 giờ",
+      "86400": "1 ngày",
+      "604800": "1 tuần",
+      "31536000": "1 năm",
+      "view": "1 lượt xem"
+    },
+    "destructShort": {
+      "60": "1p",
+      "3600": "1g",
+      "43200": "12g",
+      "86400": "1n",
+      "604800": "1t",
+      "31536000": "1n",
+      "view": "1 lượt xem"
+    },
+    "destructSecs": "{{n}} giây",
+    "destructShortSecs": "{{n}}g"
+  },
   "comic": {
     "toComic": "Chuyển thành truyện tranh",
     "toCarousel": "Hiển thị dạng băng chuyền",
@@ -3085,6 +3144,8 @@
     "premium": "Cao cấp",
     "pricing": "Bảng giá",
     "reorderHint": "Giữ và kéo bất kỳ biểu tượng nào để sắp xếp lại",
+    "reorderHintGroups": "Nhấn giữ và kéo bất kỳ biểu tượng nào để sắp xếp lại, hoặc kéo vào một tab khác để di chuyển biểu tượng đó",
+    "moveGroupHint": "Thả vào một tab khác để di chuyển nó đến đó",
     "reorderReset": "Đặt lại",
     "groups": {
       "main": "Chính",
@@ -3194,7 +3255,26 @@
     "postCount_other": "{{count}} bài đăng"
   },
   "settings": {
-    "loginLook": {"title": "Màn hình đăng nhập", "desc": "Cách logo và khẩu hiệu Riftn chuyển động trên màn hình đăng nhập của thiết bị này.", "tube": "TV ống", "vhs": "Băng VHS", "led": "Tường LED", "holo": "Ảnh ba chiều", "neon": "Neon", "3d": "3D", "flat": "Phẳng"}, "arrivalLook": {"title": "Sau khi đăng nhập", "desc": "Hiệu ứng phát khi tài khoản đang tải, trước khi ảnh của bạn hiện trên trang. Trên thiết bị này.", "trace": "Vệt sáng", "tune": "Dò sóng", "rift": "Khe nứt", "deck": "Bộ bài", "glass": "Giọt kính"},
+    "loginLook": {
+      "title": "Màn hình đăng nhập",
+      "desc": "Cách logo và khẩu hiệu Riftn chuyển động trên màn hình đăng nhập của thiết bị này.",
+      "tube": "TV ống",
+      "vhs": "Băng VHS",
+      "led": "Tường LED",
+      "holo": "Ảnh ba chiều",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Phẳng"
+    },
+    "arrivalLook": {
+      "title": "Sau khi đăng nhập",
+      "desc": "Hiệu ứng phát khi tài khoản đang tải, trước khi ảnh của bạn hiện trên trang. Trên thiết bị này.",
+      "trace": "Vệt sáng",
+      "tune": "Dò sóng",
+      "rift": "Khe nứt",
+      "deck": "Bộ bài",
+      "glass": "Giọt kính"
+    },
     "importPartial": "Không thể theo dõi {{count}} tài khoản — hãy chạy lại quá trình nhập để thử lại.",
     "glass": "Thủy tinh",
     "shortsEnabled": "Quần short",
@@ -7063,6 +7143,17 @@
       "moveRuleDown": "Di chuyển quy tắc xuống",
       "deleteRule": "Xóa quy tắc",
       "rights": {
+        "sendMessages": "Gửi tin nhắn",
+        "sendMessagesHint": "Đăng bài trong cuộc trò chuyện cộng đồng",
+        "sendMedia": "Gửi phương tiện",
+        "sendMediaHint": "Đính kèm hình ảnh và GIF",
+        "embedLinks": "Chèn liên kết",
+        "embedLinksHint": "Hiển thị xem trước liên kết",
+        "addMembers": "Thêm thành viên",
+        "addMembersHint": "Chia sẻ cộng đồng với người khác",
+        "createEvents": "Tạo sự kiện",
+        "createEventsHint": "Lập lịch sự kiện cộng đồng",
+        "changeInfoMemberHint": "Chỉnh sửa tên cộng đồng và mô tả",
         "changeInfo": "Thay đổi thông tin cộng đồng",
         "changeInfoHint": "Chỉnh sửa tên, mô tả, ảnh đại diện và banner",
         "deleteMessages": "Xóa tin nhắn",
@@ -7140,12 +7231,41 @@
       "noInvites": "Chưa có liên kết mời nào. Tạo một liên kết để mời người trực tiếp.",
       "permissionsUpdated": "Quyền đã được cập nhật",
       "slowModeUpdated": "Chế độ chậm đã được cập nhật",
+      "slowMode": {
+        "off": "Tắt",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 phút",
+        "fiveMinutes": "5 phút",
+        "fifteenMinutes": "15 phút",
+        "oneHour": "1 giờ"
+      },
       "slowModeOffHint": "Thành viên có thể gửi tin nhắn mà không có độ trễ.",
       "slowModeOnHint": "Thành viên có thể gửi một tin nhắn mỗi {{label}}. Quản trị viên được miễn.",
       "defaultPermissions": "Quyền mặc định của thành viên",
       "defaultPermissionsHint": "Những gì mọi người có thể làm ở đây trừ khi quyền quản trị viên nói khác.",
       "slowModeTitle": "Chế độ chậm",
       "log": {
+        "verbs": {
+          "promote_admin": "Được quảng cáo",
+          "demote_admin": "xuống hạng",
+          "transfer_ownership": "Chuyển quyền sở hữu cho",
+          "ban_member": "cấm",
+          "unban_member": "không bị cấm",
+          "kick_member": "đã xóa",
+          "mute_member": "đã tắt tiếng",
+          "unmute_member": "Bật âm thanh",
+          "approve_member": "được chấp thuận",
+          "reject_member": "bị từ chối",
+          "delete_message": "Xóa tin nhắn từ",
+          "purge_messages": "đã xóa tất cả tin nhắn từ",
+          "pin_message": "thêm một tin nhắn được gắn lên",
+          "unpin_message": "xóa một tin nhắn từ",
+          "update_settings": "Cập nhật cài đặt cộng đồng",
+          "create_invite": "đã tạo một liên kết mời",
+          "revoke_invite": "đã thu hồi liên kết mời",
+          "invite_used": "được mời"
+        },
         "justNow": "vừa mới",
         "minutesAgo": "{{value}} phút trước",
         "hoursAgo": "{{value}} giờ trước",
@@ -13715,53 +13835,52 @@
     "cinema": {
       "close": "Đóng",
       "performance": {
-        "label": "Hiệu năng",
         "0": "Vui tươi",
         "1": "U sầu",
         "2": "Lo âu",
         "3": "Tự tin",
         "4": "Kinh ngạc",
         "5": "Kiềm chế",
-        "6": "Tinh nghịch"
+        "6": "Tinh nghịch",
+        "label": "Hiệu năng"
       },
       "title": "Định hướng điện ảnh",
       "hint": "Định hướng phong cách hình ảnh cho ảnh hoặc video tiếp theo. Kết quả khác nhau tùy mô hình.",
       "none": "Không định hướng",
       "reset": "Xóa định hướng",
       "camera": {
-        "label": "Kiểu máy quay",
         "0": "Điện ảnh kỹ thuật số",
         "1": "Phim 35mm",
         "2": "Phim 16mm",
         "3": "Khổ lớn",
-        "4": "Máy quay cầm tay cổ điển"
+        "4": "Máy quay cầm tay cổ điển",
+        "label": "Kiểu máy quay"
       },
       "lens": {
-        "label": "Kiểu ống kính",
         "0": "Cầu",
         "1": "Anamorphic",
         "2": "Kính mềm cổ điển",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Kiểu ống kính"
       },
       "focalLength": {
-        "label": "Tiêu cự",
         "0": "18mm góc rộng",
         "1": "24mm góc rộng",
         "2": "35mm tự nhiên",
         "3": "50mm tiêu chuẩn",
         "4": "85mm chân dung",
-        "5": "135mm tele"
+        "5": "135mm tele",
+        "label": "Tiêu cự"
       },
       "aperture": {
-        "label": "Độ sâu trường ảnh",
         "0": "f/1.4 rất nông",
         "1": "f/2.8 nông",
         "2": "f/5.6 vừa phải",
-        "3": "f/11 lấy nét sâu"
+        "3": "f/11 lấy nét sâu",
+        "label": "Độ sâu trường ảnh"
       },
       "movement": {
-        "label": "Chuyển động máy quay",
         "0": "Cố định trên chân máy",
         "1": "Dolly tiến chậm",
         "2": "Dolly lùi chậm",
@@ -13769,27 +13888,27 @@
         "4": "Quay vòng quanh chủ thể",
         "5": "Cầm tay",
         "6": "Cần cẩu nâng lên",
-        "7": "Lia chậm"
+        "7": "Lia chậm",
+        "label": "Chuyển động máy quay"
       },
       "lighting": {
-        "label": "Ánh sáng",
         "0": "Ánh sáng ban ngày dịu",
         "1": "Giờ vàng",
         "2": "Tông tối tương phản sáng tối",
         "3": "Studio tông sáng",
         "4": "Đèn neon trong cảnh",
         "5": "Ngược sáng tạo bóng",
-        "6": "Trời âm u khuếch tán"
+        "6": "Trời âm u khuếch tán",
+        "label": "Ánh sáng"
       },
       "tempo": {
-        "label": "Nhịp cảnh quay",
         "0": "Một cảnh quay liền mạch",
         "1": "Hành động bình thản, thong thả",
         "2": "Hành động năng động, sôi nổi",
-        "3": "Hành động hỗn loạn, cuồng nhiệt"
+        "3": "Hành động hỗn loạn, cuồng nhiệt",
+        "label": "Nhịp cảnh quay"
       },
       "era": {
-        "label": "Thời đại",
         "0": "Thập niên 1920",
         "1": "Thập niên 1950",
         "2": "Thập niên 1960",
@@ -13797,10 +13916,10 @@
         "4": "Thập niên 1980",
         "5": "Thập niên 1990",
         "6": "Ngày nay",
-        "7": "Tương lai gần"
+        "7": "Tương lai gần",
+        "label": "Thời đại"
       },
       "genre": {
-        "label": "Thể loại",
         "0": "Tài liệu",
         "1": "Chính kịch",
         "2": "Phim noir",
@@ -13808,16 +13927,17 @@
         "4": "Giả tưởng",
         "5": "Hài lãng mạn",
         "6": "Giật gân",
-        "7": "Cao bồi miền Tây"
+        "7": "Cao bồi miền Tây",
+        "label": "Thể loại"
       },
       "palette": {
-        "label": "Bảng màu",
         "0": "Hổ phách ấm",
         "1": "Xanh lạnh",
         "2": "Tông đất trầm",
         "3": "Pastel",
         "4": "Đơn sắc tương phản cao",
-        "5": "Màu cơ bản rực rỡ"
+        "5": "Màu cơ bản rực rỡ",
+        "label": "Bảng màu"
       }
     },
     "audioNoSpeech": "Không tìm thấy lời nói trong bản ghi đó.",

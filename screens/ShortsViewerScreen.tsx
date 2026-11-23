@@ -1,5 +1,5 @@
 import { tokenLabel } from '../libs/token-label';
-import { purchaseOfferVisible } from "../config/storefront";
+import { usePurchaseOfferVisible } from "../config/storefront";
 import { useCommentCount } from '../libs/comment-count-store';
 import RemixCredits from "../components/Post/RemixCredits";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -7,7 +7,7 @@ import { useVideoDownload } from "../context/VideoDownloadContext";
 import { soundWindowCorrection } from "../libs/soundWindow";
 import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens } from "../libs/content-gate";
 import { useStreamAccessInfo } from "../libs/validators.util";
-import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, MATURE_CONTENT_ENABLED } from "../config/storefront";
 import { useBackPress } from "../hooks/useBackPress";
 import { fetchVideoAccess, isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../libs/video-access";
 import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
@@ -94,7 +94,10 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import type { GestureType, NativeGesture } from "react-native-gesture-handler";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { VideoView, useVideoPlayer } from "expo-video";
-import { shortsPhotoMedia } from "../libs/shortsPhotos";
+import { downloadGalleryImage } from "../libs/downloadGalleryImage";
+import { galleryIndex } from "../libs/media-presentation";
+import { cdnImageSource } from "../libs/cdnImage";
+import { isShortsPhoto, shortsPhotoMedia } from "../libs/shortsPhotos";
 import { ShortsPhotoPager } from "../components/Post/ShortsPhotoPager";
 import { useAppTheme } from "../context/ThemeContext";
 import { LIGHT_PAGE_FILL } from "../theme/colors";
@@ -189,7 +192,10 @@ import { toggleRepost } from "../services/repost.service";
 import { getShortsFeed, getUnifiedFeed } from "../services/feed.unified.service";
 import { createBrainrotSource } from "../libs/brainrotFeed";
 import { shortsFeedFetchers } from "../navigation/warmShortsFeed";
+import { postWarmKey, seedPostDetail, warmRequest } from "../libs/navPrefetch";
 import { isContentWarningSeen, markContentWarningSeen } from "../libs/contentWarningSeen";
+import MatureContentGate from "../components/Home/MatureContentGate";
+import { useKidsModeLock } from "../hooks/useKidsModeLock";
 import WarningShortSlide from "../components/Shorts/WarningShortSlide";
 import { profileFeedParams } from "../libs/profileFeedOrigin";
 import { canOpenPostVideoViewer } from "../navigation/postVideoViewerParams";
@@ -538,6 +544,7 @@ interface ShortItemProps {
 }
 
 const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId, onPlayToEnd }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { shareIconStyle } = useAppPrefs();
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
@@ -596,6 +603,15 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const { t } = useCopy();
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
   const navigation = useNavigation<any>();
+  // A still slide or lock card links on to the post page. Hand it this slide's
+  // post to paint at once and start its fetch now, like a feed card does,
+  // instead of a blank page that waits for the request to leave after the push.
+  const openPostPage = useCallback(() => {
+    if (tokenId == null) return;
+    seedPostDetail(tokenId, item);
+    warmRequest(postWarmKey(tokenId), () => getNFT(tokenId));
+    navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) });
+  }, [navigation, tokenId, item]);
   const frameRef = useRef<View>(null);
   // Only the drag-to-minimize gesture reads this; at rest the picture fills
   // the frame and contentFit="contain" letterboxes it.
@@ -1238,8 +1254,14 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
    */
   useEffect(() => {
     if (!isActive) return;
+    // A drag on the bar that was cut short by the swipe away (the gesture is
+    // switched off under the finger) never said it had ended, and the bar
+    // then ignored the clock for good.
+    scrubbingRef.current = false;
+    setScrubbing(false);
     try { player.timeUpdateEventInterval = 0.25; } catch {}
-    const sub = player.addListener("timeUpdate", ({ currentTime }: any) => {
+    let heardAt = 0;
+    const show = (currentTime: number) => {
       const total = player.duration;
       if (total > 0) durationRef.current = total;
       // A drag owns the bar until the finger lifts; the clock would otherwise
@@ -1249,9 +1271,22 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       const jump = photoSongUrl ? soundWindowCorrection(photoSongUrl, currentTime ?? 0) : null;
       if (jump != null) { try { player.currentTime = jump; } catch {} return; }
       progress.setValue(Math.max(0, Math.min(1, (currentTime ?? 0) / total)));
+    };
+    const sub = player.addListener("timeUpdate", ({ currentTime }: any) => {
+      heardAt = Date.now();
+      show(currentTime);
     });
+    // The bar must not depend on the player's ticks alone: a short reached
+    // while it was already playing (dragged in) could run with none arriving,
+    // its bar parked at the start under a moving picture. Read the clock
+    // directly whenever the ticks go quiet.
+    const fallback = setInterval(() => {
+      if (Date.now() - heardAt < 600) return;
+      try { if (player.playing) show(player.currentTime); } catch {}
+    }, 300);
     return () => {
       sub.remove();
+      clearInterval(fallback);
       try { player.timeUpdateEventInterval = 0; } catch {}
     };
   }, [isActive, player, progress, photoSongUrl]);
@@ -1303,6 +1338,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     // A deliberate target at the foot of the screen, so it takes the touch
     // straight away instead of waiting for travel.
     immediate: true,
+    // It also lies where a thumb starts its swipe to the next short.
+    yieldsVertical: true,
     blocks: scrubBlocks,
   });
 
@@ -2420,7 +2457,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         {/* A clip that doesn't fill the screen sits on a blurred, dimmed copy
             of its own poster, so its edges blend out rather than cutting a
             hard line across the caption and action row. */}
-        {cleanStage ? (
+        {!surfaceActive || !isNearby ? null : cleanStage ? (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none" />
         ) : wideStage && WideVideoFill && !showComments ? (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none">
@@ -2487,7 +2524,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             height={itemHeight}
             isActive={isActive}
             bgId={reelBgId}
-            onOpenPost={() => navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) })}
+            onOpenPost={openPostPage}
           />
         )}
         {photoMedia && <ShortsPhotoPager images={photoMedia.imageUrls} galleryKey={String(tokenId)} width={SCREEN_WIDTH} pagerGesture={pagerGesture} />}
@@ -2499,7 +2536,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
               : undefined}
             onPress={subLocked
               ? () => { const id = username || minterAddress; if (id) showUserProfile(id); }
-              : () => navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) })}
+              : openPostPage}
           />
         )}
         {playbackPhase === 'failed' && isActive && <Pressable accessibilityRole="button"
@@ -2854,7 +2891,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 </Text>
               </View>
 
-              {purchaseOfferVisible() && (
+              {showPurchaseOffer && (
               <ActionButton
                 icon="Gem"
                 label={formatCompactNumber(tipCount)}
@@ -2970,6 +3007,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           replyPolicy={(item as any).replyPolicy}
           forKids={!!(item as any).forKids}
           postCreator={{ address: minterAddress, displayName, username }}
+          placeholder={t("comments.shortsPlaceholder", { defaultValue: "Say something..." })}
         />
       )}
 
@@ -3004,6 +3042,7 @@ const ShortsViewerScreen = () => {
   const navigation = useNavigation<any>();
   const user = useUser();
   const { requireAuth } = useAuthActions();
+  const kidsMode = useKidsModeLock();
   const {
     initialIndex = 0,
     initialItems = [],
@@ -3419,9 +3458,11 @@ const ShortsViewerScreen = () => {
   }, [activeIndex, items.length, loadMore, page, loadRetry]);
 
   // The brainrot feed opens empty: start dealing at once rather than waiting
-  // for the list to measure itself and ask.
+  // for the list to measure itself and ask. Any other viewer opened with
+  // nothing does the same: an empty list never reaches its end, so it never
+  // asked, and the viewer sat on its loading wheel.
   useEffect(() => {
-    if (brainrotRef.current) loadMore();
+    if (brainrotRef.current || initialItems.length === 0) loadMore();
     // Once, on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -3751,6 +3792,18 @@ const ShortsViewerScreen = () => {
   const renderItem = useCallback(
     ({ item, index }: { item: UnifiedFeedItem; index: number }) => {
       if (isLiveSlide(item)) return <LiveShortSlide slide={item} isActive={index === activeIndex} height={containerHeight} />;
+      if (item.contentRating === "mature") {
+        const postId = item.tokenId ?? item.id;
+        return (
+          <View className="dark-surface" style={[styles.matureSlide, { height: containerHeight }]}>
+            <MatureContentGate
+              actionLabel={t("reel.openPost")}
+              canReveal={MATURE_CONTENT_ENABLED && !kidsMode && postId != null}
+              onReveal={() => navigation.navigate(ScreenNames.FeedDetail, { postId: String(postId) })}
+            />
+          </View>
+        );
+      }
       const warning = String((item as any).spoilerText ?? "").trim();
       const id = String(item.tokenId ?? item.id ?? "");
       if (warning && !revealedWarnings.has(id) && !isContentWarningSeen(id)) {
@@ -3798,7 +3851,7 @@ const ShortsViewerScreen = () => {
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek, handlePlayToEnd],
+    [kidsMode, navigation, t, activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek, handlePlayToEnd],
   );
 
   const keyExtractor = useCallback(
@@ -3821,7 +3874,7 @@ const ShortsViewerScreen = () => {
 
       {/* Keep the tapped picture visible while native layout establishes the
           pager's exact viewport. Its geometry still waits for measurement. */}
-      {!hasMeasuredViewport && initialThumbnail ? <Image
+      {!hasMeasuredViewport && initialThumbnail && initialItems[initialIndex] && initialItems[initialIndex].contentRating !== "mature" ? <Image
         source={{ uri: initialThumbnail }} style={StyleSheet.absoluteFill}
         contentFit="contain" transition={0} pointerEvents="none"
       /> : null}
@@ -3903,7 +3956,7 @@ const ShortsViewerScreen = () => {
         </View>
 
         {/* The player's buttons, on the bottom row under the scrubber. */}
-        {!isLiveSlide(activeItem) && <View className="dark-surface" style={styles.toolsBar} pointerEvents="box-none">
+        {!isLiveSlide(activeItem) && activeItem?.contentRating !== "mature" && <View className="dark-surface" style={styles.toolsBar} pointerEvents="box-none">
           {/* These two stay on every post so the row never reshuffles
               between slides; where one cannot work it says so. */}
           <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} unavailable={items[activeIndex]?.postType === "feed-images"} /></ChromeTouchTarget>
@@ -4005,7 +4058,7 @@ const ShortsViewerScreen = () => {
 
       {/* Options menu — bookmark, follow, report, block and the owner actions,
           matching the web viewer's options drawer. */}
-      {showOptionsMenu && !!activeItem && !isLiveSlide(activeItem) && (
+      {showOptionsMenu && !!activeItem && !isLiveSlide(activeItem) && activeItem.contentRating !== "mature" && (
         <PostOptionsMenu
           visible={showOptionsMenu}
           onClose={() => setShowOptionsMenu(false)}
@@ -4033,6 +4086,22 @@ const ShortsViewerScreen = () => {
           isSaved={activeEngagement.isSaved}
           canCast={!activeItem.imageUrls?.length && activeItem.postType !== "live" &&
             (isOwnerOfActive || activeItem.isUnlocked || (!activeItem.streamInfo?.isPayPerView && !isHoldGated(activeItem.streamInfo?.isLockContent, activeItem.streamInfo?.lockContentAmount)))}
+          onDownloadImage={activeItem.postType === "feed-images" && !activeItem.spoilerText && !(activeItem as any).is_w2e && !reelStillOf(activeItem) && isShortsPhoto(activeItem, true)
+            ? () => {
+                const media = shortsPhotoMedia(activeItem, true);
+                if (media) void downloadGalleryImage(media.imageUrls, String(activeTokenId));
+              }
+            : undefined}
+          copyMedia={activeItem.postType === "feed-images" && !activeItem.spoilerText && !(activeItem as any).is_w2e && !reelStillOf(activeItem) && isShortsPhoto(activeItem, true)
+            ? { kind: "image", url: () => {
+                const urls = shortsPhotoMedia(activeItem, true)?.imageUrls ?? [];
+                const url = urls[Math.min(galleryIndex(String(activeTokenId)), urls.length - 1)];
+                return url ? cdnImageSource(url) : null;
+              } }
+            : activeItem.postType === "short" && !activeItem.imageUrls?.length && !videoNeedsAccess(activeItem) && !activeIsHidden &&
+              !(activeItem as any).spoilerText && !(activeItem as { contentRating?: string }).contentRating?.includes("mature")
+              ? { kind: "video", url: () => getVideoUrl(activeTokenId) }
+              : undefined}
           onDownloadVideo={activeItem.postType === "short" && !activeItem.imageUrls?.length &&
             (isOwnerOfActive || activeItem.isUnlocked || (!activeItem.streamInfo?.isPayPerView && !isHoldGated(activeItem.streamInfo?.isLockContent, activeItem.streamInfo?.lockContentAmount))) &&
             !(activeItem as { contentRating?: string }).contentRating?.includes("mature")
@@ -4081,6 +4150,7 @@ export default ShortsViewerScreen;
 
 const styles = StyleSheet.create({
   playerFrame: { position: "absolute", top: 0, left: 0, right: 0 },
+  matureSlide: { width: "100%", backgroundColor: "#000", justifyContent: "center", paddingHorizontal: 20 },
   container: {
     flex: 1,
     backgroundColor: "transparent",

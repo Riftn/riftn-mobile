@@ -422,7 +422,11 @@ export default function PostInfoScreen() {
               listings.slice(0, 5).map((l) => (
                 <Pressable key={l.id} style={styles.listing} onPress={() => setBuying(l)}>
                   <View style={{ flex: 1 }}>
-                    <Text style={styles.value}>${fmt(l.price_per_fraction)} <Text style={styles.muted}>{t("fractions.perFraction")}</Text></Text>
+                    {Number(l.price_per_fraction) === 0 ? (
+                      <Text style={styles.value}>{t("fractions.freeBadge")}</Text>
+                    ) : (
+                      <Text style={styles.value}>${fmt(l.price_per_fraction)} <Text style={styles.muted}>{t("fractions.perFraction")}</Text></Text>
+                    )}
                     <Text style={styles.muted}>
                       {t("fractions.availableCount", { count: l.quantity - l.filled_quantity })} · {shortAddress(l.seller_address)}
                     </Text>
@@ -577,7 +581,7 @@ export default function PostInfoScreen() {
           initialSpoilerText={post.spoilerText}
           initialQuotePolicy={post.quotePolicy}
           initialReplyPolicy={post.replyPolicy}
-          initialVisibility={(post as any).visibility}
+          initialVisibility={(post as any).justMe ? "self" : (post as any).visibility}
           initialShopLinks={post.shopLinks}
           alwaysShowTitle={post.postType === "feed-audio"}
           onSuccess={(edited) => {

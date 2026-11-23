@@ -34,7 +34,7 @@ import { ShareLinks } from "../navigation/linking.config";
 import { shareWithRef } from "../libs/shareRef";
 import { theme } from "../theme";
 import { useWeb3Provider } from "../hooks/use-web3";
-import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from "../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, useWebPurchaseLinkAllowed } from "../config/storefront";
 import { CHAIN_LABEL, MARKET_CHAINS, OPENSEA_CHAINS, WrongChainError, buyOpenSea, fillListings, formatVolume, nftMarket, type MarketCollection, type OpenSeaListing, type MarketOrder, type ShowcaseNft, type NftTarget, type Signer } from "../services/nft-market.service";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
@@ -97,6 +97,7 @@ export default function NftMarketScreen() {
 }
 
 export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
+  const linkOut = useWebPurchaseLinkAllowed();
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
@@ -108,7 +109,6 @@ export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
   const tile2 = Math.ceil((screenW - 32 - 12) / 2);
   const { provider, account, chainId } = useWeb3Provider();
   const canTrade = DIGITAL_PURCHASES_ENABLED;
-  const linkOut = iosWebPurchaseLinkAllowed();
 
   const [tab, setTab] = useState<Tab>(() => {
     const v = route.params?.view;

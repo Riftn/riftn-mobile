@@ -29,7 +29,7 @@ export default function ViralTemplateShowcase({ onPick, compact = false }: { onP
   const featured = TEMPLATE_FEATURED_IDS.flatMap(id => VIRAL_TEMPLATES.filter(effect => effect.id === id && effect.preview));
   const cardWidth = Math.min(width * .65, 250);
   const choose = (effect: ViralTemplate) => { setPreview(null); setLibrary(false); onPick(effect); };
-  const useButton = (effect: ViralTemplate) => <Pressable accessibilityRole="button" accessibilityLabel={t('viralTemplates.useNamed', { name: effect.displayName ?? effect.name })}
+  const renderUseButton = (effect: ViralTemplate) => <Pressable accessibilityRole="button" accessibilityLabel={t('viralTemplates.useNamed', { name: effect.displayName ?? effect.name })}
     onPress={() => choose(effect)} className="mt-2 min-h-11 flex-row items-center justify-between rounded-lg border border-white/20 px-3 py-3">
     <Text className="text-sm font-semibold text-white">{t('viralTemplates.use')}</Text><Ionicons name="arrow-forward" color="white" size={16} />
   </Pressable>;
@@ -50,7 +50,7 @@ export default function ViralTemplateShowcase({ onPick, compact = false }: { onP
         </Pressable>
         <Text className="mt-3 text-xs text-theme-neutrals-400">{t(`viralTemplates.${effect.category}`)}</Text>
         <Text numberOfLines={1} className="mt-1 text-base font-semibold text-theme-neutrals-100">{effect.displayName ?? effect.name}</Text>
-        {useButton(effect)}
+        {renderUseButton(effect)}
       </View>)}
     </ScrollView>}
     <Modal visible={library} animationType="slide" onRequestClose={() => { setPreview(null); setLibrary(false); }}>
@@ -64,7 +64,7 @@ export default function ViralTemplateShowcase({ onPick, compact = false }: { onP
         {preview ? <ScrollView contentContainerStyle={{ padding: 16 }}>
           {preview.preview && <Preview key={preview.id} effect={preview} width={width - 32} />}
           <Text className="mt-4 text-sm text-white/60">{t(preview.motionSeconds ? 'viralTemplates.motionReady' : 'viralTemplates.ready', { name: preview.displayName ?? preview.name })}</Text>
-          {useButton(preview)}
+          {renderUseButton(preview)}
         </ScrollView> : <>
           <TextInput value={query} onChangeText={setQuery} onFocus={searchField.onFocus} onBlur={searchField.onBlur} style={searchField.surface} placeholder={t('viralTemplates.search')} accessibilityLabel={t('viralTemplates.search')}
             placeholderTextColor="#a1a1aa" className="mx-4 my-2 min-h-12 rounded-xl px-4 text-white" />
@@ -80,7 +80,7 @@ export default function ViralTemplateShowcase({ onPick, compact = false }: { onP
                 <SmartImage source={{ uri: effect.poster }} recyclingKey={effect.id} style={{ width: 66, height: 88, borderRadius: 8 }} contentFit="cover" />
                 <Ionicons name="play-circle" size={24} color="white" style={{ position: 'absolute', bottom: 4, left: 4 }} />
               </Pressable>}
-              <View style={{ flex: 1 }}><Text className="font-semibold text-white">{effect.displayName ?? effect.name}</Text><Text className="mt-1 text-xs text-white/50">{t(`viralTemplates.${effect.category}`)}{!effect.preview ? ` · ${t('viralTemplates.previewUnavailable')}` : ''}</Text>{useButton(effect)}</View>
+              <View style={{ flex: 1 }}><Text className="font-semibold text-white">{effect.displayName ?? effect.name}</Text><Text className="mt-1 text-xs text-white/50">{t(`viralTemplates.${effect.category}`)}{!effect.preview ? ` · ${t('viralTemplates.previewUnavailable')}` : ''}</Text>{renderUseButton(effect)}</View>
             </View>} />
         </>}
       </SafeAreaView>

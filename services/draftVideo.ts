@@ -107,7 +107,7 @@ function watch(key: string, draftId: string) {
  * holds. A file that cannot be read in ranges, or an API without the
  * endpoint, gets the single multipart request it always did.
  */
-async function sendDraftFile(
+export async function sendDraftFile(
   media: { uri: string; name: string; mimeType: string },
   postType: "video" | "short",
   abortRef: { current: boolean },

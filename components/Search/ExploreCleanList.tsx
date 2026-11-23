@@ -17,6 +17,7 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useTranslation as useContentTranslation } from "../../hooks/useTranslation";
 import { useQuery } from "@tanstack/react-query";
 import Icon from "../ui/Icon";
 import { ExploreSection, EXPLORE_GUTTER, exploreRowStyles as row } from "./ExploreSection";
@@ -27,6 +28,7 @@ import { supabase } from "../../services/supabase";
 import { useLiveNowItems, LiveFace } from "../Home/LiveNowBar";
 import SuggestedAccountsSection from "../Home/SuggestedAccountsSection";
 import NewMembersRail from "../common/NewMembersRail";
+import ExploreRadioShows from "./ExploreRadioShows";
 
 const TOPICS_COLLAPSED = 5;
 const TOPICS_EXPANDED = 10;
@@ -54,6 +56,33 @@ function useTopTickers() {
 
 type CategoryWordItem = { id: string | null; name: string };
 
+const topicLabels: Record<string, string> = {
+  general: "settings.general", funny: "liveStudio.bot.personalities.funny",
+  humor: "exploreTopics.humor", humour: "exploreTopics.humor", life: "exploreTopics.life",
+  meme: "editor.templates.meme.title", music: "explorePage.music", gaming: "explorePage.gaming",
+  art: "explorePage.art", entertainment: "explorePage.entertainment", finance: "miniApps.category.finance",
+  sport: "welcome.topic.sports", sports: "welcome.topic.sports", travel: "welcome.topic.travel",
+  comedy: "welcome.topic.comedy", tech: "welcome.topic.tech", food: "welcome.topic.food", news: "welcome.topic.news",
+};
+
+function TopicWord({ name }: { name: string }) {
+  const { i18n } = useTranslation();
+  const language = i18n.language || "en";
+  const key = topicLabels[name.toLowerCase()];
+  const localized = key && (i18n.getResource(language, "translation", key)
+    ?? i18n.getResource(language.split("-")[0], "translation", key));
+  if (typeof localized === "string" && localized) return <>{localized}</>;
+  if (/^(riftn|dehub)$/i.test(name)) return <>{name.toLowerCase() === "riftn" ? "Riftn" : "DeHub"}</>;
+  return <TranslatedTopic name={name} language={language} />;
+}
+
+function TranslatedTopic({ name, language }: { name: string; language: string }) {
+  const texts = useMemo(() => ({ name }), [name]);
+  const { translatedTexts, isTranslated } = useContentTranslation(texts, null, "topic", true, language + ":" + name);
+  const shown = (isTranslated && translatedTexts.name) || name;
+  return <>{shown.charAt(0).toUpperCase() + shown.slice(1)}</>;
+}
+
 const CategoryWord = memo(function CategoryWord({ id, name, active, onChange }: {
   id: string | null;
   name: string;
@@ -66,7 +95,7 @@ const CategoryWord = memo(function CategoryWord({ id, name, active, onChange }: 
         className={active ? "text-white" : "text-theme-neutrals-500"}
         style={active ? styles.wordTextOn : styles.wordText}
       >
-        {name.charAt(0).toUpperCase() + name.slice(1)}
+        {id === null ? name : <TopicWord name={name} />}
       </Text>
       {active ? <View className="bg-white" style={styles.underline} /> : null}
     </Pressable>
@@ -256,6 +285,8 @@ function ExploreCleanList({
           ))}
         </ExploreSection>
       )}
+
+      <ExploreRadioShows first={isFirst()} />
 
       {tickers.length > 0 && (
         <ExploreSection
