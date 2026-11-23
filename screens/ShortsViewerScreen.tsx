@@ -24,6 +24,7 @@ import { startsOnVideoPicture, commitsVideoMinimize, minimizeDrag, draggedPictur
 import { settlesSwipeBack, swipeBackProgress, SWIPE_BACK_SPRING } from '../libs/swipe-back';
 import { useOwnEdgeSwipe } from '../hooks/useSwipeBack';
 import { commitsDismiss, heldRate, holdSideAt, seekSideAt, HOLD_BASE_RATE, REWIND_TICK_MS, SEEK_JUMP_SECONDS } from '../libs/video-hold-gestures';
+import { noteShortsViewerOpened, useStuckShortReport } from "../hooks/useStuckShortReport";
 import { usePlaybackRecovery } from '../hooks/usePlaybackRecovery';
 import { markHlsFailed, useHlsFallback } from '../libs/hls-fallback';
 import { PersistentVideoView } from '../components/common/PersistentVideoView';
@@ -1089,6 +1090,13 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const { recovery, phase: playbackPhase } = usePlaybackRecovery(player, videoUrl, {
     component: 'ShortsViewer', postId: tokenId, lateStallHandover: true,
     allowed: () => ownsPlayerRef.current() && (isActiveRef.current && itemNavigation.isFocused() || isPictureInPicturePlayer(player)) && canStartVideo(player),
+  });
+  const firstFrameRef = useRef(firstFrameRendered);
+  firstFrameRef.current = firstFrameRendered;
+  useStuckShortReport(noVideo || !ownsVideo ? null : player, isActive, {
+    postId: tokenId, source: videoUrl,
+    wanted: () => recovery.wanted && !pausedByUserRef.current && itemNavigation.isFocused(),
+    firstFrame: () => firstFrameRef.current,
   });
   // A lapsed signature fails like a broken file; fetch a fresh one.
   const refetchShortAccess = shortAccess.refetch;
@@ -3059,6 +3067,8 @@ const ShortsViewerScreen = () => {
   const itemsRef = useRef(items);
   itemsRef.current = items;
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+  // Starts the scroll that stuck-Short reports are counted in.
+  useEffect(() => { noteShortsViewerOpened(); }, []);
   // The sound session is set up once for the viewer, not once per short.
   // Redoing it as each short landed re-routed the phone's audio under a clip
   // that was already playing, which froze it for a beat on every swipe.

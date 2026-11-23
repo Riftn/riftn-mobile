@@ -627,10 +627,14 @@ async function runShorts(): Promise<void> {
     const probe = createVideoPlayer(null);
     const proto = Object.getPrototypeOf(probe) as Record<string, unknown>;
     const patched: string[] = [];
-    for (const name of ["play", "replaceAsync", "replace"]) {
+    for (const name of ["play", "replaceAsync", "replace", "release"]) {
       const original = proto[name];
       if (typeof original !== "function") continue;
       proto[name] = function (this: object, ...args: unknown[]) {
+        if (name === "release") {
+          players.delete(this);
+          return (original as (...a: unknown[]) => unknown).apply(this, args);
+        }
         if (!players.has(this)) players.set(this, { id: nextId++, lastT: -1, lastChange: 0, moving: false });
         if (name === "play") {
           let at = -1;
@@ -678,13 +682,31 @@ async function runShorts(): Promise<void> {
   extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
   await shot("shorts-open");
   const count = Number(await AsyncStorage.getItem(`${FLAG_KEY}.swipes`)) || 12;
+  // Per swipe: what the app holds, to see a long scroll pile players up.
+  const samples: Record<string, unknown>[] = [];
+  extra.samples = samples;
+  const heapMB = () => {
+    try {
+      const stats = (globalThis as any).HermesInternal?.getInstrumentedStats?.();
+      return typeof stats?.js_heapSize === "number" ? Math.round(stats.js_heapSize / 1048576) : null;
+    } catch { return null; }
+  };
+  const sessionStats = () => {
+    try { return (require("../../libs/post-media-session") as any).postMediaStats?.() ?? null; } catch { return null; }
+  };
   for (let i = 1; i <= count && extra.opened; i++) {
+    const ranBefore = new Set(motions.map((m) => m.player));
+    const asked = Date.now();
     await AsyncStorage.setItem(SWIPE_KEY, `vswipe:shorts-${i}`);
-    // A picture of what the swipe landed on, while a slow start would still show.
-    await sleep(3000);
-    if (i <= 8) await shot(`shorts-swipe-${i}`);
-    await sleep(2000);
-    await save(false);
+    // The shell acts on the request within 2 s; then the new short has 2 s to move.
+    await sleep(4000);
+    const started = motions.some((m) => m.wall >= asked && !ranBefore.has(m.player));
+    // A picture of a swipe that brought nothing moving, and of a few others.
+    if (!started) await shot(`shorts-stuck-${i}`);
+    else if (i <= 8 || i % 25 === 0) await shot(`shorts-swipe-${i}`);
+    samples.push({ i, wall: Date.now(), started, heapMB: heapMB(), livePlayers: players.size, posts: sessionStats() });
+    await sleep(1500);
+    if (i % 5 === 0 || i === count) await save(false);
   }
   // A swipe that starts on the timeline row, sent soon after landing on a
   // short, while its bar still takes touches: it has to turn the page too.

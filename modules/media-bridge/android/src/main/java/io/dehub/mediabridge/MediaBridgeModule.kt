@@ -86,6 +86,15 @@ class MediaBridgeModule : Module() {
     // Android shows its own consent dialog from getDisplayMedia; nothing to open here.
     AsyncFunction("showBroadcastPicker") { false }
 
+    // The app's memory in MB (Java heap in use plus native heap), read when a
+    // Short gets stuck.
+    Function("memoryFootprintMB") {
+      val runtime = Runtime.getRuntime()
+      val java = runtime.totalMemory() - runtime.freeMemory()
+      val native = android.os.Debug.getNativeHeapAllocatedSize()
+      Math.round((java + native) / 1_048_576.0).toDouble()
+    }
+
     OnCreate { startWatching() }
     OnStartObserving { startWatching() }
     OnDestroy { stopWatching() }

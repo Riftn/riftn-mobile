@@ -43,6 +43,10 @@ on:
         description: "shorts only: '' = the runner's own fast line. slow = a weak phone connection for every HTTPS request the simulator makes (3 Mbit/s down, 1 Mbit/s up, 150 ms round trip)"
         required: false
         default: ''
+      swipes:
+        description: "shorts only: swipes per run (12 by default; 120 or more = a long scroll, with memory and live players per swipe). Use rounds=1 for long ones"
+        required: false
+        default: ''
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -57,7 +61,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}-${{ inputs.network || 'fast' }}
+  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}-${{ inputs.network || 'fast' }}-${{ inputs.swipes || '12' }}
   cancel-in-progress: true
 
 jobs:
@@ -227,6 +231,7 @@ jobs:
         if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed' || inputs.task == 'livetheme' || inputs.task == 'reactions' || inputs.task == 'rowreactions' || inputs.task == 'freeze' || inputs.task == 'feedline' || inputs.task == 'moments' || inputs.task == 'sharelink'
         env:
           NAV_MODE: ${{ inputs.task }}
+          SHORTS_SWIPES: ${{ inputs.swipes }}
           MINIFY: ${{ inputs.minify || 'true' }}
           ROUNDS: ${{ inputs.rounds || '2' }}
           SHELL_THEMES: ${{ inputs.task == 'shells' && inputs.themes || '' }}
