@@ -1,5 +1,5 @@
 import { buildSoundtrackTag, parseSoundtrack } from "../../libs/parseSoundtrack";
-import { playableSoundUrl, soundCredit, soundMix, soundWindow, soundWindowCorrection, soundWindowProgress, withSoundMix, withSoundWindow } from "../../libs/soundWindow";
+import { playableSoundUrl, soundCredit, soundMix, soundWindow, soundWindowCorrection, soundWindowProgress, suggestedSoundStart, withSoundMix, withSoundWindow } from "../../libs/soundWindow";
 
 const AUDIUS = "https://api.audius.co/v1/tracks/ZlwB7/stream?app_name=Riftn";
 
@@ -42,5 +42,19 @@ describe("sound mix links", () => {
   });
   it("a new part keeps the levels", () => {
     expect(soundMix(withSoundWindow("https://x/a.mp3#sv=50&vv=50", { start: 10, end: 20 }))).toEqual({ song: 0.5, video: 0.5 });
+  });
+});
+
+describe("suggestedSoundStart", () => {
+  it("opens a long song about a third in, on its likely chorus", () => {
+    expect(suggestedSoundStart(200, 30)).toBe(60);
+  });
+  it("never runs the part past the end", () => {
+    expect(suggestedSoundStart(40, 30)).toBe(10);
+  });
+  it("starts short songs, unknown lengths and songs that fit whole at the top", () => {
+    expect(suggestedSoundStart(20, 15)).toBe(0);
+    expect(suggestedSoundStart(undefined, 30)).toBe(0);
+    expect(suggestedSoundStart(30, 30)).toBe(0);
   });
 });
