@@ -32,6 +32,7 @@ import { ButtonLoader } from "../DeHubLoader";
 import { useAppTheme } from "../../context/ThemeContext";
 import { minimalRow } from "../../theme/minimal";
 import { PinnedCommunityDissolve, PinnedCommunityStrip } from "./PinnedCommunityStage";
+import { KeepDarkScope } from "../../libs/jsx/tone";
 import { SheetGlassFill } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 import useCinematicPhone from "../../hooks/useCinematicPhone";
@@ -81,7 +82,7 @@ export function warmPinnedCommunities(walletAddress: string) {
 
 const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNavigate, renderHeader }) => {
   const { t } = useTranslation();
-  const { isMinimal } = useAppTheme();
+  const { isMinimal, isLight } = useAppTheme();
   // Pin banners fill the full-width row behind the text.
   const { width: rowWidth } = useWindowDimensions();
   const navigation = useNavigation<any>();
@@ -131,8 +132,18 @@ const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNav
   // The header (avatar, name, cover) sits in the same slot whether or not the
   // pins have arrived, so it is kept instead of being torn down and built
   // again (avatar and cover went blank for ~0.9s after the page showed).
+  // Light themes: the whole header sits on one dark stage, so the art can fade
+  // into it. A dark base on the details alone covered the art rising behind
+  // the community row, which then started at a hard edge.
+  const darkStage = !!featured && isLight;
+  const rounded = !!featured && !isMinimal && !cinematicPhone;
   const head = (
-    <View className={featured && !isMinimal && !cinematicPhone ? "rounded-b-xl overflow-hidden" : undefined}>
+    <View className={rounded ? (darkStage ? "rounded-xl overflow-hidden" : "rounded-b-xl overflow-hidden") : undefined}>
+      {darkStage ? (
+        <KeepDarkScope>
+          <View pointerEvents="none" style={[StyleSheet.absoluteFillObject, styles.darkStage]} />
+        </KeepDarkScope>
+      ) : null}
       {featured ? <PinnedCommunityDissolve community={featured} /> : null}
       {renderHeader?.(featured)}
       {featured ? (
@@ -379,6 +390,7 @@ function PinPickerModal({
 }
 
 const styles = StyleSheet.create({
+  darkStage: { backgroundColor: "#0b0b0d" },
   wrap: { marginTop: 12, gap: 8 },
   inset: { marginHorizontal: 12 },
   emptyWrap: { marginTop: 0 },

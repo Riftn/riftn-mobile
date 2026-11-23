@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import SmartImage from "../common/SmartImage";
 import DmOpenTimerMedia from "./DmOpenTimerMedia";
+import { markDmMessageViewed } from "../../services/dm/dm.api";
 import Icon from "../ui/Icon";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import { toastError } from "../../libs/toast";
@@ -127,8 +128,11 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   const navigation = useNavigation<any>();
   const { width: windowWidth } = useWindowDimensions();
   const url = encryptedMediaUrl(rawUrl);
-  const auto = d.kind === "image" || d.kind === "audio";
+  // A view-once photo sent to me is never decrypted into the chat: it opens once, full screen.
+  const viewOnce = destruct?.mode === "view" && !isMine && d.kind === "image";
+  const auto = (d.kind === "image" && !viewOnce) || d.kind === "audio";
   const { status, uri, progress, start, rebuild } = useDecryptedMedia(url, d, messageId, auto);
+  const [viewOnceOpened, setViewOnceOpened] = useState(false);
   const shown = uri;
 
   const maxW = Math.round(windowWidth * 0.75 - 24);
@@ -210,6 +214,37 @@ const EncryptedMediaComponent: React.FC<Props> = ({
       blurRadius={12}
     />
   ) : null;
+
+  if (viewOnce) {
+    const openOnce = async () => {
+      if (viewOnceOpened) return;
+      setViewOnceOpened(true);
+      const file = uri || (await start());
+      void markDmMessageViewed(messageId).catch(() => undefined);
+      if (file) navigation.navigate("ImageViewer", { images: [file], initialIndex: 0, allowDownload: false });
+    };
+    return (
+      <TouchableOpacity
+        activeOpacity={0.85}
+        onPress={viewOnceOpened ? undefined : () => void openOnce()}
+        disabled={viewOnceOpened}
+        onLongPress={onLongPress}
+        delayLongPress={350}
+        className="flex-row items-center px-3 py-3"
+        style={{ gap: 12, minWidth: 200 }}
+      >
+        <View className="w-10 h-10 rounded-full items-center justify-center" style={{ backgroundColor: "hsla(0,0%,100%,0.12)" }}>
+          {status === "loading" ? <ActivityIndicator size="small" color="#F4F4F5" /> : <Icon name={viewOnceOpened ? "Eye" : "Image"} size={20} color="#F4F4F5" />}
+        </View>
+        <View style={{ flexShrink: 1 }}>
+          <Text className="text-[14px] font-semibold text-white">
+            {viewOnceOpened ? t("dm.openTimer.opened", "Opened") : t("dm.openTimer.tapPhoto", "Tap to view")}
+          </Text>
+          <Text className="text-[12px] text-theme-neutrals-400">{t("dmVideo.destruct.view", "1 view")}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
   if (d.kind === "image") {
     return (
