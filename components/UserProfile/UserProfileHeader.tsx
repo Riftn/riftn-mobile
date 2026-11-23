@@ -542,9 +542,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           )}
         </View>
 
-        {/* Badge Museum: every earned badge in a framed grid under the
-            counts. Nothing until one is earned, or when the owner hides it. */}
-        {!isBlocked && <BadgeMuseumPanel address={address || username} own={isOwnProfile} />}
+        {/* Badge Museum: the rarest earned medals under the counts, only
+            when the owner has switched it on in Settings (off by default). */}
+        {!isBlocked && <BadgeMuseumPanel address={address || username} />}
 
         {/* The streamer ladder. Renders nothing until a stream has ended,
             so a non-streamer's profile is unchanged. */}

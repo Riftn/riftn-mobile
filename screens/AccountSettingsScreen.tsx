@@ -65,6 +65,7 @@ import ContentPanel from "../components/Settings/ContentPanel";
 import AssetsPanel from "../components/Settings/AssetsPanel";
 import MessagesPanel from "../components/Settings/MessagesPanel";
 import ProfilesSection from "../components/Settings/ProfilesSection";
+import BadgeMuseumSection from "../components/Settings/BadgeMuseumSection";
 import EnsHandleSection from "../components/Settings/EnsHandleSection";
 import FediverseHandleSection from "../components/Settings/FediverseHandleSection";
 import SignedFollowsSection from "../components/Settings/SignedFollowsSection";
@@ -338,6 +339,10 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
         <Divider />
         <GettingStartedRow />
       </SettingsSection>
+
+      {/* Badge Museum: off by default, so this is its home until it is
+          switched on for the profile. Saves on its own. */}
+      {isSignedIn ? <BadgeMuseumSection /> : null}
 
       {/* Between the profile rows and ENS, where web puts it: an email a
           wallet account can log in with instead of a signature. */}
