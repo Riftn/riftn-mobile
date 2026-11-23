@@ -29,6 +29,7 @@ import { toastError, toastInfo, toastSuccess } from "../libs/toast";
 import CollectionsRow from "../components/NftMarket/CollectionsRow";
 import NftSpotlight, { type SpotlightItem } from "../components/NftMarket/NftSpotlight";
 import NftSheet, { priceNow } from "../components/NftMarket/NftSheet";
+import CreateNftPanel from "../components/NftMarket/CreateNftPanel";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ShareLinks } from "../navigation/linking.config";
 import { shareWithRef } from "../libs/shareRef";
@@ -38,7 +39,7 @@ import { DIGITAL_PURCHASES_ENABLED, useWebPurchaseLinkAllowed } from "../config/
 import { CHAIN_LABEL, MARKET_CHAINS, OPENSEA_CHAINS, WrongChainError, buyOpenSea, fillListings, formatVolume, nftMarket, type MarketCollection, type OpenSeaListing, type MarketOrder, type ShowcaseNft, type NftTarget, type Signer } from "../services/nft-market.service";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
-type Tab = "browse" | "mine" | "activity";
+type Tab = "browse" | "create" | "mine" | "activity";
 type ActivityKind = "all" | "sale" | "listing" | "offer";
 
 /** How long ago, short: 5m, 3h, 2d. */
@@ -60,6 +61,7 @@ const compactNumber = (n: number) => n.toLocaleString(undefined, { notation: "co
 
 const TABS: { key: Tab; icon: string; labelKey: string; fallback: string }[] = [
   { key: "browse", icon: "search", labelKey: "nftMarket.tabBrowse", fallback: "Browse" },
+  { key: "create", icon: "nfts", labelKey: "nftMarket.tabCreate", fallback: "Create" },
   { key: "mine", icon: "nfts", labelKey: "nftMarket.tabMine", fallback: "Yours" },
   { key: "activity", icon: "stats", labelKey: "nftMarket.tabRecent", fallback: "Recent" },
 ];
@@ -113,7 +115,7 @@ export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
   const [tab, setTab] = useState<Tab>(() => {
     const v = route.params?.view;
     if (v === "sales" || v === "activity") return "activity";
-    return v === "mine" ? v : "browse";
+    return v === "mine" || (v === "create" && DIGITAL_PURCHASES_ENABLED) ? v : "browse";
   });
   const [chain, setChain] = useState<ChainFilter>("all");
   const [sort, setSort] = useState<"newest" | "price_asc">("newest");
@@ -708,7 +710,7 @@ export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
       )}
     </View>
   );
-  const subTabs = <PageTabs size="sm" value={tab} onChange={setTab} tabs={TABS.map(({ key, labelKey, fallback }) => ({ id: key, label: t(labelKey, { defaultValue: fallback }) }))} />;
+  const subTabs = <PageTabs size="sm" value={tab} onChange={setTab} tabs={TABS.filter(({ key }) => key !== "create" || canTrade).map(({ key, labelKey, fallback }) => ({ id: key, label: t(labelKey, { defaultValue: fallback }) }))} />;
 
   return (
     <View style={styles.root}>
@@ -726,7 +728,9 @@ export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
         />
       )}
       <View style={styles.body}>
-        {tab === "browse"
+        {tab === "create" && canTrade
+          ? <CreateNftPanel onOpen={setOpen} onSignIn={signIn} bottomInset={insets.bottom + 120} />
+          : tab === "browse"
           ? orderGrid(listings, t("nftMarket.noneForSale", { defaultValue: "Nothing for sale yet" }), canTrade ? t("nftMarket.startHint", { defaultValue: "List an NFT from Yours to be first." }) : undefined)
           : tab === "activity"
             ? activityList

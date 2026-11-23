@@ -16,6 +16,8 @@ export interface EditionInfo {
   minted: boolean;
   creator: string | null;
   chainId: number | null;
+  /** Made in the NFT market's Create tab, not a post. */
+  nftOnly?: boolean;
 }
 
 export const DEFAULT_EDITION_SUPPLY = 1000;
@@ -122,7 +124,24 @@ async function asViewer() {
   return { ...open, headers };
 }
 
+/** An NFT you made in the market's Create tab. */
+export interface Creation {
+  tokenId: number;
+  chainId: number;
+  contract: string | null;
+  name: string;
+  image: string | null;
+  postType: string | null;
+  minted: boolean;
+  /** Sent to the chain, waiting for it to land. */
+  minting: boolean;
+  supply: number;
+  royaltyBps: number;
+  createdAt: string | null;
+}
+
 export const collect = {
+  creations: () => apiClient.fetch<{ items: Creation[] }>("/collect/creations", authed),
   editions: (tokenIds: (string | number)[]) =>
     apiClient.fetch<{ items: Record<string, EditionInfo> }>("/collect/editions", {
       ...open,

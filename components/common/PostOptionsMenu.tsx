@@ -1202,6 +1202,9 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           visible={showMintSheet}
           defaultChainId={postChainId ?? defaultChainId}
           isMinting={isMinting}
+          // A post mints its 1,000 fractions. Copies and royalties are for
+          // NFTs made in the market's Create tab.
+          hideEdition
           onClose={() => { setShowMintSheet(false); closeAll(); }}
           onConfirm={(chainId, edition) => {
             mintExisting(Number(tokenId), postChainId ?? defaultChainId, chainId, edition).then((ok) => {

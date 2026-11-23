@@ -293,6 +293,7 @@
     "startHint": "List an NFT from Yours to be first.",
     "noSales": "No sales yet",
     "tabBrowse": "Browse",
+    "tabCreate": "Create",
     "tabMine": "Yours",
     "tabSales": "Sales",
     "wrongChain": "Switch your wallet to {{chain}} to trade this",
@@ -17869,5 +17870,27 @@
     "shelfAll": "All",
     "shelfCreated": "Created",
     "shelfCollected": "Collected"
+  },
+  "nftCreate": {
+    "eyebrow": "Create",
+    "title": "Make an NFT",
+    "intro": "An NFT is not a post. It lives here on the market: choose how many copies, who earns on resales, and extras only owners can open.",
+    "pickArt": "Pick the art",
+    "pickArtHint": "Picture or GIF, 42 MB max",
+    "removeArt": "Remove",
+    "name": "Title",
+    "namePlaceholder": "Name your NFT",
+    "description": "Description (optional)",
+    "next": "Choose copies and mint",
+    "yours": "Your NFTs",
+    "none": "Nothing yet. Your NFTs show up here.",
+    "minting": "Minting…",
+    "finish": "Finish minting",
+    "sheetTitle": "Mint NFT",
+    "signIn": "Sign in to create an NFT",
+    "imageOnly": "Pick a picture or GIF. Add video, music or files as owner extras after minting.",
+    "tooBig": "That file is over 42 MB",
+    "minted": "NFT minted. It shows on the market in a minute.",
+    "failed": "Could not create the NFT"
   }
 }
