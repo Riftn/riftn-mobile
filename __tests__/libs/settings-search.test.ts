@@ -101,9 +101,11 @@ describe('searchSettings', () => {
   it('finds the badge visibility control by its translated prefix', async () => {
     const i18n = createInstance();
     await i18n.init({ lng: 'tr', resources: { tr: { translation: tr } } });
-    expect(searchSettings('roze', i18n.t)[0]).toMatchObject({
+    // "Rozet" alone also starts "Rozet Müzesi" (the Badge Museum), so type one letter more.
+    expect(searchSettings('rozeti', i18n.t)[0]).toMatchObject({
       tab: 'privacy', anchor: 'account-visibility', labelKey: 'settings.hideBadgeAndBalance',
     });
+    expect(searchSettings('müze', i18n.t)[0]).toMatchObject({ tab: 'profile', anchor: 'badge-museum' });
   });
 
   it('requires every word typed to match something', () => {
