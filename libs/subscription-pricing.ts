@@ -1,3 +1,4 @@
+import { tokenLabel } from './token-label';
 import { ChainId } from "../config/constants";
 import { SOLANA_MAINNET_CHAIN_ID } from "../config/solana.constants";
 import { translateCopy as _translateCopy } from "../i18n/copy";
@@ -44,11 +45,11 @@ export function dhbForUsd(usd: number, dhbUsd: number): number | null {
 }
 
 export function formatDhbEstimate(value: number | null): string {
-  if (value === null || !Number.isFinite(value)) return _translateCopy("copy.13af6da03670", { defaultValue: "Live DHB quote unavailable" });
-  return `≈ ${value.toLocaleString(undefined, { maximumFractionDigits: 2 })} DHB`;
+  if (value === null || !Number.isFinite(value)) return _translateCopy("copy.13af6da03670", { defaultValue: "Live token price unavailable" });
+  return `≈ ${value.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${tokenLabel()}`;
 }
 
 export function formatDhbPayment(value: number | null): string {
-  if (value === null || !Number.isFinite(value)) return _translateCopy("copy.404b95ecc333", { defaultValue: "DHB amount unavailable" });
-  return `${value.toLocaleString(undefined, { maximumFractionDigits: 3 })} DHB`;
+  if (value === null || !Number.isFinite(value)) return _translateCopy("copy.404b95ecc333", { defaultValue: "Token amount unavailable" });
+  return `${value.toLocaleString(undefined, { maximumFractionDigits: 3 })} ${tokenLabel()}`;
 }

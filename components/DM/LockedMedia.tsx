@@ -86,7 +86,7 @@ function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, 
       void queryClient.invalidateQueries({ queryKey: lockedMediaKey(String(message._id)) });
       if (isMine) {
         toastSuccess(t("dmPaidLock.unlockedByThem", {
-          defaultValue: "Your locked {{kind}} was unlocked: +{{amount}} DHB",
+          defaultValue: "Your locked {{kind}} was unlocked: +{{amount}} tokens",
           kind: lock.kind === "video" ? "video" : lock.kind === "file" ? "file" : "photo",
           amount: fmt(Number(data.amount || lock.price)),
         }));

@@ -4904,7 +4904,7 @@
     "ogHolders_one": "{{count}} holder OG",
     "ogHolders_other": "{{count}} holder OG",
     "ogChallengeTitle": "Đưa các holder OG trở lại",
-    "ogChallengeBody": "Mời những người vẫn còn giữ DHB. Khi họ tham gia bằng liên kết mời của bạn và giữ DHB trong ví Riftn, họ được tính cho bạn ở đây.",
+    "ogChallengeBody": "Mời những người vẫn còn giữ token. Khi họ tham gia bằng liên kết mời của bạn và giữ token trong ví Riftn, họ được tính cho bạn ở đây.",
     "ogChallengeCta": "Lấy liên kết mời",
     "directReferrals_one": "{{count}} trực tiếp",
     "directReferrals_other": "{{count}} trực tiếp",
@@ -14576,7 +14576,7 @@
           "4": "Để ghi âm ghi chú thoại, nhấp vào biểu tượng micrô.",
           "5": "Để thêm GIF, nhấp vào biểu tượng GIF và tìm kiếm một GIF.",
           "6": "Sử dụng #hashtag để phân loại bài đăng của bạn (ví dụ: #crypto, #defi).",
-          "7": "Sử dụng $cashtag để tham chiếu mã thông báo (ví dụ: $RIFT, $ETH).",
+          "7": "Sử dụng $cashtag để tham chiếu mã thông báo (ví dụ: $BTC, $ETH).",
           "8": "Sử dụng @mention để gắn thẻ người dùng khác (ví dụ: @username).",
           "9": "Nhấp vào 'Bài đăng' để xuất bản. Bài đăng của bạn xuất hiện ngay lập tức trong nguồn cấp dữ liệu."
         },
