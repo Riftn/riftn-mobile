@@ -100,6 +100,7 @@ import DonutIcon from "lucide-react-native/dist/esm/icons/donut";
 import DownloadIcon from "lucide-react-native/dist/esm/icons/download";
 import EllipsisIcon from "lucide-react-native/dist/esm/icons/ellipsis";
 import EllipsisVerticalIcon from "lucide-react-native/dist/esm/icons/ellipsis-vertical";
+import EraserIcon from "lucide-react-native/dist/esm/icons/eraser";
 import ExpandIcon from "lucide-react-native/dist/esm/icons/expand";
 import ExternalLinkIcon from "lucide-react-native/dist/esm/icons/external-link";
 import EyeIcon from "lucide-react-native/dist/esm/icons/eye";
@@ -213,6 +214,7 @@ import OctagonIcon from "lucide-react-native/dist/esm/icons/octagon";
 import OrbitIcon from "lucide-react-native/dist/esm/icons/orbit";
 import PackageIcon from "lucide-react-native/dist/esm/icons/package";
 import PaintBucketIcon from "lucide-react-native/dist/esm/icons/paint-bucket";
+import PaintbrushIcon from "lucide-react-native/dist/esm/icons/paintbrush";
 import PaletteIcon from "lucide-react-native/dist/esm/icons/palette";
 import PaperclipIcon from "lucide-react-native/dist/esm/icons/paperclip";
 import PauseIcon from "lucide-react-native/dist/esm/icons/pause";
@@ -268,6 +270,7 @@ import ShieldOffIcon from "lucide-react-native/dist/esm/icons/shield-off";
 import ShoppingBagIcon from "lucide-react-native/dist/esm/icons/shopping-bag";
 import ShoppingCartIcon from "lucide-react-native/dist/esm/icons/shopping-cart";
 import SignpostIcon from "lucide-react-native/dist/esm/icons/signpost";
+import SlashIcon from "lucide-react-native/dist/esm/icons/slash";
 import SlidersHorizontalIcon from "lucide-react-native/dist/esm/icons/sliders-horizontal";
 import SmartphoneIcon from "lucide-react-native/dist/esm/icons/smartphone";
 import SmileIcon from "lucide-react-native/dist/esm/icons/smile";
@@ -433,6 +436,7 @@ export const iconRegistry = {
   Download: DownloadIcon,
   Ellipsis: EllipsisIcon,
   EllipsisVertical: EllipsisVerticalIcon,
+  Eraser: EraserIcon,
   Expand: ExpandIcon,
   ExternalLink: ExternalLinkIcon,
   Eye: EyeIcon,
@@ -546,6 +550,7 @@ export const iconRegistry = {
   Orbit: OrbitIcon,
   Package: PackageIcon,
   PaintBucket: PaintBucketIcon,
+  Paintbrush: PaintbrushIcon,
   Palette: PaletteIcon,
   Paperclip: PaperclipIcon,
   Pause: PauseIcon,
@@ -601,6 +606,7 @@ export const iconRegistry = {
   ShoppingBag: ShoppingBagIcon,
   ShoppingCart: ShoppingCartIcon,
   Signpost: SignpostIcon,
+  Slash: SlashIcon,
   SlidersHorizontal: SlidersHorizontalIcon,
   Smartphone: SmartphoneIcon,
   Smile: SmileIcon,

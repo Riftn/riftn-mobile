@@ -128,6 +128,8 @@ import type { StudioResult, StudioTab } from "../components/Upload/PhotoStudio";
 import type { StudioEdits } from "../components/Upload/studioPaint";
 import type { FilterSettings } from "../libs/imageFilters";
 import { optionalSkia } from "../libs/skia";
+import { isPaintingFile } from "../libs/painting/engine";
+import type { SavedPainting } from "../components/Upload/paintingSkia";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import WhenOpened from "../components/ui/WhenOpened";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
@@ -297,6 +299,10 @@ const studioPaintLib = optionalSkia(() => require("../components/Upload/studioPa
 const PhotoStudio = optionalSkia(
   () => require("../components/Upload/PhotoStudio").default as typeof import("../components/Upload/PhotoStudio").default,
 );
+/** Painting is drawn with Skia too. */
+const PaintingStudio = optionalSkia(
+  () => require("../components/Upload/PaintingStudio").default as typeof import("../components/Upload/PaintingStudio").default,
+);
 type MediaMode = "none" | "images" | "video" | "audio";
 
 /**
@@ -338,6 +344,7 @@ export default function UploadScreen() {
   const { isBanned: accountBanned } = useBannedAccount();
   // Comic: a photo post shown as collector cards, each page with a caption.
   const [comicMode, setComicMode] = useState(false);
+  const [paintingOpen, setPaintingOpen] = useState(false);
   /** The comic's border preset; null is the theme's own foil. */
   const [comicBorder, setComicBorder] = useState<ComicBorder | null>(null);
   const imageLimit = (comicMode ? getComicImageLimitForBadge : getPostImageLimitForBadge)(
@@ -2346,12 +2353,19 @@ export default function UploadScreen() {
   // A newly picked photo opens straight into the photo editor, as on web.
   useEffect(() => {
     const keys = pickedImages.map((img) => img.editBaseUri ?? img.uri);
-    const fresh = pickedImages.findIndex((img, i) => !seenPhotos.current.has(keys[i]) && !isGifAsset(img));
+    // A painting comes straight from the Painting canvas, so it skips the editor.
+    const fresh = pickedImages.findIndex((img, i) => !seenPhotos.current.has(keys[i]) && !isGifAsset(img) && !isPaintingFile(img.fileName));
     keys.forEach((k) => seenPhotos.current.add(k));
     if (skipPhotoAutoEdit.current) { skipPhotoAutoEdit.current = false; return; }
     if (fresh >= 0 && PhotoStudio && !imageEdit && !comicMode) setImageEdit({ index: fresh, tab: "crop" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickedImages]);
+
+  /** A finished painting joins the post as a photo. */
+  const handlePaintingDone = useCallback((painting: SavedPainting) => {
+    setPaintingOpen(false);
+    void adoptImageAssets([{ ...painting, type: "image", assetId: null } as PickedAsset]);
+  }, [adoptImageAssets]);
 
   const handleStudioDone = useCallback((results: StudioResult[]) => {
     setImageEdit(null);
@@ -4062,6 +4076,18 @@ export default function UploadScreen() {
                   {comicMode && <Icon name="Check" size={18} color={themeColors.foreground} />}
                 </TouchableOpacity>
               )}
+              {/* Painting sits beside Comic: it paints a picture and adds it as a photo. */}
+              {PaintingStudio && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio && pickedImages.length < imageLimit && (
+                <TouchableOpacity
+                  onPress={() => { setShowPostOptions(false); setPaintingOpen(true); }}
+                  accessibilityRole="button"
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: "transparent" }}
+                >
+                  <Icon name="Paintbrush" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("painting.title")}</Text>
+                </TouchableOpacity>
+              )}
               {!isLiveMode && (
                 <TouchableOpacity
                   onPress={() => { setShowPostOptions(false); setContentWarning(prev => prev === null ? "" : null); }}
@@ -4536,6 +4562,9 @@ export default function UploadScreen() {
           </DmVideoStudio>
         );
       })()}
+      {PaintingStudio && paintingOpen && (
+        <PaintingStudio onClose={() => setPaintingOpen(false)} onDone={handlePaintingDone} />
+      )}
       {PhotoStudio && imageEdit && pickedImages[imageEdit.index] && (() => {
         // GIFs stay out: drawing one flattens it to a single frame.
         const editable = pickedImages.map((img, i) => ({ img, i })).filter(({ img }) => !isGifAsset(img));
