@@ -1,7 +1,8 @@
 import { isShortsPhoto, interleaveShorts } from "../libs/shortsPhotos";
 import { apiClient } from "../libs";
 
-export type FeedPostType = "video" | "feed-images" | "feed-simple" | "feed-audio" | "live" | "short" | "all" | "article";
+/** One type, or a comma list of them (the named Home filters). */
+export type FeedPostType = "video" | "feed-images" | "feed-simple" | "feed-audio" | "live" | "short" | "all" | "article" | `${string},${string}`;
 /** `custom` with `minter` is the creator's own order of their posts (newest first when they have none). */
 export type FeedSortBy = "score" | "likes" | "views" | "createdAt" | "tips" | "comments" | "random" | "custom";
 export type FeedSortOrder = "asc" | "desc";

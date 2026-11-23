@@ -2008,6 +2008,11 @@
     "castAndroidHelp": "Open your quick settings and tap Smart View or Cast, then pick your TV."
   },
   "filters": {
+    "namedFeeds": "Feeds",
+    "namedPulse": "Read & discuss",
+    "namedMotion": "Watch",
+    "namedEcho": "Listen",
+    "namedClear": "Clear {{name}}",
     "sort": "Sort",
     "category": "Category",
     "searchCategories": "Search categories...",

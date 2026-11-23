@@ -34,8 +34,26 @@ const DATE_TO_WEB: Record<string, string> = { day: 'today', week: 'week', month:
 const DATE_FROM_WEB = Object.fromEntries(Object.entries(DATE_TO_WEB).map(([a, w]) => [w, a]));
 const ACCESS_TO_WEB: Record<string, string> = { ppv: 'ppv', bounty: 'w2e', locked: 'locked' };
 const ACCESS_FROM_WEB = Object.fromEntries(Object.entries(ACCESS_TO_WEB).map(([a, w]) => [w, a]));
+/**
+ * Named Home filters: one tap shows a set of post types under a name people
+ * can point to ("it's on Pulse"). Sent to /api/feed as a comma list. Names
+ * stay as they are in every language; the purpose line is translated. Same
+ * values as web (riftn-web src/lib/feed-utils.ts NAMED_FEEDS).
+ */
+export const NAMED_FEEDS = [
+  { value: 'pulse', name: 'Pulse', purpose: 'Read & discuss', purposeKey: 'filters.namedPulse', apiPostType: 'feed-simple,feed-images' },
+  { value: 'motion', name: 'Motion', purpose: 'Watch', purposeKey: 'filters.namedMotion', apiPostType: 'video,short' },
+  { value: 'echo', name: 'Echo', purpose: 'Listen', purposeKey: 'filters.namedEcho', apiPostType: 'feed-audio' },
+] as const;
+export type NamedFeed = (typeof NAMED_FEEDS)[number];
+export type NamedFeedValue = NamedFeed['value'];
+
+export function namedFeedFor(value: string | null | undefined): NamedFeed | undefined {
+  return NAMED_FEEDS.find((f) => f.value === value);
+}
+
 /** Post types the app filters Home by (the rest are pager pages). */
-const POST_TYPES = ['article', 'feed-simple'];
+const POST_TYPES: string[] = ['article', 'feed-simple', ...NAMED_FEEDS.map((f) => f.value)];
 
 type Listener = () => void;
 const listeners = new Set<Listener>();

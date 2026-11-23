@@ -2158,7 +2158,12 @@
     "any": "Tous",
     "resetFilters": "Réinitialiser les filtres",
     "updatingFeed": "Mise à jour du flux",
-    "filters": "Filtres"
+    "filters": "Filtres",
+    "namedFeeds": "Fils",
+    "namedPulse": "Lire et discuter",
+    "namedMotion": "Regarder",
+    "namedEcho": "Écouter",
+    "namedClear": "Retirer {{name}}"
   },
   "drawers": {
     "ppvTitle": "Contenu à la carte",

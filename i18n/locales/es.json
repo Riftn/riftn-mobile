@@ -2158,7 +2158,12 @@
     "any": "Cualquiera",
     "resetFilters": "Restablecer filtros",
     "updatingFeed": "Actualizando feed",
-    "filters": "Filtros"
+    "filters": "Filtros",
+    "namedFeeds": "Feeds",
+    "namedPulse": "Leer y debatir",
+    "namedMotion": "Ver",
+    "namedEcho": "Escuchar",
+    "namedClear": "Quitar {{name}}"
   },
   "drawers": {
     "ppvTitle": "Contenido de pago por ver",

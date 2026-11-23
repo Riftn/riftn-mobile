@@ -89,8 +89,8 @@ import { FrostedBackground, FrostedContent } from "../components/ui/FrostedBackd
 import { holdThemeBackdrop } from "../libs/themeBackdrop";
 import { useAuthActions, useAuthState } from "../context/AuthContext";
 import { useFollowTag } from "../components/Home/FollowTagBar";
-import { FeedPresetsRow, type FeedFilterLineItem } from "../components/Home/FeedFilterLine";
-import { deleteFeedPreset, feedPresetsEvents, presetMatches, readFeedPresets, saveFeedPreset, type AppFeedPreset } from "../libs/feed-presets";
+import { FeedPresetsRow, NamedFeedsRow, type FeedFilterLineItem } from "../components/Home/FeedFilterLine";
+import { deleteFeedPreset, feedPresetsEvents, namedFeedFor, presetMatches, readFeedPresets, saveFeedPreset, type AppFeedPreset } from "../libs/feed-presets";
 import { setFeedPostHost } from "../libs/feedPostHost";
 
 // The post page Home opens in place. Required on first use so the screen's
@@ -272,6 +272,13 @@ const savedFilters = (): FeedFilters => {
  * tab of their own, so they render in the Home slot — previously they matched
  * no list at all and left the screen blank.
  */
+/**
+ * Post types that narrow the Home slot instead of turning to a tab: the panel's
+ * Videos and Articles, and the named filters (Pulse, Motion, Echo).
+ */
+const isHomeSlotFilter = (postType: PostTypeOption): boolean =>
+  postType === "article" || postType === "video" || !!namedFeedFor(postType);
+
 const indexForPostType = (postType: PostTypeOption, tabOrder: readonly TabKey[]): number => {
   const i = tabOrder.indexOf(postType as TabKey);
   return i >= 0 ? i : 0;
@@ -513,7 +520,7 @@ export default function HomeScreen() {
     () =>
       ALL_TAB_ORDER.includes(filters.postType as TabKey)
         ? undefined
-        : (filters.postType as FeedPostType),
+        : ((namedFeedFor(filters.postType)?.apiPostType ?? filters.postType) as FeedPostType),
     [filters.postType],
   );
 
@@ -1055,7 +1062,7 @@ export default function HomeScreen() {
     shuffleSeed, searchOpen, searchQuery, pillTopInHeader, navOverlap, pillBottom, searchLoading, watchFeedFetches,
     feedPresets, filterPanelVisible, imageFeed, feedPost, islandMenuOpen, pageWidth, pageHeight,
   });
-  const homeFilterPostType = filters.postType === "article" || filters.postType === "video" ? filters.postType : undefined;
+  const homeFilterPostType = isHomeSlotFilter(filters.postType) ? filters.postType : undefined;
   const currentPreset = useMemo<Omit<AppFeedPreset, "name">>(() => ({
     sortBy: filters.sortBy !== DEFAULT_FILTERS.sortBy ? filters.sortBy : undefined,
     dateRange: filters.dateRange || undefined,
@@ -1073,9 +1080,15 @@ export default function HomeScreen() {
     clearPersistedCategory();
     setFilters((prev) => ({
       ...DEFAULT_FILTERS,
-      postType: prev.postType === "article" || prev.postType === "video" ? "all" : prev.postType,
+      postType: isHomeSlotFilter(prev.postType) ? "all" : prev.postType,
     }));
   }, [beginFilterTransition]);
+  // A named filter re-runs the Home list in place, so it gets the filter
+  // loader there; from another tab it is a page turn to Home like Videos.
+  const handleNamedFeedSelect = useCallback((postType: PostTypeOption) => {
+    if (TAB_ORDER[activeIndex] === "all") beginFilterTransition();
+    applyFilters({ ...filters, postType });
+  }, [activeIndex, TAB_ORDER, beginFilterTransition, applyFilters, filters]);
   const applyPreset = useCallback((name: string) => {
     const preset = feedPresets.find((p) => p.name === name);
     if (!preset) return;
@@ -1085,16 +1098,18 @@ export default function HomeScreen() {
     setFilters((prev) => ({
       sortBy: (preset.sortBy ?? DEFAULT_FILTERS.sortBy) as FeedFilters["sortBy"],
       dateRange: (preset.dateRange ?? "") as FeedFilters["dateRange"],
-      postType: (preset.postType ?? (prev.postType === "article" || prev.postType === "video" ? "all" : prev.postType)) as FeedFilters["postType"],
+      postType: (preset.postType ?? (isHomeSlotFilter(prev.postType) ? "all" : prev.postType)) as FeedFilters["postType"],
       contentAccess: (preset.contentAccess ?? []) as FeedFilters["contentAccess"],
     }));
   }, [feedPresets, beginFilterTransition]);
   const filterLineItems = useMemo<FeedFilterLineItem[]>(() => {
     const items: FeedFilterLineItem[] = [];
+    const named = namedFeedFor(homeFilterPostType);
     if (homeFilterPostType) items.push({
       key: "type",
       group: t("feedFilters.groupType", "Type"),
-      label: homeFilterPostType === "article" ? t("articles.label") : t("filters.videos", "Videos"),
+      // A named filter reads as its name and purpose: "Motion · Watch".
+      label: named ? `${named.name} · ${t(named.purposeKey, named.purpose)}` : homeFilterPostType === "article" ? t("articles.label") : t("filters.videos", "Videos"),
       onRemove: () => applyFilters({ ...filters, postType: "all" }),
     });
     if (selectedCategory) items.push({
@@ -1425,7 +1440,8 @@ export default function HomeScreen() {
         feedRef={feedRefs.current[feedType]}
         active={isPlaybackActive}
         params={feedListParamsByType[feedType]}
-        showShortsCarousel={feedType === "all"}
+        // Pulse, Motion and Echo each ask for a few formats only.
+        showShortsCarousel={feedType === "all" && !namedFeedFor(filters.postType)}
         showPendingPost={feedType === "all"}
         answersTabPress={feedType === "all"}
         // Ten posts a page: half the first-load work, and later pages arrive
@@ -1444,7 +1460,7 @@ export default function HomeScreen() {
         // The boost slot belongs on the main mixed feed only. "video" and
         // "live" are somebody asking for one format, and a boosted text post
         // arriving at the top of those reads as a bug rather than as a boost.
-        showBoostSlot={feedType === "all"}
+        showBoostSlot={feedType === "all" && !namedFeedFor(filters.postType)}
         headerComponent={feedHeader}
       />
     );
@@ -1461,6 +1477,8 @@ export default function HomeScreen() {
       onResetFilters={handleResetFilters}
       showFollowingSort
       topSlot={
+        <>
+        <NamedFeedsRow value={filters.postType} onSelect={handleNamedFeedSelect} />
         <FeedPresetsRow
           presets={feedPresets}
           activeName={activePresetName}
@@ -1469,6 +1487,7 @@ export default function HomeScreen() {
           canSaveCurrent={filterLineItems.length > 0 && !activePresetName}
           onSaveCurrent={(name) => saveFeedPreset({ name, ...currentPreset })}
         />
+        </>
       }
       navOverlap={theme === 'system' ? navOverlap : undefined}
       chipRadius={theme === 'system' ? 8 : undefined}

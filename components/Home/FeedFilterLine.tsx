@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
-import { MAX_PRESET_NAME } from "../../libs/feed-presets";
+import { MAX_PRESET_NAME, NAMED_FEEDS, type NamedFeedValue } from "../../libs/feed-presets";
 
 export interface FeedFilterLineItem {
   key: string;
@@ -167,6 +167,51 @@ export default function FeedFilterLine({
           )}
         </View>
       )}
+    </View>
+  );
+}
+
+/**
+ * Pulse · Read & discuss, Motion · Watch, Echo · Listen: the named Home
+ * filters, three chips at the top of the Home filter panel. Tap one to show
+ * only its post types; tap it again to go back to everything. Same as web's
+ * NamedFeedsRow. Fills sit on an inner View so the controls pass leaves them be.
+ */
+export function NamedFeedsRow({
+  value,
+  onSelect,
+}: {
+  value: string;
+  onSelect: (next: NamedFeedValue | "all") => void;
+}) {
+  const { t } = useTranslation();
+  const c = useLineColors();
+  return (
+    <View testID="named-feeds-row" style={{ marginBottom: 14 }}>
+      <Text style={{ fontSize: 11, letterSpacing: 1, color: c.muted, marginBottom: 8 }}>{t("filters.namedFeeds", "Feeds").toUpperCase()}</Text>
+      <View style={{ flexDirection: "row", gap: 6 }}>
+        {NAMED_FEEDS.map((feed) => {
+          const active = feed.value === value;
+          const purpose = t(feed.purposeKey, feed.purpose);
+          return (
+            <TouchableOpacity
+              key={feed.value}
+              testID={`named-feed-${feed.value}`}
+              onPress={() => onSelect(active ? "all" : feed.value)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+              accessibilityLabel={active ? t("filters.namedClear", { name: feed.name, defaultValue: "Clear {{name}}" }) : `${feed.name} · ${purpose}`}
+              activeOpacity={0.7}
+              style={{ flex: 1, minWidth: 0 }}
+            >
+              <View style={{ borderRadius: 12, borderWidth: 1, borderColor: active ? c.openBorder : c.border, backgroundColor: active ? c.bg : "transparent", paddingHorizontal: 10, paddingVertical: 6 }}>
+                <Text numberOfLines={1} style={{ fontSize: 14, fontWeight: active ? "700" : "600", color: active ? c.text : c.muted }}>{feed.name}</Text>
+                <Text numberOfLines={1} style={{ fontSize: 11, lineHeight: 15, color: c.muted }}>{purpose}</Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 }
