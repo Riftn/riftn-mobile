@@ -127,7 +127,7 @@ export default function CreateNftPanel({ onOpen, onSignIn, bottomInset = 120, pr
         title={t("nftCreate.signIn", { defaultValue: "Sign in to create an NFT" })}
         action={
           <Pressable onPress={onSignIn} style={styles.primary} accessibilityRole="button">
-            <Text style={styles.primaryText}>{t("nftMarket.signInToTradeCta", { defaultValue: "Sign in to trade" })}</Text>
+            <Text style={styles.primaryText}>{t("nftMarket.signIn", { defaultValue: "Sign in" })}</Text>
           </Pressable>
         }
       />
