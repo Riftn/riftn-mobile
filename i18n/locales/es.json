@@ -16412,6 +16412,7 @@
     "tipJar": "Tarro de regalo"
   },
   "liveStudio": {
+    "groups": {"stream": "En directo", "streamHint": "Interruptores para durante el directo, adónde se envía tu emisión y el enlace para OBS.", "overlay": "Overlay", "viewers": "Espectadores", "viewersHint": "Encuestas, temporizadores, puntos y recompensas que meten en el directo a quien lo ve.", "chat": "Chat", "chatHint": "Tu bot de chat y las reglas del chat bajo tus emisiones.", "replays": "Después del directo", "replaysTab": "Después", "replaysHint": "Cómo fue tu último directo y clips para compartir."},
     "bot": {
       "title": "Bot del chat",
       "intro": "Un copresentador para el chat de tu directo. Saluda a los nuevos, responde preguntas sobre ti y el directo, cuenta a quien llega tarde lo que se perdió y anima un chat callado. Solo habla en tus directos, mientras estás en vivo.",

@@ -16416,6 +16416,7 @@
     "tipJar": "Pot cadeau"
   },
   "liveStudio": {
+    "groups": {"stream": "Direct", "streamHint": "Les interrupteurs pendant le direct, où part votre stream et le lien pour OBS.", "overlay": "Overlay", "viewers": "Spectateurs", "viewersHint": "Sondages, minuteurs, points et récompenses qui font participer ceux qui regardent.", "chat": "Chat", "chatHint": "Votre bot de chat et les règles du chat sous vos streams.", "replays": "Après le stream", "replaysTab": "Après", "replaysHint": "Le bilan de votre dernier stream et les clips à partager."},
     "bot": {
       "title": "Bot du chat",
       "intro": "Un coanimateur pour le chat de ton live. Il salue les nouveaux, répond aux questions sur toi et le live, raconte aux retardataires ce qu'ils ont manqué et relance un chat silencieux. Il ne parle que sur tes lives, pendant que tu es en direct.",
