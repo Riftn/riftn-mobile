@@ -16,6 +16,7 @@ import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import { prefetchUserProfile } from "../../hooks/useUserProfileData";
 import { CoAuthorAvatarBadge, CoAuthorNames } from "../common/CoAuthorBits";
+import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { CoAuthorUser } from "../../libs/coAuthors";
 
 const ICON_MUTED = "#6F7174";
@@ -132,6 +133,10 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   // still open the profile.
   const liveTarget = useLiveTarget(address, username);
   const live = !!liveTarget;
+  // A Moment up (and no co-author badge in that corner): a small peek of it
+  // sits on the face and a tap on the face opens it. Live still wins the tap.
+  const moment = useFaceMoment(coAuthors?.length ? null : address);
+  const openMoments = useOpenMoments(address);
   // Start fetching the profile as the finger lands, so it is usually in hand
   // by the time the tap is released and the page slides in.
   // What this card shows goes along too, so the profile draws the name and a
@@ -143,8 +148,8 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   return (
     <View className="flex-row items-start pb-2" style={{ minHeight: Math.max(avatarSize, username ? 36 : 20) + 8 }}>
       <Pressable
-        onPress={liveTarget ? () => openLiveTarget(liveTarget) : onUserPress}
-        onPressIn={liveTarget || !onUserPress ? undefined : warmProfile}
+        onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : onUserPress}
+        onPressIn={liveTarget || moment || !onUserPress ? undefined : warmProfile}
         style={{ flexShrink: 0 }}
         hitSlop={IDENTITY_HIT_SLOP}
       >
@@ -156,6 +161,11 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
           live={live}
         />
         {coAuthors?.length ? <CoAuthorAvatarBadge users={coAuthors} size={avatarSize} /> : null}
+        {moment && !live ? (
+          <View pointerEvents="none" style={{ position: "absolute", left: 0, top: 0, width: avatarSize, height: avatarSize }}>
+            <MomentPeekBadge peek={moment} size={avatarSize} />
+          </View>
+        ) : null}
       </Pressable>
 
       {/* Only the name row and the @handle open the profile, each sized to
