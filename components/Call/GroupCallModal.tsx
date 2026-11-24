@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, useWindowDimensions } from "react-native";
+import { Pressable, StyleSheet, Text, View, ScrollView, useWindowDimensions } from "react-native";
 import { RtcSurfaceView, RenderModeType, VideoSourceType } from "react-native-agora";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -9,11 +9,13 @@ import { useCall } from "../../context/CallContext";
 import { useAuth } from "../../context/AuthContext";
 import type { GroupParticipant } from "../../hooks/useCall";
 import { CallDuration } from "./CallDuration";
-import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallPill, CallRow, useStage } from "./CallChrome";
+import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallPill, CallRow, Fill, useStage } from "./CallChrome";
 import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
 import { usePeerIdentity } from "./usePeerIdentity";
 import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
+import { TownHall } from "./TownHall";
+import { loadTownHallMode, saveTownHallMode, townHallModeNow, TOWN_HALL_FROM, type TownHallMode } from "../../libs/townHall";
 
 /**
  * A group call, voice or video, on the same stage as a direct call.
@@ -29,9 +31,11 @@ const GroupCallModal: React.FC = () => {
     isMuted, isSpeakerOn, isCameraOff, selfSpeaking, groupCamerasFull, groupParticipants, localCanvas,
     isMinimized, setMinimized, endCall, acceptCall, rejectCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera,
-    callBackground, callBackgroundSupported, setCallBackground,
+    callBackground, callBackgroundSupported, setCallBackground, readGroupLevels,
   } = useCall();
   const [fxOpen, setFxOpen] = React.useState(false);
+  const [layout, setLayout] = React.useState<TownHallMode>(townHallModeNow);
+  React.useEffect(() => { void loadTownHallMode().then(setLayout); }, []);
   const { user } = useAuth();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -83,21 +87,44 @@ const GroupCallModal: React.FC = () => {
     );
   }
 
+  const count = groupParticipants.length + 1;
+  // Town hall from three people unless the person picked a layout themselves.
+  const hall = layout === "hall" || (layout === "auto" && count >= TOWN_HALL_FROM);
+  const flipLayout = () => {
+    const next: TownHallMode = hall ? "grid" : "hall";
+    saveTownHallMode(next);
+    setLayout(next);
+  };
+  const layoutLabel = hall ? t("calls.gridView", { defaultValue: "Grid" }) : t("calls.townHall", { defaultValue: "Town hall" });
+
   return (
     <CallStage peer={stagePeer} onRequestClose={minimize} onCorner={minimize}>
-      <View style={[styles.top, { paddingTop: insets.top + 18 }]} pointerEvents="none">
+      <View style={[styles.top, { paddingTop: insets.top + 18, paddingHorizontal: isVideo && callBackgroundSupported ? 116 : 70 }]} pointerEvents="none">
         <View style={styles.chip}>
           <Text style={styles.chipName} numberOfLines={1}>{groupName}</Text>
           <Text style={styles.chipTime}><CallDuration fallback={t("calls.connected")} /></Text>
         </View>
       </View>
-      <TileGrid
-        topInset={insets.top + 64}
-        bottomInset={Math.max(22, insets.bottom + 10) + 124}
-        self={{ name: t("calls.you", { defaultValue: "You" }), avatarUrl: self.avatarUrl, video: isVideo && !isCameraOff, muted: isMuted, speaking: selfSpeaking && !isMuted }}
-        localCanvas={localCanvas}
-        participants={groupParticipants}
-      />
+      <LayoutButton hall={hall} besideFx={isVideo && callBackgroundSupported} top={insets.top + 12} onPress={flipLayout} label={layoutLabel} />
+      {hall ? (
+        <TownHall
+          topInset={insets.top + 64}
+          bottomInset={0}
+          isVideo={isVideo}
+          self={{ name: self.name, avatarUrl: self.avatarUrl, camera: isVideo && !isCameraOff, muted: isMuted }}
+          localCanvas={localCanvas}
+          participants={groupParticipants}
+          readGroupLevels={readGroupLevels}
+        />
+      ) : (
+        <TileGrid
+          topInset={insets.top + 64}
+          bottomInset={Math.max(22, insets.bottom + 10) + 124}
+          self={{ name: t("calls.you", { defaultValue: "You" }), avatarUrl: self.avatarUrl, video: isVideo && !isCameraOff, muted: isMuted, speaking: selfSpeaking && !isMuted }}
+          localCanvas={localCanvas}
+          participants={groupParticipants}
+        />
+      )}
       {isVideo && callBackgroundSupported ? (
         <CallFxButton open={fxOpen} active={callBackground !== "none"} onToggle={() => setFxOpen(open => !open)} />
       ) : null}
@@ -133,6 +160,17 @@ const GroupCallModal: React.FC = () => {
     </CallStage>
   );
 };
+
+/** Top-right switch between town hall and the even grid (left of the effects button on video). */
+function LayoutButton({ hall, besideFx, top, onPress, label }: { hall: boolean; besideFx: boolean; top: number; onPress: () => void; label: string }) {
+  const { palette } = useStage();
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={8} style={[styles.layout, { top, right: besideFx ? 64 : 16 }]}>
+      <Fill color={palette.dock} line={palette.line} />
+      <View><Icon name={hall ? "LayoutGrid" : "Presentation"} size={18} color={palette.fg} /></View>
+    </Pressable>
+  );
+}
 
 type SelfTile = { name: string; avatarUrl: string | null; video: boolean; muted: boolean; speaking: boolean };
 
@@ -210,6 +248,7 @@ function Tile({ width, height, name, avatarUrl, muted, speaking, children }: {
 
 const styles = StyleSheet.create({
   top: { position: "absolute", top: 0, left: 0, right: 0, zIndex: 2, alignItems: "center", paddingHorizontal: 70 },
+  layout: { position: "absolute", zIndex: 3, width: 40, height: 40, borderRadius: 999, alignItems: "center", justifyContent: "center" },
   chip: {
     flexDirection: "row", alignItems: "center", gap: 8, maxWidth: "100%", paddingHorizontal: 14, paddingVertical: 8,
     borderRadius: 999, borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "rgba(18,18,22,0.55)",
