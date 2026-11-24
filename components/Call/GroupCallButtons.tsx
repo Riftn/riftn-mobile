@@ -34,13 +34,13 @@ const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: 
         onPress={() => { void joinGroupCall(group, callType); }}
         disabled={busy}
         accessibilityRole="button"
-        accessibilityLabel={t("calls.joinCall", { defaultValue: "Join call" })}
+        accessibilityLabel={`${t("calls.joinCall", { defaultValue: "Join call" })} · ${others.length}`}
         style={({ pressed }) => [styles.join, (pressed || busy) && styles.dim]}
       >
+        {/* Just the icon and how many are in, so the pill never squeezes the
+            chat name or the buttons beside it on a phone header. */}
         <Icon name={callType === "video" ? "Video" : "Phone"} size={14} color="#0A0A0C" />
-        <Text style={styles.joinText} numberOfLines={1}>
-          {t("calls.joinCall", { defaultValue: "Join call" })} · {others.length}
-        </Text>
+        <Text style={styles.joinText} numberOfLines={1}>{others.length}</Text>
       </Pressable>
     );
   }
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   btn: { width: 36, height: 36, borderRadius: 12, alignItems: "center", justifyContent: "center" },
   dim: { opacity: 0.4 },
   join: {
-    flexDirection: "row", alignItems: "center", gap: 6, height: 32, paddingHorizontal: 12,
+    flexDirection: "row", alignItems: "center", gap: 6, height: 32, paddingHorizontal: 11, flexShrink: 0,
     borderRadius: 999, backgroundColor: "#F4F4F5",
   },
   joinText: { color: "#0A0A0C", fontSize: 13, fontWeight: "700" },
