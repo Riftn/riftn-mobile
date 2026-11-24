@@ -3,6 +3,7 @@
 // Only these icons are bundled. Importing each icon's own file, rather than
 // anything from the package root, keeps the other ~1,600 out of the bundle.
 import type { LucideIcon } from "lucide-react-native";
+import ActivityIcon from "lucide-react-native/dist/esm/icons/activity";
 import AlignCenterIcon from "lucide-react-native/dist/esm/icons/align-center";
 import AlignLeftIcon from "lucide-react-native/dist/esm/icons/align-left";
 import AlignRightIcon from "lucide-react-native/dist/esm/icons/align-right";
@@ -61,6 +62,7 @@ import ChevronDownIcon from "lucide-react-native/dist/esm/icons/chevron-down";
 import ChevronLeftIcon from "lucide-react-native/dist/esm/icons/chevron-left";
 import ChevronRightIcon from "lucide-react-native/dist/esm/icons/chevron-right";
 import ChevronUpIcon from "lucide-react-native/dist/esm/icons/chevron-up";
+import ChevronsRightIcon from "lucide-react-native/dist/esm/icons/chevrons-right";
 import CircleIcon from "lucide-react-native/dist/esm/icons/circle";
 import CircleAlertIcon from "lucide-react-native/dist/esm/icons/circle-alert";
 import CircleCheckIcon from "lucide-react-native/dist/esm/icons/circle-check";
@@ -119,6 +121,7 @@ import FolderInputIcon from "lucide-react-native/dist/esm/icons/folder-input";
 import FolderPlusIcon from "lucide-react-native/dist/esm/icons/folder-plus";
 import ForwardIcon from "lucide-react-native/dist/esm/icons/forward";
 import FuelIcon from "lucide-react-native/dist/esm/icons/fuel";
+import FullscreenIcon from "lucide-react-native/dist/esm/icons/fullscreen";
 import FunnelIcon from "lucide-react-native/dist/esm/icons/funnel";
 import Gamepad2Icon from "lucide-react-native/dist/esm/icons/gamepad-2";
 import GaugeIcon from "lucide-react-native/dist/esm/icons/gauge";
@@ -182,6 +185,7 @@ import MapPinIcon from "lucide-react-native/dist/esm/icons/map-pin";
 import MaximizeIcon from "lucide-react-native/dist/esm/icons/maximize";
 import Maximize2Icon from "lucide-react-native/dist/esm/icons/maximize-2";
 import MegaphoneIcon from "lucide-react-native/dist/esm/icons/megaphone";
+import MenuIcon from "lucide-react-native/dist/esm/icons/menu";
 import MessageCircleIcon from "lucide-react-native/dist/esm/icons/message-circle";
 import MessageCircleWarningIcon from "lucide-react-native/dist/esm/icons/message-circle-warning";
 import MessageSquareIcon from "lucide-react-native/dist/esm/icons/message-square";
@@ -236,13 +240,11 @@ import RadioIcon from "lucide-react-native/dist/esm/icons/radio";
 import ReceiptIcon from "lucide-react-native/dist/esm/icons/receipt";
 import RectangleHorizontalIcon from "lucide-react-native/dist/esm/icons/rectangle-horizontal";
 import RectangleVerticalIcon from "lucide-react-native/dist/esm/icons/rectangle-vertical";
-import RedoIcon from "lucide-react-native/dist/esm/icons/redo";
 import Redo2Icon from "lucide-react-native/dist/esm/icons/redo-2";
 import RefreshCwIcon from "lucide-react-native/dist/esm/icons/refresh-cw";
 import RepeatIcon from "lucide-react-native/dist/esm/icons/repeat";
 import Repeat2Icon from "lucide-react-native/dist/esm/icons/repeat-2";
 import ReplyIcon from "lucide-react-native/dist/esm/icons/reply";
-import RewindIcon from "lucide-react-native/dist/esm/icons/rewind";
 import RocketIcon from "lucide-react-native/dist/esm/icons/rocket";
 import RotateCcwIcon from "lucide-react-native/dist/esm/icons/rotate-ccw";
 import RotateCwIcon from "lucide-react-native/dist/esm/icons/rotate-cw";
@@ -275,7 +277,6 @@ import SlashIcon from "lucide-react-native/dist/esm/icons/slash";
 import SlidersHorizontalIcon from "lucide-react-native/dist/esm/icons/sliders-horizontal";
 import SmartphoneIcon from "lucide-react-native/dist/esm/icons/smartphone";
 import SmileIcon from "lucide-react-native/dist/esm/icons/smile";
-import SmilePlusIcon from "lucide-react-native/dist/esm/icons/smile-plus";
 import SnowflakeIcon from "lucide-react-native/dist/esm/icons/snowflake";
 import SparklesIcon from "lucide-react-native/dist/esm/icons/sparkles";
 import SpellCheckIcon from "lucide-react-native/dist/esm/icons/spell-check";
@@ -298,13 +299,13 @@ import ThumbsDownIcon from "lucide-react-native/dist/esm/icons/thumbs-down";
 import ThumbsUpIcon from "lucide-react-native/dist/esm/icons/thumbs-up";
 import TicketIcon from "lucide-react-native/dist/esm/icons/ticket";
 import TimerIcon from "lucide-react-native/dist/esm/icons/timer";
-import TrashIcon from "lucide-react-native/dist/esm/icons/trash";
 import Trash2Icon from "lucide-react-native/dist/esm/icons/trash-2";
 import TrendingDownIcon from "lucide-react-native/dist/esm/icons/trending-down";
 import TrendingUpIcon from "lucide-react-native/dist/esm/icons/trending-up";
 import TriangleIcon from "lucide-react-native/dist/esm/icons/triangle";
 import TriangleAlertIcon from "lucide-react-native/dist/esm/icons/triangle-alert";
 import TrophyIcon from "lucide-react-native/dist/esm/icons/trophy";
+import TruckIcon from "lucide-react-native/dist/esm/icons/truck";
 import TvIcon from "lucide-react-native/dist/esm/icons/tv";
 import TwitchIcon from "lucide-react-native/dist/esm/icons/twitch";
 import TwitterIcon from "lucide-react-native/dist/esm/icons/twitter";
@@ -341,6 +342,7 @@ import ZoomInIcon from "lucide-react-native/dist/esm/icons/zoom-in";
 import ZoomOutIcon from "lucide-react-native/dist/esm/icons/zoom-out";
 
 export const iconRegistry = {
+  Activity: ActivityIcon,
   AlignCenter: AlignCenterIcon,
   AlignLeft: AlignLeftIcon,
   AlignRight: AlignRightIcon,
@@ -399,6 +401,7 @@ export const iconRegistry = {
   ChevronLeft: ChevronLeftIcon,
   ChevronRight: ChevronRightIcon,
   ChevronUp: ChevronUpIcon,
+  ChevronsRight: ChevronsRightIcon,
   Circle: CircleIcon,
   CircleAlert: CircleAlertIcon,
   CircleCheck: CircleCheckIcon,
@@ -457,6 +460,7 @@ export const iconRegistry = {
   FolderPlus: FolderPlusIcon,
   Forward: ForwardIcon,
   Fuel: FuelIcon,
+  Fullscreen: FullscreenIcon,
   Funnel: FunnelIcon,
   Gamepad2: Gamepad2Icon,
   Gauge: GaugeIcon,
@@ -520,6 +524,7 @@ export const iconRegistry = {
   Maximize: MaximizeIcon,
   Maximize2: Maximize2Icon,
   Megaphone: MegaphoneIcon,
+  Menu: MenuIcon,
   MessageCircle: MessageCircleIcon,
   MessageCircleWarning: MessageCircleWarningIcon,
   MessageSquare: MessageSquareIcon,
@@ -574,13 +579,11 @@ export const iconRegistry = {
   Receipt: ReceiptIcon,
   RectangleHorizontal: RectangleHorizontalIcon,
   RectangleVertical: RectangleVerticalIcon,
-  Redo: RedoIcon,
   Redo2: Redo2Icon,
   RefreshCw: RefreshCwIcon,
   Repeat: RepeatIcon,
   Repeat2: Repeat2Icon,
   Reply: ReplyIcon,
-  Rewind: RewindIcon,
   Rocket: RocketIcon,
   RotateCcw: RotateCcwIcon,
   RotateCw: RotateCwIcon,
@@ -613,7 +616,6 @@ export const iconRegistry = {
   SlidersHorizontal: SlidersHorizontalIcon,
   Smartphone: SmartphoneIcon,
   Smile: SmileIcon,
-  SmilePlus: SmilePlusIcon,
   Snowflake: SnowflakeIcon,
   Sparkles: SparklesIcon,
   SpellCheck: SpellCheckIcon,
@@ -636,13 +638,13 @@ export const iconRegistry = {
   ThumbsUp: ThumbsUpIcon,
   Ticket: TicketIcon,
   Timer: TimerIcon,
-  Trash: TrashIcon,
   Trash2: Trash2Icon,
   TrendingDown: TrendingDownIcon,
   TrendingUp: TrendingUpIcon,
   Triangle: TriangleIcon,
   TriangleAlert: TriangleAlertIcon,
   Trophy: TrophyIcon,
+  Truck: TruckIcon,
   Tv: TvIcon,
   Twitch: TwitchIcon,
   Twitter: TwitterIcon,
