@@ -36,22 +36,32 @@ export function isReplyAction(response: Notifications.NotificationResponse | nul
   return response?.actionIdentifier === MESSAGE_REPLY_ACTION;
 }
 
-let registeredLanguage: string | null = null;
+// What was last handed to iOS. Keyed on the words, not the language: the
+// language can switch before its pack of these strings has downloaded, and
+// keying on the language then left a Turkish phone with the English
+// "New message on Riftn" on its lock screen for good.
+let registeredCopy: string | null = null;
 
 export async function registerMessageReplyCategory(): Promise<void> {
-  const language = i18n.language || 'en';
-  if (registeredLanguage === language) return;
-  registeredLanguage = language;
+  const copy = {
+    reply: translateCopy('quickReply.reply', { defaultValue: 'Reply' }),
+    send: translateCopy('quickReply.send', { defaultValue: 'Send' }),
+    placeholder: translateCopy('quickReply.placeholder', { defaultValue: 'Write a reply…' }),
+    hiddenPreview: translateCopy('quickReply.hiddenPreview', { defaultValue: 'New message on Riftn' }),
+  };
+  const key = JSON.stringify(copy);
+  if (registeredCopy === key) return;
+  registeredCopy = key;
   try {
     await Notifications.setNotificationCategoryAsync(
       MESSAGE_REPLY_CATEGORY,
       [
         {
           identifier: MESSAGE_REPLY_ACTION,
-          buttonTitle: translateCopy('quickReply.reply', { defaultValue: 'Reply' }),
+          buttonTitle: copy.reply,
           textInput: {
-            submitButtonTitle: translateCopy('quickReply.send', { defaultValue: 'Send' }),
-            placeholder: translateCopy('quickReply.placeholder', { defaultValue: 'Write a reply…' }),
+            submitButtonTitle: copy.send,
+            placeholder: copy.placeholder,
           },
           options: {
             opensAppToForeground: Platform.OS === 'android',
@@ -59,15 +69,18 @@ export async function registerMessageReplyCategory(): Promise<void> {
           },
         },
       ],
-      { previewPlaceholder: translateCopy('quickReply.hiddenPreview', { defaultValue: 'New message on Riftn' }) },
+      { previewPlaceholder: copy.hiddenPreview },
     );
   } catch (error) {
-    registeredLanguage = null;
+    registeredCopy = null;
     logger.warn('Could not register the message reply category', error as any);
   }
 }
 
 i18n.on?.('languageChanged', () => { void registerMessageReplyCategory(); });
+// A language pack that lands after the switch brings these words with it.
+const watchPacks = () => i18n.store?.on?.('added', () => { void registerMessageReplyCategory(); });
+if (i18n.store) watchPacks(); else i18n.on?.('initialized', watchPacks);
 
 /** Each reply is sent once, even when the same response is replayed on launch. */
 function claim(id: string): boolean {
