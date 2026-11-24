@@ -2620,13 +2620,21 @@ async function runLiveChat(): Promise<void> {
     await shot(`livechat-4-flying-${i + 1}`);
     await sleep(6000);
   }
+  // Keyboard down with words still in the box: the buttons come back and
+  // the draft rests on one line beside them.
+  Keyboard.dismiss();
+  await sleep(1500);
+  await shot("livechat-5-draft-keyboard-down");
+  await sleep(2000);
+  if (box) inputState.focusTextInput(box);
+  await sleep(2000);
   await ask("erase:livechat-#:100", 9000);
-  await shot("livechat-5-erased");
+  await shot("livechat-6-erased");
   await sleep(3500);
   Keyboard.dismiss();
   await sleep(1500);
   extra.keyboardAfter = Keyboard.isVisible();
-  await shot("livechat-6-keyboard-down");
+  await shot("livechat-7-keyboard-down");
   await sleep(3500);
   extra.finishedAt = Date.now();
   await save(true);
