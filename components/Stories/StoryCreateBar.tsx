@@ -41,20 +41,16 @@ function usePalette() {
   const { isLight, skin } = useAppTheme();
   return useMemo(() => isLight
     ? { ink: "hsla(240,8%,4%,1)", sub: "hsla(240,8%,4%,0.66)", line: "hsla(240,8%,4%,0.12)", fill: "transparent", keyBg: "hsla(240,8%,7%,1)", keyInk: "hsla(0,0%,100%,1)", grab: "hsla(240,8%,4%,0.16)" }
-    : { ink: "#fff", sub: "rgba(255,255,255,0.62)", line: skin ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.14)", fill: skin ? "rgba(255,255,255,0.07)" : "transparent", keyBg: "#fff", keyInk: "#0b0b0c", grab: "rgba(255,255,255,0.2)" },
+    : { ink: "hsla(0,0%,100%,1)", sub: "rgba(255,255,255,0.62)", line: skin ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.14)", fill: skin ? "rgba(255,255,255,0.07)" : "transparent", keyBg: "hsla(0,0%,100%,1)", keyInk: "hsla(240,6%,5%,1)", grab: "rgba(255,255,255,0.2)" },
   [isLight, skin]);
 }
 
-export default function StoryCreateBar() {
-  const { t } = useTranslation();
+/** What each option opens, plus the status sheet it may need. */
+function useCreateFlows() {
   const navigation = useNavigation<any>();
-  const user = useUser() as { displayName?: string; username?: string } | null;
   const { openModal } = useStages();
-  const c = usePalette();
   const [menuOpen, setMenuOpen] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
-  const firstName = (user?.displayName || user?.username || "").trim().split(/\s+/)[0] || "";
-
   const pick = (kind: Kind) => {
     setMenuOpen(false);
     if (kind === "moment") openStoryCreator();
@@ -63,6 +59,27 @@ export default function StoryCreateBar() {
     else if (kind === "stage") openModal("create");
     else if (kind === "status") setNotesOpen(true);
   };
+  const elements = (
+    <>
+      <CreateSheet visible={menuOpen} onClose={() => setMenuOpen(false)} onPick={pick} />
+      {notesOpen ? (
+        <NotesSheet
+          visible={notesOpen}
+          onClose={() => setNotesOpen(false)}
+          onMessage={() => { setNotesOpen(false); navigation.navigate(ScreenNames.DM); }}
+        />
+      ) : null}
+    </>
+  );
+  return { pick, openMenu: () => setMenuOpen(true), elements };
+}
+
+export default function StoryCreateBar() {
+  const { t } = useTranslation();
+  const user = useUser() as { displayName?: string; username?: string } | null;
+  const c = usePalette();
+  const { pick, openMenu, elements } = useCreateFlows();
+  const firstName = (user?.displayName || user?.username || "").trim().split(/\s+/)[0] || "";
 
   return (
     <View style={styles.wrap}>
@@ -82,22 +99,41 @@ export default function StoryCreateBar() {
           accessibilityRole="button" accessibilityLabel={t("stories.ask.live", { defaultValue: "Live" })}>
           <Icon name="Radio" size={20} color={c.ink} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtn} activeOpacity={0.85} onPress={() => setMenuOpen(true)} hitSlop={4}
+        <TouchableOpacity style={styles.iconBtn} activeOpacity={0.85} onPress={openMenu} hitSlop={4}
           accessibilityRole="button" accessibilityLabel={t("stories.ask.create", { defaultValue: "Create" })}>
           <View style={[styles.key, { backgroundColor: c.keyBg }]}>
             <Icon name="Plus" size={16} color={c.keyInk} strokeWidth={2.4} />
           </View>
         </TouchableOpacity>
       </View>
-      <CreateSheet visible={menuOpen} onClose={() => setMenuOpen(false)} onPick={pick} />
-      {notesOpen ? (
-        <NotesSheet
-          visible={notesOpen}
-          onClose={() => setNotesOpen(false)}
-          onMessage={() => { setNotesOpen(false); navigation.navigate(ScreenNames.DM); }}
-        />
-      ) : null}
+      {elements}
     </View>
+  );
+}
+
+/** First tile of the row while Moments or lives are up: a centred + that opens the same sheet. */
+export function StoryCreateTile({ width, height }: { width: number; height: number }) {
+  const { t } = useTranslation();
+  const c = usePalette();
+  const { openMenu, elements } = useCreateFlows();
+  const label = t("stories.ask.create", { defaultValue: "Create" });
+  return (
+    <>
+      <TouchableOpacity
+        style={[styles.tile, { width, height, borderColor: c.line, backgroundColor: c.fill }]}
+        activeOpacity={0.85}
+        onPress={openMenu}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        testID="story-create-tile"
+      >
+        <View style={[styles.tileKey, { backgroundColor: c.keyBg }]}>
+          <Icon name="Plus" size={18} color={c.keyInk} strokeWidth={2.4} />
+        </View>
+        <Text style={[styles.tileLabel, { color: c.ink }]}>{label}</Text>
+      </TouchableOpacity>
+      {elements}
+    </>
   );
 }
 
@@ -170,6 +206,9 @@ const styles = StyleSheet.create({
   promptText: { fontSize: 15, fontWeight: "500" },
   iconBtn: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   key: { width: 30, height: 30, borderRadius: 8, alignItems: "center", justifyContent: "center" },
+  tile: { borderRadius: 16, borderWidth: 1, alignItems: "center", justifyContent: "center", gap: 10 },
+  tileKey: { width: 36, height: 36, borderRadius: 10, alignItems: "center", justifyContent: "center" },
+  tileLabel: { fontSize: 12, fontWeight: "600" },
   sheet: {
     position: "absolute",
     left: 0,
