@@ -61,6 +61,11 @@ export interface ReplyPreview {
   msgType: DmMsgType;
   mediaUrls: DmMediaUrl[]; // first item only
   voiceDuration: number | null;
+  /**
+   * The replied-to line was a view-once / on-open photo or video: the quote
+   * shows "Photo · Opened", never the picture.
+   */
+  destruct?: DmDestruct | null;
   /** Set client-side when the replied-to line is an encrypted attachment. */
   encMedia?: MediaDescriptor | null;
   sender: {
@@ -335,6 +340,10 @@ export interface DeleteMessageResponse {
   messageId: ID;
   /** Deleted for this person only (their other devices drop it too). */
   forMe?: boolean;
+  reason?: string;
+  /** An opened view-once / on-open photo was wiped: keep it as an "Opened" marker. */
+  marker?: boolean;
+  destruct?: DmDestruct | null;
 }
 
 /** Client → Server: readReceipt */

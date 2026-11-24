@@ -8190,6 +8190,7 @@
     "editFailed": "Düzenleme kaydedilmedi. Tekrar dene.",
     "messagingUnavailable": "Mesajlaşma mevcut değil",
     "addCaption": "Açıklama ekle…",
+    "opened": {"photoA11y": "Fotoğraf, {{time}} açıldı", "videoA11y": "Video, {{time}} açıldı", "seenAt": "Görüldü {{time}}", "replyCamera": "Kamerayla yanıtla", "quotePhoto": "Fotoğraf · Açıldı", "quoteVideo": "Video · Açıldı"},
     "openTimer": {
       "secs": "{{n}} sn",
       "oneMin": "1 dk",

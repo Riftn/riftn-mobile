@@ -59,11 +59,12 @@ import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
 import { haptic } from "../../libs/haptics";
 import { TipGemIcon } from "../Home/TipGemIcon";
 import DmOpenTimerMedia from "./DmOpenTimerMedia";
+import OpenedMarker from "./OpenedMarker";
 import EncryptedMedia from "./EncryptedMedia";
 import LockedMedia from "./LockedMedia";
 import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
-import type { DmDestruct } from "../../libs/dm-destruct";
+import { isSeenOnce, type DmDestruct } from "../../libs/dm-destruct";
 import DmTimeLeft from "./DmTimeLeft";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
@@ -316,6 +317,8 @@ interface MessageBubbleProps {
   onToggleReaction?: (message: DmMessage, emoji: string, addOnly?: boolean) => void;
   /** The other person in a one-to-one chat, so a call card can call them back. */
   callPeerAddress?: string;
+  /** Answer a view-once / on-open photo you got with the camera (a reply to it). */
+  onCameraReply?: (message: DmMessage) => void;
 }
 
 
@@ -335,6 +338,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   myAddress = "",
   onToggleReaction,
   callPeerAddress,
+  onCameraReply,
 }) => {
   usePerfProbe("MessageBubble");
   const { t: _copy } = _useCopy();
@@ -681,16 +685,24 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // A view-once photo sent to me: open it once, tell the server (which removes
   // it for both of us), and never show it again on this phone either.
   const viewOnceForMe = message.destruct?.mode === "view" && !isMine;
-  const [viewOnceOpened, setViewOnceOpened] = useState(false);
+  const [viewOnceOpened, setViewOnceOpened] = useState<Date | null>(null);
   const openViewOnce = useCallback(
     (url: string) => {
       if (viewOnceOpened) return;
-      setViewOnceOpened(true);
+      setViewOnceOpened(new Date());
       void markDmMessageViewed(message._id).catch(() => undefined);
       // No save button on something meant to be seen once.
       navigation.navigate("ImageViewer", { images: [url], initialIndex: 0, allowDownload: false });
     },
     [viewOnceOpened, message._id, navigation],
+  );
+
+  // An opened view-once / on-open photo stays as an "Opened" pill; the person
+  // who got it can answer it with the camera.
+  const isMarker = !!message.destruct?.marker;
+  const cameraReply = useMemo(
+    () => (!isMine && onCameraReply ? () => onCameraReply(message) : undefined),
+    [isMine, onCameraReply, message],
   );
 
   const handleVideoTap = useCallback(
@@ -806,7 +818,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     (message.destruct?.mode === "open" && mediaItems.some((m) => m.kind === "image" || m.kind === "video")) ||
     (message.destruct?.mode === "open" && encVisual) ||
     (viewOnceForMe && (mediaItems.some((m) => m.kind === "image") || encMedia?.kind === "image"));
-  const isMediaOnly = (mediaItems.length > 0 || encVisual) && !hasText && !isVoice && !isOpenTimerTile;
+  const isMediaOnly = (mediaItems.length > 0 || encVisual) && !hasText && !isVoice && !isOpenTimerTile && !isMarker;
   // Media-only paid msgs need a background for PaymentBadge; plain media-only don't
   const activeBubbleBg = isMediaOnly
     ? (isPaidMsg
@@ -946,6 +958,17 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
               </View>
             )}
 
+            {/* Opened view-once / on-open photo: the pill carries its own time. */}
+            {isMarker && (
+              <OpenedMarker
+                kind={message.destruct?.kind}
+                mine={isMine}
+                openedAt={message.destruct?.openedAt}
+                onCamera={cameraReply}
+                onLongPress={handleLongPress}
+              />
+            )}
+
             {/* Reply-to preview */}
             {message.replyTo && (
               <TouchableOpacity
@@ -966,7 +989,25 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       message.replyTo.sender?.username ||
                       t("settings.unknown")}
                   </Text>
-                  {message.replyTo.msgType === "voice" ? (
+                  {isSeenOnce(message.replyTo.destruct) ? (
+                    // A view-once / on-open photo is quoted by what it was, never the picture.
+                    <View className="flex-row items-center gap-1">
+                      <Icon
+                        name={message.replyTo.destruct?.kind === "video" ? "Video" : "Image"}
+                        size={12}
+                        color={isMine ? "rgba(255,255,255,0.5)" : "#A6A9AC"}
+                      />
+                      <Text className={`text-[12px] ${isMine ? "text-white/50" : "text-theme-neutrals-400"}`}>
+                        {message.replyTo.destruct?.marker || message.replyTo.destruct?.openedAt
+                          ? message.replyTo.destruct?.kind === "video"
+                            ? t("dm.opened.quoteVideo", "Video · Opened")
+                            : t("dm.opened.quotePhoto", "Photo · Opened")
+                          : message.replyTo.destruct?.kind === "video"
+                            ? t("dm.video", "Video")
+                            : t("dm.photo", "Photo")}
+                      </Text>
+                    </View>
+                  ) : message.replyTo.msgType === "voice" ? (
                     <View className="flex-row items-center gap-1">
                       <Icon
                         name="Mic"
@@ -1067,6 +1108,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                   isMine={isMine}
                   onVideoPress={handleVideoTap}
                   onLongPress={handleLongPress}
+                  onCamera={cameraReply}
                 />
                 {isUploadFailed && encVisual && (
                   <View className="absolute inset-0 items-center justify-center dark-surface bg-black/50">
@@ -1105,6 +1147,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       src={item.url}
                       onOpenOwn={() => (item.kind === "video" ? handleVideoTap(item.url) : handleImageTapUrl(item.url))}
                       onLongPress={handleLongPress}
+                      onCamera={cameraReply}
                     />
                   ) : item.kind === "audio" ? (
                     <View key={idx} className="px-2 py-1 min-w-[220px]" style={{ maxWidth: MAX_IMAGE_WIDTH }}>
@@ -1166,6 +1209,8 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       onPress={() => handleVideoTap(item.url)}
                       onLongPress={handleLongPress}
                     />
+                  ) : viewOnceForMe && item.kind !== "gif" && viewOnceOpened ? (
+                    <OpenedMarker key={idx} kind="image" mine={false} openedAt={viewOnceOpened} onCamera={cameraReply} onLongPress={handleLongPress} />
                   ) : viewOnceForMe && item.kind !== "gif" ? (
                     // View once: never drawn in the chat, opens one time, then gone.
                     <Pressable
@@ -1173,7 +1218,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       onPress={viewOnceOpened ? undefined : () => openViewOnce(item.url)}
                       onLongPress={handleLongPress}
                       delayLongPress={350}
-                      disabled={viewOnceOpened}
+                      disabled={!!viewOnceOpened}
                       accessibilityRole="button"
                       className="flex-row items-center px-3 py-3"
                       style={{ gap: 12, minWidth: 200 }}
@@ -1404,7 +1449,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             ) : (
               // Inside a run only the last line carries the time; a line that
               // is still sending, failed, or paid keeps its row.
-              groupLast || isOpenTimerTile || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
+              isMarker ? null : groupLast || isOpenTimerTile || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
                 <View className="px-3 pb-1.5">
                   <StatusRow />
                 </View>

@@ -8255,6 +8255,7 @@
     "viewReposts": "Reposts bekijken"
   },
   "dm": {
+    "opened": {"photoA11y": "Foto, geopend {{time}}", "videoA11y": "Video, geopend {{time}}", "seenAt": "Gezien {{time}}", "replyCamera": "Antwoord met de camera", "quotePhoto": "Foto · Geopend", "quoteVideo": "Video · Geopend"},
     "trayGif": "GIF en emoji",
     "trayVoice": "Spraakbericht",
     "trayTip": "Fooi",

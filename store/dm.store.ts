@@ -275,6 +275,16 @@ export const dmActions = {
   removeMessage(del: DeleteMessageResponse): void {
     const list = dmState.messagesByConversation[del.dmId];
     if (!list) return;
+    // An opened view-once / on-open photo: the file and text go, the line
+    // stays as an "Opened" marker for both people.
+    if (del.marker && del.destruct) {
+      dmState.messagesByConversation[del.dmId] = list.map((m) =>
+        m._id === del.messageId
+          ? { ...m, content: "", mediaUrls: [], encMedia: null, mediaOptions: undefined, destruct: del.destruct }
+          : m,
+      );
+      return;
+    }
     dmState.messagesByConversation[del.dmId] = list.filter(
       (m) => m._id !== del.messageId,
     );
