@@ -26,6 +26,7 @@ const EDIT_AVATAR_PT = 88;
 import Avatar from "../components/common/Avatar";
 import Icon from "../components/ui/Icon";
 import AccountTypeSection from "../components/Profile/AccountTypeSection";
+import ProfileSongSection from "../components/Profile/ProfileSongSection";
 import { openCroppedImagePicker, resizeAndCompress, createRNImageFile, AVATAR_UPLOAD_SIDE } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { AuthService } from "../services/auth.service";
@@ -647,6 +648,9 @@ const EditProfileScreen = () => {
                 </Text>
               </View>
             </View>
+
+            {/* Profile song — one song under the bio; saves on its own. */}
+            <ProfileSongSection />
 
             {/* Profile fields — label/value lines under the bio, links verified by rel="me". */}
             <View className="mt-2" testID="edit-profile-fields">

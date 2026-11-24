@@ -35,3 +35,8 @@ export function revokeAudioFocus(): void {
     currentHolder = null;
   }
 }
+
+/** Whether something currently holds audio focus (is playing with sound). */
+export function hasAudioFocus(): boolean {
+  return currentHolder !== null;
+}

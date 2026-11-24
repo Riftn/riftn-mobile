@@ -31,6 +31,7 @@ import { useTranslation as useI18n } from "react-i18next";
 import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
 import ProfileBio from "../Profile/ProfileBio";
+import ProfileSongRow from "../Profile/ProfileSongRow";
 import TotalReachPill from "../Profile/TotalReachPill";
 import ProfileLinksPill from "../Profile/ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -473,6 +474,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
               <ProfileBio text={displayBio} />
             </View>
           )}
+
+          {/* The song under the bio: tap to play; may start by itself for visitors. */}
+          <ProfileSongRow customs={customs} isOwn={!!isOwnProfile} />
 
           {/* Creator or Business category, Instagram style. */}
           {!!readAccountCategory(customs) && (
