@@ -1,4 +1,4 @@
-import { countdownLabel, destructFromChoice, replaysLeft, withReplay } from "../dm-destruct";
+import { countdownLabel, destructFromChoice, isSeenOnce, replaysLeft, withReplay } from "../dm-destruct";
 
 describe("dm-destruct replay", () => {
   it("adds one replay only to the on-open timers", () => {
@@ -19,5 +19,14 @@ describe("dm-destruct replay", () => {
     expect(replaysLeft({ mode: "open", replaysAllowed: 1, replaysUsed: 1 })).toBe(0);
     expect(replaysLeft({ mode: "open" })).toBe(0);
     expect(countdownLabel(28.2)).toBe("29s");
+  });
+});
+
+describe("isSeenOnce", () => {
+  it("is true for view-once and on-open messages only", () => {
+    expect(isSeenOnce({ mode: "view" })).toBe(true);
+    expect(isSeenOnce({ mode: "open", seconds: 10 })).toBe(true);
+    expect(isSeenOnce({ mode: "time", seconds: 3600 })).toBe(false);
+    expect(isSeenOnce(null)).toBe(false);
   });
 });

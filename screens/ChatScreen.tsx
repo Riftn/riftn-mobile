@@ -2312,6 +2312,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [setReplyTo],
   );
 
+  // The camera on an "Opened" photo: answer that photo with a photo or video.
+  const [cameraRequest, setCameraRequest] = useState(0);
+  const handleCameraReply = useCallback(
+    (msg: DmMessage) => {
+      setReplyTo(msg);
+      setCameraRequest((n) => n + 1);
+    },
+    [setReplyTo],
+  );
+
   const renderMessage = useCallback(
     ({ item, index }: { item: DmMessage; index: number }) => {
       const mine = isMine(item);
@@ -2370,6 +2380,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             myAddress={address}
             onToggleReaction={toggleReaction}
             callPeerAddress={peer.address || undefined}
+            onCameraReply={handleCameraReply}
           />
       );
       // Picking: the whole line is one tap target with a tick on the left;
@@ -2405,7 +2416,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         </View>
       );
     },
-    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, expandUnreadable, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
+    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleCameraReply, handleReplyPress, highlightedId, undecryptableRuns, expandUnreadable, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
   );
 
   // The temp id a line was drawn under stays its key after the send lands.
@@ -2702,6 +2713,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 disabledMessage={accountBanned ? t("banned.line") : storefrontFeeBlocked ? t("storefront.unavailable") : undefined}
                 sending={sending}
                 replyTo={replyTo}
+                cameraRequest={cameraRequest}
                 onCancelReply={() => setReplyTo.complete(replyTo, null)}
                 editingMessage={editingMessage}
                 onCancelEdit={() => setEditingMessage(null)}

@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import SmartImage from "../common/SmartImage";
 import DmOpenTimerMedia from "./DmOpenTimerMedia";
+import OpenedMarker from "./OpenedMarker";
 import { markDmMessageViewed } from "../../services/dm/dm.api";
 import Icon from "../ui/Icon";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
@@ -109,6 +110,8 @@ interface Props {
   onVideoPress?: (uri: string) => void;
   onLongPress?: () => void;
   destruct?: DmDestruct | null;
+  /** The person who got a view-once / on-open photo: answer it with the camera. */
+  onCamera?: () => void;
 }
 
 const Percent: React.FC<{ progress: number }> = ({ progress }) => (
@@ -123,6 +126,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   onVideoPress,
   onLongPress,
   destruct,
+  onCamera,
 }) => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
@@ -132,7 +136,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   const viewOnce = destruct?.mode === "view" && !isMine && d.kind === "image";
   const auto = (d.kind === "image" && !viewOnce) || d.kind === "audio";
   const { status, uri, progress, start, rebuild } = useDecryptedMedia(url, d, messageId, auto);
-  const [viewOnceOpened, setViewOnceOpened] = useState(false);
+  const [viewOnceOpened, setViewOnceOpened] = useState<Date | null>(null);
   const shown = uri;
 
   const maxW = Math.round(windowWidth * 0.75 - 24);
@@ -201,6 +205,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
         resolveSource={start}
         onOpenOwn={d.kind === "video" ? () => void openVideo() : openImage}
         onLongPress={onLongPress}
+        onCamera={onCamera}
       />
     );
   }
@@ -218,16 +223,19 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   if (viewOnce) {
     const openOnce = async () => {
       if (viewOnceOpened) return;
-      setViewOnceOpened(true);
+      setViewOnceOpened(new Date());
       const file = uri || (await start());
       void markDmMessageViewed(messageId).catch(() => undefined);
       if (file) navigation.navigate("ImageViewer", { images: [file], initialIndex: 0, allowDownload: false });
     };
+    if (viewOnceOpened) {
+      return <OpenedMarker kind="image" mine={false} openedAt={viewOnceOpened} onCamera={onCamera} onLongPress={onLongPress} />;
+    }
     return (
       <TouchableOpacity
         activeOpacity={0.85}
         onPress={viewOnceOpened ? undefined : () => void openOnce()}
-        disabled={viewOnceOpened}
+        disabled={!!viewOnceOpened}
         onLongPress={onLongPress}
         delayLongPress={350}
         className="flex-row items-center px-3 py-3"

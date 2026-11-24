@@ -14,12 +14,13 @@
  *   media full screen with a big "29s" countdown on it. Afterwards: "Tap to
  *   replay" while a replay is left, then "Opened".
  */
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, Text, View, useWindowDimensions } from "react-native";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useTranslation } from "react-i18next";
 import SmartImage from "../common/SmartImage";
 import Icon from "../ui/Icon";
+import OpenedMarker from "./OpenedMarker";
 import { markDmMessageViewed } from "../../services/dm/dm.api";
 import { countdownLabel, replaysLeft, type DmDestruct } from "../../libs/dm-destruct";
 
@@ -50,9 +51,11 @@ interface Props {
   /** Sender only: open your own copy as usual. */
   onOpenOwn?: () => void;
   onLongPress?: () => void;
+  /** Recipient: answer it with the camera once it has been opened. */
+  onCamera?: () => void;
 }
 
-const DmOpenTimerMedia: React.FC<Props> = ({ messageId, mine, destruct, kind, src, resolveSource, onOpenOwn, onLongPress }) => {
+const DmOpenTimerMedia: React.FC<Props> = ({ messageId, mine, destruct, kind, src, resolveSource, onOpenOwn, onLongPress, onCamera }) => {
   const { t } = useTranslation();
   const seconds = destruct.seconds ?? 10;
   const secLabel = seconds >= 60 ? t("dm.openTimer.oneMin", "1 min") : t("dm.openTimer.secs", { n: seconds, defaultValue: "{{n}} sec" });
@@ -62,6 +65,7 @@ const DmOpenTimerMedia: React.FC<Props> = ({ messageId, mine, destruct, kind, sr
   const [now, setNow] = useState(Date.now());
   const [left, setLeft] = useState(() => replaysLeft(destruct));
   const [isReplay, setIsReplay] = useState(false);
+  const openedAtRef = useRef<Date | null>(null);
   useEffect(() => { if (src) setUri(src); }, [src]);
 
   const open = async () => {
@@ -81,6 +85,7 @@ const DmOpenTimerMedia: React.FC<Props> = ({ messageId, mine, destruct, kind, sr
     }
     const after = typeof res?.replaysLeft === "number" ? res.replaysLeft : replaying ? 0 : replaysLeft(destruct);
     if (file) setUri(file);
+    if (!openedAtRef.current) openedAtRef.current = new Date();
     setEndsAt(res?.expiresAt ? new Date(res.expiresAt).getTime() : Date.now() + seconds * 1000);
     setNow(Date.now());
     setLeft(after);
@@ -105,12 +110,11 @@ const DmOpenTimerMedia: React.FC<Props> = ({ messageId, mine, destruct, kind, sr
   const fraction = endsAt ? Math.max(0, Math.min(1, (endsAt - now) / (seconds * 1000))) : 1;
 
   if (phase === "done") {
-    return (
-      <View className="flex-row items-center px-3 py-2.5" style={{ gap: 10, minWidth: 180 }}>
-        <Icon name="Eye" size={16} color="#A1A1AA" />
-        <Text className="text-[14px] text-theme-neutrals-400">{t("dm.openTimer.opened", "Opened")}</Text>
-      </View>
-    );
+    return <OpenedMarker kind={kind} mine={false} openedAt={destruct.openedAt ?? openedAtRef.current} onCamera={onCamera} onLongPress={onLongPress} />;
+  }
+  // The sender: once they have opened it, it reads "Opened" here too.
+  if (mine && destruct.openedAt) {
+    return <OpenedMarker kind={kind} mine openedAt={destruct.openedAt} onLongPress={onLongPress} />;
   }
 
   return (
