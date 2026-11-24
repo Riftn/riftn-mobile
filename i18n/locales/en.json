@@ -8249,7 +8249,7 @@
     "saySomething": "Say something...",
     "bannedHere": "You are banned from chatting in this live stream",
     "timedOutHere": "You are timed out from this chat for now",
-    "chatPlaceholder": "type...",
+    "chatPlaceholder": "Type...",
     "loadingStream": "Loading stream...",
     "streamPaused": "Stream Paused",
     "connectionDropped": "The streamer's connection dropped.\nWaiting for them to reconnect...",
