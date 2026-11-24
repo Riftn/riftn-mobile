@@ -1,5 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { memo, useCallback, useState, useRef, useMemo, useEffect } from "react";
+import React, { memo, useCallback, useState, useRef, useMemo, useEffect, useLayoutEffect } from "react";
 import { View, Pressable, StyleSheet, Platform, Image, type LayoutChangeEvent, type ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Reanimated, {
@@ -137,12 +137,14 @@ const NavButton = memo<{
   icon: IconName;
   label: string;
   active: boolean;
-  onPress: () => void;
+  postType: PostTypeOption;
+  onPress: (postType: PostTypeOption) => void;
   onLongPress: () => void;
   minimal?: boolean;
   /** A canvas theme's icon colours (theme/skins.ts). */
   tint?: { on: string; off: string };
-}>(({ icon, label, active, onPress, onLongPress, minimal = false, tint }) => {
+}>(({ icon, label, active, postType, onPress, onLongPress, minimal = false, tint }) => {
+  const handlePress = useCallback(() => onPress(postType), [onPress, postType]);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const cancelled = useRef(false);
   useEffect(() => { cancelled.current = true; }, [active]);
@@ -152,7 +154,7 @@ const NavButton = memo<{
   // NAV_ITEMS already carries the right words in `tooltip`; `selected` is what
   // conveys which tab you are on, since the icon does it visually via colour.
   <Pressable
-    onPress={onPress}
+    onPress={handlePress}
     delayLongPress={500}
     onPressIn={(event) => {
       touchStart.current = { x: event.nativeEvent.pageX, y: event.nativeEvent.pageY };
@@ -176,11 +178,13 @@ const NavButton = memo<{
     {({ pressed }) => (
       <View style={{ width: 18, height: 18, alignItems: 'center', justifyContent: 'center', opacity: pressed ? 0.6 : 1 }}>
         <View style={STRETCH_STYLES.get(icon)}>
+          {/* Selection recolours the icon without switching Android between
+              the stroke-2 font renderer and SVG. */}
           <Icon
             name={icon}
             size={16 * (FEED_NAV_ICON_SCALE[icon] ?? 1)}
             color={tint ? (active ? tint.on : tint.off) : active ? "#FFFFFF" : minimal ? "#A1A1AA" : "#808089"}
-            strokeWidth={active ? 2 : 1.8}
+            strokeWidth={2}
           />
         </View>
       </View>
@@ -233,12 +237,16 @@ const FeedNavBar: React.FC<FeedNavBarProps> = ({
   // Read on the UI thread by the drag worklet, which cannot see React refs.
   const dragStart = useSharedValue(0);
 
-  const handleNavPress = useCallback(
-    (postType: PostTypeOption) => {
-      onPostTypeChange(postType);
-    },
-    [onPostTypeChange],
-  );
+  // Home's callback captures the selected feed/search state and changes on
+  // each switch. Keep button props stable, but invoke the latest committed
+  // callback so tapping the selected tab still opens/closes its search.
+  const onPostTypeChangeRef = useRef(onPostTypeChange);
+  useLayoutEffect(() => {
+    onPostTypeChangeRef.current = onPostTypeChange;
+  }, [onPostTypeChange]);
+  const handleNavPress = useCallback((postType: PostTypeOption) => {
+    onPostTypeChangeRef.current(postType);
+  }, []);
 
   const commitIndex = useCallback(
     (idx: number) => {
@@ -379,7 +387,8 @@ const FeedNavBar: React.FC<FeedNavBarProps> = ({
                   icon={item.icon}
                   label={item.tooltip}
                   active={index === activeIndex}
-                  onPress={() => handleNavPress(item.postType)}
+                  postType={item.postType}
+                  onPress={handleNavPress}
                   onLongPress={onActiveTabLongPress}
                   minimal
                 />
@@ -475,8 +484,9 @@ const FeedNavBar: React.FC<FeedNavBarProps> = ({
                 icon={item.icon}
                 label={item.tooltip}
                 active={index === activeIndex}
-                onPress={() => handleNavPress(item.postType)}
-                  onLongPress={onActiveTabLongPress}
+                postType={item.postType}
+                onPress={handleNavPress}
+                onLongPress={onActiveTabLongPress}
                 tint={tint}
               />
             ))}
