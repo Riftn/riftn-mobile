@@ -20,7 +20,7 @@ import Avatar from '../components/common/Avatar';
 import ScreenHeader from '../components/ScreenHeader';
 import { KitButton, PageEmpty, PageSection } from '../components/page/PageKit';
 import { ScreenNames } from '../navigation/ScreenNames';
-import { useAuth } from '../context/AuthContext';
+import { useUser } from '../context/AuthContext';
 import { useAppTheme } from '../context/ThemeContext';
 import { toastError, toastSuccess } from '../libs/toast';
 import { shareWithRef } from '../libs/shareRef';
@@ -33,10 +33,11 @@ import {
 
 const PAGE_URL = `${WEBSITE_LINK}/arcade/gratitude`;
 const DAY_CHOICES = [1, 2, 3, 5, 7];
-const MUTED = 'hsla(240, 4%, 46%, 1)';
-const SOFT = 'hsla(240, 5%, 65%, 1)';
-const INK = 'hsla(0, 0%, 100%, 1)';
-const FILL = 'hsla(240, 4%, 16%, 1)';
+const MUTED = '#71717A';
+const SOFT = '#A1A1AA';
+const INK = '#FFFFFF';
+const FILL = '#27272A';
+// Hex on purpose: the System Light tone pass flips hex greys, so these read in both tones.
 
 const nameOf = (p: GamePlayer | null | undefined) => (p ? p.displayName || (p.username ? `@${p.username}` : `${p.address.slice(0, 6)}…`) : '');
 const errorText = (error: unknown) => (error instanceof Error ? error.message : String(error));
@@ -68,7 +69,7 @@ function useAccentRgb(): string {
 }
 
 function ActionButton({ label, onPress, disabled, icon, tone = 'quiet' }: { label: string; onPress: () => void; disabled?: boolean; icon?: string; tone?: 'primary' | 'quiet' | 'danger' }) {
-  const ink = tone === 'primary' ? 'hsla(240, 6%, 5%, 1)' : tone === 'danger' ? 'hsla(0, 94%, 82%, 1)' : 'hsla(240, 5%, 90%, 1)';
+  const ink = tone === 'primary' ? '#0B0B0C' : tone === 'danger' ? 'hsla(0, 94%, 82%, 1)' : '#E4E4E7';
   return (
     <Pressable onPress={onPress} disabled={disabled} accessibilityRole="button" style={({ pressed }) => ({ opacity: disabled ? 0.5 : pressed ? 0.85 : 1 })}>
       <View style={[styles.action, { backgroundColor: tone === 'primary' ? INK : FILL }]}>
@@ -83,7 +84,7 @@ function TurnPill({ label, hot }: { label: string; hot: boolean }) {
   const accent = useAccentRgb();
   return (
     <View style={[styles.pill, hot ? { backgroundColor: `rgba(${accent},0.34)`, borderWidth: 1, borderColor: `rgba(${accent},1)` } : { backgroundColor: FILL }]}>
-      <Text style={[styles.pillText, { color: hot ? INK : 'hsla(240, 5%, 84%, 1)' }]}>{label}</Text>
+      <Text style={[styles.pillText, { color: hot ? INK : '#D4D4D8' }]}>{label}</Text>
     </View>
   );
 }
@@ -117,7 +118,7 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
     queryKey: key,
     queryFn: () => gratitudeGet(id, !!wallet),
     // Days per turn: a quiet poll is plenty while waiting on them.
-    refetchInterval: (q) => (q.state.data?.game.status === 'active' && !q.state.data.game.yourTurn ? 20_000 : false),
+    refetchInterval: (q) => (q.state.data?.game?.status === 'active' && !q.state.data.game.yourTurn ? 20_000 : false),
   });
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 30_000);
@@ -246,7 +247,7 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
               />
               <Pressable onPress={() => void send()} disabled={busy || !text.trim()} accessibilityRole="button" accessibilityLabel={t('games.gratitude.send')}>
                 <View style={[styles.send, { opacity: busy || !text.trim() ? 0.4 : 1 }]}>
-                  {busy ? <ActivityIndicator size="small" color="hsla(240, 6%, 5%, 1)" /> : <Icon name="ArrowUp" size={18} color="hsla(240, 6%, 5%, 1)" />}
+                  {busy ? <ActivityIndicator size="small" color="#0B0B0C" /> : <Icon name="ArrowUp" size={18} color="#0B0B0C" />}
                 </View>
               </Pressable>
             </View>
@@ -333,7 +334,7 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
   return (
     <Pressable onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: active }}>
       <View style={[styles.choice, { backgroundColor: active ? INK : FILL }]}>
-        <Text style={[styles.choiceText, { color: active ? 'hsla(240, 6%, 5%, 1)' : 'hsla(240, 5%, 84%, 1)' }]}>{label}</Text>
+        <Text style={[styles.choiceText, { color: active ? '#0B0B0C' : '#D4D4D8' }]}>{label}</Text>
       </View>
     </Pressable>
   );
@@ -414,7 +415,7 @@ const GratitudeScreen = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const insets = useSafeAreaInsets();
-  const { user } = useAuth();
+  const user = useUser() as { walletAddress?: string; address?: string } | null;
   const wallet = (user?.walletAddress || user?.address)?.toLowerCase() ?? null;
   const gameId: string | undefined = route.params?.game;
   const open = useCallback((id: string) => navigation.push(ScreenNames.Gratitude, { game: id }), [navigation]);
@@ -461,7 +462,7 @@ const styles = StyleSheet.create({
   lineMeta: { color: SOFT, fontSize: 10, fontWeight: '700', letterSpacing: 0.4, textTransform: 'uppercase' },
   lineText: { fontSize: 15, lineHeight: 20, marginTop: 2 },
   hint: { borderRadius: 14, borderWidth: 1, paddingHorizontal: 12, paddingVertical: 9, backgroundColor: 'hsla(0, 0%, 100%, 0.05)' },
-  hintText: { color: 'hsla(240, 5%, 88%, 1)', fontSize: 13, lineHeight: 18 },
+  hintText: { color: '#E4E4E7', fontSize: 13, lineHeight: 18 },
   composer: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, borderRadius: 24, paddingLeft: 14, padding: 6, backgroundColor: 'hsla(0, 0%, 100%, 0.06)', borderWidth: 1, borderColor: 'hsla(0, 0%, 100%, 0.1)' },
   input: { flex: 1, minHeight: 38, maxHeight: 120, paddingVertical: 9, fontSize: 15, color: INK },
   send: { width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', backgroundColor: INK },
@@ -477,7 +478,7 @@ const styles = StyleSheet.create({
   rule: { flexDirection: 'row', gap: 10, paddingVertical: 4 },
   ruleNum: { width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'hsla(0, 0%, 100%, 0.1)' },
   ruleNumText: { color: INK, fontSize: 11, fontWeight: '700' },
-  ruleText: { flex: 1, color: 'hsla(240, 5%, 84%, 1)', fontSize: 13, lineHeight: 18 },
+  ruleText: { flex: 1, color: '#D4D4D8', fontSize: 13, lineHeight: 18 },
 });
 
 export default GratitudeScreen;
