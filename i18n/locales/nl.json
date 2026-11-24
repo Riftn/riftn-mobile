@@ -18697,6 +18697,13 @@
     "shelfCollected": "Verzameld"
   },
   "nftCreate": {
+    "newNft": "Nieuwe NFT",
+    "untitled": "Zonder titel",
+    "addArt": "Voeg een afbeelding of GIF toe",
+    "tileEarn": "{{pct}} voor jou bij doorverkoop",
+    "otherCopies": "Anders",
+    "otherPlaceholder": "Elk getal, zoals 250 of 50000",
+    "chain": "Chain",
     "eyebrow": "Maken",
     "title": "Maak een NFT",
     "intro": "Een NFT is geen post. Hij staat hier op de markt: kies hoeveel exemplaren, wie verdient bij doorverkoop en extra's die alleen eigenaren kunnen openen.",

@@ -33,7 +33,7 @@ const tokens = (n: number, symbol: string) =>
 
 type T = TFunction;
 
-function describeCost(quote: MintFeeQuoteResponse, sponsored: boolean, t: T) {
+export function describeCost(quote: MintFeeQuoteResponse, sponsored: boolean, t: T) {
   if (sponsored) {
     if (!quote.chargeable || !(quote.amount > 0)) {
       return { primary: t("mintChain.free", { defaultValue: "Free" }), secondary: t("mintChain.gasCovered", { defaultValue: "Gas covered by Riftn" }) };
