@@ -10,7 +10,7 @@ import { storageImageSource } from "../../libs/cdnImage";
 import { communityKindOf, entryPriceOf } from "../../libs/community-kinds";
 import type { Community } from "../../types/community";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
-import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, ChatCard } from "./ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, CHAT_ROW_RADIUS, ChatCard } from "./ChatCard";
 import ReactionAlertBadge, { markChatRow, reactionAlertLine } from "./ReactionAlertBadge";
 import type { ChatReactionSummary } from "../../services/dm/dm.api";
 import UnreadCountChip from "./UnreadCountChip";
@@ -70,7 +70,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
     >
       {selecting && <BulkTick checked={checked} />}
       <View
-        style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: 14 }}
+        style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: CHAT_ROW_RADIUS }}
         className="bg-theme-neutrals-800 items-center justify-center overflow-hidden"
       >
         {community.avatar_url

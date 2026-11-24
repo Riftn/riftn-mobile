@@ -14,7 +14,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import OnlineDot from "../common/OnlineDot";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { formatShortAgo } from "../../libs/date.util";
-import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, ChatCard, useChatCardAccent } from "./ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, CHAT_ROW_RADIUS, ChatCard, useChatCardAccent } from "./ChatCard";
 import type { DmConversation, DmMessage, DmUser } from "../../services/dm/dm.types";
 import { getOtherParticipant } from "../../services/dm/dm.types";
 import { useUnreadCount } from "../../store/dm.store";
@@ -277,7 +277,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                 : undefined
             }
             size={CHAT_ROW_PHOTO}
-            radius={14}
+            radius={CHAT_ROW_RADIUS}
             name={displayName}
             live={live}
           />

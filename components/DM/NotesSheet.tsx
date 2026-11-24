@@ -465,10 +465,10 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
       </View>
       <View style={{ marginTop: 2 }}>
         {gif
-          ? <SmartImage source={{ uri: gif }} style={{ width: 58, height: 58, borderRadius: 16 }} contentFit="cover" />
-          : <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={58} radius={16} name={nameOf(author)} />}
+          ? <SmartImage source={{ uri: gif }} style={{ width: 58, height: 58, borderRadius: 11 }} contentFit="cover" />
+          : <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={58} radius={11} name={nameOf(author)} />}
         {own ? (
-          <View style={{ position: "absolute", right: -4, bottom: -4, width: 22, height: 22, borderRadius: 8, backgroundColor: isLight ? "#111114" : "#fff", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: isLight ? "#fff" : "#000" }}>
+          <View style={{ position: "absolute", right: -4, bottom: -4, width: 22, height: 22, borderRadius: 6, backgroundColor: isLight ? "#111114" : "#fff", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: isLight ? "#fff" : "#000" }}>
             <Ionicons name="add" size={14} color={isLight ? "#fff" : "#0b0b0c"} />
           </View>
         ) : null}
@@ -561,12 +561,12 @@ export function NoteTag({ entry, onPress }: { entry: NoteEntry; onPress: () => v
 }
 
 /** The 24h ring around a chat card's face (a 44px rounded square). */
-export function NoteFaceRing({ note, size = 44 }: { note: Note; size?: number }) {
+export function NoteFaceRing({ note, size = 44, radius = 10 }: { note: Note; size?: number; radius?: number }) {
   const left = useNoteLeft(note);
   const ring = size + 10;
   return (
     <View pointerEvents="none" style={{ position: "absolute", left: -5, top: -5, width: ring, height: ring }}>
-      <NoteRing left={left} size={ring} radius={Math.round(size * 0.27) + 3} />
+      <NoteRing left={left} size={ring} radius={radius + 5} />
     </View>
   );
 }

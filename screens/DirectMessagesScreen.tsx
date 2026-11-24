@@ -25,7 +25,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
-import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, CHAT_ROW_RADIUS, ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
 import DeleteMessageSheet, { type DeleteRequest, type DeleteScope } from "../components/DM/DeleteMessageSheet";
 import { usePublicChatLastLine, useRoomChatSummaries } from "../hooks/useRoomChatSummaries";
@@ -852,7 +852,7 @@ const DirectMessagesInner: React.FC = () => {
             PNG: Android fades each child on its own while the row is pressed,
             so an opaque black backdrop showed as a dark square on the tile. */}
         <View
-          style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: 14 }}
+          style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: CHAT_ROW_RADIUS }}
           className="dark-surface bg-black items-center justify-center overflow-hidden"
         >
           <Image
@@ -926,7 +926,7 @@ const DirectMessagesInner: React.FC = () => {
             style={{ minHeight: CHAT_ROW_MIN_HEIGHT }}
           >
             <View
-              style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: 14, backgroundColor: "rgba(127,127,127,0.16)" }}
+              style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: CHAT_ROW_RADIUS, backgroundColor: "rgba(127,127,127,0.16)" }}
               className="items-center justify-center"
             >
               <Icon name="Mail" size={22} color="#A1A1AA" />

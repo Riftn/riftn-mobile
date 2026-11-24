@@ -19,6 +19,8 @@ export const CHAT_CARD_INSET = 12;
 /** Chat rows: 16px in, a 52px photo, 12px gap, so the text starts at 80. */
 export const CHAT_ROW_INSET = 16;
 export const CHAT_ROW_PHOTO = 52;
+/** Photo corners: squared off like the buttons, not round. */
+export const CHAT_ROW_RADIUS = 10;
 export const CHAT_ROW_TEXT_LEFT = CHAT_ROW_INSET + CHAT_ROW_PHOTO + 12;
 export const CHAT_ROW_MIN_HEIGHT = 76;
 
