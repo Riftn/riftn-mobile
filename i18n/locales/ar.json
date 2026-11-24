@@ -18680,5 +18680,18 @@
       "drop-c": "Drop C",
       "b-standard": "سي قياسي"
     }
+  },
+  "arcadeCard": {
+    "best": "أفضل نتيجة",
+    "mined": "العملات المعدّنة",
+    "rankLine": "{{label}} · رقم {{rank}} في اللوحة",
+    "shared": "شارك هذه اللعبة",
+    "play": "العب"
+  },
+  "arcadeShare": {
+    "postCard": "انشر بطاقة نتيجتك",
+    "postSnapshot": "انشر لقطة",
+    "shareLink": "مشاركة الرابط",
+    "snapshotFailed": "تعذّر التقاط اللقطة. حاول مرة أخرى."
   }
 }

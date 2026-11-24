@@ -52,6 +52,11 @@ import * as WebBrowser from 'expo-web-browser';
 import { useOpenSignIn } from "../../hooks/useOpenSignIn";
 import { useFeatureRequest, STATUS_LABELS, featureAttachments, isVideoAttachment } from '../../hooks/useFeatureRequests';
 import { linkablePageFor } from '../../libs/linkablePages';
+import { LinearGradient } from 'expo-linear-gradient';
+import { KeepDarkScope } from '../../libs/jsx/tone';
+import { arcadeCard } from '../../services/games.service';
+import { arcadeArt, arcadeSlugOf, sharedLink } from '../../libs/arcadeCard';
+import { formatCount } from '../../libs/format-count';
 
 /** How many cards one message or caption may draw before the rest stay as text. */
 export const MAX_CARDS_PER_MESSAGE = 2;
@@ -690,6 +695,102 @@ const FeatureRequestCardEmbed: React.FC<{ id: string; onOpen: () => void; fallba
   );
 };
 
+/** First-party games: their names live under games.* */
+const ARCADE_TITLES: Record<string, [string, string]> = {
+  chestard: ['games.chestard.title', 'Chestard'],
+  sillycoin: ['games.sillycoin.title', 'SillyCoin'],
+  okey: ['games.okey.title', 'Okey 101'],
+  gratitude: ['games.gratitude.title', 'Gratitude pen pals'],
+  'correspondence-chess': ['games.chess.title', 'Correspondence chess'],
+};
+/** Arcade games named by their brand, the same in every language. */
+const ARCADE_BRANDS: Record<string, string> = {
+  'kings-gambit': "King's Gambit", 'street-slayer': 'Street Slayer', 'gods-eye': "God's Eye", trenchstar: 'Chartopia',
+  'jungle-trail': 'Jungle Trail', 'claude-of-duty': 'Claude of Duty', 'love-lock-bridge': 'Love Lock Bridge',
+};
+const humanize = (slug: string) => slug.split('-').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+/**
+ * A riftn.com/arcade/<game> link as a score card: the game's art and, when the
+ * link names who shared it (`?by=<user>`), their name, best score and rank on
+ * the art. The score comes from the game's board, never the link. Posted with
+ * a snapshot (`&snap=1`) the post already has its picture, so the card is one
+ * row. Same card as the web (ArcadeLinkEmbed).
+ */
+const ArcadeCardEmbed: React.FC<{ slug: string; pagePath: string; path: string; onOpen: () => void }> = ({ slug, pagePath, path, onOpen }) => {
+  const { t } = useTranslation();
+  const { by, snap } = sharedLink(path);
+  const { data: card } = useQuery({
+    queryKey: ['arcade-card', slug, by?.toLowerCase()],
+    queryFn: () => arcadeCard(slug, by!),
+    enabled: !!by,
+    staleTime: 60_000,
+  });
+  const page = linkablePageFor(pagePath);
+  const known = ARCADE_TITLES[slug];
+  const own = page && page.path.replace(/^\/app/, '') === pagePath.replace(/^\/app/, '');
+  const title = known ? t(known[0], known[1]) : own && page ? t(page.labelKey, page.labelKey) : ARCADE_BRANDS[slug] ?? humanize(slug);
+  const player = card?.player ?? null;
+  const name = player ? (player.username ? `@${player.username}` : player.displayName || `${player.address.slice(0, 6)}…`) : null;
+  const avatar = player?.avatarImageUrl ? getAvatarUrl(player.avatarImageUrl, 36) : null;
+  const hasScore = card?.best != null && card.best > 0;
+  const scoreLabel = card?.unit === 'coins' ? t('arcadeCard.mined', 'Coins mined') : t('arcadeCard.best', 'Best score');
+  const scoreLine = hasScore
+    ? card?.rank
+      ? t('arcadeCard.rankLine', { defaultValue: '{{label}} · #{{rank}} on the board', label: scoreLabel, rank: formatCount(card.rank) })
+      : scoreLabel
+    : t('arcadeCard.shared', 'Shared this game');
+
+  if (snap && player) {
+    return (
+      <RowCard
+        title={name ?? title}
+        subtitle={hasScore && card?.rank ? `${title} · #${formatCount(card.rank)}` : title}
+        meta={hasScore ? `${scoreLabel} ${formatCount(card!.best!)}` : undefined}
+        imageUri={avatar}
+        fallbackIcon="Gamepad2"
+        cta={t('arcadeCard.play', 'Play')}
+        onPress={onOpen}
+      />
+    );
+  }
+
+  const banner = (
+    <KeepDarkScope>
+      <View style={styles.arcadeArt}>
+        <Image source={{ uri: arcadeArt(slug) }} style={StyleSheet.absoluteFill} contentFit="cover" />
+        {player ? (
+          <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.75)', 'rgba(0,0,0,0.95)']} style={styles.arcadeScrim}>
+            {avatar ? (
+              <Image source={storageImageSource(avatar, 36)} style={styles.arcadeAvatar} contentFit="cover" />
+            ) : (
+              <View style={[styles.arcadeAvatar, styles.arcadeAvatarEmpty]}>
+                <Text style={styles.arcadeAvatarLetter}>{(name ?? '?').replace('@', '').slice(0, 1).toUpperCase()}</Text>
+              </View>
+            )}
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={styles.arcadeName} numberOfLines={1}>{name}</Text>
+              <Text style={styles.arcadeLine} numberOfLines={1}>{scoreLine}</Text>
+            </View>
+            {hasScore ? <Text style={styles.arcadeScore}>{formatCount(card!.best!)}</Text> : null}
+          </LinearGradient>
+        ) : null}
+      </View>
+    </KeepDarkScope>
+  );
+
+  return (
+    <RowCard
+      title={title}
+      subtitle={`riftn.com${path.split('?')[0]}`}
+      fallbackIcon={page?.icon ?? 'Gamepad2'}
+      bannerFallback={banner}
+      cta={t('arcadeCard.play', 'Play')}
+      onPress={onOpen}
+    />
+  );
+};
+
 /** A riftn.com link to one of our pages: its menu name and icon, opens its screen. */
 const PageCardEmbed: React.FC<{ pagePath: string; path: string; onOpen: () => void; fallback: React.ReactElement }> = ({
   pagePath,
@@ -1021,9 +1122,13 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
     case 'featureRequest':
       card = <FeatureRequestCardEmbed id={link.featureRequestId!} onOpen={open} fallback={fallback} />;
       break;
-    case 'page':
-      card = <PageCardEmbed pagePath={link.pagePath!} path={link.path} onOpen={open} fallback={fallback} />;
+    case 'page': {
+      const arcadeSlug = arcadeSlugOf(link.pagePath!);
+      card = arcadeSlug
+        ? <ArcadeCardEmbed slug={arcadeSlug} pagePath={link.pagePath!} path={link.path} onOpen={open} />
+        : <PageCardEmbed pagePath={link.pagePath!} path={link.path} onOpen={open} fallback={fallback} />;
       break;
+    }
     case 'film':
       card = (
         <FilmCardEmbed
@@ -1069,6 +1174,14 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   ctaText: { color: '#fff', fontSize: 12, fontWeight: '600' },
+  arcadeArt: { width: '100%', aspectRatio: 1200 / 630, backgroundColor: '#000', justifyContent: 'flex-end' },
+  arcadeScrim: { flexDirection: 'row', alignItems: 'flex-end', gap: 10, paddingHorizontal: 12, paddingBottom: 12, paddingTop: 40 },
+  arcadeAvatar: { width: 36, height: 36, borderRadius: 18, borderWidth: 1, borderColor: 'rgba(255,255,255,0.3)' },
+  arcadeAvatarEmpty: { backgroundColor: '#27272a', alignItems: 'center', justifyContent: 'center' },
+  arcadeAvatarLetter: { color: '#fff', fontSize: 14, fontWeight: '600' },
+  arcadeName: { color: '#fff', fontSize: 14, fontWeight: '600' },
+  arcadeLine: { color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 2 },
+  arcadeScore: { color: '#fff', fontSize: 24, fontWeight: '700', fontVariant: ['tabular-nums'] },
   card: {
     marginTop: 8,
     borderRadius: 14,

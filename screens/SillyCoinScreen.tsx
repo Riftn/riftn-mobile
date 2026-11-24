@@ -30,15 +30,13 @@ import { KitButton, PageSection } from '../components/page/PageKit';
 import { ScreenNames } from '../navigation/ScreenNames';
 import { useAuth } from '../context/AuthContext';
 import { toastError, toastSuccess } from '../libs/toast';
-import { shareWithRef } from '../libs/shareRef';
+import ArcadeShareSheet from '../components/games/ArcadeShareSheet';
 import { formatCount } from '../libs/format-count';
-import { WEBSITE_LINK } from '../config/links';
 import {
   SILLY_UPGRADES, sillyMine, sillySend, sillyState, sillyUpgrade,
   type GamePlayer, type SillyMe, type SillyState, type SillyUpgrade, type SillyUpgradeKind,
 } from '../services/games.service';
 
-const PAGE_URL = `${WEBSITE_LINK}/arcade/sillycoin`;
 const MAX_TAPS_PER_SECOND = 15;
 const SYNC_MS = 3000;
 const NOTE_MAX = 80;
@@ -414,6 +412,7 @@ const SillyCoinScreen = () => {
     queryFn: () => sillyState(!!wallet),
     staleTime: 15_000,
   });
+  const [shareOpen, setShareOpen] = useState(false);
 
   return (
     <View className="bg-theme-background" style={{ flex: 1 }}>
@@ -425,7 +424,7 @@ const SillyCoinScreen = () => {
             accessibilityRole="button"
             accessibilityLabel={t('games.share')}
             hitSlop={8}
-            onPress={() => void shareWithRef({ url: PAGE_URL, message: `${t('games.sillycoin.title')} ${PAGE_URL}` }).catch(() => undefined)}
+            onPress={() => setShareOpen(true)}
           >
             <Icon name="Share2" size={18} color={SOFT} />
           </Pressable>
@@ -442,6 +441,7 @@ const SillyCoinScreen = () => {
           <Text style={styles.disclaimerText}>{t('games.sillycoin.disclaimer')}</Text>
         </View>
       </ScrollView>
+      <ArcadeShareSheet open={shareOpen} onClose={() => setShareOpen(false)} slug="sillycoin" title={t('games.sillycoin.title')} />
     </View>
   );
 };

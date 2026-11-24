@@ -35,13 +35,15 @@ import { KitButton, PageSection } from '../components/page/PageKit';
 import { ScreenNames } from '../navigation/ScreenNames';
 import { useAuth } from '../context/AuthContext';
 import { toastError } from '../libs/toast';
-import { shareWithRef } from '../libs/shareRef';
+import ArcadeShareSheet, { type SnapshotFile } from '../components/games/ArcadeShareSheet';
+import { optionalSkia } from '../libs/skia';
 import { formatCount } from '../libs/format-count';
-import { WEBSITE_LINK } from '../config/links';
 import { COLS, ROWS, drop, emptyBoard, perDrop, type ChestardBoard } from '../libs/chestard';
 import { chestardRoll, chestardStart, chestardState, type ChestardState, type GamePlayer } from '../services/games.service';
 
-const PAGE_URL = `${WEBSITE_LINK}/arcade/chestard`;
+// Skia draws the snapshot; binaries without it just don't offer one.
+const snapshotLib = optionalSkia(() => require('../libs/chestardSnapshot') as typeof import('../libs/chestardSnapshot'));
+type SnapshotRef = React.MutableRefObject<(() => Promise<SnapshotFile | null>) | null>;
 const CYAN = 'hsla(180, 100%, 67%, 1)';
 const CYAN_DIM = 'hsla(180, 100%, 67%, 0.08)';
 const CYAN_FAINT = 'hsla(180, 100%, 67%, 0.3)';
@@ -223,7 +225,7 @@ function Stat({ label, value, accent = WHITE }: { label: string; value: string; 
   );
 }
 
-function ChestardGame({ wallet, data }: { wallet: string | null; data: ChestardState | undefined }) {
+function ChestardGame({ wallet, data, snapshotRef, handle }: { wallet: string | null; data: ChestardState | undefined; snapshotRef: SnapshotRef; handle: string | null }) {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
   const queryClient = useQueryClient();
@@ -252,6 +254,22 @@ function ChestardGame({ wallet, data }: { wallet: string | null; data: ChestardS
   }, []);
 
   const best = Math.max(signedIn ? data?.me?.best ?? 0 : guestBest, board.score);
+  // The share drawer lives in the screen header; it asks for the board through this.
+  snapshotRef.current = snapshotLib
+    ? () => snapshotLib.drawChestardSnapshot({
+      board,
+      best,
+      name: handle,
+      labels: {
+        score: t('games.chestard.score'),
+        hi: t('games.chestard.hiScore'),
+        lines: t('games.chestard.lines'),
+        drops: t('games.chestard.drops'),
+        perDrop: t('games.chestard.perDrop'),
+        gameOver: t('games.chestard.gameOver'),
+      },
+    })
+    : null;
 
   const roll = useCallback(async () => {
     if (busyRef.current) return;
@@ -435,6 +453,9 @@ const ChestardScreen = () => {
   const { user } = useAuth();
   const wallet = (user?.walletAddress || user?.address)?.toLowerCase() ?? null;
   const [fontsLoaded] = useFonts({ [PIXEL]: require('../assets/fonts/PressStart2P-Regular.ttf') });
+  const [shareOpen, setShareOpen] = useState(false);
+  const snapshotRef: SnapshotRef = useRef(null);
+  const handle = user?.username ? `@${String(user.username).replace(/^@+/, '')}` : null;
   const { data, isLoading } = useQuery({
     queryKey: ['chestard', wallet],
     queryFn: () => chestardState(!!wallet),
@@ -451,7 +472,7 @@ const ChestardScreen = () => {
             accessibilityRole="button"
             accessibilityLabel={t('games.share')}
             hitSlop={8}
-            onPress={() => void shareWithRef({ url: PAGE_URL, message: `${t('games.chestard.title')} ${PAGE_URL}` }).catch(() => undefined)}
+            onPress={() => setShareOpen(true)}
           >
             <Icon name="Share2" size={18} color={SOFT} />
           </Pressable>
@@ -462,9 +483,16 @@ const ChestardScreen = () => {
         {(isLoading && wallet) || !fontsLoaded ? (
           <ActivityIndicator style={{ marginTop: 40 }} color={SOFT} />
         ) : (
-          <ChestardGame key={wallet ?? 'guest'} wallet={wallet} data={data} />
+          <ChestardGame key={wallet ?? 'guest'} wallet={wallet} data={data} snapshotRef={snapshotRef} handle={handle} />
         )}
       </ScrollView>
+      <ArcadeShareSheet
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        slug="chestard"
+        title={t('games.chestard.title')}
+        snapshot={snapshotLib ? () => snapshotRef.current?.() ?? Promise.resolve(null) : undefined}
+      />
     </View>
   );
 };
