@@ -6,11 +6,14 @@
  * server turns away the same blessing said again (the turn is not used), and
  * whoever lets their turn run out loses. A push arrives when it is your turn
  * (type game_turn, game 'gratitude'). `game` opens one game.
+ * "The computer" starts a game against @assistant at once (Easy, Normal or
+ * Hard; 1 min, 5 min or 1 day a turn). It answers in a few seconds and wins
+ * if you run out; run it out of new ideas and you win.
  *
  * The rules live in riftn-backend src/games/gratitude.service.ts.
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Alert, Animated, Easing, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
@@ -28,11 +31,13 @@ import { formatCount } from '../libs/format-count';
 import { WEBSITE_LINK } from '../config/links';
 import {
   gratitudeAction, gratitudeCheck, gratitudeCreate, gratitudeGet, gratitudeList, gratitudeWrite,
-  type GamePlayer, type GratitudeCheck, type GratitudeGame,
+  type GamePlayer, type GratitudeCheck, type GratitudeGame, type GratitudeLevel,
 } from '../services/games.service';
 
 const PAGE_URL = `${WEBSITE_LINK}/arcade/gratitude`;
 const DAY_CHOICES = [1, 2, 3, 5, 7];
+const LEVELS: GratitudeLevel[] = ['easy', 'normal', 'hard'];
+const TURN_CHOICES = [60, 300, 86_400];
 const MUTED = '#71717A';
 const SOFT = '#A1A1AA';
 const INK = '#FFFFFF';
@@ -42,8 +47,8 @@ const FILL = '#27272A';
 const nameOf = (p: GamePlayer | null | undefined) => (p ? p.displayName || (p.username ? `@${p.username}` : `${p.address.slice(0, 6)}…`) : '');
 const errorText = (error: unknown) => (error instanceof Error ? error.message : String(error));
 
-/** "2d 4h", "5h 20m", "12m" until the deadline. */
-function timeLeft(deadline: string | null, now: number): string {
+/** "2d 4h", "5h 20m", "12m" until the deadline; "0:42" on quick games. */
+function timeLeft(deadline: string | null, now: number, seconds = false): string {
   if (!deadline) return '';
   const ms = Math.max(0, new Date(deadline).getTime() - now);
   const d = Math.floor(ms / 86_400_000);
@@ -51,7 +56,54 @@ function timeLeft(deadline: string | null, now: number): string {
   const m = Math.floor((ms % 3_600_000) / 60_000);
   if (d > 0) return `${d}d ${h}h`;
   if (h > 0) return `${h}h ${m}m`;
+  if (seconds) return `${m}:${String(Math.floor((ms % 60_000) / 1000)).padStart(2, '0')}`;
   return `${m}m`;
+}
+
+/** Quick computer games (a minute or five a turn) tick by the second. */
+const isQuick = (game: Pick<GratitudeGame, 'turnSeconds'>) => !!game.turnSeconds && game.turnSeconds < 86_400;
+
+function useComputerLabels() {
+  const { t } = useTranslation();
+  const level = (l: GratitudeLevel | null | undefined) => ({
+    easy: t('games.gratitude.levelEasy'),
+    normal: t('games.gratitude.levelNormal'),
+    hard: t('games.gratitude.levelHard'),
+  })[l || 'normal'];
+  const turn = (s: number | null | undefined) => (s === 60 ? t('games.gratitude.turn1m') : s === 300 ? t('games.gratitude.turn5m') : t('games.gratitude.turn1d'));
+  const computer = t('games.gratitude.computer');
+  /** A player's name, "The computer" for the computer's side. */
+  const who = (game: Pick<GratitudeGame, 'vsComputer'>, p: GamePlayer | null | undefined, wallet: string | null) => (game.vsComputer && p && p.address !== wallet ? computer : nameOf(p));
+  const subtitle = (game: GratitudeGame) => (game.vsComputer
+    ? t('games.gratitude.computerEach', { level: level(game.level), time: turn(game.turnSeconds) })
+    : t('games.gratitude.daysEach', { days: game.daysPerTurn }));
+  return { level, turn, computer, who, subtitle };
+}
+
+/** Three dots while the computer writes its line. */
+function Writing({ player }: { player: GamePlayer | null | undefined }) {
+  const { t } = useTranslation();
+  const dots = useRef([0, 1, 2].map(() => new Animated.Value(0.3))).current;
+  useEffect(() => {
+    const loops = dots.map((v, i) => Animated.loop(Animated.sequence([
+      Animated.delay(i * 140),
+      Animated.timing(v, { toValue: 1, duration: 320, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+      Animated.timing(v, { toValue: 0.3, duration: 320, easing: Easing.in(Easing.quad), useNativeDriver: true }),
+      Animated.delay((2 - i) * 140),
+    ])));
+    loops.forEach((l) => l.start());
+    return () => loops.forEach((l) => l.stop());
+  }, [dots]);
+  return (
+    <View style={[styles.line, { alignSelf: 'flex-start' }]} accessibilityLabel={t('games.gratitude.writing')}>
+      <Avatar uri={player?.avatarImageUrl} size={26} name="A" />
+      <View style={[styles.bubble, styles.dots, { backgroundColor: 'hsla(0, 0%, 100%, 0.06)' }]}>
+        {dots.map((v, i) => (
+          <Animated.View key={i} style={[styles.dot, { opacity: v, transform: [{ translateY: v.interpolate({ inputRange: [0.3, 1], outputRange: [0, -3] }) }] }]} />
+        ))}
+      </View>
+    </View>
+  );
 }
 
 /** The theme accent as "r,g,b", for tinted chips and your own lines. */
@@ -113,18 +165,32 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
   const [now, setNow] = useState(Date.now());
   const [text, setText] = useState('');
   const [hint, setHint] = useState<GratitudeCheck | null>(null);
+  const [replaying, setReplaying] = useState(false);
+  const navigation = useNavigation<any>();
+  const labels = useComputerLabels();
   const key = useMemo(() => ['gratitude', id, wallet], [id, wallet]);
   const { data, error, refetch } = useQuery({
     queryKey: key,
     queryFn: () => gratitudeGet(id, !!wallet),
-    // Days per turn: a quiet poll is plenty while waiting on them.
-    refetchInterval: (q) => (q.state.data?.game?.status === 'active' && !q.state.data.game.yourTurn ? 20_000 : false),
+    // Days per turn: a quiet poll is plenty while waiting on them. The computer answers in seconds.
+    refetchInterval: (q) => {
+      const g = q.state.data?.game;
+      if (g?.status !== 'active' || g.yourTurn) return false;
+      return g.vsComputer ? 1500 : 20_000;
+    },
   });
-  useEffect(() => {
-    const timer = setInterval(() => setNow(Date.now()), 30_000);
-    return () => clearInterval(timer);
-  }, []);
   const game = data?.game;
+  const quick = !!game && isQuick(game) && game.status === 'active';
+  const computerWriting = !!game?.vsComputer && game.status === 'active' && !game.yourTurn;
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), quick ? 1000 : 30_000);
+    return () => clearInterval(timer);
+  }, [quick]);
+  // Out of time on a quick game: ask the server, which ends it.
+  const expired = quick && !!game?.turnDeadline && new Date(game.turnDeadline).getTime() < now;
+  useEffect(() => {
+    if (expired) void refetch();
+  }, [expired, refetch]);
 
   // Live "already said" check while typing, so the warning shows before Send.
   useEffect(() => {
@@ -159,7 +225,20 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
   if (!game) return <ActivityIndicator style={{ marginTop: 80 }} color={SOFT} />;
 
   const opponent = game.players.find((p) => p.address !== wallet) ?? (game.createdBy?.address === wallet ? game.invitee : game.createdBy);
-  const clock = game.status === 'active' ? timeLeft(game.turnDeadline, now) : '';
+  const opponentName = labels.who(game, opponent, wallet);
+  const clock = game.status === 'active' ? timeLeft(game.turnDeadline, now, isQuick(game)) : '';
+  const playAgain = async () => {
+    setReplaying(true);
+    try {
+      const next = await gratitudeCreate({ computer: true, level: game.level ?? 'normal', turnSeconds: game.turnSeconds ?? 300 });
+      void queryClient.invalidateQueries({ queryKey: ['gratitude-list'] });
+      navigation.replace(ScreenNames.Gratitude, { game: next.game.id });
+    } catch (e) {
+      toastError(errorText(e));
+    } finally {
+      setReplaying(false);
+    }
+  };
   const lines = game.lines ?? [];
   const playing = game.status === 'active' && !!game.you;
   const canAccept = game.status === 'pending' && !!wallet && wallet !== game.createdBy?.address && (!game.invitee || game.invitee.address === wallet);
@@ -179,12 +258,14 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
       ? t('games.gratitude.statusInvited', { name: nameOf(game.createdBy), days: game.daysPerTurn })
       : t('games.gratitude.statusWaiting');
   } else if (game.status === 'active') {
-    status = game.yourTurn ? t('games.gratitude.statusYourTurn', { time: clock }) : t('games.gratitude.statusTheirTurn', { name: nameOf(game.turn), time: clock });
+    status = game.yourTurn
+      ? t('games.gratitude.statusYourTurn', { time: clock })
+      : game.vsComputer ? t('games.gratitude.statusComputerTurn') : t('games.gratitude.statusTheirTurn', { name: nameOf(game.turn), time: clock });
   } else if (game.status === 'finished') {
     const reason = game.endReason === 'gave_up' ? t('games.gratitude.endGaveUp') : t('games.gratitude.endTimeout');
     status = game.winner?.address === wallet
       ? t('games.gratitude.statusYouWon', { reason, n: formatCount(game.lineCount) })
-      : t('games.gratitude.statusTheyWon', { name: nameOf(game.winner), reason, n: formatCount(game.lineCount) });
+      : t('games.gratitude.statusTheyWon', { name: labels.who(game, game.winner, wallet), reason, n: formatCount(game.lineCount) });
   } else {
     status = t('games.gratitude.statusClosed');
   }
@@ -195,16 +276,21 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
         <View style={styles.head}>
           <Avatar uri={opponent?.avatarImageUrl} size={36} name={nameOf(opponent).replace('@', '')} />
           <View style={{ flex: 1, minWidth: 0 }}>
-            <Text className="text-theme-neutrals-100" style={styles.rowTitle} numberOfLines={1}>{opponent ? nameOf(opponent) : t('games.gratitude.anyone')}</Text>
-            <Text style={styles.sub}>{t('games.gratitude.daysEach', { days: game.daysPerTurn })}</Text>
+            <Text className="text-theme-neutrals-100" style={styles.rowTitle} numberOfLines={1}>{opponent ? opponentName : t('games.gratitude.anyone')}</Text>
+            <Text style={styles.sub}>{labels.subtitle(game)}</Text>
           </View>
           {game.status === 'active' ? (
-            <TurnPill hot={game.yourTurn} label={game.yourTurn ? t('games.gratitude.chipYourTurn', { time: clock }) : t('games.gratitude.chipTheirTurn', { time: clock })} />
+            <TurnPill
+              hot={game.yourTurn}
+              label={game.yourTurn
+                ? t('games.gratitude.chipYourTurn', { time: clock })
+                : game.vsComputer ? t('games.gratitude.chipComputerTurn') : t('games.gratitude.chipTheirTurn', { time: clock })}
+            />
           ) : null}
         </View>
 
         <View style={{ gap: 10, marginTop: 14 }}>
-          {!lines.length ? (
+          {!lines.length && !computerWriting ? (
             <Text style={[styles.sub, { textAlign: 'center', paddingVertical: 24 }]}>
               {game.status === 'active'
                 ? (game.yourTurn ? t('games.gratitude.emptyYou') : t('games.gratitude.emptyThem', { name: nameOf(game.turn) }))
@@ -219,13 +305,14 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
                 <Avatar uri={author?.avatarImageUrl} size={26} name={nameOf(author).replace('@', '')} />
                 <View style={{ flexShrink: 1 }}>
                   <View style={[styles.bubble, { backgroundColor: mine ? `rgba(${accent},0.22)` : 'hsla(0, 0%, 100%, 0.06)' }]}>
-                    <Text style={styles.lineMeta}>#{line.n} · {mine ? t('games.gratitude.you') : nameOf(author)}</Text>
+                    <Text style={styles.lineMeta}>#{line.n} · {mine ? t('games.gratitude.you') : labels.who(game, author, wallet)}</Text>
                     <Text className="text-theme-neutrals-100" style={styles.lineText}>{line.text}</Text>
                   </View>
                 </View>
               </View>
             );
           })}
+          {computerWriting ? <Writing player={opponent} /> : null}
         </View>
 
         {playing && game.yourTurn ? (
@@ -281,14 +368,17 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
               icon="Flag"
               label={t('games.gratitude.giveUp')}
               disabled={busy}
-              onPress={() => Alert.alert(t('games.gratitude.giveUpConfirm', { name: nameOf(opponent) }), undefined, [
+              onPress={() => Alert.alert(t('games.gratitude.giveUpConfirm', { name: opponentName }), undefined, [
                 { text: t('games.gratitude.keepGoing'), style: 'cancel' },
                 { text: t('games.gratitude.giveUp'), style: 'destructive', onPress: () => void run(() => gratitudeAction(id, 'give-up')) },
               ])}
             />
           ) : null}
+          {game.vsComputer && game.status === 'finished' && game.you ? (
+            <ActionButton tone="primary" icon="RotateCcw" label={t('games.gratitude.playAgain')} disabled={replaying} onPress={() => void playAgain()} />
+          ) : null}
         </View>
-        {game.status === 'active' ? <Text style={[styles.sub, { marginTop: 12 }]}>{t('games.gratitude.pushNote')}</Text> : null}
+        {game.status === 'active' && !isQuick(game) ? <Text style={[styles.sub, { marginTop: 12 }]}>{t('games.gratitude.pushNote')}</Text> : null}
       </PageSection>
 
       <Rules />
@@ -300,6 +390,7 @@ function GameView({ id, wallet }: { id: string; wallet: string | null }) {
 
 function GameRow({ game, wallet, onOpen }: { game: GratitudeGame; wallet: string; onOpen: (id: string) => void }) {
   const { t } = useTranslation();
+  const labels = useComputerLabels();
   const opponent = game.players.find((p) => p.address !== wallet) ?? (game.createdBy?.address === wallet ? game.invitee : game.createdBy);
   let note = '';
   let hot = false;
@@ -319,9 +410,9 @@ function GameRow({ game, wallet, onOpen }: { game: GratitudeGame; wallet: string
       <View style={styles.row}>
         <Avatar uri={opponent?.avatarImageUrl} size={36} name={nameOf(opponent).replace('@', '')} />
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text className="text-theme-neutrals-100" style={styles.rowTitle} numberOfLines={1}>{opponent ? nameOf(opponent) : t('games.gratitude.anyone')}</Text>
+          <Text className="text-theme-neutrals-100" style={styles.rowTitle} numberOfLines={1}>{opponent ? labels.who(game, opponent, wallet) : t('games.gratitude.anyone')}</Text>
           <Text style={styles.sub} numberOfLines={1}>
-            {game.lastLine ? `#${formatCount(game.lineCount)} ${game.lastLine.text}` : t('games.gratitude.daysEach', { days: game.daysPerTurn })}
+            {game.lastLine ? `#${formatCount(game.lineCount)} ${game.lastLine.text}` : labels.subtitle(game)}
           </Text>
         </View>
         <TurnPill hot={hot} label={note} />
@@ -343,14 +434,24 @@ function Chip({ label, active, onPress }: { label: string; active: boolean; onPr
 function Lobby({ wallet, onOpen }: { wallet: string; onOpen: (id: string) => void }) {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const labels = useComputerLabels();
+  const [mode, setMode] = useState<'friend' | 'computer'>('friend');
   const [opponent, setOpponent] = useState('');
   const [days, setDays] = useState(2);
+  const [level, setLevel] = useState<GratitudeLevel>('normal');
+  const [turnSeconds, setTurnSeconds] = useState(300);
   const [busy, setBusy] = useState(false);
   const { data, isLoading } = useQuery({ queryKey: ['gratitude-list', wallet], queryFn: gratitudeList, refetchInterval: 30_000 });
 
   const create = async () => {
     setBusy(true);
     try {
+      if (mode === 'computer') {
+        const { game } = await gratitudeCreate({ computer: true, level, turnSeconds });
+        void queryClient.invalidateQueries({ queryKey: ['gratitude-list'] });
+        onOpen(game.id);
+        return;
+      }
       const { game } = await gratitudeCreate({ opponent: opponent.trim() || undefined, days });
       toastSuccess(opponent.trim() ? t('games.gratitude.sent') : t('games.gratitude.openPosted'));
       setOpponent('');
@@ -375,24 +476,53 @@ function Lobby({ wallet, onOpen }: { wallet: string; onOpen: (id: string) => voi
   return (
     <View>
       <PageSection title={t('games.gratitude.newGame')}>
-        <TextInput
-          value={opponent}
-          onChangeText={setOpponent}
-          placeholder={t('games.gratitude.opponentPlaceholder')}
-          placeholderTextColor={MUTED}
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.field}
-        />
-        <Text style={styles.label}>{t('games.gratitude.daysLabel')}</Text>
-        <View style={styles.chips}>
-          {DAY_CHOICES.map((d) => <Chip key={d} label={t('games.gratitude.dayChip', { days: d })} active={days === d} onPress={() => setDays(d)} />)}
+        <View style={styles.modes} accessibilityRole="tablist">
+          {(['friend', 'computer'] as const).map((m) => (
+            <Pressable key={m} style={{ flex: 1 }} onPress={() => setMode(m)} accessibilityRole="tab" accessibilityState={{ selected: mode === m }}>
+              <View style={[styles.mode, mode === m ? { backgroundColor: INK } : null]}>
+                <Text style={[styles.choiceText, { color: mode === m ? '#0B0B0C' : '#D4D4D8' }]}>
+                  {m === 'friend' ? t('games.gratitude.withFriend') : t('games.gratitude.withComputer')}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
         </View>
+        {mode === 'friend' ? (
+          <>
+            <TextInput
+              value={opponent}
+              onChangeText={setOpponent}
+              placeholder={t('games.gratitude.opponentPlaceholder')}
+              placeholderTextColor={MUTED}
+              autoCapitalize="none"
+              autoCorrect={false}
+              style={styles.field}
+            />
+            <Text style={styles.label}>{t('games.gratitude.daysLabel')}</Text>
+            <View style={styles.chips}>
+              {DAY_CHOICES.map((d) => <Chip key={d} label={t('games.gratitude.dayChip', { days: d })} active={days === d} onPress={() => setDays(d)} />)}
+            </View>
+          </>
+        ) : (
+          <>
+            <Text style={styles.note}>{t('games.gratitude.computerNote')}</Text>
+            <Text style={styles.label}>{t('games.gratitude.levelLabel')}</Text>
+            <View style={styles.chips}>
+              {LEVELS.map((l) => <Chip key={l} label={labels.level(l)} active={level === l} onPress={() => setLevel(l)} />)}
+            </View>
+            <Text style={styles.label}>{t('games.gratitude.turnLabel')}</Text>
+            <View style={styles.chips}>
+              {TURN_CHOICES.map((sec) => <Chip key={sec} label={labels.turn(sec)} active={turnSeconds === sec} onPress={() => setTurnSeconds(sec)} />)}
+            </View>
+          </>
+        )}
         <KitButton
           style={{ marginTop: 14 }}
           disabled={busy}
           onPress={() => void create()}
-          label={opponent.trim() ? t('games.gratitude.sendInvite') : t('games.gratitude.postOpen')}
+          label={mode === 'computer'
+            ? t('games.gratitude.playComputer')
+            : opponent.trim() ? t('games.gratitude.sendInvite') : t('games.gratitude.postOpen')}
         />
       </PageSection>
 
@@ -404,7 +534,7 @@ function Lobby({ wallet, onOpen }: { wallet: string; onOpen: (id: string) => voi
           </View>
         </PageSection>
       ) : null))}
-      {!isLoading && !games.length && !(data?.open ?? []).length ? <PageEmpty title={t('games.gratitude.empty')} /> : null}
+      {!isLoading && !games.length && !(data?.open ?? []).length ? <PageEmpty title={t('games.gratitude.empty2')} /> : null}
       <Rules />
     </View>
   );
@@ -475,6 +605,11 @@ const styles = StyleSheet.create({
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   choice: { borderRadius: 999, paddingHorizontal: 12, paddingVertical: 7 },
   choiceText: { fontSize: 12, fontWeight: '600' },
+  modes: { flexDirection: 'row', gap: 4, padding: 4, borderRadius: 999, backgroundColor: FILL, marginBottom: 12 },
+  mode: { borderRadius: 999, paddingVertical: 8, alignItems: 'center' },
+  note: { color: SOFT, fontSize: 13, lineHeight: 18 },
+  dots: { flexDirection: 'row', alignItems: 'center', gap: 4, height: 38 },
+  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#D4D4D8' },
   rule: { flexDirection: 'row', gap: 10, paddingVertical: 4 },
   ruleNum: { width: 20, height: 20, borderRadius: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: 'hsla(0, 0%, 100%, 0.1)' },
   ruleNumText: { color: INK, fontSize: 11, fontWeight: '700' },
