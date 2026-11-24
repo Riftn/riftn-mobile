@@ -64,7 +64,7 @@ import ProfileBio from "./ProfileBio";
 import ProfileSongRow from "./ProfileSongRow";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
@@ -395,7 +395,6 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                     )
               }
             />
-            <MomentPeekBadge peek={moment} size={96} big />
             </View>
             <TouchableOpacity
               onPress={startChangeAvatar}

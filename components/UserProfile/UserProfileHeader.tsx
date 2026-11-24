@@ -12,7 +12,7 @@ import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "../
 import { LinearGradient } from "expo-linear-gradient";
 import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu } from "../Profile/ProfileImageMenu";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import Icon from "../ui/Icon";
 import { copyToClipboard, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs";
 import { toastSuccess } from "../../libs/toast";
@@ -358,7 +358,6 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
-          <MomentPeekBadge peek={moment} size={96} big />
           <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
           </Animated.View>
           {(!isBlocked || !!onOpenOptions) && (
