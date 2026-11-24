@@ -32,6 +32,11 @@ interface Props {
   onScrubbingChange?: (scrubbing: boolean) => void;
   /** Gestures this one must outrank, e.g. a pager the viewer sits in. */
   blocks?: (GestureType | React.RefObject<GestureType | undefined>)[];
+  /**
+   * A live's timeline: the right end is live, marked with a red dot, and the
+   * hit area is kept short so the chat box just above keeps its touches.
+   */
+  liveEnd?: boolean;
 }
 
 const ViewerScrubBar: React.FC<Props> = ({
@@ -40,6 +45,7 @@ const ViewerScrubBar: React.FC<Props> = ({
   enabled = true,
   onScrubbingChange,
   blocks,
+  liveEnd = false,
 }) => {
   const { t } = useTranslation();
   const [scrubbing, setScrubbing] = useState(false);
@@ -102,7 +108,7 @@ const ViewerScrubBar: React.FC<Props> = ({
     <View style={styles.track} pointerEvents={enabled ? "auto" : "none"}>
       <GestureDetector gesture={gesture}>
         <View
-          style={styles.hitArea}
+          style={[styles.hitArea, liveEnd && styles.hitAreaLive]}
           onLayout={onLayout}
           {...touchGuard}
           accessibilityRole="adjustable"
@@ -122,6 +128,7 @@ const ViewerScrubBar: React.FC<Props> = ({
             <Reanimated.View
               style={[styles.fill, scrubbing && styles.fillActive, fillStyle]}
             />
+            {liveEnd ? <View style={styles.liveDot} pointerEvents="none" /> : null}
           </View>
           {scrubbing ? (
             <Reanimated.View style={[styles.thumb, thumbStyle]} pointerEvents="none" />
@@ -147,6 +154,18 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     paddingHorizontal: EDGE,
     paddingBottom: 6,
+  },
+  hitAreaLive: {
+    height: 14,
+    paddingBottom: 4,
+  },
+  liveDot: {
+    position: "absolute",
+    right: -3,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#EF4444",
   },
   line: {
     height: 2,

@@ -36,6 +36,7 @@ import {
 import { VideoView, useVideoPlayer, VideoPlayer } from 'expo-video';
 import { FULLSCREEN_BUFFER_OPTIONS, LIVE_BUFFER_OPTIONS } from "../../libs/videoBuffering";
 import { useSharedLivePlayer } from '../../libs/sharedLivePlayer';
+import type { LiveControl } from '../../libs/liveTimeshift';
 import { useCallInProgress, visualActivity } from '../../libs/visualActivity';
 import { getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from '../../libs/video-preferences';
 import { useAppPrefs } from '../../hooks/useAppPrefs';
@@ -116,6 +117,16 @@ interface VideoPlayerCoreProps {
    * reaching for the expo-video player itself.
    */
   seekRef?: React.MutableRefObject<((ratio: number) => void) | null>;
+  /**
+   * A live's pause, play and move-back, for the live viewer's own LIVE tag
+   * and timeline. Null while nothing is loaded.
+   */
+  liveControlRef?: React.MutableRefObject<LiveControl | null>;
+  /**
+   * Where a live should open: paused, and how far behind the edge (seconds
+   * at `at`, plus the wait since when paused). Read once, when it loads.
+   */
+  liveStart?: { paused: boolean; behind: number; at: number } | null;
   onClose?: () => void;
   onError?: (error: Error) => void;
 }
@@ -139,9 +150,15 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   onPlayStateChange,
   onProgress,
   seekRef,
+  liveControlRef,
+  liveStart,
   onClose,
   onError,
 }) => {
+  const liveStartRef = useRef(liveMode ? liveStart ?? null : null);
+  /** Opened from a pause or a rewind: stand that far back from live, once. */
+  const applyLiveStartRef = useRef<() => void>(() => {});
+  const applyLiveStart = useCallback(() => applyLiveStartRef.current(), []);
   const { t } = useTranslation();
   // Refs
   const viewRef = useRef<VideoView | null>(null);
@@ -266,6 +283,17 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     p.bufferOptions = liveMode ? LIVE_BUFFER_OPTIONS : FULLSCREEN_BUFFER_OPTIONS;
   });
   const player = sharedLivePlayer ?? ownPlayer;
+  applyLiveStartRef.current = () => {
+    const start = liveStartRef.current;
+    if (!start) return;
+    liveStartRef.current = null;
+    try {
+      const behind = start.behind + (start.paused ? (Date.now() - start.at) / 1000 : 0);
+      const now = player.currentOffsetFromLive;
+      const back = behind - (typeof now === 'number' && Number.isFinite(now) ? now : 0);
+      if (back > 1) player.seekBy(-back);
+    } catch {}
+  };
   const playerForClockRef = useRef(player);
   playerForClockRef.current = player;
   useEffect(
@@ -306,6 +334,11 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
 
   // Start live HLS after the player has been configured and attached, as the
   // feed preview does. Live timelines must not enter the file-repeat path.
+  // A live opened from a pause (autoplay off) on a player that is already
+  // loaded gets no readyToPlay: stand it at its spot now.
+  useEffect(() => {
+    if (liveStartRef.current && player.status === 'readyToPlay') applyLiveStart();
+  }, [player, applyLiveStart]);
   useEffect(() => {
     if (autoplay && sourceUrl && !visualActivity.isCallBusy() && canStartVideo(player)) {
       recovery.start();
@@ -405,6 +438,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
 
         if (status === 'readyToPlay') {
           setIsReady(true);
+          applyLiveStart();
           if (recovery.wanted) recovery.start();
         }
       }),
@@ -685,6 +719,38 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
       seekRef.current = null;
     };
   }, [seekRef, seekToRatio, liveMode, duration]);
+
+  // A live's own controls, for the viewer's LIVE tag and timeline.
+  useEffect(() => {
+    if (!liveControlRef || !liveMode) return;
+    liveControlRef.current = {
+      offset: () => {
+        try {
+          const o = player.currentOffsetFromLive;
+          return typeof o === 'number' && Number.isFinite(o) ? o : null;
+        } catch { return null; }
+      },
+      paused: () => {
+        try { return !player.playing; } catch { return true; }
+      },
+      pause: () => {
+        setPlayRequested(false);
+        recovery.stop();
+        try { player.pause(); } catch {}
+      },
+      play: () => {
+        if (visualActivity.isCallBusy()) return;
+        setPlayRequested(true);
+        recovery.start();
+      },
+      seekBy: (seconds: number) => {
+        try { player.seekBy(seconds); } catch {}
+      },
+    };
+    return () => {
+      liveControlRef.current = null;
+    };
+  }, [liveControlRef, liveMode, player, recovery]);
 
   const handleSeek = useCallback(
     (direction: SeekDirection) => {

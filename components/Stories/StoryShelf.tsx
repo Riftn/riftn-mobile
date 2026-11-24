@@ -92,17 +92,20 @@ function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, ena
 function useShelfState() {
   const user = useUser();
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
-  const { items: live, open: openLive } = useLiveNowItems();
+  const { items: live, open: openLive, loading: liveLoading } = useLiveNowItems();
   const kidsMode = useKidsModeLock();
   const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
   const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
   const { storiesEnabled, storiesSettingLoading } = useStoriesEnabled();
   const shelfEnabled = storiesEnabled || !!liveHosts;
-  const { data, isLoading, isPending } = useStoryShelf(me, liveHosts, canSeeMature, shelfEnabled);
+  const { data, isLoading, isPending, isError } = useStoryShelf(me, liveHosts, canSeeMature, shelfEnabled);
   // Still waiting on the setting or the first shelf (a cold start, or the saved
   // copy still being restored): the row cannot know its final shape yet.
   const waiting = storiesSettingLoading || (shelfEnabled && isPending && !data);
-  return { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting };
+  // Lives arrive a beat after the shelf, and the shelf then checks their hosts
+  // again. Until both are in, an empty row is not an answer yet.
+  const vetting = liveLoading || (!!data && !isError && (data.askedHosts ?? "") !== liveHosts);
+  return { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting, vetting };
 }
 
 /**
@@ -119,8 +122,8 @@ export function StoryShelfWarm() {
 function StoryShelf() {
   const { t } = useTranslation();
   const { requireAuth } = useAuthActions();
-  const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting } = useShelfState();
-  const [lastSeat] = useState(readShelfSeat);
+  const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting, vetting } = useShelfState();
+  const heldSeat = useRef<ShelfSeat>(readShelfSeat());
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const { isLight } = useAppTheme();
@@ -150,12 +153,16 @@ function StoryShelf() {
   // the row's place instead of a lone "Your day" tile.
   const bare = storiesEnabled && !!me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0;
   const seat: ShelfSeat = hidden ? "none" : bare ? "ask" : "row";
+  // Until the setting, the first shelf and the live check are in, keep the
+  // shape already on screen (or Home's last one): row of loading tiles, ask
+  // bar, or nothing, so the feed never moves.
+  const nothingYet = eligibleLive.length === 0 && others.length === 0 && !own?.items.length;
+  const holding = eligibleLive.length === 0 && (waiting || (vetting && nothingYet));
+  if (!holding) heldSeat.current = seat;
+  const lastSeat = heldSeat.current;
   useEffect(() => {
-    if (!waiting) saveShelfSeat(seat);
-  }, [waiting, seat]);
-  // Until the setting and the first shelf are in, draw the shape Home had last
-  // time (row of loading tiles, ask bar, or nothing) so the feed never moves.
-  const holding = waiting && eligibleLive.length === 0;
+    if (!holding) saveShelfSeat(seat);
+  }, [holding, seat]);
   if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
   if (holding ? lastSeat === "ask" : bare) return <StoryCreateBar />;
 

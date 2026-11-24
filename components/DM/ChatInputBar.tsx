@@ -115,6 +115,8 @@ interface ChatInputBarProps {
   /** Message being replied to — shows preview strip. */
   replyTo?: DmMessage | null;
   onCancelReply?: () => void;
+  /** Goes up by one to open the camera (answering a photo with a photo or video). */
+  cameraRequest?: number;
   /** Message being edited — prefills input. */
   editingMessage?: DmMessage | null;
   onCancelEdit?: () => void;
@@ -196,6 +198,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   dmFee,
   replyTo,
   onCancelReply,
+  cameraRequest = 0,
   editingMessage,
   onCancelEdit,
   sending = false,
@@ -581,6 +584,52 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       }
     });
   }, [addToStudio]);
+
+  /**
+   * The camera, straight from an "Opened" photo's camera button: what you
+   * take joins the edit screen like a picked photo, and goes out as a reply
+   * to that photo (the reply is set before this opens).
+   */
+  const handleCamera = useCallback(async () => {
+    try {
+      const perm = await ImagePicker.requestCameraPermissionsAsync();
+      if (!perm.granted) {
+        toastError(t("stories.cameraOff", { defaultValue: "Camera access is off. Turn it on in Settings, or pick from Photos." }));
+        return;
+      }
+      const result = await ImagePicker.launchCameraAsync({ mediaTypes: ["images", "videos"], quality: 0.85, videoMaxDuration: 60 });
+      const asset = result.assets?.[0];
+      if (result.canceled || !asset) return;
+      if (asset.type === "video" || (asset.mimeType || "").startsWith("video/")) {
+        let thumb: string | undefined;
+        try {
+          thumb = (await VideoThumbnails.getThumbnailAsync(asset.uri, { time: 500 })).uri;
+        } catch {
+          /* ignore */
+        }
+        addToStudio([{
+          type: "video",
+          uri: asset.uri,
+          thumbnailUri: thumb,
+          mimeType: asset.mimeType || "video/mp4",
+          duration: asset.duration ? asset.duration / 1000 : undefined,
+          width: asset.width || undefined,
+          height: asset.height || undefined,
+          size: asset.fileSize || undefined,
+        }]);
+        return;
+      }
+      addToStudio([{ type: "image", uri: asset.uri, mimeType: asset.mimeType || "image/jpeg", width: asset.width || undefined, height: asset.height || undefined, size: asset.fileSize || undefined }]);
+    } catch (e) {
+      console.error("[ChatInputBar] camera error", e);
+    }
+  }, [addToStudio, t]);
+  const lastCameraRequest = useRef(cameraRequest);
+  useEffect(() => {
+    if (cameraRequest === lastCameraRequest.current) return;
+    lastCameraRequest.current = cameraRequest;
+    void handleCamera();
+  }, [cameraRequest, handleCamera]);
 
   const handlePasteImage = useCallback(async () => {
     try {

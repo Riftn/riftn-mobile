@@ -8141,6 +8141,7 @@
     "viewReposts": "عرض عمليات إعادة النشر"
   },
   "dm": {
+    "opened": {"photoA11y": "صورة، فُتحت {{time}}", "videoA11y": "فيديو، فُتح {{time}}", "seenAt": "شوهدت {{time}}", "replyCamera": "الرد بالكاميرا", "quotePhoto": "صورة · فُتحت", "quoteVideo": "فيديو · فُتح"},
     "trayGif": "GIF ورموز تعبيرية",
     "trayVoice": "رسالة صوتية",
     "trayTip": "إكرامية",
@@ -8495,6 +8496,7 @@
     "volume": "مستوى الصوت"
   },
   "liveViewer": {
+    "backToLive": "العودة إلى البث المباشر",
     "likeHint": "اضغط مطولاً لمزيد من التفاعلات",
     "minimise": "تصغير",
     "soundOnly": "الصوت فقط",
@@ -17993,6 +17995,25 @@
   },
   "games": {
     "gratitude": {
+      "withFriend": "صديق",
+      "withComputer": "الكمبيوتر",
+      "computer": "الكمبيوتر",
+      "computerNote": "يرد خلال ثوانٍ. اجعله تنفد أفكاره الجديدة لتفوز.",
+      "levelLabel": "المستوى",
+      "levelEasy": "سهل",
+      "levelNormal": "عادي",
+      "levelHard": "صعب",
+      "turnLabel": "وقت كل دور",
+      "turn1m": "دقيقة",
+      "turn5m": "5 دقائق",
+      "turn1d": "يوم",
+      "playComputer": "العب ضد الكمبيوتر",
+      "computerEach": "{{level}} · {{time}} لكل دور",
+      "statusComputerTurn": "الكمبيوتر يكتب…",
+      "chipComputerTurn": "دوره",
+      "writing": "يكتب…",
+      "playAgain": "العب مجددًا",
+      "empty2": "لا توجد ألعاب بعد. ادعُ صديقًا أو العب ضد الكمبيوتر في الأعلى.",
       "rule1": "اكتب شيئًا واحدًا تمتنّ له وأرسله.",
       "rule2": "يرد الطرف الآخر بما يمتنّ له. وهكذا ذهابًا وإيابًا.",
       "rule3": "لا تكرار. تُقارن كل جملة جديدة بكل الجمل السابقة في اللعبة.",

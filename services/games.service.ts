@@ -342,9 +342,16 @@ export interface GratitudeGame {
   you: string | null;
   yourTurn: boolean;
   maxChars: number;
+  /** Played against the computer (it plays as @assistant). */
+  vsComputer?: boolean;
+  level?: GratitudeLevel | null;
+  /** Turn time in seconds for computer games (60, 300 or 86400). */
+  turnSeconds?: number | null;
   createdAt: string;
   updatedAt: string;
 }
+
+export type GratitudeLevel = 'easy' | 'normal' | 'hard';
 
 export interface GratitudeList {
   games: GratitudeGame[];
@@ -363,7 +370,7 @@ export interface GratitudeCheck {
 const gratitudePath = (id: string, tail = '') => `/games/gratitude/${encodeURIComponent(id)}${tail}`;
 export const gratitudeList = () => get<GratitudeList>('/games/gratitude');
 export const gratitudeGet = (id: string, signedIn: boolean) => get<{ game: GratitudeGame }>(gratitudePath(id), signedIn);
-export const gratitudeCreate = (body: { opponent?: string; days: number }) => post<{ game: GratitudeGame }>('/games/gratitude', body);
+export const gratitudeCreate = (body: { opponent?: string; days?: number; computer?: boolean; level?: GratitudeLevel; turnSeconds?: number }) => post<{ game: GratitudeGame }>('/games/gratitude', body);
 export const gratitudeAction = (id: string, action: 'accept' | 'decline' | 'give-up') => post<{ game: GratitudeGame }>(gratitudePath(id, `/${action}`));
 export const gratitudeWrite = (id: string, text: string) => post<{ game: GratitudeGame }>(gratitudePath(id, '/line'), { text });
 export const gratitudeCheck = (id: string, text: string) => post<GratitudeCheck>(gratitudePath(id, '/check'), { text });

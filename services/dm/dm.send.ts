@@ -995,14 +995,27 @@ class DmSendQueue {
     paymentStatus?: "pending" | "confirmed" | null;
     voiceDuration?: number;
   }): OptimisticMessage {
+    // A view-once / on-open photo is quoted as "Photo · Opened", never the picture.
+    const seenOnce = params.replyTo?.destruct?.mode === "view" || params.replyTo?.destruct?.mode === "open";
     const replyPreview: ReplyPreview | undefined = params.replyTo
       ? {
           _id: params.replyTo._id,
-          content: params.replyTo.content?.slice(0, 200) || "",
+          content: seenOnce ? "" : params.replyTo.content?.slice(0, 200) || "",
           msgType: (params.replyTo.msgType as DmMsgType) || "msg",
-          mediaUrls: params.replyTo.mediaUrls?.slice(0, 1) || [],
+          mediaUrls: seenOnce ? [] : params.replyTo.mediaUrls?.slice(0, 1) || [],
           voiceDuration: params.replyTo.voiceDuration || null,
-          encMedia: params.replyTo.encMedia ?? null,
+          encMedia: seenOnce ? null : params.replyTo.encMedia ?? null,
+          ...(seenOnce && params.replyTo.destruct
+            ? {
+                destruct: {
+                  mode: params.replyTo.destruct.mode,
+                  kind: params.replyTo.destruct.kind
+                    ?? (params.replyTo.encMedia?.kind === "video" || params.replyTo.mediaUrls?.[0]?.type === "video" ? "video" : "image"),
+                  openedAt: params.replyTo.destruct.openedAt,
+                  marker: params.replyTo.destruct.marker,
+                },
+              }
+            : {}),
           sender:
             typeof params.replyTo.sender === "object"
               ? (params.replyTo.sender as any)

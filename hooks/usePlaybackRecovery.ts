@@ -4,7 +4,7 @@ import type { VideoPlayer } from 'expo-video';
 import { createPlaybackRecovery, playbackSourceIdentity, type PlaybackPhase } from '../libs/playback-recovery';
 import { replaceVideoSource } from '../libs/video-source';
 import { rewindFinishedVideo } from '../libs/video-start';
-import { startReloadedLiveBehindEdge } from '../libs/videoBuffering';
+import { keepLiveOffsetAfterReload, startReloadedLiveBehindEdge } from '../libs/videoBuffering';
 
 /**
  * Feed and Shorts players start with `waitsToMinimizeStalling: false` so the
@@ -127,12 +127,18 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
     resetRetriesOnProgress: live,
     play: async (reload, allowed) => {
       const position = player.currentTime;
+      let liveOffset: number | null = null;
+      if (live) { try { liveOffset = player.currentOffsetFromLive; } catch {} }
       if (reload || player.status === 'error') {
         await replaceVideoSource(player, source!, { immediate: !!latest.current.lateStallHandover });
         if (!allowed()) return;
-        // A live has moved on while it was stuck: the old position is not
-        // in the new window, and the edge (a little behind it) is the point.
-        if (live) startReloadedLiveBehindEdge(player);
+        // A live has moved on while it was stuck. The server keeps the last
+        // few minutes, so carry on from the same distance behind it; a
+        // viewer who was at the edge starts a little behind it as before.
+        if (live) {
+          startReloadedLiveBehindEdge(player);
+          keepLiveOffsetAfterReload(player, liveOffset);
+        }
         else if (position > 0 && Number.isFinite(player.duration) && position < player.duration) player.currentTime = position;
       }
       if (allowed()) {

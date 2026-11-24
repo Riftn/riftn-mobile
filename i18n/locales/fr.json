@@ -8121,6 +8121,7 @@
     "viewReposts": "Afficher les reposts"
   },
   "dm": {
+    "opened": {"photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
     "trayGif": "GIF et emoji",
     "trayVoice": "Note vocale",
     "trayTip": "Pourboire",
@@ -8475,6 +8476,7 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "backToLive": "Revenir au direct",
     "likeHint": "Maintenez pour plus de réactions",
     "minimise": "Réduire",
     "soundOnly": "Son uniquement",
@@ -17965,6 +17967,25 @@
   },
   "games": {
     "gratitude": {
+      "withFriend": "Un ami",
+      "withComputer": "L'ordinateur",
+      "computer": "L'ordinateur",
+      "computerNote": "Il répond en quelques secondes. Épuise ses idées nouvelles pour gagner.",
+      "levelLabel": "Niveau",
+      "levelEasy": "Facile",
+      "levelNormal": "Normal",
+      "levelHard": "Difficile",
+      "turnLabel": "Temps par tour",
+      "turn1m": "1 min",
+      "turn5m": "5 min",
+      "turn1d": "1 jour",
+      "playComputer": "Jouer contre l'ordinateur",
+      "computerEach": "{{level}} · {{time}} par tour",
+      "statusComputerTurn": "L'ordinateur écrit…",
+      "chipComputerTurn": "Son tour",
+      "writing": "Écrit…",
+      "playAgain": "Rejouer",
+      "empty2": "Aucune partie pour l'instant. Invite un ami ou joue contre l'ordinateur ci-dessus.",
       "rule1": "Écrivez une chose pour laquelle vous êtes reconnaissant et envoyez-la.",
       "rule2": "L'autre répond avec la sienne. Et ainsi de suite.",
       "rule3": "Pas de répétition. Chaque nouvelle ligne est comparée à toutes les précédentes de la partie.",

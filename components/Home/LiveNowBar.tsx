@@ -76,7 +76,7 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
   const { liveSpaces, openModal, joinSpace, guestListenSpace } = useStages();
 
   // Same request and cache entry as the Live tab and useLiveStreams.
-  const { data: liveData } = useQuery(liveStreamsQuery);
+  const { data: liveData, isPending: livePending } = useQuery(liveStreamsQuery);
 
   const { data: following } = useQuery({
     queryKey: ["following-list-for-live-bar", me],
@@ -159,7 +159,7 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
     [joinSpace, guestListenSpace, openModal, navigation, onBeforeOpen],
   );
 
-  return { items, open };
+  return { items, open, loading: livePending && !liveData };
 }
 
 const LiveNowBar: React.FC = () => {
