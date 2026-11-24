@@ -166,7 +166,7 @@
     "shutterHint": "Touchez pour une photo, maintenez pour une vidéo",
     "text": "Texte",
     "typeSomething": "Écrivez quelque chose",
-    "viewsCount": "{{formatted}} vues",
+    "viewsCount": "{{formatted}} vues", "viewersCount": "{{formatted}} spectateurs", "watchedTimes": "Vu {{formatted}} fois", "playsShort": "{{formatted}}×",
     "whoWatched": "Qui l'a vu",
     "yourDay": "Votre journée",
     "momentUp": "Votre moment est en ligne pour 24 heures",

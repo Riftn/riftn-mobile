@@ -98,6 +98,8 @@ export interface StoryViewer {
   displayName: string | null;
   avatarImageUrl: string | null;
   liked: boolean;
+  /** How many times this person watched it (newer servers). */
+  plays?: number;
   viewedAt: string;
 }
 
@@ -164,7 +166,7 @@ export function checkStoryReply(id: string): Promise<{ ok: boolean; to: string }
   return apiClient.post(`/stories/${enc(id)}/reply`, {});
 }
 
-export function getStoryViewers(id: string, cursor?: string): Promise<{ viewCount: number; likeCount: number; viewers: StoryViewer[]; next: string | null }> {
+export function getStoryViewers(id: string, cursor?: string): Promise<{ viewCount: number; playCount?: number; likeCount: number; viewers: StoryViewer[]; next: string | null }> {
   return apiClient.get(`/stories/${enc(id)}/viewers`, cursor ? { params: { cursor } } : undefined);
 }
 

@@ -161,7 +161,7 @@
     "shutterHint": "Fotoğraf için dokun, video için basılı tut",
     "text": "Metin",
     "typeSomething": "Bir şey yazın",
-    "viewsCount": "{{formatted}} görüntülenme",
+    "viewsCount": "{{formatted}} görüntülenme", "viewersCount": "{{formatted}} izleyici", "watchedTimes": "{{formatted}} kez izledi", "playsShort": "{{formatted}}×",
     "whoWatched": "Kimler izledi",
     "yourDay": "Senin günün",
     "momentUp": "Anınız 24 saat yayında",
