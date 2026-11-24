@@ -158,3 +158,44 @@ export function startReloadedLiveBehindEdge(player: VideoPlayer): void {
     /* Older native module without the property. */
   }
 }
+
+/**
+ * A live reloaded after a long freeze carries on from where it froze rather
+ * than at the edge: the server keeps the last few minutes, so a viewer on a
+ * slow connection does not lose what they were watching. `behind` is how far
+ * back the player was (its own currentOffsetFromLive) before the reload.
+ */
+export function keepLiveOffsetAfterReload(player: VideoPlayer, behind: number | null): void {
+  if (behind == null || !Number.isFinite(behind) || behind <= SETTLED_LIVE_OFFSET_SEC + 2) return;
+  const target = Math.min(170, behind);
+  if (Platform.OS === "ios") {
+    try {
+      player.targetOffsetFromLive = target;
+      return;
+    } catch {
+      /* Older native module: fall through to a seek. */
+    }
+  }
+  const seek = () => {
+    try {
+      const now = player.currentOffsetFromLive;
+      const back = target - (typeof now === "number" && Number.isFinite(now) ? now : 0);
+      if (back > 1) player.seekBy(-back);
+    } catch {
+      /* Released player. */
+    }
+  };
+  try {
+    if (player.status === "readyToPlay") {
+      seek();
+      return;
+    }
+    const sub = player.addListener("statusChange", ({ status }) => {
+      if (status !== "readyToPlay" && status !== "error") return;
+      sub.remove();
+      if (status === "readyToPlay") seek();
+    });
+  } catch {
+    /* Released player. */
+  }
+}

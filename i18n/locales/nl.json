@@ -8610,6 +8610,7 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "backToLive": "Terug naar live",
     "likeHint": "Houd ingedrukt voor meer reacties",
     "showChat": "Chat tonen",
     "hideChat": "Chat verbergen",

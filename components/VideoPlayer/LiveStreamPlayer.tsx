@@ -78,6 +78,8 @@ import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
+import { LiveTimeshiftBar, LiveTimeshiftTag } from "../LiveViewer/LiveTimeshift";
+import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveTimeshift, type TimeshiftSnap } from "../../libs/liveTimeshift";
 import { DeHubLoader } from "../DeHubLoader";
 import { extractReplayUrl } from "../../libs/live-replay";
 import PostOptionsMenu from "../common/PostOptionsMenu";
@@ -1498,17 +1500,101 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
    * transport. Any failure — no route, a hostile network, a stream that is not
    * really on air — falls straight back to the HLS ladder.
    */
+  /*
+   * Pause, rewind and back-to-live. The server keeps the last few minutes of
+   * every live, which the HLS player can move about in. WebRTC (iPhone) keeps
+   * nothing behind the edge, so a pause or a rewind there swaps to HLS and
+   * opens it at the same spot; back to live swaps WebRTC back in.
+   */
+  const liveControlRef = useRef<LiveControl | null>(null);
+  const [timeshifted, setTimeshifted] = useState(false);
+  const [liveStart, setLiveStart] = useState<{ paused: boolean; behind: number; at: number } | null>(null);
+  const timeshiftState = useRef({ active: false, pausedAt: null as number | null, estimate: 0, baseline: null as number | null });
+  const timeshiftedRef = useRef(false);
+  timeshiftedRef.current = timeshifted;
+  const whepOnRef = useRef(false);
+  const timeshiftOnRef = useRef(false);
+  timeshiftOnRef.current = isLiveEffective && !isEndedEffective && !isPlayingReplay && !isPausedEffective && !!isPlayable;
+
   const whepLive = useWhepStream({
     // Android plays this same HLS ladder in the home card. Prefer that proven
     // path here too: an attached WHEP track can negotiate without rendering a
     // frame, leaving the viewer black while the feed keeps playing.
     // A big event skips it on every platform: one WebRTC session per viewer
     // is the cost that mode exists to avoid.
-    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !bigEvent,
+    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted && !bigEvent,
     stream: { playbackId, provider: streamEntity?.provider },
     muted: isMuted,
     paused: isPausedEffective,
   });
+
+  whepOnRef.current = !!whepLive.stream;
+  const timeshift = useMemo<LiveTimeshift>(() => {
+    const st = timeshiftState.current;
+    const snapshot = (): TimeshiftSnap | null => {
+      if (!timeshiftOnRef.current) return null;
+      const paused = st.pausedAt != null;
+      const control = liveControlRef.current;
+      const offset = control && !whepOnRef.current ? control.offset() : null;
+      if (offset != null) {
+        // The player's normal distance from the edge is not "behind".
+        if (!st.active) st.baseline = st.baseline == null ? offset : Math.min(st.baseline, offset);
+        const behind = behindFromOffset(offset, st.baseline);
+        if (st.active && !paused && behind < 1) { st.active = false; st.estimate = 0; }
+        return snapFor(behind, paused);
+      }
+      // No reading from the player (WebRTC, or a playlist without clock
+      // times): count it ourselves from the pause and the moves.
+      return snapFor(st.estimate + (paused ? (Date.now() - st.pausedAt!) / 1000 : 0), paused);
+    };
+    const toHls = (paused: boolean, behind: number) => {
+      setLiveStart({ paused, behind, at: Date.now() });
+      setTimeshifted(true);
+    };
+    return {
+      snapshot,
+      togglePlay: () => {
+        const now = Date.now();
+        if (st.pausedAt == null) {
+          st.estimate = snapshot()?.behind ?? 0;
+          st.pausedAt = now;
+          st.active = true;
+          if (whepOnRef.current) toHls(true, st.estimate);
+          else liveControlRef.current?.pause();
+        } else {
+          st.estimate += (now - st.pausedAt) / 1000;
+          st.pausedAt = null;
+          liveControlRef.current?.play();
+        }
+      },
+      seek: (ratio: number) => {
+        const target = behindForRatio(ratio);
+        const current = snapshot()?.behind ?? 0;
+        st.active = true;
+        st.estimate = target;
+        if (st.pausedAt != null) st.pausedAt = Date.now();
+        if (whepOnRef.current) toHls(st.pausedAt != null, target);
+        else liveControlRef.current?.seekBy(-(target - current));
+      },
+      goLive: () => {
+        const current = snapshot()?.behind ?? 0;
+        st.active = false;
+        st.pausedAt = null;
+        st.estimate = 0;
+        // Came off WebRTC to look back: go back to it, a second behind live.
+        if (timeshiftedRef.current) {
+          setTimeshifted(false);
+          setLiveStart(null);
+          return;
+        }
+        const control = liveControlRef.current;
+        if (!control) return;
+        if (current > 0.5) control.seekBy(current);
+        control.play();
+      },
+    };
+  }, []);
+  const liveTimeshiftTag = useMemo(() => <LiveTimeshiftTag timeshift={timeshift} />, [timeshift]);
 
   /**
    * The timeline the scrub line draws, in 0..1 of the source.
@@ -2176,6 +2262,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             tokenId={(streamEntity?.tokenId as any) || (tokenId as any)}
             onProgress={handleProgress}
             seekRef={seekRef}
+            liveControlRef={isPlayingReplay ? undefined : liveControlRef}
+            liveStart={isPlayingReplay ? null : liveStart}
             /* A replay is a finished file: it gets a scrubber, a live stream does not. */
             isLive={!isPlayingReplay}
             suppressLoadingFeedback={isPausedEffective}
@@ -2203,6 +2291,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             onScrubbingChange={handleScrubbingChange}
           />
         )}
+        {/* A live's timeline: the last few minutes, live at the red end. */}
+        {!isPlayingReplay && isLiveEffective && !isEndedEffective && !isPausedEffective && isPlayable ? (
+          <LiveTimeshiftBar timeshift={timeshift} />
+        ) : null}
 
         {/* Clear the chrome: tap the open picture anywhere, or swipe down
             over the lower half. These sit under the chrome and over the
@@ -2279,6 +2371,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 onPointsPress={openRewards}
                 faces={audienceFaces}
                 onOpenAudience={() => setAudienceOpen(true)}
+                liveTag={isPlayable ? liveTimeshiftTag : undefined}
               />
 
               {/* A hype train is the room's: drawn for anyone watching, under the pills. */}
