@@ -3062,7 +3062,7 @@
       "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
       "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
       "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen",
-      "fractionGift": "{{name}} heeft je fracties gestuurd", "storyLiked": "{{name}} vindt je moment leuk", "storyMention": "{{name}} noemde je in hun moment"
+      "fractionGift": "{{name}} heeft je fracties gestuurd", "storyLiked": "{{name}} vindt je moment leuk", "storyMention": "{{name}} noemde je in hun moment", "storyComment": "{{name}} reageerde op je moment", "storyCommentReply": "{{name}} reageerde op je opmerking bij een moment"
     }
   },
   "leaderboard": {

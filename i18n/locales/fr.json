@@ -2874,7 +2874,7 @@
       "governanceVotedRejected": "Une proposition sur laquelle vous avez voté n’a pas été adoptée : « {{title}} »",
       "governancePassed": "Votre proposition « {{title}} » a été adoptée 🎉",
       "governanceRejected": "Votre proposition « {{title}} » n’a pas été adoptée",
-      "fractionGift": "{{name}} t'a envoyé des fractions", "storyLiked": "{{name}} a aimé votre moment", "storyMention": "{{name}} vous a mentionné dans son moment"
+      "fractionGift": "{{name}} t'a envoyé des fractions", "storyLiked": "{{name}} a aimé votre moment", "storyMention": "{{name}} vous a mentionné dans son moment", "storyComment": "{{name}} a commenté votre moment", "storyCommentReply": "{{name}} a répondu à votre commentaire sur un moment"
     }
   },
   "leaderboard": {
