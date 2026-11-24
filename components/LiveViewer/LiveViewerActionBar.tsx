@@ -44,6 +44,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useAppTheme } from "../../context/ThemeContext";
 import { launchFlight } from "../../libs/liveChatFlight";
+import { haptic } from "../../libs/haptics";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import type { ReactionType } from "../LiveProducer/ReactionOverlay";
@@ -68,7 +69,8 @@ const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
   { type: "SUPPORT", emoji: "✊" },
 ];
 
-const COOLDOWN_MS = 400;
+/** Fast enough for applause, slow enough that one press never sends two. */
+const COOLDOWN_MS = 90;
 
 /** The house ease: the box grows and the buttons fold on it (web uses the same). */
 const EASE = Easing.bezier(0.25, 0.8, 0.25, 1);
@@ -104,6 +106,9 @@ interface Props {
   /** Actions */
   onReact: (type: ReactionType) => void;
   onLike: () => void;
+  /** Takes the like (or held reaction) off. Only offered in the hold strip:
+   *  a tap on the thumb always sends another. */
+  onUnlike?: () => void;
   onShare: () => void;
   onGiftPress: () => void;
   likeCount: number;
@@ -131,6 +136,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   onCancelEdit,
   onReact,
   onLike,
+  onUnlike,
   onShare,
   onGiftPress,
   likeCount,
@@ -237,7 +243,9 @@ const LiveViewerActionBar: React.FC<Props> = ({
       const now = Date.now();
       if (now - lastTapRef.current < COOLDOWN_MS) return;
       lastTapRef.current = now;
-      setReactionsOpen(false);
+      // The strip stays up, so each tap is another one, like the thumb.
+      // A tap anywhere else closes it.
+      haptic.tap();
       onReact(type);
     },
     [onReact]
@@ -283,11 +291,14 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const likePopStyle = useAnimatedStyle(() => ({ transform: [{ scale: likePop.value }] }));
   const handleLikePress = useCallback(() => {
     if (!reduceMotion) {
+      // Restarts from wherever the last pop is, so rapid taps read as a
+      // beat rather than a stutter back to rest each time.
       likePop.value = withSequence(
-        withTiming(1.35, { duration: 90, easing: Easing.out(Easing.quad) }),
-        withSpring(1, { damping: 8, stiffness: 260 }),
+        withTiming(1.22, { duration: 80, easing: Easing.out(Easing.quad) }),
+        withSpring(1, { damping: 12, stiffness: 320, mass: 0.6 }),
       );
     }
+    haptic.tap();
     onLike();
   }, [onLike, reduceMotion, likePop]);
   const quote = editing && !inputDisabled
@@ -328,6 +339,22 @@ const LiveViewerActionBar: React.FC<Props> = ({
               <Text style={styles.glyph}>{opt.emoji}</Text>
             </Pressable>
           ))}
+          {isLiked && onUnlike ? (
+            <>
+              <View style={styles.stripDivider} />
+              <Pressable
+                testID="live-reactions-unlike"
+                onPress={() => { haptic.select(); setReactionsOpen(false); onUnlike(); }}
+                disabled={actionsDisabled}
+                accessibilityRole="button"
+                accessibilityLabel={_copy("copy.eaa881c359cf", { defaultValue: "Unlike" })}
+                style={[styles.unlikeCell, actionsDisabled ? styles.dim : null]}
+              >
+                <Icon name="X" size={14} color="#fff" strokeWidth={2} />
+                <Text style={styles.unlikeText}>{_copy("copy.eaa881c359cf", { defaultValue: "Unlike" })}</Text>
+              </Pressable>
+            </>
+          ) : null}
         </Pressable>
       ) : null}
 
@@ -468,11 +495,13 @@ const LiveViewerActionBar: React.FC<Props> = ({
 
           <Pressable
             onPress={handleLikePress}
-            onLongPress={isLive ? openReactions : undefined}
+            onLongPress={isLive ? () => { haptic.press(); openReactions(); } : undefined}
             delayLongPress={400}
             hitSlop={CHROME_HIT_SLOP}
             accessibilityRole="button"
-            accessibilityLabel={isLiked ? _copy("copy.eaa881c359cf", { defaultValue: "Unlike" }) : _copy("copy.64f915cb8bfc", { defaultValue: "Like" })}
+            /* A tap always sends another like; hold for the strip (and Unlike). */
+            accessibilityLabel={_copy("copy.64f915cb8bfc", { defaultValue: "Like" })}
+            accessibilityHint={isLive ? t("liveViewer.likeHint", { defaultValue: "Hold for more reactions" }) : undefined}
             style={styles.circle}
           >
             <ChromeFill glass />
@@ -625,6 +654,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
     overflow: "hidden",
   },
+  stripDivider: {
+    width: StyleSheet.hairlineWidth,
+    height: 22,
+    marginHorizontal: 4,
+    backgroundColor: "rgba(255,255,255,0.25)",
+  },
+  unlikeCell: {
+    height: BAR_SIZE,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    paddingHorizontal: 8,
+  },
+  unlikeText: { color: "#fff", fontSize: 12, fontWeight: "700", ...TEXT_SHADOW },
   reactionCell: {
     width: 38,
     height: BAR_SIZE,

@@ -368,7 +368,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // Tip animations (viewer sees same tiered effects as producer)
   const { items: tipEffects, enqueueFromGift, clearAll: clearTipEffects } = useTipAnimations({ maxConcurrent: 2 });
   // Floating reaction bubbles
-  const { flow: reactionFlow, addReaction, clearReactions } = useReactions();
+  const { flow: reactionFlow, addReaction, launchReaction, clearReactions } = useReactions();
   /** Tx hashes of the gifts this viewer sent, so their echo off the room
    *  broadcast is recognised as theirs whatever address form it carries. */
   const ownGiftHashesRef = useRef<Set<string>>(new Set());
@@ -1286,8 +1286,15 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   );
 
   // Send a reaction via socket
+  // The room hears at most one reaction from you every 350 ms: tapping is
+  // applause and floats on your own screen every time, but the server keeps
+  // 30 per 10 s and drops the rest, so more only wasted the socket.
+  const lastReactionSentRef = useRef(0);
   const handleSendReaction = useCallback((type: ReactionType) => {
     if (!streamId || !isLiveEffective || !isSignedIn || !connected) return;
+    const now = Date.now();
+    if (now - lastReactionSentRef.current < 350) return;
+    lastReactionSentRef.current = now;
     // Render the room echo once, with the sender's server-resolved badge weight.
     socketEmitAuthed(LivestreamEvents.StreamReaction as any, { streamId, reactionType: type });
   }, [streamId, isLiveEffective, isSignedIn, connected, socketEmitAuthed]);
@@ -1341,11 +1348,19 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       // plays on submission. The room's copy still rides the socket echo, but
       // it is no longer the ONLY source: a viewer whose socket had dropped, or
       // who was never in the room, tapped and saw nothing at all.
-      addReaction('LIKE', undefined, liveReactionWeight);
+      launchReaction('LIKE', liveReactionWeight);
       handleSendReaction('LIKE');
     });
-    postReactions.toggle(true);
-  }, [postReactions, requireAuth, handleSendReaction, addReaction, liveReactionWeight]);
+    // Tapping again is applause, never an unlike: the post's like is cast on
+    // the first tap and kept. Taking it back is the hold strip's Unlike.
+    if (!postReactions.isLiked) postReactions.toggle(true);
+  }, [postReactions, requireAuth, handleSendReaction, launchReaction, liveReactionWeight]);
+
+  // The hold strip's Unlike: the only way a live's like comes off.
+  const handleLiveUnlike = useCallback(() => {
+    const mine = postReactions.myReaction;
+    if (mine) postReactions.react(mine);
+  }, [postReactions]);
 
   // The long-press strip. It used to go straight to the socket and nowhere
   // else: the sender's own echo is dropped (see the reaction listener), so the
@@ -1354,13 +1369,13 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // post where the strip has a post reaction to match.
   const handleStripReaction = useCallback((type: ReactionType) => {
     requireAuth(() => {
-      addReaction(type, undefined, liveReactionWeight);
+      launchReaction(type, liveReactionWeight);
       handleSendReaction(type);
     });
     const post = STRIP_TO_POST_REACTION[type];
     // react() toggles, so casting the reaction already worn would take it off.
     if (post && postReactions.myReaction !== post) postReactions.react(post);
-  }, [postReactions, requireAuth, handleSendReaction, addReaction, liveReactionWeight]);
+  }, [postReactions, requireAuth, handleSendReaction, launchReaction, liveReactionWeight]);
 
   // The phone's own share sheet, now the "Share link" row of the drawer below.
   const handleNativeShare = useCallback(async () => {
@@ -2387,6 +2402,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onCancelEdit={() => setEditingLine(null)}
                   onReact={handleStripReaction}
                   onLike={handleLiveLike}
+                  onUnlike={handleLiveUnlike}
                   onShare={handleShare}
                   onGiftPress={handleGiftPress}
                   likeCount={postReactions.likeCount}
