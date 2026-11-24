@@ -8,6 +8,8 @@
  * The API lifts threads the creator replied in to the top of the list. Showing
  * somebody else's reply under a lifted thread left it at the top with no
  * visible reason for being there; the creator's answer is the reason.
+ * Without one, the first answer from somebody the post tags (`byTagged`) is
+ * shown the same way: the API lifts those threads too.
  */
 
 interface PreviewRow {
@@ -15,6 +17,7 @@ interface PreviewRow {
   parentId?: number | string | null;
   address?: string;
   user?: { address?: string } | null;
+  byTagged?: boolean;
 }
 
 const authorOf = (row: PreviewRow) => (row.user?.address ?? row.address)?.toLowerCase();
@@ -43,7 +46,9 @@ export function collapsedReplyIds<R extends PreviewRow>(
 
   const shown = new Map<string, Set<string>>();
   repliesByRoot.forEach((replies, root) => {
-    const answer = creator ? replies.find((row) => authorOf(row) === creator) : undefined;
+    const answer =
+      (creator ? replies.find((row) => authorOf(row) === creator) : undefined) ??
+      replies.find((row) => row.byTagged);
     if (!answer) {
       shown.set(root, new Set(replies.slice(0, count).map((row) => String(row.id))));
       return;
