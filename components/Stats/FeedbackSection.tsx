@@ -256,7 +256,7 @@ export default function FeedbackSection({ source }: { source?: 'converter' | 'mi
           })}
           {(feedback.isError || feedback.hasNextPage) ? (
             <KitButton variant="quiet" disabled={feedback.isFetching}
-              label={t(feedback.isFetching ? 'common.loading' : feedback.isError ? 'common.retry' : 'search.loadMore')}
+              label={t(feedback.isFetching ? 'common.loading' : feedback.isError ? 'common.retry' : 'common.loadMore')}
               onPress={() => { void (feedback.isError ? (approved.length ? feedback.fetchNextPage() : feedback.refetch()) : feedback.fetchNextPage()); }} />
           ) : null}
         </PageSection>
