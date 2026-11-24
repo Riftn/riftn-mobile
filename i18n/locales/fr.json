@@ -18223,6 +18223,18 @@
     }
   },
   "notes": {
+    "newStatus": "Nouveau statut",
+    "upFor": "Publié il y a {{time}}",
+    "postedAgo": "il y a {{time}}",
+    "timeLeft": "encore {{time}}",
+    "like": "J’aime",
+    "unlike": "Je n’aime plus",
+    "likedBy": "Aimé par {{name}}",
+    "likedByMore": "Aimé par {{name}} et {{others}} autres",
+    "likes": "{{total}} j’aime",
+    "edit": "Modifier",
+    "deleteShort": "Supprimer",
+    "charsLeft": "{{count}} restants",
     "add": "Note",
     "yourStatus": "Ton statut",
     "whatsUp": "Quoi de neuf ?",
