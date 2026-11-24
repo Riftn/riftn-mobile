@@ -169,9 +169,11 @@ function StoryShelf() {
   );
 }
 
-function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, children }: {
+function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, closeFriends, children }: {
   cover?: string | null;
   seen?: boolean;
+  /** A Close Friends Moment: green rim until watched. */
+  closeFriends?: boolean;
   /** Settings > Blur Moment previews: the picture stays blurred until opened. */
   blur?: boolean;
   avatar: React.ReactNode | null;
@@ -201,7 +203,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, c
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
         />
-        <View pointerEvents="none" style={[styles.frame, isLight && styles.lightFrame]} />
+        <View pointerEvents="none" style={[styles.frame, isLight && styles.lightFrame, closeFriends && !seen && styles.closeFriendsFrame]} />
         {avatar ? <View pointerEvents="none" style={styles.avatar}>{avatar}</View> : null}
         {badge}
         {children}
@@ -324,6 +326,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
     <ShelfTile
       cover={coverOf(entry)}
       seen={entry.seen}
+      closeFriends={!!entry.closeFriends && !entry.own}
       blur={blurred}
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
@@ -353,6 +356,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.18)",
   },
   lightFrame: { borderColor: "rgba(113,113,122,0.24)" },
+  closeFriendsFrame: { borderWidth: 2, borderColor: "#22c55e" },
   avatar: {
     position: "absolute",
     top: 7,

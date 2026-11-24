@@ -61,6 +61,9 @@ export function useOpenMoments(address: string | null | undefined) {
  * watched all). Place it as a sibling right after the Avatar, inside the
  * pressable that opens the Moments. It takes no touches itself.
  */
+/** Close Friends Moments: green rim until watched. */
+export const CLOSE_FRIENDS_GREEN = "#22c55e";
+
 export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; size: number; big?: boolean }) {
   const { isLight, skin, accent, pageColors } = useAppTheme();
   const blurred = useMomentPreviewsBlurred();
@@ -68,7 +71,9 @@ export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; 
   const seen = peek.state === "seen";
   const rim = seen
     ? "rgba(161,161,170,0.6)"
-    : skin
+    : peek.closeFriends
+      ? CLOSE_FRIENDS_GREEN
+      : skin
       ? `rgb(${accent[0]},${accent[1]},${accent[2]})`
       : isLight ? "#0a0a0a" : "#ffffff";
   const cut = pageColors.background;
