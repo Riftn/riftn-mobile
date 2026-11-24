@@ -1,3 +1,4 @@
+import { PUBLIC_CHAT_CALL_ID } from "../../libs/groupCall";
 import React from "react";
 import { Pressable, StyleSheet, Text, View, ScrollView, useWindowDimensions } from "react-native";
 import { RtcSurfaceView, RenderModeType, VideoSourceType } from "react-native-agora";
@@ -65,7 +66,9 @@ const GroupCallModal: React.FC = () => {
     const status = isIncoming
       ? t("calls.isCalling", { name: caller.name, defaultValue: "{{name}} is calling" })
       : isRinging
-        ? t("calls.waitingForPeople", { defaultValue: "Waiting for people to join..." })
+        ? currentCall?.group_id === PUBLIC_CHAT_CALL_ID
+          ? t("calls.waitingForPeople", { defaultValue: "Waiting for people to join..." })
+          : t("calls.callingGroup", { defaultValue: "Ringing the group..." })
         : t("calls.connecting");
     return (
       <CallStage peer={stagePeer} onRequestClose={minimize} onCorner={isIncoming ? undefined : minimize}>

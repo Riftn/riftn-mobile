@@ -830,7 +830,7 @@ const CommunityDetailScreen: React.FC = () => {
               </TouchableOpacity>
             ) : null}
             {isMember && kind === "group" ? (
-              <GroupCallButtons groupId={community.id} groupName={community.name} canStart={abilities.isOwner || abilities.isAdmin || abilities.can("start_calls")} />
+              <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} canStart={abilities.isOwner || abilities.isAdmin || abilities.can("start_calls")} />
             ) : null}
           </View>
         ) : undefined}

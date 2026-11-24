@@ -32,7 +32,7 @@ import * as Updates from "expo-updates";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import type { AuthStackParamList } from "../../navigation/types";
 import { setHasSeenAuth, setHasSeenOnboarding } from "../../libs/auth.utils";
-import { SUPPORTED_LANGUAGES, chooseLanguage, detectLanguage } from "../../i18n";
+import { SUPPORTED_LANGUAGES, chooseLanguage, detectCountryLanguage, detectLanguage, hasChosenLanguage } from "../../i18n";
 import { useAppTheme } from "../../context/ThemeContext";
 import { APP_THEMES } from "../../theme/colors";
 import { RING, ThemeSample } from "../../components/Settings/ThemePicker";
@@ -155,6 +155,22 @@ const OnboardingScreen: React.FC = () => {
     [i18n.language, t],
   );
 
+  // A phone left in English in a country with one main language starts on that
+  // language, so the reader only confirms it (or taps their phone's language,
+  // listed right under it). Only before any language was ever picked, so going
+  // Back to this step never undoes a choice.
+  useEffect(() => {
+    const country = detectCountryLanguage();
+    if (!country) return;
+    let live = true;
+    void hasChosenLanguage().then((chosen) => {
+      if (live && !chosen) void onPickLanguage(country);
+    });
+    return () => { live = false; };
+    // Once per setup screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const cta =
     step < STEPS - 1
       ? t("onboarding.setup.continue")
@@ -243,19 +259,28 @@ const LanguageStep: React.FC<{ current: string; onPick: (code: string) => void }
     const code = detectLanguage();
     return SUPPORTED_LANGUAGES.find((l) => l.code === code) ?? SUPPORTED_LANGUAGES[0];
   }, []);
+  // The country's main language, when setup starts on it instead of the phone's.
+  const country = useMemo(() => {
+    const code = detectCountryLanguage();
+    return code ? SUPPORTED_LANGUAGES.find((l) => l.code === code) ?? null : null;
+  }, []);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const all = SUPPORTED_LANGUAGES.filter((l) => l.code !== phone.code).sort((a, b) => a.name.localeCompare(b.name));
-    if (!q) return [phone, ...all];
+    const top = country ? [country, phone] : [phone];
+    const all = SUPPORTED_LANGUAGES.filter((l) => !top.includes(l)).sort((a, b) => a.name.localeCompare(b.name));
+    if (!q) return [...top, ...all];
     return SUPPORTED_LANGUAGES.filter(
       (l) => l.name.toLowerCase().includes(q) || l.nativeName.toLowerCase().includes(q) || l.code.toLowerCase().includes(q),
     );
-  }, [query, phone]);
+  }, [query, phone, country]);
 
   return (
     <View style={{ flex: 1 }}>
-      <StepTitle title={t("onboarding.setup.language.title")} subtitle={t("onboarding.setup.language.subtitle")} />
+      <StepTitle
+        title={t("onboarding.setup.language.title")}
+        subtitle={t(country && current === country.code ? "onboarding.setup.language.subtitleCountry" : "onboarding.setup.language.subtitle")}
+      />
       <View style={styles.search}>
         <Icon name="Search" size={18} color={MUTED} />
         <TextInput
@@ -281,16 +306,21 @@ const LanguageStep: React.FC<{ current: string; onPick: (code: string) => void }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 12, gap: 8 }}
         ListEmptyComponent={<Text style={[styles.subtitle, { textAlign: "center", marginTop: 24 }]}>{t("settings.noLanguagesFound")}</Text>}
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           const active = item.code === current;
-          const fromPhone = !query && index === 0;
+          const fromCountry = !query && item === country;
+          const fromPhone = !query && item === phone;
           return (
             <OptionFrame active={active} onPress={() => onPick(item.code)} label={item.nativeName}>
               <View style={styles.languageRow}>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.languageName}>{item.nativeName}</Text>
                   <Text style={styles.languageMeta}>
-                    {fromPhone ? t("onboarding.setup.language.fromPhone") : item.name}
+                    {fromCountry
+                      ? t("onboarding.setup.language.fromCountry")
+                      : fromPhone
+                        ? t("onboarding.setup.language.fromPhone")
+                        : item.name}
                   </Text>
                 </View>
                 <View style={{ opacity: active ? 1 : 0 }}>
