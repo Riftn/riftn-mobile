@@ -37,11 +37,13 @@ const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.s
 /**
  * Note colours follow the theme: on System Light the ink goes dark and the
  * chip material goes to a faint ink wash, so nothing is white on white.
+ * The light set is written as hsla() so System Light's colour pass
+ * (libs/jsx/tone.js) leaves it alone instead of turning it back to white.
  */
 function useNoteInk() {
   const { isLight } = useAppTheme();
   return isLight
-    ? { ink: "#0b0b0d", ink2: "rgba(11,11,13,0.62)", bubble: "rgba(0,0,0,0.06)", field: "rgba(0,0,0,0.05)", hairline: "rgba(0,0,0,0.08)", track: "rgba(0,0,0,0.14)", primaryBg: "#111114", primaryInk: "#fff" }
+    ? { ink: "hsla(240,8%,4%,1)", ink2: "hsla(240,8%,4%,0.62)", bubble: "hsla(0,0%,0%,0.06)", field: "hsla(0,0%,0%,0.05)", hairline: "hsla(0,0%,0%,0.08)", track: "hsla(0,0%,0%,0.14)", primaryBg: "hsla(240,8%,7%,1)", primaryInk: "hsla(0,0%,100%,1)" }
     : { ink: "#fff", ink2: "hsla(240, 5%, 65%, 1)", bubble: "hsla(240, 5%, 96%, 0.12)", field: "hsla(240, 5%, 96%, 0.08)", hairline: "hsla(0, 0%, 100%, 0.10)", track: "hsla(0, 0%, 100%, 0.16)", primaryBg: "#fff", primaryInk: "#0b0b0c" };
 }
 
