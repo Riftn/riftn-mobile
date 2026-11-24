@@ -73,21 +73,22 @@ const join = async (result: { current: ReturnType<typeof useCall> }, type: 'audi
 const room = (count: number, cam: boolean) => Object.fromEntries(Array.from({ length: count }, (_, i) =>
   [`k${i}`, [{ uid: i + 10, wallet: `0x${String(i).padStart(40, '0')}`, type: cam ? 'video' : 'audio', cam }]]));
 
-it('opens the group room under the wallet uid without ringing or notifying anyone', async () => {
+it('rings the other members and joins the group room under the wallet uid', async () => {
   const { result } = renderHook(useCall);
-  await join(result, 'audio');
-  expect(mockInsert).not.toHaveBeenCalled();
-  expect(mockPush).not.toHaveBeenCalled();
+  await act(async () => { void result.current.startGroupCall({ id: GROUP, name: 'Friends' }, [mockWallet, '0xB', '0xc'], 'audio'); await flush(); });
+  const rows = mockInsert.mock.calls[0][0] as Array<Record<string, string>>;
+  expect(rows.map(row => row.recipient_address)).toEqual(['0xb', '0xc']);
   const uid = groupCallUid(mockWallet);
   expect(mockToken).toHaveBeenCalledWith(`group-call-${GROUP}`, 'publisher', uid, mockWallet);
   expect(engine.joinChannel.mock.calls[0][1]).toBe(`group-call-${GROUP}`);
   expect(engine.joinChannel.mock.calls[0][2]).toBe(uid);
   expect(mockTrack).toHaveBeenLastCalledWith({ uid, wallet: mockWallet, type: 'audio', cam: false });
+  expect(mockPush).toHaveBeenCalledTimes(2);
 });
 
 it('stays up while others remain and ends when the last one leaves', async () => {
   const { result } = renderHook(useCall);
-  await join(result, 'audio');
+  await act(async () => { void result.current.startGroupCall({ id: GROUP, name: 'Friends' }, [mockWallet, '0xb', '0xc'], 'audio'); await flush(); });
   act(() => { handler.onUserJoined({}, 7); handler.onUserJoined({}, 9); });
   expect(result.current.isCallActive).toBe(true);
   expect(result.current.groupParticipants.map(p => p.uid)).toEqual([7, 9]);
@@ -96,11 +97,22 @@ it('stays up while others remain and ends when the last one leaves', async () =>
   await act(async () => { handler.onUserOffline({}, 9); await flush(); });
   expect(result.current.currentCall).toBeNull();
   expect(result.current.callSummary).toMatchObject({ outcome: 'ended', groupName: 'Friends' });
+  expect(mockUpdate).not.toHaveBeenCalled();
 });
 
-it('keeps the room open while you wait, with no ring timeout', async () => {
+it('stops every ringing phone when nobody answers', async () => {
+  const { result } = renderHook(useCall);
+  await act(async () => { void result.current.startGroupCall({ id: GROUP, name: 'Friends' }, [mockWallet, '0xb', '0xc'], 'video'); await flush(); });
+  await act(async () => { jest.advanceTimersByTime(400); await flush(); });
+  await act(async () => { jest.advanceTimersByTime(45_000); await flush(); });
+  expect(result.current.currentCall).toBeNull();
+  expect(mockUpdate).toHaveBeenCalledWith({ status: 'ended' }, ['ring-1', 'ring-2']);
+});
+
+it('joins without ringing anyone and keeps the room open while you wait', async () => {
   const { result } = renderHook(useCall);
   await join(result, 'video');
+  expect(mockInsert).not.toHaveBeenCalled();
   expect(mockTrack).toHaveBeenLastCalledWith({ uid: groupCallUid(mockWallet), wallet: mockWallet, type: 'video', cam: true });
   await act(async () => { jest.advanceTimersByTime(120_000); await flush(); });
   expect(result.current.currentCall).not.toBeNull();

@@ -4,31 +4,33 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { useCall } from "../../context/CallContext";
 import { useAuth } from "../../context/AuthContext";
-import { useGroupCallRoster, groupCallLoad } from "../../libs/groupCall";
+import { useGroupCallRoster, groupCallLoad, PUBLIC_CHAT_CALL_ID } from "../../libs/groupCall";
 import { formatCount } from "../../libs/format-count";
 
 /**
  * Voice and video call buttons for a group, and a "Join call" pill in their
- * place while one is going. Starting opens the room without ringing or
- * notifying anyone; members join from the pill. A room at its limit shows
- * "Full" instead.
+ * place while one is going. Starting rings the group's members (Riftn's main
+ * chat rings nobody: people join from the pill); joining just steps into the
+ * room. A room at its limit shows "Full" instead.
  */
 /** `joinOnly`: just the "Join call" pill while a call is on, nothing
  *  otherwise (Public Chat starts calls from its + menu). */
-const GroupCallButtons: React.FC<{ groupId: string; groupName: string; canStart?: boolean; joinOnly?: boolean }> = ({ groupId, groupName, canStart = true, joinOnly = false }) => {
+const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members?: string[]; canStart?: boolean; joinOnly?: boolean }> = ({ groupId, groupName, members = [], canStart = true, joinOnly = false }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { joinGroupCall, currentCall } = useCall();
+  const { startGroupCall, joinGroupCall, currentCall } = useCall();
   const roster = useGroupCallRoster(groupId);
   const [starting, setStarting] = React.useState(false);
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
   const others = roster.filter((entry) => entry.wallet !== me);
   const { full } = groupCallLoad(roster, me);
   const busy = !!currentCall || starting;
-  const open = async (callType: "audio" | "video") => {
+  const ring = groupId !== PUBLIC_CHAT_CALL_ID;
+  const open = async (callType: "audio" | "video", start = false) => {
     if (busy) return;
     setStarting(true);
-    try { await joinGroupCall({ id: groupId, name: groupName }, callType); } finally { setStarting(false); }
+    const group = { id: groupId, name: groupName };
+    try { await (start && ring ? startGroupCall(group, members, callType) : joinGroupCall(group, callType)); } finally { setStarting(false); }
   };
 
   if (others.length && currentCall?.group_id !== groupId) {
@@ -61,7 +63,7 @@ const GroupCallButtons: React.FC<{ groupId: string; groupName: string; canStart?
       {(["audio", "video"] as const).map((callType) => (
         <TouchableOpacity
           key={callType}
-          onPress={() => { void open(callType); }}
+          onPress={() => { void open(callType, true); }}
           disabled={busy}
           style={[styles.btn, busy && styles.dim]}
           activeOpacity={0.6}
