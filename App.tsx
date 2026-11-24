@@ -35,6 +35,7 @@ import NoInternetScreen from "./screens/NoInternetScreen";
 import { useNetworkStatus } from "./hooks/useNetworkStatus";
 import { PictureInPictureHost } from './components/common/PersistentVideoView';
 import InAppVideoMiniPlayerHost from './components/common/InAppVideoMiniPlayer';
+import LiveMiniPlayerHost from './components/LiveViewer/LiveMiniPlayer';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   StatusBar,
@@ -692,6 +693,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
                         </KeyboardPanView>
                         <PictureInPictureHost />
                         <InAppVideoMiniPlayerHost />
+                        <LiveMiniPlayerHost />
                         <NewMemberRegistrar />
                         <ShippedFeatureNotice />
                         <OnlinePresenceHost />

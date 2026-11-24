@@ -50,6 +50,7 @@ import { useStreamDetails } from "../hooks/useStreamDetails";
 import GlassModal from "../components/ui/GlassModal";
 import { LivestreamEvents, StreamActivityType } from "../services/enums/livestream.enum";
 import { toastSuccess, toastError, toastInfo } from "../libs/toast";
+import { closeLiveMini } from "../libs/live-mini";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../libs/viewers.util";
 import { updateStreamSettings, getIngestUrl, fallbackToLivepeer } from "../services/live.service";
@@ -96,6 +97,8 @@ const LiveProducerScreen: React.FC = () => {
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
   const { t } = useTranslation();
+  // Going live yourself stops a live you were still listening to.
+  useEffect(() => { closeLiveMini(); }, []);
   // Where this broadcast lands on the streamer ladder, shown before Start so
   // the ten-minute / one-viewer rule is in front of the creator rather than
   // discovered after the bar did not move.
