@@ -41,8 +41,9 @@ import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
 import { toastError, toastSuccess } from "../../libs/toast";
+import { formatCount } from "../../libs/format-count";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
-import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
+import { getCloseFriends, getStoryShelf, setCloseFriends as saveCloseFriends, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
@@ -324,26 +325,54 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
   const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
-  const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
+  // Your Close Friends list, kept on your account (null while loading).
+  const [closeFriends, setCloseFriends] = useState<MentionUser[] | null>(null);
+  const closeFriendsSave = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [stickersOpen, setStickersOpen] = useState(false);
   const [effectsOpen, setEffectsOpen] = useState(false);
   const [look, setLook] = useState<PhotoLook>("none");
   const [backdrop, setBackdrop] = useState<PhotoBackdrop>("blur");
   React.useEffect(() => {
-    AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
-      .then((raw) => {
-        const list = raw ? JSON.parse(raw) : [];
-        if (Array.isArray(list)) setCloseFriends(list.filter((u: MentionUser) => u && typeof u.address === "string").slice(0, 50));
-      })
-      .catch(() => {});
-  }, []);
+    if (!customAudience) return;
+    let active = true;
+    const asUser = (f: { address: string; username: string | null; displayName: string | null; avatarImageUrl: string | null }) =>
+      ({ address: f.address, username: f.username || "", displayName: f.displayName || "", avatarImageUrl: f.avatarImageUrl || "", isFollowing: false }) as MentionUser;
+    (async () => {
+      let list: MentionUser[] = [];
+      try {
+        list = (await getCloseFriends()).friends.map(asUser);
+        // A list saved only on this phone before moves to the account once.
+        if (!list.length) {
+          const raw = await AsyncStorage.getItem(CLOSE_FRIENDS_KEY).catch(() => null);
+          const local = raw ? JSON.parse(raw) : [];
+          if (Array.isArray(local) && local.length) {
+            const keep = local.filter((u: MentionUser) => u && typeof u.address === "string");
+            const saved = await saveCloseFriends(keep.map((u: MentionUser) => u.address)).catch(() => null);
+            list = saved ? saved.friends.map(asUser) : keep;
+          }
+        }
+      } catch { /* older server: empty list */ }
+      if (active) setCloseFriends(list);
+    })();
+    return () => { active = false; };
+  }, [customAudience]);
+  const changeCloseFriends = (next: MentionUser[]) => {
+    setCloseFriends(next);
+    if (closeFriendsSave.current) clearTimeout(closeFriendsSave.current);
+    closeFriendsSave.current = setTimeout(() => {
+      saveCloseFriends(next.map((u) => u.address)).catch(() => {});
+    }, 500);
+  };
   const restrictPeople = audience === "selected" || audience === "except";
   const audienceLabels = {
     everyone: t("stories.everyone", { defaultValue: "Everyone" }),
     followers: t("stories.followersOnly", { defaultValue: "Followers" }),
     selected: t("stories.selectedPeople", { defaultValue: "Only selected people" }),
     except: t("stories.hideFromPeople", { defaultValue: "Hide from selected people" }),
+    close_friends: t("stories.closeFriends", { defaultValue: "Close friends" }),
   };
+  const isCloseFriends = audience === "close_friends";
+  const audienceBlocked = (restrictPeople && !audiencePeople.length) || (isCloseFriends && !closeFriends?.length);
   const player = useVideoPlayer(picked.kind === "video" ? picked.uri : null, (p) => {
     p.loop = true;
     p.timeUpdateEventInterval = 0.1;
@@ -394,10 +423,11 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const share = async () => {
-    if (busy || (restrictPeople && !audiencePeople.length)) return;
+    if (busy || audienceBlocked) return;
     setBusy(true);
     try {
-      const visible = layers.filter((l) => l.text.trim());
+      const written = layers.filter((l) => l.text.trim());
+      const visible = written.filter((l) => !l.hidden);
       const words = visible.map((l) => l.text.trim()).join(" ");
       let uri = picked.uri;
       let mimeType = picked.mimeType;
@@ -429,7 +459,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             caption,
             remixSourceId,
             postTokenId: picked.postTokenId,
-            mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(visible) : undefined,
+            mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(written) : undefined,
             ...(isPhoto ? { photoDurationSeconds: customPhotoDuration ? playbackSeconds : undefined } : { trimStart: 0, trimEnd: Math.min(playbackSeconds, maxSeconds) }),
           },
         },
@@ -443,6 +473,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const fit = picked.width > picked.height * 1.34 ? "contain" : "cover";
+  const hiddenCount = layers.filter((l) => l.hidden && l.text.trim()).length;
   const { theme, isLight } = useAppTheme();
   const shareColors = isLight ? undefined : SHARE_COLORS[theme];
 
@@ -461,7 +492,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           </>
         )}
         {layers
-          .filter((l) => l.id !== editing?.id)
+          .filter((l) => l.id !== editing?.id && !l.hidden)
           .map((l) => (
             <DraggableText
               key={l.id}
@@ -469,9 +500,20 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               stageW={stageW}
               stageH={stageH}
               onMove={(x, y) => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, x, y } : x0)))}
+              onHide={() => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, hidden: true } : x0)))}
               onTap={() => l.mentionAddress ? setMentionTarget({ layer: l }) : setEditing(l)}
             />
           ))}
+        {hiddenCount > 0 && !editing ? (
+          <View pointerEvents="box-none" style={styles.hiddenTray}>
+            <TouchableOpacity className="dark-surface" onPress={() => setLayers((ls) => ls.map((l) => (l.hidden ? { ...l, hidden: false } : l)))}
+              style={[styles.hiddenPill, styles.darkGlass]} accessibilityRole="button"
+              accessibilityLabel={t("stories.showHidden", { defaultValue: "Show hidden ({{count}})", count: hiddenCount })}>
+              <Icon name="EyeOff" size={14} color="#fff" />
+              <Text style={styles.hiddenPillText}>{t("stories.hiddenCount", { defaultValue: "Hidden ({{count}})", count: hiddenCount })}</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null}
 
         <View style={styles.stageTop}>
           <TouchableOpacity className="dark-surface" onPress={onBack} style={[styles.iconBtn, styles.darkGlass]} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
@@ -520,7 +562,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
 
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => setAudienceOpen(true)} style={[styles.chip, styles.darkGlass]}>
-          <Icon name={audience === "everyone" ? "Globe" : "Users"} size={15} color="#fff" />
+          <Icon name={audience === "everyone" ? "Globe" : isCloseFriends ? "Star" : "Users"} size={15} color={isCloseFriends ? "#4ade80" : "#fff"} />
           <Text style={styles.chipText}>
             {audienceLabels[audience]}
           </Text>
@@ -533,7 +575,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <View style={[styles.chip, styles.darkGlass]}><Text style={styles.chipText}>24h</Text></View>
         )}
         <View style={{ flex: 1 }} />
-        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || (restrictPeople && !audiencePeople.length)}>
+        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || audienceBlocked}>
           {shareColors ? <LinearGradient colors={[shareColors.from, shareColors.to]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} /> : null}
           <Text style={[styles.shareText, shareColors && { color: shareColors.ink }]}>{t("stories.share", { defaultValue: "Share" })}</Text>
         </TouchableOpacity>
@@ -551,28 +593,21 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
                   setAudience(mode);
                   if (mode === "followers" || mode === "everyone") AsyncStorage.setItem(AUDIENCE_KEY, mode).catch(() => {});
                 }}>
-                {mode === audience && <Icon name="Check" size={16} color="#fff" />}
-                <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
+                {mode === audience ? <Icon name="Check" size={16} color="#fff" /> : mode === "close_friends" ? <Icon name="Star" size={16} color="#4ade80" /> : null}
+                <Text style={styles.chipText}>{audienceLabels[mode]}{mode === "close_friends" && closeFriends?.length ? ` (${formatCount(closeFriends.length)})` : ""}</Text>
               </TouchableOpacity>
             ))}
-            {customAudience && closeFriends.length > 0 && (
-              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
-                onPress={() => { audienceChosen.current = true; setAudience("selected"); setAudiencePeople(closeFriends); }}>
-                <Icon name="Users" size={16} color="#fff" />
-                <Text style={styles.chipText}>{t("stories.closeFriends", { defaultValue: "Close friends" })} ({closeFriends.length})</Text>
+            {isCloseFriends && <>
+              {closeFriends === null ? <ActivityIndicator color="#fff" /> : null}
+              {(closeFriends ?? []).map(user => (
+                <TouchableOpacity key={user.address} style={[styles.chip, styles.darkGlass]} onPress={() => changeCloseFriends((closeFriends ?? []).filter(item => item.address !== user.address))}>
+                  <Text style={styles.chipText}>@{user.username || user.address.slice(0, 8)} ×</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity style={[styles.chip, styles.darkGlass]} disabled={closeFriends === null || closeFriends.length >= 500} onPress={() => setPickingAudiencePerson(true)}>
+                <Icon name="Search" size={16} color="#fff" /><Text style={styles.chipText}>{t("common.search", { defaultValue: "Search" })}</Text>
               </TouchableOpacity>
-            )}
-            {audience === "selected" && audiencePeople.length > 0 && (
-              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
-                onPress={() => {
-                  setCloseFriends(audiencePeople);
-                  AsyncStorage.setItem(CLOSE_FRIENDS_KEY, JSON.stringify(audiencePeople)).catch(() => {});
-                  toastSuccess(t("stories.closeFriendsSaved", { defaultValue: "Saved as your Close friends" }));
-                }}>
-                <Icon name="Check" size={16} color="#fff" />
-                <Text style={styles.chipText}>{t("stories.saveCloseFriends", { defaultValue: "Save as Close friends" })}</Text>
-              </TouchableOpacity>
-            )}
+            </>}
             {restrictPeople && <>
               {audiencePeople.map(user => (
                 <TouchableOpacity key={user.address} style={[styles.chip, styles.darkGlass]} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
@@ -647,8 +682,12 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
         </View>
       )}
       {pickingAudiencePerson && (
-        <MentionSheet title={audienceLabels[audience]} excluded={audiencePeople.map(user => user.address.toLowerCase())}
-          onSelect={user => { setAudiencePeople(current => [...current, user]); setPickingAudiencePerson(false); }}
+        <MentionSheet title={audienceLabels[audience]} excluded={(isCloseFriends ? closeFriends ?? [] : audiencePeople).map(user => user.address.toLowerCase())}
+          onSelect={user => {
+            if (isCloseFriends) changeCloseFriends([...(closeFriends ?? []), user]);
+            else setAudiencePeople(current => [...current, user]);
+            setPickingAudiencePerson(false);
+          }}
           onClose={() => setPickingAudiencePerson(false)} bottom={insets.bottom} />
       )}
       {choosingPlayback && (
@@ -774,18 +813,23 @@ function DraggableText({
   stageH,
   onMove,
   onTap,
+  onHide,
 }: {
   layer: TextLayer;
   stageW: number;
   stageH: number;
   onMove: (x: number, y: number) => void;
   onTap: () => void;
+  /** Let go past the edge of the picture: the layer hides (it can be brought back). */
+  onHide: () => void;
 }) {
   const start = useRef({ x: layer.x, y: layer.y });
+  // Fades while the finger has the layer past the edge, as a "let go to hide" cue.
+  const [leaving, setLeaving] = useState(false);
   // PanResponder keeps cumulative movement for the lifetime of a gesture.
   // The parent updates the text layer on every move, including its callbacks.
-  const latest = useRef({ layer, onMove, onTap });
-  latest.current = { layer, onMove, onTap };
+  const latest = useRef({ layer, onMove, onTap, onHide });
+  latest.current = { layer, onMove, onTap, onHide };
   const pan = useMemo(
     () =>
       PanResponder.create({
@@ -794,13 +838,19 @@ function DraggableText({
           start.current = { x: latest.current.layer.x, y: latest.current.layer.y };
         },
         onPanResponderMove: (_e, g) => {
-          const x = Math.min(0.95, Math.max(0.05, start.current.x + g.dx / stageW));
-          const y = Math.min(0.95, Math.max(0.05, start.current.y + g.dy / stageH));
+          const rawX = start.current.x + g.dx / stageW;
+          const rawY = start.current.y + g.dy / stageH;
+          setLeaving(isOffStage(rawX, rawY));
+          const x = Math.min(0.95, Math.max(0.05, rawX));
+          const y = Math.min(0.95, Math.max(0.05, rawY));
           latest.current.onMove(x, y);
         },
         onPanResponderRelease: (_e, g) => {
-          if (Math.abs(g.dx) < 4 && Math.abs(g.dy) < 4) latest.current.onTap();
+          setLeaving(false);
+          if (Math.abs(g.dx) < 4 && Math.abs(g.dy) < 4) return latest.current.onTap();
+          if (isOffStage(start.current.x + g.dx / stageW, start.current.y + g.dy / stageH)) latest.current.onHide();
         },
+        onPanResponderTerminate: () => setLeaving(false),
       }),
     [stageW, stageH],
   );
@@ -811,7 +861,7 @@ function DraggableText({
       style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}
     >
       <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}
-        style={{ transform: [
+        style={{ opacity: leaving ? 0.35 : 1, transform: [
           { translateX: (layer.x - 0.5) * stageW },
           { translateY: (layer.y - 0.5) * stageH },
           { rotate: `${layer.rotation ?? 0}deg` },
@@ -821,6 +871,11 @@ function DraggableText({
       </View>
     </View>
   );
+}
+
+/** The finger has carried the layer's centre past the edge of the picture. */
+function isOffStage(x: number, y: number) {
+  return x < 0 || x > 1 || y < 0 || y > 1;
 }
 
 function textStyle(layer: TextLayer, fontSize: number) {
@@ -970,6 +1025,9 @@ const styles = StyleSheet.create({
   shutterDown: { transform: [{ scale: 0.94 }], backgroundColor: "rgba(255,255,255,0.4)" },
   dismissBtn: { marginLeft: 8 },
   stage: { alignSelf: "center", borderRadius: 24, overflow: "hidden", backgroundColor: "#111" },
+  hiddenTray: { position: "absolute", left: 0, right: 0, bottom: 14, alignItems: "center" },
+  hiddenPill: { flexDirection: "row", alignItems: "center", gap: 6, height: 32, paddingHorizontal: 12, borderRadius: 16 },
+  hiddenPillText: { color: "#fff", fontSize: 13, fontWeight: "600" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
   bottomBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingTop: 12 },

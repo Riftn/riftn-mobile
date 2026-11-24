@@ -76,6 +76,7 @@ import TranslateButton from "../ui/TranslateButton";
 import { isAssistantAddress } from "../../libs/assistant";
 import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assistantActionLinks";
 import AssistantActionCard from "../Assistant/AssistantActionCard";
+import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 
 /**
  * A line of yours that did not go out: it stays where it was sent, with
@@ -413,6 +414,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const senderUser = getSenderUser(message);
   const avatarUrl = getAvatarUrl(senderUser?.avatarImageUrl);
+  // Their Moment on the corner of the face beside their messages; a tap plays it.
+  const senderMoment = useFaceMoment(!isMine && showAvatar ? senderUser?.address : null);
+  const openSenderMoments = useOpenMoments(senderUser?.address);
 
   const msgType: DmMsgType = (message.msgType as DmMsgType) || "msg";
   const isVoice = msgType === "voice";
@@ -864,7 +868,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             />
           ) : null}
           {/* Avatar (other user, first in a group) */}
-          {!isMine && showAvatar && (
+          {!isMine && showAvatar && !senderMoment && (
             <Avatar
               uri={
                 avatarUrl && avatarUrl !== "default-avatar"
@@ -874,6 +878,20 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
               size={28}
               name={senderUser?.displayName || senderUser?.username}
             />
+          )}
+          {!isMine && showAvatar && senderMoment && (
+            <TouchableOpacity activeOpacity={0.8} onPress={() => void openSenderMoments()} accessibilityRole="button">
+              <Avatar
+                uri={
+                  avatarUrl && avatarUrl !== "default-avatar"
+                    ? avatarUrl
+                    : undefined
+                }
+                size={28}
+                name={senderUser?.displayName || senderUser?.username}
+              />
+              <MomentPeekBadge peek={senderMoment} size={28} />
+            </TouchableOpacity>
           )}
 
           {/* Only the received text bubble takes the gesture, not the row or avatar. */}
@@ -1208,7 +1226,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {/* Shared Riftn link — rich preview card that opens it on tap */}
             {momentReply ? (
               <View style={{ maxWidth: MAX_IMAGE_WIDTH }}>
-                <MomentReplyPreview shared={"shared" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
+                <MomentReplyPreview shared={"shared" in momentReply} mention={"mention" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
                 {!!momentReply.text && <LinkedText text={translated ?? momentReply.text} onLongPress={handleLongPress}
                   className={`px-3 pt-2 text-[15px] ${isMine ? "text-white" : "text-theme-neutrals-100"}`}
                   style={chatTextStyle} fontSize={15 * textScale} />}

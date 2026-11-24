@@ -109,7 +109,7 @@
     "addToMoment": "Toevoegen aan je moment",
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
-    "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "watchOriginal": "Oorspronkelijk verhaal bekijken", "hiddenCount": "Verborgen ({{count}})", "showHidden": "Verborgen tonen ({{count}})", "mentionedYou": "Noemde je in hun moment",
     "shareToMoment": "Delen als Moment",
     "goToPost": "Naar bericht",
     "fromYourPost": "Uit je bericht", "fromAPost": "Uit een bericht",
@@ -187,7 +187,9 @@
     "toEveryone": "Iedereen",
     "toOnly": "Alleen {{name}}",
     "signInToSay": "Log in om iets te zeggen",
-    "saySomething": "Zeg iets…"
+    "saySomething": "Zeg iets…",
+    "momentEnded": "Dat Moment is voorbij",
+    "momentOpenFailed": "Kon dat Moment niet openen"
   },
   "dmVideo": {
     "cover": "Omslag",
@@ -3060,7 +3062,7 @@
       "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
       "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
       "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen",
-      "fractionGift": "{{name}} heeft je fracties gestuurd"
+      "fractionGift": "{{name}} heeft je fracties gestuurd", "storyLiked": "{{name}} vindt je moment leuk", "storyMention": "{{name}} noemde je in hun moment"
     }
   },
   "leaderboard": {
@@ -17934,7 +17936,8 @@
     "deleted_other": "{{count}} berichten verwijderd"
   },
   "profileImage": {
-    "change": "Wijzigen"
+    "change": "Wijzigen",
+    "view": "Foto bekijken"
   },
   "resetWallet": {
     "mismatch": "Wachtwoorden komen niet overeen",
@@ -18358,6 +18361,8 @@
   },
   "notes": {
     "add": "Notitie",
+    "yourStatus": "Jouw status",
+    "whatsUp": "Hoe gaat het?",
     "yourNote": "Jouw notitie",
     "count": "Notities {{count}}",
     "hide": "Verbergen",
@@ -18692,6 +18697,13 @@
     "shelfCollected": "Verzameld"
   },
   "nftCreate": {
+    "newNft": "Nieuwe NFT",
+    "untitled": "Zonder titel",
+    "addArt": "Voeg een afbeelding of GIF toe",
+    "tileEarn": "{{pct}} voor jou bij doorverkoop",
+    "otherCopies": "Anders",
+    "otherPlaceholder": "Elk getal, zoals 250 of 50000",
+    "chain": "Chain",
     "eyebrow": "Maken",
     "title": "Maak een NFT",
     "intro": "Een NFT is geen post. Hij staat hier op de markt: kies hoeveel exemplaren, wie verdient bij doorverkoop en extra's die alleen eigenaren kunnen openen.",

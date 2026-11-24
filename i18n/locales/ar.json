@@ -109,7 +109,7 @@
     "addToMoment": "إضافة إلى لحظتك",
     "moreActions": "خيارات القصة",
     "remixing": "إعادة مزج قصة {{name}}",
-    "watchOriginal": "مشاهدة القصة الأصلية",
+    "watchOriginal": "مشاهدة القصة الأصلية", "hiddenCount": "مخفي ({{count}})", "showHidden": "إظهار المخفي ({{count}})", "mentionedYou": "ذكرك في لحظته",
     "shareToMoment": "مشاركة في لحظة",
     "goToPost": "الانتقال إلى المنشور",
     "fromYourPost": "من منشورك", "fromAPost": "من منشور",
@@ -187,7 +187,9 @@
     "toEveryone": "الجميع",
     "toOnly": "{{name}} فقط",
     "signInToSay": "سجّل الدخول لتكتب شيئًا",
-    "saySomething": "قل شيئًا…"
+    "saySomething": "قل شيئًا…",
+    "momentEnded": "انتهت تلك اللحظة",
+    "momentOpenFailed": "تعذّر فتح تلك اللحظة"
   },
   "dmVideo": {
     "cover": "الغطاء",
@@ -2872,7 +2874,7 @@
       "governanceVotedRejected": "لم يتم تمرير الاقتراح الذي صوتّ عليه: \"{{title}}\"",
       "governancePassed": "تمت الموافقة على اقتراحك \"{{title}}\" 🎉",
       "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\"",
-      "fractionGift": "{{name}} أرسل لك حصصًا"
+      "fractionGift": "{{name}} أرسل لك حصصًا", "storyLiked": "أعجب {{name}} بلحظتك", "storyMention": "ذكرك {{name}} في لحظته"
     }
   },
   "leaderboard": {
@@ -17707,7 +17709,8 @@
     "deleted_other": "تم حذف {{count}} رسائل"
   },
   "profileImage": {
-    "change": "تغيير"
+    "change": "تغيير",
+    "view": "عرض الصورة"
   },
   "resetWallet": {
     "mismatch": "كلمتا المرور غير متطابقتين",
@@ -18139,6 +18142,8 @@
   },
   "notes": {
     "add": "ملاحظة",
+    "yourStatus": "حالتك",
+    "whatsUp": "ما الجديد؟",
     "yourNote": "ملاحظتك",
     "count": "الملاحظات {{count}}",
     "hide": "إخفاء",
@@ -18489,6 +18494,13 @@
     "shelfCollected": "اقتناها"
   },
   "nftCreate": {
+    "newNft": "NFT جديد",
+    "untitled": "بدون عنوان",
+    "addArt": "أضف صورة أو GIF",
+    "tileEarn": "{{pct}} لك عند إعادة البيع",
+    "otherCopies": "غير ذلك",
+    "otherPlaceholder": "أي رقم، مثل 250 أو 50000",
+    "chain": "الشبكة",
     "eyebrow": "إنشاء",
     "title": "أنشئ NFT",
     "intro": "الـ NFT ليس منشورًا. إنه هنا في السوق: اختر عدد النسخ ومن يربح من إعادة البيع وإضافات لا يفتحها إلا المالكون.",

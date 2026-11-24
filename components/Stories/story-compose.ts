@@ -31,6 +31,8 @@ export interface TextLayer {
   /** Clockwise degrees around the centre. */
   rotation?: number;
   mentionAddress?: string;
+  /** Dragged off the picture: not drawn. A hidden mention is still told. */
+  hidden?: boolean;
 }
 
 function layoutLine(line: string, px: number, layer: TextLayer) {
@@ -90,6 +92,8 @@ export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
   const clamp = (value: number) => Math.min(1, Math.max(0, value));
   return layers.flatMap((layer) => {
     if (!layer.mentionAddress) return [];
+    // Off the picture: no tap target, but the person still hears about it.
+    if (layer.hidden) return [{ address: layer.mentionAddress, x: 0, y: 0, w: 0, h: 0, hidden: true }];
     const px = Math.round(layer.size * OUT_W);
     const paragraph = layoutLine(layer.text, px, layer);
     const halfW = (paragraph.getLongestLine() + px * 0.64) / (2 * OUT_W);

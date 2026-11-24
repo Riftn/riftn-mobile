@@ -184,6 +184,9 @@ export interface NotificationItem {
     planId?: string;
     followId?: string;
     quoteTokenId?: number;
+    /** story_like / story_mention: the moment, and its public poster frame when it has one. */
+    storyId?: string;
+    storyPoster?: string;
     /** Where a mention was made: 'post', 'comment', 'live_chat' or 'public_chat'. */
     mentionContext?: string;
     roomId?: string;

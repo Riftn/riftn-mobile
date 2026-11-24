@@ -508,6 +508,18 @@ if [ "$MODE" = feedline ]; then
   exit 0
 fi
 
+if [ "$MODE" = barsback ]; then
+  # Header and bottom nav after Back: main's code, then this checkout's on
+  # several themes.
+  run before "barsback-main-system" "" barsback system
+  for theme in ${BARS_THEMES:-system system-light hazy osaka}; do
+    run after "barsback-$theme" "" barsback "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = profiletabs ]; then
   # Profile tab taps, filmed: main's code, then this checkout's. Signed in it
   # walks your own profile (not filmed), signed out araf's.

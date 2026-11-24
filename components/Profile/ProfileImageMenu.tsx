@@ -110,9 +110,11 @@ interface ProfileImageMenuProps {
   /** A pasted image, already cropped. */
   onPasted?: (kind: ProfileImageKind, uri: string) => void;
   onRemove?: (kind: ProfileImageKind) => void;
+  /** Shown first when a tap on the picture does something else (plays their Moment). */
+  onView?: (kind: ProfileImageKind) => void;
 }
 
-export default function ProfileImageMenu({ target, onClose, canEdit, imageUrl, hasImage, onChange, onPasted, onRemove }: ProfileImageMenuProps) {
+export default function ProfileImageMenu({ target, onClose, canEdit, imageUrl, hasImage, onChange, onPasted, onRemove, onView }: ProfileImageMenuProps) {
   const { t } = useTranslation();
   const kind = target?.kind ?? "avatar";
   const url = target ? imageUrl(kind) : undefined;
@@ -128,6 +130,9 @@ export default function ProfileImageMenu({ target, onClose, canEdit, imageUrl, h
   }, [kind, onClose, onPasted, t]);
 
   const tiles: HoldTile[] = [];
+  if (onView && url) {
+    tiles.push({ key: "view", icon: "Image", label: t("profileImage.view", { defaultValue: "View photo" }), prime: !canEdit, onPress: () => { onClose(); onView(kind); } });
+  }
   if (canEdit && onChange) {
     tiles.push({ key: "change", icon: "ImagePlus", label: t("profileImage.change"), prime: true, onPress: () => { onClose(); onChange(kind); } });
   }

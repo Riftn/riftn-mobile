@@ -63,6 +63,7 @@ import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
+import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
@@ -121,6 +122,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   const shortAddr = truncateAddress(address, 5, 5);
   const live = useIsUserLive(address, user?.username);
+  // Your own Moment up: it shows on the corner of your face and a tap plays it.
+  const moment = useFaceMoment(address);
+  const openMoments = useOpenMoments(address);
   // Explicit sizes: this avatar renders at 88pt, well above the 48pt default
   // getAvatarUrl assumes for feed and comment rows, and the cover is full-bleed.
   const avatarUrl = getAvatarUrl(user?.avatarImageUrl, PROFILE_AVATAR_PT);
@@ -383,11 +387,14 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               liveQuiet
               onLongPress={() => imageMenu.open("avatar")}
               onPress={() =>
-                openViewer(
-                  localAvatarUri || (avatarFullUrl === "default-avatar" ? undefined : avatarFullUrl)
-                )
+                moment
+                  ? void openMoments()
+                  : openViewer(
+                      localAvatarUri || (avatarFullUrl === "default-avatar" ? undefined : avatarFullUrl)
+                    )
               }
             />
+            <MomentPeekBadge peek={moment} size={96} big />
             </View>
             <TouchableOpacity
               onPress={startChangeAvatar}
@@ -624,6 +631,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         target={imageMenu.target}
         onClose={imageMenu.close}
         canEdit
+        onView={moment ? (kind) => openViewer(kind === "avatar"
+          ? localAvatarUri || (avatarFullUrl !== "default-avatar" ? avatarFullUrl : undefined)
+          : localCoverUri || (coverFullUrl !== "default-banner" ? coverFullUrl : undefined)) : undefined}
         imageUrl={(kind) =>
           kind === "avatar"
             ? localAvatarUri || (avatarFullUrl !== "default-avatar" ? avatarFullUrl : undefined)

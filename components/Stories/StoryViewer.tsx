@@ -117,7 +117,7 @@ export default function StoryViewer({
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
   const snapshot: StoryItem | undefined = entry?.items[itemIdx];
-  const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except';
+  const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except' || snapshot?.audience === 'close_friends';
   const delivery = useQuery({
     queryKey: ['private-story-playback', snapshot?.id, me],
     queryFn: () => getStory(snapshot!.id, true),
@@ -560,6 +560,9 @@ export default function StoryViewer({
             <Text style={styles.whoSub} numberOfLines={1}>
               {t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
               {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
+              {item.closeFriends || item.audience === "close_friends" ? (
+                <Text style={{ color: "#4ade80", fontWeight: "700" }}>{` · ★ ${t("stories.closeFriends", { defaultValue: "Close friends" })}`}</Text>
+              ) : null}
             </Text>
           </Pressable>
           {(item.type === "video" && !item.muted) || item.song ? (

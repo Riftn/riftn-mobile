@@ -105,6 +105,7 @@ import {
   MINIMAL_HAIRLINE,
 } from "../theme/minimal";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
+import { openMomentById } from '../libs/open-moment';
 
 type NotificationTypeFilter = 'all' | 'likes' | 'follows' | 'comments' | 'reposts' | 'features' | 'communities' | 'stores' | 'subscriptions' | 'tips' | 'payments' | 'livestreams';
 
@@ -157,6 +158,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
   likes: [
     NotificationType.LIKE,
     NotificationType.COMMENT_LIKE,
+    NotificationType.STORY_LIKE,
     ...(['generation_like', 'generation_comment_like', 'feature_request_like', 'governance_vote', 'feature_request_comment_like', 'governance_comment_like'] as unknown as NotificationType[]),
   ],
   follows: [NotificationType.FOLLOWING, NotificationType.FOLLOW_REQUEST, NotificationType.FOLLOW_REQUEST_ACCEPTED],
@@ -164,6 +166,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
     NotificationType.COMMENT,
     NotificationType.COMMENT_REPLY,
     NotificationType.MENTION,
+    NotificationType.STORY_MENTION,
     ...([
       'community_mention',
       'feature_request_comment',
@@ -405,6 +408,11 @@ const isNotificationClickable = (notification: NotificationItem): boolean => {
   // Non-clickable types (dislike doesn't generate notifications but just in case)
   if (NON_CLICKABLE_TYPES.has(type)) return false;
 
+  // A like or mention on a moment opens that moment.
+  if (type === NotificationType.STORY_LIKE || type === NotificationType.STORY_MENTION) {
+    return typeof notification.metadata?.storyId === 'string';
+  }
+
   // Badge lending rows open settings, so they carry neither a tokenId nor
   // anything the default test below would pass them on.
   if (BADGE_DELEGATION_TYPES.has(typeStr)) return true;
@@ -478,6 +486,9 @@ const THUMB_PT = 44;
  * the app asks for.
  */
 function resolveNotificationThumbnail(item: NotificationItem, width = THUMB_PT): string | undefined {
+  // Moments carry their public poster frame (none for private ones).
+  const momentPoster = item.metadata?.storyPoster;
+  if (typeof momentPoster === 'string' && momentPoster.startsWith('https://')) return momentPoster;
   const raw = item.tokenThumbnail?.trim();
   if (raw) {
     const absolute = /^https?:\/\//i.test(raw) ? raw : buildCdnPath(raw) ?? raw;
@@ -1655,6 +1666,11 @@ const NotificationScreen = () => {
         if (metadata?.articleUrl) openInApp(metadata.articleUrl);
         break;
 
+      case NotificationType.STORY_LIKE:
+      case NotificationType.STORY_MENTION:
+        void openMomentById(metadata?.storyId, (user as { walletAddress?: string } | null)?.walletAddress || user?.address);
+        break;
+
       case 'mention':
         // Tagged in a bio: the profile whose bio names you ("Remove me" is in its menu).
         if (metadata?.mentionContext === 'bio') {
@@ -1686,6 +1702,7 @@ const NotificationScreen = () => {
     openBountyByNumber,
     navigation,
     user?.address,
+    user?.walletAddress,
     user?.username,
   ]);
 

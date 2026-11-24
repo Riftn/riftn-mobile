@@ -49,8 +49,9 @@ import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import { truncateAddress } from "../libs/strings.util";
 import { toastInfo, toastSuccess, toastError } from "../libs/toast";
 import { toast } from "sonner-native";
-import NotesSheet from "../components/DM/NotesSheet";
+import NotesSheet, { StatusRow } from "../components/DM/NotesSheet";
 import type { NoteEntry } from "../services/notes.service";
+import type { StoryAuthor } from "../services/stories.service";
 import { scheduleDelete, undoDelete, usePendingDeletes, UNDO_WINDOW_MS } from "../libs/undoable-delete";
 import { blockUser } from "../services/block.service";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
@@ -124,6 +125,13 @@ const DirectMessagesInner: React.FC = () => {
   const [notesVisible, setNotesVisible] = useState(false);
   const [notesView, setNotesView] = useState<NoteEntry | null>(null);
   const openNotes = useCallback((entry: NoteEntry | null) => { setNotesView(entry); setNotesVisible(true); }, []);
+  // You, for the Status row's first tile before you have posted one.
+  const statusMe = useMemo<StoryAuthor | null>(() => {
+    const u = user as any;
+    const address = (u?.address || u?.walletAddress || "") as string;
+    if (!address) return null;
+    return { address, username: u?.username ?? null, displayName: u?.displayName ?? null, avatarImageUrl: u?.avatarImageUrl || u?.avatarUrl || null };
+  }, [user]);
   // Notes ride in the chat cards: a person's in their chat, members' in a group's.
   const { data: memberships } = useQuery({
     queryKey: ["communities", "user", myAddress],
@@ -824,6 +832,13 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
+      {/* Statuses from people you follow, Instagram style, above the chat cards. */}
+      {!!myAddress && tabFilter === "all" && !customTab && !showingArchive && !query.trim() && (
+        <>
+          <StatusRow me={statusMe} onOpen={openNotes} />
+          <View style={SEPARATOR} />
+        </>
+      )}
       {(tabFilter === "all" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
       <ChatCard unread={publicUnread > 0 || !!publicReactions}>
@@ -934,7 +949,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR, openNotes],
+    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR, openNotes, statusMe],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);

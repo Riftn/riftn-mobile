@@ -23,3 +23,13 @@ it('shows authorized Moment links with optional DM text and excludes unrelated l
   expect(parseSharedMoment(url + '?reply=1')).toBeNull();
   expect(parseSharedMoment(url.replace('riftn.com', 'external.example'))).toBeNull();
 });
+
+describe('moment mention DMs', () => {
+  const momentId = '0123456789abcdef01234567';
+  it('shows the server mention DM as a moment card, whatever it is shareable', () => {
+    const { parseSharedMoment, parseMomentReply } = require('../../libs/moment-reply');
+    const text = `Mentioned you in their moment\nhttps://riftn.com/moment/${momentId}?mention=1`;
+    expect(parseMomentReply(text)).toBeNull();
+    expect(parseSharedMoment(text)).toEqual({ id: momentId, text: '', shared: true, mention: true });
+  });
+});

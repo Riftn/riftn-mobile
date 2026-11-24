@@ -109,6 +109,8 @@ export function localizedNotificationContent(
     fraction_offer_rejected: 'notifications.custom.fractionOfferRejected',
     fraction_purchased: 'notifications.custom.fractionPurchased',
     fraction_gift: 'notifications.custom.fractionGift',
+    story_like: 'notifications.custom.storyLiked',
+    story_mention: 'notifications.custom.storyMention',
     comment_like: 'notifications.likedComment',
     following: 'notifications.startedFollowing',
     subscription: 'notifications.subscribedPlan',

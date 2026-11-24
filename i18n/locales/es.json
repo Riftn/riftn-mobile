@@ -109,7 +109,7 @@
     "addToMoment": "Añadir a tu momento",
     "moreActions": "Opciones de la historia",
     "remixing": "Remix de la historia de {{name}}",
-    "watchOriginal": "Ver la historia original",
+    "watchOriginal": "Ver la historia original", "hiddenCount": "Ocultos ({{count}})", "showHidden": "Mostrar ocultos ({{count}})", "mentionedYou": "Te mencionó en su momento",
     "shareToMoment": "Compartir en Momento",
     "goToPost": "Ir a la publicación",
     "fromYourPost": "De tu publicación", "fromAPost": "De una publicación",
@@ -187,7 +187,9 @@
     "toEveryone": "Todos",
     "toOnly": "Solo {{name}}",
     "signInToSay": "Inicia sesión para escribir",
-    "saySomething": "Di algo…"
+    "saySomething": "Di algo…",
+    "momentEnded": "Ese Momento ya terminó",
+    "momentOpenFailed": "No se pudo abrir ese Momento"
   },
   "dmVideo": {
     "cover": "Cubierta",
@@ -2872,7 +2874,7 @@
       "governanceVotedRejected": "Una propuesta por la que votó no ha sido aprobada: «{{title}}»",
       "governancePassed": "Su propuesta «{{title}}» se ha aprobado 🎉",
       "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado",
-      "fractionGift": "{{name}} te envió fracciones"
+      "fractionGift": "{{name}} te envió fracciones", "storyLiked": "A {{name}} le gustó tu momento", "storyMention": "{{name}} te mencionó en su momento"
     }
   },
   "leaderboard": {
@@ -17683,7 +17685,8 @@
     "deleted_other": "{{count}} mensajes eliminados"
   },
   "profileImage": {
-    "change": "Cambiar"
+    "change": "Cambiar",
+    "view": "Ver foto"
   },
   "resetWallet": {
     "mismatch": "Las contraseñas no coinciden",
@@ -18107,6 +18110,8 @@
   },
   "notes": {
     "add": "Nota",
+    "yourStatus": "Tu estado",
+    "whatsUp": "¿Qué tal?",
     "yourNote": "Tu nota",
     "count": "Notas {{count}}",
     "hide": "Ocultar",
@@ -18441,6 +18446,13 @@
     "shelfCollected": "Coleccionados"
   },
   "nftCreate": {
+    "newNft": "Nuevo NFT",
+    "untitled": "Sin título",
+    "addArt": "Añade una imagen o un GIF",
+    "tileEarn": "{{pct}} para ti en reventas",
+    "otherCopies": "Otro",
+    "otherPlaceholder": "Cualquier número, como 250 o 50000",
+    "chain": "Cadena",
     "eyebrow": "Crear",
     "title": "Crea un NFT",
     "intro": "Un NFT no es una publicación. Vive aquí en el mercado: elige cuántas copias, quién gana en las reventas y extras que solo pueden abrir los dueños.",
