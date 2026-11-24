@@ -25,6 +25,9 @@ export default function MomentArchive() {
         className="self-start min-h-11 flex-row items-center gap-2 px-2">
         <Ionicons name="archive-outline" size={17} color="#a1a1aa" />
         <Text className="font-semibold text-theme-neutrals-100">{t('stories.momentArchive', { defaultValue: 'Moment archive' })}</Text>
+        {/* Says out loud that nobody else sees it (the server only returns it to you). */}
+        <Ionicons name="lock-closed" size={12} color="#a1a1aa" />
+        <Text className="text-xs text-theme-neutrals-400">{t('stories.archiveOnlyYou')}</Text>
       </Pressable>
       {open && <ArchiveItems key={address + canSeeMature} address={address} canSeeMature={canSeeMature} />}
     </View>
