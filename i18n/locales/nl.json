@@ -18470,6 +18470,8 @@
     }
   },
   "notes": {
+    "background": "Achtergrond",
+    "yourPhoto": "Je foto",
     "newStatus": "Nieuwe status",
     "upFor": "{{time}} geleden geplaatst",
     "postedAgo": "{{time}} geleden",

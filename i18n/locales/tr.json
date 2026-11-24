@@ -18213,6 +18213,8 @@
     }
   },
   "notes": {
+    "background": "Arka plan",
+    "yourPhoto": "Fotoğrafın",
     "newStatus": "Yeni durum",
     "upFor": "{{time}} önce paylaşıldı",
     "postedAgo": "{{time}} önce",

@@ -18223,6 +18223,8 @@
     }
   },
   "notes": {
+    "background": "Arrière-plan",
+    "yourPhoto": "Ta photo",
     "newStatus": "Nouveau statut",
     "upFor": "Publié il y a {{time}}",
     "postedAgo": "il y a {{time}}",

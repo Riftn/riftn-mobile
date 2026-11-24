@@ -18251,6 +18251,8 @@
     }
   },
   "notes": {
+    "background": "الخلفية",
+    "yourPhoto": "صورتك",
     "newStatus": "حالة جديدة",
     "upFor": "منشورة منذ {{time}}",
     "postedAgo": "منذ {{time}}",
