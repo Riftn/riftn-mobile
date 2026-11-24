@@ -14,11 +14,13 @@ import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeUrlFor, getInlineBadgeOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
 import { renderLinkEmojis } from "../common/LinkEmoji";
+import { expandEmojiTokens } from "../common/EmojiText";
 import { TEXT_SHADOW } from "../common/ViewerChrome";
 import { claimFlight, currentFlight, reportRow, setChatAnchor, subscribeFlight, type Flight } from "../../libs/liveChatFlight";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
 import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
+import { stripBold } from "../../libs/bold-markup";
 
 /**
  * Messages ride the picture, not a pill.
@@ -220,7 +222,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
           <View className="flex-1 flex-shrink">
           {a.replyTo ? (
             <Text numberOfLines={1} style={{ ...TEXT_SHADOW, color: "rgba(255,255,255,0.6)" }} className="text-[11px] mb-0.5">
-              {"\u21B3 "}<Text className="font-semibold">{a.replyTo.name}</Text>{a.replyTo.content ? ` ${a.replyTo.content}` : ""}
+              {"\u21B3 "}<Text className="font-semibold">{a.replyTo.name}</Text>{a.replyTo.content ? ` ${stripBold(a.replyTo.content)}` : ""}
             </Text>
           ) : null}
           <Text style={MESSAGE_TEXT} className="text-[13px] leading-[18px]">
@@ -238,7 +240,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
               ) : null}
               {creatorBadges ? <Text accessibilityLabel={creatorBadges.label} style={{ fontSize: 12 }}>{" "}{creatorBadges.emojis}</Text> : null}{" "}
             </Text>
-            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{renderLinkEmojis(translation.isTranslated ? translation.translatedTexts.content : a.meta?.content, { onLongPress: onHold ? handleHold : undefined })}</Text> : null}
+            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{expandEmojiTokens(renderLinkEmojis(translation.isTranslated ? translation.translatedTexts.content : a.meta?.content, { onLongPress: onHold ? handleHold : undefined }))}</Text> : null}
           </Text>
           {a.meta?.gifUrl ? <Image source={{ uri: outsideImage(a.meta.gifUrl) }} style={{ width: 160, height: 120, borderRadius: 8, marginTop: 4 }} contentFit="cover" /> : null}
           {translation.shouldShow && (

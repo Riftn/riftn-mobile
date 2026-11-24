@@ -229,6 +229,7 @@ import { trackPlayerWatchTime } from "../libs/watch-time";
 import { useVideoSoundtrack } from "../hooks/useVideoSoundtrack";
 import { parseSoundtrack } from "../libs/parseSoundtrack";
 import { applyVideoVolume } from "../libs/dub-mix";
+import { BoldText } from "../libs/bold-markup";
 
 
 
@@ -2844,7 +2845,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                       numberOfLines={captionExpanded ? undefined : 1}
                       style={styles.captionTitle}
                     >
-                      {shownTitle}
+                      <BoldText text={shownTitle} heavy />
                     </Text>
                   ) : null}
                   {shownDescription ? (
@@ -2852,7 +2853,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                       numberOfLines={captionExpanded ? undefined : 2}
                       style={styles.captionBody}
                     >
-                      {shownDescription}
+                      <BoldText text={shownDescription} />
                     </Text>
                   ) : null}
                   {/* Web shows the affordance on a long description; the title

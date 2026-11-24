@@ -107,6 +107,7 @@ import { anchorFromReadSpot } from "../../libs/chatReadPosition";
 import { useChatReadPosition } from "../../hooks/useChatReadPosition";
 import { roomChatId } from "../../services/dm/dm.api";
 import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../DM/DeleteMessageSheet";
+import { stripBold } from "../../libs/bold-markup";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const PHOTO_MAX_BYTES = 10 * 1024 * 1024;
@@ -266,7 +267,7 @@ const ChatRow: React.FC<{
               {message.reply_to.sender_name}
             </Text>
             <Text className="text-white/50 text-xs" numberOfLines={1}>
-              {message.reply_to.content}
+              {stripBold(message.reply_to.content)}
             </Text>
           </Pressable>
         )}

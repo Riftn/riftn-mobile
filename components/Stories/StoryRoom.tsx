@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { getStoryComments, type StoryComment } from "../../services/stories.service";
 import { avatarOf } from "./story-utils";
 import { MomentHeart } from "./MomentIcons";
+import { BoldText } from "../../libs/bold-markup";
 
 const FLOATING = 4;
 
@@ -69,7 +70,7 @@ function Row({ c, rise, fade }: { c: StoryComment; rise: boolean; fade: number }
       <Face c={c} />
       <Text style={styles.text} numberOfLines={2}>
         <Text style={styles.name}>{nameOfComment(c)}  </Text>
-        {c.text}
+        <BoldText text={c.text} />
       </Text>
     </Animated.View>
   );

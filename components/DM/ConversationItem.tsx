@@ -32,6 +32,7 @@ import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 import { NoteFaceRing, NoteTag } from "./NotesSheet";
 import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { NoteEntry } from "../../services/notes.service";
+import { stripBold } from "../../libs/bold-markup";
 
 interface ConversationItemProps {
   conversation: DmConversation;
@@ -137,7 +138,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
       const amt = last.tipSymbol && last.tipSymbol !== "DHB"
         ? `${Number(last.tipAmount).toLocaleString()} ${last.tipSymbol}`
         : t("dm.tokenAmount", { amount: Number(last.tipAmount).toLocaleString() });
-      const contentPreview = previewLinks(last.content ?? "").replace(/\n/g, " ")?.trim();
+      const contentPreview = stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ")?.trim();
       const msgLabel = last.msgType === "gif" ? "GIF" : last.msgType === "media" ? mediaLabel : contentPreview || t("dm.message");
       return {
         previewText: withPrefix(`${msgLabel} · ${amt}`),
@@ -146,7 +147,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
     }
     // Per-message fee message (paymentStatus set but no tipAmount — fee-based)
     if (last.paymentStatus || last.paymentTxHash) {
-      const contentPreview = previewLinks(last.content ?? "").replace(/\n/g, " ")?.trim();
+      const contentPreview = stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ")?.trim();
       const msgLabel = last.msgType === "gif" ? "GIF" : last.msgType === "media" ? mediaLabel : contentPreview || t("dm.message");
       return {
         previewText: withPrefix(t("dm.paidPreview", { label: msgLabel })),
@@ -186,7 +187,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         previewIcon: null,
       };
     }
-    const text = previewLinks(last.content ?? "").replace(/\n/g, " ") || "";
+    const text = stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ") || "";
     return {
       previewText: withPrefix(text),
       previewIcon: null,

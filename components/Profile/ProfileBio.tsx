@@ -2,6 +2,7 @@ import React from "react";
 import { Text } from "react-native";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { chatMentionSpans } from "../../libs/community-mentions";
+import { applyBold } from "../../libs/bold-markup";
 
 export default function ProfileBio({ text }: { text: string }) {
   const { showUserProfile } = useUserProfileSheet();
@@ -22,5 +23,5 @@ export default function ProfileBio({ text }: { text: string }) {
     );
     offset = end;
   }
-  return <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{parts}{text.slice(offset)}</Text>;
+  return <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{applyBold([...parts, text.slice(offset)])}</Text>;
 }

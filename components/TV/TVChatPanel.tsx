@@ -42,6 +42,7 @@ import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } fr
 import { useTranslation as useTextTranslation } from "../../hooks/useTranslation";
 import TranslateButton from "../ui/TranslateButton";
 import { MessageReportModal, type MessageReport } from "../common/MessageReportHost";
+import { stripBold } from "../../libs/bold-markup";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const MAX_LEN = 500;
@@ -111,7 +112,7 @@ const ChatRow: React.FC<{
               {message.reply_to.sender_name}
             </Text>
             <Text className="text-white/50 text-xs" numberOfLines={1}>
-              {message.reply_to.content}
+              {stripBold(message.reply_to.content)}
             </Text>
           </View>
         )}
@@ -412,7 +413,7 @@ const TVChatPanel: React.FC<TVChatPanelProps> = ({
               {replyTo.display_name || replyTo.username || t("tv.user")}
             </Text>
             <Text style={styles.replyBody} numberOfLines={1}>
-              {replyTo.content || t("tv.media")}
+              {stripBold(replyTo.content) || t("tv.media")}
             </Text>
           </View>
           <Pressable
