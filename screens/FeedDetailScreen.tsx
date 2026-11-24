@@ -18,6 +18,10 @@ import { FEED_SIDE, FEED_TOP } from "../components/Home/feedLayout";
 import { getNFT, type Comment, likeComment, type LikeCommentResult, dislikeComment, type DislikeCommentResult, reactComment, type ReactCommentResult, postComment, editComment, deleteComment, pinComment, hideReply, postImageComment, postGifComment, postAudioComment, postMediaComment, recordCommentViews, setThreadOrder } from "../services/nft.service";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 import FeedCard, { resolveContentType } from "../components/Home/FeedCard";
+import { FEED_BENTO_RADIUS } from "../libs/feed-image-layout";
+import { PostBgLayer, ProfilePostBgArtContext } from "../components/Profile/PostBackground";
+import { gridTileKind } from "../components/Profile/ProfileGridTile";
+import { useAuthorPostBg } from "../components/Profile/useAuthorPostBg";
 import { authorThreadFirst, byThreadOrder, isAuthorThreadRoot, selectAuthorThreadIds } from "../libs/author-thread";
 import AuthorThreadBlock from "../components/Comments/AuthorThreadBlock";
 import { CommentBottomSheet, CommentItem } from "../components/Comments";
@@ -68,7 +72,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import type { PostReaction } from "../libs/reactions";
 import PostDetailContinuation from "../components/Advertising/PostDetailContinuation";
 import { createDrawGate } from "../libs/drawGate";
-import { useAppTheme } from "../context/ThemeContext";
+import { DarkRoomProvider, useAppTheme } from "../context/ThemeContext";
 import { MINIMAL_INSET, MINIMAL_TAB_LINE } from "../theme/minimal";
 import { peekPostDetailSeed, postWarmKey, takeWarmRequest } from "../libs/navPrefetch";
 import { useTransitionSettled } from "../hooks/useTransitionSettled";
@@ -140,6 +144,13 @@ const IMMERSIVE_TYPES = new Set<ReturnType<typeof resolveContentType>>(["video",
 
 // Rows are px-8, the avatar is 32 wide and CommentItem pads it 10 from the top,
 // so the line runs at x = 32 + 16 and the avatar's centre sits at y = 26.
+const styles = StyleSheet.create({
+  postBgHost: { borderRadius: FEED_BENTO_RADIUS, overflow: "hidden" },
+  // The flat text post spans the screen; on a backdrop it gets the feed's gutter.
+  postBgHostFlat: { marginHorizontal: 8, marginTop: 4 },
+  postBgVeil: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.42)" },
+});
+
 const threadLineStyles = StyleSheet.create({
   above: { position: "absolute", left: 48, top: 0, height: 26, width: 1, backgroundColor: "rgba(255,255,255,0.2)" },
   below: { position: "absolute", left: 48, top: 26, bottom: 0, width: 1, backgroundColor: "rgba(255,255,255,0.2)" },
@@ -1592,6 +1603,25 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   // on top once the media has gone, and the composer is docked at the bottom.
   // Loading, private and missing posts keep the plain header.
   const stage = stageLayout && !!item;
+  // A text post opens on its author's post background, the look its profile
+  // tile has (its own backdrop first, else the profile's).
+  const textBg = useAuthorPostBg(item && !(item as any).isRepost && gridTileKind(item) === "text" ? (item as any) : null);
+  const onBackdrop = useCallback((card: React.ReactElement, flatCard: boolean) => {
+    if (!textBg.bg || !item) return card;
+    return (
+      <ProfilePostBgArtContext.Provider value={textBg.art}>
+        {/* The card is drawn as in System (white words, clear card) on the
+            backdrop in every theme. A light backdrop gets a veil so they read. */}
+        <DarkRoomProvider>
+          <View className="dark-surface" style={[styles.postBgHost, flatCard && styles.postBgHostFlat]}>
+            <PostBgLayer bg={textBg.bg} seed={String(item.tokenId ?? item.id ?? "")} />
+            {textBg.bg.tone === "light" ? <View pointerEvents="none" style={styles.postBgVeil} /> : null}
+            {card}
+          </View>
+        </DarkRoomProvider>
+      </ProfilePostBgArtContext.Provider>
+    );
+  }, [textBg, item]);
   // Only a video keeps the immersive page with the back icon on its player.
   const videoPost = immersive && !!item && resolveContentType(item) !== "image";
   // Phone text and image posts: the post, an ad straight under it, then more
@@ -1672,13 +1702,16 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         // first card (InfiniteVideoFeed's 4pt), as on phone web. The photo
         // still opens the full screen viewer, the video the shorts viewer.
         <View style={{ paddingHorizontal: FEED_SIDE, paddingTop: FEED_TOP }}>
-          <FeedCard
-            item={item}
-            fullContent
-            disablePress
-            prioritizeMedia
-            onCommentPress={handleStageComment}
-          />
+          {onBackdrop(
+            <FeedCard
+              item={item}
+              fullContent
+              disablePress
+              prioritizeMedia
+              onCommentPress={handleStageComment}
+            />,
+            false,
+          )}
         </View>
       ) : item && immersive ? (
         <FeedCard
@@ -1694,14 +1727,17 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
       ) : item ? (
         // No bento: a text post lies flat and full width like the immersive
         // ones, the same as the web post page.
-        <FeedCard
-          item={item}
-          fullContent
-          disablePress
-          prioritizeMedia
-          flat
-          onCommentPress={openCommentSheet}
-        />
+        onBackdrop(
+          <FeedCard
+            item={item}
+            fullContent
+            disablePress
+            prioritizeMedia
+            flat
+            onCommentPress={openCommentSheet}
+          />,
+          true,
+        )
       ) : loading ? (
         <View className="px-4 pt-4">
           <RouteBusyMark />
