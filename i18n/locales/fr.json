@@ -8475,6 +8475,7 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "likeHint": "Maintenez pour plus de réactions",
     "showChat": "Afficher le chat",
     "hideChat": "Masquer le chat",
     "saySomething": "Dis quelque chose...",

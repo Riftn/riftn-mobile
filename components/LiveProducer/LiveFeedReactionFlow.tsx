@@ -44,7 +44,7 @@ export default function LiveFeedReactionFlow({
   // Reactions are a core-namespace room, and every core connection is a fresh
   // room to join — the epoch below is what makes the re-join happen.
   const { on, emit, coreConnected: connected, connectionEpoch } = useWebSocket();
-  const { flow, addReaction, clearReactions } = useReactions();
+  const { flow, addReaction, launchReaction, clearReactions } = useReactions();
   const { isSignedIn } = useAuthState();
   useEffect(() => {
     clearReactions();
@@ -75,8 +75,9 @@ export default function LiveFeedReactionFlow({
   useEffect(() => {
     if (!self || self.nonce === lastSelfNonce.current) return;
     lastSelfNonce.current = self.nonce;
-    addReaction(self.type, undefined, self.weight ?? 1);
-  }, [self, addReaction]);
+    // Up at once, one per tap, rather than queued behind the room.
+    launchReaction(self.type, self.weight ?? 1);
+  }, [self, launchReaction]);
 
   return <ReactionOverlay flow={flow} bottom={12} maxHeight={laneHeight} clip={laneHeight == null} />;
 }

@@ -8471,6 +8471,7 @@
     "volume": "Volumen"
   },
   "liveViewer": {
+    "likeHint": "Mantén pulsado para más reacciones",
     "showChat": "Mostrar chat",
     "hideChat": "Ocultar chat",
     "saySomething": "Di algo...",

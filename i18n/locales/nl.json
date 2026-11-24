@@ -8609,6 +8609,7 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "likeHint": "Houd ingedrukt voor meer reacties",
     "showChat": "Chat tonen",
     "hideChat": "Chat verbergen",
     "saySomething": "Zeg iets...",

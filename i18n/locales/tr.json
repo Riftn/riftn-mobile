@@ -8465,6 +8465,7 @@
     "volume": "Ses düzeyi"
   },
   "liveViewer": {
+    "likeHint": "Daha fazla tepki için basılı tut",
     "showChat": "Sohbeti göster",
     "hideChat": "Sohbeti gizle",
     "saySomething": "Bir şey söyle...",

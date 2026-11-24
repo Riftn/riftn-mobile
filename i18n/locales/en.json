@@ -8237,6 +8237,7 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "likeHint": "Hold for more reactions",
     "showChat": "Show chat",
     "hideChat": "Hide chat",
     "saySomething": "Say something...",
