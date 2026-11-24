@@ -8476,6 +8476,10 @@
   },
   "liveViewer": {
     "likeHint": "Maintenez pour plus de réactions",
+    "minimise": "Réduire",
+    "soundOnly": "Son uniquement",
+    "showPicture": "Afficher l'image",
+    "openLive": "Ouvrir le live",
     "showChat": "Afficher le chat",
     "hideChat": "Masquer le chat",
     "saySomething": "Dis quelque chose...",

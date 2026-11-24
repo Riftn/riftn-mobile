@@ -59,6 +59,8 @@ interface LiveViewerHeaderProps {
   onOptionsPress?: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
+  /** Keeps the live playing in a small window while you use the app. */
+  onMinimise?: () => void;
 }
 
 const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
@@ -75,6 +77,7 @@ const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
   onOptionsPress,
   isMuted,
   onToggleMute,
+  onMinimise,
 }) => {
   const navigation = useNavigation<any>();
   const { showUserProfile } = useUserProfileSheet();
@@ -224,6 +227,18 @@ const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
             accessibilityLabel={t("postOptions.options", { defaultValue: "Options" })}
           >
             <ShadowedIcon name="EllipsisVertical" size={21} />
+          </Pressable>
+        ) : null}
+        {onMinimise ? (
+          <Pressable
+            onPress={onMinimise}
+            hitSlop={CHROME_HIT_SLOP}
+            style={styles.chromeButton}
+            accessibilityRole="button"
+            accessibilityLabel={t("liveViewer.minimise", { defaultValue: "Minimise" })}
+            testID="live-minimise"
+          >
+            <ShadowedIcon name="ChevronDown" size={23} />
           </Pressable>
         ) : null}
         <Pressable

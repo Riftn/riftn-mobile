@@ -8466,6 +8466,10 @@
   },
   "liveViewer": {
     "likeHint": "Daha fazla tepki için basılı tut",
+    "minimise": "Küçült",
+    "soundOnly": "Yalnızca ses",
+    "showPicture": "Görüntüyü göster",
+    "openLive": "Canlı yayını aç",
     "showChat": "Sohbeti göster",
     "hideChat": "Sohbeti gizle",
     "saySomething": "Bir şey söyle...",

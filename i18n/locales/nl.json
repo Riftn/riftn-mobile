@@ -8610,6 +8610,10 @@
   },
   "liveViewer": {
     "likeHint": "Houd ingedrukt voor meer reacties",
+    "minimise": "Minimaliseren",
+    "soundOnly": "Alleen geluid",
+    "showPicture": "Beeld tonen",
+    "openLive": "Live openen",
     "showChat": "Chat tonen",
     "hideChat": "Chat verbergen",
     "saySomething": "Zeg iets...",

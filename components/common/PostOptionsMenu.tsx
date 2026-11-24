@@ -207,6 +207,8 @@ export interface PostOptionsMenuProps {
   canCast?: boolean;
   /** Live streams: opens the clip editor on the last minute ("Clip this moment"). */
   onClip?: () => void;
+  /** Live streams: hands the live to the phone's floating window. */
+  onFloat?: () => void;
   onRemix?: (mode: 'green-screen' | 'collab' | 'sound' | 'cut') => void;
   /** Open the post's info page. Hosts that can navigate pass this. */
   onInfoPress?: () => void;
@@ -452,6 +454,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onDownloadImage,
   canCast = false,
   onClip,
+  onFloat,
   onRemix,
   onInfoPress,
   onAskAi,
@@ -823,6 +826,10 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           {/* Bookmark / pin / post info — first, as in the web drawer. A host
               that also shows these on its action bar still passes them: the
               menu is where people look for an action by name. */}
+          {!!onFloat && (
+            <OptionRow icon="PictureInPicture2" label={t("player.pictureInPicture")}
+              onPress={() => { onClose(); onFloat(); }} />
+          )}
           {!!onClip && (
             <OptionRow icon="Scissors" label={t("liveClips.button", { defaultValue: "Clip this moment" })}
               onPress={() => { onClose(); onClip(); }} />
