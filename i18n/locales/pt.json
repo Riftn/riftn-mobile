@@ -3920,6 +3920,8 @@
     "loadMore": "Carregar mais"
   },
   "tip": {
+    "appSent": "Gorjeta de {{amount}} DHB enviada!",
+    "appFailed": "Sua gorjeta não foi enviada. Tente de novo.",
     "title": "Enviar gorjeta",
     "toCreator": "Gorjeta para {{name}}",
     "quickAmounts": "Valores rápidos",

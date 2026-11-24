@@ -1,4 +1,5 @@
 {
+  "profileSong": {"title": "Profil şarkısı", "hint": "Biyografinin altında bir şarkı. Dinlemek için dokunurlar.", "part": "Çalan kısım {{part}}", "change": "Şarkıyı değiştir", "remove": "Kaldır", "removed": "Profil şarkısı kaldırıldı", "saved": "Profil şarkısı kaydedildi", "saveFailed": "Profil şarkısı kaydedilemedi. Tekrar dene.", "autoplay": "Profilime girenlere çal", "autoplayHint": "Biri profilini açınca yavaşça başlar. Tek dokunuşla durdurabilirler.", "add": "Şarkı ekle", "cantUse": "Bu şarkı profilde kullanılamaz. Başka birini dene.", "play": "{{title}} çal", "pause": "{{title}} duraklat"},
   "painting": {
     "title": "Resim",
     "close": "Kapat",
@@ -2014,6 +2015,8 @@
     "remove": "Kaldır"
   },
   "tip": {
+    "appSent": "{{amount}} DHB bahşiş gönderildi!",
+    "appFailed": "Bahşişin gönderilmedi. Tekrar dene.",
     "addMessage": "Mesaj ekle (isteğe bağlı)",
     "messagePlaceholder": "Bahşişinle bir şey söyle",
     "messagePublic": "Herkese açık",

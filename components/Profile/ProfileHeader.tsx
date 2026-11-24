@@ -61,6 +61,7 @@ import MilestoneChips, { BadgeMuseumPanel } from "./BadgeMuseum";
 import { useMilestones } from "../../hooks/useMilestones";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
+import ProfileSongRow from "./ProfileSongRow";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
 import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
@@ -562,6 +563,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               <ProfileBio text={aboutText} />
             </View>
           )}
+
+          {/* The song under the bio: tap to play. */}
+          <ProfileSongRow customs={user?.customs as Record<string, unknown> | undefined} isOwn />
 
           {/* Creator or Business category, Instagram style. */}
           {!!readAccountCategory(user?.customs as Record<string, unknown> | undefined) && (
