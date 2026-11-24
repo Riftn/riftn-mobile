@@ -64,7 +64,8 @@ import { WEBSITE_LINK } from "../../config";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
 import { StreamChatRewards } from "../LiveViewer/StreamChatRewards";
-import LiveViewerChat, { type ChatActivity, type ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
+import LiveViewerChat, { colorForUser, type ChatActivity, type ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
+import LiveChatFlyer from "../LiveViewer/LiveChatFlyer";
 import CommentLikersSheet from "../Comments/CommentLikersSheet";
 import HoldSheet, { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING, type HoldTile } from "../ui/HoldSheet";
 import { copyToClipboard } from "../../libs/clipboard.utils";
@@ -1959,6 +1960,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     holdLift.value = withTiming(px, px ? HOLD_LIFT_TIMING : HOLD_SETTLE_TIMING);
   }, [holdLift]);
   const me = String(user?.walletAddress || user?.address || "").toLowerCase();
+  // Your name exactly as your own chat line draws it.
+  const flyerName: string = (user as any)?.displayName || (user as any)?.username || "";
   const heldId = held?.activity.id;
   // The viewer's own line whose "who reacted" list is open.
   const [reactorsFor, setReactorsFor] = useState<string | null>(null);
@@ -2391,6 +2394,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   actionsDisabled={!isSignedIn || !isLiveEffective}
                   commands={streamBotCommands}
                 />
+                {/* Your words on their way from the box into the chat. */}
+                {flyerName ? (
+                  <LiveChatFlyer name={flyerName} nameColor={colorForUser(flyerName)} avatarUri={getAvatarUrl((user as any)?.avatarImageUrl) || undefined} />
+                ) : null}
               </View>
             </View>
           </View>
