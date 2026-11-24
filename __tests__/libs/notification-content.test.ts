@@ -71,6 +71,11 @@ describe('grouped community chat rows', () => {
     expect(localizedNotificationContent(row(['james', 'charlie', 'dana']), t)).toBe('james + 2 others sent messages in Riftn');
   });
   it('says a moment comment in the reader language with the comment itself', () => {
+    const translate = (language: string) => {
+      const instance = createInstance();
+      instance.init({ lng: language, fallbackLng: 'en', resources: { en: { translation: en }, tr: { translation: tr } } });
+      return instance.t.bind(instance);
+    };
     expect(localizedNotificationContent({ type: 'story_comment', actorUsername: 'edit', commentPreview: 'harika' }, translate('tr')))
       .toBe('edit Anına yorum yaptı: “harika”');
     expect(localizedNotificationContent({ type: 'story_comment', actorUsername: 'edit', metadata: { reply: true } }, translate('en')))
