@@ -23,6 +23,7 @@ import { avatarOf, coverOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
+import StoryCreateBar from "./StoryCreateBar";
 
 const TILE_W = 86;
 const TILE_H = 118;
@@ -124,6 +125,11 @@ function StoryShelf() {
   // While the first load is still out the row keeps its seat with loading
   // tiles, signed in or not, so the feed under it never jumps down.
   if ((!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0) return null;
+  // Signed in and nobody has a Moment up (yours included): the ask bar takes
+  // the row's place instead of a lone "Your day" tile.
+  if (storiesEnabled && me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0) {
+    return <StoryCreateBar />;
+  }
 
   const shelfScroll = (
     <ScrollView
