@@ -3,13 +3,18 @@
  * acts on its own: for "react ❤️ to every post by @jules", "follow @x" or
  * reading your chats it offers this card, and one tap does it as you.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getAvatarUrl } from '../../libs/misc';
 import { openInApp } from '../../libs/links.utils';
 import { POST_REACTIONS, reactionMeta, type PostReaction } from '../../libs/reactions';
+import { lockedMediaUri } from '../../libs/dmLocked';
+import { gapLabel } from '../../libs/post-spacing';
+import { appLocale } from '../../libs/date.util';
+import { NavigationContext } from '@react-navigation/native';
+import { ScreenNames } from '../../navigation/ScreenNames';
 import {
   cancelAssistantAction,
   confirmAssistantAction,
@@ -45,12 +50,45 @@ function Person({ person }: { person: AssistantActionPerson }) {
   );
 }
 
+/** "Wed, Nov 26, 3:00 PM" in the phone's own time zone, or "Straight away". */
+function planTime(at: string | null, t: (k: string, o?: Record<string, unknown>) => string): string {
+  if (!at) return t('assistantCards.straightAway', { defaultValue: 'Straight away' });
+  const d = new Date(at);
+  const locale = appLocale() ?? undefined;
+  return `${d.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' })}, ${d.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' })}`;
+}
+
+/** The posts a schedule card will make, in order, each with its time. */
+function PlanList({ items }: { items: NonNullable<AssistantAction['preview']['items']> }) {
+  const { t } = useTranslation();
+  return (
+    <View style={s.plan}>
+      {items.map((item, i) => {
+        const uri = item.photo ? lockedMediaUri(item.photo) : undefined;
+        return (
+          <View key={i} style={s.planRow}>
+            {uri ? <Image source={{ uri }} style={s.planThumb} /> : (
+              <View style={[s.planThumb, s.planNum]}><Text style={s.avatarText}>{i + 1}</Text></View>
+            )}
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <Text style={s.planWhen}>{planTime(item.at, t)}</Text>
+              <Text style={s.muted} numberOfLines={1}>{item.text || t('assistantCards.photoOnly', { defaultValue: 'Photo, no text' })}</Text>
+            </View>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
 export default function AssistantActionCard({ actionId, initial }: { actionId: string; initial?: AssistantAction }) {
   const { t } = useTranslation();
   const [action, setAction] = useState<AssistantAction | null>(initial ?? null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [choice, setChoice] = useState<Choice | null>(null);
+  const navigation = useContext(NavigationContext);
+  const openPlanned = () => navigation?.navigate(ScreenNames.Planned as never);
   const poll = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const load = useCallback(async () => {
@@ -118,6 +156,14 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
           ? t('assistantCards.unfollow', { count, defaultValue: 'Unfollow {{count}}' })
           : kind === 'request_post'
             ? t('assistantCards.requestDraft', { defaultValue: 'Public request draft' })
+            : kind === 'schedule_posts'
+            ? count === 1
+              ? t('assistantCards.planOne', { defaultValue: 'Plan 1 post' })
+              : t('assistantCards.planMany', { count, defaultValue: 'Plan {{count}} posts' })
+            : kind === 'post_spacing'
+            ? preview.gapMinutes
+              ? t('assistantCards.spacingOn', { gap: gapLabel(preview.gapMinutes, t), defaultValue: 'Space my posts: {{gap}} apart' })
+              : t('assistantCards.spacingOff', { defaultValue: 'Turn off Space my posts?' })
             : preview.allow
             ? t('assistantCards.allowChats', { defaultValue: 'Let the assistant read your chats?' })
             : t('assistantCards.stopChats', { defaultValue: 'Stop the assistant reading your chats?' });
@@ -130,6 +176,12 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
           ? t('assistantCards.confirmUnfollow', { defaultValue: 'Unfollow' })
           : kind === 'request_post'
             ? t('assistantCards.postRequest', { defaultValue: 'Post to Build' })
+            : kind === 'schedule_posts'
+            ? t('assistantCards.confirmPlan', { defaultValue: 'Plan them' })
+            : kind === 'post_spacing'
+            ? preview.gapMinutes
+              ? t('assistantCards.confirmSpacingOn', { defaultValue: 'Turn on' })
+              : t('assistantCards.confirmSpacingOff', { defaultValue: 'Turn off' })
             : preview.allow
             ? t('assistantCards.confirmAllow', { defaultValue: 'Allow' })
             : t('assistantCards.confirmStop', { defaultValue: 'Stop' });
@@ -166,6 +218,17 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
         </Text>
       )}
       {(kind === 'follow' || kind === 'unfollow') && (preview.people || []).map((p) => <Person key={p.address} person={p} />)}
+      {kind === 'schedule_posts' && !!preview.items?.length && <PlanList items={preview.items} />}
+      {kind === 'schedule_posts' && status === 'pending' && (
+        <Text style={s.body}>{t('assistantCards.planWhy', { defaultValue: 'Each one waits in Planned, where you can move or cancel it.' })}</Text>
+      )}
+      {kind === 'post_spacing' && status === 'pending' && (
+        <Text style={s.body}>
+          {preview.gapMinutes
+            ? t('assistantCards.spacingWhy', { gap: gapLabel(preview.gapMinutes, t), defaultValue: 'Every post you make without a time waits {{gap}} after your last one.' })
+            : t('assistantCards.spacingOffWhy', { defaultValue: 'Posts go out as soon as you send them again.' })}
+        </Text>
+      )}
       {kind === 'chat_access' && preview.allow && (
         <Text style={s.body}>
           {t('assistantCards.allowChatsWhy', {
@@ -214,12 +277,26 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
           </Text>
         </View>
       )}
-      {status === 'done' && kind !== 'request_post' && (
+      {status === 'done' && kind === 'schedule_posts' && (
+        <View style={s.doneRow}>
+          <Ionicons name="checkmark" size={14} color="rgba(255,255,255,0.85)" />
+          <Text accessibilityRole="link" style={s.link} onPress={openPlanned}>
+            {result?.failed
+              ? t('assistantCards.donePlanSome', { count: result?.ok ?? 0, failed: result.failed, defaultValue: 'Planned {{count}}, {{failed}} could not be made. See Planned' })
+              : t('assistantCards.donePlan', { count: result?.ok ?? 0, defaultValue: 'Planned {{count}}. See Planned' })}
+          </Text>
+        </View>
+      )}
+      {status === 'done' && kind !== 'request_post' && kind !== 'schedule_posts' && (
         <View style={s.doneRow}>
           <Ionicons name="checkmark" size={14} color="rgba(255,255,255,0.85)" />
           <Text style={s.body}>
             {kind === 'react'
               ? t('assistantCards.doneReact', { count: result?.added ?? 0, defaultValue: 'Reacted to {{count}} posts' })
+              : kind === 'post_spacing'
+                ? result?.gapMinutes
+                  ? t('assistantCards.doneSpacingOn', { defaultValue: 'Space my posts is on' })
+                  : t('assistantCards.doneSpacingOff', { defaultValue: 'Space my posts is off' })
               : kind === 'chat_access'
                 ? result?.allowed
                   ? t('assistantCards.doneAllow', { defaultValue: 'Allowed. Ask your question again.' })
@@ -278,4 +355,9 @@ const s = StyleSheet.create({
   primaryText: { color: '#000000', fontSize: 14, fontWeight: '600' },
   ghost: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.18)' },
   ghostText: { color: 'rgba(255,255,255,0.85)', fontSize: 14 },
+  plan: { gap: 8 },
+  planRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  planThumb: { width: 40, height: 40, borderRadius: 8 },
+  planNum: { borderWidth: 1, borderColor: 'rgba(255,255,255,0.2)', alignItems: 'center', justifyContent: 'center' },
+  planWhen: { color: '#FFFFFF', fontSize: 12, fontWeight: '600' },
 });

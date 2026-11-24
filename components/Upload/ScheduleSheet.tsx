@@ -16,6 +16,7 @@ import { UserContext } from "../../context/AuthContext";
 import { KitButton, useKitColors } from "../page/PageKit";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
 import TimeWheel from "./TimeWheel";
+import { DripSection, PostSpacingSection } from "./PostSpacingSection";
 
 import { formatCount } from '../../libs/format-count';
 export type ScheduleKind = "post" | "live" | "stage" | "message";
@@ -33,6 +34,11 @@ interface ScheduleSheetProps {
   moving?: boolean;
   /** Messages only: offer "When they're next online" above the clock. */
   onWhenOnline?: () => void;
+  /** Posts with several photos: offer "One post each, spaced out". */
+  dripCount?: number;
+  /** Minutes between the drip's posts, or null for one post with them all. */
+  dripGap?: number | null;
+  onDripChange?: (gap: number | null) => void;
 }
 
 const STEP = 15;
@@ -56,7 +62,7 @@ const firstSlot = (minAhead: number) => {
  * pick, or choose a day from the strip and step the time. Page-kit chips and
  * buttons so every theme draws it like the rest of the app.
  */
-export default function ScheduleSheet({ visible, onClose, scheduledDate, onSchedule, title, minimumMinutes = 0, kind = "post", moving = false, onWhenOnline }: ScheduleSheetProps) {
+export default function ScheduleSheet({ visible, onClose, scheduledDate, onSchedule, title, minimumMinutes = 0, kind = "post", moving = false, onWhenOnline, dripCount = 0, dripGap = null, onDripChange }: ScheduleSheetProps) {
   const { t } = useTranslation();
   // Optional: the sheet also opens from modals that sit outside a navigator.
   const navigation = useContext(NavigationContext);
@@ -166,6 +172,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
     onSchedule(null);
     onClose();
   };
+  const dripping = !!dripGap && dripCount > 1 && !!onDripChange;
 
   const kindTip = kind === "live"
     ? t("whenSheet.liveTip", { defaultValue: "Your followers can set a reminder. You start the Live yourself when it is time." })
@@ -187,6 +194,15 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
+        {kind === "post" && !moving ? (
+          <>
+            <PostSpacingSection />
+            {dripCount > 1 && onDripChange ? (
+              <DripSection count={dripCount} gap={dripGap} onChange={onDripChange} start={validTime ? selectedAt : new Date()} />
+            ) : null}
+            <View style={styles.divider} />
+          </>
+        ) : null}
         {kind === "message" && onWhenOnline ? (
           <Pressable
             onPress={() => { onWhenOnline(); onClose(); }}
@@ -351,10 +367,13 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
 
         <View style={styles.actions}>
           <KitButton
-            label={t("whenSheet.scheduleFor", { defaultValue: "Schedule for {{when}}", when: `${dayLabel(day)}, ${timeLabel(selectedAt)}` })}
+            label={dripping
+              ? t("postSpacing.planFrom", { defaultValue: "Plan {{count}} posts from {{when}}", count: dripCount, when: `${dayLabel(day)}, ${timeLabel(selectedAt)}` })
+              : t("whenSheet.scheduleFor", { defaultValue: "Schedule for {{when}}", when: `${dayLabel(day)}, ${timeLabel(selectedAt)}` })}
             onPress={handleConfirm}
             disabled={!validTime}
           />
+          {dripping ? <KitButton variant="quiet" label={t("postSpacing.startNow", { defaultValue: "Start now" })} onPress={handleClear} /> : null}
           {scheduledDate && !moving ? <KitButton variant="quiet" label={t("whenSheet.remove", { defaultValue: "Remove schedule" })} onPress={handleClear} /> : null}
           {!moving && navigation && kind !== "message" ? (
             <Pressable
@@ -400,6 +419,7 @@ const styles = StyleSheet.create({
   dayNum: { color: "#FFFFFF", fontSize: 18, fontWeight: "600" },
   dayNumActive: { fontWeight: "800" },
   beam: { position: "absolute", bottom: 2, left: "30%", right: "30%", height: 3, borderRadius: 3 },
+  divider: { height: StyleSheet.hairlineWidth, backgroundColor: "rgba(255,255,255,0.12)" },
   note: { color: "rgba(255,255,255,0.6)", fontSize: 12, textAlign: "center", marginTop: -6 },
   actions: { gap: 8, marginTop: 4 },
   fansToggle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 4 },

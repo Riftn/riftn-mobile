@@ -1,6 +1,6 @@
 import { apiClient } from "../libs/api.client";
 
-export type AssistantActionKind = "react" | "follow" | "unfollow" | "chat_access" | "request_post";
+export type AssistantActionKind = "react" | "follow" | "unfollow" | "chat_access" | "request_post" | "schedule_posts" | "post_spacing";
 export type AssistantActionStatus = "pending" | "running" | "done" | "cancelled" | "failed" | "expired";
 
 export interface AssistantActionPerson {
@@ -28,6 +28,11 @@ export interface AssistantAction {
       category: 'ui_ux' | 'performance' | 'new_feature' | 'bug_fix' | 'integration' | 'other';
     };
     duplicates?: { id: string; title: string }[];
+    /** schedule_posts: each planned post (photo is a stored key; at null = straight away). */
+    items?: { text: string; photo: string | null; at: string | null }[];
+    /** schedule_posts: minutes between posts; post_spacing: the new gap (0 = off). */
+    gapMinutes?: number | null;
+    before?: number;
   };
   result: {
     done?: number;
@@ -35,6 +40,9 @@ export interface AssistantAction {
     added?: number;
     ok?: number;
     allowed?: boolean;
+    tokenIds?: number[];
+    failed?: number;
+    gapMinutes?: number;
     requestId?: string;
     used?: Record<string, number>;
   } | null;

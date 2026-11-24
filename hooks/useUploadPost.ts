@@ -76,6 +76,8 @@ export type UploadPayload = {
   attachedSound?: AttachedSound;
   pollData?: SerializedPollData;
   scheduledAt?: Date;
+  /** 'skip' posts now even when Space my posts is on (a drip's first photo). */
+  spacing?: 'skip';
   /** Post mint chain override (e.g. Solana 101). Defaults to active EVM chain. */
   postChainId?: number;
   /** Solana minter address (base58) — required when postChainId is a Solana chain. */
@@ -276,8 +278,8 @@ export function useUploadPost() {
   );
 
 
-  const enqueueJob = useCallback(
-    (p: UploadPayload): boolean => {
+  const buildJob = useCallback(
+    (p: UploadPayload): UploadJob | null => {
       const mode = p.pickedVideo ? "video" : p.pickedAudio ? "audio" : p.pickedImages.length > 0 ? "images" : "text";
       // Every video posts as `video`. The server's shorts lane already picks up
       // any video of 90s or less by duration, so a vertical clip lands in Shorts
@@ -317,7 +319,7 @@ export function useUploadPost() {
       // rather than [] so a gate is never stored with nothing behind it.
       if (p.monetization.subscribersEnabled && (!plansReady || !myPlanIds.length || isSolanaChain(p.postChainId))) {
         toastError(_copy("monetization.publishPlanFirst"));
-        return false;
+        return null;
       }
       const subscriberPlanIds = p.monetization.subscribersEnabled ? myPlanIds : undefined;
       const thumb = p.coverUri || p.thumbnailUri || null;
@@ -343,6 +345,7 @@ export function useUploadPost() {
         planIds: subscriberPlanIds,
         pollData: p.pollData,
         scheduledAt: p.scheduledAt?.toISOString(),
+        spacing: p.spacing,
         contentRating: p.contentRating,
         forKids: p.forKids,
         shopLinks: p.shopLinks,
@@ -380,7 +383,7 @@ export function useUploadPost() {
 
       if (postingOnSolana && !p.solanaAddress) {
         toastError(_copy("copy.ceae840b1f84", { defaultValue: "Solana wallet unavailable — this device does not hold your wallet key. Sign in again to restore it." }));
-        return false;
+        return null;
       }
 
       const job: UploadJob = {
@@ -406,21 +409,34 @@ export function useUploadPost() {
         mintOptOut: p.shouldMint === false && !isBounty,
       };
 
-      const queued = uploadActions.enqueue(job);
-      if (!queued) {
-        toastError(_copy("copy.bba244c3bd5d", { defaultValue: "Queue full (max {{value1}}). Wait for current uploads to finish.", value1: MAX_QUEUE_SIZE }));
-        return false;
-      }
-
-      // The composer has usually been uploading this video since it was
-      // attached; the job posts with that upload instead of sending it again.
-      const draft = video ? claimDraftVideo(video.uri, job.id) : null;
-      if (draft) uploadActions.setDraftVideo(job.id, draft);
-
-      return true;
+      return job;
     },
     [buildStreamInfo, user?.walletAddress, user?.address, activeChainId, myPlanIds, plansReady, _copy],
   );
+
+  const enqueueJobs = useCallback((payloads: readonly UploadPayload[]): boolean => {
+    const jobs: UploadJob[] = [];
+    for (const payload of payloads) {
+      const job = buildJob(payload);
+      if (!job) return false;
+      jobs.push(job);
+    }
+    if (!jobs.length) return false;
+    const queued = jobs.length === 1 ? uploadActions.enqueue(jobs[0]) : uploadActions.enqueueBatch(jobs);
+    if (!queued) {
+      toastError(_copy("copy.bba244c3bd5d", { defaultValue: "Queue full (max {{value1}}). Wait for current uploads to finish.", value1: MAX_QUEUE_SIZE }));
+      return false;
+    }
+    // Reuse uploads started when the composer attached a video.
+    for (const job of jobs) {
+      const video = job.payload.video;
+      const draft = video ? claimDraftVideo(video.uri, job.id) : null;
+      if (draft) uploadActions.setDraftVideo(job.id, draft);
+    }
+    return true;
+  }, [buildJob, _copy]);
+
+  const enqueueJob = useCallback((payload: UploadPayload) => enqueueJobs([payload]), [enqueueJobs]);
 
   const enqueueQuoteJob = useCallback(
     (p: {
@@ -518,6 +534,7 @@ export function useUploadPost() {
     validate,
     preUploadCheck,
     enqueueJob,
+    enqueueJobs,
     enqueueQuoteJob,
   };
 }
