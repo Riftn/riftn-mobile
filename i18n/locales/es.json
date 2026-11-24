@@ -8472,7 +8472,12 @@
     "volume": "Volumen"
   },
   "liveViewer": {
+    "backToLive": "Volver al directo",
     "likeHint": "Mantén pulsado para más reacciones",
+    "minimise": "Minimizar",
+    "soundOnly": "Solo sonido",
+    "showPicture": "Mostrar imagen",
+    "openLive": "Abrir directo",
     "showChat": "Mostrar chat",
     "hideChat": "Ocultar chat",
     "saySomething": "Di algo...",

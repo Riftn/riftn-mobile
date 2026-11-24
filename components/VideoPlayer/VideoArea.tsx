@@ -4,6 +4,7 @@ import React, { useMemo, useState, useCallback } from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import VideoPlayerCore from "../VideoPlayerCore";
+import type { LiveControl } from "../../libs/liveTimeshift";
 import { toastInfo } from "../../libs";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useUser, useAuthState, useAuthActions, useProvider } from "../../context/AuthContext";
@@ -27,6 +28,10 @@ export interface VideoAreaProps {
   onProgress?: (positionMs: number, durationMs: number) => void;
   /** See VideoPlayerCore — the live viewer draws its own scrub line. */
   seekRef?: React.MutableRefObject<((ratio: number) => void) | null>;
+  /** A live's pause / play / move-back (see VideoPlayerCore). */
+  liveControlRef?: React.MutableRefObject<LiveControl | null>;
+  /** Where a live opens: paused and how far behind (see VideoPlayerCore). */
+  liveStart?: { paused: boolean; behind: number; at: number } | null;
   isLive?: boolean;
   suppressLoadingFeedback?: boolean;
   onPPVSuccess?: () => void;
@@ -51,6 +56,8 @@ const VideoArea: React.FC<VideoAreaProps> = ({
   tokenId,
   onProgress,
   seekRef,
+  liveControlRef,
+  liveStart,
   isLive,
   suppressLoadingFeedback,
   onPPVSuccess,
@@ -411,7 +418,8 @@ const VideoArea: React.FC<VideoAreaProps> = ({
   <View className={containerClass} pointerEvents="auto">
       <VideoPlayerCore
         sourceUrl={normalizedUrl}
-        autoplay
+        // A live opened from a pause waits on its paused frame.
+        autoplay={!(isLive && liveStart?.paused)}
         liveMode={!!isLive}
         suppressLoadingFeedback={suppressLoadingFeedback}
         hideTopControls={hideTopControls}
@@ -423,6 +431,8 @@ const VideoArea: React.FC<VideoAreaProps> = ({
         creator={isLive ? undefined : minterAddress}
         onProgress={onProgress}
         seekRef={seekRef}
+        liveControlRef={liveControlRef}
+        liveStart={liveStart}
       />
     </View>
   );

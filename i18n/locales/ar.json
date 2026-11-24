@@ -8496,7 +8496,12 @@
     "volume": "مستوى الصوت"
   },
   "liveViewer": {
+    "backToLive": "العودة إلى البث المباشر",
     "likeHint": "اضغط مطولاً لمزيد من التفاعلات",
+    "minimise": "تصغير",
+    "soundOnly": "الصوت فقط",
+    "showPicture": "إظهار الصورة",
+    "openLive": "فتح البث",
     "showChat": "إظهار الدردشة",
     "hideChat": "إخفاء الدردشة",
     "saySomething": "قل شيئًا...",
