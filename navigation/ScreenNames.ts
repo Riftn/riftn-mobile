@@ -104,6 +104,7 @@ export enum ScreenNames {
   CorrespondenceChess = 'CorrespondenceChess',
   Okey = 'Okey',
   SillyCoin = 'SillyCoin',
+  Gratitude = 'Gratitude',
   Apps = 'Apps',
   MiniApp = 'MiniApp',
   /** Same component as MiniApp, in developer mode: any URL, clearly marked. */

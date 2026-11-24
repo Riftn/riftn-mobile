@@ -127,7 +127,7 @@ export interface NotificationData {
   // Quote post reference
   quoteTokenId?: number;
   // Games with friends (game_turn)
-  game?: 'chess' | 'okey' | 'sillycoin';
+  game?: 'chess' | 'okey' | 'sillycoin' | 'gratitude';
   gameId?: string;
 }
 
@@ -656,8 +656,8 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           }
           break;
 
-        // Your move in correspondence chess, your turn at an Okey table, or
-        // SillyCoins someone sent you.
+        // Your move in correspondence chess, your turn at an Okey table or in
+        // Gratitude pen pals, or SillyCoins someone sent you.
         case 'game_turn' as NotificationType: {
           const link = typeof data.deepLink === 'string' ? data.deepLink : '';
           if (data.game === 'sillycoin' || link.includes('/arcade/sillycoin')) {
@@ -667,7 +667,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           const gameId = typeof data.gameId === 'string' && data.gameId
             ? data.gameId
             : link.match(/[?&](?:game|table)=([^&#]+)/)?.[1];
-          if (data.game === 'okey' || link.includes('/arcade/okey')) {
+          if (data.game === 'gratitude' || link.includes('/arcade/gratitude')) {
+            navigation.navigate(ScreenNames.Gratitude, gameId ? { game: gameId } : undefined);
+          } else if (data.game === 'okey' || link.includes('/arcade/okey')) {
             navigation.navigate(ScreenNames.Okey, gameId ? { table: gameId } : undefined);
           } else {
             navigation.navigate(ScreenNames.CorrespondenceChess, gameId ? { game: gameId } : undefined);
