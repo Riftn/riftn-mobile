@@ -39,25 +39,22 @@ jest.mock('../../components/common/Avatar', () => 'Avatar');
 jest.mock('../../services/stories.service', () => ({}));
 jest.mock('../../store/stories.store', () => ({ openStoryViewer: (...args: unknown[]) => mockOpenStory(...args), openStoryCreator: () => mockOpenCreator(), storiesState: {} }));
 jest.mock('../../config/storefront', () => ({}));
+jest.mock('../../hooks/useLiveAudience', () => ({ useLiveAudience: () => ({ data: undefined }) }));
 
-it('renders readable captions on sharp covers and respects badge visibility', () => {
+it('names each pill and respects badge visibility', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const nodes = () => tree.root.findAll(node => typeof node.type === 'string');
   for (const label of ['Maya Chen', 'River Song']) {
-    const text = nodes().find(node => String(node.type) === 'Text' && node.props.children === label);
-    expect(text?.props.style).toMatchObject({ color: '#fff' });
+    expect(nodes().some(node => String(node.type) === 'Text' && node.props.children === label)).toBe(true);
   }
   expect(nodes().some(node => node.props.source === 42)).toBe(true);
-  expect(nodes().some(node => node.props.source?.uri === 'opening.jpg')).toBe(true);
-  expect(nodes().some(node => node.props.blurRadius)).toBe(false);
   act(() => tree.unmount());
   mockAccount.hideBadgeAndBalance = true;
   act(() => { tree = create(<StoryShelf />); });
   expect(nodes().some(node => node.props.source === 42)).toBe(false);
-  expect(nodes().some(node => node.props.source?.uri === 'opening.jpg')).toBe(true);
-  expect(nodes().some(node => node.props.blurRadius)).toBe(false);
   act(() => tree.unmount());
+  mockAccount.hideBadgeAndBalance = false;
 });
 
 it('keeps Live, Stories and the create button independently tappable', () => {
@@ -71,23 +68,23 @@ it('keeps Live, Stories and the create button independently tappable', () => {
   expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
   tap('River Song');
   expect(mockOpenStory).toHaveBeenCalledWith(expect.any(Array), 0);
-  // With nothing of your own up, the row leads with the Create tile (it opens the create sheet).
-  expect(tree.root.findAll(node => String(node.type) === 'StoryCreateTile' || node.props.width === 86).length).toBeGreaterThan(0);
+  // With nothing of your own up, the row leads with the + key, as tall as the pills.
+  expect(tree.root.findAll(node => node.props.width === 52 && node.props.height === 52).length).toBeGreaterThan(0);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
 });
 
-it('uses a thin grey outline on live and moment tiles in light mode', () => {
+it('outlines live and moment pills with no grey fill in light mode', () => {
   let tree!: ReactTestRenderer;
   mockIsLight = true;
   try {
     act(() => { tree = create(<StoryShelf />); });
-    const outlines = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
-      (style: { borderColor?: string } | undefined) => style?.borderColor === 'rgba(113,113,122,0.24)',
+    const pills = tree.root.findAll(node => String(node.type) === 'TouchableOpacity' && Array.isArray(node.props.style) && node.props.style.some(
+      (style: { borderColor?: string } | undefined) => style?.borderColor === 'hsla(240,8%,4%,0.1)',
     ));
-    expect(outlines).toHaveLength(2);
-    for (const outline of outlines) {
-      expect(outline.props.style).toContainEqual({ borderColor: 'rgba(113,113,122,0.24)' });
+    expect(pills).toHaveLength(2);
+    for (const pill of pills) {
+      expect(pill.props.style).toContainEqual({ borderColor: 'hsla(240,8%,4%,0.1)', backgroundColor: 'transparent' });
     }
   } finally {
     act(() => tree?.unmount());

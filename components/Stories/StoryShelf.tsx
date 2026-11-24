@@ -1,9 +1,8 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { AccessibilityInfo, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useSnapshot } from "valtio";
@@ -19,7 +18,7 @@ import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, LiveFace, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
-import { avatarOf, coverOf, nameOf, playable } from "./story-utils";
+import { avatarOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
@@ -27,6 +26,7 @@ import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 import { storage } from "../../libs/storage";
 import { formatCount } from "../../libs/format-count";
 import { formatShortAgo } from "../../libs/date.util";
+import { useLiveAudience } from "../../hooks/useLiveAudience";
 
 /** What Home's Moments seat held last time, read before the first frame. */
 type ShelfSeat = "row" | "ask" | "none";
@@ -42,14 +42,6 @@ function readShelfSeat(): ShelfSeat {
 function saveShelfSeat(seat: ShelfSeat) {
   try { storage.set(SHELF_SEAT_KEY, seat); } catch { /* the row is assumed next time */ }
 }
-
-const TILE_W = 86;
-const TILE_H = 118;
-/** Rounded-square faces, as on web: 24 px with the 1 px rim, 8 px corners. */
-const FACE = 22;
-const FACE_R = 7;
-/** Face and corner chips sit this far in from the tile edge. */
-const CHIP_INSET = 7;
 
 type ShelfData = Awaited<ReturnType<typeof getStoryShelf>> & { askedHosts?: string };
 
@@ -126,7 +118,6 @@ function StoryShelf() {
   const heldSeat = useRef<ShelfSeat>(readShelfSeat());
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
-  const { isLight } = useAppTheme();
   const scrollGuard = useHorizontalScrollGuard();
   const shelfGuard = useHorizontalSectionGuard(scrollGuard);
 
@@ -166,46 +157,41 @@ function StoryShelf() {
   if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
   if (holding ? lastSeat === "ask" : bare) return <StoryCreateBar />;
 
-  // With only 1 to 3 things up the row would end in empty space, so the first
-  // live (else the first Moment, else your own) grows into it and says more.
   const showMe = !!(storiesEnabled && me && (pending || ownWatchable));
   const shownOthers = storiesEnabled ? others : [];
-  const upCount = (showMe ? 1 : 0) + eligibleLive.length + shownOthers.length;
-  const few = !holding && !isLoading && upCount >= 1 && upCount <= 3;
-  const spotlight = !few ? null : eligibleLive[0] ? "live" : shownOthers[0] ? "person" : "me";
+  // How many pills are up. With exactly 1 the pill takes the whole row and
+  // shows a little more (who is watching, or the Moments themselves).
+  const upCount = holding || isLoading ? 0 : (showMe ? 1 : 0) + eligibleLive.length + shownOthers.length;
+  const single = upCount === 1;
 
   const shelfScroll = (
     <ScrollView
       horizontal
       nestedScrollEnabled
+      scrollEnabled={!single}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={[styles.row, few && styles.rowFill]}
+      contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {(storiesEnabled || holding) && me ? <StoryCreateTile width={TILE_W} height={TILE_H} /> : null}
+      {(storiesEnabled || holding) && me ? <StoryCreateTile width={PILL_H} height={PILL_H} /> : null}
       {showMe ? (
         <MeTile
-          spotlight={spotlight === "me"}
+          single={single}
           pending={pending as PendingMoment | null}
           avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
-          name={t("stories.yourDay", { defaultValue: "Your day" })}
+          name={t("stories.you", { defaultValue: "You" })}
           entry={ownWatchable}
           processing={!!own?.items.some((i) => i.status === "processing")}
           onOpen={() => ownWatchable && openEntry(ownWatchable)}
           onAdd={add}
         />
       ) : null}
-      {eligibleLive.map((item, index) => (
-        <LiveTile key={`${item.kind}-${item.id}`} item={item} spotlight={spotlight === "live" && index === 0} onOpen={() => openLive(item)} />
+      {eligibleLive.map((item) => (
+        <LiveTile key={`${item.kind}-${item.id}`} item={item} single={single} onOpen={() => openLive(item)} />
       ))}
-      {holding || (storiesEnabled && isLoading) ? [0, 1, 2, 3].map((index) => (
-        <View key={`loading-${index}`} style={[styles.tile, styles.loadingTile, isLight && styles.loadingTileLight]}>
-          <View style={[styles.loadingFace, isLight && styles.loadingBarLight]} />
-          <View style={[styles.loadingBar, isLight && styles.loadingBarLight]} />
-        </View>
-      )) : null}
-      {shownOthers.map((entry, index) => (
-        <PersonTile key={entry.author.address} entry={entry} spotlight={spotlight === "person" && index === 0} onOpen={() => openEntry(entry)} />
+      {holding || (storiesEnabled && isLoading) ? [0, 1, 2].map((index) => <LoadingPill key={`loading-${index}`} />) : null}
+      {shownOthers.map((entry) => (
+        <PersonTile key={entry.author.address} entry={entry} single={single} onOpen={() => openEntry(entry)} />
       ))}
     </ScrollView>
   );
@@ -220,66 +206,123 @@ function StoryShelf() {
   );
 }
 
-/** True inside a spotlight tile once it is wide enough for the bigger name and a line under it. */
-const SpotWide = createContext(false);
-const SPOT_MIN = 150;
+/** Pill colours. Written as hsla so the System Light tone pass leaves them alone. */
+function usePillColors() {
+  const { isLight, skin, accent } = useAppTheme();
+  return useMemo(() => {
+    const acc = skin && accent ? `rgba(${accent[0]},${accent[1]},${accent[2]},1)` : null;
+    return isLight
+      ? { ink: "hsla(240,8%,7%,1)", sub: "hsla(240,8%,4%,0.56)", line: "hsla(240,8%,4%,0.1)", fill: "transparent", ring: "hsla(240,8%,7%,1)", gap: "hsla(0,0%,100%,1)", wash: "hsla(240,5%,50%,0.2)" }
+      : { ink: "hsla(0,0%,100%,1)", sub: "rgba(255,255,255,0.6)", line: skin ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.14)", fill: skin ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.05)", ring: acc ?? "hsla(0,0%,100%,1)", gap: skin ? "rgba(20,16,32,0.9)" : "hsla(240,6%,5%,1)", wash: "rgba(127,127,135,0.25)" };
+  }, [isLight, skin, accent]);
+}
 
-function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, closeFriends, spotlight, spot, children }: {
-  cover?: string | null;
-  /** 1 to 3 things up: this tile grows into the spare room. */
-  spotlight?: boolean;
-  /** The line under the name once the spotlight is wide. */
-  spot?: string | null;
-  seen?: boolean;
-  /** A Close Friends Moment: green rim until watched. */
-  closeFriends?: boolean;
-  /** Settings > Blur Moment previews: the picture stays blurred until opened. */
-  blur?: boolean;
-  avatar: React.ReactNode | null;
+const PILL_H = 52;
+const FACE_SIZE = 36;
+const FACE_RADIUS = 12;
+
+function Pill({ label, onPress, single, children, extra }: {
   label: string;
   onPress: () => void;
-  badge?: React.ReactNode;
-  action?: React.ReactNode;
+  /** The only thing up: the pill takes the row and shows its extras. */
+  single?: boolean;
   children: React.ReactNode;
+  extra?: React.ReactNode;
 }) {
-  const { isLight } = useAppTheme();
-  const [width, setWidth] = useState(0);
-  const wide = !!spotlight && width >= SPOT_MIN;
+  const c = usePillColors();
   return (
-    <SpotWide.Provider value={wide}>
-    <View
-      className="dark-surface"
-      style={[styles.tile, spotlight && styles.tileSpot, seen && styles.tileSeen]}
-      onLayout={spotlight ? (e) => setWidth(e.nativeEvent.layout.width) : undefined}
+    <TouchableOpacity
+      style={[styles.pill, { borderColor: c.line, backgroundColor: c.fill }, single && styles.pillSingle]}
+      activeOpacity={0.85}
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
     >
-      <TouchableOpacity
-        style={StyleSheet.absoluteFill}
-        activeOpacity={0.85}
-        onPress={onPress}
-        accessibilityRole="button"
-        accessibilityLabel={label}
-      >
-        {cover ? (
-          <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill}
-            contentFit="cover" cachePolicy="memory-disk" blurRadius={blur ? 40 : undefined} />
-        ) : null}
-        <LinearGradient
-          colors={TILE_SHADE}
-          locations={TILE_SHADE_AT}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="none"
-        />
-        <View pointerEvents="none" style={[styles.frame, isLight && styles.lightFrame, closeFriends && !seen && styles.closeFriendsFrame]} />
-        {avatar ? <View pointerEvents="none" style={styles.avatar}>{avatar}</View> : null}
-        {badge}
-        {children}
-        {wide && spot ? <Text style={styles.spot} numberOfLines={1} pointerEvents="none">{spot}</Text> : null}
-        {/* Watched moments fade to grey so new ones stand out. */}
-        {seen ? <View pointerEvents="none" style={styles.seenWash} /> : null}
-      </TouchableOpacity>
-      {action}
+      {children}
+      {single && extra ? <View style={styles.extra} pointerEvents="none">{extra}</View> : null}
+    </TouchableOpacity>
+  );
+}
+
+/** The face with its ring: none once watched, green for Close Friends. */
+function PillFace({ children, seen, closeFriends }: { children: React.ReactNode; seen?: boolean; closeFriends?: boolean }) {
+  const c = usePillColors();
+  const ring = seen ? "transparent" : closeFriends ? "#22c55e" : c.ring;
+  return (
+    <View style={[styles.ring, { borderColor: ring }, seen && styles.faceSeen]} pointerEvents="none">
+      {children}
     </View>
-    </SpotWide.Provider>
+  );
+}
+
+function PillText({ name, line, after }: { name: React.ReactNode; line: string; after?: React.ReactNode }) {
+  const c = usePillColors();
+  return (
+    <View style={styles.text} pointerEvents="none">
+      <View style={styles.nameRow}>
+        {name}
+        {after}
+      </View>
+      {line ? <Text style={[styles.line, { color: c.sub }]} numberOfLines={1}>{line}</Text> : null}
+    </View>
+  );
+}
+
+function LoadingPill() {
+  const c = usePillColors();
+  return (
+    <View style={[styles.pill, styles.loadingPill, { borderColor: c.line }]}>
+      <View style={[styles.loadingFace, { backgroundColor: c.wash }]} />
+      <View style={styles.loadingBars}>
+        <View style={[styles.loadingBar, { backgroundColor: c.wash }]} />
+        <View style={[styles.loadingBar, styles.loadingBarShort, { backgroundColor: c.wash }]} />
+      </View>
+    </View>
+  );
+}
+
+function momentsLine(t: (key: string, options?: Record<string, unknown>) => string, count: number) {
+  return count === 1
+    ? t("stories.spot.oneMoment", { defaultValue: "1 Moment" })
+    : t("stories.spot.moments", { n: formatCount(count), defaultValue: "{{n}} Moments" });
+}
+
+/** Small covers of someone's Moments, when the pill has the room. */
+function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
+  const c = usePillColors();
+  const blurred = useMomentPreviewsBlurred();
+  if (!entry || blurred) return null;
+  const covers = entry.items
+    .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
+    .filter((url): url is string => !!url)
+    .slice(0, 3);
+  if (!covers.length) return null;
+  return (
+    <View style={styles.stack}>
+      {covers.map((url, i) => (
+        <Image key={url} source={{ uri: url }} recyclingKey={url} contentFit="cover" cachePolicy="memory-disk"
+          style={[styles.cover, { borderColor: c.gap }, i > 0 && styles.stackOverlap]} />
+      ))}
+    </View>
+  );
+}
+
+/** A few faces of who is watching a live, and how many more. */
+function LiveWatchers({ streamId }: { streamId: string }) {
+  const c = usePillColors();
+  const { data } = useLiveAudience(streamId);
+  const here = (data?.here ?? []).slice(0, 4);
+  if (!here.length) return null;
+  const more = Math.max(0, (data?.watching ?? 0) - here.length);
+  return (
+    <View style={styles.stack}>
+      {here.map((a, i) => (
+        <View key={a.address} style={[styles.watcher, { borderColor: c.gap }, i > 0 && styles.stackOverlap]}>
+          <Avatar uri={a.avatarImageUrl ? getAvatarUrl(a.avatarImageUrl, 48) ?? null : null} size={22} radius={7} name={a.displayName || a.username || a.address} />
+        </View>
+      ))}
+      {more > 0 ? <Text style={[styles.more, { color: c.sub }]}>+{formatCount(more)}</Text> : null}
+    </View>
   );
 }
 
@@ -289,11 +332,11 @@ function MeTile({
   name,
   entry,
   processing,
+  single,
   onOpen,
   onAdd,
-  spotlight,
 }: {
-  spotlight?: boolean;
+  single: boolean;
   pending: PendingMoment | null;
   avatar: string | null;
   name: string;
@@ -303,39 +346,37 @@ function MeTile({
   onAdd: () => void;
 }) {
   const { t } = useTranslation();
+  const c = usePillColors();
   const failed = pending?.state === "failed";
-  const caption = failed
+  const line = failed
     ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
     : pending || processing
       ? t("stories.posting", { defaultValue: "Posting…" })
-      : name;
+      : momentsLine(t, entry?.items.length ?? 0);
   return (
-    <ShelfTile
-      spotlight={spotlight}
-      cover={pending?.preview ?? (entry && coverOf(entry))}
-      avatar={failed ? null : <Avatar uri={avatar} size={FACE} radius={FACE_R} name={name} />}
-      label={failed ? caption : name}
+    <Pill
+      single={single}
+      label={failed ? line : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
+      extra={pending ? null : <MomentCovers entry={entry} />}
     >
+      <PillFace>
+        {failed
+          ? <View style={[styles.retry, { backgroundColor: c.wash }]}><Icon name="RotateCcw" size={16} color={c.ink} /></View>
+          : <Avatar uri={avatar} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />}
+      </PillFace>
+      <PillText name={<Text style={[styles.name, { color: c.ink }]} numberOfLines={1}>{name}</Text>} line={line} />
       {pending && !failed ? (
-        <View style={styles.progressTrack} pointerEvents="none">
-          <View style={[styles.progressFill, { width: `${pending.state === "processing" ? 100 : Math.max(6, Math.round(pending.progress * 100))}%` }]} />
+        <View style={[styles.progressTrack, { backgroundColor: c.wash }]} pointerEvents="none">
+          <View style={[styles.progressFill, { backgroundColor: c.ink, width: `${pending.state === "processing" ? 100 : Math.max(6, Math.round(pending.progress * 100))}%` }]} />
         </View>
       ) : null}
-      {failed ? (
-        <View style={styles.center} pointerEvents="none">
-          <View style={styles.retry}><Icon name="RotateCcw" size={18} color="#fff" /></View>
-        </View>
-      ) : null}
-      <View style={styles.label} pointerEvents="none">
-        <Text style={styles.name} numberOfLines={1}>{caption}</Text>
-      </View>
-    </ShelfTile>
+    </Pill>
   );
 }
 
-/** Live: a glass chip with sound bars moving (no red block), as on web. */
-function LiveBars({ label }: { label: string }) {
+/** Live: three moving sound bars after the name, as on web. */
+function LiveBars({ label, color }: { label: string; color: string }) {
   const bars = useRef([0.45, 0.8, 0.6].map((v) => new Animated.Value(v))).current;
   useEffect(() => {
     let stopped = false;
@@ -347,41 +388,38 @@ function LiveBars({ label }: { label: string }) {
     return () => { stopped = true; loops.forEach((l) => l.stop()); };
   }, [bars]);
   return (
-    <View pointerEvents="none" style={[styles.cornerBadge, styles.liveGlass]} accessible accessibilityLabel={label}>
+    <View pointerEvents="none" style={styles.bars} accessible accessibilityLabel={label}>
       {bars.map((bar, i) => (
-        <Animated.View key={i} style={[styles.liveBar, { transform: [{ scaleY: bar }] }]} />
+        <Animated.View key={i} style={[styles.liveBar, { backgroundColor: color, transform: [{ scaleY: bar }] }]} />
       ))}
     </View>
   );
 }
 
-function LiveTile({ item, spotlight, onOpen }: { item: LiveNowItem; spotlight?: boolean; onOpen: () => void }) {
+function LiveTile({ item, single, onOpen }: { item: LiveNowItem; single: boolean; onOpen: () => void }) {
   const { t } = useTranslation();
+  const c = usePillColors();
   const liveLabel = t("stages.live");
-  const audience = item.count
-    ? item.kind === "stage"
-      ? t("stories.spot.listening", { n: item.count, defaultValue: "{{n}} listening" })
-      : t("stories.spot.watching", { n: item.count, defaultValue: "{{n}} watching" })
-    : "";
+  const line = item.kind === "stage"
+    ? [item.count ? t("stories.spot.listening", { n: item.count, defaultValue: "{{n}} listening" }) : ""]
+    : [
+        item.count ? t("stories.spot.watching", { n: item.count, defaultValue: "{{n}} watching" }) : "",
+        item.views ? t("stories.spot.views", { n: formatCount(item.views), defaultValue: "{{n}} views" }) : "",
+      ];
   return (
-    <ShelfTile
-      spotlight={spotlight}
-      spot={[item.title, audience].filter(Boolean).join(" · ")}
-      cover={item.cover}
-      avatar={<LiveFace item={item} size={FACE} radius={FACE_R} live={false} />}
+    <Pill
+      single={single}
       label={`${item.title}, ${liveLabel}`}
       onPress={onOpen}
-      badge={
-        <LiveBars label={liveLabel} />
-      }
+      extra={item.kind === "stream" ? <LiveWatchers streamId={item.id} /> : null}
     >
-      <TileIdentity
-        displayName={item.displayName}
-        fallback={item.username || item.title}
-        lookup={item.kind === "stage" ? item.wallet : undefined}
-        badge={item.badge}
+      <PillFace><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} live={false} /></PillFace>
+      <PillText
+        name={<TileIdentity displayName={item.displayName} fallback={item.username || item.title} lookup={item.kind === "stage" ? item.wallet : undefined} badge={item.badge} />}
+        after={<LiveBars label={liveLabel} color={c.ink} />}
+        line={line.filter(Boolean).join(" · ") || item.title}
       />
-    </ShelfTile>
+    </Pill>
   );
 }
 
@@ -392,157 +430,73 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   badge?: number;
 }) {
   const account = useBadgeAccount(lookup);
-  const wide = useContext(SpotWide);
+  const c = usePillColors();
   const artwork = badge ?? (account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined);
   return (
-    <View style={wide ? [styles.label, styles.labelWide] : styles.label} pointerEvents="none">
-      <Text style={wide ? [styles.name, styles.nameWide] : styles.name} numberOfLines={1}>
+    <>
+      <Text style={[styles.name, { color: c.ink }]} numberOfLines={1}>
         {displayName?.trim() || account?.displayName?.trim() || fallback}
       </Text>
       {artwork != null && <Image source={artwork} style={styles.identityBadge} contentFit="contain" />}
-    </View>
+    </>
   );
 }
 
-/** Dark shade over each tile photo: top for the face, bottom for the name. */
-const TILE_SHADE = ["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"] as const;
-const TILE_SHADE_AT = [0, 0.36, 0.5, 1] as const;
-
-function PersonTile({ entry, spotlight, onOpen }: { entry: ShelfEntry; spotlight?: boolean; onOpen: () => void }) {
+function PersonTile({ entry, single, onOpen }: { entry: ShelfEntry; single: boolean; onOpen: () => void }) {
   const { t } = useTranslation();
   const name = nameOf(entry.author);
-  const blurred = useMomentPreviewsBlurred();
-  const moments = entry.items.length === 1
-    ? t("stories.spot.oneMoment", { defaultValue: "1 Moment" })
-    : t("stories.spot.moments", { n: formatCount(entry.items.length), defaultValue: "{{n}} Moments" });
   return (
-    <ShelfTile
-      spotlight={spotlight}
-      spot={[entry.latestAt ? formatShortAgo(entry.latestAt) : "", moments].filter(Boolean).join(" · ")}
-      cover={coverOf(entry)}
-      seen={entry.seen}
-      closeFriends={!!entry.closeFriends && !entry.own}
-      blur={blurred}
-      avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
-      label={name}
-      onPress={onOpen}
-    >
-      <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
-    </ShelfTile>
+    <Pill single={single} label={name} onPress={onOpen} extra={<MomentCovers entry={entry} />}>
+      <PillFace seen={entry.seen} closeFriends={!!entry.closeFriends && !entry.own}>
+        <Avatar uri={avatarOf(entry.author, 96)} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />
+      </PillFace>
+      <PillText
+        name={<TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />}
+        line={[entry.latestAt ? formatShortAgo(entry.latestAt) : "", momentsLine(t, entry.items.length)].filter(Boolean).join(" · ")}
+      />
+    </Pill>
   );
 }
 
 const styles = StyleSheet.create({
-  tileSeen: { opacity: 0.6 },
-  seenWash: { ...StyleSheet.absoluteFillObject, backgroundColor: "hsla(0, 0%, 45%, 0.45)" },
   wrap: { marginTop: 6, marginBottom: 8, flexGrow: 0 },
-  row: { gap: 8, paddingVertical: 2 },
-  rowFill: { flexGrow: 1 },
-  tileSpot: { flexGrow: 1, width: undefined, minWidth: TILE_W },
-  labelWide: { left: 12, right: 12, bottom: 29 },
-  nameWide: { fontSize: 16, letterSpacing: -0.16 },
-  spot: {
-    position: "absolute",
-    left: 12,
-    right: 12,
-    bottom: 11,
-    color: "rgba(255,255,255,0.82)",
-    fontSize: 12,
-    fontWeight: "600",
-    textShadowColor: "rgba(0,0,0,0.6)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 4,
-  },
-  tile: {
-    width: TILE_W,
-    height: TILE_H,
-    borderRadius: 16,
-    overflow: "hidden",
-    backgroundColor: "#292b32",
-  },
-  frame: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: 16,
+  row: { flexGrow: 1, gap: 8, paddingVertical: 2, alignItems: "center" },
+  pill: {
+    flexGrow: 1,
+    height: PILL_H,
+    borderRadius: 17,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.18)",
-  },
-  lightFrame: { borderColor: "rgba(113,113,122,0.24)" },
-  closeFriendsFrame: { borderWidth: 2, borderColor: "#22c55e" },
-  avatar: {
-    position: "absolute",
-    top: 7,
-    left: 7,
-    borderColor: "rgba(255,255,255,0.7)",
-    borderWidth: 1,
-    borderRadius: 8,
-    overflow: "hidden",
-    backgroundColor: "#3c404a",
-  },
-  label: {
-    position: "absolute",
-    left: 7,
-    right: 6,
-    bottom: 8,
     flexDirection: "row",
     alignItems: "center",
-    gap: 2,
-  },
-  identityBadge: { width: 12, height: 12 },
-  name: {
-    flexShrink: 1,
-    color: "#fff",
-    fontSize: 11.5,
-    fontWeight: "700",
-    textShadowColor: "rgba(0,0,0,0.7)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 4,
-  },
-  /** Corner chips match the face opposite: 24 px, 8 px corners, 7 px in. */
-  cornerBadge: {
-    position: "absolute",
-    top: 7,
-    right: 7,
-    height: 24,
-    minWidth: 24,
-    maxWidth: 46,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 5,
-    borderRadius: 8,
+    gap: 10,
+    paddingLeft: 6,
+    paddingRight: 12,
     overflow: "hidden",
-    borderWidth: 1,
   },
-  glassChip: { borderWidth: 0, paddingHorizontal: 6, backgroundColor: "rgba(255,255,255,0.12)" },
-  // Over the frosted photo the gradient alone is the fill, as on web.
-  glassChipOverPhoto: { backgroundColor: "transparent" },
-  glassRim: { ...StyleSheet.absoluteFillObject, borderRadius: 8, borderWidth: 1, borderColor: "rgba(255,255,255,0.55)" },
-  glassRimSeen: { borderColor: "rgba(255,255,255,0.3)" },
-  glassBackdrop: { position: "absolute", top: -CHIP_INSET, width: TILE_W, height: TILE_H },
-  glassSheen: { position: "absolute", top: 1, left: 6, right: 6, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
-  glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
-  liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
-  liveGlass: { flexDirection: "row", gap: 2, paddingHorizontal: 7, backgroundColor: "rgba(0,0,0,0.3)", borderColor: "rgba(255,255,255,0.5)" },
-  liveBar: { width: 2.5, height: 12, borderRadius: 2, backgroundColor: "#fff" },
-  badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
-  liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
-  plusHit: { position: "absolute", top: 7, right: 7 },
-  plus: {
-    width: 24,
-    height: 24,
-    borderRadius: 8,
-    backgroundColor: "#f2f2f2",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loadingTile: { backgroundColor: "rgba(255,255,255,0.04)" },
-  loadingTileLight: { backgroundColor: "rgba(0,0,0,0.04)" },
-  loadingFace: { position: "absolute", top: 7, left: 7, width: 24, height: 24, borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)" },
-  loadingBar: { position: "absolute", bottom: 8, left: 8, width: 40, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.1)" },
-  loadingBarLight: { backgroundColor: "rgba(0,0,0,0.1)" },
-  progressTrack: { position: "absolute", left: 7, right: 6, bottom: 28, height: 3, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.3)", overflow: "hidden" },
-  progressFill: { height: 3, backgroundColor: "#fff" },
-  center: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
-  retry: { width: 36, height: 36, borderRadius: 18, backgroundColor: "rgba(0,0,0,0.5)", alignItems: "center", justifyContent: "center" },
+  pillSingle: { flex: 1, minWidth: 0 },
+  ring: { width: FACE_SIZE + 7, height: FACE_SIZE + 7, borderRadius: FACE_RADIUS + 3.5, borderWidth: 1.5, padding: 2, alignItems: "center", justifyContent: "center" },
+  faceSeen: { opacity: 0.8 },
+  text: { flexShrink: 1, minWidth: 0, gap: 1 },
+  nameRow: { flexDirection: "row", alignItems: "center", gap: 5, minWidth: 0 },
+  name: { flexShrink: 1, fontSize: 13.5, fontWeight: "700" },
+  line: { fontSize: 11.5, fontWeight: "500" },
+  identityBadge: { width: 14, height: 14 },
+  bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 10 },
+  liveBar: { width: 2.5, height: 10, borderRadius: 2 },
+  extra: { marginLeft: "auto", paddingLeft: 8 },
+  stack: { flexDirection: "row", alignItems: "center" },
+  stackOverlap: { marginLeft: -7 },
+  watcher: { borderWidth: 2, borderRadius: 9, overflow: "hidden" },
+  cover: { width: 22, height: 30, borderRadius: 7, borderWidth: 2 },
+  more: { marginLeft: 6, fontSize: 11, fontWeight: "700" },
+  loadingPill: { flexGrow: 0, width: 150 },
+  loadingFace: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, marginLeft: 2 },
+  loadingBars: { gap: 6 },
+  loadingBar: { width: 64, height: 8, borderRadius: 4 },
+  loadingBarShort: { width: 44 },
+  progressTrack: { position: "absolute", left: 8, right: 8, bottom: 4, height: 2, borderRadius: 2, overflow: "hidden" },
+  progressFill: { height: 2 },
+  retry: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, alignItems: "center", justifyContent: "center" },
 });
 
 export default React.memo(StoryShelf);

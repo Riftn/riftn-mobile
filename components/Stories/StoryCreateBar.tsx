@@ -120,17 +120,14 @@ export function StoryCreateTile({ width, height }: { width: number; height: numb
   return (
     <>
       <TouchableOpacity
-        style={[styles.tile, { width, height, borderColor: c.line, backgroundColor: c.fill }]}
+        style={[styles.tile, { width, height, backgroundColor: c.keyBg }]}
         activeOpacity={0.85}
         onPress={openMenu}
         accessibilityRole="button"
         accessibilityLabel={label}
         testID="story-create-tile"
       >
-        <View style={[styles.tileKey, { backgroundColor: c.keyBg }]}>
-          <Icon name="Plus" size={18} color={c.keyInk} strokeWidth={2.4} />
-        </View>
-        <Text style={[styles.tileLabel, { color: c.ink }]}>{label}</Text>
+        <Icon name="Plus" size={22} color={c.keyInk} strokeWidth={2.4} />
       </TouchableOpacity>
       {elements}
     </>
@@ -206,9 +203,8 @@ const styles = StyleSheet.create({
   promptText: { fontSize: 15, fontWeight: "500" },
   iconBtn: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   key: { width: 30, height: 30, borderRadius: 8, alignItems: "center", justifyContent: "center" },
-  tile: { borderRadius: 16, borderWidth: 1, alignItems: "center", justifyContent: "center", gap: 10 },
-  tileKey: { width: 36, height: 36, borderRadius: 10, alignItems: "center", justifyContent: "center" },
-  tileLabel: { fontSize: 12, fontWeight: "600" },
+  /** The row's + key: a solid square the height of the pills beside it. */
+  tile: { borderRadius: 17, alignItems: "center", justifyContent: "center" },
   sheet: {
     position: "absolute",
     left: 0,
