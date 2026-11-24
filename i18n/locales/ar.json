@@ -180,7 +180,7 @@
       "hate": "خطاب كراهية",
       "other": "شيء آخر"
     },
-    "agoLabel": "منذ {{time}}",
+    "agoLabel": "منذ {{time}}", "now": "الآن",
     "momentTag": "لحظة",
     "hoursLeft": "يتبقى {{n}} س",
     "minutesLeft": "يتبقى {{n}} د",

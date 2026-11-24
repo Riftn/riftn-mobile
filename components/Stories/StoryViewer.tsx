@@ -558,7 +558,9 @@ export default function StoryViewer({
               {own ? t("stories.yourDay", { defaultValue: "Your day" }) : nameOf(entry.author)}
             </Text>
             <Text style={styles.whoSub} numberOfLines={1}>
-              {t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
+              {Date.now() - new Date(item.createdAt).getTime() < 60_000
+                ? ageLabel(item.createdAt)
+                : t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
               {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
               {item.closeFriends || item.audience === "close_friends" ? (
                 <Text style={{ color: "#4ade80", fontWeight: "700" }}>{` · ★ ${t("stories.closeFriends", { defaultValue: "Close friends" })}`}</Text>
