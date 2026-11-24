@@ -408,3 +408,19 @@ export interface ChestardState {
 export const chestardState = (signedIn: boolean) => get<ChestardState>('/games/chestard', signedIn);
 export const chestardStart = () => post<{ run: ChestardRun }>('/games/chestard/start', {});
 export const chestardRoll = (id: string) => post<{ roll: ChestardRoll }>(`/games/chestard/${encodeURIComponent(id)}/roll`, {});
+
+// ------------------------------------------------------------ score cards
+// A shared arcade link names who shared it (`?by=<user>`); the feed card reads
+// that player's best from the game's own board (riftn-backend
+// src/games/arcade-card.service.ts), never from the link.
+
+export interface ArcadeCard {
+  game: string;
+  player: GamePlayer | null;
+  best: number | null;
+  rank: number | null;
+  unit: 'points' | 'coins' | null;
+}
+
+export const arcadeCard = (game: string, player: string) =>
+  get<ArcadeCard>(`/games/card?game=${encodeURIComponent(game)}&player=${encodeURIComponent(player)}`, false);

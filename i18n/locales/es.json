@@ -18632,5 +18632,18 @@
       "drop-c": "Drop C",
       "b-standard": "Si estándar"
     }
+  },
+  "arcadeCard": {
+    "best": "Mejor puntuación",
+    "mined": "Monedas minadas",
+    "rankLine": "{{label}} · n.º {{rank}} en la tabla",
+    "shared": "Compartió este juego",
+    "play": "Jugar"
+  },
+  "arcadeShare": {
+    "postCard": "Publicar tu tarjeta de puntuación",
+    "postSnapshot": "Publicar una captura",
+    "shareLink": "Compartir enlace",
+    "snapshotFailed": "No se pudo hacer la captura. Inténtalo de nuevo."
   }
 }

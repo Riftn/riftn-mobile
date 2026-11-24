@@ -18065,5 +18065,18 @@
       "drop-c": "Drop C",
       "b-standard": "B standard"
     }
+  },
+  "arcadeCard": {
+    "best": "Best score",
+    "mined": "Coins mined",
+    "rankLine": "{{label}} · #{{rank}} on the board",
+    "shared": "Shared this game",
+    "play": "Play"
+  },
+  "arcadeShare": {
+    "postCard": "Post your score card",
+    "postSnapshot": "Post a snapshot",
+    "shareLink": "Share link",
+    "snapshotFailed": "Couldn’t take a snapshot. Try again."
   }
 }
