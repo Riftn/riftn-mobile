@@ -134,6 +134,7 @@ import EmojiSheet from "../components/Upload/EmojiSheet";
 import WhenOpened from "../components/ui/WhenOpened";
 import FreeImageSheet, { type FreePicture } from "../components/Upload/FreeImageSheet";
 import type { FreeAsset } from "../libs/editor/freeAssets";
+import { licenceLabel } from "../libs/caption-query";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
 import type { UploadPayload, UploadStage, PickedAudio } from "../hooks/useUploadPost";
 import type { LiveUploadPayload } from "../hooks/useUploadLive";
@@ -2387,8 +2388,8 @@ export default function UploadScreen() {
    */
   const handleFreeImage = useCallback((picture: FreePicture, asset: FreeAsset) => {
     void adoptImageAssets([{ ...picture, type: "image", assetId: null } as PickedAsset]);
-    if (asset.attributionRequired || /^CC BY/i.test(asset.license)) {
-      const credit = t("freeImage.credit", { name: asset.creator, license: asset.license });
+    if (asset.attributionRequired || /^(CC )?BY\b/i.test(asset.license)) {
+      const credit = t("freeImage.credit", { name: asset.creator, license: licenceLabel(asset.license) });
       setBodyText((prev) => (prev.includes(credit) ? prev : prev.trim() ? `${prev.trimEnd()}\n\n${credit}` : credit));
     }
   }, [adoptImageAssets, setBodyText, t]);

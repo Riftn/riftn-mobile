@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
-import { captionQuery } from "../../libs/caption-query";
+import { captionQuery, licenceLabel } from "../../libs/caption-query";
 import { searchFreeAssets, type FreeAsset } from "../../libs/editor/freeAssets";
 import { toastError } from "../../libs/toast";
 
@@ -128,7 +128,7 @@ const FreeImageSheet: React.FC<Props> = ({ visible, onClose, caption, onPick }) 
               >
                 <Image source={{ uri: asset.thumbnailUrl }} style={{ width: "100%", height: "100%" }} contentFit="cover" transition={120} />
                 <Text numberOfLines={1} style={{ position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: 6, paddingVertical: 3, fontSize: 10, color: "rgba(255,255,255,0.85)", backgroundColor: "rgba(0,0,0,0.45)" }}>
-                  {asset.license}
+                  {licenceLabel(asset.license)}
                 </Text>
                 {picking === asset.id && (
                   <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.5)" }}>
