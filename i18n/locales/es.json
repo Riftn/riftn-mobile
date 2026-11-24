@@ -2019,6 +2019,8 @@
     "remove": "Eliminar"
   },
   "tip": {
+    "appSent": "¡Propina de {{amount}} DHB enviada!",
+    "appFailed": "Tu propina no se envió. Inténtalo de nuevo.",
     "addMessage": "Añade un mensaje (opcional)",
     "messagePlaceholder": "Di algo con tu propina",
     "messagePublic": "Público",
