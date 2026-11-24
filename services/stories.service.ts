@@ -242,14 +242,21 @@ export interface StoryComment {
   createdAt: string;
   author: StoryAuthor;
   canDelete: boolean;
+  /** Set on a reply: the comment it sits under. */
+  parentId?: string | null;
+  /** Written by the moment's owner. */
+  isCreator?: boolean;
+  /** With `threaded`, a top comment's replies, oldest first. */
+  replies?: StoryComment[];
 }
 
-export function getStoryComments(id: string, signedIn: boolean, cursor?: string): Promise<{ commentCount: number; allowComments: boolean; comments: StoryComment[]; next: string | null }> {
-  return apiClient.get(`/stories/${enc(id)}/comments`, { isAuthRequired: signedIn, quiet: true, ...(cursor ? { params: { cursor } } : {}) });
+export function getStoryComments(id: string, signedIn: boolean, cursor?: string, threaded = false): Promise<{ commentCount: number; allowComments: boolean; comments: StoryComment[]; next: string | null }> {
+  const params = { ...(cursor ? { cursor } : {}), ...(threaded ? { threaded: "1" } : {}) };
+  return apiClient.get(`/stories/${enc(id)}/comments`, { isAuthRequired: signedIn, quiet: true, ...(Object.keys(params).length ? { params } : {}) });
 }
 
-export function addStoryComment(id: string, text: string): Promise<StoryComment> {
-  return apiClient.post(`/stories/${enc(id)}/comments`, { text });
+export function addStoryComment(id: string, text: string, parentId?: string): Promise<StoryComment> {
+  return apiClient.post(`/stories/${enc(id)}/comments`, parentId ? { text, parentId } : { text });
 }
 
 export function deleteStoryComment(id: string, commentId: string): Promise<{ ok: boolean }> {
