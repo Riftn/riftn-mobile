@@ -9256,6 +9256,14 @@
     "fixSubmit": "Прапанаваць выпраўленне"
   },
   "upload": {
+    "translate": "Перакласці",
+    "translateTo": "Перакласці на",
+    "searchLanguages": "Шукаць мовы",
+    "translatedFrom": "Перакладзена з {{language}}",
+    "translated": "Перакладзена",
+    "undoTranslate": "Адмяніць",
+    "alreadyIn": "Ужо на {{language}}",
+    "translationFailed": "Не ўдалося перакласці",
     "solanaUnavailable": "Кашалёк Solana недаступны — на гэтай прыладзе няма ключа вашага кашалька. Увайдзіце зноў, каб аднавіць яго.",
     "solanaTempUnavailable": "Публікацыя ў Solana часова недаступная. Паспрабуйце Base або BNB.",
     "enterTextFirst": "Спачатку ўвядзіце тэкст",

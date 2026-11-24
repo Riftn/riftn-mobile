@@ -9272,6 +9272,13 @@
     "fixSubmit": "Schlag en Fix vor"
   },
   "upload": {
+    "translate": "I need a text to translate to Swiss German.",
+    "translateTo": "Übersetze uf",
+    "searchLanguages": "Suech Schprooche",
+    "translated": "Übersetzt",
+    "undoTranslate": "Rückgängig mache",
+    "alreadyIn": "Scho in {{language}}",
+    "translationFailed": "Übersetzung fehlgeschlagen",
     "solanaUnavailable": "Solana-Wallet nöd verfüegbar — das Grät het dini Wallet-Schlüssel nöd. Mäld di nomol a zum s widerhärstelle.",
     "solanaTempUnavailable": "S Poste uf Solana isch vorüborgehend nöd verfüegbar. Probier stattdesse Base oder BNB.",
     "enterTextFirst": "Gib zerscht öppis Täxt i",

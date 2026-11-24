@@ -9243,6 +9243,14 @@
     "fixSubmit": "Ehdottaa korjausta"
   },
   "upload": {
+    "translate": "Käännä",
+    "translateTo": "Käännä kielelle",
+    "searchLanguages": "Hae kieliä",
+    "translatedFrom": "Käännetty kielestä {{language}}",
+    "translated": "Käännetty",
+    "undoTranslate": "Kumoa",
+    "alreadyIn": "Jo kielellä {{language}}",
+    "translationFailed": "Käännös epäonnistui",
     "solanaUnavailable": "Solana-lompakko ei ole käytettävissä — tällä laitteella ei ole avaintasi. Kirjaudu uudelleen sisään palauttaaksesi sen.",
     "solanaTempUnavailable": "Julkaiseminen Solanassa ei ole tilapäisesti käytettävissä. Kokeile Basea tai BNB:tä.",
     "enterTextFirst": "Kirjoita ensin tekstiä",

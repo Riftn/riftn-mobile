@@ -9236,6 +9236,13 @@
     "fixPlaceholder": "Ne ka kan ka min fɔ"
   },
   "upload": {
+    "translate": "Translate",
+    "translateTo": "Translate ka",
+    "searchLanguages": "Kɔnɔko ɲinini",
+    "translated": "Translated",
+    "undoTranslate": "Undo",
+    "alreadyIn": "Already in {{language}}",
+    "translationFailed": "Translation failed",
     "solanaUnavailable": "Solana warijɛ tɛ yen — nin minɛn tɛ i ka warijɛ kilisi mara. Don kokura walisa k'a lasegin.",
     "solanaTempUnavailable": "Solana kan bilali tɛ se sisan. Base walima BNB lajɛ.",
     "enterTextFirst": "Fɔlɔ sɛbɛnni dɔ sɛbɛn",

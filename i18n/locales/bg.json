@@ -9247,6 +9247,14 @@
     "fixSubmit": "Предложи корекция"
   },
   "upload": {
+    "translate": "Превод",
+    "translateTo": "Преведи на",
+    "searchLanguages": "Търсене на езици",
+    "translatedFrom": "Преведено от {{language}}",
+    "translated": "Преведено",
+    "undoTranslate": "Отмяна",
+    "alreadyIn": "Вече е на {{language}}",
+    "translationFailed": "Преводът не бе успешен",
     "solanaUnavailable": "Портфейлът Solana не е достъпен — това устройство не съхранява ключа ти. Влез отново, за да го възстановиш.",
     "solanaTempUnavailable": "Публикуването в Solana е временно недостъпно. Опитай с Base или BNB.",
     "enterTextFirst": "Първо въведи текст",

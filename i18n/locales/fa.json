@@ -9293,6 +9293,14 @@
     "fixSubmit": "پیشنهاد اصلاح"
   },
   "upload": {
+    "translate": "ترجمه کنید",
+    "translateTo": "ترجمه به",
+    "searchLanguages": "جستجوی زبان‌ها",
+    "translatedFrom": "ترجمه شده از {{language}}",
+    "translated": "ترجمه شد",
+    "undoTranslate": "واگرد",
+    "alreadyIn": "در حال حاضر به زبان {{language}} است",
+    "translationFailed": "ترجمه ناموفق بود",
     "solanaUnavailable": "کیف پول Solana در دسترس نیست — این دستگاه کلید کیف پول شما را ندارد. برای بازیابی دوباره وارد شوید.",
     "solanaTempUnavailable": "انتشار روی Solana موقتاً در دسترس نیست. به‌جای آن Base یا BNB را امتحان کنید.",
     "enterTextFirst": "ابتدا متنی وارد کنید",

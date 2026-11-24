@@ -7401,6 +7401,14 @@
     }
   },
   "upload": {
+    "translate": "Traduire",
+    "translateTo": "Traduire en",
+    "searchLanguages": "Rechercher des langues",
+    "translatedFrom": "Traduit du {{language}}",
+    "translated": "Traduit",
+    "undoTranslate": "Annuler",
+    "alreadyIn": "Déjà en {{language}}",
+    "translationFailed": "Échec de la traduction",
     "altHint": "Dites ce qu’il contient pour les personnes qui ne peuvent pas le voir.",
     "altPlaceholder": "Décrivez cette photo",
     "altTab": "Texte alternatif",

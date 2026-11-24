@@ -9241,6 +9241,11 @@
     "fixSubmit": "اقترح تصليح"
   },
   "upload": {
+    "translateTo": "ترجم إلى",
+    "searchLanguages": "دوّر عاللغات",
+    "translated": "مترجم",
+    "undoTranslate": "تراجع",
+    "translationFailed": "الترجمة فشلت",
     "solanaUnavailable": "محفظة سولانا مو متوفرة — هذا الجهاز ماعنده مفتاح محفظتك. سجّل دخول مرة ثانية حتى ترجعها.",
     "solanaTempUnavailable": "النشر على سولانا مو متوفر مؤقتاً. جرّب Base أو BNB.",
     "enterTextFirst": "اكتب شوية نص أول",

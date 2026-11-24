@@ -9313,6 +9313,14 @@
     "fixSubmit": "Korrektur vorschlagen"
   },
   "upload": {
+    "translate": "Übersetzen",
+    "translateTo": "Übersetze nach",
+    "searchLanguages": "Sprachen suchen",
+    "translatedFrom": "Übersetzt von {{language}}",
+    "translated": "Übersetzt",
+    "undoTranslate": "Rückgängig",
+    "alreadyIn": "Bereits in {{language}}",
+    "translationFailed": "Übersetzung fehlgeschlagen",
     "solanaUnavailable": "Solana-Wallet nicht verfügbar — dieses Gerät hat deinen Wallet-Schlüssel nicht. Melde dich erneut an, um ihn wiederherzustellen.",
     "solanaTempUnavailable": "Posten auf Solana ist vorübergehend nicht verfügbar. Nutze stattdessen Base oder BNB.",
     "enterTextFirst": "Gib zuerst etwas Text ein",

@@ -9350,6 +9350,13 @@
     "fixSubmit": "ঠিক করার প্রস্তাব দে"
   },
   "upload": {
+    "translate": "অনুবাদ করো",
+    "translateTo": "অনুবাদ করো",
+    "searchLanguages": "ভাষা খুঁজো",
+    "translatedFrom": "{{language}} থেইক্কা অনুবাদ করা অইছে",
+    "translated": "অনুবাদ করা অইছে",
+    "undoTranslate": "আগেরডা বাতিল করো",
+    "translationFailed": "অনুবাদ ফেইল অইছে।",
     "solanaUnavailable": "Solana ওয়ালেট পাওয়া ন যার — এই ডিভাইসত তোঁয়ার ওয়ালেট কী নাই। ফিরত পাইতে আবার সাইন ইন গরন।",
     "solanaTempUnavailable": "Solana-ত পোস্ট গরন সাময়িকভাবে বন্ধ। বদলে Base বা BNB চেষ্টা গরন।",
     "enterTextFirst": "আগে কিছু লিখন",
