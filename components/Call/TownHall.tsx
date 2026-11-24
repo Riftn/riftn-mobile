@@ -8,12 +8,14 @@ import type { GroupParticipant } from "../../hooks/useCall";
 import { createStageDirector, TALK_LEVEL, type TownHallKey, type TownHallState } from "../../libs/townHall";
 import { useStage } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
+import { CallModButton } from "./CallModSheet";
 
 /**
  * Town hall: whoever is talking fills the stage, everyone else sits in the
  * strip underneath. When several people talk at once the loudest has the
  * stage. A new speaker fades in. Tap someone in the strip to pin them to the
- * stage; tap Unpin to let go.
+ * stage; tap Unpin to let go. The chat's moderators get a ⋯ button on
+ * whoever is on stage to mute or remove them.
  */
 export interface TownHallProps {
   topInset: number;
@@ -23,6 +25,8 @@ export interface TownHallProps {
   localCanvas: React.ComponentProps<typeof RtcSurfaceView>["canvas"];
   participants: GroupParticipant[];
   readGroupLevels: () => Map<number, number>;
+  /** Set for the chat's moderators: open the menu for someone. */
+  onModerate?: (participant: GroupParticipant) => void;
 }
 
 const TICK_MS = 90;
@@ -30,7 +34,7 @@ const FADE_MS = 240;
 const TILE_W = 76;
 const TILE_H = 96;
 
-export function TownHall({ topInset, bottomInset, isVideo, self, localCanvas, participants, readGroupLevels }: TownHallProps) {
+export function TownHall({ topInset, bottomInset, isVideo, self, localCanvas, participants, readGroupLevels, onModerate }: TownHallProps) {
   const { t } = useTranslation();
   const { palette } = useStage();
   const [pinned, setPinned] = React.useState<TownHallKey | null>(null);
@@ -93,6 +97,9 @@ export function TownHall({ topInset, bottomInset, isVideo, self, localCanvas, pa
           ) : null}
         </FadeIn>
         <StageName participant={onStage} selfName={stage === 0 ? t("calls.you", { defaultValue: "You" }) : null} muted={stage === 0 ? self.muted : !onStage?.audio} talking={stageTalking} />
+        {onModerate && onStage?.wallet ? (
+          <CallModButton onPress={() => onModerate(onStage)} label={t("calls.modMenu", { name: "", defaultValue: "Moderate" }).trim()} />
+        ) : null}
         {pinned != null ? (
           <Pressable onPress={() => setPinned(null)} style={[styles.topChip, styles.pin]} accessibilityRole="button" hitSlop={8}>
             <Icon name="Pin" size={13} color="#FFFFFF" />
