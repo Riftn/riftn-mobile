@@ -131,29 +131,34 @@ const GroupCallModal: React.FC = () => {
 
 type SelfTile = { name: string; avatarUrl: string | null; video: boolean; muted: boolean; speaking: boolean };
 
+/**
+ * The screen splits as people join, up to four: one fills it, two take a half
+ * each, three are a wide tile over two, four are quarters. A fifth person and
+ * on keep quarter tiles and the grid scrolls for the rest.
+ */
 function TileGrid({ topInset, bottomInset, self, localCanvas, participants }: {
   topInset: number; bottomInset: number; self: SelfTile; localCanvas: React.ComponentProps<typeof RtcSurfaceView>["canvas"]; participants: GroupParticipant[];
 }) {
   const { width, height } = useWindowDimensions();
   const count = participants.length + 1;
-  const columns = count <= 2 ? 1 : count <= 6 ? 2 : 3;
   const gap = 8;
-  const tileWidth = (width - 24 - gap * (columns - 1)) / columns;
-  // Rows share the space between the name chip and the dock; past three rows the grid scrolls.
-  const rows = Math.ceil(count / columns);
+  const full = width - 24;
+  const half = (full - gap) / 2;
   const room = Math.max(240, height - topInset - bottomInset);
-  const tileHeight = Math.max(rows > 3 ? tileWidth : 120, (room - gap * (Math.min(rows, 3) - 1)) / Math.min(rows, 3));
+  const tileHeight = count === 1 ? room : (room - gap) / 2;
+  const widthOf = (index: number) => (count <= 2 || (count === 3 && index === 0) ? full : half);
   return (
     <ScrollView
       style={styles.gridScroll}
       contentContainerStyle={[styles.grid, { paddingTop: topInset, paddingBottom: bottomInset, gap }]}
+      scrollEnabled={count > 4}
       showsVerticalScrollIndicator={false}
     >
-      <Tile width={tileWidth} height={tileHeight} name={self.name} avatarUrl={self.avatarUrl} muted={self.muted} speaking={self.speaking}>
+      <Tile width={widthOf(0)} height={tileHeight} name={self.name} avatarUrl={self.avatarUrl} muted={self.muted} speaking={self.speaking}>
         {self.video ? <RtcSurfaceView style={StyleSheet.absoluteFill} canvas={localCanvas} zOrderMediaOverlay /> : null}
       </Tile>
-      {participants.map(participant => (
-        <RemoteTile key={participant.uid} participant={participant} width={tileWidth} height={tileHeight} />
+      {participants.map((participant, index) => (
+        <RemoteTile key={participant.uid} participant={participant} width={widthOf(index + 1)} height={tileHeight} />
       ))}
     </ScrollView>
   );
