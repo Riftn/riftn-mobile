@@ -529,6 +529,14 @@ export interface Comment {
    * and puts the creator's reply on the same page. Absent otherwise.
    */
   creatorReplied?: boolean;
+  /**
+   * A top-level comment written by somebody the post tags, or one they replied
+   * in. The API puts these first, under the creator's own thread, whatever the
+   * sort. Absent otherwise.
+   */
+  taggedReplied?: boolean;
+  /** Written by somebody the post tags (an @mention or a photo tag). */
+  byTagged?: boolean;
   notFound?: boolean;
   user?: CommentUser;
   /** Set on a message that came with a tip; it leads the post's tip wall. */

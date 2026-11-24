@@ -101,8 +101,9 @@ const MORE_POSTS_AHEAD = 1.5;
  * Reorders whole threads (a root and every reply under it) and, with a query,
  * keeps only the threads where some row matches. The post author's straight
  * comments always lead, oldest first, like an X thread. Recent is the order the
- * server sent — pins, anchors, tips and creator answers already on top — so
- * it is left alone; Oldest and Liked re-sort the rest under the pinned root,
+ * server sent — tagged people's replies, pins, anchors, tips and creator
+ * answers already on top — so it is left alone; Oldest and Liked re-sort the
+ * rest under the tagged and pinned roots,
  * which holds the top whichever way the reader sorts, as on web.
  */
 function orderThreads(rows: ThreadedComment[], sort: CommentSort, query: string, author?: string): ThreadedComment[] {
@@ -122,6 +123,10 @@ function orderThreads(rows: ThreadedComment[], sort: CommentSort, query: string,
   if (sort !== "recent") {
     const time = (c: ThreadedComment) => new Date(c.createdAt).getTime() || 0;
     kept.sort((a, b) => {
+      // What the people the post tags wrote leads whichever way the reader
+      // sorts, as the server orders Recent and as on web.
+      const tagged = Number(!!b[0].taggedReplied) - Number(!!a[0].taggedReplied);
+      if (tagged) return tagged;
       const pinned = Number(!!b[0].isPinned) - Number(!!a[0].isPinned);
       if (pinned) return pinned;
       return sort === "liked" ? (b[0].likeCount ?? 0) - (a[0].likeCount ?? 0) : time(a[0]) - time(b[0]);

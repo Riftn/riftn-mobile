@@ -3,7 +3,7 @@ import { collapsedReplyIds } from '../comment-preview';
 const CREATOR = '0xCreator';
 const FAN = '0xfan';
 
-type Row = { id: number; parentId?: number; address?: string; user?: { address?: string }; root?: number };
+type Row = { id: number; parentId?: number; address?: string; user?: { address?: string }; root?: number; byTagged?: boolean };
 
 const rootOf = (row: Row) => (row.root != null ? String(row.root) : undefined);
 const shownFor = (rows: Row[], root: number) =>
@@ -36,5 +36,14 @@ describe('collapsed thread preview', () => {
       { id: 4, parentId: 3, address: CREATOR, root: 1 },
     ];
     expect(shownFor(rows, 1).sort()).toEqual(['3', '4']);
+  });
+
+  it("shows a tagged person's answer when the creator has not answered", () => {
+    const rows: Row[] = [
+      { id: 1, address: FAN },
+      { id: 2, parentId: 1, address: FAN, root: 1 },
+      { id: 3, parentId: 1, address: '0xassistant', root: 1, byTagged: true },
+    ];
+    expect(shownFor(rows, 1)).toEqual(['3']);
   });
 });
