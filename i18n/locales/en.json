@@ -9469,7 +9469,9 @@
       "language": {
         "title": "Choose your language",
         "subtitle": "We picked the one your phone uses. Tap another to switch.",
-        "fromPhone": "Your phone's language"
+        "fromPhone": "Your phone's language",
+        "fromCountry": "Spoken where you are",
+        "subtitleCountry": "We picked the main language where you are. Tap another to switch."
       },
       "theme": {
         "title": "Pick your look",

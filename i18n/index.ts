@@ -10,6 +10,7 @@ import manifest from './locale-manifest.json';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as Localization from 'expo-localization';
+import { languageForCountry } from '../libs/country-language';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MMKV } from 'react-native-mmkv';
 import { I18nManager } from 'react-native';
@@ -330,6 +331,35 @@ export function detectLanguage(): string {
   const locales = Localization.getLocales?.() || [];
   const deviceLang = locales[0]?.languageCode || 'en';
   return deviceLang;
+}
+
+/**
+ * The language first-run setup starts on, when it differs from the phone's.
+ *
+ * A phone left in English (or in a language the app doesn't ship) in a
+ * country with one main language starts setup on that country's language:
+ * a phone in English in Türkiye opens setup in Turkish, with English one tap
+ * away. A phone set to any other shipped language keeps it. Null means setup
+ * stays on the phone's language.
+ */
+export function detectCountryLanguage(): string | null {
+  const locales = Localization.getLocales?.() || [];
+  const phone = locales[0]?.languageCode || 'en';
+  const phoneShipped = SUPPORTED_LANGUAGES.some((l) => l.code === phone);
+  if (phoneShipped && phone !== 'en') return null;
+  const region = locales[0]?.regionCode || locales.find((l) => l.regionCode)?.regionCode;
+  const country = languageForCountry(region);
+  if (!country || country === phone || !SUPPORTED_LANGUAGES.some((l) => l.code === country)) return null;
+  return country;
+}
+
+/** Whether the reader has ever picked a language (in setup or Settings). */
+export async function hasChosenLanguage(): Promise<boolean> {
+  try {
+    return !!(await AsyncStorage.getItem(STORAGE_KEY));
+  } catch {
+    return true;
+  }
 }
 
 // Initialize with English bundled
