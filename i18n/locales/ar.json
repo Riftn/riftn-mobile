@@ -2019,6 +2019,8 @@
     "remove": "إزالة"
   },
   "tip": {
+    "appSent": "تم إرسال إكرامية بقيمة {{amount}} DHB!",
+    "appFailed": "لم تُرسل إكراميتك. حاول مرة أخرى.",
     "addMessage": "أضف رسالة (اختياري)",
     "messagePlaceholder": "قل شيئًا مع إكراميتك",
     "messagePublic": "عام",

@@ -1887,6 +1887,8 @@
     "remove": "Remove"
   },
   "tip": {
+    "appSent": "{{amount}} DHB tip sent!",
+    "appFailed": "Your tip was not sent. Try again.",
     "addMessage": "Add a message (optional)",
     "messagePlaceholder": "Say something with your tip",
     "messagePublic": "Public",

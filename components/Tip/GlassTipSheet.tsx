@@ -60,6 +60,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from "../ui/Icon";
 import { useUser, useAuthActions } from "../../context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
+import { APP_TOKENS_QUERY_KEY, useAppTokens, useAppTokensEnabled } from "../../hooks/useAppTokens";
+import { newAppTokenKey, tipWithAppTokens, toTokenAmount } from "../../services/app-tokens.service";
 import { limitTip, supportedTokens } from "../../config/constants";
 import {
   useWeb3Provider,
@@ -310,13 +313,23 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
   // Tips can be paid in USDC/USDT on the wallet's chain (Base or BNB Chain),
   // straight to the creator through the tip contract. The typed amount is
   // then in that token.
-  const canPayWithOther = !isSolanaTip && !isLocked && (chainId === 8453 || chainId === 56) && !!account;
+  // In-app DHB: while the token contract is paused, tips come out of the
+  // Riftn balance instead of the wallet. Unlock payments (TV, locked DMs)
+  // still need a chain receipt, so they stay on chain.
+  const appTokensOn = useAppTokensEnabled();
+  const useApp = appTokensOn && !isSolanaTip && !isLocked;
+  const { data: appAccount } = useAppTokens(useApp && visible);
+  const appBalance = useApp && appAccount ? Math.floor(Number(appAccount.balance) * 100) / 100 : null;
+  const queryClient = useQueryClient();
+  /** One key per tip attempt, kept across a retry so the tip can't be paid twice. */
+  const appTipKey = useRef<string | null>(null);
+  const canPayWithOther = !useApp && !isSolanaTip && !isLocked && (chainId === 8453 || chainId === 56) && !!account;
   const directToken = canPayWithOther && payWith?.chainId === chainId ? directTipToken(payWith) : null;
   const directBalance = directToken && payWith ? Number(((ethersImport as any).ethers || ethersImport).utils.formatUnits(payWith.balance.toString(), payWith.decimals)) : null;
   const coinImage = directToken ? (directToken.symbol === "USDT" ? USDT_COIN : USDC_COIN) : DEHUB_COIN;
   const tipCurrency = isSolanaTip ? "SOL" : directToken?.symbol ?? "DHB";
   const numericAmount = Number(amount) || 0;
-  const balance = (user?.tokenBalances?.DHB ?? 0) as number;
+  const balance = useApp ? (appBalance ?? 0) : (user?.tokenBalances?.DHB ?? 0) as number;
   const overLimit = !isSolanaTip && !directToken && numericAmount > limitTip;
   const belowDirectMin = !!directToken && numericAmount > 0 && numericAmount < MIN_DIRECT_TIP;
   // Solana balance is enforced on-chain by the transfer itself.
@@ -336,7 +349,8 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
   const messageTooLong = Math.max(messageText.length, TIP_MESSAGE_MAX_LENGTH) !== TIP_MESSAGE_MAX_LENGTH;
   const disableSend =
     messageTooLong || isBusy || privacyChecking || recipientPrivate || numericAmount <= 0 || overLimit || isSelf || belowDirectMin
-    || (directBalance != null && numericAmount > directBalance);
+    || (directBalance != null && numericAmount > directBalance)
+    || (useApp && (appBalance == null || numericAmount > appBalance));
 
   const tokenMeta = useMemo(() => {
     if (!chainId) return undefined;
@@ -466,6 +480,68 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
           setTipError(t("tip.messageFailed", "Your message couldn't be added. No tip was sent."));
           return;
         }
+      }
+
+      // In-app DHB: the server checks the balance, picks who is paid and
+      // moves it in one step. Nothing is signed and nothing goes on chain.
+      if (useApp) {
+        if (isSelf) {
+          setTipError(t("tip.cannotTipSelf", "You can't tip yourself"));
+          return;
+        }
+        setPhase("sending");
+        if (!appTipKey.current) appTipKey.current = newAppTokenKey();
+        try {
+          const res = await tipWithAppTokens({
+            tokenId: tokenId > 0 ? String(tokenId) : undefined,
+            commentId: commentId != null ? String(commentId) : undefined,
+            to: toAddress,
+            amount: toTokenAmount(numericAmount),
+            key: appTipKey.current,
+          });
+          appTipKey.current = null;
+          if (tipMessage.current) tipMessage.current.submitted = true;
+          setPhase("sent");
+          haptic.success();
+          setLastAmount(numericAmount);
+          const me = user?.walletAddress || user?.address;
+          queryClient.setQueryData([APP_TOKENS_QUERY_KEY, me?.toLowerCase() ?? null], (old: any) => (old ? { ...old, balance: res.balance } : old));
+          void queryClient.invalidateQueries({ queryKey: [APP_TOKENS_QUERY_KEY] });
+          // The post's and comments' tip figures read tip_records; the server
+          // already moved the DHB and counted the tip, this only draws it.
+          if (me) {
+            void persistTipRecord({
+              senderAddress: me,
+              receiverAddress: res.to,
+              amount: Number(res.amount),
+              chainId: 0,
+              txHash: res.receipt,
+              tokenId,
+              commentId: commentId ?? null,
+            });
+          }
+          if (commentId != null) emitPostTipped(commentTipKey(commentId));
+          else if (tokenId) emitPostTipped(tokenId);
+          const sentMessage = tipMessage.current;
+          tipMessage.current = null;
+          if (sentMessage) {
+            // The server posts the message with the tip itself.
+            setMessage.complete(message, "");
+            emitTipMessageSent(tokenId);
+          }
+          onSuccess?.(numericAmount);
+          setAmount.complete(amount, "");
+          setSelectedPreset(null);
+        } catch (e: any) {
+          // The server answered (not enough DHB, tips off…): that attempt is
+          // over. A dropped connection keeps the key, so tapping again
+          // finishes the same tip instead of paying twice.
+          if (e?.status) appTipKey.current = null;
+          setPhase("error");
+          haptic.error();
+          setTipError(e?.message || t("tip.appFailed", "Your tip was not sent. Try again."));
+        }
+        return;
       }
 
       // Solana tip (#41): transfer SOL to the creator via the backend-built tx.
@@ -720,6 +796,7 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
     canPayWithOther,
     directToken,
     messageText, messagePrivate, message, setMessage,
+    useApp, user, queryClient,
     t, setAmount, amount]);
 
   // ── Render nothing when fully closed ─────────────────────────────────────
