@@ -59,6 +59,8 @@ export interface SerializedUploadPayload {
   planIds?: string[];
   pollData?: SerializedPollData;
   scheduledAt?: string;
+  /** 'skip' posts now even when Space my posts is on. */
+  spacing?: 'skip';
   /**
    * 'mature' when the creator marked the post adult or graphic. Absent means
    * safe, which is also what a job persisted by an older build reads as.
@@ -107,6 +109,8 @@ export interface MintParams {
    *  mint phase is skipped (a retry resumes past it too). */
   scheduled?: boolean;
   scheduledAt?: string;
+  /** The time came from Space my posts. */
+  spaced?: boolean;
   /** This upload had already been published AND minted by an earlier send of
    *  the same job — the server answered with the existing token and no
    *  signature, because it cannot be minted a second time. */

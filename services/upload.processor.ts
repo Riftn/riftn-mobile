@@ -237,6 +237,9 @@ function rebuildFormData(
   if (payload.scheduledAt) {
     fd.append("scheduledAt", payload.scheduledAt);
   }
+  if (payload.spacing === "skip") {
+    fd.append("spacing", "skip");
+  }
 
   // Tells the backend to keep the post at status 'signed' for good, and to
   // exempt it from the sweep that fails tokens which never got minted.
@@ -450,7 +453,7 @@ async function processJob(job: UploadJob): Promise<void> {
       if (!Number.isFinite(createdTokenId)) {
         throw new Error(_translateCopy("copy.0e52f330fb82", { defaultValue: "Upload succeeded but no token id came back" }));
       }
-      mintParams = { createdTokenId, scheduled: true, scheduledAt: result?.scheduledAt } as MintParams;
+      mintParams = { createdTokenId, scheduled: true, scheduledAt: result?.scheduledAt, spaced: !!result?.spaced } as MintParams;
       uploadActions.updateStage(job.id, "processing", mintParams);
     } else if (job.mintOptOut) {
       // Published off-chain: the API call WAS the whole upload. The post is
@@ -745,7 +748,7 @@ async function processJob(job: UploadJob): Promise<void> {
   if (mintParams.scheduled) {
     // Nothing to refresh — the post stays invisible until the cron flips it.
     const when = mintParams.scheduledAt ? new Date(mintParams.scheduledAt).toLocaleString() : null;
-    toastSuccess(_translateCopy("copy.792678842e2f", { defaultValue: "Post scheduled" }), {
+    toastSuccess(mintParams.spaced ? _translateCopy("postSpacing.spacedTitle", { defaultValue: "Spaced out" }) : _translateCopy("copy.792678842e2f", { defaultValue: "Post scheduled" }), {
       description: when ? _translateCopy("copy.b21f3ed78786", { defaultValue: "It will publish {{value1}}.", value1: when }) : _translateCopy("copy.94ff209d1e70", { defaultValue: "It will publish at the scheduled time." }),
     });
   } else {

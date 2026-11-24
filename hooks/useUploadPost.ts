@@ -76,6 +76,8 @@ export type UploadPayload = {
   attachedSound?: AttachedSound;
   pollData?: SerializedPollData;
   scheduledAt?: Date;
+  /** 'skip' posts now even when Space my posts is on (a drip's first photo). */
+  spacing?: 'skip';
   /** Post mint chain override (e.g. Solana 101). Defaults to active EVM chain. */
   postChainId?: number;
   /** Solana minter address (base58) — required when postChainId is a Solana chain. */
@@ -343,6 +345,7 @@ export function useUploadPost() {
         planIds: subscriberPlanIds,
         pollData: p.pollData,
         scheduledAt: p.scheduledAt?.toISOString(),
+        spacing: p.spacing,
         contentRating: p.contentRating,
         forKids: p.forKids,
         shopLinks: p.shopLinks,

@@ -105,6 +105,8 @@ import { usePostSound, type AttachedSound } from "../hooks/usePostSound";
 import { buildSoundtrackTag } from "../libs/parseSoundtrack";
 import SoundPickerSheet from "../components/Post/SoundPickerSheet";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
+import { usePostSpacing } from "../components/Upload/PostSpacingSection";
+import { dripTimes, gapLabel, isLater } from "../libs/post-spacing";
 import ShopSheet, { type ShopBoardDraft } from "../components/Upload/ShopSheet";
 import { useShopLinkAllowance } from "../hooks/useShopLinks";
 import type { ShopLink } from "../services/nft.service";
@@ -1331,6 +1333,13 @@ export default function UploadScreen() {
   const [showSoundPicker, setShowSoundPicker] = useState(false);
   const [scheduledDate, setScheduledDate] = useState<Date | null>(null);
   const [showScheduleSheet, setShowScheduleSheet] = useState(false);
+  /** "One post each": minutes between the photos' posts, or null for one post with them all. */
+  const [dripGap, setDripGap] = useState<number | null>(null);
+  // Photos that could each become their own post (not a comic, quote, Live or article).
+  const dripCount = !comicLayout && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio ? pickedImages.length : 0;
+  const dripActive = !!dripGap && dripCount > 1;
+  // The saved "Space my posts" gap, for the chip and the landing.
+  const spacing = usePostSpacing(!isLiveMode && !isStageMode && !isQuoteMode);
   const composerSchedule = isLiveMode ? (liveSettings.scheduleEnabled ? liveSettings.scheduledDate : null) : scheduledDate;
   const scheduleTitle = isStageMode ? t("stages.scheduleStage") : isLiveMode ? t("upload.scheduleLivestream") : t("upload.schedulePostTitle");
   const [crossPostOpen, setCrossPostOpen] = useState(false);
@@ -1753,11 +1762,47 @@ export default function UploadScreen() {
       });
     }
 
-    const ok = enqueueJob({ ...payload, draftReceipt: captureActiveDraft(), sourceDraftId: restoredDraftIdRef.current ?? undefined });
+    /**
+     * "One post each" (Requests 86e8907b): every photo becomes its own post,
+     * one every `dripGap` minutes from the time picked (or now). Each is its
+     * own job, so each retries on its own and none can post twice.
+     */
+    if (dripActive && dripGap) {
+      const photos = payload.pickedImages;
+      const times = dripTimes(payload.scheduledAt ?? new Date(), photos.length, dripGap);
+      const receipt = captureActiveDraft();
+      for (let i = 0; i < photos.length; i++) {
+        const at = times[i];
+        const queued = enqueueJob({
+          ...payload,
+          pickedImages: [photos[i]],
+          mediaDescriptions: payload.mediaDescriptions?.[i] ? [payload.mediaDescriptions[i]] : undefined,
+          layout: undefined,
+          mediaCaptions: undefined,
+          comicBorder: undefined,
+          shouldMint: false,
+          pollData: i === 0 ? payload.pollData : undefined,
+          scheduledAt: isLater(at) ? at : undefined,
+          spacing: "skip",
+          draftReceipt: i === 0 ? receipt : undefined,
+          sourceDraftId: i === 0 ? restoredDraftIdRef.current ?? undefined : undefined,
+        });
+        if (!queued) return false;
+      }
+      toastSuccess(t("postSpacing.dripDone", { defaultValue: "{{count}} posts planned. Last one {{when}}", count: photos.length, when: times[times.length - 1].toLocaleString() }));
+      setTimeout(() => {
+        navigateHome(undefined);
+        releaseSubmit();
+      }, 120);
+      return true;
+    }
+
+    const ok = enqueueJob({ ...payload, spacing: undefined, draftReceipt: captureActiveDraft(), sourceDraftId: restoredDraftIdRef.current ?? undefined });
     if (!ok) return false;
     // A scheduled post has nothing to show yet, so it does not land.
     const queuedJob = uploadState.jobs[uploadState.jobs.length - 1];
-    const landing = queuedJob && !payload.scheduledAt ? postLandingActions.begin(queuedJob.id) : undefined;
+    // A spaced post waits too, so it has nothing to show yet either.
+    const landing = queuedJob && !payload.scheduledAt && !spacing.data?.gapMinutes ? postLandingActions.begin(queuedJob.id) : undefined;
     // The guard is released here rather than the moment the job is queued: the
     // form is still filled in and the screen is still up for these 120ms, so a
     // tap landing in the gap would post the same thing a second time.
@@ -1766,7 +1811,7 @@ export default function UploadScreen() {
       releaseSubmit();
     }, 120);
     return true;
-  }, [captureActiveDraft, getPayload, enqueueJob, navigateHome, releaseSubmit, solanaAddress, mintFee, mintChainId, consumeRestoredDraft, postQuota, nav, _copy]);
+  }, [captureActiveDraft, getPayload, enqueueJob, navigateHome, releaseSubmit, solanaAddress, mintFee, mintChainId, consumeRestoredDraft, postQuota, nav, _copy, dripActive, dripGap, spacing.data?.gapMinutes]);
 
   const handleRemoveQuoteEmbed = useCallback(() => {
     setIsQuoteMode(false);
@@ -2888,6 +2933,27 @@ export default function UploadScreen() {
               </Text>
             </TouchableOpacity>
           )}
+
+          {/* Space my posts / One post each: where this post will land. */}
+          {!isLiveMode && !isStageMode && !isQuoteMode && (dripActive || (!composerSchedule && !!spacing.data?.gapMinutes)) ? (
+            <TouchableOpacity
+              onPress={() => setShowScheduleSheet(true)}
+              activeOpacity={0.7}
+              className="self-end flex-row items-center px-2.5 py-1 rounded-lg mt-2 border border-white/15"
+              style={{ gap: 6 }}
+              accessibilityRole="button"
+              testID="post-spacing-chip"
+            >
+              <Icon name={dripActive ? "Layers" : "AlignLeft"} size={12} color="rgba(255,255,255,0.8)" />
+              <Text className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.8)" }}>
+                {dripActive
+                  ? t("postSpacing.dripChip", { defaultValue: "{{count}} posts, {{gap}} apart", count: dripCount, gap: gapLabel(dripGap!, t) })
+                  : spacing.data?.nextAt
+                    ? t("postSpacing.chipAt", { defaultValue: "Spaced · {{time}}", time: new Date(spacing.data.nextAt).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" }) })
+                    : t("postSpacing.chipNow", { defaultValue: "Spaced · now" })}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
 
           {crossPostOpen && visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && (
             <CrossPostPicker onManage={() => setCrossPostSetupOpen(true)} />
@@ -4445,6 +4511,9 @@ export default function UploadScreen() {
               if (isLiveMode) setLiveSettings(prev => ({ ...prev, scheduleEnabled: !!date, scheduledDate: date }));
               else setScheduledDate(date);
             }}
+            dripCount={dripCount}
+            dripGap={dripGap}
+            onDripChange={setDripGap}
           />
         )}
       </WhenOpened>
