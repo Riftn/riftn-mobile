@@ -36,7 +36,6 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
-import MessageCircleOff from "lucide-react-native/dist/esm/icons/message-circle-off";
 import MentionSuggestions from "../common/MentionSuggestions";
 import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
@@ -540,7 +539,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               }}
               style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="switch" accessibilityState={{ checked: allowReplies }}
               accessibilityLabel={t("stories.replies", { defaultValue: "Replies" })}>
-              {allowReplies ? <Icon name="MessageCircle" size={20} color="#fff" /> : <MessageCircleOff size={20} color="#fff" />}
+              <View>
+                <Icon name="MessageCircle" size={20} color="#fff" />
+                {allowReplies ? null : <View pointerEvents="none" style={styles.repliesOffSlash} />}
+              </View>
             </TouchableOpacity>
             {maxSeconds > 1 && (!isPhoto || customPhotoDuration) && (
               <TouchableOpacity className="dark-surface" onPress={() => setChoosingPlayback(true)}
@@ -1044,6 +1046,7 @@ const styles = StyleSheet.create({
   hiddenPillText: { color: "#fff", fontSize: 13, fontWeight: "600" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
+  repliesOffSlash: { position: "absolute", left: -2, top: 9, width: 24, height: 2, borderRadius: 1, backgroundColor: "#fff", transform: [{ rotate: "45deg" }] },
   bottomBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingTop: 12 },
   chip: {
     height: 40,
