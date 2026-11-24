@@ -51,7 +51,7 @@
     "humor": "Mizah",
     "life": "Hayat"
   },
-  "stories": {
+  "stories": {"spot": {"listening": "{{n}} dinliyor", "moments": "{{n}} An", "oneMoment": "1 An", "watching": "{{n}} izliyor"}, "ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"}, 
     "comments": "Yorumlar",
     "commentFailed": "Yorumun gönderilemedi. Tekrar dene.",
     "noCommentsYet": "Henüz yorum yok. Herkesin görebileceği bir şey yaz.",
@@ -175,7 +175,7 @@
       "hate": "Nefret söylemi",
       "other": "Başka bir şey"
     },
-    "agoLabel": "{{time}} önce",
+    "agoLabel": "{{time}} önce", "now": "şimdi",
     "momentTag": "AN",
     "hoursLeft": "{{n}} sa kaldı",
     "minutesLeft": "{{n}} dk kaldı",
@@ -7391,6 +7391,14 @@
     }
   },
   "upload": {
+    "translate": "Çevir",
+    "translateTo": "Şu dile çevir",
+    "searchLanguages": "Dilleri ara",
+    "translatedFrom": "{{language}} dilinden çevrildi",
+    "translated": "Çevrildi",
+    "undoTranslate": "Geri al",
+    "alreadyIn": "Zaten {{language}} dilinde",
+    "translationFailed": "Çeviri başarısız oldu",
     "altHint": "Göremeyenler için içinde ne olduğunu yazın.",
     "altPlaceholder": "Bu fotoğrafı açıklayın",
     "altTab": "Alternatif metin",
@@ -8458,6 +8466,7 @@
   },
   "liveViewer": {
     "backToLive": "Canlıya dön",
+    "likeHint": "Daha fazla tepki için basılı tut",
     "showChat": "Sohbeti göster",
     "hideChat": "Sohbeti gizle",
     "saySomething": "Bir şey söyle...",
@@ -8677,6 +8686,16 @@
     "groupVideoCall": "Grup görüntülü araması",
     "callingGroup": "Grup aranıyor...",
     "waitingForPeople": "Katılımcılar bekleniyor...",
+    "callFull": "Bu arama dolu",
+    "callFullHint": "Bir aramanın alabileceği en fazla kişiye ulaştı. Biri ayrılınca katılabilirsin.",
+    "camerasFull": "Kameralar dolu",
+    "townHall": "Meclis",
+    "gridView": "Izgara",
+    "unpin": "Sabitlemeyi kaldır",
+    "townHallTalking": "{{n}} kişi konuşuyor",
+    "camerasFullJoin": "Kameran kapalı olarak katıldın. Biri kamerasını kapatınca açabilirsin.",
+    "camerasFullHint": "Biri kamerasını kapatınca seninkini açabilirsin.",
+    "full": "Dolu",
     "isCalling": "{{name}} arıyor",
     "leave": "Ayrıl",
     "joinCall": "Katıl",
@@ -9224,7 +9243,9 @@
       "language": {
         "title": "Dilini seç",
         "subtitle": "Telefonunun kullandığı dili seçtik. Değiştirmek için başka birine dokun.",
-        "fromPhone": "Telefonunun dili"
+        "fromPhone": "Telefonunun dili",
+        "fromCountry": "Bulunduğun ülkenin dili",
+        "subtitleCountry": "Bulunduğun ülkenin dilini seçtik. Değiştirmek için başka birine dokun."
       },
       "theme": {
         "title": "Görünümünü seç",
@@ -16399,6 +16420,7 @@
     "tipJar": "Hediye kavanozu"
   },
   "liveStudio": {
+    "groups": {"stream": "Canlı yayın", "streamHint": "Yayın sırasındaki anahtarlar, yayınının gideceği yerler ve OBS bağlantısı.", "overlay": "Kaplama", "viewers": "İzleyiciler", "viewersHint": "İzleyenleri yayına katan anketler, sayaçlar, puanlar ve ödüller.", "chat": "Sohbet", "chatHint": "Sohbet botun ve yayınlarının altındaki sohbetin kuralları.", "replays": "Yayından sonra", "replaysTab": "Sonra", "replaysHint": "Son yayının nasıl geçti ve paylaşmaya değer klipler."},
     "bot": {
       "title": "Sohbet botu",
       "intro": "Yayın sohbetin için bir yardımcı sunucu. Yeni gelenleri selamlar, seninle ve yayınla ilgili soruları yanıtlar, geç gelenlere neyi kaçırdıklarını anlatır ve sessiz bir sohbeti canlandırır. Yalnızca kendi yayınlarında, sen canlıyken konuşur.",
@@ -18214,6 +18236,8 @@
     }
   },
   "notes": {
+    "background": "Arka plan",
+    "yourPhoto": "Fotoğrafın",
     "newStatus": "Yeni durum",
     "upFor": "{{time}} önce paylaşıldı",
     "postedAgo": "{{time}} önce",

@@ -38,7 +38,12 @@ const FloatingBubble = memo(({ item, laneHeight }: { item: FloatingReaction; lan
       ],
     };
   });
-  return <Animated.View style={[{ position: 'absolute', bottom: 0, right: reactionColumn(seed) }, style]}>
+  // Drawn once into its own texture on Android, so the climb only moves and
+  // fades that texture: without it every frame of a fading emoji with a
+  // shadow was redrawn through an offscreen layer, which is where the climb
+  // stuttered on mid-range phones with a video playing under it.
+  return <Animated.View renderToHardwareTextureAndroid
+    style={[{ position: 'absolute', bottom: 0, right: reactionColumn(seed) }, style]}>
     <Text style={{ fontSize: size, lineHeight: size * 1.2, textShadowColor: 'rgba(0,0,0,0.45)', textShadowRadius: 6, textShadowOffset: { width: 0, height: 2 } }}>
       {LIVE_REACTION_EMOJI[item.type]}
     </Text>

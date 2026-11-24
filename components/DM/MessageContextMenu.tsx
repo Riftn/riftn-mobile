@@ -28,7 +28,7 @@ import { ReactionStrip, REACTION_STRIP_HEIGHT } from "./MessageReactions";
 import { saveMessageFile, saveMessageImage } from "../../libs/saveMessageMedia";
 import { saveToLibrary } from "../../libs/assistantMedia";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
-import { canTranslateDm, getDmTranslation, toggleDmTranslation } from "../../libs/dm-translation-store";
+import { canTranslateDm, getDmTranslation, toggleDmTranslation, translateOwnDm } from "../../libs/dm-translation-store";
 
 
 export interface MessageLayout {
@@ -606,6 +606,20 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
           const id = message._id;
           onClose();
           void toggleDmTranslation(id, message.content);
+        },
+      });
+    } else if (isMine && !unsent && message._id && canTranslateDm(message.content)) {
+      // Your own line: into your language (or your composer language when
+      // it already reads in yours). Only you see it.
+      const shown = getDmTranslation(message._id)?.status === "shown";
+      rows.push({
+        icon: shown ? "RotateCcw" : "Languages",
+        label: shown ? t("common.showOriginal") : t("common.translate"),
+        onPress: () => {
+          const id = message._id;
+          const content = message.content;
+          onClose();
+          void translateOwnDm(id, content);
         },
       });
     } else if (!isMine && !unsent && message._id && canTranslateDm(message.content)) {

@@ -9243,6 +9243,14 @@
     "fixSubmit": "اقترح إصلاحًا"
   },
   "upload": {
+    "translate": "ترجم",
+    "translateTo": "ترجم إلى",
+    "searchLanguages": "البحث عن اللغات",
+    "translatedFrom": "مترجم من {{language}}",
+    "translated": "مترجم",
+    "undoTranslate": "تراجع",
+    "alreadyIn": "موجود بالفعل في {{language}}",
+    "translationFailed": "فشلت الترجمة",
     "solanaUnavailable": "محفظة سولانا مش متاحة — الجهاز ده معندوش مفتاح محفظتك. سجّل دخول تاني علشان ترجعها.",
     "solanaTempUnavailable": "النشر على سولانا مش متاح مؤقتاً. جرّب Base أو BNB.",
     "enterTextFirst": "اكتب شوية نص الأول",

@@ -12,6 +12,7 @@ import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '.
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
+import { setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
@@ -351,25 +352,32 @@ function hiddenPreviewLines(): Record<string, string> {
   };
 }
 
-let hiddenPreviewLanguage: string | null = null;
+// Keyed on the words, not the language: the language can switch before its
+// pack of these lines has downloaded, and the English lines then stuck.
+let hiddenPreviewCopy: string | null = null;
 
 export async function registerHiddenPreviewLines(): Promise<void> {
   if (Platform.OS !== 'ios') return;
-  const language = i18n.language || 'en';
-  if (hiddenPreviewLanguage === language) return;
-  hiddenPreviewLanguage = language;
+  const lines = hiddenPreviewLines();
+  const key = JSON.stringify(lines);
+  if (hiddenPreviewCopy === key) return;
+  hiddenPreviewCopy = key;
   try {
-    const lines = hiddenPreviewLines();
-    await Promise.all(Object.keys(lines).map(id =>
-      Notifications.setNotificationCategoryAsync(id, [], { previewPlaceholder: lines[id] })));
+    // One at a time: written together they overwrite each other (see category-queue).
+    for (const id of Object.keys(lines)) {
+      await setCategoryInTurn(id, [], { previewPlaceholder: lines[id] });
+    }
   } catch (error) {
-    hiddenPreviewLanguage = null;
+    hiddenPreviewCopy = null;
     logger.warn('Failed to set hidden preview lines', error);
   }
 }
 
 if (Platform.OS === 'ios') {
   i18n.on?.('languageChanged', () => { void registerHiddenPreviewLines(); });
+  // A language pack that lands after the switch brings these lines with it.
+  const watchPacks = () => i18n.store?.on?.('added', () => { void registerHiddenPreviewLines(); });
+  if (i18n.store) watchPacks(); else i18n.on?.('initialized', watchPacks);
 }
 
 /**

@@ -9269,6 +9269,14 @@
     "fixSubmit": "સુધાર સૂચવો"
   },
   "upload": {
+    "translate": "અનુવાદ કરો",
+    "translateTo": "ને અનુવાદિત કરો",
+    "searchLanguages": "ભાષાઓ શોધો",
+    "translatedFrom": "{{language}} થી અનુવાદિત",
+    "translated": "અનુવાદિત",
+    "undoTranslate": "પૂર્વવત્ કરો",
+    "alreadyIn": "પહેલેથી જ {{language}} માં છે",
+    "translationFailed": "અનુવાદ નિષ્ફળ ગયો.",
     "solanaUnavailable": "Solana વૉલેટ ઉપલબ્ધ નથી — આ ઉપકરણમાં તમારી વૉલેટ કી નથી. પુનઃપ્રાપ્ત કરવા ફરી સાઇન ઇન કરો.",
     "solanaTempUnavailable": "Solana પર પોસ્ટ કરવું હાલ પૂરતું બંધ છે. તેના બદલે Base કે BNB અજમાવો.",
     "enterTextFirst": "પહેલા થોડું લખો",

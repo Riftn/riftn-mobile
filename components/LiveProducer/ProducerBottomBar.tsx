@@ -224,7 +224,7 @@ const ProducerBottomBar: React.FC<ProducerBottomBarProps> = ({
         <TouchableOpacity
           onPress={handleStart}
           activeOpacity={canStart ? 0.9 : 1}
-          className={`self-center flex-row items-center px-8 h-12 rounded-xl ${
+          className={`self-center flex-row items-center px-8 h-12 rounded-xl dark-surface ${
             canStart ? "bg-white" : "bg-white/20"
           }`}
         >

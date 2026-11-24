@@ -7,7 +7,8 @@
  * Same as web's components/app/chat/NotesRow.
  */
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Animated, Easing, KeyboardAvoidingView, Modal, PanResponder, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, useWindowDimensions, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -18,11 +19,9 @@ import Avatar from "../common/Avatar";
 import SmartImage from "../common/SmartImage";
 import GifPicker from "./GifPicker";
 import SoundPickerSheet from "../Post/SoundPickerSheet";
-import { DrawerSurface } from "../ui/SheetGlass";
 import { useAppTheme } from "../../context/ThemeContext";
 import { supabase } from "../../services/supabase";
 import { withWalletHeader } from "../../libs/supabase-wallet-client";
-import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 import { getAvatarUrl } from "../../libs/misc";
 import { playableSoundUrl, soundWindow } from "../../libs/soundWindow";
 import { toastError, toastSuccess } from "../../libs/toast";
@@ -171,34 +170,38 @@ export function NoteTile({ author, note, label, onPress, placeholder, own }: { a
   );
 }
 
-function PillButton({ icon, label, onPress, primary, disabled, small, active, danger }: { icon?: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; primary?: boolean; disabled?: boolean; small?: boolean; active?: boolean; danger?: boolean }) {
-  const c = useNoteInk();
-  const ink = primary || active ? c.primaryInk : danger ? "#ff5a6e" : c.ink;
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      activeOpacity={0.8}
-      style={{ flexGrow: primary ? 1 : 0, opacity: disabled ? 0.5 : 1 }}
-    >
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, height: small ? 34 : 42, paddingHorizontal: small ? 13 : 17, borderRadius: small ? 11 : 12, backgroundColor: primary || active ? c.primaryBg : c.field, borderWidth: primary || active ? 0 : 1, borderColor: c.hairline }}>
-        {icon && <Ionicons name={icon} size={small ? 15 : 16} color={ink} />}
-        <Text style={{ color: ink, fontSize: small ? 13 : 14, fontWeight: small ? "600" : "700" }}>{label}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+// ── The status screen ────────────────────────────────────────────────────
+// A status opens like a Moment: full screen, the words big in the middle on a
+// blurred copy of the person's photo (or the colour they picked), bars on top,
+// a reply box and a heart at the bottom. Tap the sides or swipe to go through
+// everyone's; press and hold to pause; swipe down to close.
+// Same as web's NotesRow (NoteStage / MyNoteStage / NoteWriter).
+// The whole screen is a `dark-surface`, so System Light leaves it white on dark.
+
+/** How long one status stays before the next one comes up. */
+const NOTE_PAGE_MS = 7000;
+const WHITE = "#fff";
+const WHITE_DIM = "rgba(255,255,255,0.72)";
+const INK = "#0b0b0c";
+/** Phone web draws a focus box round inputs. */
+const NO_OUTLINE = (Platform.OS === "web" ? { outlineStyle: "none", outlineWidth: 0 } : null) as any;
+const WORD_SHADOW = { textShadowColor: "rgba(0,0,0,0.35)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 14 } as const;
+const GLASS = { backgroundColor: "rgba(0,0,0,0.22)", borderWidth: 1, borderColor: "rgba(255,255,255,0.26)" } as const;
+
+/** Room for the status bar and home bar; the backdrop runs under both. */
+function useStagePad() {
+  const insets = useSafeAreaInsets();
+  return { flex: 1, paddingHorizontal: 14, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 12 } as const;
 }
 
-// ── The open status (Instagram Notes style) ─────────────────────────────
-// Tapping a status opens a short sheet: the person's face big, and the same
-// white cloud as in the row above it, grown up. Writing your own happens IN
-// that cloud, over your own face, so what you see is what friends see.
-// Same as web's NotesRow (NoteView / MyNoteView / NoteComposer).
-
-const CLOUD_INK = "#0b0b0c";
-const CLOUD_SOFT = "rgba(11,11,12,0.55)";
-/** Phone web draws a focus box round inputs; the cloud is the box. */
-const NO_OUTLINE = (Platform.OS === "web" ? { outlineStyle: "none", outlineWidth: 0 } : null) as any;
+/** Colours a status can sit on, besides the person's own photo. */
+const BACKDROPS: Record<string, [string, string, string]> = {
+  violet: ["#a194ff", "#6c52f0", "#3a289c"],
+  pink: ["#ff90c2", "#f0477f", "#981e4b"],
+  ink: ["#2a2a31", "#141417", "#0b0b0c"],
+  mint: ["#94e6d2", "#5fb0e6", "#3a6cb5"],
+};
+const BACKDROP_KEYS = ["photo", "violet", "pink", "ink", "mint"] as const;
 
 /** "2h", "35m": short, like the chat list. */
 function shortSpan(ms: number): string {
@@ -208,50 +211,66 @@ function shortSpan(ms: number): string {
   return `${Math.round(m / 60)}h`;
 }
 
-function NoteTimes({ note, own }: { note: Note; own?: boolean }) {
-  const c = useNoteInk();
-  const { t } = useTranslation();
-  const now = Date.now();
-  const ago = shortSpan(now - Date.parse(note.postedAt));
-  const left = shortSpan(Date.parse(note.expiresAt) - now);
-  return (
-    <Text style={{ color: c.ink2, fontSize: 12.5, marginTop: 2 }}>
-      {own ? t("notes.upFor", { defaultValue: "Up {{time}}", time: ago }) : t("notes.postedAgo", { defaultValue: "{{time}} ago", time: ago })}
-      {" · "}
-      {t("notes.timeLeft", { defaultValue: "{{time}} left", time: left })}
-    </Text>
-  );
-}
+/** Bigger words for a short line, smaller for a long one. */
+const wordSize = (text: string) => (text.length <= 18 ? 34 : text.length <= 36 ? 29 : 25);
 
-/** The big cloud with its two trailing dots, over a big squared face. Grows in when it opens. */
-function BigCloud({ author, children }: { author: StoryAuthor; children: React.ReactNode }) {
-  const { isLight } = useAppTheme();
-  const avatar = getAvatarUrl(author.avatarImageUrl, 92);
-  const grow = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.spring(grow, { toValue: 1, useNativeDriver: true, damping: 16, stiffness: 180, mass: 0.8 }).start();
-  }, [grow]);
-  const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
+function Backdrop({ author, background }: { author: StoryAuthor; background?: string | null }) {
+  const preset = background ? BACKDROPS[background] : undefined;
+  const avatar = getAvatarUrl(author.avatarImageUrl, 200);
+  const photo = !preset && avatar && avatar !== "default-avatar" ? avatar : null;
   return (
-    <View style={{ alignItems: "center" }}>
-      <Animated.View style={{ opacity: grow, transform: [{ scale: grow.interpolate({ inputRange: [0, 1], outputRange: [0.86, 1] }) }, { translateY: grow.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }}>
-        <View testID="note-cloud" style={[CLOUD, hair, { maxWidth: 264, borderRadius: 22, paddingHorizontal: 18, paddingVertical: 12, alignItems: "center" }]}>
-          {children}
-        </View>
-      </Animated.View>
-      <View style={{ width: 110, paddingLeft: 30 }}>
-        <View style={[CLOUD, hair, { width: 12, height: 12, borderRadius: 6, marginTop: 4 }]} />
-        <View style={[CLOUD, hair, { width: 6, height: 6, borderRadius: 3, marginTop: 3, marginLeft: 9 }]} />
-      </View>
-      <View style={{ marginTop: 2 }}>
-        <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={92} radius={24} name={nameOf(author)} />
-      </View>
+    <View pointerEvents="none" testID={`note-backdrop-${preset ? background : "photo"}`} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, overflow: "hidden", backgroundColor: "#1a171d" }}>
+      {preset ? (
+        <LinearGradient colors={preset} start={{ x: 0.2, y: 0 }} end={{ x: 0.8, y: 1 }} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
+      ) : photo ? (
+        <>
+          <SmartImage source={{ uri: photo }} blurRadius={45} contentFit="cover" style={{ position: "absolute", top: -60, left: -60, right: -60, bottom: -60 }} />
+          <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.28)" }} />
+        </>
+      ) : (
+        <LinearGradient colors={["#3a3340", "#1c1a20", "#141417"]} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
+      )}
+      <LinearGradient colors={["rgba(0,0,0,0.42)", "rgba(0,0,0,0)", "rgba(0,0,0,0)", "rgba(0,0,0,0.5)"]} locations={[0, 0.24, 0.68, 1]} style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
     </View>
   );
 }
 
-/** A song inside the cloud: artwork, title, play/pause. */
-function CloudSong({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) {
+/** One bar per status; the current one fills with `progress` (0..1). */
+function NoteBars({ count, index, progress }: { count: number; index: number; progress?: Animated.Value }) {
+  return (
+    <View testID="note-bars" style={{ flexDirection: "row", gap: 4 }}>
+      {Array.from({ length: count }, (_, i) => (
+        <View key={i} style={{ flex: 1, height: 3, borderRadius: 2, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.3)" }}>
+          {i < index || (i === index && !progress) ? (
+            <View style={{ flex: 1, backgroundColor: WHITE }} />
+          ) : i === index && progress ? (
+            <Animated.View style={{ height: 3, backgroundColor: WHITE, width: progress.interpolate({ inputRange: [0, 1], outputRange: ["0%", "100%"] }) }} />
+          ) : null}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function StageHead({ author, title, sub, onClose }: { author: StoryAuthor; title: string; sub: string; onClose: () => void }) {
+  const { t } = useTranslation();
+  const avatar = getAvatarUrl(author.avatarImageUrl, 36);
+  return (
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginTop: 12 }}>
+      <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={36} radius={11} name={nameOf(author)} />
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text numberOfLines={1} style={{ color: WHITE, fontSize: 15, fontWeight: "700" }}>{title}</Text>
+        <Text numberOfLines={1} style={{ color: WHITE_DIM, fontSize: 12.5 }}>{sub}</Text>
+      </View>
+      <Pressable testID="note-close" onPress={onClose} hitSlop={10} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })} style={[{ width: 36, height: 36, alignItems: "center", justifyContent: "center", marginRight: -6 }, NO_OUTLINE]}>
+        <Ionicons name="close" size={26} color={WHITE} />
+      </Pressable>
+    </View>
+  );
+}
+
+/** A song under the words: artwork, title, play/pause. */
+function StatusSong({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) {
   const player = useAudioPlayer({ uri: song.audioUrl });
   const [playing, setPlaying] = useState(false);
   const start = () => {
@@ -272,49 +291,61 @@ function CloudSong({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) 
     start();
   };
   return (
-    <Pressable onPress={toggle} testID="note-song" accessibilityRole="button" accessibilityLabel={song.title} style={{ marginTop: 8, maxWidth: "100%" }}>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 7, paddingVertical: 4, paddingLeft: 4, paddingRight: 10, borderRadius: 10, backgroundColor: "rgba(11,11,12,0.06)" }}>
+    <Pressable onPress={toggle} testID="note-song" accessibilityRole="button" accessibilityLabel={song.title} style={{ maxWidth: "100%" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, paddingVertical: 4, paddingLeft: 4, paddingRight: 12, borderRadius: 12, backgroundColor: "rgba(255,255,255,0.16)" }}>
         {song.artworkUrl
-          ? <SmartImage source={{ uri: song.artworkUrl }} style={{ width: 24, height: 24, borderRadius: 6 }} contentFit="cover" />
-          : <View style={{ width: 24, height: 24, borderRadius: 6, backgroundColor: "rgba(11,11,12,0.1)", alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={13} color={CLOUD_INK} /></View>}
-        <Text numberOfLines={1} style={{ flexShrink: 1, color: CLOUD_INK, fontSize: 12.5, fontWeight: "700" }}>{song.title}{song.artist ? ` · ${song.artist}` : ""}</Text>
-        <Ionicons name={playing ? "pause" : "play"} size={12} color={CLOUD_INK} />
+          ? <SmartImage source={{ uri: song.artworkUrl }} style={{ width: 28, height: 28, borderRadius: 8 }} contentFit="cover" />
+          : <View style={{ width: 28, height: 28, borderRadius: 8, backgroundColor: "rgba(255,255,255,0.16)", alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={15} color={WHITE} /></View>}
+        <Text numberOfLines={1} style={{ flexShrink: 1, color: WHITE, fontSize: 13, fontWeight: "700" }}>{song.title}{song.artist ? ` · ${song.artist}` : ""}</Text>
+        <Ionicons name={playing ? "pause" : "play"} size={12} color={WHITE} />
       </View>
     </Pressable>
   );
 }
 
-/** What goes inside the cloud for a note: GIF, words, song, place. */
-function CloudBody({ note, words, autoPlay }: { note: Note; words: string; autoPlay?: boolean }) {
+/** The middle of a status: GIF, big words, song, place. */
+function StatusWords({ note, words, autoPlay, footer }: { note: Note; words: string; autoPlay?: boolean; footer?: React.ReactNode }) {
+  const size = wordSize(words);
   return (
-    <>
-      {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 160, height: 110, borderRadius: 12, marginBottom: 6 }} contentFit="contain" />}
-      {!!note.text && <Text style={{ color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }}>{words}</Text>}
-      {!!note.song && <CloudSong song={note.song} autoPlay={autoPlay} />}
+    <View style={{ alignItems: "center", gap: 12, paddingHorizontal: 20, maxWidth: 440, alignSelf: "center" }}>
+      {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 200, height: 150, borderRadius: 16 }} contentFit="contain" />}
+      {!!note.text && <Text testID="note-words" style={[{ color: WHITE, fontSize: size, lineHeight: Math.round(size * 1.18), fontWeight: "800", textAlign: "center" }, WORD_SHADOW]}>{words}</Text>}
+      {!!note.song && <StatusSong song={note.song} autoPlay={autoPlay} />}
       {!!note.location && (
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4, marginTop: 6 }}>
-          <Ionicons name="location-outline" size={13} color={CLOUD_SOFT} />
-          <Text style={{ color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600" }}>{note.location}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+          <Ionicons name="location-outline" size={15} color={WHITE} />
+          <Text style={[{ color: "rgba(255,255,255,0.86)", fontSize: 14, fontWeight: "600" }, WORD_SHADOW]}>{note.location}</Text>
         </View>
       )}
-    </>
+      {footer}
+    </View>
   );
 }
 
-function SquareButton({ onPress, label, children, primary, testID }: { onPress: () => void; label: string; children: React.ReactNode; primary?: boolean; testID?: string }) {
-  const c = useNoteInk();
-  return (
-    <Pressable onPress={onPress} testID={testID} accessibilityRole="button" accessibilityLabel={label} hitSlop={4}>
-      <View style={{ width: 44, height: 44, borderRadius: 13, alignItems: "center", justifyContent: "center", backgroundColor: primary ? c.primaryBg : c.field, borderWidth: primary ? 0 : 1, borderColor: c.hairline }}>
-        {children}
-      </View>
-    </Pressable>
-  );
+/** Tap a side to turn the page, swipe to turn it too, swipe down to close, hold to pause. */
+function useStageGestures({ onPrev, onNext, onClose, setHeld }: { onPrev: () => void; onNext: () => void; onClose: () => void; setHeld: (v: boolean) => void }) {
+  const { width } = useWindowDimensions();
+  const latest = useRef({ onPrev, onNext, onClose, setHeld, width });
+  latest.current = { onPrev, onNext, onClose, setHeld, width };
+  const startedAt = useRef(0);
+  return useRef(PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderGrant: () => { startedAt.current = Date.now(); latest.current.setHeld(true); },
+    onPanResponderRelease: (_e, g) => {
+      const l = latest.current;
+      l.setHeld(false);
+      if (Math.abs(g.dx) > 50 && Math.abs(g.dx) > Math.abs(g.dy)) { if (g.dx < 0) l.onNext(); else l.onPrev(); return; }
+      if (g.dy > 90 && g.dy > Math.abs(g.dx)) { l.onClose(); return; }
+      if (Math.abs(g.dx) < 10 && Math.abs(g.dy) < 10 && Date.now() - startedAt.current < 350) {
+        if (g.x0 < l.width / 3) l.onPrev(); else l.onNext();
+      }
+    },
+    onPanResponderTerminate: () => latest.current.setHeld(false),
+  })).current.panHandlers;
 }
 
-/** Someone else's status: big cloud, who and when, reply box and a heart. */
-function NoteView({ entry, onSend }: { entry: NoteEntry; onSend: (text: string) => void }) {
-  const c = useNoteInk();
+/** One person's status, with the reply box and the heart. */
+function NotePage({ entry, onSend, onTyping, gestures }: { entry: NoteEntry; onSend: (text: string) => void; onTyping: (typing: boolean) => void; gestures: object }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const { note, author } = entry;
@@ -322,6 +353,8 @@ function NoteView({ entry, onSend }: { entry: NoteEntry; onSend: (text: string) 
   const name = nameOf(author);
   const [liked, setLiked] = useState(!!note.liked);
   const [text, setText] = useState("");
+  const [focused, setFocused] = useState(false);
+  useEffect(() => { onTyping(focused || !!text.trim()); }, [focused, text, onTyping]);
   const pop = useRef(new Animated.Value(1)).current;
   const toggleLike = () => {
     const next = !liked;
@@ -347,107 +380,171 @@ function NoteView({ entry, onSend }: { entry: NoteEntry; onSend: (text: string) 
       ? t("stories.seeOriginal", { defaultValue: "See original" })
       : t("stories.translate", { defaultValue: "Translate" });
   return (
-    <View style={{ alignItems: "center" }}>
-      <BigCloud author={author}>
-        <CloudBody note={note} words={words.shown} autoPlay />
-      </BigCloud>
-      <Text numberOfLines={1} style={{ color: c.ink, marginTop: 10, fontSize: 16, fontWeight: "800" }}>{name}</Text>
-      <NoteTimes note={note} />
-      {!!note.text && words.offer ? (
-        <Pressable
-          testID="note-translate"
-          onPress={words.isTranslated ? words.showOriginal : () => void words.translate()}
-          disabled={words.isLoading}
-          hitSlop={8}
-          accessibilityRole="button"
-          accessibilityLabel={chipLabel}
-          style={{ marginTop: 8 }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            {words.isLoading ? <ActivityIndicator size="small" color={c.ink2} style={{ transform: [{ scale: 0.7 }] }} /> : <Ionicons name="language" size={14} color={c.ink2} />}
-            <Text style={{ color: c.ink2, fontSize: 12, fontWeight: "600" }}>{chipLabel}</Text>
-          </View>
-        </Pressable>
-      ) : null}
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 16, alignSelf: "stretch" }}>
+    <>
+      <View {...gestures} style={{ flex: 1, justifyContent: "center" }}>
+        <StatusWords
+          note={note}
+          words={words.shown}
+          autoPlay
+          footer={!!note.text && words.offer ? (
+            <Pressable testID="note-translate" onPress={words.isTranslated ? words.showOriginal : () => void words.translate()} disabled={words.isLoading} hitSlop={8} accessibilityRole="button" accessibilityLabel={chipLabel}>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+                {words.isLoading ? <ActivityIndicator size="small" color={WHITE} style={{ transform: [{ scale: 0.7 }] }} /> : <Ionicons name="language" size={14} color={WHITE_DIM} />}
+                <Text style={[{ color: WHITE_DIM, fontSize: 12.5, fontWeight: "600" }, WORD_SHADOW]}>{chipLabel}</Text>
+              </View>
+            </Pressable>
+          ) : null}
+        />
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
         <TextInput
+          testID="note-reply"
           value={text}
           onChangeText={setText}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           maxLength={1000}
           placeholder={replyLabel}
           accessibilityLabel={replyLabel}
-          placeholderTextColor="hsla(240, 5%, 55%, 1)"
+          placeholderTextColor="rgba(255,255,255,0.6)"
           returnKeyType="send"
           onSubmitEditing={send}
-          style={{ flex: 1, height: 44, borderRadius: 13, paddingHorizontal: 14, backgroundColor: c.field, color: c.ink, fontSize: 15, borderWidth: 1, borderColor: c.hairline }}
+          style={[{ flex: 1, height: 48, borderRadius: 14, paddingHorizontal: 16, color: WHITE, fontSize: 15 }, GLASS, NO_OUTLINE]}
         />
         {text.trim() ? (
-          <SquareButton primary onPress={send} label={t("notes.send", { defaultValue: "Send" })}>
-            <Ionicons name="send" size={17} color={c.primaryInk} />
-          </SquareButton>
+          <Pressable onPress={send} accessibilityRole="button" accessibilityLabel={t("notes.send", { defaultValue: "Send" })}>
+            <View style={{ width: 48, height: 48, borderRadius: 14, backgroundColor: WHITE, alignItems: "center", justifyContent: "center" }}>
+              <Ionicons name="send" size={18} color={INK} />
+            </View>
+          </Pressable>
         ) : (
-          <SquareButton testID="note-like" onPress={toggleLike} label={liked ? t("notes.unlike", { defaultValue: "Unlike" }) : t("notes.like", { defaultValue: "Like" })}>
-            <Animated.View style={{ transform: [{ scale: pop }] }}>
-              <Ionicons name={liked ? "heart" : "heart-outline"} size={21} color={liked ? "#ff3b5c" : c.ink} />
-            </Animated.View>
-          </SquareButton>
+          <Pressable testID="note-like" onPress={toggleLike} accessibilityRole="button" accessibilityLabel={liked ? t("notes.unlike", { defaultValue: "Unlike" }) : t("notes.like", { defaultValue: "Like" })}>
+            <View style={[{ width: 48, height: 48, borderRadius: 14, alignItems: "center", justifyContent: "center" }, GLASS]}>
+              <Animated.View style={{ transform: [{ scale: pop }] }}>
+                <Ionicons name={liked ? "heart" : "heart-outline"} size={22} color={liked ? "#ff3b5c" : WHITE} />
+              </Animated.View>
+            </View>
+          </Pressable>
         )}
+      </View>
+    </>
+  );
+}
+
+/** Everyone's statuses, one after another, starting at the one you tapped. */
+function NoteStage({ entries, start, onClose, onSend }: { entries: NoteEntry[]; start: number; onClose: () => void; onSend: (entry: NoteEntry, text: string) => void }) {
+  const { t } = useTranslation();
+  const [index, setIndex] = useState(start);
+  const [held, setHeld] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const progress = useRef(new Animated.Value(0)).current;
+  const at = useRef(0);
+  useEffect(() => {
+    const id = progress.addListener(({ value }) => { at.current = value; });
+    return () => progress.removeListener(id);
+  }, [progress]);
+  const last = entries.length - 1;
+  const next = () => { if (index >= last) onClose(); else setIndex(index + 1); };
+  const prev = () => setIndex(Math.max(0, index - 1));
+  const nextRef = useRef(next);
+  nextRef.current = next;
+  useEffect(() => { progress.setValue(0); at.current = 0; }, [index, progress]);
+  const paused = held || typing;
+  useEffect(() => {
+    if (paused) return;
+    const anim = Animated.timing(progress, { toValue: 1, duration: Math.max(0, NOTE_PAGE_MS * (1 - at.current)), easing: Easing.linear, useNativeDriver: false });
+    anim.start(({ finished }) => { if (finished) nextRef.current(); });
+    return () => anim.stop();
+  }, [index, paused, progress]);
+  const gestures = useStageGestures({ onPrev: prev, onNext: next, onClose, setHeld });
+  const pad = useStagePad();
+  const entry = entries[Math.min(index, last)];
+  if (!entry) return null;
+  const ago = shortSpan(Date.now() - Date.parse(entry.note.postedAt));
+  return (
+    <View testID="note-stage" style={{ flex: 1 }}>
+      <Backdrop key={entry.note.id} author={entry.author} background={entry.note.background} />
+      <View style={pad}>
+        <NoteBars count={entries.length} index={index} progress={progress} />
+        <StageHead author={entry.author} title={nameOf(entry.author)} sub={t("notes.postedAgo", { defaultValue: "{{time}} ago", time: ago })} onClose={onClose} />
+        <NotePage key={entry.note.id} entry={entry} gestures={gestures} onSend={(text) => onSend(entry, text)} onTyping={setTyping} />
       </View>
     </View>
   );
 }
 
-/** Your own status: big cloud, how long it has left, who hearted it, edit or delete. */
-function MyNoteView({ entry, onEdit, onClose }: { entry: NoteEntry; onEdit: () => void; onClose: () => void }) {
-  const c = useNoteInk();
+/** Your own status: how long it has left, who hearted it, edit or delete. */
+function MyNoteStage({ entry, onEdit, onClose }: { entry: NoteEntry; onEdit: () => void; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const likers = entry.likers ?? [];
   const count = Math.max(entry.note.likeCount ?? 0, likers.length);
+  const left = shortSpan(Date.parse(entry.note.expiresAt) - Date.now());
   const remove = useMutation({
     mutationFn: deleteNote,
     onSuccess: () => { void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); onClose(); },
     onError: () => toastError(t("notes.failed", { defaultValue: "Your status didn't go up. Try again." })),
   });
+  const pad = useStagePad();
+  const soft = { height: 44, borderRadius: 13, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255,255,255,0.13)" } as const;
   return (
-    <View style={{ alignItems: "center" }}>
-      <BigCloud author={entry.author}>
-        <CloudBody note={entry.note} words={entry.note.text ?? ""} />
-      </BigCloud>
-      <Text style={{ color: c.ink, marginTop: 10, fontSize: 16, fontWeight: "800" }}>{t("notes.yourStatus", { defaultValue: "Your status" })}</Text>
-      <NoteTimes note={entry.note} own />
-      {count > 0 ? (
-        <View testID="note-likers" style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: 10, marginTop: 16, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 14, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline }}>
-          <Ionicons name="heart" size={20} color="#ff3b5c" />
-          <View style={{ flexDirection: "row" }}>
-            {likers.slice(0, 3).map((a, i) => {
-              const uri = getAvatarUrl(a.avatarImageUrl, 26);
-              return (
-                <View key={a.address} style={{ marginLeft: i ? -8 : 0, borderRadius: 9, borderWidth: 2, borderColor: c.ring }}>
-                  <Avatar uri={uri && uri !== "default-avatar" ? uri : undefined} size={26} radius={8} name={nameOf(a)} />
-                </View>
-              );
-            })}
+    <View testID="note-stage-mine" style={{ flex: 1 }}>
+      <Backdrop author={entry.author} background={entry.note.background} />
+      <View style={pad}>
+      <NoteBars count={1} index={0} />
+      <StageHead author={entry.author} title={t("notes.yourStatus", { defaultValue: "Your status" })} sub={t("notes.timeLeft", { defaultValue: "{{time}} left", time: left })} onClose={onClose} />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <StatusWords note={entry.note} words={entry.note.text ?? ""} />
+      </View>
+      <View style={{ borderRadius: 18, padding: 10, backgroundColor: "rgba(0,0,0,0.38)", borderWidth: 1, borderColor: "rgba(255,255,255,0.16)" }}>
+        {count > 0 ? (
+          <View testID="note-likers" style={{ flexDirection: "row", alignItems: "center", gap: 10, paddingHorizontal: 6, paddingTop: 4, marginBottom: 10 }}>
+            <Ionicons name="heart" size={20} color="#ff3b5c" />
+            <View style={{ flexDirection: "row" }}>
+              {likers.slice(0, 3).map((a, i) => {
+                const uri = getAvatarUrl(a.avatarImageUrl, 26);
+                return (
+                  <View key={a.address} style={{ marginLeft: i ? -8 : 0, borderRadius: 9, borderWidth: 2, borderColor: "rgba(0,0,0,0.55)" }}>
+                    <Avatar uri={uri && uri !== "default-avatar" ? uri : undefined} size={26} radius={8} name={nameOf(a)} />
+                  </View>
+                );
+              })}
+            </View>
+            <Text numberOfLines={1} style={{ color: WHITE, flex: 1, fontSize: 13.5, fontWeight: "600" }}>
+              {likers.length && count > 1
+                ? t("notes.likedByMore", { defaultValue: "Liked by {{name}} and {{others}} more", name: nameOf(likers[0]), others: formatCount(count - 1) })
+                : likers.length
+                  ? t("notes.likedBy", { defaultValue: "Liked by {{name}}", name: nameOf(likers[0]) })
+                  : t("notes.likes", { defaultValue: "{{total}} likes", total: formatCount(count) })}
+            </Text>
           </View>
-          <Text numberOfLines={1} style={{ color: c.ink, flex: 1, fontSize: 13, fontWeight: "600" }}>
-            {likers.length && count > 1
-              ? t("notes.likedByMore", { defaultValue: "Liked by {{name}} and {{others}} more", name: nameOf(likers[0]), others: formatCount(count - 1) })
-              : likers.length
-                ? t("notes.likedBy", { defaultValue: "Liked by {{name}}", name: nameOf(likers[0]) })
-                : t("notes.likes", { defaultValue: "{{total}} likes", total: formatCount(count) })}
-          </Text>
+        ) : null}
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Pressable testID="note-edit" onPress={onEdit} accessibilityRole="button" style={{ flex: 1 }}>
+            <View style={soft}><Text style={{ color: WHITE, fontSize: 15, fontWeight: "700" }}>{t("notes.edit", { defaultValue: "Edit" })}</Text></View>
+          </Pressable>
+          <Pressable testID="note-delete" onPress={() => remove.mutate()} disabled={remove.isPending} accessibilityRole="button" style={{ flex: 1, opacity: remove.isPending ? 0.5 : 1 }}>
+            <View style={soft}><Text style={{ color: "#ff6b7d", fontSize: 15, fontWeight: "700" }}>{t("notes.deleteShort", { defaultValue: "Delete" })}</Text></View>
+          </Pressable>
         </View>
-      ) : null}
-      <View style={{ flexDirection: "row", gap: 8, marginTop: 12, alignSelf: "stretch" }}>
-        <View style={{ flex: 1 }}><PillButton label={t("notes.edit", { defaultValue: "Edit" })} onPress={onEdit} /></View>
-        <View style={{ flex: 1 }}><PillButton label={t("notes.deleteShort", { defaultValue: "Delete" })} onPress={() => remove.mutate()} disabled={remove.isPending} danger /></View>
+      </View>
       </View>
     </View>
   );
 }
 
-function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | null; onClose: () => void }) {
-  const c = useNoteInk();
+function ToolButton({ onPress, label, active, testID, children }: { onPress: () => void; label: string; active?: boolean; testID?: string; children: (color: string) => React.ReactNode }) {
+  return (
+    <Pressable onPress={onPress} testID={testID} accessibilityRole="button" accessibilityLabel={label} hitSlop={4}>
+      <View style={[{ width: 44, height: 44, borderRadius: 13, alignItems: "center", justifyContent: "center" }, active ? { backgroundColor: WHITE } : GLASS]}>
+        {children(active ? INK : WHITE)}
+      </View>
+    </Pressable>
+  );
+}
+
+/** Writing a status: big words over the backdrop you pick, Song / GIF / Place down the side. */
+function NoteWriter({ me, mine, onClose }: { me: StoryAuthor; mine: Note | null; onClose: () => void }) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const [text, setText] = useState(mine?.text ?? "");
@@ -455,8 +552,10 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
   const [showPlace, setShowPlace] = useState(!!mine?.location);
   const [gifUrl, setGifUrl] = useState<string | null>(mine?.gifUrl ?? null);
   const [song, setSong] = useState<StorySong | null>(mine?.song ?? null);
+  const [background, setBackground] = useState<string>(mine?.background && (BACKDROP_KEYS as readonly string[]).includes(mine.background) ? mine.background : "photo");
   const [gifOpen, setGifOpen] = useState(false);
   const [soundOpen, setSoundOpen] = useState(false);
+  const size = wordSize(text || "Share a thought");
 
   const save = useMutation({
     mutationFn: (input: NoteInput) => putNote(input),
@@ -472,83 +571,112 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
       ...(location.trim() && { location: location.trim() }),
       ...(gifUrl && { gifUrl }),
       ...(song && { song }),
+      ...(background !== "photo" && { background }),
     });
   };
+  const avatar = getAvatarUrl(me.avatarImageUrl, 36);
+  const pad = useStagePad();
 
   return (
-    <View style={{ alignItems: "center" }}>
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", alignSelf: "stretch", height: 36, marginBottom: 12 }}>
-        <Pressable onPress={onClose} hitSlop={8} accessibilityRole="button" style={{ width: 80 }}>
-          <Text style={{ color: c.ink2, fontSize: 14, fontWeight: "600" }}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
+    <View testID="note-writer" style={{ flex: 1 }}>
+      <Backdrop author={me} background={background} />
+      <View style={pad}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", height: 40 }}>
+        <Pressable testID="note-cancel" onPress={onClose} hitSlop={8} accessibilityRole="button" style={{ width: 84 }}>
+          <Text style={{ color: "rgba(255,255,255,0.85)", fontSize: 15, fontWeight: "600" }}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
         </Pressable>
-        <Text style={{ color: c.ink, fontSize: 15, fontWeight: "700" }}>{t("notes.newStatus", { defaultValue: "New status" })}</Text>
-        <View style={{ width: 80, alignItems: "flex-end" }}>
+        <Text style={{ color: WHITE, fontSize: 16, fontWeight: "700" }}>{t("notes.newStatus", { defaultValue: "New status" })}</Text>
+        <View style={{ width: 84, alignItems: "flex-end" }}>
           <Pressable testID="note-share" onPress={share} disabled={empty || save.isPending} accessibilityRole="button" style={{ opacity: empty ? 0.45 : 1 }}>
-            <View style={{ height: 34, paddingHorizontal: 14, borderRadius: 11, backgroundColor: c.primaryBg, alignItems: "center", justifyContent: "center" }}>
-              {save.isPending ? <ActivityIndicator size="small" color={c.primaryInk} /> : <Text style={{ color: c.primaryInk, fontSize: 13.5, fontWeight: "700" }}>{t("notes.share", { defaultValue: "Share" })}</Text>}
+            <View style={{ height: 36, minWidth: 72, paddingHorizontal: 16, borderRadius: 11, backgroundColor: WHITE, alignItems: "center", justifyContent: "center" }}>
+              {save.isPending ? <ActivityIndicator size="small" color={INK} /> : <Text style={{ color: INK, fontSize: 14.5, fontWeight: "700" }}>{t("notes.share", { defaultValue: "Share" })}</Text>}
             </View>
           </Pressable>
         </View>
       </View>
 
-      <BigCloud author={me}>
-        {!!gifUrl && (
-          <View style={{ marginBottom: 6 }}>
-            <SmartImage source={{ uri: gifUrl }} style={{ width: 150, height: 104, borderRadius: 12 }} contentFit="contain" />
-            <TouchableOpacity onPress={() => setGifUrl(null)} accessibilityLabel={t("notes.removeGif", { defaultValue: "Remove GIF" })} style={{ position: "absolute", right: 4, top: 4, backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 8, padding: 4 }}>
-              <Ionicons name="close" size={14} color="#fff" />
-            </TouchableOpacity>
-          </View>
-        )}
-        <TextInput
-          testID="note-text"
-          value={text}
-          onChangeText={(v) => setText(v.replace(/\n/g, " "))}
-          maxLength={NOTE_TEXT_MAX}
-          autoFocus
-          multiline
-          blurOnSubmit
-          returnKeyType="done"
-          onSubmitEditing={share}
-          placeholder={t("notes.placeholder", { defaultValue: "Share a thought…" })}
-          placeholderTextColor="rgba(11,11,12,0.4)"
-          style={[{ minWidth: 130, maxWidth: 228, padding: 0, borderWidth: 0, color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }, NO_OUTLINE]}
-        />
-        {!!song && (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-            <CloudSong song={song} />
-            <TouchableOpacity onPress={() => setSong(null)} accessibilityLabel={t("notes.removeSong", { defaultValue: "Remove song" })} style={{ padding: 4, marginTop: 8 }}>
-              <Ionicons name="close" size={14} color={CLOUD_SOFT} />
-            </TouchableOpacity>
-          </View>
-        )}
-        {showPlace && (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 }}>
-            <Ionicons name="location-outline" size={13} color={CLOUD_SOFT} />
-            <TextInput
-              value={location}
-              onChangeText={setLocation}
-              maxLength={NOTE_LOCATION_MAX}
-              placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
-              placeholderTextColor="rgba(11,11,12,0.4)"
-              style={[{ minWidth: 110, padding: 0, borderWidth: 0, color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600", textAlign: "center" }, NO_OUTLINE]}
-            />
-            <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
-              <Ionicons name="close" size={13} color={CLOUD_SOFT} />
-            </TouchableOpacity>
-          </View>
-        )}
-      </BigCloud>
-
-      <Text style={{ color: c.ink2, fontSize: 11.5, marginTop: 8 }}>{t("notes.charsLeft", { defaultValue: "{{count}} left", count: NOTE_TEXT_MAX - text.length })}</Text>
-
-      <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 6, marginTop: 12 }}>
-        <PillButton small active={!!song} icon="musical-notes-outline" label={t("notes.song", { defaultValue: "Song" })} onPress={() => setSoundOpen(true)} />
-        <PillButton small active={!!gifUrl} label="GIF" onPress={() => setGifOpen(true)} />
-        <PillButton small active={showPlace} icon="location-outline" label={t("notes.place", { defaultValue: "Place" })} onPress={() => setShowPlace(true)} />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <View style={{ alignItems: "center", gap: 12, paddingHorizontal: 56 }}>
+          {!!gifUrl && (
+            <View>
+              <SmartImage source={{ uri: gifUrl }} style={{ width: 190, height: 140, borderRadius: 16 }} contentFit="contain" />
+              <TouchableOpacity onPress={() => setGifUrl(null)} accessibilityLabel={t("notes.removeGif", { defaultValue: "Remove GIF" })} style={{ position: "absolute", right: 6, top: 6, backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 8, padding: 4 }}>
+                <Ionicons name="close" size={14} color={WHITE} />
+              </TouchableOpacity>
+            </View>
+          )}
+          <TextInput
+            testID="note-text"
+            value={text}
+            onChangeText={(v) => setText(v.replace(/\n/g, " "))}
+            maxLength={NOTE_TEXT_MAX}
+            autoFocus
+            multiline
+            blurOnSubmit
+            returnKeyType="done"
+            onSubmitEditing={share}
+            placeholder={t("notes.placeholder", { defaultValue: "Share a thought…" })}
+            placeholderTextColor="rgba(255,255,255,0.55)"
+            selectionColor={WHITE}
+            style={[{ alignSelf: "stretch", padding: 0, borderWidth: 0, color: WHITE, fontSize: size, lineHeight: Math.round(size * 1.18), fontWeight: "800", textAlign: "center" }, WORD_SHADOW, NO_OUTLINE]}
+          />
+          <Text style={{ color: "rgba(255,255,255,0.65)", fontSize: 12 }}>{t("notes.charsLeft", { defaultValue: "{{count}} left", count: NOTE_TEXT_MAX - text.length })}</Text>
+          {!!song && (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4, maxWidth: "100%" }}>
+              <View style={{ flexShrink: 1 }}><StatusSong song={song} /></View>
+              <TouchableOpacity onPress={() => setSong(null)} accessibilityLabel={t("notes.removeSong", { defaultValue: "Remove song" })} style={{ padding: 4 }}>
+                <Ionicons name="close" size={16} color={WHITE} />
+              </TouchableOpacity>
+            </View>
+          )}
+          {showPlace && (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+              <Ionicons name="location-outline" size={15} color={WHITE} />
+              <TextInput
+                value={location}
+                onChangeText={setLocation}
+                maxLength={NOTE_LOCATION_MAX}
+                placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
+                placeholderTextColor="rgba(255,255,255,0.55)"
+                style={[{ minWidth: 130, padding: 0, borderWidth: 0, color: WHITE, fontSize: 14, fontWeight: "600", textAlign: "center" }, NO_OUTLINE]}
+              />
+              <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
+                <Ionicons name="close" size={15} color={WHITE} />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <View style={{ position: "absolute", right: 0, gap: 8 }}>
+          <ToolButton testID="note-add-song" active={!!song} label={t("notes.song", { defaultValue: "Song" })} onPress={() => setSoundOpen(true)}>
+            {(color) => <Ionicons name="musical-notes-outline" size={20} color={color} />}
+          </ToolButton>
+          <ToolButton testID="note-add-gif" active={!!gifUrl} label="GIF" onPress={() => setGifOpen(true)}>
+            {(color) => <Text style={{ color, fontSize: 12, fontWeight: "800" }}>GIF</Text>}
+          </ToolButton>
+          <ToolButton testID="note-add-place" active={showPlace} label={t("notes.place", { defaultValue: "Place" })} onPress={() => setShowPlace(true)}>
+            {(color) => <Ionicons name="location-outline" size={20} color={color} />}
+          </ToolButton>
+        </View>
       </View>
 
-      <Text style={{ color: c.ink2, fontSize: 12, textAlign: "center", marginTop: 12 }}>{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
+      <View accessibilityRole="radiogroup" accessibilityLabel={t("notes.background", { defaultValue: "Background" })} style={{ flexDirection: "row", justifyContent: "center", gap: 10 }}>
+        {BACKDROP_KEYS.map((key) => {
+          const on = background === key;
+          return (
+            <Pressable key={key} testID={`note-backdrop-pick-${key}`} onPress={() => setBackground(key)} accessibilityRole="radio" accessibilityState={{ checked: on }} accessibilityLabel={key === "photo" ? t("notes.yourPhoto", { defaultValue: "Your photo" }) : key}>
+              <View style={{ width: 38, height: 38, borderRadius: 12, padding: 2, borderWidth: 2, borderColor: on ? WHITE : "transparent" }}>
+                <View style={{ flex: 1, borderRadius: 9, overflow: "hidden", backgroundColor: "#27272a", borderWidth: on ? 0 : 1, borderColor: "rgba(255,255,255,0.35)" }}>
+                  {key === "photo"
+                    ? (avatar && avatar !== "default-avatar" ? <SmartImage source={{ uri: avatar }} style={{ flex: 1 }} contentFit="cover" /> : null)
+                    : <LinearGradient colors={BACKDROPS[key]} style={{ flex: 1 }} />}
+                </View>
+              </View>
+            </Pressable>
+          );
+        })}
+      </View>
+      <Text style={{ color: "rgba(255,255,255,0.65)", fontSize: 12, textAlign: "center", marginTop: 10 }}>{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
+      </View>
 
       <GifPicker
         visible={gifOpen}
@@ -809,38 +937,42 @@ export function GroupChatNotesRow({ groupId, me, onOpen }: { groupId: string; me
 }
 
 export default function NotesSheet({ visible, onClose, onMessage, initialView = null }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void; initialView?: NoteEntry | null }) {
-  const insets = useSafeAreaInsets();
   const user = useUser() as any;
-  const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
+  const qc = useQueryClient();
   const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled: visible });
-  // What the sheet shows: someone's status, your own, or the writer.
-  const [viewing, setViewing] = useState<NoteEntry | null>(null);
+  // What opens: someone's statuses (from the one tapped on), your own, or the writer.
+  const [viewing, setViewing] = useState<{ entries: NoteEntry[]; start: number } | null>(null);
   const [writing, setWriting] = useState(false);
-  useEffect(() => { setViewing(visible ? initialView : null); setWriting(false); }, [visible, initialView]);
+  useEffect(() => {
+    setWriting(false);
+    if (!visible || !initialView) { setViewing(null); return; }
+    // The list is taken once, so a refresh mid-view never moves the page.
+    const list = qc.getQueryData<{ notes: NoteEntry[] }>(NOTES_QUERY_KEY)?.notes ?? [];
+    const at = list.findIndex((e) => e.note.id === initialView.note.id);
+    setViewing(at >= 0 ? { entries: list, start: at } : { entries: [initialView], start: 0 });
+  }, [visible, initialView, qc]);
   const mineEntry = data?.mine ?? null;
   const address = (user?.address || user?.walletAddress || "") as string;
   const self: StoryAuthor | null = mineEntry?.author
     ?? (address ? { address, username: user?.username ?? null, displayName: user?.displayName ?? null, avatarImageUrl: user?.avatarImageUrl || user?.avatarUrl || null } as StoryAuthor : null);
   const showMine = !viewing && !writing && !!mineEntry;
   return (
-    <Modal visible={visible} animationType="slide" onRequestClose={onClose} transparent statusBarTranslucent navigationBarTranslucent>
-      <SheetBackdrop backdrop={backdrop} />
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1, justifyContent: "flex-end" }}>
-        <TouchableOpacity activeOpacity={1} onPress={onClose} style={{ flex: 1 }} />
-        <View testID={viewing ? "note-sheet-view" : showMine ? "note-sheet-mine" : "note-sheet-write"} className="overflow-hidden rounded-t-[28px] border-t border-white/10" style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: insets.bottom + 16, maxHeight: "92%" }}>
-          <DrawerSurface backdropBlurred={backdrop.blurred} />
-          <View className="bg-white/25" style={{ alignSelf: "center", width: 38, height: 5, borderRadius: 3, marginBottom: 12 }} />
-          {viewing ? (
-            <NoteView key={viewing.note.id} entry={viewing} onSend={(reply) => { const a = viewing.author; onClose(); onMessage(a, reply); }} />
-          ) : showMine ? (
-            <MyNoteView entry={mineEntry!} onEdit={() => setWriting(true)} onClose={onClose} />
-          ) : visible && self ? (
-            <NoteComposer key={mineEntry?.note.id ?? "new"} me={self} mine={writing ? mineEntry?.note ?? null : null} onClose={onClose} />
-          ) : (
-            <View style={{ paddingVertical: 40, alignItems: "center" }}><ActivityIndicator /></View>
-          )}
-        </View>
-      </KeyboardAvoidingView>
+    <Modal visible={visible} animationType="fade" onRequestClose={onClose} statusBarTranslucent navigationBarTranslucent>
+      <View className="dark-surface" style={{ flex: 1, backgroundColor: "#000" }}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
+          <View testID={viewing ? "note-sheet-view" : showMine ? "note-sheet-mine" : "note-sheet-write"} style={{ flex: 1 }}>
+            {viewing ? (
+              <NoteStage entries={viewing.entries} start={viewing.start} onClose={onClose} onSend={(entry, reply) => { onClose(); onMessage(entry.author, reply); }} />
+            ) : showMine ? (
+              <MyNoteStage entry={mineEntry!} onEdit={() => setWriting(true)} onClose={onClose} />
+            ) : visible && self ? (
+              <NoteWriter key={mineEntry?.note.id ?? "new"} me={self} mine={writing ? mineEntry?.note ?? null : null} onClose={onClose} />
+            ) : (
+              <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><ActivityIndicator color="#fff" /></View>
+            )}
+          </View>
+        </KeyboardAvoidingView>
+      </View>
     </Modal>
   );
 }

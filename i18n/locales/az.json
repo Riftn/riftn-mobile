@@ -9243,6 +9243,14 @@
     "fixSubmit": "Düzəliş təklif edin"
   },
   "upload": {
+    "translate": "Tərcümə et",
+    "translateTo": "Tərcümə et:",
+    "searchLanguages": "Dillərdə axtar",
+    "translatedFrom": "{{language}} dilindən tərcümə edildi",
+    "translated": "Tərcümə edildi",
+    "undoTranslate": "Geri al",
+    "alreadyIn": "Artıq {{language}} dilindədir",
+    "translationFailed": "Tərcümə alınmadı",
     "solanaUnavailable": "Solana cüzdanı əlçatmazdır — bu cihazda cüzdan açarınız yoxdur. Bərpa etmək üçün yenidən daxil olun.",
     "solanaTempUnavailable": "Solana-da paylaşım müvəqqəti əlçatmazdır. Əvəzinə Base və ya BNB sınayın.",
     "enterTextFirst": "Əvvəlcə mətn daxil edin",

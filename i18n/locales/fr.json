@@ -51,7 +51,7 @@
     "humor": "Humour",
     "life": "Vie"
   },
-  "stories": {
+  "stories": {"spot": {"listening": "{{n}} à l'écoute", "moments": "{{n}} Moments", "oneMoment": "1 Moment", "watching": "{{n}} spectateurs"}, "ask": {"prompt": "Quoi de neuf aujourd'hui ?", "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?", "create": "Créer", "moment": "Moment", "momentHint": "Photo ou vidéo pendant 24 heures", "post": "Publication", "postHint": "Texte, photos ou vidéo dans ton fil", "live": "Direct", "liveHint": "Lance un direct vidéo maintenant", "stage": "Scène", "stageHint": "Parle en direct avec ta voix", "status": "Statut", "statusHint": "Une courte note que tes abonnés voient"}, 
     "comments": "Commentaires",
     "commentFailed": "Ton commentaire n'a pas été publié. Réessaie.",
     "noCommentsYet": "Pas encore de commentaires. Dis quelque chose que tout le monde peut voir.",
@@ -180,7 +180,7 @@
       "hate": "Discours haineux",
       "other": "Autre chose"
     },
-    "agoLabel": "il y a {{time}}",
+    "agoLabel": "il y a {{time}}", "now": "maintenant",
     "momentTag": "MOMENT",
     "hoursLeft": "encore {{n}} h",
     "minutesLeft": "encore {{n}} min",
@@ -7401,6 +7401,14 @@
     }
   },
   "upload": {
+    "translate": "Traduire",
+    "translateTo": "Traduire en",
+    "searchLanguages": "Rechercher des langues",
+    "translatedFrom": "Traduit du {{language}}",
+    "translated": "Traduit",
+    "undoTranslate": "Annuler",
+    "alreadyIn": "Déjà en {{language}}",
+    "translationFailed": "Échec de la traduction",
     "altHint": "Dites ce qu’il contient pour les personnes qui ne peuvent pas le voir.",
     "altPlaceholder": "Décrivez cette photo",
     "altTab": "Texte alternatif",
@@ -8468,6 +8476,7 @@
   },
   "liveViewer": {
     "backToLive": "Revenir au direct",
+    "likeHint": "Maintenez pour plus de réactions",
     "showChat": "Afficher le chat",
     "hideChat": "Masquer le chat",
     "saySomething": "Dis quelque chose...",
@@ -8687,6 +8696,16 @@
     "groupVideoCall": "Appel vidéo de groupe",
     "callingGroup": "Appel du groupe...",
     "waitingForPeople": "En attente de participants...",
+    "callFull": "Cet appel est complet",
+    "callFullHint": "Il a déjà le maximum de personnes possible. Vous pourrez rejoindre quand quelqu'un partira.",
+    "camerasFull": "Caméras au complet",
+    "townHall": "Assemblée",
+    "gridView": "Grille",
+    "unpin": "Désépingler",
+    "townHallTalking": "{{n}} parlent",
+    "camerasFullJoin": "Vous êtes dans l'appel, caméra coupée. Vous pourrez l'activer quand quelqu'un coupera la sienne.",
+    "camerasFullHint": "Vous pourrez activer la vôtre quand quelqu'un coupera la sienne.",
+    "full": "Complet",
     "isCalling": "{{name}} vous appelle",
     "leave": "Quitter",
     "joinCall": "Rejoindre",
@@ -9234,7 +9253,9 @@
       "language": {
         "title": "Choisissez votre langue",
         "subtitle": "Nous avons choisi celle de votre téléphone. Touchez-en une autre pour changer.",
-        "fromPhone": "La langue de votre téléphone"
+        "fromPhone": "La langue de votre téléphone",
+        "fromCountry": "La langue de votre pays",
+        "subtitleCountry": "Nous avons choisi la langue principale de votre pays. Touchez-en une autre pour changer."
       },
       "theme": {
         "title": "Choisissez votre style",
@@ -16409,6 +16430,7 @@
     "tipJar": "Pot cadeau"
   },
   "liveStudio": {
+    "groups": {"stream": "Direct", "streamHint": "Les interrupteurs pendant le direct, où part votre stream et le lien pour OBS.", "overlay": "Overlay", "viewers": "Spectateurs", "viewersHint": "Sondages, minuteurs, points et récompenses qui font participer ceux qui regardent.", "chat": "Chat", "chatHint": "Votre bot de chat et les règles du chat sous vos streams.", "replays": "Après le stream", "replaysTab": "Après", "replaysHint": "Le bilan de votre dernier stream et les clips à partager."},
     "bot": {
       "title": "Bot du chat",
       "intro": "Un coanimateur pour le chat de ton live. Il salue les nouveaux, répond aux questions sur toi et le live, raconte aux retardataires ce qu'ils ont manqué et relance un chat silencieux. Il ne parle que sur tes lives, pendant que tu es en direct.",
@@ -18224,6 +18246,8 @@
     }
   },
   "notes": {
+    "background": "Arrière-plan",
+    "yourPhoto": "Ta photo",
     "newStatus": "Nouveau statut",
     "upFor": "Publié il y a {{time}}",
     "postedAgo": "il y a {{time}}",

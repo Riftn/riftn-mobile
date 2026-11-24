@@ -51,7 +51,7 @@
     "humor": "Humor",
     "life": "Leven"
   },
-  "stories": {
+  "stories": {"spot": {"listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
     "comments": "Reacties",
     "commentFailed": "Je reactie is niet geplaatst. Probeer het opnieuw.",
     "noCommentsYet": "Nog geen reacties. Zeg iets dat iedereen kan zien.",
@@ -180,7 +180,7 @@
       "hate": "Haatzaaien",
       "other": "Iets anders"
     },
-    "agoLabel": "{{time}} geleden",
+    "agoLabel": "{{time}} geleden", "now": "nu",
     "momentTag": "MOMENT",
     "hoursLeft": "nog {{n}} u",
     "minutesLeft": "nog {{n}} min",
@@ -7535,6 +7535,14 @@
     }
   },
   "upload": {
+    "translate": "Vertaal",
+    "translateTo": "Vertaal naar",
+    "searchLanguages": "Talen zoeken",
+    "translatedFrom": "Vertaald uit het {{language}}",
+    "translated": "Vertaald",
+    "undoTranslate": "Ongedaan maken",
+    "alreadyIn": "Al in {{language}}",
+    "translationFailed": "Vertaling mislukt",
     "altHint": "Zeg wat erop staat voor mensen die het niet kunnen zien.",
     "altPlaceholder": "Beschrijf deze foto",
     "altTab": "Alt-tekst",
@@ -8602,6 +8610,7 @@
   },
   "liveViewer": {
     "backToLive": "Terug naar live",
+    "likeHint": "Houd ingedrukt voor meer reacties",
     "showChat": "Chat tonen",
     "hideChat": "Chat verbergen",
     "saySomething": "Zeg iets...",
@@ -8821,6 +8830,16 @@
     "groupVideoCall": "Groepsvideogesprek",
     "callingGroup": "Groep wordt gebeld...",
     "waitingForPeople": "Wachten tot mensen meedoen...",
+    "callFull": "Dit gesprek is vol",
+    "callFullHint": "Er zitten al zoveel mensen in als een gesprek aankan. Je kunt meedoen zodra iemand weggaat.",
+    "camerasFull": "Camera's vol",
+    "townHall": "Zaal",
+    "gridView": "Raster",
+    "unpin": "Losmaken",
+    "townHallTalking": "{{n}} praten",
+    "camerasFullJoin": "Je zit erin met je camera uit. Je kunt hem aanzetten zodra iemand de zijne uitzet.",
+    "camerasFullHint": "Je kunt de jouwe aanzetten zodra iemand de zijne uitzet.",
+    "full": "Vol",
     "isCalling": "{{name}} belt",
     "leave": "Verlaten",
     "joinCall": "Deelnemen",
@@ -9368,7 +9387,9 @@
       "language": {
         "title": "Kies je taal",
         "subtitle": "We hebben de taal van je telefoon gekozen. Tik op een andere om te wisselen.",
-        "fromPhone": "De taal van je telefoon"
+        "fromPhone": "De taal van je telefoon",
+        "fromCountry": "De taal van je land",
+        "subtitleCountry": "We hebben de hoofdtaal van je land gekozen. Tik op een andere om te wisselen."
       },
       "theme": {
         "title": "Kies je stijl",
@@ -16656,6 +16677,7 @@
     "tipJar": "Geschenkpot"
   },
   "liveStudio": {
+    "groups": {"stream": "Live gaan", "streamHint": "Schakelaars voor tijdens de stream, waar je stream naartoe gaat en de link voor OBS.", "overlay": "Overlay", "viewers": "Kijkers", "viewersHint": "Polls, timers, punten en beloningen die je kijkers bij de stream betrekken.", "chat": "Chat", "chatHint": "Je chatbot en de regels voor de chat onder je streams.", "replays": "Na de stream", "replaysTab": "Na", "replaysHint": "Hoe je laatste stream ging en clips die het delen waard zijn."},
     "bot": {
       "title": "Chatbot",
       "intro": "Een co-host voor de chat van je stream. Hij begroet nieuwe mensen, beantwoordt vragen over jou en de stream, vertelt laatkomers wat ze gemist hebben en maakt een stille chat weer levendig. Hij praat alleen in je eigen streams, terwijl je live bent.",
@@ -18471,6 +18493,8 @@
     }
   },
   "notes": {
+    "background": "Achtergrond",
+    "yourPhoto": "Je foto",
     "newStatus": "Nieuwe status",
     "upFor": "{{time}} geleden geplaatst",
     "postedAgo": "{{time}} geleden",
@@ -18695,6 +18719,7 @@
     "asTheySee": "Zoals zij het zien",
     "sentIn": "Verstuurd in het {{language}}",
     "original": "Origineel",
+    "translatedFrom": "Vertaald uit het {{language}}",
     "translated": "Vertaald",
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",

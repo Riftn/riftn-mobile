@@ -12,6 +12,8 @@ import { ReactionFlowQueue, REACTION_STEP_MS, type ReactionParticle } from '../l
  */
 export interface ReactionFlow {
   add(type: unknown, weight?: number): void;
+  /** The viewer's own tap: one emoji up at once, every tap (see ReactionFlowQueue.launch). */
+  launch(type: unknown, weight?: number): void;
   remove(id: string): void;
   clear(): void;
   /** The particles in the air now: the same array until one comes or goes. */
@@ -47,6 +49,11 @@ export function createReactionFlow(now: () => number = Date.now): ReactionFlow {
       queue.enqueue(type, weight);
       if (timer === null && queue.busy) step();
     },
+    launch(type, weight = 1) {
+      if (!queue.launch(type, weight, now())) return;
+      publish(queue.tick(now()));
+      if (timer === null && queue.busy) timer = setTimeout(step, REACTION_STEP_MS);
+    },
     remove(id) {
       queue.remove(id);
       publish(particles.filter((item) => item.id !== id));
@@ -78,7 +85,8 @@ export function useReactions() {
     (type: unknown, _username?: string, weight = 1) => flow.add(type, weight),
     [flow],
   );
-  return { flow, addReaction, removeReaction: flow.remove, clearReactions: flow.clear };
+  const launchReaction = useCallback((type: unknown, weight = 1) => flow.launch(type, weight), [flow]);
+  return { flow, addReaction, launchReaction, removeReaction: flow.remove, clearReactions: flow.clear };
 }
 
 /** The particles in the air, re-rendering only the component that asks. */

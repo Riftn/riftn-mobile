@@ -9261,6 +9261,14 @@
     "fixSubmit": "Түзетуді ұсыну"
   },
   "upload": {
+    "translate": "Аудару",
+    "translateTo": "Аудару тілі",
+    "searchLanguages": "Тілдерді іздеу",
+    "translatedFrom": "{{language}} тілінен аударылды",
+    "translated": "Аударылды",
+    "undoTranslate": "Болдырмау",
+    "alreadyIn": "{{language}} тілінде",
+    "translationFailed": "Аудару сәтсіз аяқталды",
     "solanaUnavailable": "Solana әмияны қолжетімсіз — бұл құрылғыда сіздің кілтіңіз жоқ. Қалпына келтіру үшін қайта кіріңіз.",
     "solanaTempUnavailable": "Solana-да жариялау уақытша қолжетімсіз. Оның орнына Base немесе BNB қолданып көріңіз.",
     "enterTextFirst": "Алдымен мәтін енгізіңіз",

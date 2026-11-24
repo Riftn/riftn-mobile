@@ -51,7 +51,7 @@
     "humor": "Humor",
     "life": "Vida"
   },
-  "stories": {
+  "stories": {"spot": {"listening": "{{n}} escuchando", "moments": "{{n}} Momentos", "oneMoment": "1 Momento", "watching": "{{n}} viendo"}, "ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"}, 
     "comments": "Comentarios",
     "commentFailed": "Tu comentario no se publicó. Inténtalo de nuevo.",
     "noCommentsYet": "Aún no hay comentarios. Di algo que todos puedan ver.",
@@ -180,7 +180,7 @@
       "hate": "Discurso de odio",
       "other": "Otra cosa"
     },
-    "agoLabel": "hace {{time}}",
+    "agoLabel": "hace {{time}}", "now": "ahora",
     "momentTag": "MOMENTO",
     "hoursLeft": "quedan {{n}} h",
     "minutesLeft": "quedan {{n}} min",
@@ -7397,6 +7397,14 @@
     }
   },
   "upload": {
+    "translate": "Traducir",
+    "translateTo": "Traducir a",
+    "searchLanguages": "Buscar idiomas",
+    "translatedFrom": "Traducido del {{language}}",
+    "translated": "Traducido",
+    "undoTranslate": "Deshacer",
+    "alreadyIn": "Ya está en {{language}}",
+    "translationFailed": "Error en la traducción",
     "altHint": "Di qué hay en ella para quienes no pueden verla.",
     "altPlaceholder": "Describe esta foto",
     "altTab": "Texto alternativo",
@@ -8464,6 +8472,7 @@
   },
   "liveViewer": {
     "backToLive": "Volver al directo",
+    "likeHint": "Mantén pulsado para más reacciones",
     "showChat": "Mostrar chat",
     "hideChat": "Ocultar chat",
     "saySomething": "Di algo...",
@@ -8683,6 +8692,16 @@
     "groupVideoCall": "Videollamada grupal",
     "callingGroup": "Llamando al grupo...",
     "waitingForPeople": "Esperando a que se una gente...",
+    "callFull": "Esta llamada está llena",
+    "callFullHint": "Ya tiene el máximo de personas posible. Podrás unirte cuando alguien salga.",
+    "camerasFull": "Cámaras completas",
+    "townHall": "Asamblea",
+    "gridView": "Cuadrícula",
+    "unpin": "Desfijar",
+    "townHallTalking": "{{n}} hablando",
+    "camerasFullJoin": "Estás dentro con la cámara apagada. Podrás encenderla cuando alguien apague la suya.",
+    "camerasFullHint": "Podrás encender la tuya cuando alguien apague la suya.",
+    "full": "Llena",
     "isCalling": "{{name}} está llamando",
     "leave": "Salir",
     "joinCall": "Unirse",
@@ -9230,7 +9249,9 @@
       "language": {
         "title": "Elige tu idioma",
         "subtitle": "Elegimos el que usa tu teléfono. Toca otro para cambiarlo.",
-        "fromPhone": "El idioma de tu teléfono"
+        "fromPhone": "El idioma de tu teléfono",
+        "fromCountry": "El idioma de tu país",
+        "subtitleCountry": "Elegimos el idioma principal de tu país. Toca otro para cambiarlo."
       },
       "theme": {
         "title": "Elige tu estilo",
@@ -16405,6 +16426,7 @@
     "tipJar": "Tarro de regalo"
   },
   "liveStudio": {
+    "groups": {"stream": "En directo", "streamHint": "Interruptores para durante el directo, adónde se envía tu emisión y el enlace para OBS.", "overlay": "Overlay", "viewers": "Espectadores", "viewersHint": "Encuestas, temporizadores, puntos y recompensas que meten en el directo a quien lo ve.", "chat": "Chat", "chatHint": "Tu bot de chat y las reglas del chat bajo tus emisiones.", "replays": "Después del directo", "replaysTab": "Después", "replaysHint": "Cómo fue tu último directo y clips para compartir."},
     "bot": {
       "title": "Bot del chat",
       "intro": "Un copresentador para el chat de tu directo. Saluda a los nuevos, responde preguntas sobre ti y el directo, cuenta a quien llega tarde lo que se perdió y anima un chat callado. Solo habla en tus directos, mientras estás en vivo.",
@@ -18220,6 +18242,8 @@
     }
   },
   "notes": {
+    "background": "Fondo",
+    "yourPhoto": "Tu foto",
     "newStatus": "Nuevo estado",
     "upFor": "Publicado hace {{time}}",
     "postedAgo": "hace {{time}}",

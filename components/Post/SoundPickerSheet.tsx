@@ -27,7 +27,7 @@ import { outsideImage } from "../../libs/outside-image";
 import { clock, playableSoundUrl, soundWindow, soundWindowCorrection, suggestedSoundStart, withSoundWindow, SOUND_SOURCE_NAMES } from "../../libs/soundWindow";
 import { useAudioPlayer } from "expo-audio";
 import { getUnifiedFeed, type UnifiedFeedItem } from "../../services/feed.unified.service";
-import { getAvatarUrl } from "../../libs";
+import { buildImageUrl, getAvatarUrl } from "../../libs";
 import type { AttachedSound } from "../../hooks/usePostSound";
 
 const MIN_PCT = 0.55;
@@ -130,7 +130,8 @@ const toRiftnCandidate = (item: UnifiedFeedItem): SoundCandidate => {
     url: resolveAudioUrl(item.audioUrl, tokenId),
     title: resolveTrackTitle(item),
     creator: item.minterDisplayName || item.minterUsername || item.minter || "",
-    artwork: item.minterAvatarUrl ? getAvatarUrl(item.minterAvatarUrl) : undefined,
+    // The song's own cover photo when the post has one, else the uploader's photo.
+    artwork: (item.imageUrl ? buildImageUrl(tokenId, item.imageUrl, 160) : "") || (item.minterAvatarUrl ? getAvatarUrl(item.minterAvatarUrl) : undefined),
     tokenId,
     duration: item.audioDuration,
   };

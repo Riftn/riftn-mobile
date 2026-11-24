@@ -9243,6 +9243,14 @@
     "fixSubmit": "建议修复"
   },
   "upload": {
+    "translate": "翻译",
+    "translateTo": "翻译成",
+    "searchLanguages": "搜索语言",
+    "translatedFrom": "翻译自 {{language}}",
+    "translated": "已翻译",
+    "undoTranslate": "撤销",
+    "alreadyIn": "已经是 {{language}}",
+    "translationFailed": "翻译失败",
     "solanaUnavailable": "Solana 钱包不可用 — 本设备没有你的钱包密钥。请重新登录以恢复。",
     "solanaTempUnavailable": "Solana 发布暂时不可用。请改用 Base 或 BNB。",
     "enterTextFirst": "请先输入文字",

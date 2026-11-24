@@ -603,6 +603,32 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
         <Text style={{ fontSize: 12, color: isMine ? "hsla(0, 0%, 100%, 0.72)" : metaGrey }}>{pairNote}</Text>
       </TouchableOpacity>
     </View>
+  ) : translation && isMine ? (
+    // Your own line, translated from the hold menu: the same light note as a
+    // line sent in their language, readable on your bubble colour.
+    <View className="px-3 pt-1">
+      <TouchableOpacity
+        onPress={() => void toggleDmTranslation(message._id, message.content)}
+        disabled={translation.status === "loading"}
+        activeOpacity={0.7}
+        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+        accessibilityRole="button"
+        style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+      >
+        <Icon
+          name={translation.status === "loading" ? "Loader" : translation.status === "shown" ? "RotateCcw" : "Languages"}
+          size={12}
+          color="hsla(0, 0%, 100%, 0.72)"
+        />
+        <Text style={{ fontSize: 12, color: "hsla(0, 0%, 100%, 0.72)" }}>
+          {translation.status === "loading"
+            ? t("common.translating")
+            : translation.status === "shown"
+              ? t("common.showOriginal")
+              : t("common.translate")}
+        </Text>
+      </TouchableOpacity>
+    </View>
   ) : translation ? (
     <View className="px-3 pt-1">
       <TranslateButton

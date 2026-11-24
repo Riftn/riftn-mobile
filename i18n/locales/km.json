@@ -9256,6 +9256,14 @@
     "fixSubmit": "ស្នើការជួសជុល"
   },
   "upload": {
+    "translate": "បកប្រែ",
+    "translateTo": "បកប្រែទៅជា",
+    "searchLanguages": "ស្វែងរកភាសា",
+    "translatedFrom": "បានបកប្រែពី {{language}}",
+    "translated": "បានបកប្រែ",
+    "undoTranslate": "មិនធ្វើវិញ",
+    "alreadyIn": "ជាភាសា {{language}} រួចហើយ",
+    "translationFailed": "ការបកប្រែបានបរាជ័យ",
     "solanaUnavailable": "កាបូប Solana មិនអាចប្រើបានទេ — ឧបករណ៍នេះមិនមានសោកាបូបរបស់អ្នកទេ។ ចូលម្ដងទៀតដើម្បីស្ដារវាឡើងវិញ។",
     "solanaTempUnavailable": "ការបង្ហោះលើ Solana មិនអាចប្រើបានបណ្ដោះអាសន្នទេ។ សាកល្បង Base ឬ BNB ជំនួសវិញ។",
     "enterTextFirst": "សូមបញ្ចូលអត្ថបទជាមុនសិន",
