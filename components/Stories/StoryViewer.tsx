@@ -850,12 +850,20 @@ function ViewerSheet({
 }) {
   const { t } = useTranslation();
   const [viewers, setViewers] = useState<Viewer[] | null>(null);
+  // The totals come with the list, so the header always matches the rows
+  // (the counts on the moment itself were read when the shelf loaded).
+  const [totals, setTotals] = useState<{ viewers: number; views: number } | null>(null);
   useEffect(() => {
     if (kind !== "viewers") return;
     getStoryViewers(item.id)
-      .then((r) => setViewers(r.viewers))
+      .then((r) => {
+        setViewers(r.viewers);
+        setTotals({ viewers: r.viewCount ?? r.viewers.length, views: Math.max(r.playCount ?? 0, r.viewCount ?? 0) });
+      })
       .catch(() => setViewers([]));
   }, [kind, item.id]);
+  const uniqueViewers = totals?.viewers ?? item.viewCount ?? 0;
+  const totalViews = Math.max(totals?.views ?? 0, uniqueViewers);
 
   return (
     <View style={styles.sheetBack}>
@@ -908,7 +916,9 @@ function ViewerSheet({
         {kind === "viewers" ? (
           <>
             <Text style={styles.sheetTitle}>
-              {t("stories.viewsCount", { defaultValue: "{{formatted}} views", formatted: formatCount(item.viewCount ?? 0) })}
+              {t("stories.viewersCount", { defaultValue: "{{formatted}} viewers", formatted: formatCount(uniqueViewers) })}
+              {" · "}
+              {t("stories.viewsCount", { defaultValue: "{{formatted}} views", formatted: formatCount(totalViews) })}
             </Text>
             {viewers === null ? (
               <ActivityIndicator color="#fff" style={{ marginVertical: 20 }} />
@@ -922,6 +932,11 @@ function ViewerSheet({
                     <Text style={styles.viewerName} numberOfLines={1}>
                       {nameOf(v)}
                     </Text>
+                    {(v.plays ?? 1) > 1 ? (
+                      <Text style={styles.viewerPlays} accessibilityLabel={t("stories.watchedTimes", { defaultValue: "Watched {{formatted}} times", formatted: formatCount(v.plays ?? 1) })}>
+                        {t("stories.playsShort", { defaultValue: "{{formatted}}×", formatted: formatCount(v.plays ?? 1) })}
+                      </Text>
+                    ) : null}
                     {v.liked ? <Icon name="Heart" size={16} color="#FF5C78" fill="#FF5C78" /> : null}
                   </TouchableOpacity>
                 ))}
@@ -1059,4 +1074,5 @@ const styles = StyleSheet.create({
   empty: { color: "rgba(255,255,255,0.65)", paddingHorizontal: 8, paddingVertical: 16 },
   viewerRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingHorizontal: 8 },
   viewerName: { flex: 1, minWidth: 0, overflow: "hidden", color: "#fff", fontSize: 14 },
+  viewerPlays: { color: "hsla(0, 0%, 100%, 0.65)", fontSize: 13, fontWeight: "600" },
 });
