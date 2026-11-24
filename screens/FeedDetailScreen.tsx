@@ -1616,7 +1616,9 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
           <View className="dark-surface" style={[styles.postBgHost, flatCard && styles.postBgHostFlat]}>
             <PostBgLayer bg={textBg.bg} seed={String(item.tokenId ?? item.id ?? "")} />
             {textBg.bg.tone === "light" ? <View pointerEvents="none" style={styles.postBgVeil} /> : null}
-            {card}
+            {/* Flat: no theme bento of its own (Hazy's smoked glass and frost
+                picture covered the backdrop); the rounded host is the card. */}
+            {React.cloneElement(card as React.ReactElement<{ flat?: boolean }>, { flat: true })}
           </View>
         </DarkRoomProvider>
       </ProfilePostBgArtContext.Provider>
