@@ -197,6 +197,8 @@ function PillButton({ icon, label, onPress, primary, disabled, small, active, da
 
 const CLOUD_INK = "#0b0b0c";
 const CLOUD_SOFT = "rgba(11,11,12,0.55)";
+/** Phone web draws a focus box round inputs; the cloud is the box. */
+const NO_OUTLINE = (Platform.OS === "web" ? { outlineStyle: "none", outlineWidth: 0 } : null) as any;
 
 /** "2h", "35m": short, like the chat list. */
 function shortSpan(ms: number): string {
@@ -207,12 +209,13 @@ function shortSpan(ms: number): string {
 }
 
 function NoteTimes({ note, own }: { note: Note; own?: boolean }) {
+  const c = useNoteInk();
   const { t } = useTranslation();
   const now = Date.now();
   const ago = shortSpan(now - Date.parse(note.postedAt));
   const left = shortSpan(Date.parse(note.expiresAt) - now);
   return (
-    <Text className="text-theme-neutrals-400" style={{ fontSize: 12.5, marginTop: 2 }}>
+    <Text style={{ color: c.ink2, fontSize: 12.5, marginTop: 2 }}>
       {own ? t("notes.upFor", { defaultValue: "Up {{time}}", time: ago }) : t("notes.postedAgo", { defaultValue: "{{time}} ago", time: ago })}
       {" · "}
       {t("notes.timeLeft", { defaultValue: "{{time}} left", time: left })}
@@ -348,7 +351,7 @@ function NoteView({ entry, onSend }: { entry: NoteEntry; onSend: (text: string) 
       <BigCloud author={author}>
         <CloudBody note={note} words={words.shown} autoPlay />
       </BigCloud>
-      <Text className="text-white" numberOfLines={1} style={{ marginTop: 10, fontSize: 16, fontWeight: "800" }}>{name}</Text>
+      <Text numberOfLines={1} style={{ color: c.ink, marginTop: 10, fontSize: 16, fontWeight: "800" }}>{name}</Text>
       <NoteTimes note={note} />
       {!!note.text && words.offer ? (
         <Pressable
@@ -411,7 +414,7 @@ function MyNoteView({ entry, onEdit, onClose }: { entry: NoteEntry; onEdit: () =
       <BigCloud author={entry.author}>
         <CloudBody note={entry.note} words={entry.note.text ?? ""} />
       </BigCloud>
-      <Text className="text-white" style={{ marginTop: 10, fontSize: 16, fontWeight: "800" }}>{t("notes.yourStatus", { defaultValue: "Your status" })}</Text>
+      <Text style={{ color: c.ink, marginTop: 10, fontSize: 16, fontWeight: "800" }}>{t("notes.yourStatus", { defaultValue: "Your status" })}</Text>
       <NoteTimes note={entry.note} own />
       {count > 0 ? (
         <View testID="note-likers" style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: 10, marginTop: 16, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 14, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline }}>
@@ -426,7 +429,7 @@ function MyNoteView({ entry, onEdit, onClose }: { entry: NoteEntry; onEdit: () =
               );
             })}
           </View>
-          <Text className="text-white" numberOfLines={1} style={{ flex: 1, fontSize: 13, fontWeight: "600" }}>
+          <Text numberOfLines={1} style={{ color: c.ink, flex: 1, fontSize: 13, fontWeight: "600" }}>
             {likers.length && count > 1
               ? t("notes.likedByMore", { defaultValue: "Liked by {{name}} and {{others}} more", name: nameOf(likers[0]), others: formatCount(count - 1) })
               : likers.length
@@ -476,9 +479,9 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
     <View style={{ alignItems: "center" }}>
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", alignSelf: "stretch", height: 36, marginBottom: 12 }}>
         <Pressable onPress={onClose} hitSlop={8} accessibilityRole="button" style={{ width: 80 }}>
-          <Text className="text-theme-neutrals-400" style={{ fontSize: 14, fontWeight: "600" }}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
+          <Text style={{ color: c.ink2, fontSize: 14, fontWeight: "600" }}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
         </Pressable>
-        <Text className="text-white" style={{ fontSize: 15, fontWeight: "700" }}>{t("notes.newStatus", { defaultValue: "New status" })}</Text>
+        <Text style={{ color: c.ink, fontSize: 15, fontWeight: "700" }}>{t("notes.newStatus", { defaultValue: "New status" })}</Text>
         <View style={{ width: 80, alignItems: "flex-end" }}>
           <Pressable testID="note-share" onPress={share} disabled={empty || save.isPending} accessibilityRole="button" style={{ opacity: empty ? 0.45 : 1 }}>
             <View style={{ height: 34, paddingHorizontal: 14, borderRadius: 11, backgroundColor: c.primaryBg, alignItems: "center", justifyContent: "center" }}>
@@ -509,7 +512,7 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
           onSubmitEditing={share}
           placeholder={t("notes.placeholder", { defaultValue: "Share a thought…" })}
           placeholderTextColor="rgba(11,11,12,0.4)"
-          style={{ minWidth: 130, maxWidth: 228, padding: 0, color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }}
+          style={[{ minWidth: 130, maxWidth: 228, padding: 0, borderWidth: 0, color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }, NO_OUTLINE]}
         />
         {!!song && (
           <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
@@ -528,7 +531,7 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
               maxLength={NOTE_LOCATION_MAX}
               placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
               placeholderTextColor="rgba(11,11,12,0.4)"
-              style={{ minWidth: 110, padding: 0, color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600", textAlign: "center" }}
+              style={[{ minWidth: 110, padding: 0, borderWidth: 0, color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600", textAlign: "center" }, NO_OUTLINE]}
             />
             <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
               <Ionicons name="close" size={13} color={CLOUD_SOFT} />
@@ -537,7 +540,7 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
         )}
       </BigCloud>
 
-      <Text className="text-theme-neutrals-500" style={{ fontSize: 11.5, marginTop: 8 }}>{t("notes.charsLeft", { defaultValue: "{{count}} left", count: NOTE_TEXT_MAX - text.length })}</Text>
+      <Text style={{ color: c.ink2, fontSize: 11.5, marginTop: 8 }}>{t("notes.charsLeft", { defaultValue: "{{count}} left", count: NOTE_TEXT_MAX - text.length })}</Text>
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 6, marginTop: 12 }}>
         <PillButton small active={!!song} icon="musical-notes-outline" label={t("notes.song", { defaultValue: "Song" })} onPress={() => setSoundOpen(true)} />
@@ -545,7 +548,7 @@ function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | nul
         <PillButton small active={showPlace} icon="location-outline" label={t("notes.place", { defaultValue: "Place" })} onPress={() => setShowPlace(true)} />
       </View>
 
-      <Text className="text-theme-neutrals-500 text-[12px] text-center" style={{ marginTop: 12 }}>{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
+      <Text style={{ color: c.ink2, fontSize: 12, textAlign: "center", marginTop: 12 }}>{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
 
       <GifPicker
         visible={gifOpen}
