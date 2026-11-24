@@ -57,8 +57,7 @@ import {
   type StoryViewer as Viewer,
 } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
-import { avatarOf, nameOf, startIndex } from "./story-utils";
-import { momentAgo } from "./moment-age";
+import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 import StoryComments from "./StoryComments";
 import MomentCaption from "./MomentCaption";
 import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
@@ -559,7 +558,9 @@ export default function StoryViewer({
               {own ? t("stories.yourDay", { defaultValue: "Your day" }) : nameOf(entry.author)}
             </Text>
             <Text style={styles.whoSub} numberOfLines={1}>
-              {momentAgo(item.createdAt, t)}
+              {Date.now() - new Date(item.createdAt).getTime() < 60_000
+                ? ageLabel(item.createdAt)
+                : t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
               {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
               {item.closeFriends || item.audience === "close_friends" ? (
                 <Text style={{ color: "#4ade80", fontWeight: "700" }}>{` · ★ ${t("stories.closeFriends", { defaultValue: "Close friends" })}`}</Text>

@@ -175,7 +175,7 @@
       "hate": "Nefret söylemi",
       "other": "Başka bir şey"
     },
-    "agoLabel": "{{time}} önce",
+    "agoLabel": "{{time}} önce", "now": "şimdi",
     "momentTag": "AN",
     "hoursLeft": "{{n}} sa kaldı",
     "minutesLeft": "{{n}} dk kaldı",
@@ -16406,6 +16406,7 @@
     "tipJar": "Hediye kavanozu"
   },
   "liveStudio": {
+    "groups": {"stream": "Canlı yayın", "streamHint": "Yayın sırasındaki anahtarlar, yayınının gideceği yerler ve OBS bağlantısı.", "overlay": "Kaplama", "viewers": "İzleyiciler", "viewersHint": "İzleyenleri yayına katan anketler, sayaçlar, puanlar ve ödüller.", "chat": "Sohbet", "chatHint": "Sohbet botun ve yayınlarının altındaki sohbetin kuralları.", "replays": "Yayından sonra", "replaysTab": "Sonra", "replaysHint": "Son yayının nasıl geçti ve paylaşmaya değer klipler."},
     "bot": {
       "title": "Sohbet botu",
       "intro": "Yayın sohbetin için bir yardımcı sunucu. Yeni gelenleri selamlar, seninle ve yayınla ilgili soruları yanıtlar, geç gelenlere neyi kaçırdıklarını anlatır ve sessiz bir sohbeti canlandırır. Yalnızca kendi yayınlarında, sen canlıyken konuşur.",

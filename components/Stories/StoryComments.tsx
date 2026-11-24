@@ -8,8 +8,7 @@ import Avatar from "../common/Avatar";
 import { formatCount } from "../../libs/format-count";
 import { toastError } from "../../libs/toast";
 import { addStoryComment, deleteStoryComment, getStoryComments, type StoryComment, type StoryItem } from "../../services/stories.service";
-import { avatarOf, nameOf } from "./story-utils";
-import { formatShortAgo } from "../../libs/date.util";
+import { ageLabel, avatarOf, nameOf } from "./story-utils";
 import { MomentComment } from "./MomentIcons";
 
 export default function StoryComments({ item, signedIn, bottom, onClose, onOpenProfile, onSignIn, onCount }: {
@@ -103,7 +102,7 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
         <Text style={styles.name} numberOfLines={1} onPress={() => onOpenProfile(c.author.address)}>
           {nameOf(c.author)}
           {c.isCreator ? <Text style={styles.creator}>{"  "}{t("postInfo.creator", { defaultValue: "Creator" })}</Text> : null}
-          {" "}<Text style={styles.age}>{formatShortAgo(c.createdAt)}</Text>
+          {" "}<Text style={styles.age}>{ageLabel(c.createdAt)}</Text>
         </Text>
         <Text style={styles.text}>{c.text}</Text>
         {allow ? (
