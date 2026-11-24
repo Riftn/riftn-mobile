@@ -367,3 +367,44 @@ export const gratitudeCreate = (body: { opponent?: string; days: number }) => po
 export const gratitudeAction = (id: string, action: 'accept' | 'decline' | 'give-up') => post<{ game: GratitudeGame }>(gratitudePath(id, `/${action}`));
 export const gratitudeWrite = (id: string, text: string) => post<{ game: GratitudeGame }>(gratitudePath(id, '/line'), { text });
 export const gratitudeCheck = (id: string, text: string) => post<GratitudeCheck>(gratitudePath(id, '/check'), { text });
+
+// ------------------------------------------------------------------ Chestard
+// Dice-drop arcade game. The server rolls every die one at a time
+// (riftn-backend src/games/chestard.service.ts), so the top 10 is real games.
+
+export interface ChestardRun {
+  id: string;
+  heights: number[];
+  score: number;
+  lines: number;
+  drops: number;
+  over: boolean;
+}
+
+export interface ChestardRoll extends ChestardRun {
+  die: number;
+  column: number;
+  landedRow: number;
+  points: number;
+  cleared: boolean;
+  bonus: number;
+  newBest: boolean;
+}
+
+export interface ChestardBoardRow {
+  rank: number;
+  player: GamePlayer;
+  best: number;
+  lines: number;
+}
+
+export interface ChestardState {
+  rules: { cols: number; rows: number; lineBonus: number };
+  me: { best: number; bestLines: number; games: number } | null;
+  run: ChestardRun | null;
+  leaderboard: ChestardBoardRow[];
+}
+
+export const chestardState = (signedIn: boolean) => get<ChestardState>('/games/chestard', signedIn);
+export const chestardStart = () => post<{ run: ChestardRun }>('/games/chestard/start', {});
+export const chestardRoll = (id: string) => post<{ roll: ChestardRoll }>(`/games/chestard/${encodeURIComponent(id)}/roll`, {});

@@ -351,6 +351,11 @@ function AppNavigatorContent() {
           name={ScreenNames.SillyCoin}
           getComponent={() => deferredScreen('../screens/SillyCoinScreen#default', () => require("../screens/SillyCoinScreen").default)}
         />
+        {/* Chestard: dice-drop arcade game, server-rolled dice and a top 10. */}
+        <Stack.Screen
+          name={ScreenNames.Chestard}
+          getComponent={() => deferredScreen('../screens/ChestardScreen#default', () => require("../screens/ChestardScreen").default)}
+        />
         {/* Gratitude pen pals: take turns saying what you are grateful for. */}
         <Stack.Screen
           name={ScreenNames.Gratitude}
