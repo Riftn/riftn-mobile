@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -25,6 +25,8 @@ import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 import { storage } from "../../libs/storage";
+import { formatCount } from "../../libs/format-count";
+import { formatShortAgo } from "../../libs/date.util";
 
 /** What Home's Moments seat held last time, read before the first frame. */
 type ShelfSeat = "row" | "ask" | "none";
@@ -157,17 +159,26 @@ function StoryShelf() {
   if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
   if (holding ? lastSeat === "ask" : bare) return <StoryCreateBar />;
 
+  // With only 1 to 3 things up the row would end in empty space, so the first
+  // live (else the first Moment, else your own) grows into it and says more.
+  const showMe = !!(storiesEnabled && me && (pending || ownWatchable));
+  const shownOthers = storiesEnabled ? others : [];
+  const upCount = (showMe ? 1 : 0) + eligibleLive.length + shownOthers.length;
+  const few = !holding && !isLoading && upCount >= 1 && upCount <= 3;
+  const spotlight = !few ? null : eligibleLive[0] ? "live" : shownOthers[0] ? "person" : "me";
+
   const shelfScroll = (
     <ScrollView
       horizontal
       nestedScrollEnabled
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.row}
+      contentContainerStyle={[styles.row, few && styles.rowFill]}
       style={styles.wrap}
     >
       {(storiesEnabled || holding) && me ? <StoryCreateTile width={TILE_W} height={TILE_H} /> : null}
-      {storiesEnabled && me && (pending || ownWatchable) ? (
+      {showMe ? (
         <MeTile
+          spotlight={spotlight === "me"}
           pending={pending as PendingMoment | null}
           avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
           name={t("stories.yourDay", { defaultValue: "Your day" })}
@@ -177,8 +188,8 @@ function StoryShelf() {
           onAdd={add}
         />
       ) : null}
-      {eligibleLive.map((item) => (
-        <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
+      {eligibleLive.map((item, index) => (
+        <LiveTile key={`${item.kind}-${item.id}`} item={item} spotlight={spotlight === "live" && index === 0} onOpen={() => openLive(item)} />
       ))}
       {holding || (storiesEnabled && isLoading) ? [0, 1, 2, 3].map((index) => (
         <View key={`loading-${index}`} style={[styles.tile, styles.loadingTile, isLight && styles.loadingTileLight]}>
@@ -186,8 +197,8 @@ function StoryShelf() {
           <View style={[styles.loadingBar, isLight && styles.loadingBarLight]} />
         </View>
       )) : null}
-      {storiesEnabled && others.map((entry) => (
-        <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} />
+      {shownOthers.map((entry, index) => (
+        <PersonTile key={entry.author.address} entry={entry} spotlight={spotlight === "person" && index === 0} onOpen={() => openEntry(entry)} />
       ))}
     </ScrollView>
   );
@@ -202,8 +213,16 @@ function StoryShelf() {
   );
 }
 
-function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, closeFriends, children }: {
+/** True inside a spotlight tile once it is wide enough for the bigger name and a line under it. */
+const SpotWide = createContext(false);
+const SPOT_MIN = 150;
+
+function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, closeFriends, spotlight, spot, children }: {
   cover?: string | null;
+  /** 1 to 3 things up: this tile grows into the spare room. */
+  spotlight?: boolean;
+  /** The line under the name once the spotlight is wide. */
+  spot?: string | null;
   seen?: boolean;
   /** A Close Friends Moment: green rim until watched. */
   closeFriends?: boolean;
@@ -217,8 +236,15 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, c
   children: React.ReactNode;
 }) {
   const { isLight } = useAppTheme();
+  const [width, setWidth] = useState(0);
+  const wide = !!spotlight && width >= SPOT_MIN;
   return (
-    <View className="dark-surface" style={[styles.tile, seen && styles.tileSeen]}>
+    <SpotWide.Provider value={wide}>
+    <View
+      className="dark-surface"
+      style={[styles.tile, spotlight && styles.tileSpot, seen && styles.tileSeen]}
+      onLayout={spotlight ? (e) => setWidth(e.nativeEvent.layout.width) : undefined}
+    >
       <TouchableOpacity
         style={StyleSheet.absoluteFill}
         activeOpacity={0.85}
@@ -240,11 +266,13 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, c
         {avatar ? <View pointerEvents="none" style={styles.avatar}>{avatar}</View> : null}
         {badge}
         {children}
+        {wide && spot ? <Text style={styles.spot} numberOfLines={1} pointerEvents="none">{spot}</Text> : null}
         {/* Watched moments fade to grey so new ones stand out. */}
         {seen ? <View pointerEvents="none" style={styles.seenWash} /> : null}
       </TouchableOpacity>
       {action}
     </View>
+    </SpotWide.Provider>
   );
 }
 
@@ -256,7 +284,9 @@ function MeTile({
   processing,
   onOpen,
   onAdd,
+  spotlight,
 }: {
+  spotlight?: boolean;
   pending: PendingMoment | null;
   avatar: string | null;
   name: string;
@@ -274,6 +304,7 @@ function MeTile({
       : name;
   return (
     <ShelfTile
+      spotlight={spotlight}
       cover={pending?.preview ?? (entry && coverOf(entry))}
       avatar={failed ? null : <Avatar uri={avatar} size={FACE} radius={FACE_R} name={name} />}
       label={failed ? caption : name}
@@ -317,11 +348,18 @@ function LiveBars({ label }: { label: string }) {
   );
 }
 
-function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
+function LiveTile({ item, spotlight, onOpen }: { item: LiveNowItem; spotlight?: boolean; onOpen: () => void }) {
   const { t } = useTranslation();
   const liveLabel = t("stages.live");
+  const audience = item.count
+    ? item.kind === "stage"
+      ? t("stories.spot.listening", { n: item.count, defaultValue: "{{n}} listening" })
+      : t("stories.spot.watching", { n: item.count, defaultValue: "{{n}} watching" })
+    : "";
   return (
     <ShelfTile
+      spotlight={spotlight}
+      spot={[item.title, audience].filter(Boolean).join(" · ")}
       cover={item.cover}
       avatar={<LiveFace item={item} size={FACE} radius={FACE_R} live={false} />}
       label={`${item.title}, ${liveLabel}`}
@@ -347,10 +385,11 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   badge?: number;
 }) {
   const account = useBadgeAccount(lookup);
+  const wide = useContext(SpotWide);
   const artwork = badge ?? (account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined);
   return (
-    <View style={styles.label} pointerEvents="none">
-      <Text style={styles.name} numberOfLines={1}>
+    <View style={wide ? [styles.label, styles.labelWide] : styles.label} pointerEvents="none">
+      <Text style={wide ? [styles.name, styles.nameWide] : styles.name} numberOfLines={1}>
         {displayName?.trim() || account?.displayName?.trim() || fallback}
       </Text>
       {artwork != null && <Image source={artwork} style={styles.identityBadge} contentFit="contain" />}
@@ -362,11 +401,17 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
 const TILE_SHADE = ["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"] as const;
 const TILE_SHADE_AT = [0, 0.36, 0.5, 1] as const;
 
-function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
+function PersonTile({ entry, spotlight, onOpen }: { entry: ShelfEntry; spotlight?: boolean; onOpen: () => void }) {
+  const { t } = useTranslation();
   const name = nameOf(entry.author);
   const blurred = useMomentPreviewsBlurred();
+  const moments = entry.items.length === 1
+    ? t("stories.spot.oneMoment", { defaultValue: "1 Moment" })
+    : t("stories.spot.moments", { n: formatCount(entry.items.length), defaultValue: "{{n}} Moments" });
   return (
     <ShelfTile
+      spotlight={spotlight}
+      spot={[entry.latestAt ? formatShortAgo(entry.latestAt) : "", moments].filter(Boolean).join(" · ")}
       cover={coverOf(entry)}
       seen={entry.seen}
       closeFriends={!!entry.closeFriends && !entry.own}
@@ -385,6 +430,22 @@ const styles = StyleSheet.create({
   seenWash: { ...StyleSheet.absoluteFillObject, backgroundColor: "hsla(0, 0%, 45%, 0.45)" },
   wrap: { marginTop: 6, marginBottom: 8, flexGrow: 0 },
   row: { gap: 8, paddingVertical: 2 },
+  rowFill: { flexGrow: 1 },
+  tileSpot: { flexGrow: 1, width: undefined, minWidth: TILE_W },
+  labelWide: { left: 12, right: 12, bottom: 29 },
+  nameWide: { fontSize: 16, letterSpacing: -0.16 },
+  spot: {
+    position: "absolute",
+    left: 12,
+    right: 12,
+    bottom: 11,
+    color: "rgba(255,255,255,0.82)",
+    fontSize: 12,
+    fontWeight: "600",
+    textShadowColor: "rgba(0,0,0,0.6)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
+  },
   tile: {
     width: TILE_W,
     height: TILE_H,

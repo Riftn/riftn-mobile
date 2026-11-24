@@ -51,7 +51,7 @@
     "humor": "Humor",
     "life": "Leven"
   },
-  "stories": {"ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
+  "stories": {"spot": {"listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
     "comments": "Reacties",
     "commentFailed": "Je reactie is niet geplaatst. Probeer het opnieuw.",
     "noCommentsYet": "Nog geen reacties. Zeg iets dat iedereen kan zien.",
