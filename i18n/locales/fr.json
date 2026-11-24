@@ -51,7 +51,7 @@
     "humor": "Humour",
     "life": "Vie"
   },
-  "stories": {
+  "stories": {"ask": {"prompt": "Quoi de neuf aujourd'hui ?", "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?", "create": "Créer", "moment": "Moment", "momentHint": "Photo ou vidéo pendant 24 heures", "post": "Publication", "postHint": "Texte, photos ou vidéo dans ton fil", "live": "Direct", "liveHint": "Lance un direct vidéo maintenant", "stage": "Scène", "stageHint": "Parle en direct avec ta voix", "status": "Statut", "statusHint": "Une courte note que tes abonnés voient"}, 
     "comments": "Commentaires",
     "commentFailed": "Ton commentaire n'a pas été publié. Réessaie.",
     "noCommentsYet": "Pas encore de commentaires. Dis quelque chose que tout le monde peut voir.",
