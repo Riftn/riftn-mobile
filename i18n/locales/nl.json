@@ -9373,7 +9373,9 @@
       "language": {
         "title": "Kies je taal",
         "subtitle": "We hebben de taal van je telefoon gekozen. Tik op een andere om te wisselen.",
-        "fromPhone": "De taal van je telefoon"
+        "fromPhone": "De taal van je telefoon",
+        "fromCountry": "De taal van je land",
+        "subtitleCountry": "We hebben de hoofdtaal van je land gekozen. Tik op een andere om te wisselen."
       },
       "theme": {
         "title": "Kies je stijl",

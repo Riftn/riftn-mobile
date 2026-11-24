@@ -9239,7 +9239,9 @@
       "language": {
         "title": "Choisissez votre langue",
         "subtitle": "Nous avons choisi celle de votre téléphone. Touchez-en une autre pour changer.",
-        "fromPhone": "La langue de votre téléphone"
+        "fromPhone": "La langue de votre téléphone",
+        "fromCountry": "La langue de votre pays",
+        "subtitleCountry": "Nous avons choisi la langue principale de votre pays. Touchez-en une autre pour changer."
       },
       "theme": {
         "title": "Choisissez votre style",

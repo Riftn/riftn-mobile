@@ -9235,7 +9235,9 @@
       "language": {
         "title": "Elige tu idioma",
         "subtitle": "Elegimos el que usa tu teléfono. Toca otro para cambiarlo.",
-        "fromPhone": "El idioma de tu teléfono"
+        "fromPhone": "El idioma de tu teléfono",
+        "fromCountry": "El idioma de tu país",
+        "subtitleCountry": "Elegimos el idioma principal de tu país. Toca otro para cambiarlo."
       },
       "theme": {
         "title": "Elige tu estilo",

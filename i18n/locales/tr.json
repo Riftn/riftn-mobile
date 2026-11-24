@@ -9229,7 +9229,9 @@
       "language": {
         "title": "Dilini seç",
         "subtitle": "Telefonunun kullandığı dili seçtik. Değiştirmek için başka birine dokun.",
-        "fromPhone": "Telefonunun dili"
+        "fromPhone": "Telefonunun dili",
+        "fromCountry": "Bulunduğun ülkenin dili",
+        "subtitleCountry": "Bulunduğun ülkenin dilini seçtik. Değiştirmek için başka birine dokun."
       },
       "theme": {
         "title": "Görünümünü seç",
