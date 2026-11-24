@@ -41,7 +41,7 @@ export default function PublicChatHeaderMenu({ onInfo, canCall }: { onInfo: () =
         onPress={() => setOpen(true)}
         hitSlop={8}
         accessibilityRole="button"
-        accessibilityLabel={t("chatTabs.menu", { defaultValue: "Chat options" })}
+        accessibilityLabel={t("player.moreOptions", { defaultValue: "More options" })}
         style={{ width: 36, height: 36, alignItems: "center", justifyContent: "center" }}
       >
         <Icon name="Plus" size={22} color="#A1A1AA" />
