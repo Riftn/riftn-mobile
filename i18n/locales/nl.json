@@ -6770,6 +6770,12 @@
     "newMessage": "{{name}} heeft je een bericht gestuurd"
   },
   "audioPost": {
+    "playAll": "Alles afspelen",
+    "shuffle": "Shuffle",
+    "crossfade": "Overgang",
+    "off": "uit",
+    "next": "Volgende",
+    "previous": "Terug",
     "popOut": "Pop out — blijf luisteren terwijl je surft",
     "closeCornerPlayer": "Sluit de hoekspeler",
     "cornerPlayer": "Afspelen van audiopost",
