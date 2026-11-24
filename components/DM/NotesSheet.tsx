@@ -750,7 +750,7 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
     <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}>
-      <View style={{ height: 58, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
+      <View style={{ minHeight: 60, paddingTop: 2, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
         {words ? (
           <>
             <View style={[CLOUD, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
