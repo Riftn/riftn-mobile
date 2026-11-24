@@ -2015,7 +2015,7 @@
     "remove": "Kaldır"
   },
   "tip": {
-    "appSent": "{{amount}} DHB bahşiş gönderildi!",
+    "appSent": "{{amount}} token bahşiş gönderildi!",
     "appFailed": "Bahşişin gönderilmedi. Tekrar dene.",
     "addMessage": "Mesaj ekle (isteğe bağlı)",
     "messagePlaceholder": "Bahşişinle bir şey söyle",

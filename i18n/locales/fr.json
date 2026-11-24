@@ -2020,7 +2020,7 @@
     "remove": "Supprimer"
   },
   "tip": {
-    "appSent": "Pourboire de {{amount}} DHB envoyé !",
+    "appSent": "Pourboire de {{amount}} tokens envoyé !",
     "appFailed": "Ton pourboire n’a pas été envoyé. Réessaie.",
     "addMessage": "Ajouter un message (facultatif)",
     "messagePlaceholder": "Dites quelque chose avec votre pourboire",
