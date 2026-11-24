@@ -24,6 +24,7 @@ import {
   View,
   Text,
   TextInput,
+  Keyboard,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -204,7 +205,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
               ? t("liveViewer.timedOutHere", { defaultValue: "You are timed out from this chat for now" })
               : !canSend
                 ? _copy("copy.048ff525a56b", { defaultValue: "Sign in to chat" })
-            : t("liveViewer.chatPlaceholder", { defaultValue: "type..." });
+            : t("liveViewer.chatPlaceholder", { defaultValue: "Type..." });
 
   const handleSend = useCallback(async () => {
     const content = message.trim();
@@ -255,7 +256,16 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const closeReactions = useCallback(() => setReactionsOpen(false), []);
 
   const canSubmit = !!message.trim() && !inputDisabled;
-  const typing = canSubmit || (focused && !inputDisabled);
+  // Only focus counts: a saved draft used to keep the buttons folded away
+  // after the keyboard went, with no way to get them back.
+  const typing = focused && !inputDisabled;
+  // Android keeps the box focused when the keyboard is closed with Back, so
+  // the buttons stayed hidden. Closing the keyboard puts the box down.
+  useEffect(() => {
+    if (!focused) return;
+    const sub = Keyboard.addListener("keyboardDidHide", () => inputRef.current?.blur());
+    return () => sub.remove();
+  }, [focused]);
 
   // While typing the whole row is the box: the buttons fold into its end
   // (width to nothing, sliding and shrinking toward the box) and unfold
@@ -422,7 +432,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 onSelectionChange={mentions.handleSelectionChange}
                 placeholder={placeholderText}
                 placeholderTextColor="rgba(255,255,255,0.45)"
-                style={styles.input}
+                // Put down, a draft shows one line so the buttons fit beside it.
+                style={[styles.input, !focused && styles.inputResting]}
                 editable={!inputDisabled}
                 maxLength={500}
                 // Grows to four lines so the whole message stays readable; a
@@ -619,6 +630,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   keyOff: { opacity: 0.4 },
+  inputResting: { maxHeight: 19 + 8 },
   circle: {
     width: CIRCLE_W,
     height: BAR_SIZE,
