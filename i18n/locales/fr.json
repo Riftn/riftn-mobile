@@ -1,6 +1,28 @@
 {
-  "freeImages": {"title": "Images gratuites", "search": "Chercher des photos gratuites", "note": "Photos libres d'utilisation. Le crédit est ajouté quand l'auteur le demande.", "empty": "Aucune photo trouvée. Essaie un autre mot.", "failed": "Impossible d'ajouter cette photo. Essaie-en une autre.", "credit": "Photo : {{creator}} ({{license}})"},
-  "profileSong": {"title": "Chanson du profil", "hint": "Une chanson sous ta bio. On la touche pour l'écouter.", "part": "Joue {{part}}", "change": "Changer de chanson", "remove": "Retirer", "removed": "Chanson du profil retirée", "saved": "Chanson du profil enregistrée", "saveFailed": "Impossible d'enregistrer la chanson du profil. Réessaie.", "autoplay": "Jouer quand on visite mon profil", "autoplayHint": "Démarre en douceur quand quelqu'un ouvre ton profil. Un seul appui suffit pour l'arrêter.", "add": "Ajouter une chanson", "cantUse": "Cette chanson ne peut pas être utilisée sur un profil. Essaie-en une autre.", "play": "Lire {{title}}", "pause": "Mettre {{title}} en pause"},
+  "freeImages": {
+    "title": "Images gratuites",
+    "search": "Chercher des photos gratuites",
+    "note": "Photos libres d'utilisation. Le crédit est ajouté quand l'auteur le demande.",
+    "empty": "Aucune photo trouvée. Essaie un autre mot.",
+    "failed": "Impossible d'ajouter cette photo. Essaie-en une autre.",
+    "credit": "Photo : {{creator}} ({{license}})"
+  },
+  "profileSong": {
+    "title": "Chanson du profil",
+    "hint": "Une chanson sous ta bio. On la touche pour l'écouter.",
+    "part": "Joue {{part}}",
+    "change": "Changer de chanson",
+    "remove": "Retirer",
+    "removed": "Chanson du profil retirée",
+    "saved": "Chanson du profil enregistrée",
+    "saveFailed": "Impossible d'enregistrer la chanson du profil. Réessaie.",
+    "autoplay": "Jouer quand on visite mon profil",
+    "autoplayHint": "Démarre en douceur quand quelqu'un ouvre ton profil. Un seul appui suffit pour l'arrêter.",
+    "add": "Ajouter une chanson",
+    "cantUse": "Cette chanson ne peut pas être utilisée sur un profil. Essaie-en une autre.",
+    "play": "Lire {{title}}",
+    "pause": "Mettre {{title}} en pause"
+  },
   "painting": {
     "title": "Peinture",
     "close": "Fermer",
@@ -51,7 +73,28 @@
     "humor": "Humour",
     "life": "Vie"
   },
-  "stories": {"spot": {"listening": "{{n}} à l'écoute", "moments": "{{n}} Moments", "oneMoment": "1 Moment", "watching": "{{n}} spectateurs"}, "ask": {"prompt": "Quoi de neuf aujourd'hui ?", "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?", "create": "Créer", "moment": "Moment", "momentHint": "Photo ou vidéo pendant 24 heures", "post": "Publication", "postHint": "Texte, photos ou vidéo dans ton fil", "live": "Direct", "liveHint": "Lance un direct vidéo maintenant", "stage": "Scène", "stageHint": "Parle en direct avec ta voix", "status": "Statut", "statusHint": "Une courte note que tes abonnés voient"}, 
+  "stories": {
+    "spot": {
+      "listening": "{{n}} à l'écoute",
+      "moments": "{{n}} Moments",
+      "oneMoment": "1 Moment",
+      "watching": "{{n}} spectateurs"
+    },
+    "ask": {
+      "prompt": "Quoi de neuf aujourd'hui ?",
+      "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?",
+      "create": "Créer",
+      "moment": "Moment",
+      "momentHint": "Photo ou vidéo pendant 24 heures",
+      "post": "Publication",
+      "postHint": "Texte, photos ou vidéo dans ton fil",
+      "live": "Direct",
+      "liveHint": "Lance un direct vidéo maintenant",
+      "stage": "Scène",
+      "stageHint": "Parle en direct avec ta voix",
+      "status": "Statut",
+      "statusHint": "Une courte note que tes abonnés voient"
+    },
     "comments": "Commentaires",
     "commentFailed": "Ton commentaire n'a pas été publié. Réessaie.",
     "noCommentsYet": "Pas encore de commentaires. Dis quelque chose que tout le monde peut voir.",
@@ -105,16 +148,21 @@
     },
     "selectedPeople": "Uniquement les personnes sélectionnées",
     "hideFromPeople": "Masquer aux personnes sélectionnées",
-    "momentArchive": "Archives des moments", "archiveOnlyYou": "Visible par toi seul",
+    "momentArchive": "Archives des moments",
+    "archiveOnlyYou": "Visible par toi seul",
     "lifetime": "Durée de la story",
     "momentPublished": "Ton moment est en ligne",
     "addToMoment": "Ajouter à ton moment",
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
-    "watchOriginal": "Voir la story originale", "hiddenCount": "Masqués ({{count}})", "showHidden": "Afficher les masqués ({{count}})", "mentionedYou": "Vous a mentionné dans son moment",
+    "watchOriginal": "Voir la story originale",
+    "hiddenCount": "Masqués ({{count}})",
+    "showHidden": "Afficher les masqués ({{count}})",
+    "mentionedYou": "Vous a mentionné dans son moment",
     "shareToMoment": "Partager en Moment",
     "goToPost": "Voir la publication",
-    "fromYourPost": "De ta publication", "fromAPost": "D'une publication",
+    "fromYourPost": "De ta publication",
+    "fromAPost": "D'une publication",
     "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.",
     "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
     "translate": "Traduire",
@@ -162,12 +210,17 @@
     "flip": "Retourner la caméra",
     "noCamera": "La caméra est désactivée",
     "posting": "Publication…",
-    "repliesOff": "Les réponses sont désactivées", "repliesOn": "Les réponses sont activées", "replies": "Réponses",
+    "repliesOff": "Les réponses sont désactivées",
+    "repliesOn": "Les réponses sont activées",
+    "replies": "Réponses",
     "shutter": "Prenez une photo, ou maintenez pour filmer",
     "shutterHint": "Touchez pour une photo, maintenez pour une vidéo",
     "text": "Texte",
     "typeSomething": "Écrivez quelque chose",
-    "viewsCount": "{{formatted}} vues", "viewersCount": "{{formatted}} spectateurs", "watchedTimes": "Vu {{formatted}} fois", "playsShort": "{{formatted}}×",
+    "viewsCount": "{{formatted}} vues",
+    "viewersCount": "{{formatted}} spectateurs",
+    "watchedTimes": "Vu {{formatted}} fois",
+    "playsShort": "{{formatted}}×",
     "whoWatched": "Qui l'a vu",
     "yourDay": "Votre journée",
     "momentUp": "Votre moment est en ligne pour 24 heures",
@@ -180,7 +233,8 @@
       "hate": "Discours haineux",
       "other": "Autre chose"
     },
-    "agoLabel": "il y a {{time}}", "now": "maintenant",
+    "agoLabel": "il y a {{time}}",
+    "now": "maintenant",
     "momentTag": "MOMENT",
     "hoursLeft": "encore {{n}} h",
     "minutesLeft": "encore {{n}} min",
@@ -286,7 +340,23 @@
     "doneFollow": "Fait pour {{count}}",
     "expired": "Cette carte a expiré. Redemande.",
     "cancelled": "Annulé",
-    "cancel": "Pas maintenant"
+    "cancel": "Pas maintenant",
+    "straightAway": "Tout de suite",
+    "photoOnly": "Photo, sans texte",
+    "planOne": "Planifier 1 publication",
+    "planMany": "Planifier {{count}} publications",
+    "spacingOn": "Espacer mes publications : {{gap}} d'intervalle",
+    "spacingOff": "Désactiver l'option Espacer mes publications ?",
+    "confirmPlan": "Les planifier",
+    "confirmSpacingOn": "Activer",
+    "confirmSpacingOff": "Désactiver",
+    "planWhy": "Chacune d'entre elles reste dans la section Planifiées, où vous pouvez la déplacer ou l'annuler.",
+    "spacingWhy": "Chaque publication que vous créez sans indiquer d'heure attend {{gap}} après votre dernière publication.",
+    "spacingOffWhy": "Les publications sont diffusées dès que vous les envoyez à nouveau.",
+    "donePlanSome": "{{count}} planifiée, {{failed}} n'a pas pu être publiée. Voir Planifiées",
+    "donePlan": "{{count}} planifiée. Voir Planifiées",
+    "doneSpacingOn": "L'option Espacer mes publications est activée",
+    "doneSpacingOff": "L'option Espacer mes publications est désactivée"
   },
   "chatReactions": {
     "many_one": "{{count}} réaction à vos messages",
@@ -2878,7 +2948,11 @@
       "governanceVotedRejected": "Une proposition sur laquelle vous avez voté n’a pas été adoptée : « {{title}} »",
       "governancePassed": "Votre proposition « {{title}} » a été adoptée 🎉",
       "governanceRejected": "Votre proposition « {{title}} » n’a pas été adoptée",
-      "fractionGift": "{{name}} t'a envoyé des fractions", "storyLiked": "{{name}} a aimé votre moment", "storyMention": "{{name}} vous a mentionné dans son moment", "storyComment": "{{name}} a commenté votre moment", "storyCommentReply": "{{name}} a répondu à votre commentaire sur un moment"
+      "fractionGift": "{{name}} t'a envoyé des fractions",
+      "storyLiked": "{{name}} a aimé votre moment",
+      "storyMention": "{{name}} vous a mentionné dans son moment",
+      "storyComment": "{{name}} a commenté votre moment",
+      "storyCommentReply": "{{name}} a répondu à votre commentaire sur un moment"
     }
   },
   "leaderboard": {
@@ -4883,7 +4957,20 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "communities": {
-    "catchUp": {"button": "Résume-moi", "menuHint": "Un résumé privé, envoyé dans tes messages", "last24h": "Dernières 24 heures", "last3d": "3 derniers jours", "sinceRead": "Depuis ma dernière lecture", "working": "Préparation du résumé…", "sent": "Résumé envoyé dans tes messages", "sentCount": "{{window}} · {{formattedCount}} messages", "open": "Ouvrir", "nothing": "Rien de nouveau à résumer", "busy": "Ton résumé arrive. Réessaie dans un instant.", "failed": "Impossible de faire ton résumé. Réessaie."},
+    "catchUp": {
+      "button": "Résume-moi",
+      "menuHint": "Un résumé privé, envoyé dans tes messages",
+      "last24h": "Dernières 24 heures",
+      "last3d": "3 derniers jours",
+      "sinceRead": "Depuis ma dernière lecture",
+      "working": "Préparation du résumé…",
+      "sent": "Résumé envoyé dans tes messages",
+      "sentCount": "{{window}} · {{formattedCount}} messages",
+      "open": "Ouvrir",
+      "nothing": "Rien de nouveau à résumer",
+      "busy": "Ton résumé arrive. Réessaie dans un instant.",
+      "failed": "Impossible de faire ton résumé. Réessaie."
+    },
     "muteChat": "Couper",
     "mutedChat": "Coupé",
     "muteChatHint": "Ne plus recevoir d'alertes du chat de cette communauté. Vous pouvez toujours le lire",
@@ -8121,7 +8208,14 @@
     "viewReposts": "Afficher les reposts"
   },
   "dm": {
-    "opened": {"photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
+    "opened": {
+      "photoA11y": "Photo, ouverte {{time}}",
+      "videoA11y": "Vidéo, ouverte {{time}}",
+      "seenAt": "Vu {{time}}",
+      "replyCamera": "Répondre avec la caméra",
+      "quotePhoto": "Photo · Ouverte",
+      "quoteVideo": "Vidéo · Ouverte"
+    },
     "trayGif": "GIF et emoji",
     "trayVoice": "Note vocale",
     "trayTip": "Pourboire",
@@ -16431,7 +16525,18 @@
     "tipJar": "Pot cadeau"
   },
   "liveStudio": {
-    "groups": {"stream": "Direct", "streamHint": "Les interrupteurs pendant le direct, où part votre stream et le lien pour OBS.", "overlay": "Overlay", "viewers": "Spectateurs", "viewersHint": "Sondages, minuteurs, points et récompenses qui font participer ceux qui regardent.", "chat": "Chat", "chatHint": "Votre bot de chat et les règles du chat sous vos streams.", "replays": "Après le stream", "replaysTab": "Après", "replaysHint": "Le bilan de votre dernier stream et les clips à partager."},
+    "groups": {
+      "stream": "Direct",
+      "streamHint": "Les interrupteurs pendant le direct, où part votre stream et le lien pour OBS.",
+      "overlay": "Overlay",
+      "viewers": "Spectateurs",
+      "viewersHint": "Sondages, minuteurs, points et récompenses qui font participer ceux qui regardent.",
+      "chat": "Chat",
+      "chatHint": "Votre bot de chat et les règles du chat sous vos streams.",
+      "replays": "Après le stream",
+      "replaysTab": "Après",
+      "replaysHint": "Le bilan de votre dernier stream et les clips à partager."
+    },
     "bot": {
       "title": "Bot du chat",
       "intro": "Un coanimateur pour le chat de ton live. Il salue les nouveaux, répond aux questions sur toi et le live, raconte aux retardataires ce qu'ils ont manqué et relance un chat silencieux. Il ne parle que sur tes lives, pendant que tu es en direct.",
@@ -18706,5 +18811,34 @@
     "postSnapshot": "Publier une capture",
     "shareLink": "Partager le lien",
     "snapshotFailed": "Impossible de prendre la capture. Réessaie."
+  },
+  "postSpacing": {
+    "minutes": "{{n}} min",
+    "oneDay": "1 jour",
+    "days": "{{n}} jours",
+    "oneHour": "1 heure",
+    "hours": "{{n}} heures",
+    "todayAt": "aujourd’hui à {{time}}",
+    "tomorrowAt": "demain à {{time}}",
+    "saveFailed": "Impossible d’enregistrer. Réessayez.",
+    "title": "Espacer mes publications",
+    "offHint": "Chaque publication attend son tour après la précédente.",
+    "hintNext": "Chaque publication est publiée {{gap}} après la précédente. La prochaine sera publiée {{when}}.",
+    "hintNow": "La prochaine publication est publiée tout de suite, puis chacune attend {{gap}} après la précédente.",
+    "waiting": "{{count}} en attente dans Planifié.",
+    "dripTitle": "{{count}} photos",
+    "dripOne": "Une publication avec les {{count}}",
+    "dripEach": "Une publication par photo, espacées",
+    "onceADay": "Une fois par jour",
+    "everyHour": "Toutes les heures",
+    "every": "Toutes les {{gap}}",
+    "dripHint": "La première à {{first}}, la dernière à {{last}}. Chacune est ajoutée à Planifié, où vous pouvez la déplacer ou l’annuler.",
+    "now": "maintenant",
+    "planFrom": "Planifier {{count}} publications à partir de {{when}}",
+    "startNow": "Commencer maintenant",
+    "dripDone": "{{count}} publications planifiées. La dernière à {{when}}",
+    "dripChip": "{{count}} publications, espacées de {{gap}}",
+    "chipAt": "Espacées · {{time}}",
+    "chipNow": "Espacées · maintenant"
   }
 }
