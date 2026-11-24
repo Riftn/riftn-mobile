@@ -91,6 +91,7 @@ const DirectMessagesInner: React.FC = () => {
   usePerfProbe("DirectMessages");
   const { t } = useTranslation();
   const { theme } = useAppTheme();
+  const titleIconUrl = themeIconUrl(theme, 'messages');
   const searchField = useSearchFieldMaterial();
   const navigation = useNavigation<any>();
   const user = useUser();
@@ -966,6 +967,9 @@ const DirectMessagesInner: React.FC = () => {
             on their own row with the underline. */}
         <View testID="dm-top-row" style={{ paddingTop: 4 }}>
           <View testID="dm-title-row" style={{ flexDirection: "row", alignItems: "center", height: 48, paddingLeft: 16, paddingRight: 12, gap: 6 }}>
+            {titleIconUrl ? (
+              <Image source={{ uri: titleIconUrl }} style={{ width: 32, height: 32, marginRight: 4, flexShrink: 0 }} contentFit="contain" cachePolicy="disk" accessible={false} />
+            ) : null}
             <Text className="flex-1 text-theme-neutrals-100" style={{ fontSize: 30, fontWeight: "800", letterSpacing: -0.6 }} numberOfLines={1}>
               {t("messages.title")}
             </Text>

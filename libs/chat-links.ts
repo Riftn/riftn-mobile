@@ -28,7 +28,8 @@ const COMMON_TLDS = `${CC_TLDS}|${GENERIC_TLDS}`;
 
 // A link has to start at a word boundary, otherwise the tail of a longer token
 // ("...see attachment.zip") matches on its own.
-const URL_BOUNDARY_SRC = `(?:^|\\s|[\\(\\[<"'])`;
+// `*` so a link inside **bold** is still a link.
+const URL_BOUNDARY_SRC = `(?:^|\\s|[\\(\\[<"'*])`;
 
 // TLD-restricted, so a filename ("clip.mp4", "photo.png") is not mistaken for a
 // host. Dots are allowed inside the hostname so subdomains survive.
@@ -40,7 +41,7 @@ const WWW_URL_CORE_SRC = `(?:https?:\\/\\/)?www\\.[-a-zA-Z0-9@:%_+~#=]+(?:\\.[-a
 const URL_CORE_SRC = `(?:${WWW_URL_CORE_SRC})|(?:${TLD_URL_CORE_SRC})`;
 const URL_WITH_BOUNDARY_SRC = `(?:${URL_BOUNDARY_SRC})(?:${URL_CORE_SRC})`;
 
-const LEADING_BOUNDARY_REGEX = /^[\s(\[<"']+/;
+const LEADING_BOUNDARY_REGEX = /^[\s(\[<"'*]+/;
 
 export type ChatTextToken =
   /** Plain text, rendered as-is. */
