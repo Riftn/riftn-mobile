@@ -12,6 +12,7 @@ import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '.
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
+import { categoryLanguageSettled, onLanguageTextArrived, setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
@@ -351,25 +352,30 @@ function hiddenPreviewLines(): Record<string, string> {
   };
 }
 
-let hiddenPreviewLanguage: string | null = null;
+let hiddenPreviewWritten: string | null = null;
 
 export async function registerHiddenPreviewLines(): Promise<void> {
   if (Platform.OS !== 'ios') return;
-  const language = i18n.language || 'en';
-  if (hiddenPreviewLanguage === language) return;
-  hiddenPreviewLanguage = language;
+  await categoryLanguageSettled();
+  const lines = hiddenPreviewLines();
+  // Keyed on the words themselves, so a language that was still loading (and
+  // read as English) is written again once its texts arrive.
+  const written = `${i18n.language || 'en'}|${Object.values(lines).join('|')}`;
+  if (hiddenPreviewWritten === written) return;
+  hiddenPreviewWritten = written;
   try {
-    const lines = hiddenPreviewLines();
-    await Promise.all(Object.keys(lines).map(id =>
-      Notifications.setNotificationCategoryAsync(id, [], { previewPlaceholder: lines[id] })));
+    // One at a time: together they overwrite each other (see category-queue).
+    for (const id of Object.keys(lines)) {
+      await setCategoryInTurn(id, [], { previewPlaceholder: lines[id] });
+    }
   } catch (error) {
-    hiddenPreviewLanguage = null;
+    hiddenPreviewWritten = null;
     logger.warn('Failed to set hidden preview lines', error);
   }
 }
 
 if (Platform.OS === 'ios') {
-  i18n.on?.('languageChanged', () => { void registerHiddenPreviewLines(); });
+  onLanguageTextArrived(() => { void registerHiddenPreviewLines(); });
 }
 
 /**

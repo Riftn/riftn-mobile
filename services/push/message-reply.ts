@@ -23,6 +23,7 @@ import { translateCopy } from '../../i18n/copy';
 import { storage } from '../../libs/storage';
 import { createLogger } from '../../libs/logger';
 import { readNotificationData } from '../../libs/push-tap-data';
+import { categoryLanguageSettled, onLanguageTextArrived, setCategoryInTurn } from './category-queue';
 
 const logger = createLogger('MessageReply');
 
@@ -36,14 +37,21 @@ export function isReplyAction(response: Notifications.NotificationResponse | nul
   return response?.actionIdentifier === MESSAGE_REPLY_ACTION;
 }
 
-let registeredLanguage: string | null = null;
+let registeredLines: string | null = null;
 
 export async function registerMessageReplyCategory(): Promise<void> {
-  const language = i18n.language || 'en';
-  if (registeredLanguage === language) return;
-  registeredLanguage = language;
+  await categoryLanguageSettled();
+  // Keyed on the words, not the language code: a language whose texts are
+  // still loading reads as English first and must be written again after.
+  const lines = [
+    i18n.language || 'en',
+    translateCopy('quickReply.reply', { defaultValue: 'Reply' }),
+    translateCopy('quickReply.hiddenPreview', { defaultValue: 'New message on Riftn' }),
+  ].join('|');
+  if (registeredLines === lines) return;
+  registeredLines = lines;
   try {
-    await Notifications.setNotificationCategoryAsync(
+    await setCategoryInTurn(
       MESSAGE_REPLY_CATEGORY,
       [
         {
@@ -62,12 +70,12 @@ export async function registerMessageReplyCategory(): Promise<void> {
       { previewPlaceholder: translateCopy('quickReply.hiddenPreview', { defaultValue: 'New message on Riftn' }) },
     );
   } catch (error) {
-    registeredLanguage = null;
+    registeredLines = null;
     logger.warn('Could not register the message reply category', error as any);
   }
 }
 
-i18n.on?.('languageChanged', () => { void registerMessageReplyCategory(); });
+onLanguageTextArrived(() => { void registerMessageReplyCategory(); });
 
 /** Each reply is sent once, even when the same response is replayed on launch. */
 function claim(id: string): boolean {
