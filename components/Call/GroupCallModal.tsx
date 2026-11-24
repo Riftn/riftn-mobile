@@ -16,6 +16,9 @@ import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
 import { usePeerIdentity } from "./usePeerIdentity";
 import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 import { TownHall } from "./TownHall";
+import { CallModButton, CallModSheet } from "./CallModSheet";
+import type { CallModAction } from "../../libs/groupCallModeration";
+import { toastInfo } from "../../libs/toast";
 import { loadTownHallMode, saveTownHallMode, townHallModeNow, TOWN_HALL_FROM, type TownHallMode } from "../../libs/townHall";
 
 /**
@@ -33,7 +36,9 @@ const GroupCallModal: React.FC = () => {
     isMinimized, setMinimized, endCall, acceptCall, rejectCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera,
     callBackground, callBackgroundSupported, setCallBackground, readGroupLevels,
+    groupModeration, moderateGroupMember,
   } = useCall();
+  const [modTarget, setModTarget] = React.useState<number | null>(null);
   const [fxOpen, setFxOpen] = React.useState(false);
   const [layout, setLayout] = React.useState<TownHallMode>(townHallModeNow);
   React.useEffect(() => { void loadTownHallMode().then(setLayout); }, []);
@@ -98,6 +103,20 @@ const GroupCallModal: React.FC = () => {
     saveTownHallMode(next);
     setLayout(next);
   };
+  // The chat's moderators: a ⋯ on people opens mute / remove.
+  const onModerate = groupModeration.canModerate ? (participant: GroupParticipant) => setModTarget(participant.uid) : undefined;
+  const modPerson = modTarget != null ? groupParticipants.find(person => person.uid === modTarget && person.wallet) ?? null : null;
+  const pickModeration = (action: CallModAction) => {
+    const wallet = modPerson?.wallet;
+    setModTarget(null);
+    if (!wallet) return;
+    void moderateGroupMember(wallet, action).then(done => {
+      if (!done) return;
+      toastInfo(action === "remove"
+        ? t("calls.modRemoved", { defaultValue: "Removed from the call" })
+        : action === "mute" ? t("calls.modMuted", { defaultValue: "Muted for everyone" }) : t("calls.modUnmuted", { defaultValue: "Unmuted" }));
+    });
+  };
   const layoutLabel = hall ? t("calls.gridView", { defaultValue: "Grid" }) : t("calls.townHall", { defaultValue: "Town hall" });
 
   return (
@@ -118,6 +137,7 @@ const GroupCallModal: React.FC = () => {
           localCanvas={localCanvas}
           participants={groupParticipants}
           readGroupLevels={readGroupLevels}
+          onModerate={onModerate}
         />
       ) : (
         <TileGrid
@@ -126,6 +146,7 @@ const GroupCallModal: React.FC = () => {
           self={{ name: t("calls.you", { defaultValue: "You" }), avatarUrl: self.avatarUrl, video: isVideo && !isCameraOff, muted: isMuted, speaking: selfSpeaking && !isMuted }}
           localCanvas={localCanvas}
           participants={groupParticipants}
+          onModerate={onModerate}
         />
       )}
       {isVideo && callBackgroundSupported ? (
@@ -160,6 +181,13 @@ const GroupCallModal: React.FC = () => {
           <CallControl icon="PhoneOff" label={t("calls.leave", { defaultValue: "Leave" })} onPress={endCall} primary compact={isVideo} />
         </CallDock>
       </CallFoot>
+      {modPerson ? (
+        <CallModSheet
+          participant={modPerson}
+          top={hall ? insets.top + 64 : undefined}
+          bottom={hall ? undefined : Math.max(16, insets.bottom + 8)}
+          onPick={pickModeration} onClose={() => setModTarget(null)} />
+      ) : null}
     </CallStage>
   );
 };
@@ -182,8 +210,9 @@ type SelfTile = { name: string; avatarUrl: string | null; video: boolean; muted:
  * each, three are a wide tile over two, four are quarters. A fifth person and
  * on keep quarter tiles and the grid scrolls for the rest.
  */
-function TileGrid({ topInset, bottomInset, self, localCanvas, participants }: {
+function TileGrid({ topInset, bottomInset, self, localCanvas, participants, onModerate }: {
   topInset: number; bottomInset: number; self: SelfTile; localCanvas: React.ComponentProps<typeof RtcSurfaceView>["canvas"]; participants: GroupParticipant[];
+  onModerate?: (participant: GroupParticipant) => void;
 }) {
   const { width, height } = useWindowDimensions();
   const count = participants.length + 1;
@@ -204,14 +233,17 @@ function TileGrid({ topInset, bottomInset, self, localCanvas, participants }: {
         {self.video ? <RtcSurfaceView style={StyleSheet.absoluteFill} canvas={localCanvas} zOrderMediaOverlay /> : null}
       </Tile>
       {participants.map((participant, index) => (
-        <RemoteTile key={participant.uid} participant={participant} width={widthOf(index + 1)} height={tileHeight} />
+        <RemoteTile key={participant.uid} participant={participant} width={widthOf(index + 1)} height={tileHeight} onModerate={onModerate} />
       ))}
     </ScrollView>
   );
 }
 
-function RemoteTile({ participant, width, height }: { participant: GroupParticipant; width: number; height: number }) {
+function RemoteTile({ participant, width, height, onModerate }: {
+  participant: GroupParticipant; width: number; height: number; onModerate?: (participant: GroupParticipant) => void;
+}) {
   const peer = usePeerIdentity(participant.wallet ?? "");
+  const { t } = useTranslation();
   return (
     <Tile width={width} height={height} name={participant.wallet ? peer.name : "…"} avatarUrl={peer.avatarUrl} muted={!participant.audio} speaking={participant.speaking}>
       {participant.video ? (
@@ -219,6 +251,9 @@ function RemoteTile({ participant, width, height }: { participant: GroupParticip
           style={StyleSheet.absoluteFill}
           canvas={{ uid: participant.uid, sourceType: VideoSourceType.VideoSourceRemote, renderMode: RenderModeType.RenderModeHidden }}
         />
+      ) : null}
+      {onModerate && participant.wallet ? (
+        <CallModButton onPress={() => onModerate(participant)} label={t("calls.modMenu", { name: peer.name, defaultValue: "Moderate {{name}}" })} top={8} right={8} size={28} />
       ) : null}
     </Tile>
   );
