@@ -6,6 +6,7 @@ import { toastError, toastSuccess } from './toast';
 import { ensureAiConsent, hasAiConsent } from './ai-consent';
 import { chatLineIsForeign } from './chat-language-hint';
 import { takeAutoTranslateSlot } from './auto-translate-budget';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 /**
  * Translate for direct messages. The menu (held message) starts it and the
@@ -90,6 +91,54 @@ export async function toggleDmTranslation(id: string, content?: string | null): 
       return;
     }
     set(id, { status: 'shown', text: result.translatedText });
+  } catch {
+    set(id, undefined);
+    toastError(i18n.t('copy.b9725da1e57f', { defaultValue: 'Translation failed. Please try again.' }));
+  }
+}
+
+/** The chat composer's Translate language (hooks/useComposeTranslate, same key as web). */
+const COMPOSE_LANG_KEY = 'riftn.chat.translateTo';
+
+async function composeLanguage(): Promise<string> {
+  try {
+    return (await AsyncStorage.getItem(COMPOSE_LANG_KEY)) || 'en';
+  } catch {
+    return 'en';
+  }
+}
+
+/**
+ * Translate on a line you sent yourself. Only you see it; nothing is sent.
+ * It goes into your app language, or, when the line is already in that,
+ * into the language you translate to in the chat composer.
+ */
+export async function translateOwnDm(id: string, content?: string | null): Promise<void> {
+  const current = entries.get(id);
+  if (current?.status === 'loading') return;
+  if (current?.status === 'shown') return set(id, { status: 'hidden', text: current.text });
+  if (current?.status === 'hidden') return set(id, { status: 'shown', text: current.text });
+
+  const text = dmTranslatableText(content);
+  if (!text) return;
+  if (!hasAiConsent() && !(await ensureAiConsent())) return;
+  set(id, { status: 'loading' });
+  try {
+    const mine = getUserLanguage();
+    let result = await translateText(text, mine, 'auto', { isPublic: false });
+    const same = (r: typeof result) =>
+      r.sameLanguage || !r.translatedText?.trim() || r.translatedText.trim().toLowerCase() === text.toLowerCase();
+    if (same(result) && !result.untranslated) {
+      const other = await composeLanguage();
+      if (other && other !== mine) result = await translateText(text, other, 'auto', { isPublic: false });
+    }
+    if (same(result)) {
+      set(id, undefined);
+      if (result.untranslated) toastError(i18n.t('copy.noTranslationFound', { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
+      else toastSuccess(i18n.t('copy.caac88c81c38', { defaultValue: 'Already in your language' }));
+      return;
+    }
+    set(id, { status: 'shown', text: result.translatedText! });
   } catch {
     set(id, undefined);
     toastError(i18n.t('copy.b9725da1e57f', { defaultValue: 'Translation failed. Please try again.' }));

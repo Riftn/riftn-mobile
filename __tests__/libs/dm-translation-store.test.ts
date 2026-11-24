@@ -107,3 +107,37 @@ it('Translate on one message also translates the earlier ones, quietly and neare
   expect(asked).toContain('Selam reis');
   expect(asked.filter((text) => text !== 'Selam reis')).toEqual(['ok', 'iyi misin', 'nasilsin']);
 });
+
+describe('Translate on your own line', () => {
+  const { translateOwnDm } = require('../../libs/dm-translation-store');
+  const AsyncStorageModule = require('@react-native-async-storage/async-storage');
+  const AsyncStorage = AsyncStorageModule.default ?? AsyncStorageModule;
+
+  it('goes into your language and flips back without another call', async () => {
+    mockTranslate.mockResolvedValue({ translatedText: 'See you tomorrow', sourceLang: 'tr', sameLanguage: false });
+    await translateOwnDm('o1', 'Yarın görüşürüz');
+    expect(mockTranslate).toHaveBeenCalledWith('Yarın görüşürüz', 'en', 'auto', { isPublic: false });
+    expect(getDmTranslation('o1')).toEqual({ status: 'shown', text: 'See you tomorrow' });
+    await translateOwnDm('o1', 'Yarın görüşürüz');
+    expect(getDmTranslation('o1')?.status).toBe('hidden');
+    expect(mockTranslate).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses the composer language when the line is already in yours', async () => {
+    jest.spyOn(AsyncStorage, 'getItem').mockResolvedValueOnce('tr');
+    mockTranslate
+      .mockResolvedValueOnce({ translatedText: 'see you tomorrow', sourceLang: 'en', sameLanguage: true })
+      .mockResolvedValueOnce({ translatedText: 'Yarın görüşürüz', sourceLang: 'en', sameLanguage: false });
+    await translateOwnDm('o2', 'see you tomorrow');
+    expect(mockTranslate).toHaveBeenLastCalledWith('see you tomorrow', 'tr', 'auto', { isPublic: false });
+    expect(getDmTranslation('o2')).toEqual({ status: 'shown', text: 'Yarın görüşürüz' });
+  });
+
+  it('leaves it alone when both languages match the line', async () => {
+    jest.spyOn(AsyncStorage, 'getItem').mockResolvedValueOnce(null);
+    mockTranslate.mockResolvedValue({ translatedText: 'hello there', sourceLang: 'en', sameLanguage: true });
+    await translateOwnDm('o3', 'hello there');
+    expect(mockTranslate).toHaveBeenCalledTimes(1);
+    expect(getDmTranslation('o3')).toBeUndefined();
+  });
+});
