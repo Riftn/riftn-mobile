@@ -12,6 +12,7 @@ import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '.
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
+import { setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
@@ -362,8 +363,10 @@ export async function registerHiddenPreviewLines(): Promise<void> {
   if (hiddenPreviewCopy === key) return;
   hiddenPreviewCopy = key;
   try {
-    await Promise.all(Object.keys(lines).map(id =>
-      Notifications.setNotificationCategoryAsync(id, [], { previewPlaceholder: lines[id] })));
+    // One at a time: written together they overwrite each other (see category-queue).
+    for (const id of Object.keys(lines)) {
+      await setCategoryInTurn(id, [], { previewPlaceholder: lines[id] });
+    }
   } catch (error) {
     hiddenPreviewCopy = null;
     logger.warn('Failed to set hidden preview lines', error);

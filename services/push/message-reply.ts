@@ -23,6 +23,7 @@ import { translateCopy } from '../../i18n/copy';
 import { storage } from '../../libs/storage';
 import { createLogger } from '../../libs/logger';
 import { readNotificationData } from '../../libs/push-tap-data';
+import { setCategoryInTurn } from './category-queue';
 
 const logger = createLogger('MessageReply');
 
@@ -53,7 +54,7 @@ export async function registerMessageReplyCategory(): Promise<void> {
   if (registeredCopy === key) return;
   registeredCopy = key;
   try {
-    await Notifications.setNotificationCategoryAsync(
+    await setCategoryInTurn(
       MESSAGE_REPLY_CATEGORY,
       [
         {
