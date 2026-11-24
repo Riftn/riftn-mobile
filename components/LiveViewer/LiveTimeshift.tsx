@@ -57,11 +57,13 @@ export const LiveTimeshiftTag = memo(function LiveTimeshiftTag({ timeshift }: { 
           hitSlop={{ top: 10, bottom: 10, left: 4, right: 8 }}
           accessibilityRole="button"
           accessibilityLabel={t("liveViewer.backToLive")}
-          style={[styles.tag, styles.tagBehind]}
         >
-          <View style={styles.dot} />
-          <Text style={[styles.tagText, styles.tagTextBehind]}>{t("live.statusLive")}</Text>
-          <Text style={styles.behindText}>{formatBehind(snap.behind)}</Text>
+          {/* Fill on an inner View: Pressable fills get repainted by the tone pass. */}
+          <View style={[styles.tag, styles.tagBehind]}>
+            <View style={styles.dot} />
+            <Text style={[styles.tagText, styles.tagTextBehind]}>{t("live.statusLive")}</Text>
+            <Text style={styles.behindText}>{formatBehind(snap.behind)}</Text>
+          </View>
         </Pressable>
       ) : (
         <View style={styles.tag}>
