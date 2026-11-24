@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
 import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { useTabBarHide } from '../context/TabBarHideContext';
+import { onRevealNavChrome } from '../libs/nav-chrome-reveal';
 
 // Same feel as the home feed (useCollapsibleHeader): hidden after a deliberate
 // scroll down, back on a deliberate scroll up, always shown near the top.
@@ -65,6 +66,18 @@ export function useTabBarScrollHide() {
   const onScroll = useCallback(
     (e: NativeSyntheticEvent<NativeScrollEvent>) => drive(e.nativeEvent.contentOffset.y),
     [drive],
+  );
+
+  // Back to the profile (or to the feed under it) shows the bar again.
+  useEffect(
+    () =>
+      onRevealNavChrome(() => {
+        if (!tabBarHide || tabBarHide.value === 0) return;
+        tabBarHide.value = 0;
+        accum.value = 0;
+        lastToggle.value = Date.now();
+      }),
+    [tabBarHide, accum, lastToggle],
   );
 
   // Leaving the profile must never strand the bar off-screen.

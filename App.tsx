@@ -130,6 +130,7 @@ import { watchTransformOrigin } from "./libs/cdnImage";
 import { setEdgeToEdgeMedia as publishEdgeToEdgeMedia } from "./libs/edgeToEdgeMedia";
 import DarkRoomStrips from "./components/DarkRoomStrips";
 import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScreenReady";
+import { focusedRouteKey, revealNavChrome } from "./libs/nav-chrome-reveal";
 
 const logger = createLogger("App");
 markLaunchPhase('appModuleReady');
@@ -490,11 +491,20 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
   }, []);
 
   // Handle navigation state change with error protection
+  const focusedKeyRef = useRef<string | undefined>(undefined);
   const handleStateChange = useCallback(
     (state: NavigationState | undefined) => {
       blockQuickActions();
       try {
         onStateChange(state);
+        // A different screen in front (Back, swipe back, a tab, a link):
+        // its header and the bottom nav come back. Params on the same
+        // screen are not a change of place.
+        const focusedKey = focusedRouteKey(state);
+        if (focusedKey !== focusedKeyRef.current) {
+          focusedKeyRef.current = focusedKey;
+          revealNavChrome();
+        }
         markNavigationSettled(navigationRef.getCurrentRoute());
         recordScreenView(navigationRef.getCurrentRoute()?.name);
         syncMediaInsets();

@@ -2480,10 +2480,80 @@ async function runProfileTabs(): Promise<void> {
   console.error(`[perf-tour] profiletabs done: opened ${String(extra.opened)}, signed in ${String(signedIn)}`);
 }
 
+/**
+ * Bars after Back: scroll Home down until its header and the bottom nav
+ * hide, open something, scroll it, go back with a real finger swipe, and
+ * picture what Home looks like. Three ways in: a profile from the feed, a
+ * pushed page (Leaderboard), and a tab switch (Search, then Home).
+ */
+async function runBarsBack(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "barsback" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const steps: { step: string; route: string | undefined }[] = [];
+  extra.barSteps = steps;
+  let n = 0;
+  const step = async (label: string, request = "", waitMs = 4000) => {
+    n += 1;
+    const name = `${String(n).padStart(2, "0")}-${label}`;
+    if (request) {
+      await AsyncStorage.setItem(SWIPE_KEY, request.replace("@", name));
+      await sleep(waitMs);
+    }
+    await sleep(900);
+    await shot(name);
+    await sleep(900);
+    steps.push({ step: name, route: nav.getCurrentRoute()?.name });
+    console.error(`[perf-tour] ${name}: on ${nav.getCurrentRoute()?.name}`);
+    await save(false);
+  };
+  const scrollHome = async (label: string) => {
+    await step(`${label}-scroll-1`, "scroll:@:-520");
+    await step(`${label}-scroll-2`, "scroll:@:-520");
+  };
+  await step("home-top");
+  // 1. A profile opened from the feed, swiped back.
+  await scrollHome("home");
+  emitProfileDeepLink((await AsyncStorage.getItem(`${FLAG_KEY}.profile`)) || "araf");
+  await sleep(8000);
+  await step("profile-open");
+  await step("profile-scroll", "scroll:@:-520");
+  await step("profile-scroll-2", "scroll:@:-520");
+  await step("profile-swiped-back", "swipe:@", 5000);
+  await sleep(1200);
+  await step("home-after-profile");
+  // 2. A pushed page, swiped back.
+  await backToTabs();
+  await scrollHome("home-again");
+  nav.navigate(ScreenNames.Leaderboard);
+  await sleep(4000);
+  await step("leaderboard-open");
+  await step("leaderboard-scroll", "scroll:@:-520");
+  await step("leaderboard-swiped-back", "swipe:@", 5000);
+  await sleep(1200);
+  await step("home-after-leaderboard");
+  // 3. A tab switch away and back.
+  await scrollHome("home-third");
+  tab(ScreenNames.Explore)();
+  await sleep(3500);
+  await step("search-tab");
+  tab(ScreenNames.Home)();
+  await sleep(2500);
+  await step("home-after-tab");
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] barsback done");
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink" && mode !== "profiletabs") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink" && mode !== "profiletabs" && mode !== "barsback") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2491,6 +2561,7 @@ void (async () => {
     else if (mode === "pages") await runPages();
     else if (mode === "probe") await runProbe();
     else if (mode === "touch") await runTouch();
+    else if (mode === "barsback") await runBarsBack();
     else if (mode === "shorts") await runShorts();
     else if (mode === "shells") await runShells();
     else if (mode === "bones") await runBones();
