@@ -218,48 +218,8 @@ AS
 }
 
 PAGES=(
-  "app/post/742"
-  "app"
-  "app/post/5799"
-  "app/post/742/info"
-  "maldoteth"
-  "app/features"
-  "app/leaderboard"
-  "dao"
-  "app/governance"
-  "app/superpowers"
-  "app/wallet"
-  "app/fractions"
-  "nfts"
-  "app/agents"
-  "packs"
-  "creators"
-  "raffle"
-  "builder"
-  "app/launchpad"
-  "premium"
-  "pricing"
-  "depin"
-  "app/bridge"
-  "apps"
-  "arcade"
-  "arcade/gods-eye"
-  "arcade/kings-gambit"
-  "app/notifications"
-  "app/messages"
-  "compare"
-  "app/planned"
-  "live-studio"
-  "accounts"
-  "usernames"
-  "converter"
-  "creator/maboroshi"
-  "creator/flow"
-  "connect"
-  "work/history"
-  "feedback"
-  "welcome"
-  "signin"
+  "app/post/8232"
+  "app/post/6041"
 )
 
 # The app's own theme pick (Settings > Appearance), written where the app's
@@ -317,6 +277,8 @@ walk() {
     confirm_open
     sleep 6
     shot "$name"
+    sleep 14
+    shot "$name-20s"
     echo "$(date +%H:%M:%S) $name"
     if ! running; then
       echo "$theme: app not running after opening $page" >> "$OUT/crashes.txt"
