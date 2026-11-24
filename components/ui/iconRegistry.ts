@@ -269,7 +269,10 @@ import ShieldCheckIcon from "lucide-react-native/dist/esm/icons/shield-check";
 import ShieldOffIcon from "lucide-react-native/dist/esm/icons/shield-off";
 import ShoppingBagIcon from "lucide-react-native/dist/esm/icons/shopping-bag";
 import ShoppingCartIcon from "lucide-react-native/dist/esm/icons/shopping-cart";
+import ShuffleIcon from "lucide-react-native/dist/esm/icons/shuffle";
 import SignpostIcon from "lucide-react-native/dist/esm/icons/signpost";
+import SkipBackIcon from "lucide-react-native/dist/esm/icons/skip-back";
+import SkipForwardIcon from "lucide-react-native/dist/esm/icons/skip-forward";
 import SlashIcon from "lucide-react-native/dist/esm/icons/slash";
 import SlidersHorizontalIcon from "lucide-react-native/dist/esm/icons/sliders-horizontal";
 import SmartphoneIcon from "lucide-react-native/dist/esm/icons/smartphone";
@@ -605,7 +608,10 @@ export const iconRegistry = {
   ShieldOff: ShieldOffIcon,
   ShoppingBag: ShoppingBagIcon,
   ShoppingCart: ShoppingCartIcon,
+  Shuffle: ShuffleIcon,
   Signpost: SignpostIcon,
+  SkipBack: SkipBackIcon,
+  SkipForward: SkipForwardIcon,
   Slash: SlashIcon,
   SlidersHorizontal: SlidersHorizontalIcon,
   Smartphone: SmartphoneIcon,

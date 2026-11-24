@@ -6656,6 +6656,12 @@
     "newMessage": "أرسل لك {{name}} رسالة"
   },
   "audioPost": {
+    "playAll": "تشغيل الكل",
+    "shuffle": "ترتيب عشوائي",
+    "crossfade": "تداخل",
+    "off": "متوقف",
+    "next": "التالي",
+    "previous": "السابق",
     "popOut": "انبثق - استمر في الاستماع أثناء التصفح",
     "closeCornerPlayer": "أغلق لاعب الزاوية",
     "cornerPlayer": "تشغيل منشور الصوت",

@@ -23,6 +23,7 @@
  * @module libs/audio-post-playback
  */
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAudioPlayer, type AudioPlayer, type AudioStatus } from "expo-audio";
 import type { EventSubscription } from "expo-modules-core";
 import { useEffect, useState } from "react";
@@ -78,7 +79,18 @@ export interface AudioPostPlaybackState {
   currentTime: number;
   duration: number;
   volume: number;
+  /** Tracks in the playing playlist; 0 when a single post was popped out. */
+  queueLength: number;
+  /** Where in the playlist the current track sits, 0-based. */
+  queuePos: number;
+  shuffle: boolean;
+  /** Seconds of overlap between playlist tracks; 0 is off. */
+  crossfade: number;
 }
+
+/** The crossfade choices the corner player cycles through, in seconds. */
+export const CROSSFADE_STEPS = [0, 3, 6, 12] as const;
+const CROSSFADE_KEY = "riftn.audio.crossfade";
 
 const IDLE: AudioPostPlaybackState = {
   tokenId: null,
@@ -89,8 +101,13 @@ const IDLE: AudioPostPlaybackState = {
   currentTime: 0,
   duration: 0,
   volume: 1,
+  queueLength: 0,
+  queuePos: 0,
+  shuffle: false,
+  crossfade: 0,
 };
 
+let crossfadeSeconds = 0;
 let state: AudioPostPlaybackState = IDLE;
 const subscribers = new Set<(next: AudioPostPlaybackState) => void>();
 
@@ -150,6 +167,11 @@ function onStatus(status: AudioStatus) {
   }
 
   if (status.didJustFinish) {
+    if (fade) {
+      finishCrossfade();
+      return;
+    }
+    if (advanceQueue()) return;
     // Rest at the end rather than closing: one tap on the corner player
     // starts it again from the top, which is what a finished track wants.
     patch.isPlaying = false;
@@ -164,6 +186,7 @@ function onStatus(status: AudioStatus) {
   if (status.duration > 0 && Date.now() - lastSeekAt > SEEK_SETTLE_MS) {
     patch.currentTime = status.currentTime;
     patch.progress = clamp01(status.currentTime / status.duration);
+    maybeStartCrossfade(status);
   }
 
   if (status.playing !== state.isPlaying) {
@@ -191,6 +214,7 @@ function detach() {
 
 /** Stop the track, drop the player and close the corner player. */
 export function stopAudioPost() {
+  cancelCrossfade();
   detach();
   if (player) {
     try {
@@ -205,7 +229,8 @@ export function stopAudioPost() {
   playingDisagreements = 0;
   releaseLockScreen(LOCK_SCREEN_ID);
   releaseAudioFocus(stopAudioPost);
-  publish(IDLE);
+  clearQueue();
+  publish({ ...IDLE, crossfade: crossfadeSeconds });
 }
 
 export interface AudioPostHandover {
@@ -233,6 +258,16 @@ export interface AudioPostHandover {
  * from here on this module pauses, seeks and removes it.
  */
 export function popOutAudioPost(handover: AudioPostHandover) {
+  // A card popped out on its own ends any playlist that was playing, unless
+  // it is the playlist's current track.
+  if (state.tokenId !== handover.track.tokenId && queue.length) {
+    clearQueue();
+    publish({ queueLength: 0, queuePos: 0, shuffle: false });
+  }
+  startTrack(handover);
+}
+
+function startTrack(handover: AudioPostHandover) {
   const { track } = handover;
 
   if (state.tokenId === track.tokenId && player) {
@@ -241,7 +276,8 @@ export function popOutAudioPost(handover: AudioPostHandover) {
     return;
   }
 
-  // Whatever was popped out before is over; this is not a queue.
+  // Whatever was popped out before is over.
+  cancelCrossfade();
   detach();
   if (player) {
     try {
@@ -316,6 +352,7 @@ export function popOutAudioPost(handover: AudioPostHandover) {
  */
 export function takeBackAudioPost(tokenId: string): AudioPlayer | null {
   if (state.tokenId !== tokenId || !player) return null;
+  cancelCrossfade();
   const p = player;
   detach();
   player = null;
@@ -326,13 +363,15 @@ export function takeBackAudioPost(tokenId: string): AudioPlayer | null {
   // The card's claim replaces this one, and the module's own release becomes
   // a no-op the moment it does.
   releaseAudioFocus(stopAudioPost);
-  publish(IDLE);
+  clearQueue();
+  publish({ ...IDLE, crossfade: crossfadeSeconds });
   return p;
 }
 
 /** Pause. The lock screen claim is kept so the track can be resumed from it. */
 export function pauseAudioPost() {
   if (!player || !state.tokenId) return;
+  cancelCrossfade();
   try {
     player.pause();
   } catch (e) {
@@ -379,6 +418,7 @@ export function toggleAudioPost() {
 /** Jump to `ratio` (0–1). Never changes the play state. */
 export function seekAudioPost(ratio: number) {
   if (!state.tokenId) return;
+  cancelCrossfade();
   const clamped = clamp01(ratio);
   lastSeekAt = Date.now();
   publish({ progress: clamped, currentTime: clamped * state.duration });
@@ -393,8 +433,203 @@ export function seekAudioPost(ratio: number) {
 /** 0–1. */
 export function setAudioPostVolume(level: number) {
   const volume = clamp01(level);
-  if (player) player.volume = volume;
+  if (player && !fade) player.volume = volume;
   publish({ volume });
+}
+
+/* ─── Playlists ─────────────────────────────────────────────── */
+
+/** The playlist as given. */
+let queue: AudioPostTrack[] = [];
+/** Play order: indices into `queue`, shuffled or not. */
+let order: number[] = [];
+let pos = 0;
+
+function clearQueue() {
+  queue = [];
+  order = [];
+  pos = 0;
+}
+
+function shuffled(list: number[]): number[] {
+  const out = [...list];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+function playPos(next: number) {
+  if (next < 0 || next >= order.length) return;
+  pos = next;
+  const track = queue[order[pos]];
+  publish({ queueLength: queue.length, queuePos: pos });
+  startTrack({ track, player: null, volume: state.volume });
+}
+
+/** Move on after a track ends. False when the playlist is over. */
+function advanceQueue(): boolean {
+  if (!queue.length || pos + 1 >= order.length) return false;
+  playPos(pos + 1);
+  return true;
+}
+
+/**
+ * Play a list of tracks one after another in the corner player, from
+ * `start` (an index into `tracks`), shuffled if asked.
+ */
+export function playAudioQueue(
+  tracks: AudioPostTrack[],
+  opts: { start?: number; shuffle?: boolean } = {},
+) {
+  const list = tracks.filter((t) => !!t.audioUrl);
+  if (!list.length) return;
+  const start = Math.max(0, Math.min(list.length - 1, opts.start ?? 0));
+  queue = list;
+  const ids = list.map((_, i) => i);
+  if (opts.shuffle) {
+    const rest = shuffled(ids.filter((i) => i !== start));
+    // A Shuffle press starts anywhere; a tapped track starts first.
+    order = opts.start == null ? shuffled(ids) : [start, ...rest];
+  } else {
+    order = ids;
+  }
+  publish({ shuffle: !!opts.shuffle });
+  cancelCrossfade();
+  // Start from a clean slot so a track that was popped out is not resumed.
+  if (state.tokenId && player) {
+    detach();
+    try { player.pause(); } catch {}
+    try { player.remove(); } catch {}
+    player = null;
+    publish({ tokenId: null });
+  }
+  playPos(opts.shuffle || opts.start == null ? 0 : order.indexOf(start));
+}
+
+/** Next (1) or back (-1). Back restarts the track if it is a few seconds in. */
+export function skipAudioQueue(dir: 1 | -1) {
+  if (!queue.length) return;
+  if (dir === -1 && state.currentTime > 3) {
+    seekAudioPost(0);
+    return;
+  }
+  const next = pos + dir;
+  if (next < 0 || next >= order.length) {
+    if (dir === -1) seekAudioPost(0);
+    return;
+  }
+  playPos(next);
+}
+
+/** Shuffle what is left of the playlist, or put it back in order. */
+export function toggleAudioQueueShuffle() {
+  if (!queue.length) return;
+  const current = order[pos];
+  if (!state.shuffle) {
+    order = [current, ...shuffled(queue.map((_, i) => i).filter((i) => i !== current))];
+    pos = 0;
+  } else {
+    order = queue.map((_, i) => i);
+    pos = current;
+  }
+  publish({ shuffle: !state.shuffle, queuePos: pos });
+}
+
+/** Seconds of overlap between playlist tracks; 0 turns it off. Remembered. */
+export function setAudioCrossfade(seconds: number) {
+  crossfadeSeconds = Math.max(0, Math.min(12, Math.round(seconds)));
+  publish({ crossfade: crossfadeSeconds });
+  AsyncStorage.setItem(CROSSFADE_KEY, String(crossfadeSeconds)).catch(() => {});
+}
+
+AsyncStorage.getItem(CROSSFADE_KEY)
+  .then((raw) => {
+    const n = Number(raw);
+    if (raw != null && Number.isFinite(n)) {
+      crossfadeSeconds = Math.max(0, Math.min(12, Math.round(n)));
+      publish({ crossfade: crossfadeSeconds });
+    }
+  })
+  .catch(() => {});
+
+/* ─── Crossfade ─────────────────────────────────────────────── */
+
+interface Fade {
+  from: AudioPlayer;
+  to: AudioPlayer;
+  nextPos: number;
+  startedAt: number;
+  ms: number;
+  timer: ReturnType<typeof setInterval>;
+}
+
+let fade: Fade | null = null;
+
+/** Starts the next track under this one when the end is near. */
+function maybeStartCrossfade(status: AudioStatus) {
+  if (fade || !crossfadeSeconds || !player || !queue.length) return;
+  if (pos + 1 >= order.length) return;
+  if (!status.playing) return;
+  // Short tracks would spend most of their length fading.
+  if (status.duration < crossfadeSeconds * 3) return;
+  if (status.duration - status.currentTime > crossfadeSeconds) return;
+
+  const nextPos = pos + 1;
+  const track = queue[order[nextPos]];
+  let to: AudioPlayer;
+  try {
+    to = createAudioPlayer({ uri: track.audioUrl }, { updateInterval: 100 });
+  } catch (e) {
+    log.warn("Could not start the next track early", e);
+    return;
+  }
+  to.volume = 0;
+  to.play();
+  const from = player;
+  const volume = state.volume;
+  const ms = Math.max(500, (status.duration - status.currentTime) * 1000);
+  const startedAt = Date.now();
+  const timer = setInterval(() => {
+    if (!fade) return;
+    const t = clamp01((Date.now() - fade.startedAt) / fade.ms);
+    try {
+      fade.from.volume = volume * (1 - t);
+      fade.to.volume = volume * t;
+    } catch {}
+    if (t >= 1) finishCrossfade();
+  }, 100);
+  fade = { from, to, nextPos, startedAt, ms, timer };
+}
+
+/** Hand the corner player to the track that faded in. */
+function finishCrossfade() {
+  const f = fade;
+  if (!f) return;
+  clearInterval(f.timer);
+  fade = null;
+  detach();
+  try { f.from.pause(); } catch {}
+  try { f.from.remove(); } catch {}
+  player = null;
+  pos = f.nextPos;
+  const track = queue[order[pos]];
+  try { f.to.volume = state.volume; } catch {}
+  publish({ queueLength: queue.length, queuePos: pos });
+  // The new player is already playing: the engine takes it as a handover.
+  startTrack({ track, player: f.to, volume: state.volume });
+}
+
+/** Drop a fade in progress, keeping the current track at full volume. */
+function cancelCrossfade() {
+  const f = fade;
+  if (!f) return;
+  clearInterval(f.timer);
+  fade = null;
+  try { f.to.pause(); } catch {}
+  try { f.to.remove(); } catch {}
+  try { f.from.volume = state.volume; } catch {}
 }
 
 /** Subscribe to the popped-out post. */

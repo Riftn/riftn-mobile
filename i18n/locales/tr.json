@@ -6626,6 +6626,12 @@
     "newMessage": "{{name}} sana bir mesaj gönderdi"
   },
   "audioPost": {
+    "playAll": "Tümünü çal",
+    "shuffle": "Karıştır",
+    "crossfade": "Geçiş",
+    "off": "kapalı",
+    "next": "Sonraki",
+    "previous": "Geri",
     "popOut": "Açılır pencere — göz atarken dinlemeye devam edin",
     "closeCornerPlayer": "Köşedeki oyuncuyu kapat",
     "cornerPlayer": "Ses sonrası oynatma",

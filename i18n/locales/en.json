@@ -6428,6 +6428,12 @@
     "newMessage": "{{name}} sent you a message"
   },
   "audioPost": {
+    "playAll": "Play all",
+    "shuffle": "Shuffle",
+    "crossfade": "Crossfade",
+    "off": "off",
+    "next": "Next",
+    "previous": "Back",
     "popOut": "Pop out — keep listening while you browse",
     "closeCornerPlayer": "Close the corner player",
     "cornerPlayer": "Audio post playback",

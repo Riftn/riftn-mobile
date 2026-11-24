@@ -29,11 +29,16 @@ import Icon from "../ui/Icon";
 import { useStages } from "../../context/StageContext";
 import { getCachedHue } from "../../libs/audioHueState";
 import {
+  CROSSFADE_STEPS,
   seekAudioPost,
+  setAudioCrossfade,
+  skipAudioQueue,
   stopAudioPost,
   toggleAudioPost,
+  toggleAudioQueueShuffle,
   useAudioPostPlayback,
 } from "../../libs/audio-post-playback";
+import { formatCount } from "../../libs/format-count";
 import { ScrubSurface, SeekBar, fmtDuration, useSeekSurface } from "./AudioPostPlayer";
 
 const noop = () => {};
@@ -41,7 +46,7 @@ const noop = () => {};
 const AudioPostMiniPlayer: React.FC = () => {
   const { t } = useTranslation();
   const { theme, skin } = useAppTheme();
-  const { tokenId, track, isPlaying, isLoading, progress, currentTime, duration } =
+  const { tokenId, track, isPlaying, isLoading, progress, currentTime, duration, queueLength, queuePos, shuffle, crossfade } =
     useAudioPostPlayback();
   const { currentSpace, isConnected } = useStages();
 
@@ -82,6 +87,11 @@ const AudioPostMiniPlayer: React.FC = () => {
   if (!tokenId || !track) return null;
 
   const liveBarShowing = !!currentSpace && isConnected;
+  const inPlaylist = queueLength > 1;
+  const nextCrossfade = () => {
+    const i = CROSSFADE_STEPS.indexOf(crossfade as (typeof CROSSFADE_STEPS)[number]);
+    setAudioCrossfade(CROSSFADE_STEPS[(i + 1) % CROSSFADE_STEPS.length]);
+  };
 
   return (
     <View
@@ -135,6 +145,52 @@ const AudioPostMiniPlayer: React.FC = () => {
       <ScrubSurface surface={seek}>
         <SeekBar position={position} hue={getCachedHue()} />
       </ScrubSurface>
+
+      {inPlaylist && (
+        <View style={styles.queueRow}>
+          <TouchableOpacity
+            onPress={() => skipAudioQueue(-1)}
+            style={styles.queueBtn}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityLabel={t("audioPost.previous")}
+          >
+            <Icon name="SkipBack" size={15} color="#FFFFFF" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => skipAudioQueue(1)}
+            disabled={queuePos + 1 >= queueLength}
+            style={[styles.queueBtn, queuePos + 1 >= queueLength && styles.queueBtnOff]}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityLabel={t("audioPost.next")}
+          >
+            <Icon name="SkipForward" size={15} color="#FFFFFF" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={toggleAudioQueueShuffle}
+            style={[styles.queueBtn, shuffle && styles.queueBtnOn]}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityState={{ selected: shuffle }}
+            accessibilityLabel={t("audioPost.shuffle")}
+          >
+            <Icon name="Shuffle" size={15} color={shuffle ? "#22C55E" : "#FFFFFF"} />
+          </TouchableOpacity>
+          <Text style={styles.queuePos}>{`${formatCount(queuePos + 1)} / ${formatCount(queueLength)}`}</Text>
+          <TouchableOpacity
+            onPress={nextCrossfade}
+            style={[styles.fadeBtn, crossfade > 0 && styles.queueBtnOn]}
+            hitSlop={6}
+            accessibilityRole="button"
+            accessibilityLabel={t("audioPost.crossfade")}
+          >
+            <Text style={[styles.fadeText, crossfade > 0 && { color: "#22C55E" }]}>
+              {crossfade > 0 ? `${t("audioPost.crossfade")} ${crossfade}s` : `${t("audioPost.crossfade")} ${t("audioPost.off")}`}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -193,6 +249,47 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.1)",
     alignItems: "center",
     justifyContent: "center",
+  },
+  queueRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingTop: 2,
+    paddingBottom: 4,
+  },
+  queueBtn: {
+    width: 30,
+    height: 26,
+    borderRadius: 9,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.06)",
+  },
+  queueBtnOn: {
+    backgroundColor: "rgba(34,197,94,0.14)",
+  },
+  queueBtnOff: {
+    opacity: 0.35,
+  },
+  queuePos: {
+    flex: 1,
+    color: "rgba(255,255,255,0.5)",
+    fontSize: 11,
+    fontVariant: ["tabular-nums"],
+    textAlign: "center",
+  },
+  fadeBtn: {
+    height: 26,
+    borderRadius: 9,
+    paddingHorizontal: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.06)",
+  },
+  fadeText: {
+    color: "#FFFFFF",
+    fontSize: 11,
+    fontWeight: "500",
   },
   closeBtn: {
     width: 26,

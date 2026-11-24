@@ -6636,6 +6636,12 @@
     "newMessage": "{{name}} vous a envoyé un message"
   },
   "audioPost": {
+    "playAll": "Tout lire",
+    "shuffle": "Aléatoire",
+    "crossfade": "Fondu",
+    "off": "non",
+    "next": "Suivant",
+    "previous": "Retour",
     "popOut": "Sortez — continuez à écouter pendant que vous naviguez",
     "closeCornerPlayer": "Fermez le lecteur de coin",
     "cornerPlayer": "Lecture audio après lecture",
