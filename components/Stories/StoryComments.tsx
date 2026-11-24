@@ -1,5 +1,5 @@
 /** Public comments under a moment: everyone who can see it can read them. */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -27,10 +27,13 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
   const [allow, setAllow] = useState(item.allowReplies);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
+  // The comment a reply goes under, while the person is answering one.
+  const [replyTo, setReplyTo] = useState<{ id: string; name: string } | null>(null);
+  const input = useRef<TextInput>(null);
 
   useEffect(() => {
     let alive = true;
-    getStoryComments(item.id, signedIn)
+    getStoryComments(item.id, signedIn, undefined, true)
       .then((r) => {
         if (!alive) return;
         setRows(r.comments);
@@ -46,7 +49,7 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
 
   const more = async () => {
     if (!next) return;
-    const r = await getStoryComments(item.id, signedIn, next).catch(() => null);
+    const r = await getStoryComments(item.id, signedIn, next, true).catch(() => null);
     if (!r) return;
     setRows((list) => [...(list ?? []), ...r.comments]);
     setNext(r.next);
@@ -57,9 +60,14 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
     if (!body || busy) return;
     setBusy(true);
     try {
-      const row = await addStoryComment(item.id, body);
-      setRows((list) => [row, ...(list ?? [])]);
+      const row = await addStoryComment(item.id, body, replyTo?.id);
+      if (row.parentId) {
+        setRows((list) => (list ?? []).map((r) => (r.id === row.parentId ? { ...r, replies: [...(r.replies ?? []), row] } : r)));
+      } else {
+        setRows((list) => [{ ...row, replies: row.replies ?? [] }, ...(list ?? [])]);
+      }
       setText("");
+      setReplyTo(null);
       setTotal(count + 1);
     } catch (e: any) {
       toastError(e?.message || t("stories.commentFailed", { defaultValue: "Your comment didn't go up. Try again." }));
@@ -69,10 +77,47 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
   };
 
   const remove = (c: StoryComment) => {
-    setRows((list) => (list ?? []).filter((r) => r.id !== c.id));
-    setTotal(Math.max(0, count - 1));
+    // A top comment takes its replies with it.
+    const gone = 1 + (c.parentId ? 0 : c.replies?.length ?? 0);
+    setRows((list) => (list ?? [])
+      .filter((r) => r.id !== c.id)
+      .map((r) => (c.parentId && r.id === c.parentId ? { ...r, replies: (r.replies ?? []).filter((x) => x.id !== c.id) } : r)));
+    if (replyTo?.id === c.id) setReplyTo(null);
+    setTotal(Math.max(0, count - gone));
     void deleteStoryComment(item.id, c.id).catch(() => {});
   };
+
+  const answer = (c: StoryComment) => {
+    if (!signedIn) { onSignIn(); return; }
+    setReplyTo({ id: c.parentId || c.id, name: nameOf(c.author) });
+    setTimeout(() => input.current?.focus(), 50);
+  };
+
+  const line = (c: StoryComment, reply: boolean) => (
+    <View key={c.id} style={[styles.row, reply && styles.replyRow]}>
+      <TouchableOpacity onPress={() => onOpenProfile(c.author.address)} accessibilityRole="link" accessibilityLabel={nameOf(c.author)}>
+        <Avatar uri={avatarOf(c.author, reply ? 24 : 32)} size={reply ? 24 : 32} radius={reply ? 12 : 16} name={c.author.username || c.author.address} />
+      </TouchableOpacity>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <Text style={styles.name} numberOfLines={1} onPress={() => onOpenProfile(c.author.address)}>
+          {nameOf(c.author)}
+          {c.isCreator ? <Text style={styles.creator}>{"  "}{t("postInfo.creator", { defaultValue: "Creator" })}</Text> : null}
+          {" "}<Text style={styles.age}>{ageLabel(c.createdAt)}</Text>
+        </Text>
+        <Text style={styles.text}>{c.text}</Text>
+        {allow ? (
+          <TouchableOpacity onPress={() => answer(c)} hitSlop={8} style={styles.replyBtn} accessibilityRole="button">
+            <Text style={styles.replyText}>{t("dm.reply", { defaultValue: "Reply" })}</Text>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+      {c.canDelete ? (
+        <TouchableOpacity onPress={() => remove(c)} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("common.delete", { defaultValue: "Delete" })}>
+          <Icon name="Trash2" size={16} color="hsla(0,0%,100%,0.6)" />
+        </TouchableOpacity>
+      ) : null}
+    </View>
+  );
 
   return (
     <KeyboardAvoidingView style={styles.back} behavior={Platform.OS === "ios" ? "padding" : undefined}>
@@ -94,21 +139,9 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
         ) : (
           <ScrollView style={{ maxHeight: 360 }} keyboardShouldPersistTaps="handled">
             {rows.map((c) => (
-              <View key={c.id} style={styles.row}>
-                <TouchableOpacity onPress={() => onOpenProfile(c.author.address)} accessibilityRole="link" accessibilityLabel={nameOf(c.author)}>
-                  <Avatar uri={avatarOf(c.author, 32)} size={32} radius={16} name={c.author.username || c.author.address} />
-                </TouchableOpacity>
-                <View style={{ flex: 1, minWidth: 0 }}>
-                  <Text style={styles.name} numberOfLines={1} onPress={() => onOpenProfile(c.author.address)}>
-                    {nameOf(c.author)} <Text style={styles.age}>{ageLabel(c.createdAt)}</Text>
-                  </Text>
-                  <Text style={styles.text}>{c.text}</Text>
-                </View>
-                {c.canDelete ? (
-                  <TouchableOpacity onPress={() => remove(c)} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("common.delete", { defaultValue: "Delete" })}>
-                    <Icon name="Trash2" size={16} color="hsla(0,0%,100%,0.6)" />
-                  </TouchableOpacity>
-                ) : null}
+              <View key={c.id}>
+                {line(c, false)}
+                {(c.replies ?? []).map((r) => line(r, true))}
               </View>
             ))}
             {next ? (
@@ -123,8 +156,18 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
             <Text style={styles.placeholder}>{t("stories.signInToComment", { defaultValue: "Sign in to comment" })}</Text>
           </TouchableOpacity>
         ) : allow ? (
+          <>
+          {replyTo ? (
+            <View style={styles.replying}>
+              <Text style={styles.replyingText} numberOfLines={1}>{t("governance.discussion.replyingTo", { name: replyTo.name, defaultValue: "Replying to {{name}}" })}</Text>
+              <TouchableOpacity onPress={() => setReplyTo(null)} hitSlop={8} accessibilityRole="button">
+                <Text style={styles.replyText}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
           <View style={styles.box}>
             <TextInput
+              ref={input}
               value={text}
               onChangeText={setText}
               placeholder={t("stories.addComment", { defaultValue: "Add a comment for everyone" })}
@@ -141,6 +184,7 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
               </TouchableOpacity>
             ) : null}
           </View>
+          </>
         ) : (
           <Text style={styles.empty}>{t("stories.commentsOff", { defaultValue: "Comments are off for this moment" })}</Text>
         )}
@@ -168,6 +212,12 @@ const styles = StyleSheet.create({
   name: { color: "#fff", fontSize: 13, fontWeight: "600" },
   age: { color: "hsla(0,0%,100%,0.5)", fontWeight: "400" },
   text: { color: "#fff", fontSize: 14, marginTop: 2 },
+  replyRow: { paddingLeft: 50, paddingVertical: 6 },
+  creator: { color: "hsla(0,0%,100%,0.75)", fontSize: 11, fontWeight: "700" },
+  replyBtn: { marginTop: 4, alignSelf: "flex-start" },
+  replyText: { color: "hsla(0,0%,100%,0.65)", fontSize: 12, fontWeight: "700" },
+  replying: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 8, paddingTop: 8 },
+  replyingText: { flex: 1, color: "hsla(0,0%,100%,0.8)", fontSize: 12 },
   box: {
     marginTop: 8,
     height: 44,
