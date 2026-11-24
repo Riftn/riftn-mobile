@@ -356,6 +356,11 @@ function AppNavigatorContent() {
           name={ScreenNames.Chestard}
           getComponent={() => deferredScreen('../screens/ChestardScreen#default', () => require("../screens/ChestardScreen").default)}
         />
+        {/* Binary Metal: type text, hear it as a metal riff, save WAV or MP3. */}
+        <Stack.Screen
+          name={ScreenNames.BinaryMetal}
+          getComponent={() => deferredScreen('../screens/BinaryMetalScreen#default', () => require("../screens/BinaryMetalScreen").default)}
+        />
         {/* Gratitude pen pals: take turns saying what you are grateful for. */}
         <Stack.Screen
           name={ScreenNames.Gratitude}

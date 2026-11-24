@@ -341,6 +341,7 @@ export default function UploadScreen() {
   const incomingInitialText = route.params?.initialText;
   const incomingImages = route.params?.images;
   const incomingVideo = route.params?.video;
+  const incomingAudio = route.params?.audio;
   const authUser = useUser();
   const { isBanned: accountBanned } = useBannedAccount();
   // Comic: a photo post shown as collector cards, each page with a caption.
@@ -2097,6 +2098,15 @@ export default function UploadScreen() {
 
   // A video handed over by another surface, e.g. one finished in the editor.
   // Like pictures, it only fills an empty composer.
+  // A sound file handed over by another surface, e.g. a Binary Metal riff.
+  // Like the rest, it only fills an empty composer.
+  useEffect(() => {
+    if (!incomingAudio) return;
+    if (pickedVideo || pickedImages.length) return;
+    setPickedAudio((prev) => prev ?? incomingAudio);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [incomingAudio]);
+
   useEffect(() => {
     if (!incomingVideo) return;
     if (pickedVideo || pickedImages.length) return;

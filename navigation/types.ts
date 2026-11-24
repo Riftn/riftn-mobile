@@ -53,6 +53,7 @@ export type AppStackParamList = {
   [ScreenNames.MediaEditor]: { projectId?: string; importMedia?: import('../libs/editor/importGeneratedMedia').GeneratedMediaSource } | undefined;
   [ScreenNames.VideoRemix]: { mode: 'green-screen' | 'collab' | 'sound' | 'cut'; tokenId: string | number; videoUrl: string; sourceUrl: string; title: string; creator?: string };
   [ScreenNames.Root]: NavigatorScreenParams<BottomTabParamList> | undefined;
+  [ScreenNames.BinaryMetal]: { text?: string; style?: string } | undefined;
   [ScreenNames.Upload]: {
     tab?: 'feed' | undefined;
     draft?: import('../hooks/useDrafts').Draft;
@@ -64,6 +65,8 @@ export type AppStackParamList = {
     images?: { uri: string; width: number; height: number; mimeType?: string }[];
     /** A video to open the composer with, e.g. an export from the editor. Duration in ms, like the picker's. */
     video?: { uri: string; width: number; height: number; duration?: number; mimeType?: string; fileName?: string };
+    /** A sound file to open the composer with, e.g. a Binary Metal riff. */
+    audio?: import('../hooks/useUploadPost').PickedAudio;
     /** Open on Livestream, e.g. from the + button while the home feed is on Live. */
     live?: boolean;
     /** A post's song to start with, from tapping the song on that post. */
