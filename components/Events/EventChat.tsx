@@ -16,6 +16,7 @@ import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useEventChat, type EventChatMessage } from "../../hooks/useEventChat";
 import { formatRelativeFromNow } from "../../libs/date.util";
 import { MessageReportModal, type MessageReport } from "../common/MessageReportHost";
+import { BoldText, stripBold } from "../../libs/bold-markup";
 
 const QUICK_REACTIONS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const MAX_LEN = 500;
@@ -133,11 +134,11 @@ export default function EventChat({ eventId, restricted }: { eventId: string; re
                         <Icon name="CornerDownLeft" size={11} color="rgba(255,255,255,0.4)" />
                         <Text style={styles.quoteText} numberOfLines={1}>
                           <Text style={{ fontWeight: "600" }}>{m.reply_to.sender_name}: </Text>
-                          {m.reply_to.content}
+                          {stripBold(m.reply_to.content)}
                         </Text>
                       </View>
                     )}
-                    <Text style={styles.body}>{m.content}</Text>
+                    <Text style={styles.body}><BoldText text={m.content} /></Text>
                     {reactions.length > 0 && (
                       <View style={styles.reactions}>
                         {reactions.map(([emoji, addrs]) => {

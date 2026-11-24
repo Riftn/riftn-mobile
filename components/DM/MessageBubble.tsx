@@ -79,6 +79,7 @@ import { isAssistantAddress } from "../../libs/assistant";
 import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assistantActionLinks";
 import AssistantActionCard from "../Assistant/AssistantActionCard";
 import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { stripBold } from "../../libs/bold-markup";
 
 /**
  * A line of yours that did not go out: it stays where it was sent, with
@@ -1060,7 +1061,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                         }`}
                         numberOfLines={1}
                       >
-                        {message.replyTo.content ||
+                        {stripBold(message.replyTo.content) ||
                           (message.replyTo.encMedia
                             ? encryptedMediaLabel(message.replyTo.encMedia, t)
                             : t("dm.attachment"))}
@@ -1080,7 +1081,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                         }`}
                         numberOfLines={1}
                       >
-                        {message.replyTo.content || t("dm.photo")}
+                        {stripBold(message.replyTo.content) || t("dm.photo")}
                       </Text>
                     </View>
                   ) : (
@@ -1090,7 +1091,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       }`}
                       numberOfLines={2}
                     >
-                      {message.replyTo.content || ""}
+                      {stripBold(message.replyTo.content) || ""}
                     </Text>
                   )}
                 </View>

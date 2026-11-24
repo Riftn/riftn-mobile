@@ -34,6 +34,7 @@ import {
 import { useNoteWords } from "./note-translate";
 import { formatCount } from "../../libs/format-count";
 import { useUser } from "../../context/AuthContext";
+import { BoldText, stripBold } from "../../libs/bold-markup";
 
 export const NOTES_QUERY_KEY = ["dm-notes"] as const;
 
@@ -77,7 +78,7 @@ function NoteBubble({ note, placeholder, own }: { note: Note | null; placeholder
   return (
     <View style={{ backgroundColor: c.bubble, borderRadius: 10, borderWidth: 1, borderColor: c.hairline, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, alignItems: "center", gap: 2 }}>
       {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 48, height: 32, borderRadius: 6 }} contentFit="cover" />}
-      {!!note.text && <Text className="text-white text-[11px] text-center" numberOfLines={2}>{words}</Text>}
+      {!!note.text && <Text className="text-white text-[11px] text-center" numberOfLines={2}><BoldText text={words} /></Text>}
       {!note.text && !!note.song && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
           <Ionicons name="musical-notes" size={11} color={c.ink} />
@@ -305,11 +306,11 @@ function StatusSong({ song, autoPlay }: { song: StorySong; autoPlay?: boolean })
 
 /** The middle of a status: GIF, big words, song, place. */
 function StatusWords({ note, words, autoPlay, footer }: { note: Note; words: string; autoPlay?: boolean; footer?: React.ReactNode }) {
-  const size = wordSize(words);
+  const size = wordSize(stripBold(words));
   return (
     <View style={{ alignItems: "center", gap: 12, paddingHorizontal: 20, maxWidth: 440, alignSelf: "center" }}>
       {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 200, height: 150, borderRadius: 16 }} contentFit="contain" />}
-      {!!note.text && <Text testID="note-words" style={[{ color: WHITE, fontSize: size, lineHeight: Math.round(size * 1.18), fontWeight: "800", textAlign: "center" }, WORD_SHADOW]}>{words}</Text>}
+      {!!note.text && <Text testID="note-words" style={[{ color: WHITE, fontSize: size, lineHeight: Math.round(size * 1.18), fontWeight: "800", textAlign: "center" }, WORD_SHADOW]}><BoldText text={words} heavy /></Text>}
       {!!note.song && <StatusSong song={note.song} autoPlay={autoPlay} />}
       {!!note.location && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
@@ -748,12 +749,12 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
   const gif = note?.gifUrl || null;
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
-    <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${words}` : label}>
+    <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}>
       <View style={{ height: 58, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
         {words ? (
           <>
             <View style={[CLOUD, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
-              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? (isLight ? "#71717a" : "#3f3f46") : "#0b0b0c", opacity: own && !note && !isLight ? 0.75 : 1 }}>{words}</Text>
+              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? (isLight ? "#71717a" : "#3f3f46") : "#0b0b0c", opacity: own && !note && !isLight ? 0.75 : 1 }}><BoldText text={words} heavy /></Text>
             </View>
             <View style={{ width: "100%", paddingLeft: 26 }}>
               <View style={[CLOUD, hair, { width: 8, height: 8, borderRadius: 4, marginTop: 2 }]} />
@@ -843,7 +844,7 @@ const noteLine = (n: Note) => n.text || n.song?.title || n.location || (n.gifUrl
 export function NoteTag({ entry, onPress }: { entry: NoteEntry; onPress: () => void }) {
   const c = useNoteInk();
   const said = useNoteWords(entry.note.text).shown;
-  const line = entry.note.text ? said : noteLine(entry.note);
+  const line = entry.note.text ? stripBold(said) : noteLine(entry.note);
   if (!line) return null;
   return (
     <Pressable

@@ -19,6 +19,7 @@ import { ensureAiConsent } from "../../libs/ai-consent";
 import { toastError, toastSuccess } from "../../libs/toast";
 import { momentTextLooksForeign } from "./story-translate";
 import { TEXT_SHADOW } from "./StoryRoom";
+import { BoldText } from "../../libs/bold-markup";
 
 export default function MomentCaption({ text, publicContent }: { text: string; publicContent: boolean }) {
   const { t, i18n } = useTranslation();
@@ -67,7 +68,7 @@ export default function MomentCaption({ text, publicContent }: { text: string; p
   return (
     <>
       <Text style={styles.caption} numberOfLines={3}>
-        {translated ? ready : text}
+        <BoldText text={translated ? ready : text} />
       </Text>
       {foreign && !same ? (
         <Pressable
