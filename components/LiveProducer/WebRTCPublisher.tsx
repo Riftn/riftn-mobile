@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import { AppState, View, Platform, Text } from "react-native";
+import { reportError } from "../../libs/errorReporter";
 import { useTranslation } from "react-i18next";
 import { mediaDevices, RTCPeerConnection, RTCView } from "react-native-webrtc";
 import {
@@ -301,6 +302,13 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   activeRef.current = active;
   // Re-acquires the camera; set by the background effect below.
   const reacquireCameraRef = useRef<() => Promise<void>>(async () => {});
+  // Android: the system "Start recording?" prompt backgrounds the app, and
+  // its return must not swap a camera into the sender over the screen track
+  // that is about to arrive.
+  const shareStartingRef = useRef(false);
+  // A share stopped while the app was in the background (from the system
+  // notification) cannot open the camera; the next return to the app does.
+  const cameraPendingRef = useRef(false);
   const localReadyRef = useRef(localReady);
   localReadyRef.current = localReady;
 
@@ -1054,7 +1062,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       if (!local || replacingTrackRef.current) return;
       // Sharing the screen sends the app to the background on purpose; the
       // camera comes back when the share stops, not on every return.
-      if (screenTrackRef.current || extShareRef.current) return;
+      if (screenTrackRef.current || extShareRef.current || shareStartingRef.current) return;
       replacingTrackRef.current = true;
       try {
         const old: any = local.getVideoTracks?.()[0];
@@ -1068,7 +1076,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         });
         const newTrack = s.getVideoTracks?.()[0];
         if (!newTrack) return;
-        if (cancelled || streamRef.current !== local) {
+        if (cancelled || streamRef.current !== local || screenTrackRef.current || shareStartingRef.current) {
           try { newTrack.stop(); } catch {}
           return;
         }
@@ -1083,9 +1091,12 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         setVideoTrackEpoch((e) => e + 1);
         const url = computeStreamURL(local);
         if (url) setLocalURL(url);
+        cameraPendingRef.current = false;
         dbg('camera re-acquired after background', { facing: wanted });
       } catch (e) {
+        if (AppState.currentState !== "active") cameraPendingRef.current = true;
         dbe('camera re-acquire after background failed', e);
+        reportError('LiveScreenShare', ['camera re-acquire failed', e], { level: 'warn', metadata: { platform: Platform.OS } });
       } finally {
         replacingTrackRef.current = false;
       }
@@ -1096,7 +1107,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         // Only a preview that was already running counts: the permission
         // prompt at start-up backgrounds the activity on Android too.
         wentBackground = !!streamRef.current && localReadyRef.current;
-      } else if (state === "active" && wentBackground) {
+      } else if (state === "active" && (wentBackground || cameraPendingRef.current)) {
         wentBackground = false;
         void reacquireCamera();
       }
@@ -1130,10 +1141,17 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       setScreenURL(null);
       try { screen.stop(); } catch {}
       currentFacingRef.current = facingRef.current;
+      // A camera swap still in flight would make the re-acquire bail out.
+      for (let i = 0; i < 20 && replacingTrackRef.current; i++) {
+        await new Promise((r) => setTimeout(r, 100));
+      }
       await reacquireCameraRef.current();
       const local: any = streamRef.current;
       const cam: any = local?.getVideoTracks?.()[0];
       const s2: any = videoSenderRef.current;
+      // The camera was paused under the share; never hand back a paused track.
+      if (cam) { try { cam.enabled = !cameraOffRef.current; } catch {} }
+      else cameraPendingRef.current = true;
       if (cam && s2 && s2.track !== cam) {
         try { await s2.replaceTrack(cam); } catch {}
       }
@@ -1161,11 +1179,17 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
           return;
         }
       }
+      shareStartingRef.current = true;
       try {
         const display: any = await (mediaDevices as any).getDisplayMedia({ video: true });
         const screen: any = display?.getVideoTracks?.()[0];
         if (!screen) throw new Error("no screen track");
         if (cancelled) { try { screen.stop(); } catch {} return; }
+        // A camera swap that started before the prompt must land first, or
+        // it would replace the screen on the sender right after.
+        for (let i = 0; i < 20 && replacingTrackRef.current; i++) {
+          await new Promise((r) => setTimeout(r, 100));
+        }
         screenTrackRef.current = screen;
         setSharingScreen(true);
         setScreenURL(computeStreamURL(display));
@@ -1185,8 +1209,17 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         dbg('screen share started');
       } catch (e) {
         dbe('screen share failed', e);
+        reportError('LiveScreenShare', ['screen share failed', e], { level: 'warn', metadata: { platform: Platform.OS } });
+        shareStartingRef.current = false;
         if (screenTrackRef.current) await stopShare(false);
+        else {
+          // Declined or failed before a screen track: the prompt may have
+          // taken the camera away, so put a fresh one back.
+          await reacquireCameraRef.current();
+        }
         onScreenShareEndedRef.current?.();
+      } finally {
+        shareStartingRef.current = false;
       }
     };
 
