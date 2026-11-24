@@ -12,7 +12,7 @@ import { apiClient } from "../libs";
 import { xhrUploadFormData } from "../libs/xhr-upload";
 import { ResumableUnsupportedError, resumableUploadFile } from "../libs/resumable-upload";
 
-export type StoryAudience = "everyone" | "followers" | "selected" | "except";
+export type StoryAudience = "everyone" | "followers" | "selected" | "except" | "close_friends";
 export const STORY_LIFETIMES = [6, 12, 24] as const;
 export type StoryLifetime = (typeof STORY_LIFETIMES)[number];
 
@@ -65,6 +65,8 @@ export interface StoryItem {
   mentions: StoryMention[];
   song: StorySong | null;
   audience: StoryAudience;
+  /** Posted to the author's Close Friends: green ring and star label. */
+  closeFriends?: boolean;
   allowReplies: boolean;
   createdAt: string;
   expiresAt: string;
@@ -86,6 +88,8 @@ export interface ShelfEntry {
   seen: boolean;
   latestAt: string | null;
   items: StoryItem[];
+  /** One of their Moments up for you is a Close Friends one (green ring). */
+  closeFriends?: boolean;
 }
 
 export interface StoryViewer {
@@ -113,10 +117,22 @@ export interface MomentPeek {
   state: "unseen" | "seen";
   count: number;
   cover: string | null;
+  /** A Close Friends Moment of theirs is up for you: the rim turns green. */
+  closeFriends?: boolean;
 }
 
-export function getStoryRings(addresses: string[], signedIn: boolean): Promise<{ rings: Record<string, "unseen" | "seen">; peeks?: Record<string, MomentPeek> }> {
+export function getStoryRings(addresses: string[], signedIn: boolean): Promise<{ rings: Record<string, "unseen" | "seen">; peeks?: Record<string, MomentPeek>; closeFriends?: Record<string, true> }> {
   return apiClient.get("/stories/rings", { isAuthRequired: signedIn, quiet: true, params: { addresses: addresses.join(",") } });
+}
+
+/** Your Close Friends list: the people who see your Close Friends Moments. */
+export function getCloseFriends(): Promise<{ friends: StoryAuthor[] }> {
+  return apiClient.get("/stories/close-friends", { quiet: true });
+}
+
+/** Replace your Close Friends list (up to 500). Moments already up follow the change. */
+export function setCloseFriends(addresses: string[]): Promise<{ friends: StoryAuthor[] }> {
+  return apiClient.put("/stories/close-friends", { addresses });
 }
 
 export function getUserStories(address: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; items: StoryItem[] }> {
@@ -185,8 +201,8 @@ export function createStory(
   const fd = new FormData();
   fd.append("type", fields.type ?? (fields.draftVideoId ? "video" : "photo"));
   fd.append("audience", fields.audience);
-  const customAudience = fields.audience === "selected" || fields.audience === "except";
-  if (customAudience) fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
+  const customAudience = fields.audience === "selected" || fields.audience === "except" || fields.audience === "close_friends";
+  if (fields.audience === "selected" || fields.audience === "except") fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
   if (fields.photoDurationSeconds != null) fd.append("photoDurationSeconds", String(fields.photoDurationSeconds));
   if (fields.expiresInHours != null) fd.append("expiresInHours", String(fields.expiresInHours));
   fd.append("allowReplies", String(fields.allowReplies !== false));

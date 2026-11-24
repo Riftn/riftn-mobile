@@ -41,8 +41,9 @@ import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
 import { toastError, toastSuccess } from "../../libs/toast";
+import { formatCount } from "../../libs/format-count";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
-import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
+import { getCloseFriends, getStoryShelf, setCloseFriends as saveCloseFriends, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
@@ -324,26 +325,54 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
   const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
-  const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
+  // Your Close Friends list, kept on your account (null while loading).
+  const [closeFriends, setCloseFriends] = useState<MentionUser[] | null>(null);
+  const closeFriendsSave = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [stickersOpen, setStickersOpen] = useState(false);
   const [effectsOpen, setEffectsOpen] = useState(false);
   const [look, setLook] = useState<PhotoLook>("none");
   const [backdrop, setBackdrop] = useState<PhotoBackdrop>("blur");
   React.useEffect(() => {
-    AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
-      .then((raw) => {
-        const list = raw ? JSON.parse(raw) : [];
-        if (Array.isArray(list)) setCloseFriends(list.filter((u: MentionUser) => u && typeof u.address === "string").slice(0, 50));
-      })
-      .catch(() => {});
-  }, []);
+    if (!customAudience) return;
+    let active = true;
+    const asUser = (f: { address: string; username: string | null; displayName: string | null; avatarImageUrl: string | null }) =>
+      ({ address: f.address, username: f.username || "", displayName: f.displayName || "", avatarImageUrl: f.avatarImageUrl || "", isFollowing: false }) as MentionUser;
+    (async () => {
+      let list: MentionUser[] = [];
+      try {
+        list = (await getCloseFriends()).friends.map(asUser);
+        // A list saved only on this phone before moves to the account once.
+        if (!list.length) {
+          const raw = await AsyncStorage.getItem(CLOSE_FRIENDS_KEY).catch(() => null);
+          const local = raw ? JSON.parse(raw) : [];
+          if (Array.isArray(local) && local.length) {
+            const keep = local.filter((u: MentionUser) => u && typeof u.address === "string");
+            const saved = await saveCloseFriends(keep.map((u: MentionUser) => u.address)).catch(() => null);
+            list = saved ? saved.friends.map(asUser) : keep;
+          }
+        }
+      } catch { /* older server: empty list */ }
+      if (active) setCloseFriends(list);
+    })();
+    return () => { active = false; };
+  }, [customAudience]);
+  const changeCloseFriends = (next: MentionUser[]) => {
+    setCloseFriends(next);
+    if (closeFriendsSave.current) clearTimeout(closeFriendsSave.current);
+    closeFriendsSave.current = setTimeout(() => {
+      saveCloseFriends(next.map((u) => u.address)).catch(() => {});
+    }, 500);
+  };
   const restrictPeople = audience === "selected" || audience === "except";
   const audienceLabels = {
     everyone: t("stories.everyone", { defaultValue: "Everyone" }),
     followers: t("stories.followersOnly", { defaultValue: "Followers" }),
     selected: t("stories.selectedPeople", { defaultValue: "Only selected people" }),
     except: t("stories.hideFromPeople", { defaultValue: "Hide from selected people" }),
+    close_friends: t("stories.closeFriends", { defaultValue: "Close friends" }),
   };
+  const isCloseFriends = audience === "close_friends";
+  const audienceBlocked = (restrictPeople && !audiencePeople.length) || (isCloseFriends && !closeFriends?.length);
   const player = useVideoPlayer(picked.kind === "video" ? picked.uri : null, (p) => {
     p.loop = true;
     p.timeUpdateEventInterval = 0.1;
@@ -394,7 +423,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const share = async () => {
-    if (busy || (restrictPeople && !audiencePeople.length)) return;
+    if (busy || audienceBlocked) return;
     setBusy(true);
     try {
       const written = layers.filter((l) => l.text.trim());
@@ -533,7 +562,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
 
       <View style={styles.bottomBar}>
         <TouchableOpacity onPress={() => setAudienceOpen(true)} style={[styles.chip, styles.darkGlass]}>
-          <Icon name={audience === "everyone" ? "Globe" : "Users"} size={15} color="#fff" />
+          <Icon name={audience === "everyone" ? "Globe" : isCloseFriends ? "Star" : "Users"} size={15} color={isCloseFriends ? "#4ade80" : "#fff"} />
           <Text style={styles.chipText}>
             {audienceLabels[audience]}
           </Text>
@@ -546,7 +575,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <View style={[styles.chip, styles.darkGlass]}><Text style={styles.chipText}>24h</Text></View>
         )}
         <View style={{ flex: 1 }} />
-        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || (restrictPeople && !audiencePeople.length)}>
+        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || audienceBlocked}>
           {shareColors ? <LinearGradient colors={[shareColors.from, shareColors.to]} start={{ x: 0, y: 0.5 }} end={{ x: 1, y: 0.5 }} style={StyleSheet.absoluteFill} /> : null}
           <Text style={[styles.shareText, shareColors && { color: shareColors.ink }]}>{t("stories.share", { defaultValue: "Share" })}</Text>
         </TouchableOpacity>
@@ -564,28 +593,21 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
                   setAudience(mode);
                   if (mode === "followers" || mode === "everyone") AsyncStorage.setItem(AUDIENCE_KEY, mode).catch(() => {});
                 }}>
-                {mode === audience && <Icon name="Check" size={16} color="#fff" />}
-                <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
+                {mode === audience ? <Icon name="Check" size={16} color="#fff" /> : mode === "close_friends" ? <Icon name="Star" size={16} color="#4ade80" /> : null}
+                <Text style={styles.chipText}>{audienceLabels[mode]}{mode === "close_friends" && closeFriends?.length ? ` (${formatCount(closeFriends.length)})` : ""}</Text>
               </TouchableOpacity>
             ))}
-            {customAudience && closeFriends.length > 0 && (
-              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
-                onPress={() => { audienceChosen.current = true; setAudience("selected"); setAudiencePeople(closeFriends); }}>
-                <Icon name="Users" size={16} color="#fff" />
-                <Text style={styles.chipText}>{t("stories.closeFriends", { defaultValue: "Close friends" })} ({closeFriends.length})</Text>
+            {isCloseFriends && <>
+              {closeFriends === null ? <ActivityIndicator color="#fff" /> : null}
+              {(closeFriends ?? []).map(user => (
+                <TouchableOpacity key={user.address} style={[styles.chip, styles.darkGlass]} onPress={() => changeCloseFriends((closeFriends ?? []).filter(item => item.address !== user.address))}>
+                  <Text style={styles.chipText}>@{user.username || user.address.slice(0, 8)} ×</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity style={[styles.chip, styles.darkGlass]} disabled={closeFriends === null || closeFriends.length >= 500} onPress={() => setPickingAudiencePerson(true)}>
+                <Icon name="Search" size={16} color="#fff" /><Text style={styles.chipText}>{t("common.search", { defaultValue: "Search" })}</Text>
               </TouchableOpacity>
-            )}
-            {audience === "selected" && audiencePeople.length > 0 && (
-              <TouchableOpacity style={[styles.chip, styles.darkGlass]} accessibilityRole="button"
-                onPress={() => {
-                  setCloseFriends(audiencePeople);
-                  AsyncStorage.setItem(CLOSE_FRIENDS_KEY, JSON.stringify(audiencePeople)).catch(() => {});
-                  toastSuccess(t("stories.closeFriendsSaved", { defaultValue: "Saved as your Close friends" }));
-                }}>
-                <Icon name="Check" size={16} color="#fff" />
-                <Text style={styles.chipText}>{t("stories.saveCloseFriends", { defaultValue: "Save as Close friends" })}</Text>
-              </TouchableOpacity>
-            )}
+            </>}
             {restrictPeople && <>
               {audiencePeople.map(user => (
                 <TouchableOpacity key={user.address} style={[styles.chip, styles.darkGlass]} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
@@ -660,8 +682,12 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
         </View>
       )}
       {pickingAudiencePerson && (
-        <MentionSheet title={audienceLabels[audience]} excluded={audiencePeople.map(user => user.address.toLowerCase())}
-          onSelect={user => { setAudiencePeople(current => [...current, user]); setPickingAudiencePerson(false); }}
+        <MentionSheet title={audienceLabels[audience]} excluded={(isCloseFriends ? closeFriends ?? [] : audiencePeople).map(user => user.address.toLowerCase())}
+          onSelect={user => {
+            if (isCloseFriends) changeCloseFriends([...(closeFriends ?? []), user]);
+            else setAudiencePeople(current => [...current, user]);
+            setPickingAudiencePerson(false);
+          }}
           onClose={() => setPickingAudiencePerson(false)} bottom={insets.bottom} />
       )}
       {choosingPlayback && (
