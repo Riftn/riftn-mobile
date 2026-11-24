@@ -79,7 +79,6 @@ import { sendSolanaPayment } from "../../services/solana-payment.service";
 import { isSolanaChain } from "../../config/solana.constants";
 import { formatCompactNumber } from "../../libs";
 import { supabase } from "../../services/supabase";
-import { withWalletHeader } from "../../libs/supabase-wallet-client";
 import { ButtonLoader } from "../DeHubLoader";
 import { getAccount } from "../../services/user.service";
 import { sanitizeAmountInput } from "../../libs/amount-input";
@@ -155,36 +154,24 @@ export interface GlassTipSheetProps {
 }
 
 /**
- * Mirror of web's persistTipRecord: the earnings screens and per-comment tip
- * totals read Supabase tip_records, and a tip that only exists on-chain is
- * invisible to both. Fire-and-forget with retries — a failed save must not
- * error a tip that already moved money.
+ * Ask for an on-chain tip's record to be written, so the earnings screens and
+ * per-comment tip totals include it. The app no longer writes the row itself:
+ * it names the payment, and the `tip-record` function writes what the API has
+ * on file for it. `commentId` says which comment the tip was for (the chain
+ * only carries the post). Fire-and-forget: the API also writes a post tip's
+ * row by itself, and a failed save must not error a tip that already moved
+ * money.
  */
-async function persistTipRecord(params: {
-  senderAddress: string;
-  receiverAddress: string;
-  amount: number;
-  chainId: number;
-  txHash: string;
-  tokenId: number;
-  commentId: number | null;
-}): Promise<void> {
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    const { error } = await withWalletHeader(
-      supabase.from("tip_records").insert({
-        sender_address: params.senderAddress.toLowerCase(),
-        receiver_address: params.receiverAddress.toLowerCase(),
-        amount: params.amount,
-        chain_id: params.chainId,
-        tx_hash: params.txHash,
-        token_id: params.tokenId ? String(params.tokenId) : null,
-        comment_id: params.commentId != null ? String(params.commentId) : null,
-      } as any),
-      params.senderAddress,
-    );
-    if (!error) return;
-    console.warn(`[Tip] record attempt ${attempt}/3 failed:`, error.message);
-    if (attempt < 3) await new Promise((r) => setTimeout(r, 1000 * attempt));
+async function persistTipRecord(params: { txHash: string; commentId: number | null }): Promise<void> {
+  // A comment tip needs this call to land after the payment is indexed.
+  const attempts = params.commentId != null ? 6 : 3;
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    const { data, error } = await supabase.functions.invoke("tip-record", {
+      body: { txHash: params.txHash, ...(params.commentId != null ? { commentId: String(params.commentId) } : {}) },
+    });
+    if (!error && (data as { recorded?: boolean } | null)?.recorded) return;
+    if (error) console.warn(`[Tip] record attempt ${attempt}/${attempts} failed:`, error.message);
+    if (attempt < attempts) await new Promise((r) => setTimeout(r, 1500 * attempt));
   }
 }
 
@@ -507,19 +494,8 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
           const me = user?.walletAddress || user?.address;
           queryClient.setQueryData([APP_TOKENS_QUERY_KEY, me?.toLowerCase() ?? null], (old: any) => (old ? { ...old, balance: res.balance } : old));
           void queryClient.invalidateQueries({ queryKey: [APP_TOKENS_QUERY_KEY] });
-          // The post's and comments' tip figures read tip_records; the server
-          // already moved the DHB and counted the tip, this only draws it.
-          if (me) {
-            void persistTipRecord({
-              senderAddress: me,
-              receiverAddress: res.to,
-              amount: Number(res.amount),
-              chainId: 0,
-              txHash: res.receipt,
-              tokenId,
-              commentId: commentId ?? null,
-            });
-          }
+          // The server wrote the tip's record with the tip itself, so the
+          // post's and comments' tip figures already include it.
           if (commentId != null) emitPostTipped(commentTipKey(commentId));
           else if (tokenId) emitPostTipped(tokenId);
           const sentMessage = tipMessage.current;
@@ -684,15 +660,7 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
             // A stablecoin tip is not DHB: it stays out of tip_records and the
             // DHB balance; the backend records it with its own ticker.
             if (txHash && account && !directToken) {
-              void persistTipRecord({
-                senderAddress: account,
-                receiverAddress: toAddress,
-                amount: creatorAmount,
-                chainId,
-                txHash,
-                tokenId,
-                commentId: commentId ?? null,
-              });
+              void persistTipRecord({ txHash, commentId: commentId ?? null });
             }
 
             // The original creator's share goes out after the main tip has
@@ -713,15 +681,7 @@ const GlassTipSheetComponent: React.FC<GlassTipSheetProps> = ({
                   if (!shareReceipt || shareReceipt.status !== 1) throw new Error("share failed");
                   const shareHash: string = shareReceipt.transactionHash || shareTx.hash || "";
                   if (shareHash) {
-                    void persistTipRecord({
-                      senderAddress: account,
-                      receiverAddress: share.sourceAddress,
-                      amount: sourceAmount,
-                      chainId,
-                      txHash: shareHash,
-                      tokenId: share.sourceTokenId,
-                      commentId: null,
-                    });
+                    void persistTipRecord({ txHash: shareHash, commentId: null });
                   }
                 } catch {
                   toastWarning(t("remixLinks.shareFailed", { defaultValue: "Your tip was sent, but the original creator's share didn't go through." }));
