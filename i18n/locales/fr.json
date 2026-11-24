@@ -4882,6 +4882,7 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "communities": {
+    "catchUp": {"button": "Résume-moi", "menuHint": "Un résumé privé, envoyé dans tes messages", "last24h": "Dernières 24 heures", "last3d": "3 derniers jours", "sinceRead": "Depuis ma dernière lecture", "working": "Préparation du résumé…", "sent": "Résumé envoyé dans tes messages", "sentCount": "{{window}} · {{formattedCount}} messages", "open": "Ouvrir", "nothing": "Rien de nouveau à résumer", "busy": "Ton résumé arrive. Réessaie dans un instant.", "failed": "Impossible de faire ton résumé. Réessaie."},
     "muteChat": "Couper",
     "mutedChat": "Coupé",
     "muteChatHint": "Ne plus recevoir d'alertes du chat de cette communauté. Vous pouvez toujours le lire",

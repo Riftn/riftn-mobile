@@ -52,6 +52,9 @@ import SmartImage from "../common/SmartImage";
 import { Image } from "expo-image";
 import { storageImageSource } from "../../libs/cdnImage";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
+import { runCatchUp } from "./CatchUpSheet";
+import { isCatchUpCommand } from "../../libs/community-recap";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BuyAlertCard, parseBuyAlert } from "./BuyAlertCard";
 import Icon from "../ui/Icon";
@@ -374,7 +377,8 @@ interface CommunityChatPanelProps {
 }
 
 export function CommunityChatPanel({ community, membership, isMember, onJoin, joining, jumpTo }: CommunityChatPanelProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const navigation = useNavigation<any>();
   const user = useUser() as any;
   const { showUserProfile } = useUserProfileSheet();
 
@@ -789,6 +793,12 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const handleSend = useCallback(async () => {
     const body = text.trim();
     if (!body || sending) return;
+    // "catch me up" is never posted: the recap goes to your DMs instead.
+    if (!editing && isMember && myAddress && isCatchUpCommand(body)) {
+      setText.complete(text, "");
+      void runCatchUp({ communityId: community.id, walletAddress: myAddress, text: body, t, lang: i18n.language, navigation });
+      return;
+    }
     setSending(true);
     try {
       if (editing) {
@@ -833,7 +843,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     replyTo,
     scrollToBottom,
     slowModeApplies,
-    slowSeconds, setText, setReplyTo, community.id, t]);
+    slowSeconds, setText, setReplyTo, community.id, t, i18n.language, isMember, myAddress, navigation]);
 
   // A GIF or voice note goes out at once, like web, then the same after-send
   // steps as text: reply cleared, scrolled to the bottom, slow mode shown.

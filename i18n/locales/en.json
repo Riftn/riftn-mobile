@@ -4745,6 +4745,7 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "catchUp": {"button": "Catch me up", "menuHint": "A private recap, sent to your DMs", "last24h": "Last 24 hours", "last3d": "Last 3 days", "sinceRead": "Since I last read", "working": "Catching you up…", "sent": "Recap sent to your DMs", "sentCount": "{{window}} · {{formattedCount}} messages", "open": "Open", "nothing": "Nothing new to catch up on", "busy": "Your recap is on its way. Try again in a bit.", "failed": "Couldn't make your recap. Try again."},
     "muteChat": "Mute",
     "mutedChat": "Muted",
     "muteChatHint": "Stop alerts from this community's chat. You can still read it",
