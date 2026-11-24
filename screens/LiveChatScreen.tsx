@@ -34,6 +34,7 @@ import LiveChatMessage from "../components/LiveChat/LiveChatMessage";
 import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArrival";
 import { LiveChatLens } from "../components/LiveChat/LiveChatLens";
 import { formatCount } from "../libs/format-count";
+import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import PublicChatHeaderMenu from "../components/LiveChat/PublicChatHeaderMenu";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
@@ -1195,11 +1196,13 @@ const LiveChatScreen: React.FC = () => {
     () => (
       <View className="flex-row items-center gap-1">
         {account && !isBanned ? (
-          <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} members={[]} ring={false} />
+          <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} members={[]} ring={false} joinOnly />
         ) : null}
-        {/* Search, text size and chat info live behind + so the top isn't
-            crowded; "24 online" sits under the title (2026-11-24). */}
-        <PublicChatHeaderMenu onSearch={() => openSearch()} onInfo={handleInfoPress} />
+        {/* Search and text size on the bar; voice, video and chat info behind
+            +. "24 online" sits under the title (2026-11-24). */}
+        <TouchableOpacity onPress={() => openSearch()} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
+        <ChatTextSizeButton />
+        <PublicChatHeaderMenu onInfo={handleInfoPress} canCall={!!account && !isBanned} />
       </View>
     ),
     [handleInfoPress, t, openSearch, account, isBanned]

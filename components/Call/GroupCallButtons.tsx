@@ -15,7 +15,9 @@ import { useGroupCallRoster } from "../../libs/groupCall";
  * `ring={false}` is an open room (Public Chat): starting opens the room
  * without ringing anyone, and others join from the pill.
  */
-const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[]; canStart?: boolean; ring?: boolean }> = ({ groupId, groupName, members, canStart = true, ring = true }) => {
+/** `joinOnly`: just the "Join call" pill while a call is on, nothing
+ *  otherwise (Public Chat starts calls from its + menu). */
+const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[]; canStart?: boolean; ring?: boolean; joinOnly?: boolean }> = ({ groupId, groupName, members, canStart = true, ring = true, joinOnly = false }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { startGroupCall, joinGroupCall, currentCall } = useCall();
@@ -45,7 +47,7 @@ const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: 
 
   // Who may ring the group is a group setting (Permissions > Start group
   // calls); the database refuses the ring otherwise.
-  if (!canStart) return null;
+  if (!canStart || joinOnly) return null;
 
   return (
     <View style={styles.row}>
