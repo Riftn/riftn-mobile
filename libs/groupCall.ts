@@ -60,6 +60,8 @@ interface Held {
   roster: GroupCallPresence[];
   /** What this device announces, if it is in the call. Re-sent after a reconnect. */
   mine: GroupCallPresence | null;
+  /** Told when a moderator acted in this room (only a nudge to read the list again). */
+  mods: Set<() => void>;
 }
 const held = new Map<string, Held>();
 
@@ -79,18 +81,20 @@ function readRoster(channel: RealtimeChannel): GroupCallPresence[] {
  * Hold a group's presence channel. `onRoster` hears every change; `announce`
  * puts this device in the room until the returned release.
  */
-export function holdGroupCallPresence(groupId: string, onRoster: Listener, announce?: GroupCallPresence): () => void {
+export function holdGroupCallPresence(groupId: string, onRoster: Listener, announce?: GroupCallPresence, onMod?: () => void): () => void {
   const topic = presenceTopic(groupId);
   let entry = held.get(topic);
   if (!entry) {
     const channel = supabase.channel(topic);
-    const created: Held = { channel, holders: 0, joined: false, synced: false, listeners: new Set(), roster: [], mine: null };
+    const created: Held = { channel, holders: 0, joined: false, synced: false, listeners: new Set(), roster: [], mine: null, mods: new Set() };
     entry = created;
     held.set(topic, created);
     channel.on("presence", { event: "sync" }, () => {
       created.roster = readRoster(channel);
       created.synced = true;
       created.listeners.forEach((listener) => listener(created.roster));
+    }).on("broadcast", { event: "mod" }, () => {
+      created.mods.forEach((listener) => listener());
     }).subscribe((status) => {
       if (status !== "SUBSCRIBED") return;
       created.joined = true;
@@ -100,6 +104,7 @@ export function holdGroupCallPresence(groupId: string, onRoster: Listener, annou
   const current = entry;
   current.holders += 1;
   current.listeners.add(onRoster);
+  if (onMod) current.mods.add(onMod);
   onRoster(current.roster);
   if (announce) {
     current.mine = announce;
@@ -110,6 +115,7 @@ export function holdGroupCallPresence(groupId: string, onRoster: Listener, annou
     if (released) return;
     released = true;
     current.listeners.delete(onRoster);
+    if (onMod) current.mods.delete(onMod);
     if (announce && current.mine?.uid === announce.uid) {
       current.mine = null;
       void current.channel.untrack();
@@ -172,4 +178,11 @@ export function useGroupCallRoster(groupId: string | null | undefined): GroupCal
     return holdGroupCallPresence(groupId, setRoster);
   }, [groupId]);
   return roster;
+}
+
+/** Tell everyone in a group's call that a moderator acted, so they read the list again. */
+export function sendGroupCallMod(groupId: string, payload: { target: string; action: string }) {
+  const entry = held.get(presenceTopic(groupId));
+  if (!entry) return;
+  void entry.channel.send({ type: "broadcast", event: "mod", payload }).catch(() => { /* the 20 s re-read catches up */ });
 }
