@@ -165,7 +165,7 @@
     "shutterHint": "انقر لالتقاط صورة، واضغط مطولًا للفيديو",
     "text": "نص",
     "typeSomething": "اكتب شيئًا",
-    "viewsCount": "{{formatted}} مشاهدة",
+    "viewsCount": "{{formatted}} مشاهدة", "viewersCount": "{{formatted}} مشاهدين", "watchedTimes": "شاهده {{formatted}} مرات", "playsShort": "{{formatted}}×",
     "whoWatched": "من شاهد",
     "yourDay": "يومك",
     "momentUp": "لحظتك منشورة لمدة 24 ساعة",
