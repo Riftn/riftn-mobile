@@ -38,6 +38,8 @@ import Animated, {
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
+  withSequence,
+  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -277,6 +279,17 @@ const LiveViewerActionBar: React.FC<Props> = ({
     boxH.value = withTiming(next, { duration: GROW_MS, easing: EASE });
   }, [boxH, reduceMotion]);
   const boxStyle = useAnimatedStyle(() => ({ height: boxH.value }));
+  const likePop = useSharedValue(1);
+  const likePopStyle = useAnimatedStyle(() => ({ transform: [{ scale: likePop.value }] }));
+  const handleLikePress = useCallback(() => {
+    if (!reduceMotion) {
+      likePop.value = withSequence(
+        withTiming(1.35, { duration: 90, easing: Easing.out(Easing.quad) }),
+        withSpring(1, { damping: 8, stiffness: 260 }),
+      );
+    }
+    onLike();
+  }, [onLike, reduceMotion, likePop]);
   const quote = editing && !inputDisabled
     ? { icon: "Pencil" as const, title: t("liveChat.editingMessage"), body: editing.content, close: () => { setEditText.clear(); onCancelEdit?.(); } }
     : replyingTo && !inputDisabled
@@ -454,7 +467,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
           </Pressable>
 
           <Pressable
-            onPress={onLike}
+            onPress={handleLikePress}
             onLongPress={isLive ? openReactions : undefined}
             delayLongPress={400}
             hitSlop={CHROME_HIT_SLOP}
@@ -463,13 +476,11 @@ const LiveViewerActionBar: React.FC<Props> = ({
             style={styles.circle}
           >
             <ChromeFill glass />
-            <Icon
-              name="ThumbsUp"
-              size={19}
-              color="#fff"
-              strokeWidth={1.8}
-              fill={isLiked ? "#fff" : "none"}
-            />
+            {/* Every tap is a like that floats up, so the thumb never
+                latches white: it pops on each tap instead. */}
+            <Animated.View style={likePopStyle}>
+              <Icon name="ThumbsUp" size={19} color="#fff" strokeWidth={1.8} fill="none" />
+            </Animated.View>
             {/* No tally. The icon is the control, and a number hung off
                 each of three buttons is three more figures on somebody
                 else's broadcast — the counts live on the post. */}
