@@ -14,6 +14,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import type { UploadJob } from '../../store/upload.store';
 import {
+  MAX_QUEUE_SIZE,
   uploadState,
   uploadActions,
   setUploadCacheKey,
@@ -238,4 +239,26 @@ it('checkpoints an active upload while progress keeps arriving', async () => {
     clearUploadStore();
     jest.useRealTimers();
   }
+});
+
+describe('photo drip admission', () => {
+  it('queues the whole selection even when it exceeds the single-upload queue limit', async () => {
+    setUploadCacheKey(A);
+    await hydrateUploadStore();
+    const photos = Array.from({ length: 20 }, (_, index) => job('photo-' + index));
+
+    expect(uploadActions.enqueueBatch(photos)).toBe(true);
+    expect(uploadState.jobs.map(({ id }) => id)).toEqual(photos.map(({ id }) => id));
+    expect(uploadActions.enqueue(job('next-upload'))).toBe(false);
+  });
+
+  it('leaves the queue intact if it cannot admit a photo drip', async () => {
+    setUploadCacheKey(A);
+    await hydrateUploadStore();
+    const existing = Array.from({ length: MAX_QUEUE_SIZE }, (_, index) => job('existing-' + index));
+    for (const queued of existing) expect(uploadActions.enqueue(queued)).toBe(true);
+
+    expect(uploadActions.enqueueBatch([job('photo-a'), job('photo-b')])).toBe(false);
+    expect(uploadState.jobs.map(({ id }) => id)).toEqual(existing.map(({ id }) => id));
+  });
 });
