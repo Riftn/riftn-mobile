@@ -1196,7 +1196,7 @@ const LiveChatScreen: React.FC = () => {
     () => (
       <View className="flex-row items-center gap-1">
         {account && !isBanned ? (
-          <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} members={[]} ring={false} joinOnly />
+          <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} joinOnly />
         ) : null}
         {/* Search and text size on the bar; voice, video and chat info behind
             +. "24 online" sits under the title (2026-11-24). */}

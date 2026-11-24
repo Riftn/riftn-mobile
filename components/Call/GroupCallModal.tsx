@@ -1,4 +1,3 @@
-import { PUBLIC_CHAT_CALL_ID } from "../../libs/groupCall";
 import React from "react";
 import { StyleSheet, Text, View, ScrollView, useWindowDimensions } from "react-native";
 import { RtcSurfaceView, RenderModeType, VideoSourceType } from "react-native-agora";
@@ -27,7 +26,7 @@ import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 const GroupCallModal: React.FC = () => {
   const {
     isCallActive, isIncoming, isRinging, isConnecting, currentCall, peerAddress,
-    isMuted, isSpeakerOn, isCameraOff, selfSpeaking, groupParticipants, localCanvas,
+    isMuted, isSpeakerOn, isCameraOff, selfSpeaking, groupCamerasFull, groupParticipants, localCanvas,
     isMinimized, setMinimized, endCall, acceptCall, rejectCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera,
     callBackground, callBackgroundSupported, setCallBackground,
@@ -62,9 +61,7 @@ const GroupCallModal: React.FC = () => {
     const status = isIncoming
       ? t("calls.isCalling", { name: caller.name, defaultValue: "{{name}} is calling" })
       : isRinging
-        ? currentCall?.group_id === PUBLIC_CHAT_CALL_ID
-          ? t("calls.waitingForPeople", { defaultValue: "Waiting for people to join..." })
-          : t("calls.callingGroup", { defaultValue: "Ringing the group..." })
+        ? t("calls.waitingForPeople", { defaultValue: "Waiting for people to join..." })
         : t("calls.connecting");
     return (
       <CallStage peer={stagePeer} onRequestClose={minimize} onCorner={isIncoming ? undefined : minimize}>
@@ -117,7 +114,15 @@ const GroupCallModal: React.FC = () => {
           <CallControl icon={isMuted ? "MicOff" : "Mic"} label={isMuted ? t("calls.unmute") : t("calls.mute")} onPress={toggleMute} active={isMuted} compact={isVideo} />
           {isVideo ? (
             <>
-              <CallControl icon={isCameraOff ? "VideoOff" : "Video"} label={t("calls.camera")} onPress={toggleCamera} active={isCameraOff} compact />
+              {/* Every camera slot taken: the button says so, and a tap explains how to get one. */}
+              <CallControl
+                icon={isCameraOff ? "VideoOff" : "Video"}
+                label={isCameraOff && groupCamerasFull ? t("calls.camerasFull", { defaultValue: "Cameras full" }) : t("calls.camera")}
+                onPress={toggleCamera}
+                active={isCameraOff}
+                dimmed={isCameraOff && groupCamerasFull}
+                compact
+              />
               <CallControl icon="RefreshCw" label={t("calls.flip")} onPress={switchCamera} compact />
             </>
           ) : null}

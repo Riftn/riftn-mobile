@@ -204,12 +204,14 @@ export const CallControl: React.FC<{
   primary?: boolean;
   compact?: boolean;
   disabled?: boolean;
-}> = ({ icon, label, onPress, active, primary, compact, disabled }) => {
+  /** Can't be turned on right now, but still tappable so it can say why. */
+  dimmed?: boolean;
+}> = ({ icon, label, onPress, active, primary, compact, disabled, dimmed }) => {
   const { palette } = useStage();
   const size = compact ? 52 : 60;
-  const solid = primary || active;
+  const solid = (primary || active) && !dimmed;
   return (
-    <View style={[styles.controlSlot, { width: size + 8, opacity: disabled ? 0.4 : 1 }]}>
+    <View style={[styles.controlSlot, { width: size + 8, opacity: disabled ? 0.4 : dimmed ? 0.6 : 1 }]}>
       <Pressable
         onPress={onPress}
         disabled={disabled}
