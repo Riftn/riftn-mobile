@@ -1522,7 +1522,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // frame, leaving the viewer black while the feed keeps playing.
     // A big event skips it on every platform: one WebRTC session per viewer
     // is the cost that mode exists to avoid.
-    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !bigEvent && !timeshifted,
+    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted && !bigEvent,
     stream: { playbackId, provider: streamEntity?.provider },
     muted: isMuted,
     paused: isPausedEffective,
