@@ -70,11 +70,15 @@ interface Flight {
   mine: boolean;
   to: Point;
   from: Point;
+  /** Where the chip was, in window pixels, when it took off. */
+  toWindow: Point;
+  /** The chip itself, so the flight can follow it if the list moves it mid-air. */
+  target?: React.RefObject<View | null>;
   onLand?: () => void;
 }
 interface ScopeApi {
   /** Window position of the scope's overlay, to turn chip positions into overlay ones. */
-  launch: (flight: Omit<Flight, "id" | "to" | "from"> & { toWindow: Point; fromWindow?: Point }) => void;
+  launch: (flight: Omit<Flight, "id" | "to" | "from"> & { fromWindow?: Point }) => void;
 }
 const ScopeContext = createContext<ScopeApi | null>(null);
 
@@ -92,7 +96,8 @@ export function ReactionArrivalScope({ style, pointerEvents, children }: { style
   const [flights, setFlights] = useState<Flight[]>([]);
   const nextId = useRef(0);
   const api = useMemo<ScopeApi>(() => ({
-    launch: ({ toWindow, fromWindow, ...rest }) => {
+    launch: ({ fromWindow, ...rest }) => {
+      const { toWindow } = rest;
       overlay.current?.measureInWindow((ox, oy, ow, oh) => {
         const to = { x: toWindow.x - ox, y: toWindow.y - oy };
         const from = fromWindow
@@ -162,6 +167,48 @@ function arcStops(from: Point, ctrl: Point, to: Point, steps = 10) {
 
 const SPARKS = [0, 1, 2, 3, 4, 5];
 
+/** How long a flight keeps checking where its chip is: the longest flight plus its landing. */
+const FOLLOW_MS = 4500;
+
+/**
+ * Keeps a flight on its chip while it is in the air.
+ *
+ * The landing spot is measured once, as the reaction arrives, but the chip
+ * keeps moving after that: the list scrolls to keep the newest line in view,
+ * other chips wrap, a panel slides. The emoji then landed where the chip used
+ * to be. This re-measures the chip every frame and shifts the whole flight by
+ * how far it has moved, so it always ends on the chip.
+ */
+function useFollowChip(flight: Flight) {
+  const offset = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
+  useEffect(() => {
+    const target = flight.target;
+    if (!target) return;
+    let alive = true;
+    let busy = false;
+    let frame = 0;
+    const started = Date.now();
+    const tick = () => {
+      if (!alive || Date.now() - started > FOLLOW_MS) return;
+      if (!busy && target.current) {
+        busy = true;
+        target.current.measureInWindow((x, y, w, h) => {
+          busy = false;
+          // Gone from layout (row recycled, tab hidden): keep the last good spot.
+          if (!alive || (w === 0 && h === 0)) return;
+          offset.setValue({ x: x + w / 2 - flight.toWindow.x, y: y + h / 2 - flight.toWindow.y });
+        });
+      }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => { alive = false; cancelAnimationFrame(frame); };
+    // One follow per flight.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return offset;
+}
+
 const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight; onDone: (id: number) => void }) {
   const t = useRef(new Animated.Value(0)).current;
   const spark = useRef(new Animated.Value(0)).current;
@@ -170,6 +217,7 @@ const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight
   const melt = useRef(new Animated.Value(0)).current;
   const dropping = useRef(false);
   const startedAt = useRef(Date.now()).current;
+  const follow = useFollowChip(flight);
   const tint = useTint();
   const { kind, mine, to, from, art } = flight;
   const size = kind === "bloom" ? 58 : mine ? 34 : 26;
@@ -269,7 +317,7 @@ const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight
   const reach = kind === "bloom" ? 54 : kind === "ring" ? 20 : mine ? 18 : 13;
   const count = kind === "bloom" ? 8 : kind === "ring" ? 5 : mine ? 6 : 4;
   return (
-    <>
+    <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { transform: follow.getTranslateTransform() }]}>
       {body}
       {kind !== "fly" && (
         <Animated.View
@@ -300,7 +348,7 @@ const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight
           />
         );
       })}
-    </>
+    </Animated.View>
   );
 });
 
@@ -374,7 +422,8 @@ export const ReactionGlyph = memo(function ReactionGlyph({ messageId, emoji, add
     if (!flies) {
       // Burst, someone else's: a small ring and sparks round the chip.
       ref.current?.measureInWindow((x, y, w, h) => {
-        scope.launch({ kind: "ring", emoji, art: null, mine, toWindow: { x: x + w / 2, y: y + h / 2 } });
+        if (w === 0 && h === 0) return;
+        scope.launch({ kind: "ring", emoji, art: null, mine, toWindow: { x: x + w / 2, y: y + h / 2 }, target: ref });
       });
       bump(0.9);
       if (armed) player.begin(false);
@@ -390,8 +439,11 @@ export const ReactionGlyph = memo(function ReactionGlyph({ messageId, emoji, add
       if (armed) player.begin(true);
     };
     ref.current?.measureInWindow((x, y, w, h) => {
+      // Not laid out (hidden tab, closed panel): nowhere to fly to, just show it.
+      if (w === 0 && h === 0) { land(); return; }
       scope.launch({
         kind: bloom ? "bloom" : "fly",
+        target: ref,
         emoji,
         art,
         landSize: art ? box : size / TEXT_FILL,
