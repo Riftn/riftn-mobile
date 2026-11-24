@@ -8457,6 +8457,7 @@
     "volume": "Ses düzeyi"
   },
   "liveViewer": {
+    "backToLive": "Canlıya dön",
     "showChat": "Sohbeti göster",
     "hideChat": "Sohbeti gizle",
     "saySomething": "Bir şey söyle...",

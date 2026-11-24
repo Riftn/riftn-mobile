@@ -39,6 +39,11 @@ interface Props {
   faces?: { uri?: string; name: string }[];
   /** Opens the Who's here sheet. */
   onOpenAudience?: () => void;
+  /**
+   * Drawn in place of the plain LIVE tag while the broadcast runs: play /
+   * pause and a tag that turns white when the viewer is behind live.
+   */
+  liveTag?: React.ReactNode;
 }
 
 const two = (n: number) => (n < 10 ? "0" + n : String(n));
@@ -83,6 +88,7 @@ const LiveViewerPills: React.FC<Props> = ({
   onPointsPress,
   faces,
   onOpenAudience,
+  liveTag,
 }) => {
   const { t } = useTranslation();
   /* Reused keys, not new ones: these five words are already translated
@@ -104,9 +110,11 @@ const LiveViewerPills: React.FC<Props> = ({
         {/* Live and how long, in one tag: red is the only hue on the frame. */}
         {isLive && !isEnded ? (
           <Pill>
-            <View style={styles.liveTag}>
-              <Text style={styles.liveText}>{isPaused ? t("ads.statuses.paused") : t("live.statusLive")}</Text>
-            </View>
+            {liveTag && !isPaused ? liveTag : (
+              <View style={styles.liveTag}>
+                <Text style={styles.liveText}>{isPaused ? t("ads.statuses.paused") : t("live.statusLive")}</Text>
+              </View>
+            )}
             {running && startedAt ? <ElapsedClock startedAt={startedAt} /> : null}
           </Pill>
         ) : null}

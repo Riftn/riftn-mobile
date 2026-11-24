@@ -8463,6 +8463,7 @@
     "volume": "Volumen"
   },
   "liveViewer": {
+    "backToLive": "Volver al directo",
     "showChat": "Mostrar chat",
     "hideChat": "Ocultar chat",
     "saySomething": "Di algo...",

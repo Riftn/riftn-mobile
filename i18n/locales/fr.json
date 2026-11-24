@@ -8467,6 +8467,7 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "backToLive": "Revenir au direct",
     "showChat": "Afficher le chat",
     "hideChat": "Masquer le chat",
     "saySomething": "Dis quelque chose...",

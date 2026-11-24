@@ -8487,6 +8487,7 @@
     "volume": "مستوى الصوت"
   },
   "liveViewer": {
+    "backToLive": "العودة إلى البث المباشر",
     "showChat": "إظهار الدردشة",
     "hideChat": "إخفاء الدردشة",
     "saySomething": "قل شيئًا...",

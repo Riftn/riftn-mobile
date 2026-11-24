@@ -8229,6 +8229,7 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "backToLive": "Back to live",
     "showChat": "Show chat",
     "hideChat": "Hide chat",
     "saySomething": "Say something...",
