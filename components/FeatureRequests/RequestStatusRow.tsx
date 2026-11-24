@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../context/ThemeContext";
 import { STATUS_LABELS, type FeatureStatus } from "../../hooks/useFeatureRequests";
 import { earlyAccessHoursLeft } from "../../libs/early-access";
+import { BoldText } from "../../libs/bold-markup";
 
 /**
  * Category, where the request is (Asked > In progress > Shipped) and the
@@ -77,7 +78,7 @@ export default function RequestStatusRow({
             : t("features.earlyAccess.others", { defaultValue: "Its poster is trying this first. Out for everyone in {{hours}} h.", hours: earlyHours })}
         </Text>
       )}
-      {!!liveNote && <Text style={s.note}>{liveNote}</Text>}
+      {!!liveNote && <Text style={s.note}><BoldText text={liveNote} /></Text>}
     </View>
   );
 }

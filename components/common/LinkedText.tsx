@@ -36,26 +36,27 @@ const LinkedText: React.FC<LinkedTextProps> = ({ text, className, onLongPress, f
 
   const tokens = tokenizeChatText(text);
 
+  const parts: React.ReactNode[] = tokens.map((token, index) =>
+    token.type === "link" ? (
+      <Text
+        key={`link-${index}`}
+        className="underline"
+        onPress={() => handlePress(token.url)}
+        onLongPress={onLongPress}
+        suppressHighlighting
+      >
+        {token.value}
+      </Text>
+    ) : (
+      token.value
+    ),
+  );
+
+  // Emoji only in the plain runs, so a colon inside a URL is never read as
+  // one; one pass over the whole line so a **bold** run can hold a link.
   return (
     <Text className={className} style={style}>
-      {tokens.map((token, index) =>
-        token.type === "link" ? (
-          <Text
-            key={`link-${index}`}
-            className="underline"
-            onPress={() => handlePress(token.url)}
-            onLongPress={onLongPress}
-            suppressHighlighting
-          >
-            {token.value}
-          </Text>
-        ) : (
-          // Plain runs only, so a colon inside a URL is never read as an emoji.
-          <React.Fragment key={`text-${index}`}>
-            {expandEmojiTokens([token.value], { fontSize, keyPrefix: `em-${index}`, glued: index > 0 })}
-          </React.Fragment>
-        ),
-      )}
+      {expandEmojiTokens(parts, { fontSize, keyPrefix: "em" })}
     </Text>
   );
 };

@@ -250,7 +250,9 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
 
   const renderSegments = useCallback(
     (segments: Segment[], keyPrefix: string, fontSize: number) =>
-      segments.map((seg, idx) => {
+      // Plain runs stay strings until one emoji + **bold** pass over the
+      // whole caption, so a bold run can hold a link, @mention or #tag.
+      expandEmojiTokens(segments.map((seg, idx) => {
         if (seg.type === "link") {
           return (
             <Text
@@ -306,12 +308,8 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
             </Text>
           );
         }
-        return (
-          <Text key={`${keyPrefix}-${idx}`}>
-            {expandEmojiTokens(seg.value, { fontSize, keyPrefix: `${keyPrefix}-e${idx}`, glued: idx > 0 })}
-          </Text>
-        );
-      }),
+        return seg.value;
+      }), { fontSize, keyPrefix: `${keyPrefix}-e`, heavy: keyPrefix === "t" }),
     [handleOpenLink, handleMentionPress, handleCashtagPress, handleHashtagPress, flagged, lightInk],
   );
 

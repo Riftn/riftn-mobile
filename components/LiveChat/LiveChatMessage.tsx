@@ -35,6 +35,7 @@ import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
 import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
+import { stripBold } from "../../libs/bold-markup";
 
 const formatTime = (iso: string): string => formatClockTime(new Date(iso));
 
@@ -335,7 +336,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                   _copy("copy.04f8996da763", { defaultValue: "user" })}
               </Text>
               <Text className="text-white/50" style={{ fontSize: 12.5 * textScale, lineHeight: Math.round(17 * textScale) }} numberOfLines={2}>
-                {replyQuoteText(message, t)}
+                {stripBold(replyQuoteText(message, t))}
               </Text>
             </View>
           </TouchableOpacity>

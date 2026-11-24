@@ -10,6 +10,7 @@ import { toastError } from "../../libs/toast";
 import { addStoryComment, deleteStoryComment, getStoryComments, type StoryComment, type StoryItem } from "../../services/stories.service";
 import { ageLabel, avatarOf, nameOf } from "./story-utils";
 import { MomentComment } from "./MomentIcons";
+import { BoldText } from "../../libs/bold-markup";
 
 export default function StoryComments({ item, signedIn, bottom, onClose, onOpenProfile, onSignIn, onCount }: {
   item: StoryItem;
@@ -104,7 +105,7 @@ export default function StoryComments({ item, signedIn, bottom, onClose, onOpenP
           {c.isCreator ? <Text style={styles.creator}>{"  "}{t("postInfo.creator", { defaultValue: "Creator" })}</Text> : null}
           {" "}<Text style={styles.age}>{ageLabel(c.createdAt)}</Text>
         </Text>
-        <Text style={styles.text}>{c.text}</Text>
+        <Text style={styles.text}><BoldText text={c.text} /></Text>
         {allow ? (
           <TouchableOpacity onPress={() => answer(c)} hitSlop={8} style={styles.replyBtn} accessibilityRole="button">
             <Text style={styles.replyText}>{t("dm.reply", { defaultValue: "Reply" })}</Text>

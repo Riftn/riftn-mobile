@@ -18,6 +18,7 @@ import { Image, Text } from "react-native";
 import { discordEmojiUrl, mayContainEmojiTokens, tokenizeEmoji } from "../../libs/emoji/tokens";
 import { getShortcodes } from "../../libs/emoji/shortcodes";
 import { useKidsModeLock } from "../../hooks/useKidsModeLock";
+import { applyBold } from "../../libs/bold-markup";
 import {
   customEmojisLoaded,
   getCustomEmoji,
@@ -100,11 +101,14 @@ export function expandEmojiTokens(
     fontSize = DEFAULT_FONT_SIZE,
     keyPrefix = "em",
     glued = false,
+    heavy = false,
   }: {
     fontSize?: number;
     keyPrefix?: string;
     /** The text follows a link or mention with no space, so a leading face (":)") is part of it. */
     glued?: boolean;
+    /** The text is already bold: `**bold**` goes heavier. */
+    heavy?: boolean;
   } = {},
 ): ReactNode[] {
   const list = Array.isArray(parts) ? parts : [parts];
@@ -122,10 +126,12 @@ export function expandEmojiTokens(
     }
     tokens.forEach((t, ti) => {
       const key = `${keyPrefix}-${pi}-${ti}`;
-      if (t.kind === "text") out.push(<Fragment key={key}>{t.text}</Fragment>);
+      // Plain strings, so the bold pass below can still read the text.
+      if (t.kind === "text") out.push(t.text);
       else if (t.kind === "discord") out.push(<EmojiImage key={key} src={discordEmojiUrl(t.id, t.animated)} name={t.name} size={size} />);
       else out.push(<ShortcodeEmoji key={key} code={t.code} raw={t.raw} size={size} />);
     });
   });
-  return out;
+  // `**bold**` last, so a bold run can hold links, mentions and emoji.
+  return applyBold(out, { heavy, keyPrefix: `${keyPrefix}-b` });
 }
