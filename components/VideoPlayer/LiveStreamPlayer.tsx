@@ -77,6 +77,7 @@ import type { EventBannerData } from "../LiveViewer/LiveEventBanner";
 import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
+import { closeLiveMini, closeOtherLiveMini, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
 import { LiveTimeshiftBar, LiveTimeshiftTag } from "../LiveViewer/LiveTimeshift";
 import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveTimeshift, type TimeshiftSnap } from "../../libs/liveTimeshift";
@@ -1077,6 +1078,23 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     };
   }, [streamId, socketOn, addActivity, user?.walletAddress, user?.address]);
 
+  // Opening a live closes any other one you minimised; the same live takes its
+  // seat back from the mini player, so the count never dips.
+  useEffect(() => {
+    closeOtherLiveMini(streamIdProp ?? null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!streamId) return;
+    const seat = takeLiveMiniSeat(streamId);
+    if (seat) {
+      const previous = releasePresenceRef.current;
+      releasePresenceRef.current = seat;
+      previous?.();
+    }
+    closeLiveMini();
+  }, [streamId]);
+
   // Emit LeaveStream on unmount — guarded by didLeaveRef so it only fires once.
   useEffect(() => {
     return () => {
@@ -1133,11 +1151,23 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       const sid = streamIdRef.current;
       if (!sid) return;
       if (state === "active") {
+        setAwayHandoff(false);
         try {
           maybeJoinRoomRef.current(sid);
           maybeJoinStreamRef.current(sid);
         } catch {}
       } else if (state === "background" || state === "inactive") {
+        // A live you can hear keeps playing outside the app (Android floats
+        // the player; iPhone hands the sound to the mini player), so the
+        // viewer stays in the audience.
+        const mini = buildMiniRef.current();
+        if (mini && !isMutedRef.current) {
+          if (state === "background" && Platform.OS === "ios" && whepOnRef.current) {
+            openLiveMini({ ...mini, mode: "away", release: null });
+            setAwayHandoff(true);
+          }
+          return;
+        }
         if (didLeaveRef.current) return;
         didLeaveRef.current = true;
         joinRoomSentKeyRef.current = null;
@@ -1500,6 +1530,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
    * transport. Any failure — no route, a hostile network, a stream that is not
    * really on air — falls straight back to the HLS ladder.
    */
+  // Leaving the app on iPhone hands the sound to the mini player (WebRTC can
+  // neither float nor keep going in the background); this one goes quiet.
+  const [awayHandoff, setAwayHandoff] = useState(false);
   /*
    * Pause, rewind and back-to-live. The server keeps the last few minutes of
    * every live, which the HLS player can move about in. WebRTC (iPhone) keeps
@@ -1524,10 +1557,48 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // is the cost that mode exists to avoid.
     enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted && !bigEvent,
     stream: { playbackId, provider: streamEntity?.provider },
-    muted: isMuted,
+    muted: isMuted || awayHandoff,
     paused: isPausedEffective,
   });
 
+  /*
+   * Minimise: the live keeps playing in a small window (or the listen bar)
+   * while you use the rest of the app, and the audience seat goes with it so
+   * the creator never sees a leave and a join. Only a live on air: a replay
+   * or an ended stream just closes.
+   */
+  const canMinimise = !!streamId && !!effectiveVideoUrl && isPlayable && isLiveEffective && !isEndedEffective && !isPlayingReplay;
+  const buildMini = (): Omit<LiveMini, "float" | "release"> | null => {
+    if (!canMinimise || !streamId || !effectiveVideoUrl) return null;
+    const handle = (creator?.username as string | undefined) || "";
+    return {
+      streamId,
+      url: effectiveVideoUrl,
+      title: resolvedTitle,
+      host: handle ? `@${handle}` : ((creator?.displayName as string | undefined) || ""),
+      avatar: getAvatarUrl(creator?.avatarImageUrl) || undefined,
+      params: { streamId, tokenId: (streamEntity?.tokenId as any) ?? tokenId, isLive: true },
+      mode: "video",
+      countsAsViewer: !!isSignedIn && ownerStatus === "viewer",
+    };
+  };
+  const buildMiniRef = useRef(buildMini);
+  buildMiniRef.current = buildMini;
+  const isMutedRef = useRef(isMuted);
+  isMutedRef.current = isMuted;
+  const minimise = useCallback((float: boolean) => {
+    const mini = buildMiniRef.current();
+    if (!mini) return;
+    const seat = releasePresenceRef.current;
+    releasePresenceRef.current = null;
+    didLeaveRef.current = true;
+    joinStreamSentKeyRef.current = null;
+    openLiveMini({ ...mini, float, release: seat });
+    if (navigation.canGoBack()) navigation.goBack();
+    else navigation.navigate(ScreenNames.App);
+  }, [navigation]);
+  const minimiseLive = useCallback(() => minimise(false), [minimise]);
+  const floatLive = useCallback(() => minimise(true), [minimise]);
   whepOnRef.current = !!whepLive.stream;
   const timeshift = useMemo<LiveTimeshift>(() => {
     const st = timeshiftState.current;
@@ -2354,6 +2425,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 onToggleMute={toggleMute}
                 fallbackMinter={minterProp}
                 onOptionsPress={() => setShowOptionsMenu(true)}
+                onMinimise={canMinimise ? minimiseLive : undefined}
               />
   
               {/* State, elapsed time and title, on one scrollable line. */}
@@ -2603,6 +2675,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           hideEdit
           hideReportContent={isLiveEffective && !/^\d+$/.test(String(streamEntity?.tokenId || tokenId))}
           onClip={isLiveEffective && !isEndedEffective ? startClip : undefined}
+          onFloat={canMinimise ? floatLive : undefined}
           onFollowChange={(following) => setIsFollowing(following)}
           onDeleteSuccess={() => {
             if (navigation.canGoBack()) navigation.goBack();

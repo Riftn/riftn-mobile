@@ -1,4 +1,5 @@
 {
+  "postSpacing": {"minutes": "{{n}} min", "oneDay": "1 dag", "days": "{{n}} dagen", "oneHour": "1 uur", "hours": "{{n}} uur", "todayAt": "vandaag om {{time}}", "tomorrowAt": "morgen om {{time}}", "saveFailed": "Opslaan is mislukt. Probeer het opnieuw.", "title": "Mijn posts spreiden", "offHint": "Elke post wacht op zijn beurt na je vorige post.", "hintNext": "Elke post verschijnt {{gap}} na je vorige post. Je volgende post verschijnt {{when}}.", "hintNow": "Je volgende post verschijnt meteen. Daarna wacht elke post {{gap}} na de vorige.", "waiting": "{{count}} in de wachtrij bij Gepland.", "dripTitle": "{{count}} foto's", "dripOne": "Eén post met alle {{count}} foto's", "dripEach": "Eén post per foto, gespreid", "onceADay": "Eén keer per dag", "everyHour": "Elk uur", "every": "Elke {{gap}}", "dripHint": "De eerste {{first}}, de laatste {{last}}. Je kunt ze verplaatsen of annuleren bij Gepland.", "now": "nu", "planFrom": "Plan {{count}} posts vanaf {{when}}", "startNow": "Begin nu", "dripDone": "{{count}} posts gepland. De laatste {{when}}", "dripChip": "{{count}} posts, met {{gap}} ertussen", "chipAt": "Gespreid · {{time}}", "chipNow": "Gespreid · nu"},
   "freeImages": {"title": "Gratis afbeeldingen", "search": "Zoek gratis foto's", "note": "Foto's die je vrij mag gebruiken. Een vermelding wordt toegevoegd als de maker dat vraagt.", "empty": "Geen foto's gevonden. Probeer een ander woord.", "failed": "Kon die foto niet toevoegen. Probeer een andere.", "credit": "Foto: {{creator}} ({{license}})"},
   "profileSong": {"title": "Profielnummer", "hint": "Een nummer onder je bio. Mensen tikken erop om te luisteren.", "part": "Speelt {{part}}", "change": "Ander nummer", "remove": "Verwijderen", "removed": "Profielnummer verwijderd", "saved": "Profielnummer opgeslagen", "saveFailed": "Je profielnummer kon niet worden opgeslagen. Probeer het opnieuw.", "autoplay": "Afspelen als mensen je profiel bezoeken", "autoplayHint": "Begint zacht als iemand je profiel opent. Met één tik zetten ze het uit.", "add": "Nummer toevoegen", "cantUse": "Dat nummer kan niet op een profiel. Probeer een ander.", "play": "{{title}} afspelen", "pause": "{{title}} pauzeren"},
   "painting": {
@@ -51,7 +52,7 @@
     "humor": "Humor",
     "life": "Leven"
   },
-  "stories": {"spot": {"listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
+  "stories": {"you": "Jij", "spot": {"views": "{{n}} weergaven", "listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
     "comments": "Reacties",
     "commentFailed": "Je reactie is niet geplaatst. Probeer het opnieuw.",
     "noCommentsYet": "Nog geen reacties. Zeg iets dat iedereen kan zien.",
@@ -287,7 +288,7 @@
     "expired": "Deze kaart is verlopen. Vraag het opnieuw.",
     "cancelled": "Geannuleerd",
     "cancel": "Niet nu"
-  },
+  , "straightAway": "Meteen", "photoOnly": "Foto zonder tekst", "planOne": "Plan 1 post", "planMany": "Plan {{count}} posts", "spacingOn": "Mijn posts spreiden: {{gap}} ertussen", "spacingOff": "Mijn posts spreiden uitschakelen?", "confirmPlan": "Inplannen", "confirmSpacingOn": "Inschakelen", "confirmSpacingOff": "Uitschakelen", "planWhy": "Elke post komt bij Gepland, waar je die kunt verplaatsen of annuleren.", "spacingWhy": "Elke post zonder gekozen tijd wacht {{gap}} na je vorige post.", "spacingOffWhy": "Posts verschijnen weer zodra je ze verstuurt.", "donePlanSome": "{{count}} gepland. {{failed}} konden niet worden gepland. Bekijk Gepland", "donePlan": "{{count}} gepland. Bekijk Gepland", "doneSpacingOn": "Mijn posts spreiden staat aan", "doneSpacingOff": "Mijn posts spreiden staat uit"},
   "chatReactions": {
     "many_one": "{{count}} reactie op je berichten",
     "many_other": "{{count}} reacties op je berichten",
@@ -8612,6 +8613,10 @@
   "liveViewer": {
     "backToLive": "Terug naar live",
     "likeHint": "Houd ingedrukt voor meer reacties",
+    "minimise": "Minimaliseren",
+    "soundOnly": "Alleen geluid",
+    "showPicture": "Beeld tonen",
+    "openLive": "Live openen",
     "showChat": "Chat tonen",
     "hideChat": "Chat verbergen",
     "saySomething": "Zeg iets...",

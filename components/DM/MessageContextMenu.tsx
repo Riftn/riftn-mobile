@@ -29,6 +29,7 @@ import { saveMessageFile, saveMessageImage } from "../../libs/saveMessageMedia";
 import { saveToLibrary } from "../../libs/assistantMedia";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
 import { canTranslateDm, getDmTranslation, toggleDmTranslation, translateOwnDm } from "../../libs/dm-translation-store";
+import { stripBold } from "../../libs/bold-markup";
 
 
 export interface MessageLayout {
@@ -265,7 +266,7 @@ const FloatingMessage: React.FC<{
                 }`}
                 numberOfLines={2}
               >
-                {message.replyTo.content ||
+                {stripBold(message.replyTo.content) ||
                   (message.replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
               </Text>
             </View>

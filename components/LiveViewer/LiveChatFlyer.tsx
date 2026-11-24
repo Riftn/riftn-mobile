@@ -4,6 +4,7 @@ import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming
 import Avatar from "../common/Avatar";
 import { TEXT_SHADOW } from "../common/ViewerChrome";
 import { finishFlight, markArrived, measureChatAnchor, subscribeFlight, type Flight } from "../../libs/liveChatFlight";
+import { BoldText } from "../../libs/bold-markup";
 
 /** The house travel curve, 440ms: the same flight as the web chat. */
 const TRAVEL = Easing.bezier(0.45, 0, 0.1, 1);
@@ -115,7 +116,7 @@ export default function LiveChatFlyer({ name, nameColor, avatarUri }: Props) {
           <View style={styles.words}>
             <Text style={styles.text}>
               <Text style={[styles.name, { color: nameColor }]}>{name} </Text>
-              {flight.text}
+              <BoldText text={flight.text} />
             </Text>
           </View>
         </Animated.View>

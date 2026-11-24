@@ -16,6 +16,7 @@ import FeedActionBar from "../Home/FeedActionBar";
 import { useUser } from "../../context/AuthContext";
 import { useSearchFollowState } from "../../hooks/useSearchFollowState";
 import type { PhotoViewerPost } from "../../libs/photoViewerPost";
+import { BoldText } from "../../libs/bold-markup";
 
 const INK = "hsla(216,100%,99%,1)";
 const MUTED = "hsla(220,3%,70%,1)";
@@ -126,7 +127,7 @@ function PhotoViewerPostOverlay({
         {post.caption ? (
           <Pressable onPress={() => setExpanded((v) => !v)} accessibilityRole="text" style={styles.captionHit}>
             <Text style={styles.caption} numberOfLines={expanded ? 12 : 2}>
-              {post.caption}
+              <BoldText text={post.caption} />
             </Text>
           </Pressable>
         ) : null}

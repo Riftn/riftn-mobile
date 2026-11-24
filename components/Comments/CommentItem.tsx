@@ -809,8 +809,9 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
 
           {assetFreeContent ? (
             <Animated.Text style={[{ fontSize: 16, color: "#C2C4C7", marginTop: 3, lineHeight: 22 }, highlightAnimStyle]}>
-              {parsedContent.map((part, idx) =>
-                part.isMention ? (
+              {/* One emoji + **bold** pass over the whole comment, so a bold run can hold a mention or link. */}
+              {expandEmojiTokens(parsedContent.flatMap<React.ReactNode>((part, idx) =>
+                part.isMention ? [
                   <Text
                     key={idx}
                     style={{ fontWeight: "700", color: "#D4D4D8" }}
@@ -818,11 +819,9 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
                     suppressHighlighting
                   >
                     {part.text}
-                  </Text>
-                ) : (
-                  <Text key={idx}>{expandEmojiTokens(renderLinkEmojis(part.text, { keyPrefix: `lk-${idx}` }), { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
-                )
-              )}
+                  </Text>,
+                ] : renderLinkEmojis(part.text, { keyPrefix: `lk-${idx}` })
+              ), { fontSize: 16, keyPrefix: "em" })}
             </Animated.Text>
           ) : null}
 

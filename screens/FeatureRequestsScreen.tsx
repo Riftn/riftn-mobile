@@ -123,6 +123,7 @@ import RequestStatusRow from "../components/FeatureRequests/RequestStatusRow";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
+import { BoldText } from "../libs/bold-markup";
 const TITLE_MAX = 100;
 const DEVICE_MAX = 300;
 
@@ -597,8 +598,8 @@ const FeatureCard: React.FC<{
         </View>
       ) : (
         <View style={{ paddingTop: 4, gap: 8 }}>
-          <Text style={styles.cardTitle}>{shownTitle}</Text>
-          {!!feature.description && feature.description !== feature.title && <Text style={styles.cardDesc}>{shownDescription}</Text>}
+          <Text style={styles.cardTitle}><BoldText text={shownTitle} heavy /></Text>
+          {!!feature.description && feature.description !== feature.title && <Text style={styles.cardDesc}><BoldText text={shownDescription} /></Text>}
           {translation.shouldShow && (
             <TranslateButton
               isTranslated={translation.isTranslated}
