@@ -9376,6 +9376,14 @@
     "fixSubmit": "Sarankan perbaikan"
   },
   "upload": {
+    "translate": "Terjemahkan",
+    "translateTo": "Terjemahkan ke",
+    "searchLanguages": "Cari bahasa",
+    "translatedFrom": "Diterjemahkan dari {{language}}",
+    "translated": "Diterjemahkan",
+    "undoTranslate": "Batalkan",
+    "alreadyIn": "Sudah dalam {{language}}",
+    "translationFailed": "Terjemahan gagal",
     "madeForKidsOffDesc": "Menampilkan postingan ini kepada anak-anak yang menggunakan Mode Anak, dan menghapusnya dari linimasa biasa.",
     "solanaUnavailable": "Dompet Solana tidak tersedia — perangkat ini tidak menyimpan kunci dompetmu. Masuk lagi untuk memulihkannya.",
     "solanaTempUnavailable": "Posting di Solana sementara tidak tersedia. Coba Base atau BNB.",

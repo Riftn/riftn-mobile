@@ -156,6 +156,9 @@ import { useAppTheme, useThemeRootStyle } from "../context/ThemeContext";
 import LinkPreviewCard from "../components/common/LinkPreviewCard";
 import { extractUrlsFromText } from "../libs/link-preview";
 import { PostDictationButton } from "../components/Upload/PostDictationButton";
+import { TranslatedDraftNote } from "../components/Upload/TranslatedDraftNote";
+import { rememberTranslateLang, translateDraft, translateLanguageName } from "../libs/post-translate";
+import { ensureAiConsent } from "../libs/ai-consent";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
@@ -647,6 +650,9 @@ export default function UploadScreen() {
   const [showPlanForm, setShowPlanForm] = useState(false);
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [showEnhanceSheet, setShowEnhanceSheet] = useState(false);
+  // AI menu > Translate: the words before, so the translation can be undone
+  // until the post goes out or the writer types over it.
+  const [draftTranslation, setDraftTranslation] = useState<{ original: string; translated: string; from: string | null } | null>(null);
   const [showEmojiSheet, setShowEmojiSheet] = useState(false);
   /** Caret position in the body input, so emoji land where the cursor is. */
   const bodySelectionRef = useRef({ start: 0, end: 0 });
@@ -1229,6 +1235,43 @@ export default function UploadScreen() {
     },
     [bodyText, isEnhancing, DESCRIPTION_MAX, setBodyText],
   );
+
+  const handleTranslateDraft = useCallback(
+    async (lang: string) => {
+      const text = bodyText.trim();
+      if (!text) {
+        toastError(t("upload.enterTextFirst"));
+        return;
+      }
+      if (isEnhancing) return;
+      if (!(await ensureAiConsent())) return;
+      rememberTranslateLang(lang);
+      setIsEnhancing(true);
+      try {
+        const result = await translateDraft(text, lang);
+        if (result.same) {
+          toastInfo(t("upload.alreadyIn", { language: translateLanguageName(lang) ?? lang }));
+          return;
+        }
+        const next = result.text.slice(0, DESCRIPTION_MAX);
+        // Undo goes back to the first words, however many times it is translated.
+        setDraftTranslation((prev) => ({
+          original: prev && prev.translated === bodyText ? prev.original : bodyText,
+          translated: next,
+          from: prev && prev.translated === bodyText ? prev.from : result.from,
+        }));
+        setBodyText(next);
+      } catch {
+        toastError(t("upload.translationFailed"));
+      } finally {
+        setIsEnhancing(false);
+      }
+    },
+    [bodyText, isEnhancing, DESCRIPTION_MAX, setBodyText, t],
+  );
+
+  const translatedDraft = draftTranslation && draftTranslation.translated === bodyText ? draftTranslation : null;
+  const translatedFromName = translateLanguageName(translatedDraft?.from);
 
   /** "Generate Content" — hands off to the assistant, as web does. */
   const handleGenerateContent = useCallback(() => {
@@ -3383,6 +3426,12 @@ export default function UploadScreen() {
       {/* Character count sits under the scrolling editor, not inside it, so it
           stays in view however many lines the post runs to. */}
       {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        {translatedDraft && !postInFlight ? (
+          <TranslatedDraftNote
+            fromName={translatedFromName}
+            onUndo={() => { setBodyText(translatedDraft.original); setDraftTranslation(null); }}
+          />
+        ) : null}
         {!isLiveMode && !isStageMode && !postInFlight && !isAudioRecording && !showAudioMenu && !!(authUser?.walletAddress || authUser?.address) && (
           <PostDictationButton
             key={JSON.stringify([authUser.walletAddress || authUser.address, draftScope])}
@@ -4289,6 +4338,7 @@ export default function UploadScreen() {
             onClose={() => setShowEnhanceSheet(false)}
             onEnhance={handleEnhanceText}
             onGenerateContent={handleGenerateContent}
+            onTranslate={handleTranslateDraft}
           />
         )}
       </WhenOpened>

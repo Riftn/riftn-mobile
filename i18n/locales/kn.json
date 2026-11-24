@@ -9242,6 +9242,14 @@
     "fixSubmit": "ಸರಿಪಡಿಸಲು ಸೂಚಿಸಿ"
   },
   "upload": {
+    "translate": "ಅನುವಾದಿಸಿ",
+    "translateTo": "ಇದಕ್ಕೆ ಅನುವಾದಿಸಿ",
+    "searchLanguages": "ಭಾಷೆಗಳನ್ನು ಹುಡುಕಿ",
+    "translatedFrom": "{{language}} ಇಂದ ಅನುವಾದಿಸಲಾಗಿದೆ",
+    "translated": "ಅನುವಾದಿಸಲಾಗಿದೆ",
+    "undoTranslate": "ರದ್ದುಮಾಡಿ",
+    "alreadyIn": "ಈಗಾಗಲೇ {{language}} ಭಾಷೆಯಲ್ಲಿದೆ",
+    "translationFailed": "ಅನುವಾದ ವಿಫಲವಾಗಿದೆ",
     "solanaUnavailable": "Solana ವಾಲೆಟ್ ಲಭ್ಯವಿಲ್ಲ — ಈ ಸಾಧನದಲ್ಲಿ ನಿಮ್ಮ ಕೀ ಇಲ್ಲ. ಮರುಪಡೆಯಲು ಮತ್ತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ.",
     "solanaTempUnavailable": "Solana ನಲ್ಲಿ ಪೋಸ್ಟ್ ಮಾಡುವುದು ತಾತ್ಕಾಲಿಕವಾಗಿ ಲಭ್ಯವಿಲ್ಲ. ಬದಲಿಗೆ Base ಅಥವಾ BNB ಪ್ರಯತ್ನಿಸಿ.",
     "enterTextFirst": "ಮೊದಲು ಸ್ವಲ್ಪ ಪಠ್ಯ ನಮೂದಿಸಿ",

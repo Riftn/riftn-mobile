@@ -9293,6 +9293,14 @@
     "fixSubmit": "הצע תיקון"
   },
   "upload": {
+    "translate": "תרגום",
+    "translateTo": "תרגם ל־",
+    "searchLanguages": "חיפוש שפות",
+    "translatedFrom": "תורגם מ־{{language}}",
+    "translated": "תורגם",
+    "undoTranslate": "בטל",
+    "alreadyIn": "כבר ב־{{language}}",
+    "translationFailed": "התרגום נכשל",
     "solanaUnavailable": "ארנק Solana אינו זמין — במכשיר הזה אין את המפתח שלך. היכנסו שוב כדי לשחזר אותו.",
     "solanaTempUnavailable": "פרסום ב-Solana אינו זמין זמנית. נסו Base או BNB במקום.",
     "enterTextFirst": "הזינו קודם טקסט",

@@ -9243,6 +9243,13 @@
     "fixSubmit": "सुधार का सुझाव दें"
   },
   "upload": {
+    "translateTo": "अनुवाद करीं",
+    "searchLanguages": "भाषा खोजीं",
+    "translatedFrom": "{{language}} से अनुवादित",
+    "translated": "अनुवाद कइल गइल बा।",
+    "undoTranslate": "पहिले जइसन करीं",
+    "alreadyIn": "पहिले से {{language}} में",
+    "translationFailed": "अनुवाद ना हो पवल",
     "solanaUnavailable": "Solana वॉलेट उपलब्ध नइखे — ई डिवाइस में राउर वॉलेट कुंजी नइखे। वापस पावे खातिर फेर से साइन इन करीं।",
     "solanaTempUnavailable": "Solana पर पोस्ट करल फिलहाल बंद बा। बदले में Base भा BNB आजमाईं।",
     "enterTextFirst": "पहिले कुछ लिखीं",

@@ -9243,6 +9243,14 @@
     "fixSubmit": "Paku parandust"
   },
   "upload": {
+    "translate": "Tõlgi",
+    "translateTo": "Tõlgi keelde",
+    "searchLanguages": "Otsi keeli",
+    "translatedFrom": "Tõlgitud keelest {{language}}",
+    "translated": "Tõlgitud",
+    "undoTranslate": "Võta tagasi",
+    "alreadyIn": "Juba keeles {{language}}",
+    "translationFailed": "Tõlkimine ebaõnnestus",
     "solanaUnavailable": "Solana rahakott pole saadaval — selles seadmes pole sinu võtit. Taastamiseks logi uuesti sisse.",
     "solanaTempUnavailable": "Solanas postitamine on ajutiselt kättesaamatu. Proovi selle asemel Base'i või BNB-d.",
     "enterTextFirst": "Sisesta kõigepealt teksti",

@@ -9269,6 +9269,14 @@
     "fixSubmit": "Առաջարկել ուղղում"
   },
   "upload": {
+    "translate": "Թարգմանել",
+    "translateTo": "Թարգմանել՝",
+    "searchLanguages": "Որոնել լեզուներ",
+    "translatedFrom": "Թարգմանված է {{language}} լեզվից",
+    "translated": "Թարգմանված է",
+    "undoTranslate": "Չեղարկել",
+    "alreadyIn": "Արդեն {{language}} լեզվով",
+    "translationFailed": "Թարգմանությունը ձախողվեց",
     "solanaUnavailable": "Solana դրամապանակը հասանելի չէ — այս սարքը չունի ձեր բանալին։ Վերականգնելու համար նորից մուտք գործեք։",
     "solanaTempUnavailable": "Solana-ում հրապարակումը ժամանակավորապես անհասանելի է։ Փորձեք Base կամ BNB։",
     "enterTextFirst": "Նախ մուտքագրեք տեքստ",

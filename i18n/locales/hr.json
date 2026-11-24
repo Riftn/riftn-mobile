@@ -9269,6 +9269,14 @@
     "fixSubmit": "Predloži popravak"
   },
   "upload": {
+    "translate": "Prevedi",
+    "translateTo": "Prevedi na",
+    "searchLanguages": "Pretraži jezike",
+    "translatedFrom": "Prevedeno s {{language}}",
+    "translated": "Prevedeno",
+    "undoTranslate": "Poništi",
+    "alreadyIn": "Već na {{language}}",
+    "translationFailed": "Prijevod nije uspio",
     "solanaUnavailable": "Solana novčanik nije dostupan — ovaj uređaj nema vaš ključ. Ponovno se prijavite da ga vratite.",
     "solanaTempUnavailable": "Objavljivanje na Solani privremeno nije dostupno. Pokušajte s Base ili BNB.",
     "enterTextFirst": "Prvo unesite tekst",

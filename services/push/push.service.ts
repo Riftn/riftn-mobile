@@ -12,7 +12,7 @@ import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '.
 import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
-import { categoryLanguageSettled, onLanguageTextArrived, setCategoryInTurn } from './category-queue';
+import { setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
 
 const logger = createLogger('PushService');
@@ -352,30 +352,32 @@ function hiddenPreviewLines(): Record<string, string> {
   };
 }
 
-let hiddenPreviewWritten: string | null = null;
+// Keyed on the words, not the language: the language can switch before its
+// pack of these lines has downloaded, and the English lines then stuck.
+let hiddenPreviewCopy: string | null = null;
 
 export async function registerHiddenPreviewLines(): Promise<void> {
   if (Platform.OS !== 'ios') return;
-  await categoryLanguageSettled();
   const lines = hiddenPreviewLines();
-  // Keyed on the words themselves, so a language that was still loading (and
-  // read as English) is written again once its texts arrive.
-  const written = `${i18n.language || 'en'}|${Object.values(lines).join('|')}`;
-  if (hiddenPreviewWritten === written) return;
-  hiddenPreviewWritten = written;
+  const key = JSON.stringify(lines);
+  if (hiddenPreviewCopy === key) return;
+  hiddenPreviewCopy = key;
   try {
-    // One at a time: together they overwrite each other (see category-queue).
+    // One at a time: written together they overwrite each other (see category-queue).
     for (const id of Object.keys(lines)) {
       await setCategoryInTurn(id, [], { previewPlaceholder: lines[id] });
     }
   } catch (error) {
-    hiddenPreviewWritten = null;
+    hiddenPreviewCopy = null;
     logger.warn('Failed to set hidden preview lines', error);
   }
 }
 
 if (Platform.OS === 'ios') {
-  onLanguageTextArrived(() => { void registerHiddenPreviewLines(); });
+  i18n.on?.('languageChanged', () => { void registerHiddenPreviewLines(); });
+  // A language pack that lands after the switch brings these lines with it.
+  const watchPacks = () => i18n.store?.on?.('added', () => { void registerHiddenPreviewLines(); });
+  if (i18n.store) watchPacks(); else i18n.on?.('initialized', watchPacks);
 }
 
 /**

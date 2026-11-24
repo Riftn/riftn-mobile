@@ -9272,6 +9272,14 @@
     "fixSubmit": "اقترح تصليحة"
   },
   "upload": {
+    "translate": "ترجم",
+    "translateTo": "ترجم لـ",
+    "searchLanguages": "قلّب على اللغات",
+    "translatedFrom": "مترجم من {{language}}",
+    "translated": "مترجم",
+    "undoTranslate": "تراجع",
+    "alreadyIn": "راه ديجا بـ {{language}}",
+    "translationFailed": "فشل الترجمة",
     "solanaUnavailable": "محفظة سولانا ماشي متوفرة — هاد الجهاز ما عندوش المفتاح ديال المحفظة ديالك. دخل مرة أخرى باش ترجعها.",
     "solanaTempUnavailable": "النشر على سولانا ماشي متوفر دابا. جرب Base ولا BNB.",
     "enterTextFirst": "كتب شي نص لول",

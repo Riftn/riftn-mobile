@@ -9247,6 +9247,14 @@
     "fixSubmit": "Foreslå rettelse"
   },
   "upload": {
+    "translate": "Oversæt",
+    "translateTo": "Oversæt til",
+    "searchLanguages": "Søg efter sprog",
+    "translatedFrom": "Oversat fra {{language}}",
+    "translated": "Oversat",
+    "undoTranslate": "Fortryd",
+    "alreadyIn": "Allerede på {{language}}",
+    "translationFailed": "Oversættelsen mislykkedes",
     "solanaUnavailable": "Solana-tegnebog er ikke tilgængelig — denne enhed har ikke din nøgle. Log ind igen for at gendanne den.",
     "solanaTempUnavailable": "Opslag på Solana er midlertidigt utilgængeligt. Prøv Base eller BNB i stedet.",
     "enterTextFirst": "Indtast noget tekst først",

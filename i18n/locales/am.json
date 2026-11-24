@@ -9271,6 +9271,14 @@
     "fixSubmit": "ጥገና ይጠቁሙ"
   },
   "upload": {
+    "translate": "ተርጉም",
+    "translateTo": "ወደ ቋንቋ ተርጉም",
+    "searchLanguages": "ቋንቋዎችን ፈልግ",
+    "translatedFrom": "ከ {{language}} ተተርጉሟል",
+    "translated": "ተተርጉሟል",
+    "undoTranslate": "ቀልብስ",
+    "alreadyIn": "አስቀድሞ በ {{language}} ነው",
+    "translationFailed": "ትርጉም አልተሳካም",
     "solanaUnavailable": "የሶላና ቦርሳ የለም — ይህ መሣሪያ የቦርሳዎን ቁልፍ አልያዘም። ለመመለስ እንደገና ይግቡ።",
     "solanaTempUnavailable": "በሶላና ላይ መለጠፍ ለጊዜው አይሠራም። በምትኩ Base ወይም BNB ይሞክሩ።",
     "enterTextFirst": "መጀመሪያ ጽሑፍ ያስገቡ",

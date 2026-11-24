@@ -9287,6 +9287,14 @@
     "fixSubmit": "შემოთავაზებული შესწორება"
   },
   "upload": {
+    "translate": "თარგმნა",
+    "translateTo": "თარგმნა ენაზე",
+    "searchLanguages": "ენების ძიება",
+    "translatedFrom": "ნათარგმნია {{language}}-დან",
+    "translated": "თარგმნილია",
+    "undoTranslate": "გაუქმება",
+    "alreadyIn": "უკვე {{language}}-შია",
+    "translationFailed": "თარგმნა ვერ მოხერხდა",
     "solanaUnavailable": "Solana საფულე მიუწვდომელია — ამ მოწყობილობას არ აქვს თქვენი გასაღები. აღსადგენად ხელახლა შედით.",
     "solanaTempUnavailable": "Solana-ზე გამოქვეყნება დროებით მიუწვდომელია. სცადეთ Base ან BNB.",
     "enterTextFirst": "ჯერ შეიყვანეთ ტექსტი",

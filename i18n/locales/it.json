@@ -9376,6 +9376,14 @@
     "fixSubmit": "Suggerisci correzione"
   },
   "upload": {
+    "translate": "Traduci",
+    "translateTo": "Traduci in",
+    "searchLanguages": "Cerca lingue",
+    "translatedFrom": "Tradotto da {{language}}",
+    "translated": "Tradotto",
+    "undoTranslate": "Annulla",
+    "alreadyIn": "Già in {{language}}",
+    "translationFailed": "Traduzione non riuscita",
     "solanaUnavailable": "Wallet Solana non disponibile: questo dispositivo non ha la tua chiave. Accedi di nuovo per ripristinarla.",
     "solanaTempUnavailable": "La pubblicazione su Solana non è temporaneamente disponibile. Prova Base o BNB.",
     "enterTextFirst": "Inserisci prima del testo",

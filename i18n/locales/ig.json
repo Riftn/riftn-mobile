@@ -9243,6 +9243,14 @@
     "fixSubmit": "Tụọ aro ka idozi"
   },
   "upload": {
+    "translate": "Tụgharịa asụsụ",
+    "translateTo": "Tụgharịa gaa na",
+    "searchLanguages": "Chọọ asụsụ",
+    "translatedFrom": "Asụgharịrị site na {{language}}",
+    "translated": "Asụgharịrị",
+    "undoTranslate": "Megharia",
+    "alreadyIn": "Ọ dịlarị na {{language}}",
+    "translationFailed": "Ntụgharị asụsụ adaghị arụ ọrụ",
     "solanaUnavailable": "Obere akpa Solana adịghị — ngwaọrụ a enweghị igodo gị. Banye ọzọ iji weghachi ya.",
     "solanaTempUnavailable": "Ibipụta na Solana adịghị nwa oge. Gbalịa Base ma ọ bụ BNB.",
     "enterTextFirst": "Buru ụzọ tinye ederede",

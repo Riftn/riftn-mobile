@@ -9222,6 +9222,14 @@
     "fixSubmit": "اصلاح کی تجویز دیں"
   },
   "upload": {
+    "translate": "ترجمہ کرو",
+    "translateTo": "ترجمہ میں",
+    "searchLanguages": "زبانیں تلاش کرو",
+    "translatedFrom": "{{language}} سے ترجمہ ہوا",
+    "translated": "ترجمہ شدہ",
+    "undoTranslate": "واپس کرو",
+    "alreadyIn": "پہلے سے {{language}} میں ہے",
+    "translationFailed": "ترجمہ ناکام رہا",
     "solanaUnavailable": "سولانا والٹ دستیاب نئیں — اس ڈیوائس پر آپ کی والٹ کی نئیں ہے۔ بحال کرنے کے لیے دوبارہ سائن اِن کریں۔",
     "solanaTempUnavailable": "سولانا پر پوسٹ فی الحال دستیاب نئیں۔ اس کے بجائے Base یا BNB آزمائیں۔",
     "enterTextFirst": "پہلے کچھ متن لکھیں",

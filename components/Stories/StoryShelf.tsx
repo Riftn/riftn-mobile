@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AccessibilityInfo, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -24,6 +24,22 @@ import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
+import { storage } from "../../libs/storage";
+
+/** What Home's Moments seat held last time, read before the first frame. */
+type ShelfSeat = "row" | "ask" | "none";
+const SHELF_SEAT_KEY = "story-shelf-seat";
+function readShelfSeat(): ShelfSeat {
+  try {
+    const value = storage.getString(SHELF_SEAT_KEY);
+    return value === "ask" || value === "none" ? value : "row";
+  } catch {
+    return "row";
+  }
+}
+function saveShelfSeat(seat: ShelfSeat) {
+  try { storage.set(SHELF_SEAT_KEY, seat); } catch { /* the row is assumed next time */ }
+}
 
 const TILE_W = 86;
 const TILE_H = 118;
@@ -78,9 +94,13 @@ function useShelfState() {
   const kidsMode = useKidsModeLock();
   const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
   const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
-  const { storiesEnabled } = useStoriesEnabled();
-  const { data, isLoading } = useStoryShelf(me, liveHosts, canSeeMature, storiesEnabled || !!liveHosts);
-  return { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading };
+  const { storiesEnabled, storiesSettingLoading } = useStoriesEnabled();
+  const shelfEnabled = storiesEnabled || !!liveHosts;
+  const { data, isLoading, isPending } = useStoryShelf(me, liveHosts, canSeeMature, shelfEnabled);
+  // Still waiting on the setting or the first shelf (a cold start, or the saved
+  // copy still being restored): the row cannot know its final shape yet.
+  const waiting = storiesSettingLoading || (shelfEnabled && isPending && !data);
+  return { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting };
 }
 
 /**
@@ -97,7 +117,8 @@ export function StoryShelfWarm() {
 function StoryShelf() {
   const { t } = useTranslation();
   const { requireAuth } = useAuthActions();
-  const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading } = useShelfState();
+  const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting } = useShelfState();
+  const [lastSeat] = useState(readShelfSeat);
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const { isLight } = useAppTheme();
@@ -122,14 +143,19 @@ function StoryShelf() {
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
 
-  // While the first load is still out the row keeps its seat with loading
-  // tiles, signed in or not, so the feed under it never jumps down.
-  if ((!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0) return null;
+  const hidden = (!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0;
   // Signed in and nobody has a Moment up (yours included): the ask bar takes
   // the row's place instead of a lone "Your day" tile.
-  if (storiesEnabled && me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0) {
-    return <StoryCreateBar />;
-  }
+  const bare = storiesEnabled && !!me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0;
+  const seat: ShelfSeat = hidden ? "none" : bare ? "ask" : "row";
+  useEffect(() => {
+    if (!waiting) saveShelfSeat(seat);
+  }, [waiting, seat]);
+  // Until the setting and the first shelf are in, draw the shape Home had last
+  // time (row of loading tiles, ask bar, or nothing) so the feed never moves.
+  const holding = waiting && eligibleLive.length === 0;
+  if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
+  if (holding ? lastSeat === "ask" : bare) return <StoryCreateBar />;
 
   const shelfScroll = (
     <ScrollView
@@ -139,7 +165,7 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {storiesEnabled && me ? <StoryCreateTile width={TILE_W} height={TILE_H} /> : null}
+      {(storiesEnabled || holding) && me ? <StoryCreateTile width={TILE_W} height={TILE_H} /> : null}
       {storiesEnabled && me && (pending || ownWatchable) ? (
         <MeTile
           pending={pending as PendingMoment | null}
@@ -154,7 +180,7 @@ function StoryShelf() {
       {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
-      {storiesEnabled && isLoading ? [0, 1, 2, 3].map((index) => (
+      {holding || (storiesEnabled && isLoading) ? [0, 1, 2, 3].map((index) => (
         <View key={`loading-${index}`} style={[styles.tile, styles.loadingTile, isLight && styles.loadingTileLight]}>
           <View style={[styles.loadingFace, isLight && styles.loadingBarLight]} />
           <View style={[styles.loadingBar, isLight && styles.loadingBarLight]} />

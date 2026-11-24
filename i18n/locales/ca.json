@@ -9243,6 +9243,14 @@
     "fixSubmit": "Suggerir correcció"
   },
   "upload": {
+    "translate": "Traduir",
+    "translateTo": "Traduir a",
+    "searchLanguages": "Cerca idiomes",
+    "translatedFrom": "Traduït de {{language}}",
+    "translated": "Traduït",
+    "undoTranslate": "Desfer",
+    "alreadyIn": "Ja en {{language}}",
+    "translationFailed": "La traducció ha fallat",
     "solanaUnavailable": "Cartera de Solana no disponible: aquest dispositiu no té la teva clau. Torna a iniciar la sessió per recuperar-la.",
     "solanaTempUnavailable": "Publicar a Solana no està disponible temporalment. Prova Base o BNB.",
     "enterTextFirst": "Primer escriu alguna cosa",

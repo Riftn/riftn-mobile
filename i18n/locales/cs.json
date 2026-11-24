@@ -9267,6 +9267,14 @@
     "fixSubmit": "Navrhnout opravu"
   },
   "upload": {
+    "translate": "Přeložte",
+    "translateTo": "Přeložte do",
+    "searchLanguages": "Hledat jazyky",
+    "translatedFrom": "Přeloženo z {{language}}",
+    "translated": "Přeloženo",
+    "undoTranslate": "Zpět",
+    "alreadyIn": "Už v {{language}}",
+    "translationFailed": "Překlad selhal.",
     "solanaUnavailable": "Peněženka Solana není dostupná — toto zařízení nemá váš klíč. Přihlaste se znovu a obnovte ji.",
     "solanaTempUnavailable": "Publikování na Solaně je dočasně nedostupné. Zkuste místo toho Base nebo BNB.",
     "enterTextFirst": "Nejprve zadejte text",

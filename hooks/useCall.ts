@@ -61,6 +61,8 @@ export interface UseCallReturn {
   startGroupCall: (group: GroupCallTarget, members: string[], callType?: "audio" | "video") => Promise<void>;
   /** Step into a group's room without ringing anyone (Public Chat, or a call already going). Same limits. */
   joinGroupCall: (group: GroupCallTarget, callType?: "audio" | "video") => Promise<void>;
+  /** Latest voice levels (0..1) in a group call: each uid heard, and you as 0. */
+  readGroupLevels: () => Map<number, number>;
   /** The caller's side while the other phone is still ringing. */
   isRinging: boolean;
   callSummary: CallSummary | null; dismissCallSummary: () => void;
@@ -144,6 +146,9 @@ export function useCall(): UseCallReturn {
   }
   const rosterRef = useRef<Map<number, string>>(new Map());
   const speakingRef = useRef<Set<number>>(new Set());
+  const levelsRef = useRef<Map<number, number>>(new Map());
+  /** When the others' report last came in: a stale one (nobody heard since) reads as quiet. */
+  const levelsAtRef = useRef(0);
   /** Ring rows a group call's starter wrote, so an unanswered start can stop the phones. */
   const groupRingIdsRef = useRef<string[]>([]);
   const summaryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -226,7 +231,7 @@ export function useCall(): UseCallReturn {
     setIsMuted(false); setIsSpeakerOn(false); setIsCameraOff(true);
     setGroupParticipants([]); setSelfSpeaking(false); setGroupCamerasFull(false);
     camerasFullRef.current = false; startCameraOffRef.current = false; camOnRef.current = false; groupPresenceRef.current = null;
-    rosterRef.current = new Map(); speakingRef.current = new Set();
+    rosterRef.current = new Map(); speakingRef.current = new Set(); levelsRef.current = new Map();
     visualActivity.setCall(false, false);
     // The chat note handler belongs to whichever direct chat is open, so a
     // group call never writes into it.
@@ -372,13 +377,25 @@ export function useCall(): UseCallReturn {
         },
         onAudioVolumeIndication: (_connection, speakers) => {
           if (!current() || !media || media.closed) return;
-          const next = new Set<number>();
-          let self = false;
-          for (const speaker of speakers ?? []) {
-            if ((speaker.volume ?? 0) < 20) continue;
-            if (!speaker.uid) self = true; else next.add(speaker.uid);
+          // Two reports per interval: yours alone (uid 0), then the loudest others.
+          const levels = levelsRef.current;
+          const local = (speakers ?? []).some(speaker => !speaker.uid);
+          if (local) {
+            // Your report says nothing about the others: leave their outlines alone.
+            const volume = speakers?.find(speaker => !speaker.uid)?.volume ?? 0;
+            levels.set(0, Math.min(1, volume / 255));
+            const self = volume >= 20;
+            setSelfSpeaking(previous => (previous === self ? previous : self));
+            return;
           }
-          setSelfSpeaking(previous => (previous === self ? previous : self));
+          levelsAtRef.current = Date.now();
+          for (const key of [...levels.keys()]) if (key !== 0) levels.delete(key);
+          for (const speaker of speakers ?? []) if (speaker.uid) levels.set(speaker.uid, Math.min(1, (speaker.volume ?? 0) / 255));
+          const next = new Set<number>();
+          for (const speaker of speakers ?? []) {
+            if ((speaker.volume ?? 0) < 20 || !speaker.uid) continue;
+            next.add(speaker.uid);
+          }
           const before = speakingRef.current;
           if (next.size === before.size && [...next].every(uid => before.has(uid))) return;
           speakingRef.current = next;
@@ -407,7 +424,7 @@ export function useCall(): UseCallReturn {
       engine.enableAudio();
       engine.enableLocalAudio(true);
       engine.muteLocalAudioStream(false);
-      if (groupId) engine.enableAudioVolumeIndication(400, 3, true);
+      if (groupId) engine.enableAudioVolumeIndication(200, 3, true);
       // A group call plays out loud like a video call: several voices to one earpiece is hard to follow.
       const speaker = call.call_type === "video" || !!groupId;
       engine.setDefaultAudioRouteToSpeakerphone(speaker);
@@ -808,19 +825,24 @@ export function useCall(): UseCallReturn {
       try { engine.getMediaEngine().unregisterAudioFrameObserver(observer); } catch { /* engine already released */ }
     };
   }, []);
+  const readGroupLevels = useCallback(() => {
+    const levels = new Map(levelsRef.current);
+    if (Date.now() - levelsAtRef.current > 1000) for (const key of [...levels.keys()]) if (key !== 0) levels.set(key, 0);
+    return levels;
+  }, []);
   const setCallVolume = useCallback((volume: number) => {
     try { mediaRef.current?.engine.adjustPlaybackSignalVolume(volume); } catch { /* call already over */ }
   }, []);
   return useMemo(() => ({
     captionRoom, captionSpeakers, tapMicrophone, setCallVolume,
-    isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall,
+    isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall, readGroupLevels,
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas, remoteVideoEpoch,
     startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
     callBackground, callBackgroundSupported, setCallBackground,
-  }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall,
+  }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall, readGroupLevels,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, remoteVideoEpoch, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
