@@ -8107,6 +8107,12 @@
     "viewReposts": "Ver reposiciones"
   },
   "dm": {
+    "trayGif": "GIF y emoji",
+    "trayVoice": "Nota de voz",
+    "trayTip": "Propina",
+    "trayPoll": "Encuesta",
+    "traySchedule": "Programar",
+    "trayFix": "Corregir con IA",
     "newDrawer": {
       "to": "Para",
       "placeholder": "Nombre o @usuario",
