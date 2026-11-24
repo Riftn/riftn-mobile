@@ -91,7 +91,7 @@ const GroupCallModal: React.FC = () => {
   }
 
   const count = groupParticipants.length + 1;
-  // Town hall from three people unless the person picked a layout themselves.
+  // Town hall for every group call unless the person picked the grid themselves.
   const hall = layout === "hall" || (layout === "auto" && count >= TOWN_HALL_FROM);
   const flipLayout = () => {
     const next: TownHallMode = hall ? "grid" : "hall";
