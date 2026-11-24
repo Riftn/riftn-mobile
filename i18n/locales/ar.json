@@ -18251,6 +18251,18 @@
     }
   },
   "notes": {
+    "newStatus": "حالة جديدة",
+    "upFor": "منشورة منذ {{time}}",
+    "postedAgo": "منذ {{time}}",
+    "timeLeft": "متبقي {{time}}",
+    "like": "أعجبني",
+    "unlike": "إلغاء الإعجاب",
+    "likedBy": "أعجب {{name}}",
+    "likedByMore": "أعجب {{name}} و{{others}} آخرين",
+    "likes": "{{total}} إعجاب",
+    "edit": "تعديل",
+    "deleteShort": "حذف",
+    "charsLeft": "متبقي {{count}}",
     "add": "ملاحظة",
     "yourStatus": "حالتك",
     "whatsUp": "ما الجديد؟",

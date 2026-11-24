@@ -18219,6 +18219,18 @@
     }
   },
   "notes": {
+    "newStatus": "Nuevo estado",
+    "upFor": "Publicado hace {{time}}",
+    "postedAgo": "hace {{time}}",
+    "timeLeft": "quedan {{time}}",
+    "like": "Me gusta",
+    "unlike": "Ya no me gusta",
+    "likedBy": "Le gusta a {{name}}",
+    "likedByMore": "Le gusta a {{name}} y {{others}} más",
+    "likes": "{{total}} me gusta",
+    "edit": "Editar",
+    "deleteShort": "Eliminar",
+    "charsLeft": "Quedan {{count}}",
     "add": "Nota",
     "yourStatus": "Tu estado",
     "whatsUp": "¿Qué tal?",

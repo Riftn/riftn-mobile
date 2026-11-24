@@ -2,7 +2,9 @@
  * Notes
  * =====
  * A note is a short line with an optional song, GIF or place that stays up for
- * 24 hours. Same as web's components/app/chat/NotesRow.
+ * 24 hours. It opens like Instagram Notes: the person's face big with the
+ * white cloud above it, you write yours in the cloud, a heart likes it.
+ * Same as web's components/app/chat/NotesRow.
  */
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -27,10 +29,12 @@ import { toastError, toastSuccess } from "../../libs/toast";
 import type { AttachedSound } from "../../hooks/usePostSound";
 import type { StoryAuthor, StorySong } from "../../services/stories.service";
 import {
-  deleteNote, getNotes, isNoteGif, NOTE_LOCATION_MAX, NOTE_TEXT_MAX, putNote,
+  deleteNote, getNotes, isNoteGif, likeNote, NOTE_LOCATION_MAX, NOTE_TEXT_MAX, putNote,
   type Note, type NoteEntry, type NoteInput,
 } from "../../services/notes.service";
 import { useNoteWords } from "./note-translate";
+import { formatCount } from "../../libs/format-count";
+import { useUser } from "../../context/AuthContext";
 
 export const NOTES_QUERY_KEY = ["dm-notes"] as const;
 
@@ -44,8 +48,8 @@ const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.s
 function useNoteInk() {
   const { isLight } = useAppTheme();
   return isLight
-    ? { ink: "hsla(240,8%,4%,1)", ink2: "hsla(240,8%,4%,0.62)", bubble: "hsla(0,0%,0%,0.06)", field: "hsla(0,0%,0%,0.05)", hairline: "hsla(0,0%,0%,0.08)", track: "hsla(0,0%,0%,0.14)", primaryBg: "hsla(240,8%,7%,1)", primaryInk: "hsla(0,0%,100%,1)" }
-    : { ink: "#fff", ink2: "hsla(240, 5%, 65%, 1)", bubble: "hsla(240, 5%, 96%, 0.12)", field: "hsla(240, 5%, 96%, 0.08)", hairline: "hsla(0, 0%, 100%, 0.10)", track: "hsla(0, 0%, 100%, 0.16)", primaryBg: "#fff", primaryInk: "#0b0b0c" };
+    ? { ink: "hsla(240,8%,4%,1)", ink2: "hsla(240,8%,4%,0.62)", bubble: "hsla(0,0%,0%,0.06)", field: "hsla(0,0%,0%,0.05)", hairline: "hsla(0,0%,0%,0.08)", track: "hsla(0,0%,0%,0.14)", primaryBg: "hsla(240,8%,7%,1)", primaryInk: "hsla(0,0%,100%,1)", ring: "hsla(0,0%,100%,1)" }
+    : { ink: "#fff", ink2: "hsla(240, 5%, 65%, 1)", bubble: "hsla(240, 5%, 96%, 0.12)", field: "hsla(240, 5%, 96%, 0.08)", hairline: "hsla(0, 0%, 100%, 0.10)", track: "hsla(0, 0%, 100%, 0.16)", primaryBg: "#fff", primaryInk: "#0b0b0c", ring: "#16161a" };
 }
 
 function songFrom(sound: AttachedSound): StorySong | null {
@@ -167,8 +171,84 @@ export function NoteTile({ author, note, label, onPress, placeholder, own }: { a
   );
 }
 
-function SongLine({ song, autoPlay, playToken = 0 }: { song: StorySong; autoPlay?: boolean; playToken?: number }) {
+function PillButton({ icon, label, onPress, primary, disabled, small, active, danger }: { icon?: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; primary?: boolean; disabled?: boolean; small?: boolean; active?: boolean; danger?: boolean }) {
   const c = useNoteInk();
+  const ink = primary || active ? c.primaryInk : danger ? "#ff5a6e" : c.ink;
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      activeOpacity={0.8}
+      style={{ flexGrow: primary ? 1 : 0, opacity: disabled ? 0.5 : 1 }}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, height: small ? 34 : 42, paddingHorizontal: small ? 13 : 17, borderRadius: small ? 11 : 12, backgroundColor: primary || active ? c.primaryBg : c.field, borderWidth: primary || active ? 0 : 1, borderColor: c.hairline }}>
+        {icon && <Ionicons name={icon} size={small ? 15 : 16} color={ink} />}
+        <Text style={{ color: ink, fontSize: small ? 13 : 14, fontWeight: small ? "600" : "700" }}>{label}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
+// ── The open status (Instagram Notes style) ─────────────────────────────
+// Tapping a status opens a short sheet: the person's face big, and the same
+// white cloud as in the row above it, grown up. Writing your own happens IN
+// that cloud, over your own face, so what you see is what friends see.
+// Same as web's NotesRow (NoteView / MyNoteView / NoteComposer).
+
+const CLOUD_INK = "#0b0b0c";
+const CLOUD_SOFT = "rgba(11,11,12,0.55)";
+
+/** "2h", "35m": short, like the chat list. */
+function shortSpan(ms: number): string {
+  const m = Math.max(0, Math.round(ms / 60_000));
+  if (m < 1) return "1m";
+  if (m < 60) return `${m}m`;
+  return `${Math.round(m / 60)}h`;
+}
+
+function NoteTimes({ note, own }: { note: Note; own?: boolean }) {
+  const { t } = useTranslation();
+  const now = Date.now();
+  const ago = shortSpan(now - Date.parse(note.postedAt));
+  const left = shortSpan(Date.parse(note.expiresAt) - now);
+  return (
+    <Text className="text-theme-neutrals-400" style={{ fontSize: 12.5, marginTop: 2 }}>
+      {own ? t("notes.upFor", { defaultValue: "Up {{time}}", time: ago }) : t("notes.postedAgo", { defaultValue: "{{time}} ago", time: ago })}
+      {" · "}
+      {t("notes.timeLeft", { defaultValue: "{{time}} left", time: left })}
+    </Text>
+  );
+}
+
+/** The big cloud with its two trailing dots, over a big squared face. Grows in when it opens. */
+function BigCloud({ author, children }: { author: StoryAuthor; children: React.ReactNode }) {
+  const { isLight } = useAppTheme();
+  const avatar = getAvatarUrl(author.avatarImageUrl, 92);
+  const grow = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.spring(grow, { toValue: 1, useNativeDriver: true, damping: 16, stiffness: 180, mass: 0.8 }).start();
+  }, [grow]);
+  const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
+  return (
+    <View style={{ alignItems: "center" }}>
+      <Animated.View style={{ opacity: grow, transform: [{ scale: grow.interpolate({ inputRange: [0, 1], outputRange: [0.86, 1] }) }, { translateY: grow.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }) }] }}>
+        <View testID="note-cloud" style={[CLOUD, hair, { maxWidth: 264, borderRadius: 22, paddingHorizontal: 18, paddingVertical: 12, alignItems: "center" }]}>
+          {children}
+        </View>
+      </Animated.View>
+      <View style={{ width: 110, paddingLeft: 30 }}>
+        <View style={[CLOUD, hair, { width: 12, height: 12, borderRadius: 6, marginTop: 4 }]} />
+        <View style={[CLOUD, hair, { width: 6, height: 6, borderRadius: 3, marginTop: 3, marginLeft: 9 }]} />
+      </View>
+      <View style={{ marginTop: 2 }}>
+        <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={92} radius={24} name={nameOf(author)} />
+      </View>
+    </View>
+  );
+}
+
+/** A song inside the cloud: artwork, title, play/pause. */
+function CloudSong({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) {
   const player = useAudioPlayer({ uri: song.audioUrl });
   const [playing, setPlaying] = useState(false);
   const start = () => {
@@ -184,50 +264,186 @@ function SongLine({ song, autoPlay, playToken = 0 }: { song: StorySong; autoPlay
     return () => { clearTimeout(timer); try { player.pause(); } catch { /* gone */ } };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPlay, song.audioUrl]);
-  // A tap on the note's words plays the song: the autoplay above can fire
-  // before the file has loaded, and the words are what people tap.
-  useEffect(() => {
-    if (!playToken) return;
-    try { if (player.playing) { setPlaying(true); return; } } catch { /* not loaded */ }
-    start();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playToken]);
   const toggle = () => {
     if (playing) { try { player.pause(); } catch { /* gone */ } setPlaying(false); return; }
     start();
   };
   return (
-    <TouchableOpacity onPress={toggle} activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 8 }}>
-      {song.artworkUrl
-        ? <SmartImage source={{ uri: song.artworkUrl }} style={{ width: 36, height: 36, borderRadius: 6 }} contentFit="cover" />
-        : <View style={{ width: 36, height: 36, borderRadius: 6, backgroundColor: c.bubble, alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={16} color={c.ink} /></View>}
-      <View style={{ flex: 1, minWidth: 0 }}>
-        <Text className="text-white text-[13px] font-semibold" numberOfLines={1}>{song.title}</Text>
-        {!!song.artist && <Text className="text-theme-neutrals-400 text-[12px]" numberOfLines={1}>{song.artist}</Text>}
+    <Pressable onPress={toggle} testID="note-song" accessibilityRole="button" accessibilityLabel={song.title} style={{ marginTop: 8, maxWidth: "100%" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 7, paddingVertical: 4, paddingLeft: 4, paddingRight: 10, borderRadius: 10, backgroundColor: "rgba(11,11,12,0.06)" }}>
+        {song.artworkUrl
+          ? <SmartImage source={{ uri: song.artworkUrl }} style={{ width: 24, height: 24, borderRadius: 6 }} contentFit="cover" />
+          : <View style={{ width: 24, height: 24, borderRadius: 6, backgroundColor: "rgba(11,11,12,0.1)", alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={13} color={CLOUD_INK} /></View>}
+        <Text numberOfLines={1} style={{ flexShrink: 1, color: CLOUD_INK, fontSize: 12.5, fontWeight: "700" }}>{song.title}{song.artist ? ` · ${song.artist}` : ""}</Text>
+        <Ionicons name={playing ? "pause" : "play"} size={12} color={CLOUD_INK} />
       </View>
-      <View style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: c.bubble, alignItems: "center", justifyContent: "center" }}><Ionicons name={playing ? "pause" : "play"} size={14} color={c.ink} /></View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
-function PillButton({ icon, label, onPress, primary, disabled }: { icon?: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; primary?: boolean; disabled?: boolean }) {
+/** What goes inside the cloud for a note: GIF, words, song, place. */
+function CloudBody({ note, words, autoPlay }: { note: Note; words: string; autoPlay?: boolean }) {
+  return (
+    <>
+      {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 160, height: 110, borderRadius: 12, marginBottom: 6 }} contentFit="contain" />}
+      {!!note.text && <Text style={{ color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }}>{words}</Text>}
+      {!!note.song && <CloudSong song={note.song} autoPlay={autoPlay} />}
+      {!!note.location && (
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4, marginTop: 6 }}>
+          <Ionicons name="location-outline" size={13} color={CLOUD_SOFT} />
+          <Text style={{ color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600" }}>{note.location}</Text>
+        </View>
+      )}
+    </>
+  );
+}
+
+function SquareButton({ onPress, label, children, primary, testID }: { onPress: () => void; label: string; children: React.ReactNode; primary?: boolean; testID?: string }) {
   const c = useNoteInk();
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled}
-      activeOpacity={0.8}
-      style={{ flexGrow: primary ? 1 : 0, opacity: disabled ? 0.5 : 1 }}
-    >
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, height: 42, paddingHorizontal: 17, borderRadius: 10, backgroundColor: primary ? c.primaryBg : c.field, borderWidth: primary ? 0 : 1, borderColor: c.hairline }}>
-        {icon && <Ionicons name={icon} size={16} color={primary ? c.primaryInk : c.ink} />}
-        <Text style={{ color: primary ? c.primaryInk : c.ink, fontSize: 14, fontWeight: "600" }}>{label}</Text>
+    <Pressable onPress={onPress} testID={testID} accessibilityRole="button" accessibilityLabel={label} hitSlop={4}>
+      <View style={{ width: 44, height: 44, borderRadius: 13, alignItems: "center", justifyContent: "center", backgroundColor: primary ? c.primaryBg : c.field, borderWidth: primary ? 0 : 1, borderColor: c.hairline }}>
+        {children}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
-function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => void }) {
+/** Someone else's status: big cloud, who and when, reply box and a heart. */
+function NoteView({ entry, onSend }: { entry: NoteEntry; onSend: (text: string) => void }) {
+  const c = useNoteInk();
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const { note, author } = entry;
+  const words = useNoteWords(note.text);
+  const name = nameOf(author);
+  const [liked, setLiked] = useState(!!note.liked);
+  const [text, setText] = useState("");
+  const pop = useRef(new Animated.Value(1)).current;
+  const toggleLike = () => {
+    const next = !liked;
+    setLiked(next);
+    if (next) {
+      pop.setValue(0.6);
+      Animated.spring(pop, { toValue: 1, useNativeDriver: true, damping: 8, stiffness: 260 }).start();
+    }
+    likeNote(note.id, next)
+      .then(() => { note.liked = next; void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); })
+      .catch(() => setLiked(!next));
+  };
+  const send = () => {
+    const reply = text.trim();
+    if (!reply) return;
+    // The note's words ride along, so the chat shows what was answered.
+    onSend(note.text ? `📝 “${note.text}”\n${reply}` : reply);
+  };
+  const replyLabel = t("notes.replyTo", { defaultValue: "Reply to {{name}}…", name });
+  const chipLabel = words.isLoading
+    ? t("stories.translating", { defaultValue: "Translating…" })
+    : words.isTranslated
+      ? t("stories.seeOriginal", { defaultValue: "See original" })
+      : t("stories.translate", { defaultValue: "Translate" });
+  return (
+    <View style={{ alignItems: "center" }}>
+      <BigCloud author={author}>
+        <CloudBody note={note} words={words.shown} autoPlay />
+      </BigCloud>
+      <Text className="text-white" numberOfLines={1} style={{ marginTop: 10, fontSize: 16, fontWeight: "800" }}>{name}</Text>
+      <NoteTimes note={note} />
+      {!!note.text && words.offer ? (
+        <Pressable
+          testID="note-translate"
+          onPress={words.isTranslated ? words.showOriginal : () => void words.translate()}
+          disabled={words.isLoading}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={chipLabel}
+          style={{ marginTop: 8 }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+            {words.isLoading ? <ActivityIndicator size="small" color={c.ink2} style={{ transform: [{ scale: 0.7 }] }} /> : <Ionicons name="language" size={14} color={c.ink2} />}
+            <Text style={{ color: c.ink2, fontSize: 12, fontWeight: "600" }}>{chipLabel}</Text>
+          </View>
+        </Pressable>
+      ) : null}
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 16, alignSelf: "stretch" }}>
+        <TextInput
+          value={text}
+          onChangeText={setText}
+          maxLength={1000}
+          placeholder={replyLabel}
+          accessibilityLabel={replyLabel}
+          placeholderTextColor="hsla(240, 5%, 55%, 1)"
+          returnKeyType="send"
+          onSubmitEditing={send}
+          style={{ flex: 1, height: 44, borderRadius: 13, paddingHorizontal: 14, backgroundColor: c.field, color: c.ink, fontSize: 15, borderWidth: 1, borderColor: c.hairline }}
+        />
+        {text.trim() ? (
+          <SquareButton primary onPress={send} label={t("notes.send", { defaultValue: "Send" })}>
+            <Ionicons name="send" size={17} color={c.primaryInk} />
+          </SquareButton>
+        ) : (
+          <SquareButton testID="note-like" onPress={toggleLike} label={liked ? t("notes.unlike", { defaultValue: "Unlike" }) : t("notes.like", { defaultValue: "Like" })}>
+            <Animated.View style={{ transform: [{ scale: pop }] }}>
+              <Ionicons name={liked ? "heart" : "heart-outline"} size={21} color={liked ? "#ff3b5c" : c.ink} />
+            </Animated.View>
+          </SquareButton>
+        )}
+      </View>
+    </View>
+  );
+}
+
+/** Your own status: big cloud, how long it has left, who hearted it, edit or delete. */
+function MyNoteView({ entry, onEdit, onClose }: { entry: NoteEntry; onEdit: () => void; onClose: () => void }) {
+  const c = useNoteInk();
+  const { t } = useTranslation();
+  const qc = useQueryClient();
+  const likers = entry.likers ?? [];
+  const count = Math.max(entry.note.likeCount ?? 0, likers.length);
+  const remove = useMutation({
+    mutationFn: deleteNote,
+    onSuccess: () => { void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); onClose(); },
+    onError: () => toastError(t("notes.failed", { defaultValue: "Your status didn't go up. Try again." })),
+  });
+  return (
+    <View style={{ alignItems: "center" }}>
+      <BigCloud author={entry.author}>
+        <CloudBody note={entry.note} words={entry.note.text ?? ""} />
+      </BigCloud>
+      <Text className="text-white" style={{ marginTop: 10, fontSize: 16, fontWeight: "800" }}>{t("notes.yourStatus", { defaultValue: "Your status" })}</Text>
+      <NoteTimes note={entry.note} own />
+      {count > 0 ? (
+        <View testID="note-likers" style={{ alignSelf: "stretch", flexDirection: "row", alignItems: "center", gap: 10, marginTop: 16, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 14, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline }}>
+          <Ionicons name="heart" size={20} color="#ff3b5c" />
+          <View style={{ flexDirection: "row" }}>
+            {likers.slice(0, 3).map((a, i) => {
+              const uri = getAvatarUrl(a.avatarImageUrl, 26);
+              return (
+                <View key={a.address} style={{ marginLeft: i ? -8 : 0, borderRadius: 9, borderWidth: 2, borderColor: c.ring }}>
+                  <Avatar uri={uri && uri !== "default-avatar" ? uri : undefined} size={26} radius={8} name={nameOf(a)} />
+                </View>
+              );
+            })}
+          </View>
+          <Text className="text-white" numberOfLines={1} style={{ flex: 1, fontSize: 13, fontWeight: "600" }}>
+            {likers.length && count > 1
+              ? t("notes.likedByMore", { defaultValue: "Liked by {{name}} and {{others}} more", name: nameOf(likers[0]), others: formatCount(count - 1) })
+              : likers.length
+                ? t("notes.likedBy", { defaultValue: "Liked by {{name}}", name: nameOf(likers[0]) })
+                : t("notes.likes", { defaultValue: "{{total}} likes", total: formatCount(count) })}
+          </Text>
+        </View>
+      ) : null}
+      <View style={{ flexDirection: "row", gap: 8, marginTop: 12, alignSelf: "stretch" }}>
+        <View style={{ flex: 1 }}><PillButton label={t("notes.edit", { defaultValue: "Edit" })} onPress={onEdit} /></View>
+        <View style={{ flex: 1 }}><PillButton label={t("notes.deleteShort", { defaultValue: "Delete" })} onPress={() => remove.mutate()} disabled={remove.isPending} danger /></View>
+      </View>
+    </View>
+  );
+}
+
+function NoteComposer({ me, mine, onClose }: { me: StoryAuthor; mine: Note | null; onClose: () => void }) {
   const c = useNoteInk();
   const { t } = useTranslation();
   const qc = useQueryClient();
@@ -238,17 +454,11 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
   const [song, setSong] = useState<StorySong | null>(mine?.song ?? null);
   const [gifOpen, setGifOpen] = useState(false);
   const [soundOpen, setSoundOpen] = useState(false);
-  const failed = () => toastError(t("notes.failed", { defaultValue: "Your note didn't go up. Try again." }));
 
   const save = useMutation({
     mutationFn: (input: NoteInput) => putNote(input),
-    onSuccess: () => { void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); toastSuccess(t("notes.shared", { defaultValue: "Your note is up for 24 hours" })); onClose(); },
-    onError: failed,
-  });
-  const remove = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: () => { void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); onClose(); },
-    onError: failed,
+    onSuccess: () => { void qc.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); toastSuccess(t("notes.shared", { defaultValue: "Your status is up for 24 hours" })); onClose(); },
+    onError: () => toastError(t("notes.failed", { defaultValue: "Your status didn't go up. Try again." })),
   });
 
   const empty = !text.trim() && !location.trim() && !gifUrl && !song;
@@ -263,9 +473,32 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
   };
 
   return (
-    <View style={{ gap: 12 }}>
-      <View>
+    <View style={{ alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", alignSelf: "stretch", height: 36, marginBottom: 12 }}>
+        <Pressable onPress={onClose} hitSlop={8} accessibilityRole="button" style={{ width: 80 }}>
+          <Text className="text-theme-neutrals-400" style={{ fontSize: 14, fontWeight: "600" }}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
+        </Pressable>
+        <Text className="text-white" style={{ fontSize: 15, fontWeight: "700" }}>{t("notes.newStatus", { defaultValue: "New status" })}</Text>
+        <View style={{ width: 80, alignItems: "flex-end" }}>
+          <Pressable testID="note-share" onPress={share} disabled={empty || save.isPending} accessibilityRole="button" style={{ opacity: empty ? 0.45 : 1 }}>
+            <View style={{ height: 34, paddingHorizontal: 14, borderRadius: 11, backgroundColor: c.primaryBg, alignItems: "center", justifyContent: "center" }}>
+              {save.isPending ? <ActivityIndicator size="small" color={c.primaryInk} /> : <Text style={{ color: c.primaryInk, fontSize: 13.5, fontWeight: "700" }}>{t("notes.share", { defaultValue: "Share" })}</Text>}
+            </View>
+          </Pressable>
+        </View>
+      </View>
+
+      <BigCloud author={me}>
+        {!!gifUrl && (
+          <View style={{ marginBottom: 6 }}>
+            <SmartImage source={{ uri: gifUrl }} style={{ width: 150, height: 104, borderRadius: 12 }} contentFit="contain" />
+            <TouchableOpacity onPress={() => setGifUrl(null)} accessibilityLabel={t("notes.removeGif", { defaultValue: "Remove GIF" })} style={{ position: "absolute", right: 4, top: 4, backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 8, padding: 4 }}>
+              <Ionicons name="close" size={14} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )}
         <TextInput
+          testID="note-text"
           value={text}
           onChangeText={(v) => setText(v.replace(/\n/g, " "))}
           maxLength={NOTE_TEXT_MAX}
@@ -275,57 +508,44 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
           returnKeyType="done"
           onSubmitEditing={share}
           placeholder={t("notes.placeholder", { defaultValue: "Share a thought…" })}
-          placeholderTextColor="hsla(240, 4%, 46%, 1)"
-          style={{ backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 12, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18, color: c.ink, fontSize: 16, textAlign: "center", minHeight: 64 }}
+          placeholderTextColor="rgba(11,11,12,0.4)"
+          style={{ minWidth: 130, maxWidth: 228, padding: 0, color: CLOUD_INK, fontSize: 17, lineHeight: 22, fontWeight: "700", textAlign: "center" }}
         />
-        <Text className="text-theme-neutrals-500 text-[11px]" style={{ position: "absolute", right: 12, bottom: 4 }}>{NOTE_TEXT_MAX - text.length}</Text>
+        {!!song && (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+            <CloudSong song={song} />
+            <TouchableOpacity onPress={() => setSong(null)} accessibilityLabel={t("notes.removeSong", { defaultValue: "Remove song" })} style={{ padding: 4, marginTop: 8 }}>
+              <Ionicons name="close" size={14} color={CLOUD_SOFT} />
+            </TouchableOpacity>
+          </View>
+        )}
+        {showPlace && (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 }}>
+            <Ionicons name="location-outline" size={13} color={CLOUD_SOFT} />
+            <TextInput
+              value={location}
+              onChangeText={setLocation}
+              maxLength={NOTE_LOCATION_MAX}
+              placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
+              placeholderTextColor="rgba(11,11,12,0.4)"
+              style={{ minWidth: 110, padding: 0, color: CLOUD_SOFT, fontSize: 12.5, fontWeight: "600", textAlign: "center" }}
+            />
+            <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
+              <Ionicons name="close" size={13} color={CLOUD_SOFT} />
+            </TouchableOpacity>
+          </View>
+        )}
+      </BigCloud>
+
+      <Text className="text-theme-neutrals-500" style={{ fontSize: 11.5, marginTop: 8 }}>{t("notes.charsLeft", { defaultValue: "{{count}} left", count: NOTE_TEXT_MAX - text.length })}</Text>
+
+      <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 6, marginTop: 12 }}>
+        <PillButton small active={!!song} icon="musical-notes-outline" label={t("notes.song", { defaultValue: "Song" })} onPress={() => setSoundOpen(true)} />
+        <PillButton small active={!!gifUrl} label="GIF" onPress={() => setGifOpen(true)} />
+        <PillButton small active={showPlace} icon="location-outline" label={t("notes.place", { defaultValue: "Place" })} onPress={() => setShowPlace(true)} />
       </View>
 
-      {!!gifUrl && (
-        <View style={{ alignSelf: "center" }}>
-          <SmartImage source={{ uri: gifUrl }} style={{ width: 160, height: 120, borderRadius: 12 }} contentFit="contain" />
-          <TouchableOpacity onPress={() => setGifUrl(null)} accessibilityLabel={t("notes.removeGif", { defaultValue: "Remove GIF" })} style={{ position: "absolute", right: 4, top: 4, backgroundColor: "rgba(0,0,0,0.6)", borderRadius: 12, padding: 4 }}>
-            <Ionicons name="close" size={14} color="#fff" />
-          </TouchableOpacity>
-        </View>
-      )}
-      {!!song && (
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <View style={{ flex: 1 }}><SongLine song={song} /></View>
-          <TouchableOpacity onPress={() => setSong(null)} accessibilityLabel={t("notes.removeSong", { defaultValue: "Remove song" })} style={{ padding: 8 }}>
-            <Ionicons name="close" size={18} color={c.ink2} />
-          </TouchableOpacity>
-        </View>
-      )}
-      {showPlace && (
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 10, paddingHorizontal: 12 }}>
-          <Ionicons name="location-outline" size={16} color={c.ink2} />
-          <TextInput
-            value={location}
-            onChangeText={setLocation}
-            maxLength={NOTE_LOCATION_MAX}
-            placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
-            placeholderTextColor="hsla(240, 4%, 46%, 1)"
-            style={{ flex: 1, height: 42, color: c.ink, fontSize: 14 }}
-          />
-          <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
-            <Ionicons name="close" size={16} color={c.ink2} />
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 8 }}>
-        <PillButton icon="musical-notes-outline" label={t("notes.song", { defaultValue: "Song" })} onPress={() => setSoundOpen(true)} />
-        <PillButton label="GIF" onPress={() => setGifOpen(true)} />
-        {!showPlace && <PillButton icon="location-outline" label={t("notes.place", { defaultValue: "Place" })} onPress={() => setShowPlace(true)} />}
-      </View>
-
-      <Text className="text-theme-neutrals-500 text-[12px] text-center">{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
-
-      <View style={{ flexDirection: "row", gap: 8 }}>
-        {!!mine && <PillButton label={t("notes.delete", { defaultValue: "Delete note" })} onPress={() => remove.mutate()} disabled={remove.isPending} />}
-        <PillButton primary label={t("notes.share", { defaultValue: "Share" })} onPress={share} disabled={empty || save.isPending} />
-      </View>
+      <Text className="text-theme-neutrals-500 text-[12px] text-center" style={{ marginTop: 12 }}>{t("notes.who", { defaultValue: "People who follow you can see it for 24 hours." })}</Text>
 
       <GifPicker
         visible={gifOpen}
@@ -333,7 +553,7 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
         onPick={(url) => {
           setGifOpen(false);
           if (isNoteGif(url)) setGifUrl(url);
-          else toastError(t("notes.gifHost", { defaultValue: "Pick a GIF from the GIF tab for notes." }));
+          else toastError(t("notes.gifHost", { defaultValue: "Pick a GIF from the GIF tab for statuses." }));
         }}
       />
       {soundOpen && (
@@ -345,89 +565,6 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
           opaque
         />
       )}
-    </View>
-  );
-}
-
-/**
- * The Notes sheet: write, change or delete your note at the top, and below it
- * the notes of people you follow (tap one to see it, hear the song and
- * message them). Opened from the + in Messages and from a chat's + sheet.
- */
-/** Reply to a note: a message box that sends straight into your chat with them. */
-function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (text: string) => void }) {
-  const c = useNoteInk();
-  const { t } = useTranslation();
-  const [text, setText] = useState("");
-  const send = () => {
-    const reply = text.trim();
-    if (!reply) return;
-    // The note's words ride along, so the chat shows what was answered.
-    onSend(note.text ? `📝 “${note.text}”\n${reply}` : reply);
-  };
-  const label = t("notes.replyTo", { defaultValue: "Reply to {{name}}…", name });
-  return (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-      <TextInput
-        value={text}
-        onChangeText={setText}
-        maxLength={1000}
-        placeholder={label}
-        accessibilityLabel={label}
-        placeholderTextColor="hsla(240, 5%, 55%, 1)"
-        returnKeyType="send"
-        onSubmitEditing={send}
-        style={{ flex: 1, minHeight: 42, borderRadius: 10, paddingHorizontal: 14, backgroundColor: c.field, color: c.ink, fontSize: 15, borderWidth: 1, borderColor: c.hairline }}
-      />
-      <TouchableOpacity
-        onPress={send}
-        disabled={!text.trim()}
-        accessibilityRole="button"
-        accessibilityLabel={t("notes.send", { defaultValue: "Send" })}
-        style={{ width: 42, height: 42, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: c.primaryBg, opacity: text.trim() ? 1 : 0.45 }}
-      >
-        <Ionicons name="send" size={17} color={c.primaryInk} />
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-/**
- * The words of a note in a chat bubble; with a song, a tap plays it. Words in
- * another language show translated, with "See original" under them to flip
- * back (see note-translate).
- */
-function NoteTextBubble({ text, onPress }: { text: string; onPress?: () => void }) {
-  const c = useNoteInk();
-  const { t } = useTranslation();
-  const words = useNoteWords(text);
-  const chipLabel = words.isLoading
-    ? t("stories.translating", { defaultValue: "Translating…" })
-    : words.isTranslated
-      ? t("stories.seeOriginal", { defaultValue: "See original" })
-      : t("stories.translate", { defaultValue: "Translate" });
-  return (
-    <View style={{ alignItems: "center", gap: 8 }}>
-      <Pressable onPress={onPress} disabled={!onPress} style={{ alignSelf: "center", maxWidth: "100%" }} accessibilityRole={onPress ? "button" : "text"}>
-        <View style={{ backgroundColor: c.bubble, borderWidth: 1, borderColor: c.hairline, borderRadius: 16, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
-          <Text className="text-white text-[16px] font-semibold">{words.shown}</Text>
-        </View>
-      </Pressable>
-      {words.offer ? (
-        <Pressable
-          testID="note-translate"
-          onPress={words.isTranslated ? words.showOriginal : () => void words.translate()}
-          disabled={words.isLoading}
-          hitSlop={8}
-          accessibilityRole="button"
-          accessibilityLabel={chipLabel}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 28, paddingHorizontal: 11, borderRadius: 8, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline }}>
-            {words.isLoading ? <ActivityIndicator size="small" color={c.ink2} style={{ transform: [{ scale: 0.7 }] }} /> : <Ionicons name="language" size={14} color={c.ink2} />}
-            <Text style={{ color: c.ink2, fontSize: 12, fontWeight: "600" }}>{chipLabel}</Text>
-          </View>
-        </Pressable>
-      ) : null}
     </View>
   );
 }
@@ -669,57 +806,35 @@ export function GroupChatNotesRow({ groupId, me, onOpen }: { groupId: string; me
 }
 
 export default function NotesSheet({ visible, onClose, onMessage, initialView = null }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void; initialView?: NoteEntry | null }) {
-  const c = useNoteInk();
-  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const user = useUser() as any;
   const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
   const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled: visible });
+  // What the sheet shows: someone's status, your own, or the writer.
   const [viewing, setViewing] = useState<NoteEntry | null>(null);
-  const [playToken, setPlayToken] = useState(0);
-  useEffect(() => { setViewing(visible ? initialView : null); }, [visible, initialView]);
-  const mine = data?.mine?.note ?? null;
-  const notes = data?.notes ?? [];
-  const placeholder = t("notes.add", { defaultValue: "Note" });
+  const [writing, setWriting] = useState(false);
+  useEffect(() => { setViewing(visible ? initialView : null); setWriting(false); }, [visible, initialView]);
+  const mineEntry = data?.mine ?? null;
+  const address = (user?.address || user?.walletAddress || "") as string;
+  const self: StoryAuthor | null = mineEntry?.author
+    ?? (address ? { address, username: user?.username ?? null, displayName: user?.displayName ?? null, avatarImageUrl: user?.avatarImageUrl || user?.avatarUrl || null } as StoryAuthor : null);
+  const showMine = !viewing && !writing && !!mineEntry;
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose} transparent statusBarTranslucent navigationBarTranslucent>
       <SheetBackdrop backdrop={backdrop} />
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1, justifyContent: "flex-end" }}>
         <TouchableOpacity activeOpacity={1} onPress={onClose} style={{ flex: 1 }} />
-        <View className="overflow-hidden rounded-t-[20px] border-t border-white/10 p-4" style={{ paddingBottom: insets.bottom + 16, maxHeight: "90%" }}>
+        <View testID={viewing ? "note-sheet-view" : showMine ? "note-sheet-mine" : "note-sheet-write"} className="overflow-hidden rounded-t-[28px] border-t border-white/10" style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: insets.bottom + 16, maxHeight: "92%" }}>
           <DrawerSurface backdropBlurred={backdrop.blurred} />
-          <Text className="text-white text-[15px] font-semibold text-center mb-3">
-            {viewing ? nameOf(viewing.author) : t("notes.title", { defaultValue: "Notes" })}
-          </Text>
+          <View className="bg-white/25" style={{ alignSelf: "center", width: 38, height: 5, borderRadius: 3, marginBottom: 12 }} />
           {viewing ? (
-            <View style={{ gap: 14 }}>
-              {!!viewing.note.gifUrl && <SmartImage source={{ uri: viewing.note.gifUrl }} style={{ width: "100%", height: 200, borderRadius: 12 }} contentFit="contain" />}
-              {!!viewing.note.text && (
-                <NoteTextBubble text={viewing.note.text} onPress={viewing.note.song ? () => setPlayToken((n) => n + 1) : undefined} />
-              )}
-              {!!viewing.note.song && <SongLine song={viewing.note.song} autoPlay playToken={playToken} />}
-              {!!viewing.note.location && (
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
-                  <Ionicons name="location-outline" size={14} color={c.ink2} />
-                  <Text className="text-theme-neutrals-400 text-[13px]">{viewing.note.location}</Text>
-                </View>
-              )}
-              <NoteReply key={viewing.note.id} note={viewing.note} name={nameOf(viewing.author)} onSend={(reply) => { const a = viewing.author; onClose(); onMessage(a, reply); }} />
-              <PillButton label={t("notes.back", { defaultValue: "Back to notes" })} onPress={() => setViewing(null)} />
-            </View>
+            <NoteView key={viewing.note.id} entry={viewing} onSend={(reply) => { const a = viewing.author; onClose(); onMessage(a, reply); }} />
+          ) : showMine ? (
+            <MyNoteView entry={mineEntry!} onEdit={() => setWriting(true)} onClose={onClose} />
+          ) : visible && self ? (
+            <NoteComposer key={mineEntry?.note.id ?? "new"} me={self} mine={writing ? mineEntry?.note ?? null : null} onClose={onClose} />
           ) : (
-            <View style={{ gap: 16 }}>
-              {visible && <NoteComposer key={mine?.id ?? "new"} mine={mine} onClose={onClose} />}
-              {notes.length > 0 && (
-                <View style={{ gap: 6 }}>
-                  <Text className="text-theme-neutrals-400 text-[12px] font-semibold">{t("notes.fromFollowing", { defaultValue: "From people you follow" })}</Text>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4 }} keyboardShouldPersistTaps="handled">
-                    {notes.map((entry) => (
-                      <NoteTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} placeholder={placeholder} onPress={() => setViewing(entry)} />
-                    ))}
-                  </ScrollView>
-                </View>
-              )}
-            </View>
+            <View style={{ paddingVertical: 40, alignItems: "center" }}><ActivityIndicator /></View>
           )}
         </View>
       </KeyboardAvoidingView>
