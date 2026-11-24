@@ -33,7 +33,8 @@ import ConfirmModal from "../components/common/ConfirmModal";
 import LiveChatMessage from "../components/LiveChat/LiveChatMessage";
 import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArrival";
 import { LiveChatLens } from "../components/LiveChat/LiveChatLens";
-import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
+import { formatCount } from "../libs/format-count";
+import PublicChatHeaderMenu from "../components/LiveChat/PublicChatHeaderMenu";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
@@ -1192,31 +1193,24 @@ const LiveChatScreen: React.FC = () => {
   // Header right content — online count + info icon
   const RightHeader = useMemo(
     () => (
-      <View className="flex-row items-center gap-3">
+      <View className="flex-row items-center gap-1">
         {account && !isBanned ? (
           <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} members={[]} ring={false} />
         ) : null}
-        <View accessible accessibilityLabel={t("publicChat.onlineHint", { count: onlineCount, defaultValue: "{{count}} people are in this chat right now" })} className="flex-row items-center gap-1.5">
-          <LiveChatLens />
-          <Text className="text-white/60 text-xs" style={{ fontVariant: ["tabular-nums"] }}>{t("publicChat.online", { count: onlineCount, defaultValue: "{{count}} online" })}</Text>
-        </View>
-        <ChatTextSizeButton />
-        <TouchableOpacity onPress={() => openSearch()} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
-        {/* A full square like Search beside it, so the (i) sits in from the edge. */}
-        <TouchableOpacity onPress={handleInfoPress} activeOpacity={0.6} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("screens.chatInfo", { defaultValue: "Chat info" })} style={{ width: 36, height: 36, alignItems: "center", justifyContent: "center" }}>
-          <Icon name="Info" size={22} color="rgba(255,255,255,0.5)" />
-        </TouchableOpacity>
+        {/* Search, text size and chat info live behind + so the top isn't
+            crowded; "24 online" sits under the title (2026-11-24). */}
+        <PublicChatHeaderMenu onSearch={() => openSearch()} onInfo={handleInfoPress} />
       </View>
     ),
-    [onlineCount, handleInfoPress, t, openSearch, account, isBanned]
+    [handleInfoPress, t, openSearch, account, isBanned]
   );
 
   // Header subtitle
   const subtitle = useMemo(() => {
     if (!connected && !joining) return t("liveChat.disconnected");
     if (joining) return t("nav.connecting");
-    return t("liveChat.subtitle");
-  }, [connected, joining, t]);
+    return t("publicChat.online", { count: formatCount(onlineCount) as unknown as number, defaultValue: "{{count}} online" });
+  }, [connected, joining, t, onlineCount]);
 
   const ListHeader = useMemo(
     () =>
@@ -1265,6 +1259,7 @@ const LiveChatScreen: React.FC = () => {
         appearance={Platform.OS === "android" ? undefined : "flat"}
         title={t("publicChat.title")}
         subtitle={subtitle}
+        subtitleLead={connected && !joining ? <LiveChatLens /> : undefined}
         rightContent={RightHeader}
       />
 

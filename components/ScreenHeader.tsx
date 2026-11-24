@@ -41,6 +41,8 @@ export const SCREEN_HEADER_HEIGHT = SCREEN_HEADER_TITLE_HEIGHT;
 export interface ScreenHeaderProps {
   title: string;
   subtitle?: string;
+  /** Drawn just before the subtitle on the same line (a live dot). */
+  subtitleLead?: React.ReactNode;
   canGoBack?: boolean;
   rightContent?: React.ReactNode;
   /** Extra content rendered between the back button and title (e.g. avatar). */
@@ -75,6 +77,7 @@ export interface ScreenHeaderProps {
 const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   title,
   subtitle,
+  subtitleLead,
   canGoBack = true,
   rightContent,
   leftContent,
@@ -326,7 +329,14 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({
                 {titleBadge ?? null}
                 {titleAccessory ? <View className="ml-2">{titleAccessory}</View> : null}
               </View>
-              {subtitle ? (
+              {subtitle && subtitleLead ? (
+                <View className="flex-row items-center" style={{ gap: 6 }}>
+                  {subtitleLead}
+                  <Text numberOfLines={1} className="text-theme-neutrals-400 flex-shrink" style={styles.subtitle}>
+                    {subtitle}
+                  </Text>
+                </View>
+              ) : subtitle ? (
                 <Text
                   numberOfLines={1}
                   className="text-theme-neutrals-400"
