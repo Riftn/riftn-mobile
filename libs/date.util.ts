@@ -4,6 +4,7 @@ import { formatRelativeTime } from '../i18n/date-locale';
 
 import i18n from "i18next";
 import { pad } from './numbers.util';
+import { periodLabels, uses12Hour } from './clockWheel';
 
 /**
  * The locale every date and time in the app should be formatted in.
@@ -64,13 +65,7 @@ export function formatJoinedDate(createdAt?: string | null): string | null {
 }
 
 function formatTime(date: Date) {
-  if (i18n.language && i18n.language !== 'en') return date.toLocaleTimeString(appLocale(), { hour: 'numeric', minute: '2-digit' });
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? "PM" : "AM";
-  const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
-  const formattedMinutes = minutes < 10 ? "0" + minutes : minutes;
-  return `${formattedHours}:${formattedMinutes}${ampm}`;
+  return formatClockTime(date);
 }
 
 export function formatNotificationDate(isoDateString: Date | string) {
@@ -139,12 +134,38 @@ export function formatRelativeFromNow(input?: string | number | Date | null): st
   return years === 1 ? '1 year ago' : `${years} years ago`;
 }
 
-/** A message clock in the viewer's local time, including midnight as 00:00. */
+/**
+ * Whether the reader's clock is 24-hour. The phone's own setting wins (Turkey,
+ * most of Europe: 14:30), then the app language's usual format, then 24-hour.
+ */
+export function uses24HourClock(): boolean {
+  try {
+    // Loaded on demand so plain test runs without the native module still work.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const Localization = require('expo-localization') as typeof import('expo-localization');
+    const setting = Localization.getCalendars?.()?.[0]?.uses24hourClock;
+    if (typeof setting === 'boolean') return setting;
+  } catch {
+    // fall through to the language's own format
+  }
+  return !uses12Hour(appLocale());
+}
+
+/** A clock time in the reader's format: `14:30` or `2:30 PM` (with their own AM/PM words). */
+export function formatClockTime(date: Date): string {
+  const h = date.getHours();
+  const m = pad(date.getMinutes());
+  if (uses24HourClock()) return `${pad(h)}:${m}`;
+  const [am, pm] = periodLabels(appLocale());
+  return `${h % 12 || 12}:${m} ${h >= 12 ? pm : am}`;
+}
+
+/** A message clock in the viewer's local time and clock format (midnight is 00:00 on a 24-hour clock). */
 export function formatMessageTime(input?: string | Date | null): string {
   if (!input) return '';
   const date = input instanceof Date ? input : new Date(input);
   if (!Number.isFinite(date.getTime())) return '';
-  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return formatClockTime(date);
 }
 
 /**

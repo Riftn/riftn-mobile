@@ -40,7 +40,7 @@ import MentionSuggestions from "../common/MentionSuggestions";
 import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
-import { toastError, toastSuccess } from "../../libs/toast";
+import { toastError, toastInfo, toastSuccess } from "../../libs/toast";
 import { formatCount } from "../../libs/format-count";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getCloseFriends, getStoryShelf, setCloseFriends as saveCloseFriends, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
@@ -306,6 +306,8 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [choosingPlayback, setChoosingPlayback] = useState(false);
   const playbackLabel = t("liveStudio.fields.duration", { defaultValue: "Seconds on screen" });
   const [audience, setAudience] = useState<StoryAudience>("everyone");
+  // Replies are on for every new moment; the top-right switch turns them off for this one.
+  const [allowReplies, setAllowReplies] = useState(true);
   const [lifetime, setLifetime] = useState<StoryLifetime>(24);
   const [choosingLifetime, setChoosingLifetime] = useState(false);
   const lifetimeLabel = t("stories.lifetime", { defaultValue: "Story duration" });
@@ -453,6 +455,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           preview: picked.kind === "photo" ? uri : "",
           fields: {
             audience,
+            allowReplies,
             audienceAddresses: restrictPeople ? audiencePeople.map(user => user.address) : undefined,
             expiresInHours: customLifetime ? lifetime : undefined,
             muted: picked.kind === "video" ? muted : false,
@@ -528,6 +531,19 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
           </View>
           <View style={styles.tools}>
+            <TouchableOpacity className="dark-surface"
+              onPress={() => {
+                const next = !allowReplies;
+                setAllowReplies(next);
+                toastInfo(next ? t("stories.repliesOn", { defaultValue: "Replies are on" }) : t("stories.repliesOff", { defaultValue: "Replies are off" }));
+              }}
+              style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="switch" accessibilityState={{ checked: allowReplies }}
+              accessibilityLabel={t("stories.replies", { defaultValue: "Replies" })}>
+              <View>
+                <Icon name="MessageCircle" size={20} color="#fff" />
+                {allowReplies ? null : <View pointerEvents="none" style={styles.repliesOffSlash} />}
+              </View>
+            </TouchableOpacity>
             {maxSeconds > 1 && (!isPhoto || customPhotoDuration) && (
               <TouchableOpacity className="dark-surface" onPress={() => setChoosingPlayback(true)}
                 style={[styles.iconBtn, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={playbackLabel}>
@@ -1030,6 +1046,7 @@ const styles = StyleSheet.create({
   hiddenPillText: { color: "#fff", fontSize: 13, fontWeight: "600" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
+  repliesOffSlash: { position: "absolute", left: -2, top: 9, width: 24, height: 2, borderRadius: 1, backgroundColor: "#fff", transform: [{ rotate: "45deg" }] },
   bottomBar: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingTop: 12 },
   chip: {
     height: 40,
