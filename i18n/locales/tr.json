@@ -51,7 +51,7 @@
     "humor": "Mizah",
     "life": "Hayat"
   },
-  "stories": {
+  "stories": {"ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"}, 
     "comments": "Yorumlar",
     "commentFailed": "Yorumun gönderilemedi. Tekrar dene.",
     "noCommentsYet": "Henüz yorum yok. Herkesin görebileceği bir şey yaz.",
@@ -9229,7 +9229,9 @@
       "language": {
         "title": "Dilini seç",
         "subtitle": "Telefonunun kullandığı dili seçtik. Değiştirmek için başka birine dokun.",
-        "fromPhone": "Telefonunun dili"
+        "fromPhone": "Telefonunun dili",
+        "fromCountry": "Bulunduğun ülkenin dili",
+        "subtitleCountry": "Bulunduğun ülkenin dilini seçtik. Değiştirmek için başka birine dokun."
       },
       "theme": {
         "title": "Görünümünü seç",

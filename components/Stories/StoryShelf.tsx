@@ -1,6 +1,6 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { AccessibilityInfo, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -23,6 +23,7 @@ import { avatarOf, coverOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
+import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 
 const TILE_W = 86;
 const TILE_H = 118;
@@ -124,6 +125,11 @@ function StoryShelf() {
   // While the first load is still out the row keeps its seat with loading
   // tiles, signed in or not, so the feed under it never jumps down.
   if ((!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0) return null;
+  // Signed in and nobody has a Moment up (yours included): the ask bar takes
+  // the row's place instead of a lone "Your day" tile.
+  if (storiesEnabled && me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0) {
+    return <StoryCreateBar />;
+  }
 
   const shelfScroll = (
     <ScrollView
@@ -133,7 +139,8 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {storiesEnabled && me ? (
+      {storiesEnabled && me ? <StoryCreateTile width={TILE_W} height={TILE_H} /> : null}
+      {storiesEnabled && me && (pending || ownWatchable) ? (
         <MeTile
           pending={pending as PendingMoment | null}
           avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
@@ -245,15 +252,6 @@ function MeTile({
       avatar={failed ? null : <Avatar uri={avatar} size={FACE} radius={FACE_R} name={name} />}
       label={failed ? caption : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
-      action={failed ? null : (
-        // The light key is drawn by an inner view, so the control pass leaves it white.
-        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plusHit}
-          accessibilityRole="button" accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
-          <View style={styles.plus}>
-            <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
-          </View>
-        </TouchableOpacity>
-      )}
     >
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
@@ -272,6 +270,27 @@ function MeTile({
   );
 }
 
+/** Live: a glass chip with sound bars moving (no red block), as on web. */
+function LiveBars({ label }: { label: string }) {
+  const bars = useRef([0.45, 0.8, 0.6].map((v) => new Animated.Value(v))).current;
+  useEffect(() => {
+    let stopped = false;
+    const loops = bars.map((bar, i) => Animated.loop(Animated.sequence([
+      Animated.timing(bar, { toValue: 1, duration: 420 + i * 90, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+      Animated.timing(bar, { toValue: 0.4, duration: 420 + i * 90, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+    ])));
+    AccessibilityInfo.isReduceMotionEnabled().then((reduce) => { if (!reduce && !stopped) loops.forEach((l) => l.start()); }).catch(() => {});
+    return () => { stopped = true; loops.forEach((l) => l.stop()); };
+  }, [bars]);
+  return (
+    <View pointerEvents="none" style={[styles.cornerBadge, styles.liveGlass]} accessible accessibilityLabel={label}>
+      {bars.map((bar, i) => (
+        <Animated.View key={i} style={[styles.liveBar, { transform: [{ scaleY: bar }] }]} />
+      ))}
+    </View>
+  );
+}
+
 function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   const { t } = useTranslation();
   const liveLabel = t("stages.live");
@@ -282,9 +301,7 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
       label={`${item.title}, ${liveLabel}`}
       onPress={onOpen}
       badge={
-        <View pointerEvents="none" style={[styles.cornerBadge, styles.liveBadge]}>
-          <Text style={[styles.badgeText, styles.liveText]} numberOfLines={1}>{liveLabel}</Text>
-        </View>
+        <LiveBars label={liveLabel} />
       }
     >
       <TileIdentity
@@ -410,6 +427,8 @@ const styles = StyleSheet.create({
   glassSheen: { position: "absolute", top: 1, left: 6, right: 6, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
   glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
   liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
+  liveGlass: { flexDirection: "row", gap: 2, paddingHorizontal: 7, backgroundColor: "rgba(0,0,0,0.3)", borderColor: "rgba(255,255,255,0.5)" },
+  liveBar: { width: 2.5, height: 12, borderRadius: 2, backgroundColor: "#fff" },
   badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
   liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
   plusHit: { position: "absolute", top: 7, right: 7 },

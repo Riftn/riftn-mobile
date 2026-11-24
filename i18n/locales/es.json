@@ -51,7 +51,7 @@
     "humor": "Humor",
     "life": "Vida"
   },
-  "stories": {
+  "stories": {"ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"}, 
     "comments": "Comentarios",
     "commentFailed": "Tu comentario no se publicó. Inténtalo de nuevo.",
     "noCommentsYet": "Aún no hay comentarios. Di algo que todos puedan ver.",
@@ -9235,7 +9235,9 @@
       "language": {
         "title": "Elige tu idioma",
         "subtitle": "Elegimos el que usa tu teléfono. Toca otro para cambiarlo.",
-        "fromPhone": "El idioma de tu teléfono"
+        "fromPhone": "El idioma de tu teléfono",
+        "fromCountry": "El idioma de tu país",
+        "subtitleCountry": "Elegimos el idioma principal de tu país. Toca otro para cambiarlo."
       },
       "theme": {
         "title": "Elige tu estilo",

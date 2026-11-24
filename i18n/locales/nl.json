@@ -51,7 +51,7 @@
     "humor": "Humor",
     "life": "Leven"
   },
-  "stories": {
+  "stories": {"ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"}, 
     "comments": "Reacties",
     "commentFailed": "Je reactie is niet geplaatst. Probeer het opnieuw.",
     "noCommentsYet": "Nog geen reacties. Zeg iets dat iedereen kan zien.",
@@ -9373,7 +9373,9 @@
       "language": {
         "title": "Kies je taal",
         "subtitle": "We hebben de taal van je telefoon gekozen. Tik op een andere om te wisselen.",
-        "fromPhone": "De taal van je telefoon"
+        "fromPhone": "De taal van je telefoon",
+        "fromCountry": "De taal van je land",
+        "subtitleCountry": "We hebben de hoofdtaal van je land gekozen. Tik op een andere om te wisselen."
       },
       "theme": {
         "title": "Kies je stijl",

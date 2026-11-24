@@ -16,7 +16,7 @@ import { formatCallDuration } from "../libs/callDuration";
 import { visualActivity } from "../libs/visualActivity";
 import { revokeAudioFocus } from "../libs/audioFocus";
 import { revokeAllFeedVideo } from "../libs/feedVideoFocus";
-import { holdGroupCallPresence, updateGroupCallPresence, readGroupCallRoster, groupCallLoad, groupCallChannel, groupCallUid } from "../libs/groupCall";
+import { holdGroupCallPresence, updateGroupCallPresence, readGroupCallRoster, groupCallLoad, groupCallChannel, groupCallUid, GROUP_CALL_MAX_RING } from "../libs/groupCall";
 import { stopCallRingtone } from "../libs/call-ringtone";
 import { toastError, toastInfo, toastWarning } from "../libs/toast";
 import i18n from "i18next";
@@ -54,10 +54,12 @@ export interface UseCallReturn {
   /** Every camera slot in this group call is taken by someone else: yours stays off until one frees up. */
   groupCamerasFull: boolean;
   /**
-   * Open a group's call room, or step into the one already going. Nobody is
-   * rung: the rest see the Join pill. Refused with a toast when the room is
-   * full; a video call starts with the camera off when the cameras are.
+   * Ring the group's members (notification + incoming screen) and open its
+   * room. Refused with a toast when the room is full; a video call starts
+   * with the camera off when the cameras are.
    */
+  startGroupCall: (group: GroupCallTarget, members: string[], callType?: "audio" | "video") => Promise<void>;
+  /** Step into a group's room without ringing anyone (Public Chat, or a call already going). Same limits. */
   joinGroupCall: (group: GroupCallTarget, callType?: "audio" | "video") => Promise<void>;
   /** The caller's side while the other phone is still ringing. */
   isRinging: boolean;
@@ -460,7 +462,7 @@ export function useCall(): UseCallReturn {
     }
   }, [clearTimeouts, publishCall, disposeMedia, endCall, userAddress, syncGroup, applyBackground]);
 
-  /** Nobody answered the ring (older builds still ring): close after the ring window. */
+  /** Nobody answered the ring: a group room you are alone in closes after the ring window. */
   const armGroupTimeout = useCallback((generation: number, outcome: "no_answer" | "missed") => {
     clearTimeouts();
     callTimeoutRef.current = setTimeout(() => {
@@ -583,7 +585,7 @@ export function useCall(): UseCallReturn {
     }
   }, [userAddress, callClient, publishCall, markEnded, joinChannel, endCall, finishCall, dismissCallSummary]);
 
-  const joinGroupCall = useCallback(async (group: GroupCallTarget, callType: "audio" | "video" = "audio") => {
+  const openGroupRoom = useCallback(async (group: GroupCallTarget, callType: "audio" | "video", members: string[] | null) => {
     if (!userAddress || currentCallRef.current || joiningGroupRef.current) return;
     // Read the room first, so a full one says so before any call screen opens.
     joiningGroupRef.current = true;
@@ -617,14 +619,44 @@ export function useCall(): UseCallReturn {
     visualActivity.setCall(true, true);
     revokeAllFeedVideo(); revokeAudioFocus();
     try {
-      // Nobody is rung, so the room stays open while you wait for people to join.
+      let rang = false;
+      if (members) {
+        const others = [...new Set(members.map(member => member.toLowerCase()))]
+          .filter(member => member !== userAddress).slice(0, GROUP_CALL_MAX_RING);
+        if (others.length) {
+          const { data, error } = await callClient.from("call_sessions").insert(others.map(recipient => ({
+            caller_address: userAddress, recipient_address: recipient, call_type: callType, status: "ringing",
+            group_id: group.id, group_name: group.name,
+          }))).select("id");
+          if (error) throw error;
+          const ids = (data ?? []).map((row: { id: string }) => row.id);
+          if (generationRef.current !== generation) {
+            await callClient.from("call_sessions").update({ status: "ended" }).in("id", ids);
+            return;
+          }
+          groupRingIdsRef.current = ids;
+          rang = true;
+          void ensureWalletSession(userAddress).then(session => {
+            if (!session) throw new Error("Signed call session unavailable");
+            return Promise.allSettled(ids.map(sessionId =>
+              apiClient.post("/push/call-ring", { sessionId, walletSession: session.token }, { isAuthRequired: true })));
+          }).catch(error => log.warn("Group ring push failed", error));
+        }
+      }
       const joined = await joinChannel(call, generation);
       if (generationRef.current !== generation) return;
-      if (!joined) await endCall();
+      if (!joined) { await endCall(); return; }
+      // A rung group stops ringing after the ring window. An open room (Public
+      // Chat, or joining a call already going) stays up while you wait.
+      if (rang && startedAtRef.current == null) armGroupTimeout(generation, "no_answer");
     } catch (error) {
       if (generationRef.current === generation) { log.error("Group call start failed", error); await endCall(); }
     }
-  }, [userAddress, publishCall, joinChannel, endCall, dismissCallSummary]);
+  }, [userAddress, callClient, publishCall, joinChannel, endCall, dismissCallSummary, armGroupTimeout]);
+  const startGroupCall = useCallback((group: GroupCallTarget, members: string[], callType: "audio" | "video" = "audio") =>
+    openGroupRoom(group, callType, members), [openGroupRoom]);
+  const joinGroupCall = useCallback((group: GroupCallTarget, callType: "audio" | "video" = "audio") =>
+    openGroupRoom(group, callType, null), [openGroupRoom]);
 
   const acceptCall = useCallback(async () => {
     const call = currentCallRef.current;
@@ -781,14 +813,14 @@ export function useCall(): UseCallReturn {
   }, []);
   return useMemo(() => ({
     captionRoom, captionSpeakers, tapMicrophone, setCallVolume,
-    isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, joinGroupCall,
+    isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas, remoteVideoEpoch,
     startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
     callBackground, callBackgroundSupported, setCallBackground,
-  }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, joinGroupCall,
+  }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, remoteVideoEpoch, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
