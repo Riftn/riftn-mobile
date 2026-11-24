@@ -25,7 +25,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
-import { ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
 import DeleteMessageSheet, { type DeleteRequest, type DeleteScope } from "../components/DM/DeleteMessageSheet";
 import { usePublicChatLastLine, useRoomChatSummaries } from "../hooks/useRoomChatSummaries";
@@ -85,6 +85,7 @@ const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollVi
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
 const TOOL_INK = "#D4D4D8";
 const TOOL = { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" } as const;
+const TOOL_FILL = { width: 36, height: 36, borderRadius: 18, backgroundColor: "rgba(255,255,255,0.08)" } as const;
 
 const DirectMessagesInner: React.FC = () => {
   usePerfProbe("DirectMessages");
@@ -119,8 +120,7 @@ const DirectMessagesInner: React.FC = () => {
 
   const [query, setQuery] = useSurfaceDraft("screens/DirectMessagesScreen.tsx:query", "");
   const [menuVisible, setMenuVisible] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(() => !!query.trim());
-  const closeSearch = useCallback(() => { setQuery(""); setSearchOpen(false); }, [setQuery]);
+  const clearSearch = useCallback(() => { setQuery(""); searchInputRef.current?.blur(); }, [setQuery]);
   const [newChatKind, setNewChatKind] = useState<"group" | "channel" | null>(null);
   const [notesVisible, setNotesVisible] = useState(false);
   const [notesView, setNotesView] = useState<NoteEntry | null>(null);
@@ -825,7 +825,7 @@ const DirectMessagesInner: React.FC = () => {
       <View style={SEPARATOR} />
       {inRequests ? (
         <>
-          <Text className="text-theme-neutrals-400 text-[13px] px-1" style={{ lineHeight: 18 }}>
+          <Text className="text-theme-neutrals-400 text-[13px] px-4" style={{ lineHeight: 18 }}>
             {t("dmRequests.hint", { defaultValue: "Messages from people you don't follow. Accept one, reply or follow them and the chat moves to your inbox." })}
           </Text>
           <View style={SEPARATOR} />
@@ -845,19 +845,19 @@ const DirectMessagesInner: React.FC = () => {
       <TouchableOpacity
         onPress={handleOpenLiveChat}
         activeOpacity={0.7}
-        className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
-        style={{ minHeight: 72 }}
+        className="flex-row items-center px-4 py-2.5 gap-3"
+        style={{ minHeight: CHAT_ROW_MIN_HEIGHT }}
       >
         {/* Logo styled like the chat avatars. The mark must be a see-through
             PNG: Android fades each child on its own while the row is pressed,
             so an opaque black backdrop showed as a dark square on the tile. */}
         <View
-          style={{ width: 44, height: 44, borderRadius: 12 }}
+          style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: 14 }}
           className="dark-surface bg-black items-center justify-center overflow-hidden"
         >
           <Image
             source={require("../assets/web-icons/dehub-island-logo.png")}
-            style={{ width: 30, height: 30 }}
+            style={{ width: 34, height: 34 }}
             contentFit="contain"
           />
         </View>
@@ -865,11 +865,11 @@ const DirectMessagesInner: React.FC = () => {
         {/* Name + preview (matches ConversationItem layout) */}
         <View className="flex-1 justify-center">
           <View className="flex-row items-center gap-1.5">
-            <Text className="text-theme-neutrals-100 text-[15px] font-semibold flex-shrink" numberOfLines={1}>
+            <Text className="text-theme-neutrals-100 text-[16px] font-semibold flex-shrink" numberOfLines={1}>
               {t("publicChat.title")}
             </Text>
             {publicLastLine && (
-              <Text testID="room-last-at" className="text-[12.5px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>
+              <Text testID="room-last-at" className="text-[13px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>
                 {formatShortAgo(publicLastLine.created_at)}
               </Text>
             )}
@@ -883,7 +883,7 @@ const DirectMessagesInner: React.FC = () => {
                 {reactionAlertLine(t as any, publicReactions, { named: true })}
               </Text>
             ) : publicLastLine && roomPreviewLine(publicLastLine, myAddress, t as any) ? (
-            <Text testID="room-preview" className={`text-white text-[14px] flex-1 ${publicUnread > 0 ? "font-bold" : "font-normal"}`} numberOfLines={1}>
+            <Text testID="room-preview" className={`text-[14px] flex-1 ${publicUnread > 0 ? "text-white font-bold" : "text-theme-neutrals-400 font-normal"}`} style={{ lineHeight: 19 }} numberOfLines={2}>
               {roomPreviewLine(publicLastLine, myAddress, t as any)}
             </Text>
             ) : (
@@ -922,17 +922,17 @@ const DirectMessagesInner: React.FC = () => {
             activeOpacity={0.7}
             accessibilityRole="button"
             testID="requests-open"
-            className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
-            style={{ minHeight: 72 }}
+            className="flex-row items-center px-4 py-2.5 gap-3"
+            style={{ minHeight: CHAT_ROW_MIN_HEIGHT }}
           >
             <View
-              style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: "rgba(127,127,127,0.16)" }}
+              style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: 14, backgroundColor: "rgba(127,127,127,0.16)" }}
               className="items-center justify-center"
             >
               <Icon name="Mail" size={22} color="#A1A1AA" />
             </View>
             <View className="flex-1 justify-center">
-              <Text className="text-theme-neutrals-100 text-[15px] font-semibold" numberOfLines={1}>
+              <Text className="text-theme-neutrals-100 text-[16px] font-semibold" numberOfLines={1}>
                 {t("dmRequests.title", { defaultValue: "Requests" })}
               </Text>
               <Text className="text-theme-neutrals-400 text-[14px] mt-0.5" numberOfLines={1}>
@@ -961,25 +961,39 @@ const DirectMessagesInner: React.FC = () => {
       style={{ flex: 1 }}
     >
       <View className="flex-1 bg-theme-neutrals-900">
-        {/* No pill: one row with the filter chips scrolling sideways and the
-            menu, new chat and search pinned at its right end. Search swaps
-            the row for a field. */}
-        {searchOpen ? (
-          <View testID="dm-search-row" style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingLeft: 12, paddingRight: 8, paddingTop: 8, paddingBottom: 6 }}>
-            <View className="flex-1 flex-row items-center" style={[{ height: 40, borderRadius: 12 }, searchField.surface]}>
-              <View className="pl-3 pr-2"><Icon name="Search" size={16} color="#71717A" /></View>
-              <DeferredTextInput ref={searchInputRef} value={query} onChangeText={setQuery} autoFocus
-                placeholder={t("messages.searchConversations")} placeholderTextColor="#71717A"
-                className="flex-1 text-white text-sm" returnKeyType="search" style={[FIELD_TEXT, SEARCH_INPUT_CLEAR]} onFocus={searchField.onFocus} onBlur={searchField.onBlur} />
+        {/* The clean list (2026-11-24): a big title with the menu and new chat
+            next to it, the search field always there under it, then the tabs
+            on their own row with the underline. */}
+        <View testID="dm-top-row" style={{ paddingTop: 4 }}>
+          <View testID="dm-title-row" style={{ flexDirection: "row", alignItems: "center", height: 48, paddingLeft: 16, paddingRight: 12, gap: 6 }}>
+            <Text className="flex-1 text-theme-neutrals-100" style={{ fontSize: 30, fontWeight: "800", letterSpacing: -0.6 }} numberOfLines={1}>
+              {t("messages.title")}
+            </Text>
+            <View testID="dm-top-tools" style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+              <TouchableOpacity testID="dm-tool-menu" onPress={openMenu} style={[TOOL, TOOL_FILL, picking && { backgroundColor: "rgba(255,255,255,0.16)" }]} hitSlop={4}
+                accessibilityRole="button" accessibilityLabel={t("settings.title")}>
+                <Icon name="SlidersHorizontal" size={18} color={TOOL_INK} />
+              </TouchableOpacity>
+              <TouchableOpacity testID="dm-tool-new" onPress={openNewDM} style={[TOOL, TOOL_FILL]} hitSlop={4}
+                accessibilityRole="button" accessibilityLabel={t("dm.newDm")}>
+                <Icon name="Plus" size={20} color={TOOL_INK} />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity testID="dm-search-close" onPress={closeSearch} style={TOOL} hitSlop={4}
-              accessibilityRole="button" accessibilityLabel={t("common.close")}>
-              <Icon name="X" size={20} color={TOOL_INK} />
-            </TouchableOpacity>
           </View>
-        ) : (
-          <View testID="dm-top-row" style={{ flexDirection: "row", alignItems: "center", paddingTop: 8, paddingBottom: 6 }}>
-            {tabsOn ? (
+          <View testID="dm-search-row" className="flex-row items-center" style={[{ height: 40, borderRadius: 12, marginHorizontal: 16, marginTop: 6 }, searchField.surface]}>
+            <View className="pl-3 pr-2"><Icon name="Search" size={16} color="#71717A" /></View>
+            <DeferredTextInput ref={searchInputRef} value={query} onChangeText={setQuery}
+              placeholder={t("messages.searchConversations")} placeholderTextColor="#71717A"
+              className="flex-1 text-white text-sm" returnKeyType="search" style={[FIELD_TEXT, SEARCH_INPUT_CLEAR]} onFocus={searchField.onFocus} onBlur={searchField.onBlur} />
+            {!!query && (
+              <TouchableOpacity testID="dm-search-close" onPress={clearSearch} style={{ width: 36, height: 36, alignItems: "center", justifyContent: "center" }} hitSlop={4}
+                accessibilityRole="button" accessibilityLabel={t("common.close")}>
+                <Icon name="X" size={16} color="#A1A1AA" />
+              </TouchableOpacity>
+            )}
+          </View>
+          {tabsOn ? (
+            <View testID="dm-tabs-row" style={{ flexDirection: "row", marginTop: 8, paddingBottom: 2 }}>
               <ChatTabBar
                 bare
                 tabs={[...tabRowTabs, archiveTab]}
@@ -990,25 +1004,9 @@ const DirectMessagesInner: React.FC = () => {
                 onManage={() => setTabManager(true)}
                 onHold={(tab) => { if (tab.id !== "archived") setTabActions({ kind: "tab", id: tab.id }); }}
               />
-            ) : (
-              <Text className="flex-1 text-theme-neutrals-100 font-semibold" style={{ fontSize: 17, paddingLeft: 16 }} numberOfLines={1}>{t("messages.title")}</Text>
-            )}
-            <View testID="dm-top-tools" style={{ flexDirection: "row", alignItems: "center", gap: 2, paddingLeft: 4, paddingRight: 8 }}>
-              <TouchableOpacity testID="dm-tool-menu" onPress={openMenu} style={[TOOL, picking && { backgroundColor: "rgba(255,255,255,0.12)" }]} hitSlop={4}
-                accessibilityRole="button" accessibilityLabel={t("settings.title")}>
-                <Icon name="SlidersHorizontal" size={20} color={TOOL_INK} />
-              </TouchableOpacity>
-              <TouchableOpacity testID="dm-tool-new" onPress={openNewDM} style={TOOL} hitSlop={4}
-                accessibilityRole="button" accessibilityLabel={t("dm.newDm")}>
-                <Icon name="Plus" size={21} color={TOOL_INK} />
-              </TouchableOpacity>
-              <TouchableOpacity testID="dm-tool-search" onPress={() => setSearchOpen(true)} style={TOOL} hitSlop={4}
-                accessibilityRole="button" accessibilityLabel={t("messages.searchConversations")}>
-                <Icon name="Search" size={20} color={TOOL_INK} />
-              </TouchableOpacity>
             </View>
-          </View>
-        )}
+          ) : <View style={{ height: 8 }} />}
+        </View>
 
         {/* A pull at the top of the list lowers it and refreshes (PullRefreshArea):
             the hidden native spinner showed nothing and needed a very long pull. */}

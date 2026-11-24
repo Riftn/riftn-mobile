@@ -437,6 +437,8 @@ function cloudText(note: Note | null): string {
   return note.gifUrl ? "GIF" : "";
 }
 
+// The "What's up?" hint is dark grey under 70 so the dark-theme readability
+// pass (libs/jsx/readability.js) leaves it alone on the white cloud.
 const CLOUD = { backgroundColor: "#fff", shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
 
 function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor; note: Note | null; own?: boolean; label: string; onPress: () => void }) {
@@ -452,7 +454,7 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
         {words ? (
           <>
             <View style={[CLOUD, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
-              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? "#71717a" : "#0b0b0c" }}>{words}</Text>
+              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? (isLight ? "#71717a" : "#3f3f46") : "#0b0b0c", opacity: own && !note && !isLight ? 0.75 : 1 }}>{words}</Text>
             </View>
             <View style={{ width: "100%", paddingLeft: 26 }}>
               <View style={[CLOUD, hair, { width: 8, height: 8, borderRadius: 4, marginTop: 2 }]} />
@@ -485,7 +487,7 @@ export function StatusRow({ me, onOpen }: { me: StoryAuthor | null; onOpen: (ent
   const self = mine?.author ?? me;
   if (!self) return null;
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 2, paddingBottom: 4 }} keyboardShouldPersistTaps="handled">
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 14, paddingBottom: 4 }} keyboardShouldPersistTaps="handled">
       <StatusTile own author={self} note={mine?.note ?? null} label={t("notes.yourStatus", { defaultValue: "Your status" })} onPress={() => onOpen(null)} />
       {notes.map((entry) => (
         <StatusTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} onPress={() => onOpen(entry)} />
@@ -559,11 +561,12 @@ export function NoteTag({ entry, onPress }: { entry: NoteEntry; onPress: () => v
 }
 
 /** The 24h ring around a chat card's face (a 44px rounded square). */
-export function NoteFaceRing({ note }: { note: Note }) {
+export function NoteFaceRing({ note, size = 44 }: { note: Note; size?: number }) {
   const left = useNoteLeft(note);
+  const ring = size + 10;
   return (
-    <View pointerEvents="none" style={{ position: "absolute", left: -5, top: -5, width: 54, height: 54 }}>
-      <NoteRing left={left} size={54} radius={15} />
+    <View pointerEvents="none" style={{ position: "absolute", left: -5, top: -5, width: ring, height: ring }}>
+      <NoteRing left={left} size={ring} radius={Math.round(size * 0.27) + 3} />
     </View>
   );
 }

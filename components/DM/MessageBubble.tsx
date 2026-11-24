@@ -3,6 +3,7 @@ import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
 import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
+import { useAppTheme } from "../../context/ThemeContext";
 import { formatMessageTime } from "../../libs/date.util";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -339,6 +340,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const { t: _copy } = _useCopy();
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
+  const { accent: themeAccent, skin: themeSkin, isLight: lightTheme, isMinimal: minimalTheme } = useAppTheme();
   // Reader's chat text size (Settings → Appearance), on top of the phone's own font size.
   const textScale = useChatTextScale();
   const chatTextStyle = useMemo(() => ({ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }), [textScale]);
@@ -760,13 +762,17 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // Tail corner: the last line of a run keeps the small 2px tail corner, lines
   // inside the run get 6px on that side, and every line after the first gets
   // 6px on the top of that side too.
+  // The clean list's bubbles (2026-11-24): solid and round (20px), no
+  // outlines. Yours are filled (the theme colour, deepened so white text
+  // reads; black on System Light; a lighter grey on System), theirs a soft
+  // grey. Runs hug at 6px and the last line keeps a small 4px tail corner.
   const tailCorner = isMine
-    ? (groupLast ? "rounded-br-sm" : "rounded-br-md")
-    : (groupLast ? "rounded-bl-sm" : "rounded-bl-md");
+    ? (groupLast ? "rounded-br-[4px]" : "rounded-br-md")
+    : (groupLast ? "rounded-bl-[4px]" : "rounded-bl-md");
   const topCorner = groupFirst ? "" : isMine ? " rounded-tr-md" : " rounded-tl-md";
   const bubbleBg = isMine
-    ? `bg-white/[0.11] rounded-xl ${tailCorner}${topCorner}`
-    : `border border-white/[0.16] rounded-xl ${tailCorner}${topCorner}`;
+    ? `${lightTheme ? "dark-surface " : ""}rounded-[20px] ${tailCorner}${topCorner}`
+    : `bg-white/[0.1] rounded-[20px] ${tailCorner}${topCorner}`;
 
   // A tap-to-open timed photo is a text tile, not a picture: its time and ticks go
   // on their own line under it, never on top of the countdown words.
@@ -779,8 +785,11 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const activeBubbleBg = isMediaOnly
     ? (isPaidMsg
         ? bubbleBg + " overflow-hidden"  // full bubble bg for payment badge area
-        : `rounded-xl ${tailCorner}${topCorner} overflow-hidden`)
+        : `rounded-[20px] ${tailCorner}${topCorner} overflow-hidden`)
     : bubbleBg;
+  const mineFill = isMine && (!isMediaOnly || isPaidMsg)
+    ? { backgroundColor: lightTheme ? "#0B0B0C" : minimalTheme || !themeSkin ? "#46464D" : `rgb(${themeAccent.map((c) => Math.round(c * 0.72)).join(",")})` }
+    : undefined;
 
   // These two returns sit below every hook above deliberately.
   //
@@ -899,6 +908,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
           <View
             collapsable={false}
             className={`max-w-[75%] ${activeBubbleBg} overflow-hidden`}
+            style={mineFill}
           >
             {/* Forwarded tag */}
             {message.isForwarded && (
