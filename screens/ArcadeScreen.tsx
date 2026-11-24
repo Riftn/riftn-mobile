@@ -107,6 +107,7 @@ const GameCard = ({
 const FRIEND_GAMES = [
   { screen: ScreenNames.Okey, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
   { screen: ScreenNames.SillyCoin, icon: "Coins", title: "games.sillycoin.title", body: "games.sillycoin.cardBlurb", tint: "hsla(35, 70%, 22%, 1)" },
+  { screen: ScreenNames.Chestard, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
   { screen: ScreenNames.Gratitude, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
 ] as const;
 

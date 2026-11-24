@@ -326,6 +326,7 @@ export const DeepLinkPaths = {
   ARCADE_OKEY: 'arcade/okey',
   ARCADE_SILLYCOIN: 'arcade/sillycoin',
   ARCADE_GRATITUDE: 'arcade/gratitude',
+  ARCADE_CHESTARD: 'arcade/chestard',
   // Mini apps. The dev runner before the player, which would otherwise read
   // "dev" as a slug and drop the /run.
   MINI_APP_DEV: 'apps/dev/run',
@@ -551,6 +552,8 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
           },
 
           [ScreenNames.SillyCoin]: DeepLinkPaths.ARCADE_SILLYCOIN,
+
+          [ScreenNames.Chestard]: DeepLinkPaths.ARCADE_CHESTARD,
 
           [ScreenNames.Gratitude]: {
             path: DeepLinkPaths.ARCADE_GRATITUDE,
