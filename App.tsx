@@ -61,6 +61,7 @@ import TwoFactorPromptHost from "./components/auth/TwoFactorPromptHost";
 import { SignInArrival } from "./components/auth/SignInHandoff";
 import BadgeShowcaseHost from "./components/Badge/BadgeShowcaseHost";
 import { WebSocketProvider } from "./context/WebSocketContext";
+import { LiveListRealtime } from "./hooks/useLiveListRealtime";
 import { DMProvider } from "./context/DMContext";
 import { OnboardingChecklistProvider } from "./context/OnboardingChecklistContext";
 import StoriesHost from "./components/Stories/StoriesHost";
@@ -266,6 +267,8 @@ export default function App() {
             <AuthProvider>
               <FeedSuperpowersProvider>
               <WebSocketProvider>
+                {/* Someone going live (or ending) shows on every live surface at once. */}
+                <LiveListRealtime />
                 <DMProvider>
                   {/* Inside AuthProvider because the checklist is per wallet,
                       and above the navigator so the home card and the settings

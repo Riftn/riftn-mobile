@@ -1,6 +1,11 @@
 export enum LivestreamEvents {
   StreamData = "streamData",
   StartStream = "stream.start",
+  /**
+   * Sent to every socket when someone goes live, pauses, comes back or ends.
+   * Carries no list; re-read /live. See useLiveListRealtime.
+   */
+  LiveListChanged = "live.list.changed",
   JoinRoom = "stream.join.room",
   EndStream = "stream.end",
   JoinStream = "stream.join",
