@@ -16661,6 +16661,7 @@
     "tipJar": "Geschenkpot"
   },
   "liveStudio": {
+    "groups": {"stream": "Live gaan", "streamHint": "Schakelaars voor tijdens de stream, waar je stream naartoe gaat en de link voor OBS.", "overlay": "Overlay", "viewers": "Kijkers", "viewersHint": "Polls, timers, punten en beloningen die je kijkers bij de stream betrekken.", "chat": "Chat", "chatHint": "Je chatbot en de regels voor de chat onder je streams.", "replays": "Na de stream", "replaysTab": "Na", "replaysHint": "Hoe je laatste stream ging en clips die het delen waard zijn."},
     "bot": {
       "title": "Chatbot",
       "intro": "Een co-host voor de chat van je stream. Hij begroet nieuwe mensen, beantwoordt vragen over jou en de stream, vertelt laatkomers wat ze gemist hebben en maakt een stille chat weer levendig. Hij praat alleen in je eigen streams, terwijl je live bent.",

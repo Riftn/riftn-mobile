@@ -8610,6 +8610,7 @@
     "title": "Moderate"
   },
   "liveStudio": {
+    "groups": {"stream": "Go live", "streamHint": "Switches for mid-stream, where your stream is sent, and the link for OBS.", "overlay": "Overlay", "viewers": "Viewers", "viewersHint": "Polls, timers, points and rewards that bring the people watching into the stream.", "chat": "Chat", "chatHint": "Your chat bot and the rules for the chat under your streams.", "replays": "After the stream", "replaysTab": "After", "replaysHint": "How your last stream went, and clips worth sharing."},
     "destinations": {
       "title": "Multistream destinations",
       "intro": "Go live on Riftn once and we push your stream to every platform switched on here, free. It starts within a few seconds of you going live.",

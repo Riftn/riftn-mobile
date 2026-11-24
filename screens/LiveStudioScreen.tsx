@@ -7,8 +7,8 @@
  * into the creator's private control room and play on the preview here; they
  * never reach a stream's viewers.
  */
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Alert, ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Alert, Animated, Easing, ScrollView, Switch, Text, TouchableOpacity, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute, type RouteProp } from "@react-navigation/native";
 import type { AppStackParamList } from "../navigation/types";
@@ -17,6 +17,7 @@ import { useUser } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ScreenHeader from "../components/ScreenHeader";
+import { PageTabs } from "../components/page/PageKit";
 import Icon from "../components/ui/Icon";
 import { DeHubLoader } from "../components/DeHubLoader";
 import { SettingsOptionModal } from "../components/Settings/SettingsPrimitives";
@@ -59,6 +60,23 @@ const MY_OVERLAY_KEY = ["my-overlay"] as const;
 const TESTS: OverlayTestKind[] = ["tip", "follow", "subscribe", "share", "join"];
 const PREVIEW_STATS = { totalTips: 0, followers: 0 };
 
+// One column in five groups; the tabs in the header jump to a group and follow
+// the scroll. The same groups as the web Live Studio.
+const GROUPS = ["stream", "overlay", "viewers", "chat", "replays"] as const;
+type GroupId = (typeof GROUPS)[number];
+
+function Group({ id, title, hint, onY, children }: { id: GroupId; title: string; hint: string; onY: (id: GroupId, y: number) => void; children: React.ReactNode }) {
+  return (
+    <View onLayout={(e) => onY(id, e.nativeEvent.layout.y)} style={{ gap: 12 }}>
+      <View style={{ paddingTop: 8, paddingHorizontal: 4 }}>
+        <Text className="text-white text-[20px] font-bold">{title}</Text>
+        <Text className="text-theme-neutrals-400 text-[13px] leading-[18px] mt-1">{hint}</Text>
+      </View>
+      {children}
+    </View>
+  );
+}
+
 function Section({ title, right, children }: { title: string; right?: React.ReactNode; children: React.ReactNode }) {
   return (
     <View className="rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700 p-4 gap-3">
@@ -95,6 +113,36 @@ export default function LiveStudioScreen() {
   const [portrait, setPortrait] = useState(true);
   const [adding, setAdding] = useState(false);
   const loadedVersion = useRef<number | null>(null);
+
+  const groups = justEnded ? GROUPS.filter((id) => id !== "replays") : GROUPS;
+  const scrollRef = useRef<ScrollView>(null);
+  const groupY = useRef<Partial<Record<GroupId, number>>>({});
+  const [group, setGroup] = useState<GroupId>("stream");
+  // While a tapped tab's scroll runs, the tab holds instead of walking through
+  // every group on the way.
+  const holdUntil = useRef(0);
+  const onGroupY = useCallback((id: GroupId, y: number) => {
+    groupY.current[id] = y;
+  }, []);
+  const jumpTo = (id: GroupId) => {
+    setGroup(id);
+    const y = groupY.current[id];
+    if (y == null) return;
+    holdUntil.current = Date.now() + 700;
+    scrollRef.current?.scrollTo({ y: Math.max(0, y - 8), animated: true });
+  };
+  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (Date.now() < holdUntil.current) return;
+    const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
+    let current: GroupId = groups[0];
+    for (const id of groups) {
+      const y = groupY.current[id];
+      if (y != null && y <= contentOffset.y + 48) current = id;
+    }
+    // At the very bottom the last group may be too short to reach the top.
+    if (contentOffset.y + layoutMeasurement.height >= contentSize.height - 4) current = groups[groups.length - 1];
+    setGroup((prev) => (prev === current ? prev : current));
+  };
 
   // Take the saved overlay as the draft — once, and again whenever a newer
   // version arrives while there is nothing unsaved to lose.
@@ -141,6 +189,17 @@ export default function LiveStudioScreen() {
     },
     onError: () => toastError(t("liveStudio.saveFailed")),
   });
+
+  const showSave = dirty || save.isPending;
+  const saveShift = useRef(new Animated.Value(120)).current;
+  useEffect(() => {
+    Animated.timing(saveShift, {
+      toValue: showSave ? 0 : 120,
+      duration: showSave ? 280 : 200,
+      easing: showSave ? Easing.out(Easing.cubic) : Easing.in(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+  }, [showSave, saveShift]);
 
   const rotate = useMutation({
     mutationFn: rotateOverlayToken,
@@ -243,12 +302,23 @@ export default function LiveStudioScreen() {
   }
 
   const link = `${OVERLAY_LINK_BASE}${data.token}`;
+  const groupTabs = groups.map((id) => ({ id, label: t(id === "replays" ? "liveStudio.groups.replaysTab" : `liveStudio.groups.${id}`) }));
 
   return (
     <View className="flex-1 bg-theme-neutrals-900">
-      <ScreenHeader title={t("liveStudio.title")} subtitle={t("liveStudio.subtitle")} canGoBack />
-      <ScrollView contentContainerStyle={{ padding: 16, gap: 16, paddingBottom: insets.bottom + 96 }} keyboardShouldPersistTaps="handled">
-        <Text className="text-theme-neutrals-400 text-sm">{t("liveStudio.intro")}</Text>
+      <ScreenHeader
+        title={t("liveStudio.title")}
+        subtitle={t("liveStudio.subtitle")}
+        canGoBack
+        tabs={<PageTabs<GroupId> tabs={groupTabs} value={group} onChange={jumpTo} />}
+      />
+      <ScrollView
+        ref={scrollRef}
+        onScroll={onScroll}
+        scrollEventThrottle={32}
+        contentContainerStyle={{ padding: 16, gap: 32, paddingBottom: insets.bottom + 96 }}
+        keyboardShouldPersistTaps="handled"
+      >
 
         {justEnded ? (
           <Section title={t("liveRecap.justEnded")}>
@@ -256,241 +326,249 @@ export default function LiveStudioScreen() {
           </Section>
         ) : null}
 
-        <Section title={t("liveStudio.controls.title")}>
-          <QuickControls overlay={data} queryKey={MY_OVERLAY_KEY} />
-        </Section>
+        <Group id="stream" title={t("liveStudio.groups.stream")} hint={t("liveStudio.groups.streamHint")} onY={onGroupY}>
+          <Section title={t("liveStudio.controls.title")}>
+            <QuickControls overlay={data} queryKey={MY_OVERLAY_KEY} />
+          </Section>
 
-        <Section title={t("liveStudio.destinations.title")}>
-          <DestinationsSection enabled={!!myAddress} />
-        </Section>
+          <Section title={t("liveStudio.destinations.title")}>
+            <DestinationsSection enabled={!!myAddress} />
+          </Section>
 
-        <Section
-          title={t("liveStudio.preview")}
-          right={
-            <View className="flex-row rounded-lg border border-theme-neutrals-700 p-0.5">
-              {[true, false].map((p) => (
+          <Section
+            title={t("liveStudio.obs.title")}
+            right={
+              <View className={`flex-row items-center px-2 py-0.5 rounded-full ${data.obsConnected ? "bg-emerald-500/15" : "bg-theme-neutrals-700"}`}>
+                <View className={`w-1.5 h-1.5 rounded-full mr-1.5 ${data.obsConnected ? "bg-emerald-400" : "bg-theme-neutrals-500"}`} />
+                <Text className={`text-[11px] font-medium ${data.obsConnected ? "text-emerald-300" : "text-theme-neutrals-400"}`}>
+                  {data.obsConnected ? t("liveStudio.obs.connected") : t("liveStudio.obs.notConnected")}
+                </Text>
+              </View>
+            }
+          >
+            <Text className="text-white text-sm font-medium">{t("liveStudio.obs.showIn")}</Text>
+            {(["app", "video"] as const).map((option) => (
+              <TouchableOpacity
+                key={option}
+                onPress={() => {
+                  setRenderIn(option);
+                  setDirty(true);
+                }}
+                accessibilityRole="radio"
+                accessibilityState={{ checked: renderIn === option }}
+                className={`rounded-xl border px-3 py-2.5 ${renderIn === option ? "border-white bg-theme-neutrals-700/60" : "border-theme-neutrals-700"}`}
+              >
+                <Text className="text-white text-sm font-medium">
+                  {option === "app" ? t("liveStudio.obs.inApp") : t("liveStudio.obs.inVideo")}
+                </Text>
+                <Text className="text-theme-neutrals-400 text-xs mt-0.5">
+                  {option === "app" ? t("liveStudio.obs.inAppHint") : t("liveStudio.obs.inVideoHint")}
+                </Text>
+              </TouchableOpacity>
+            ))}
+            {renderIn === "app" && data.obsConnected ? (
+              <View className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 gap-2">
+                <Text className="text-amber-200 text-xs">{t("liveStudio.obs.warnDoubles")}</Text>
                 <TouchableOpacity
-                  key={String(p)}
-                  onPress={() => setPortrait(p)}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: portrait === p }}
-                  className={`rounded-md px-2.5 py-1 ${portrait === p ? "bg-white" : ""}`}
+                  onPress={() => {
+                    setRenderIn("video");
+                    setDirty(true);
+                  }}
+                  className="self-start px-3 py-1.5 rounded-xl border border-amber-500/40"
                 >
-                  <Text className={`text-xs font-medium ${portrait === p ? "text-[#09090B]" : "text-theme-neutrals-400"}`}>
-                    {p ? t("liveStudio.portrait") : t("liveStudio.landscape")}
-                  </Text>
+                  <Text className="text-amber-100 text-xs font-medium">{t("liveStudio.obs.switchToVideo")}</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            {renderIn === "video" && !data.obsConnected ? (
+              <Text className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-amber-200 text-xs">
+                {t("liveStudio.obs.warnNoObs")}
+              </Text>
+            ) : null}
+
+            <Text className="text-white text-sm font-medium">{t("liveStudio.obs.link")}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                copyToClipboard(link);
+                toastSuccess(t("liveStudio.obs.copied"));
+              }}
+              className="flex-row items-center rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-900 px-3 h-10"
+            >
+              <Text className="flex-1 text-white text-xs" numberOfLines={1} style={{ fontFamily: "monospace" }}>
+                {link}
+              </Text>
+              <Icon name="Copy" size={14} color="#fff" />
+            </TouchableOpacity>
+            <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step1")}</Text>
+            <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step2")}</Text>
+            <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step3")}</Text>
+            <TouchableOpacity
+              disabled={rotate.isPending}
+              onPress={() =>
+                Alert.alert(t("liveStudio.obs.rotate"), t("liveStudio.obs.rotateConfirm"), [
+                  { text: t("common.cancel"), style: "cancel" },
+                  { text: t("liveStudio.obs.rotate"), style: "destructive", onPress: () => rotate.mutate() },
+                ])
+              }
+              className={`self-start flex-row items-center px-4 py-2.5 rounded-xl bg-theme-neutrals-700/60 ${rotate.isPending ? "opacity-40" : ""}`}
+            >
+              <Icon name="RefreshCw" size={13} color="#fff" />
+              <Text className="text-white text-sm font-medium ml-1.5">{t("liveStudio.obs.rotate")}</Text>
+            </TouchableOpacity>
+          </Section>
+        </Group>
+
+        <Group id="overlay" title={t("liveStudio.groups.overlay")} hint={t("liveStudio.intro")} onY={onGroupY}>
+          <Section
+            title={t("liveStudio.preview")}
+          >
+            <PageTabs
+              size="sm"
+              style={{ paddingHorizontal: 0, paddingVertical: 0 }}
+              value={portrait ? "portrait" : "landscape"}
+              onChange={(id) => setPortrait(id === "portrait")}
+              tabs={[
+                { id: "portrait", label: t("liveStudio.portrait") },
+                { id: "landscape", label: t("liveStudio.landscape") },
+              ]}
+            />
+            <OverlayEventContext.Provider value={bus}>
+              <RuleBusContext.Provider value={ruleBus}>
+                <RuleAudio playLive={false} />
+                <PollContext.Provider value={{ poll: previewPoll, myVote: null, interactive: false }}>
+                <SubathonContext.Provider value={previewSubathon}>
+                <OverlayCreatorContext.Provider value={myAddress ?? ""}>
+                  <StudioStage
+                    widgets={widgets}
+                    portrait={portrait}
+                    selectedId={selectedId}
+                    stats={PREVIEW_STATS}
+                    onSelect={setSelectedId}
+                    onMove={move}
+                  />
+                </OverlayCreatorContext.Provider>
+                </SubathonContext.Provider>
+                </PollContext.Provider>
+              </RuleBusContext.Provider>
+            </OverlayEventContext.Provider>
+            <Text className="text-theme-neutrals-500 text-xs">{t("liveStudio.layoutHintPhone")}</Text>
+          </Section>
+
+          <Section
+            title={t("liveStudio.widgets")}
+            right={
+              <TouchableOpacity onPress={() => setAdding(true)} className="flex-row items-center px-3 py-1.5 rounded-xl bg-theme-neutrals-700/60">
+                <Icon name="Plus" size={13} color="#fff" />
+                <Text className="text-white text-xs font-medium ml-1">{t("liveStudio.addWidget")}</Text>
+              </TouchableOpacity>
+            }
+          >
+            {widgets.length === 0 ? (
+              <Text className="text-theme-neutrals-500 text-sm">{t("liveStudio.empty")}</Text>
+            ) : (
+              widgets.map((w) => (
+                <View key={w.id} className={`flex-row items-center gap-3 rounded-lg px-2 py-1.5 ${w.id === selectedId ? "bg-theme-neutrals-700/60" : ""}`}>
+                  <TouchableOpacity className="flex-1" onPress={() => setSelectedId(w.id)}>
+                    <Text className="text-white text-sm" numberOfLines={1}>
+                      {isKnownKind(w.kind) ? t(`liveStudio.kinds.${w.kind}`) : w.kind}
+                    </Text>
+                  </TouchableOpacity>
+                  <Switch value={w.enabled} onValueChange={(v) => update(w.id, { enabled: v })} accessibilityLabel={t("liveStudio.visible")} />
+                  <TouchableOpacity onPress={() => remove(w.id)} accessibilityLabel={t("liveStudio.remove")} className="p-1">
+                    <Icon name="Trash2" size={16} color="#a1a1aa" />
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
+            <View className="border-t border-theme-neutrals-700 pt-3 gap-3">
+              {selected ? (
+                <>
+                  <Text className="text-white text-sm font-semibold">{t(`liveStudio.kinds.${selected.kind}`)}</Text>
+                  <WidgetSettingsForm
+                    widget={selected}
+                    portrait={portrait}
+                    onSettings={(settings) => update(selected.id, { settings })}
+                    onRect={(rect) => move(selected.id, rect)}
+                  />
+                </>
+              ) : (
+                <Text className="text-theme-neutrals-400 text-sm">{t("liveStudio.selectHint")}</Text>
+              )}
+            </View>
+          </Section>
+
+          <Section title={t("liveStudio.test")}>
+            <Text className="text-theme-neutrals-500 text-xs">{t("liveStudio.testHint")}</Text>
+            <View className="flex-row flex-wrap gap-2">
+              {TESTS.map((kind) => (
+                <TouchableOpacity
+                  key={kind}
+                  disabled={test.isPending}
+                  onPress={() => test.mutate(kind)}
+                  className={`px-3 py-2 rounded-xl border border-theme-neutrals-700 ${test.isPending ? "opacity-40" : ""}`}
+                >
+                  <Text className="text-white text-xs font-medium">{t(`liveStudio.tests.${kind}`)}</Text>
                 </TouchableOpacity>
               ))}
             </View>
-          }
-        >
-          <OverlayEventContext.Provider value={bus}>
-            <RuleBusContext.Provider value={ruleBus}>
-              <RuleAudio playLive={false} />
-              <PollContext.Provider value={{ poll: previewPoll, myVote: null, interactive: false }}>
-              <SubathonContext.Provider value={previewSubathon}>
-              <OverlayCreatorContext.Provider value={myAddress ?? ""}>
-                <StudioStage
-                  widgets={widgets}
-                  portrait={portrait}
-                  selectedId={selectedId}
-                  stats={PREVIEW_STATS}
-                  onSelect={setSelectedId}
-                  onMove={move}
-                />
-              </OverlayCreatorContext.Provider>
-              </SubathonContext.Provider>
-              </PollContext.Provider>
-            </RuleBusContext.Provider>
-          </OverlayEventContext.Provider>
-          <Text className="text-theme-neutrals-500 text-xs">{t("liveStudio.layoutHintPhone")}</Text>
-        </Section>
-
-        <Section title={t("liveStudio.test")}>
-          <Text className="text-theme-neutrals-500 text-xs">{t("liveStudio.testHint")}</Text>
-          <View className="flex-row flex-wrap gap-2">
-            {TESTS.map((kind) => (
-              <TouchableOpacity
-                key={kind}
-                disabled={test.isPending}
-                onPress={() => test.mutate(kind)}
-                className={`px-3 py-2 rounded-xl border border-theme-neutrals-700 ${test.isPending ? "opacity-40" : ""}`}
-              >
-                <Text className="text-white text-xs font-medium">{t(`liveStudio.tests.${kind}`)}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </Section>
-
-        <Section
-          title={t("liveStudio.widgets")}
-          right={
-            <TouchableOpacity onPress={() => setAdding(true)} className="flex-row items-center px-3 py-1.5 rounded-xl bg-theme-neutrals-700/60">
-              <Icon name="Plus" size={13} color="#fff" />
-              <Text className="text-white text-xs font-medium ml-1">{t("liveStudio.addWidget")}</Text>
-            </TouchableOpacity>
-          }
-        >
-          {widgets.length === 0 ? (
-            <Text className="text-theme-neutrals-500 text-sm">{t("liveStudio.empty")}</Text>
-          ) : (
-            widgets.map((w) => (
-              <View key={w.id} className={`flex-row items-center gap-3 rounded-lg px-2 py-1.5 ${w.id === selectedId ? "bg-theme-neutrals-700/60" : ""}`}>
-                <TouchableOpacity className="flex-1" onPress={() => setSelectedId(w.id)}>
-                  <Text className="text-white text-sm" numberOfLines={1}>
-                    {isKnownKind(w.kind) ? t(`liveStudio.kinds.${w.kind}`) : w.kind}
-                  </Text>
-                </TouchableOpacity>
-                <Switch value={w.enabled} onValueChange={(v) => update(w.id, { enabled: v })} accessibilityLabel={t("liveStudio.visible")} />
-                <TouchableOpacity onPress={() => remove(w.id)} accessibilityLabel={t("liveStudio.remove")} className="p-1">
-                  <Icon name="Trash2" size={16} color="#a1a1aa" />
-                </TouchableOpacity>
-              </View>
-            ))
-          )}
-        </Section>
-
-        <Section title={selected ? t(`liveStudio.kinds.${selected.kind}`) : t("liveStudio.settings")}>
-          {selected ? (
-            <WidgetSettingsForm
-              widget={selected}
-              portrait={portrait}
-              onSettings={(settings) => update(selected.id, { settings })}
-              onRect={(rect) => move(selected.id, rect)}
-            />
-          ) : (
-            <Text className="text-theme-neutrals-500 text-sm">{t("liveStudio.selectHint")}</Text>
-          )}
-        </Section>
-
-        {!justEnded ? (
-          <Section title={t("liveRecap.lastStream")}>
-            <RecapSection address={myAddress} />
           </Section>
+
+          <Section title={t("liveStudio.rules.title")}>
+            <RulesEditor hasAlertWidget={widgets.some((w) => w.kind === "rule_alert" && w.enabled)} />
+          </Section>
+        </Group>
+
+        <Group id="viewers" title={t("liveStudio.groups.viewers")} hint={t("liveStudio.groups.viewersHint")} onY={onGroupY}>
+          <Section title={t("liveStudio.polls.title")}>
+            <PollEditor poll={poll} onPoll={setPoll} />
+          </Section>
+
+          <Section title={t("liveStudio.subathon.title")}>
+            <SubathonEditor subathon={subathon} onChange={setSubathon} />
+          </Section>
+
+          <Section title={t("livePoints.studio.title")}>
+            <RewardsSection />
+          </Section>
+
+          <Section title={t("liveStudio.points.title")}>
+            <PointsSection address={myAddress} />
+          </Section>
+
+          <Section title={t("streamPet.studio.title")}>
+            <PetSection />
+          </Section>
+        </Group>
+
+        <Group id="chat" title={t("liveStudio.groups.chat")} hint={t("liveStudio.groups.chatHint")} onY={onGroupY}>
+          <Section title={t("liveStudio.bot.title")}>
+            <StreamBotEditor />
+          </Section>
+
+          <Section title={t("liveStudio.moderation.title")}>
+            <ModerationEditor />
+          </Section>
+        </Group>
+
+        {/* Right after a stream its recap sits at the top, so this group has nothing left to show. */}
+        {!justEnded ? (
+          <Group id="replays" title={t("liveStudio.groups.replays")} hint={t("liveStudio.groups.replaysHint")} onY={onGroupY}>
+            <Section title={t("liveRecap.lastStream")}>
+              <RecapSection address={myAddress} />
+            </Section>
+          </Group>
         ) : null}
-
-        <Section title={t("liveStudio.polls.title")}>
-          <PollEditor poll={poll} onPoll={setPoll} />
-        </Section>
-
-        <Section title={t("liveStudio.subathon.title")}>
-          <SubathonEditor subathon={subathon} onChange={setSubathon} />
-        </Section>
-
-        <Section title={t("livePoints.studio.title")}>
-          <RewardsSection />
-        </Section>
-
-        <Section title={t("liveStudio.points.title")}>
-          <PointsSection address={myAddress} />
-        </Section>
-
-        <Section title={t("streamPet.studio.title")}>
-          <PetSection />
-        </Section>
-
-        <Section title={t("liveStudio.bot.title")}>
-          <StreamBotEditor />
-        </Section>
-
-        <Section title={t("liveStudio.rules.title")}>
-          <RulesEditor hasAlertWidget={widgets.some((w) => w.kind === "rule_alert" && w.enabled)} />
-        </Section>
-
-        <Section title={t("liveStudio.moderation.title")}>
-          <ModerationEditor />
-        </Section>
-
-        <Section
-          title={t("liveStudio.obs.title")}
-          right={
-            <View className={`flex-row items-center px-2 py-0.5 rounded-full ${data.obsConnected ? "bg-emerald-500/15" : "bg-theme-neutrals-700"}`}>
-              <View className={`w-1.5 h-1.5 rounded-full mr-1.5 ${data.obsConnected ? "bg-emerald-400" : "bg-theme-neutrals-500"}`} />
-              <Text className={`text-[11px] font-medium ${data.obsConnected ? "text-emerald-300" : "text-theme-neutrals-400"}`}>
-                {data.obsConnected ? t("liveStudio.obs.connected") : t("liveStudio.obs.notConnected")}
-              </Text>
-            </View>
-          }
-        >
-          <Text className="text-white text-sm font-medium">{t("liveStudio.obs.showIn")}</Text>
-          {(["app", "video"] as const).map((option) => (
-            <TouchableOpacity
-              key={option}
-              onPress={() => {
-                setRenderIn(option);
-                setDirty(true);
-              }}
-              accessibilityRole="radio"
-              accessibilityState={{ checked: renderIn === option }}
-              className={`rounded-xl border px-3 py-2.5 ${renderIn === option ? "border-white bg-theme-neutrals-700/60" : "border-theme-neutrals-700"}`}
-            >
-              <Text className="text-white text-sm font-medium">
-                {option === "app" ? t("liveStudio.obs.inApp") : t("liveStudio.obs.inVideo")}
-              </Text>
-              <Text className="text-theme-neutrals-400 text-xs mt-0.5">
-                {option === "app" ? t("liveStudio.obs.inAppHint") : t("liveStudio.obs.inVideoHint")}
-              </Text>
-            </TouchableOpacity>
-          ))}
-          {renderIn === "app" && data.obsConnected ? (
-            <View className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 gap-2">
-              <Text className="text-amber-200 text-xs">{t("liveStudio.obs.warnDoubles")}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  setRenderIn("video");
-                  setDirty(true);
-                }}
-                className="self-start px-3 py-1.5 rounded-xl border border-amber-500/40"
-              >
-                <Text className="text-amber-100 text-xs font-medium">{t("liveStudio.obs.switchToVideo")}</Text>
-              </TouchableOpacity>
-            </View>
-          ) : null}
-          {renderIn === "video" && !data.obsConnected ? (
-            <Text className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-amber-200 text-xs">
-              {t("liveStudio.obs.warnNoObs")}
-            </Text>
-          ) : null}
-
-          <Text className="text-white text-sm font-medium">{t("liveStudio.obs.link")}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              copyToClipboard(link);
-              toastSuccess(t("liveStudio.obs.copied"));
-            }}
-            className="flex-row items-center rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-900 px-3 h-10"
-          >
-            <Text className="flex-1 text-white text-xs" numberOfLines={1} style={{ fontFamily: "monospace" }}>
-              {link}
-            </Text>
-            <Icon name="Copy" size={14} color="#fff" />
-          </TouchableOpacity>
-          <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step1")}</Text>
-          <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step2")}</Text>
-          <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.obs.step3")}</Text>
-          <TouchableOpacity
-            disabled={rotate.isPending}
-            onPress={() =>
-              Alert.alert(t("liveStudio.obs.rotate"), t("liveStudio.obs.rotateConfirm"), [
-                { text: t("common.cancel"), style: "cancel" },
-                { text: t("liveStudio.obs.rotate"), style: "destructive", onPress: () => rotate.mutate() },
-              ])
-            }
-            className={`self-start flex-row items-center px-4 py-2.5 rounded-xl bg-theme-neutrals-700/60 ${rotate.isPending ? "opacity-40" : ""}`}
-          >
-            <Icon name="RefreshCw" size={13} color="#fff" />
-            <Text className="text-white text-sm font-medium ml-1.5">{t("liveStudio.obs.rotate")}</Text>
-          </TouchableOpacity>
-        </Section>
       </ScrollView>
 
-      <View
-        pointerEvents="box-none"
-        style={{ position: "absolute", left: 16, right: 16, bottom: insets.bottom + 12 }}
+      {/* Only overlay edits need saving (the rest saves on its own), so the
+          bar slides up when there is something to save. */}
+      <Animated.View
+        pointerEvents={showSave ? "box-none" : "none"}
+        style={{ position: "absolute", left: 16, right: 16, bottom: insets.bottom + 12, transform: [{ translateY: saveShift }] }}
         className="flex-row justify-end"
       >
         <View className="flex-row items-center gap-3 rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-900 px-3 py-2">
-          {dirty ? <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.unsaved")}</Text> : null}
+          <Text className="text-theme-neutrals-400 text-xs">{t("liveStudio.unsaved")}</Text>
           <TouchableOpacity
             disabled={!dirty || save.isPending}
             onPress={() => save.mutate()}
@@ -499,7 +577,7 @@ export default function LiveStudioScreen() {
             <Text className="text-[#09090B] text-sm font-medium">{save.isPending ? t("liveStudio.saving") : t("liveStudio.save")}</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
 
       <SettingsOptionModal
         visible={adding}
