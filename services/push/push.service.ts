@@ -351,25 +351,30 @@ function hiddenPreviewLines(): Record<string, string> {
   };
 }
 
-let hiddenPreviewLanguage: string | null = null;
+// Keyed on the words, not the language: the language can switch before its
+// pack of these lines has downloaded, and the English lines then stuck.
+let hiddenPreviewCopy: string | null = null;
 
 export async function registerHiddenPreviewLines(): Promise<void> {
   if (Platform.OS !== 'ios') return;
-  const language = i18n.language || 'en';
-  if (hiddenPreviewLanguage === language) return;
-  hiddenPreviewLanguage = language;
+  const lines = hiddenPreviewLines();
+  const key = JSON.stringify(lines);
+  if (hiddenPreviewCopy === key) return;
+  hiddenPreviewCopy = key;
   try {
-    const lines = hiddenPreviewLines();
     await Promise.all(Object.keys(lines).map(id =>
       Notifications.setNotificationCategoryAsync(id, [], { previewPlaceholder: lines[id] })));
   } catch (error) {
-    hiddenPreviewLanguage = null;
+    hiddenPreviewCopy = null;
     logger.warn('Failed to set hidden preview lines', error);
   }
 }
 
 if (Platform.OS === 'ios') {
   i18n.on?.('languageChanged', () => { void registerHiddenPreviewLines(); });
+  // A language pack that lands after the switch brings these lines with it.
+  const watchPacks = () => i18n.store?.on?.('added', () => { void registerHiddenPreviewLines(); });
+  if (i18n.store) watchPacks(); else i18n.on?.('initialized', watchPacks);
 }
 
 /**
