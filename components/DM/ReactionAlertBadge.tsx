@@ -102,7 +102,8 @@ export default memo(function ReactionAlertBadge({ reactions, rowKey }: { reactio
     if (style === "burst") {
       // Someone else's reaction: a small ring and sparks round the badge.
       lead.current?.measureInWindow((x, y, w, h) => {
-        scope.launch({ kind: "ring", emoji: lastEmoji, art: null, mine: false, toWindow: { x: x + w / 2, y: y + h / 2 } });
+        if (w === 0 && h === 0) return;
+        scope.launch({ kind: "ring", emoji: lastEmoji, art: null, mine: false, toWindow: { x: x + w / 2, y: y + h / 2 }, target: lead });
       });
       bump(0.9);
       return;
@@ -121,8 +122,10 @@ export default memo(function ReactionAlertBadge({ reactions, rowKey }: { reactio
       if (art) setRestarts((r) => ({ ...r, [lastEmoji]: (r[lastEmoji] ?? 0) + 1 }));
     };
     lead.current?.measureInWindow((x, y, w, h) => {
+      if (w === 0 && h === 0) { land(); return; }
       scope.launch({
         kind: "fly",
+        target: lead,
         emoji: lastEmoji,
         art,
         landSize: art ? SIZE : 15 / 0.8,
