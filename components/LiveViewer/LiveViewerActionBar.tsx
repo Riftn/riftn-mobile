@@ -71,6 +71,9 @@ const COOLDOWN_MS = 400;
 /** The house ease: the box grows and the buttons fold on it (web uses the same). */
 const EASE = Easing.bezier(0.25, 0.8, 0.25, 1);
 const GROW_MS = 200;
+/** Each round button's width, and the gap between them (styles.circle, styles.cluster). */
+const CIRCLE_W = 42;
+const CLUSTER_GAP = 8;
 const FOLD_MS = 300;
 
 /** The height of everything on the bottom row, and on the header above it. */
@@ -247,17 +250,18 @@ const LiveViewerActionBar: React.FC<Props> = ({
   // While typing the whole row is the box: the buttons fold into its end
   // (width to nothing, sliding and shrinking toward the box) and unfold
   // when the keyboard goes down and the box is empty.
+  // The buttons' full width comes from how many there are, never from a
+  // measure: a measure taken mid-fold read the clipped width and kept them
+  // hidden after the keyboard went down.
+  const buttonCount = 2 + (isLive && !inputDisabled ? 1 : 0) + (isLive && showPurchaseOffer ? 1 : 0);
+  const fullWidth = buttonCount * CIRCLE_W + (buttonCount - 1) * CLUSTER_GAP;
   const fold = useSharedValue(0);
-  const clusterW = useSharedValue(-1);
+  const clusterW = useSharedValue(fullWidth);
+  useEffect(() => { clusterW.value = fullWidth; }, [fullWidth, clusterW]);
   useEffect(() => {
     fold.value = reduceMotion ? (typing ? 1 : 0) : withTiming(typing ? 1 : 0, { duration: FOLD_MS, easing: EASE });
   }, [typing, fold, reduceMotion]);
-  const onClusterLayout = useCallback((e: LayoutChangeEvent) => {
-    clusterW.value = e.nativeEvent.layout.width;
-  }, [clusterW]);
-  const clusterStyle = useAnimatedStyle(() => (clusterW.value < 0
-    ? { marginLeft: 0 }
-    : { width: clusterW.value * (1 - fold.value), marginLeft: -8 * fold.value }));
+  const clusterStyle = useAnimatedStyle(() => ({ width: clusterW.value * (1 - fold.value), marginLeft: -CLUSTER_GAP * fold.value }));
   const clusterInnerStyle = useAnimatedStyle(() => ({
     opacity: 1 - fold.value,
     transform: [{ translateX: -28 * fold.value }, { scale: 1 - 0.4 * fold.value }],
@@ -417,7 +421,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
             when the keyboard goes down with the box empty. */}
         <Animated.View style={[styles.clusterClip, clusterStyle]} pointerEvents={typing ? "none" : "box-none"}
           accessibilityElementsHidden={typing} importantForAccessibility={typing ? "no-hide-descendants" : "auto"}>
-        <Animated.View style={[styles.cluster, clusterInnerStyle]} onLayout={onClusterLayout} pointerEvents="box-none">
+        <Animated.View style={[styles.cluster, clusterInnerStyle]} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
               accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={styles.circle}>
@@ -510,7 +514,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: CLUSTER_GAP,
   },
   /**
    * 48 with a hairline, matching the buttons beside it and the header
@@ -576,7 +580,7 @@ const styles = StyleSheet.create({
   },
   keyOff: { opacity: 0.4 },
   circle: {
-    width: 42,
+    width: CIRCLE_W,
     height: BAR_SIZE,
     borderWidth: 1,
     borderColor: CHROME_HAIRLINE,
