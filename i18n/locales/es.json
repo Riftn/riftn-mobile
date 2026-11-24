@@ -2874,7 +2874,7 @@
       "governanceVotedRejected": "Una propuesta por la que votó no ha sido aprobada: «{{title}}»",
       "governancePassed": "Su propuesta «{{title}}» se ha aprobado 🎉",
       "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado",
-      "fractionGift": "{{name}} te envió fracciones", "storyLiked": "A {{name}} le gustó tu momento", "storyMention": "{{name}} te mencionó en su momento"
+      "fractionGift": "{{name}} te envió fracciones", "storyLiked": "A {{name}} le gustó tu momento", "storyMention": "{{name}} te mencionó en su momento", "storyComment": "{{name}} comentó tu momento", "storyCommentReply": "{{name}} respondió a tu comentario en un momento"
     }
   },
   "leaderboard": {

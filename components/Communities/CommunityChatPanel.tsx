@@ -663,8 +663,10 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const readTrackingRef = useRef(false);
   const unreadPlacedRef = useRef(false);
   const [unreadBelow, setUnreadBelow] = useState(0);
-  // Every line below the screen: the number on the scroll-down button.
-  const [linesBelow, setLinesBelow] = useState(0);
+  // Once you've been at the newest line, the lines unread when you opened the
+  // room are read: scrolling back up never counts them again. The button's
+  // number is only lines you haven't read (those, plus new ones in `unseen`).
+  const reachedBottomRef = useRef(false);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   useEffect(() => {
@@ -768,13 +770,9 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
     // Oldest at the top: every line after the last visible one is below.
-    if (idx.length) {
-      const list = listItemsRef.current;
-      let below = 0;
-      for (let i = Math.max(...idx) + 1; i < list.length; i++) if (list[i]?.message_type !== JOIN_LINE_TYPE) below++;
-      setLinesBelow(below);
-    } else {
-      setLinesBelow(0);
+    // Not the first paint at the bottom before the room jumps to its marker.
+    if (idx.length && Math.max(...idx) >= listItemsRef.current.length - 1 && (readTrackingRef.current || !unreadAnchorRef.current)) {
+      reachedBottomRef.current = true;
     }
     refreshUnreadJump();
     reportReadSpotRef.current();
@@ -1172,7 +1170,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
               <UnreadJumpButton
                 show={show}
                 up={up}
-                count={Math.max(linesBelow, unreadBelow + unseen)}
+                count={(reachedBottomRef.current ? 0 : unreadBelow) + unseen}
                 onPress={up ? scrollToUnreadMarker : () => void jumpToLatest()}
               />
             </View>

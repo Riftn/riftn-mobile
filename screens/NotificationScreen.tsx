@@ -167,6 +167,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
     NotificationType.COMMENT_REPLY,
     NotificationType.MENTION,
     NotificationType.STORY_MENTION,
+    NotificationType.STORY_COMMENT,
     ...([
       'community_mention',
       'feature_request_comment',
@@ -408,8 +409,8 @@ const isNotificationClickable = (notification: NotificationItem): boolean => {
   // Non-clickable types (dislike doesn't generate notifications but just in case)
   if (NON_CLICKABLE_TYPES.has(type)) return false;
 
-  // A like or mention on a moment opens that moment.
-  if (type === NotificationType.STORY_LIKE || type === NotificationType.STORY_MENTION) {
+  // A like, mention or comment on a moment opens that moment.
+  if (type === NotificationType.STORY_LIKE || type === NotificationType.STORY_MENTION || type === NotificationType.STORY_COMMENT) {
     return typeof notification.metadata?.storyId === 'string';
   }
 
@@ -1668,6 +1669,7 @@ const NotificationScreen = () => {
 
       case NotificationType.STORY_LIKE:
       case NotificationType.STORY_MENTION:
+      case NotificationType.STORY_COMMENT:
         void openMomentById(metadata?.storyId, (user as { walletAddress?: string } | null)?.walletAddress || user?.address);
         break;
 

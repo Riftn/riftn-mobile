@@ -2869,7 +2869,7 @@
       "governanceVotedRejected": "Oyladığınız bir teklif kabul edilmedi: “{{title}}”",
       "governancePassed": "“{{title}}” teklifiniz kabul edildi 🎉",
       "governanceRejected": "“{{title}}” teklifiniz kabul edilmedi",
-      "fractionGift": "{{name}} sana parça gönderdi", "storyLiked": "{{name}} Anını beğendi", "storyMention": "{{name}} Anında senden bahsetti"
+      "fractionGift": "{{name}} sana parça gönderdi", "storyLiked": "{{name}} Anını beğendi", "storyMention": "{{name}} Anında senden bahsetti", "storyComment": "{{name}} Anına yorum yaptı", "storyCommentReply": "{{name}} bir Andaki yorumuna yanıt verdi"
     }
   },
   "leaderboard": {

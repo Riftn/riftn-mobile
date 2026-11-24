@@ -2733,7 +2733,7 @@
       "fractionOfferAccepted": "{{name}} accepted your fraction offer",
       "fractionOfferRejected": "{{name}} declined your fraction offer",
       "fractionPurchased": "{{name}} bought fractions of your post",
-      "fractionGift": "{{name}} sent you fractions", "storyLiked": "{{name}} liked your moment", "storyMention": "{{name}} mentioned you in their moment",
+      "fractionGift": "{{name}} sent you fractions", "storyLiked": "{{name}} liked your moment", "storyMention": "{{name}} mentioned you in their moment", "storyComment": "{{name}} commented on your moment", "storyCommentReply": "{{name}} replied to your comment on a moment",
       "repostedPosts": "{{name}} reposted {{count}} of your posts",
       "commentMention": "{{name}} mentioned you in a comment",
       "followRequest": "{{name}} requested to follow you",

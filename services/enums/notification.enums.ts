@@ -36,6 +36,8 @@ export enum NotificationType {
   STORY_LIKE = 'story_like',
   /** Someone mentioned you on their moment */
   STORY_MENTION = 'story_mention',
+  /** Someone commented on your moment, or replied to your comment on one */
+  STORY_COMMENT = 'story_comment',
   /** Someone offered to buy the handle you are wearing */
   USERNAME_OFFER = 'username_offer',
   /** The owner accepted your offer — the handle is yours to pay for */
@@ -205,6 +207,8 @@ export const getNotificationIconConfig = (type: NotificationType | string): {
       return { name: 'Heart', color: '#F4F4F5' };
     case NotificationType.STORY_MENTION:
       return { name: 'AtSign', color: '#F4F4F5' };
+    case NotificationType.STORY_COMMENT:
+      return { name: 'MessageCircle', color: '#F4F4F5' };
     // Its own glyph rather than the marketplace one: what is being bid for
     // here is the reader's own name, not a thing on a shelf.
     case NotificationType.USERNAME_OFFER:

@@ -94,6 +94,12 @@ export function localizedNotificationContent(
   if (item.type === 'following' && item.content?.toLowerCase().includes('requested')) {
     return t('reactionInfo.followRequest', { name: actor });
   }
+  if (item.type === 'story_comment') {
+    // The comment itself rides along, the way the push shows it.
+    const sentence = t(item.metadata?.reply ? 'notifications.custom.storyCommentReply' : 'notifications.custom.storyComment', { name: actor });
+    const said = item.commentPreview?.trim();
+    return said ? `${sentence}: “${said}”` : sentence;
+  }
   if (item.type === 'work_application_reply') {
     const sentence = t('notifications.repliedComment', { name: actor });
     return item.customReferenceTitle ? `${sentence} “${item.customReferenceTitle}”` : sentence;

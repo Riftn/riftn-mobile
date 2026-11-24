@@ -2874,7 +2874,7 @@
       "governanceVotedRejected": "لم يتم تمرير الاقتراح الذي صوتّ عليه: \"{{title}}\"",
       "governancePassed": "تمت الموافقة على اقتراحك \"{{title}}\" 🎉",
       "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\"",
-      "fractionGift": "{{name}} أرسل لك حصصًا", "storyLiked": "أعجب {{name}} بلحظتك", "storyMention": "ذكرك {{name}} في لحظته"
+      "fractionGift": "{{name}} أرسل لك حصصًا", "storyLiked": "أعجب {{name}} بلحظتك", "storyMention": "ذكرك {{name}} في لحظته", "storyComment": "علّق {{name}} على لحظتك", "storyCommentReply": "ردّ {{name}} على تعليقك في لحظة"
     }
   },
   "leaderboard": {

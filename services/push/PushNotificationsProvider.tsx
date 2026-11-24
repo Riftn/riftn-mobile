@@ -480,6 +480,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // A like or mention on a moment opens the moment over whatever is showing.
         case NotificationType.STORY_LIKE:
         case NotificationType.STORY_MENTION:
+        case NotificationType.STORY_COMMENT:
           void openMomentById((data as { storyId?: unknown }).storyId, userAddress).then((opened) => {
             if (!opened) navigation.navigate(ScreenNames.Notifications);
           });

@@ -774,8 +774,34 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // is still above it. Driven by which rows are on screen (list is inverted:
   // index 0 is the newest line at the bottom).
   const [unreadBelow, setUnreadBelow] = useState(0);
-  // Every line below the screen: the number on the scroll-down button.
-  const [linesBelow, setLinesBelow] = useState(0);
+  // Lines from other people that landed below the screen after you last sat
+  // at the bottom: with the unread ones above, the number on the scroll-down
+  // button. Lines you already read never count, however far up you scroll.
+  const [newBelow, setNewBelow] = useState(0);
+  const seenUpToRef = useRef(openedAtRef.current);
+  // Once you've been at the newest line, the lines that were unread when you
+  // opened the chat have been read: scrolling back up never counts them again.
+  const reachedBottomRef = useRef(false);
+  const isMineRef = useRef(isMine);
+  isMineRef.current = isMine;
+  const refreshNewBelow = useCallback(() => {
+    const list = unreadStateRef.current.list;
+    const range = visibleRangeRef.current;
+    if (!range) return;
+    const at = (m: any) => new Date(m?.createdAt || 0).getTime() || 0;
+    if (range.min === 0 && list[0]) {
+      seenUpToRef.current = Math.max(seenUpToRef.current, at(list[0]));
+      // Not the first paint at the bottom before the chat jumps to its marker.
+      if (readTrackingRef.current || !unreadStateRef.current.anchor) reachedBottomRef.current = true;
+    }
+    let n = 0;
+    for (let i = 0; i < range.min && i < list.length; i++) {
+      const m = list[i];
+      if (!m || isMineRef.current(m) || String(m._id).startsWith("temp")) continue;
+      if (at(m) > seenUpToRef.current) n++;
+    }
+    setNewBelow(n);
+  }, []);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
@@ -800,6 +826,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (anchorIndex >= range.min && anchorIndex <= range.max) setUnreadMarkerSeen(true);
   }, []);
   useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
+  useEffect(() => { refreshNewBelow(); }, [messageList, refreshNewBelow]);
   /** Saves the newest line on screen (lowest index on the inverted list) as where you left off. */
   const reportReadSpotRef = useRef(() => {});
   reportReadSpotRef.current = () => {
@@ -818,7 +845,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
     // Inverted list: index 0 is the newest line, so everything under the
     // lowest visible index is below the screen.
-    setLinesBelow(idx.length ? Math.min(...idx) : 0);
+    refreshNewBelow();
     refreshUnreadJump();
     reportReadSpotRef.current();
   }).current;
@@ -2601,7 +2628,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                   <UnreadJumpButton
                     show={showJumpBtn || up}
                     up={up}
-                    count={showJumpBtn || up ? Math.max(linesBelow, unreadBelow) : 0}
+                    count={showJumpBtn || up ? (reachedBottomRef.current ? 0 : unreadBelow) + newBelow : 0}
                     onPress={up ? () => scrollToUnreadMarker(true) : scrollToBottom}
                   />
                 );
