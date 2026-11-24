@@ -3,7 +3,6 @@ import { formatRelativeTime } from '../i18n/date-locale';
 // (Filename uses 'utl' per user instruction; consider aliasing if needed later.)
 
 import i18n from "i18next";
-import * as Localization from 'expo-localization';
 import { pad } from './numbers.util';
 import { periodLabels, uses12Hour } from './clockWheel';
 
@@ -141,6 +140,9 @@ export function formatRelativeFromNow(input?: string | number | Date | null): st
  */
 export function uses24HourClock(): boolean {
   try {
+    // Loaded on demand so plain test runs without the native module still work.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const Localization = require('expo-localization') as typeof import('expo-localization');
     const setting = Localization.getCalendars?.()?.[0]?.uses24hourClock;
     if (typeof setting === 'boolean') return setting;
   } catch {
