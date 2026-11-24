@@ -1,4 +1,12 @@
 {
+  "freeImage": {
+    "title": "Imagen gratis",
+    "search": "Buscar imágenes gratis",
+    "hint": "Imágenes que cualquiera puede compartir, de Openverse y Wikimedia Commons.",
+    "none": "No hay imágenes gratis para eso. Prueba otras palabras.",
+    "failed": "No se pudo añadir esa imagen. Prueba otra.",
+    "credit": "Foto: {{name}}, {{license}}"
+  },
   "profileSong": {"title": "Canción del perfil", "hint": "Una canción debajo de tu biografía. La gente la toca para escucharla.", "part": "Suena {{part}}", "change": "Cambiar canción", "remove": "Quitar", "removed": "Canción del perfil quitada", "saved": "Canción del perfil guardada", "saveFailed": "No se pudo guardar la canción del perfil. Inténtalo de nuevo.", "autoplay": "Reproducir cuando visiten mi perfil", "autoplayHint": "Empieza suave cuando alguien abre tu perfil. Pueden pararla con un toque.", "add": "Añadir una canción", "cantUse": "Esa canción no se puede usar en un perfil. Prueba otra.", "play": "Reproducir {{title}}", "pause": "Pausar {{title}}"},
   "painting": {
     "title": "Pintura",

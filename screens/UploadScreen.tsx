@@ -132,6 +132,8 @@ import { isPaintingFile } from "../libs/painting/engine";
 import type { SavedPainting } from "../components/Upload/paintingSkia";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import WhenOpened from "../components/ui/WhenOpened";
+import FreeImageSheet, { type FreePicture } from "../components/Upload/FreeImageSheet";
+import type { FreeAsset } from "../libs/editor/freeAssets";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
 import type { UploadPayload, UploadStage, PickedAudio } from "../hooks/useUploadPost";
 import type { LiveUploadPayload } from "../hooks/useUploadLive";
@@ -347,6 +349,7 @@ export default function UploadScreen() {
   // Comic: a photo post shown as collector cards, each page with a caption.
   const [comicMode, setComicMode] = useState(false);
   const [paintingOpen, setPaintingOpen] = useState(false);
+  const [freeImageOpen, setFreeImageOpen] = useState(false);
   /** The comic's border preset; null is the theme's own foil. */
   const [comicBorder, setComicBorder] = useState<ComicBorder | null>(null);
   const imageLimit = (comicMode ? getComicImageLimitForBadge : getPostImageLimitForBadge)(
@@ -2378,6 +2381,18 @@ export default function UploadScreen() {
     void adoptImageAssets([{ ...painting, type: "image", assetId: null } as PickedAsset]);
   }, [adoptImageAssets]);
 
+  /**
+   * A free picture joins the post as a photo. CC BY pictures are shared on
+   * the condition that the maker is named, so those add a credit line.
+   */
+  const handleFreeImage = useCallback((picture: FreePicture, asset: FreeAsset) => {
+    void adoptImageAssets([{ ...picture, type: "image", assetId: null } as PickedAsset]);
+    if (asset.attributionRequired || /^CC BY/i.test(asset.license)) {
+      const credit = t("freeImage.credit", { name: asset.creator, license: asset.license });
+      setBodyText((prev) => (prev.includes(credit) ? prev : prev.trim() ? `${prev.trimEnd()}\n\n${credit}` : credit));
+    }
+  }, [adoptImageAssets, setBodyText, t]);
+
   const handleStudioDone = useCallback((results: StudioResult[]) => {
     setImageEdit(null);
     if (!results.length) return;
@@ -4102,6 +4117,18 @@ export default function UploadScreen() {
                   <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("painting.title")}</Text>
                 </TouchableOpacity>
               )}
+              {/* Free pictures anyone may share, found from the caption. */}
+              {!isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio && pickedImages.length < imageLimit && (
+                <TouchableOpacity
+                  onPress={() => { setShowPostOptions(false); setFreeImageOpen(true); }}
+                  accessibilityRole="button"
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: "transparent" }}
+                >
+                  <Icon name="ImagePlus" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("freeImage.title")}</Text>
+                </TouchableOpacity>
+              )}
               {!isLiveMode && (
                 <TouchableOpacity
                   onPress={() => { setShowPostOptions(false); setContentWarning(prev => prev === null ? "" : null); }}
@@ -4576,6 +4603,16 @@ export default function UploadScreen() {
           </DmVideoStudio>
         );
       })()}
+      <WhenOpened open={freeImageOpen}>
+        {() => (
+          <FreeImageSheet
+            visible={freeImageOpen}
+            onClose={() => setFreeImageOpen(false)}
+            caption={bodyText}
+            onPick={handleFreeImage}
+          />
+        )}
+      </WhenOpened>
       {PaintingStudio && paintingOpen && (
         <PaintingStudio onClose={() => setPaintingOpen(false)} onDone={handlePaintingDone} />
       )}
