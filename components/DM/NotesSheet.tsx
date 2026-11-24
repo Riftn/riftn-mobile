@@ -5,7 +5,7 @@
  * 24 hours. Same as web's components/app/chat/NotesRow.
  */
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -30,6 +30,7 @@ import {
   deleteNote, getNotes, isNoteGif, NOTE_LOCATION_MAX, NOTE_TEXT_MAX, putNote,
   type Note, type NoteEntry, type NoteInput,
 } from "../../services/notes.service";
+import { useNoteWords } from "./note-translate";
 
 export const NOTES_QUERY_KEY = ["dm-notes"] as const;
 
@@ -59,8 +60,9 @@ function songFrom(sound: AttachedSound): StorySong | null {
   };
 }
 
-function NoteBubble({ note, placeholder }: { note: Note | null; placeholder: string }) {
+function NoteBubble({ note, placeholder, own }: { note: Note | null; placeholder: string; own?: boolean }) {
   const c = useNoteInk();
+  const words = useNoteWords(note?.text, own).shown;
   if (!note) {
     return (
       <View style={{ backgroundColor: c.field, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, flexDirection: "row", alignItems: "center", gap: 2 }}>
@@ -72,7 +74,7 @@ function NoteBubble({ note, placeholder }: { note: Note | null; placeholder: str
   return (
     <View style={{ backgroundColor: c.bubble, borderRadius: 10, borderWidth: 1, borderColor: c.hairline, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, alignItems: "center", gap: 2 }}>
       {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 48, height: 32, borderRadius: 6 }} contentFit="cover" />}
-      {!!note.text && <Text className="text-white text-[11px] text-center" numberOfLines={2}>{note.text}</Text>}
+      {!!note.text && <Text className="text-white text-[11px] text-center" numberOfLines={2}>{words}</Text>}
       {!note.text && !!note.song && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
           <Ionicons name="musical-notes" size={11} color={c.ink} />
@@ -144,7 +146,7 @@ export function NoteRing({ left, size = RING, radius = RING_R }: { left: number;
  * (empty when there are no words), the face inside its countdown ring, and
  * the name. A GIF note shows the GIF in place of the face.
  */
-export function NoteTile({ author, note, label, onPress, placeholder }: { author: StoryAuthor; note: Note | null; label: string; onPress: () => void; placeholder: string }) {
+export function NoteTile({ author, note, label, onPress, placeholder, own }: { author: StoryAuthor; note: Note | null; label: string; onPress: () => void; placeholder: string; own?: boolean }) {
   const avatar = getAvatarUrl(author.avatarImageUrl, 56);
   const left = useNoteLeft(note);
   const gif = note?.gifUrl || null;
@@ -152,7 +154,7 @@ export function NoteTile({ author, note, label, onPress, placeholder }: { author
   return (
     <Pressable onPress={onPress} style={{ width: 84, alignItems: "center", gap: 4, paddingTop: 2 }} accessibilityRole="button" accessibilityLabel={label}>
       <View style={{ height: 36, justifyContent: "flex-end", alignItems: "center" }}>
-        {showBubble ? <NoteBubble note={note && gif ? { ...note, gifUrl: null } : note} placeholder={placeholder} /> : null}
+        {showBubble ? <NoteBubble own={own} note={note && gif ? { ...note, gifUrl: null } : note} placeholder={placeholder} /> : null}
       </View>
       <View style={{ width: RING, height: RING, alignItems: "center", justifyContent: "center" }}>
         {gif
@@ -390,15 +392,43 @@ function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (
   );
 }
 
-/** The words of a note in a chat bubble; with a song, a tap plays it. */
+/**
+ * The words of a note in a chat bubble; with a song, a tap plays it. Words in
+ * another language show translated, with "See original" under them to flip
+ * back (see note-translate).
+ */
 function NoteTextBubble({ text, onPress }: { text: string; onPress?: () => void }) {
   const c = useNoteInk();
+  const { t } = useTranslation();
+  const words = useNoteWords(text);
+  const chipLabel = words.isLoading
+    ? t("stories.translating", { defaultValue: "Translating…" })
+    : words.isTranslated
+      ? t("stories.seeOriginal", { defaultValue: "See original" })
+      : t("stories.translate", { defaultValue: "Translate" });
   return (
-    <Pressable onPress={onPress} disabled={!onPress} style={{ alignSelf: "center", maxWidth: "100%" }} accessibilityRole={onPress ? "button" : "text"}>
-      <View style={{ backgroundColor: c.bubble, borderWidth: 1, borderColor: c.hairline, borderRadius: 16, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
-        <Text className="text-white text-[16px] font-semibold">{text}</Text>
-      </View>
-    </Pressable>
+    <View style={{ alignItems: "center", gap: 8 }}>
+      <Pressable onPress={onPress} disabled={!onPress} style={{ alignSelf: "center", maxWidth: "100%" }} accessibilityRole={onPress ? "button" : "text"}>
+        <View style={{ backgroundColor: c.bubble, borderWidth: 1, borderColor: c.hairline, borderRadius: 16, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
+          <Text className="text-white text-[16px] font-semibold">{words.shown}</Text>
+        </View>
+      </Pressable>
+      {words.offer ? (
+        <Pressable
+          testID="note-translate"
+          onPress={words.isTranslated ? words.showOriginal : () => void words.translate()}
+          disabled={words.isLoading}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={chipLabel}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 28, paddingHorizontal: 11, borderRadius: 8, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline }}>
+            {words.isLoading ? <ActivityIndicator size="small" color={c.ink2} style={{ transform: [{ scale: 0.7 }] }} /> : <Ionicons name="language" size={14} color={c.ink2} />}
+            <Text style={{ color: c.ink2, fontSize: 12, fontWeight: "600" }}>{chipLabel}</Text>
+          </View>
+        </Pressable>
+      ) : null}
+    </View>
   );
 }
 
@@ -416,7 +446,7 @@ export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => vo
   const placeholder = t("notes.add", { defaultValue: "Note" });
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 12, paddingBottom: 8 }} keyboardShouldPersistTaps="handled">
-      {mine && <NoteTile author={mine.author} note={mine.note} label={t("notes.yourNote", { defaultValue: "Your note" })} placeholder={placeholder} onPress={() => onOpen(null)} />}
+      {mine && <NoteTile own author={mine.author} note={mine.note} label={t("notes.yourNote", { defaultValue: "Your note" })} placeholder={placeholder} onPress={() => onOpen(null)} />}
       {notes.map((entry) => (
         <NoteTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} placeholder={placeholder} onPress={() => onOpen(entry)} />
       ))}
@@ -443,7 +473,8 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
   const { t } = useTranslation();
   const { isLight } = useAppTheme();
   const avatar = getAvatarUrl(author.avatarImageUrl, 60);
-  const words = cloudText(note) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
+  const said = useNoteWords(note?.text, own).shown;
+  const words = (note?.text ? said : cloudText(note)) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
   const gif = note?.gifUrl || null;
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
@@ -541,7 +572,8 @@ const noteLine = (n: Note) => n.text || n.song?.title || n.location || (n.gifUrl
 /** The note as a small tag at the start of a chat's preview line. */
 export function NoteTag({ entry, onPress }: { entry: NoteEntry; onPress: () => void }) {
   const c = useNoteInk();
-  const line = noteLine(entry.note);
+  const said = useNoteWords(entry.note.text).shown;
+  const line = entry.note.text ? said : noteLine(entry.note);
   if (!line) return null;
   return (
     <Pressable
