@@ -1312,6 +1312,7 @@ export default function UploadScreen() {
     validate,
     preUploadCheck,
     enqueueJob,
+    enqueueJobs,
     enqueueQuoteJob,
   } = useUploadPost();
 
@@ -1336,7 +1337,7 @@ export default function UploadScreen() {
   /** "One post each": minutes between the photos' posts, or null for one post with them all. */
   const [dripGap, setDripGap] = useState<number | null>(null);
   // Photos that could each become their own post (not a comic, quote, Live or article).
-  const dripCount = !comicLayout && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio ? pickedImages.length : 0;
+  const dripCount = !effectiveShouldMint && !monetization.bountyEnabled && !comicLayout && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio ? pickedImages.length : 0;
   const dripActive = !!dripGap && dripCount > 1;
   // The saved "Space my posts" gap, for the chip and the landing.
   const spacing = usePostSpacing(!isLiveMode && !isStageMode && !isQuoteMode);
@@ -1771,11 +1772,11 @@ export default function UploadScreen() {
       const photos = payload.pickedImages;
       const times = dripTimes(payload.scheduledAt ?? new Date(), photos.length, dripGap);
       const receipt = captureActiveDraft();
-      for (let i = 0; i < photos.length; i++) {
+      const jobs = photos.map((photo, i) => {
         const at = times[i];
-        const queued = enqueueJob({
+        return {
           ...payload,
-          pickedImages: [photos[i]],
+          pickedImages: [photo],
           mediaDescriptions: payload.mediaDescriptions?.[i] ? [payload.mediaDescriptions[i]] : undefined,
           layout: undefined,
           mediaCaptions: undefined,
@@ -1783,12 +1784,12 @@ export default function UploadScreen() {
           shouldMint: false,
           pollData: i === 0 ? payload.pollData : undefined,
           scheduledAt: isLater(at) ? at : undefined,
-          spacing: "skip",
+          spacing: "skip" as const,
           draftReceipt: i === 0 ? receipt : undefined,
           sourceDraftId: i === 0 ? restoredDraftIdRef.current ?? undefined : undefined,
-        });
-        if (!queued) return false;
-      }
+        };
+      });
+      if (!enqueueJobs(jobs)) return false;
       toastSuccess(t("postSpacing.dripDone", { defaultValue: "{{count}} posts planned. Last one {{when}}", count: photos.length, when: times[times.length - 1].toLocaleString() }));
       setTimeout(() => {
         navigateHome(undefined);
@@ -1811,7 +1812,7 @@ export default function UploadScreen() {
       releaseSubmit();
     }, 120);
     return true;
-  }, [captureActiveDraft, getPayload, enqueueJob, navigateHome, releaseSubmit, solanaAddress, mintFee, mintChainId, consumeRestoredDraft, postQuota, nav, _copy, dripActive, dripGap, spacing.data?.gapMinutes]);
+  }, [captureActiveDraft, getPayload, enqueueJob, enqueueJobs, navigateHome, releaseSubmit, solanaAddress, mintFee, mintChainId, consumeRestoredDraft, postQuota, nav, _copy, dripActive, dripGap, spacing.data?.gapMinutes]);
 
   const handleRemoveQuoteEmbed = useCallback(() => {
     setIsQuoteMode(false);

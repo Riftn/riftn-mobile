@@ -339,11 +339,16 @@ subscribe(uploadState, () => {
 
 export const uploadActions = {
   enqueue(job: UploadJob): boolean {
+    return uploadActions.enqueueBatch([job]);
+  },
+
+  // Admit a single composer submission atomically, including all photo jobs.
+  enqueueBatch(jobs: readonly UploadJob[]): boolean {
     const active = uploadState.jobs.filter(
       (j) => j.status !== "done" && j.status !== "failed",
     );
     if (active.length >= MAX_QUEUE_SIZE) return false;
-    uploadState.jobs.push(job);
+    uploadState.jobs.push(...jobs);
     return true;
   },
 
