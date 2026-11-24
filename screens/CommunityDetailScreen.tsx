@@ -71,6 +71,7 @@ import CommunityDescription from "../components/Communities/CommunityDescription
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
 import GroupCallButtons from "../components/Call/GroupCallButtons";
+import CatchUpSheet, { runCatchUp } from "../components/Communities/CatchUpSheet";
 import LiveChatSearch, { rememberChatSearch, useChatSearch, type ChatSearchPerson, type ChatSearchSource } from "../components/LiveChat/LiveChatSearch";
 import { searchCommunityChat } from "../services/community-chat-search";
 import { communityKindOf, confirmEntry, entryPriceOf, entryStatus, isPublicChatCommunity } from "../libs/community-kinds";
@@ -89,7 +90,7 @@ type Tab = "posts" | "chat" | "events" | "members" | "about";
 
 const CommunityDetailScreen: React.FC = () => {
   const showPurchaseOffer = usePurchaseOfferVisible();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { width: windowWidth } = useWindowDimensions();
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
@@ -118,6 +119,7 @@ const CommunityDetailScreen: React.FC = () => {
   // Search inside the chat tab: the public chat's search box, reading this
   // community's messages. Picking a result opens the chat on that message.
   const [searchOpen, setSearchOpen] = useState(false);
+  const [catchUpOpen, setCatchUpOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchPerson, setSearchPerson] = useState<ChatSearchPerson | null>(null);
   const [chatJump, setChatJump] = useState<{ id: string; n: number } | null>(null);
@@ -790,6 +792,14 @@ const CommunityDetailScreen: React.FC = () => {
 
   return (
     <View className="flex-1 bg-theme-neutrals-900">
+      <CatchUpSheet
+        visible={catchUpOpen}
+        onClose={() => setCatchUpOpen(false)}
+        onPick={(period) => {
+          if (!walletAddress) return;
+          void runCatchUp({ communityId: community.id, walletAddress, period, t, lang: i18n.language, navigation });
+        }}
+      />
       <ScreenHeader
         title={t("communities.title")}
         rightContent={(isMember && kind === "group") || (tab === "chat" && (isMember || !community.is_private)) ? (
@@ -804,6 +814,19 @@ const CommunityDetailScreen: React.FC = () => {
                 accessibilityLabel={t("publicChat.searchMessages")}
               >
                 <Icon name="Search" size={18} color="#FFFFFF" />
+              </TouchableOpacity>
+            ) : null}
+            {tab === "chat" && isMember && walletAddress ? (
+              <TouchableOpacity
+                onPress={() => setCatchUpOpen(true)}
+                style={{ width: 36, height: 36, borderRadius: 12, alignItems: "center", justifyContent: "center" }}
+                activeOpacity={0.6}
+                hitSlop={4}
+                accessibilityRole="button"
+                accessibilityLabel={t("communities.catchUp.button", { defaultValue: "Catch me up" })}
+                testID="community-catch-up"
+              >
+                <Icon name="History" size={18} color="#FFFFFF" />
               </TouchableOpacity>
             ) : null}
             {isMember && kind === "group" ? (
