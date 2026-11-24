@@ -1,4 +1,5 @@
 import { useChatTextScale } from "../../hooks/useAppPrefs";
+import { formatClockTime } from "../../libs/date.util";
 import { openMessageReport } from "../common/MessageReportHost";
 import { IS_APP_STORE_BUILD } from "../../config/storefront";
 import { useKeyboardSwap } from "../../hooks/useKeyboardSwap";
@@ -130,12 +131,7 @@ const MONTHS = [
   () => _translateCopy("copy.f2a0cfbcf191", { defaultValue: "Dec" }),
 ];
 
-const formatClock = (date: Date): string => {
-  const h = date.getHours();
-  const m = date.getMinutes().toString().padStart(2, "0");
-  const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
-  return `${h % 12 || 12}:${m} ${ampm}`;
-};
+const formatClock = (date: Date): string => formatClockTime(date);
 
 /** `4 Aug, 9:05 PM` — built by hand so it does not depend on Intl being present. */
 const formatWhen = (date: Date): string =>

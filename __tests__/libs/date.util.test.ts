@@ -1,3 +1,4 @@
+jest.mock('expo-localization', () => ({ getLocales: () => [{ languageCode: 'en' }], getCalendars: jest.fn(() => [{ uses24hourClock: true }]) }));
 import {
   secondsToHMMSS, msToHHMMSS, formatJoinedDate,
   formatRelativeFromNow, formatChatTimeSmart, formatMessageTime,
@@ -118,6 +119,17 @@ describe('libs/date.util', () => {
         expect(formatMessageTime(new Date(2026, 0, 1, hour, minute))).toBe(expected);
       }
     );
+
+    it('follows a 12-hour phone clock', () => {
+      const calendars = require('expo-localization').getCalendars as jest.Mock;
+      calendars.mockReturnValue([{ uses24hourClock: false }]);
+      try {
+        expect(formatMessageTime(new Date(2026, 0, 1, 16, 57))).toBe('4:57 PM');
+        expect(formatMessageTime(new Date(2026, 0, 1, 0, 5))).toBe('12:05 AM');
+      } finally {
+        calendars.mockReturnValue([{ uses24hourClock: true }]);
+      }
+    });
 
     it('returns an empty label for missing or invalid timestamps', () => {
       expect(formatMessageTime()).toBe('');

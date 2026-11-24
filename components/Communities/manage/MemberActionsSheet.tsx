@@ -13,6 +13,7 @@
  * presenting a modal while another is still dismissing drops it on iOS.
  */
 import React, { useMemo, useState } from "react";
+import { formatClockTime } from "../../../libs/date.util";
 import {
   View,
   Text,
@@ -56,10 +57,7 @@ export function formatRestrictionDate(iso: string | null): string {
   if (!iso) return "";
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return "";
-  const h = d.getHours();
-  const m = d.getMinutes().toString().padStart(2, "0");
-  const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
-  return `${MONTHS[d.getMonth()]()} ${d.getDate()}, ${h % 12 || 12}:${m} ${ampm}`;
+  return `${MONTHS[d.getMonth()]()} ${d.getDate()}, ${formatClockTime(d)}`;
 }
 
 /**
