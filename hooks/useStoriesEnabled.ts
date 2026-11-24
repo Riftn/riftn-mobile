@@ -41,6 +41,8 @@ export function useStoriesEnabled() {
   });
   return {
     storiesEnabled: wallet && query.isLoading ? false : query.data ?? true,
+    /** The setting has not come back (or been restored) yet, so storiesEnabled is only a guess. */
+    storiesSettingLoading: !!wallet && query.isPending,
     canChange: !!wallet && !query.isLoading && !save.isPending,
     setStoriesEnabled: (enabled: boolean) => {
       if (wallet) save.mutate({ address: wallet, enabled });
