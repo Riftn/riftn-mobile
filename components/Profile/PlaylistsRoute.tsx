@@ -1,5 +1,5 @@
 import Animated from "react-native-reanimated";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, ActivityIndicator, Pressable, Text, StyleSheet, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
 import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,8 @@ import FeedCard from "../Home/FeedCard";
 import type { UnifiedFeedItem } from "../../services/feed.unified.service";
 import { useFeedCardVisibility } from "../../hooks/useFeedCardVisibility";
 import ProfileEmptyState from "./ProfileEmptyState";
-import { getImageUrl } from "../../libs/misc";
+import { getAudioUrl, getImageUrl } from "../../libs/misc";
+import { playAudioQueue, type AudioPostTrack } from "../../libs/audio-post-playback";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import {
   getPublicPlaylists,
@@ -39,6 +40,32 @@ interface PlaylistsRouteProps {
 
 const PAGE_SIZE = 20;
 const COVER_WIDTH = 220;
+
+/**
+ * The playlist's audio posts as corner-player tracks. Paid, held, members
+ * and followers-only posts are left out: the corner player has no unlock.
+ */
+function audioTracks(items: UnifiedFeedItem[], fallbackTitle: string, fallbackArtist: string): AudioPostTrack[] {
+  const out: AudioPostTrack[] = [];
+  for (const raw of items) {
+    const item = raw as any;
+    if (!item?.audioUrl || item.tokenId == null) continue;
+    const info = item.streamInfo || {};
+    if (info.isPayPerView || info.isLockContent || item.plansDetails?.length) continue;
+    if (item.visibility === "followers" || item.visibility === "direct") continue;
+    const minter = item.minterUser || {};
+    const title = String(item.name || item.title || "").trim();
+    const art = item.imageUrl || item.thumbnailUrl;
+    out.push({
+      tokenId: String(item.tokenId),
+      audioUrl: getAudioUrl(item.audioUrl),
+      title: title && title.toLowerCase() !== "untitled" ? title : fallbackTitle,
+      artist: minter.displayName || minter.username || item.minterDisplayName || item.minterUsername || fallbackArtist,
+      artworkUrl: art ? getImageUrl(art, COVER_WIDTH) : undefined,
+    });
+  }
+  return out;
+}
 
 const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile = false, listRef, onScroll, listHeader, onBeforeNavigate }) => {
   const { t } = useTranslation();
@@ -149,6 +176,11 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
     );
   };
 
+  const tracks = useMemo(
+    () => audioTracks(items, t("audioPost.untitled"), t("audioPost.creator")),
+    [items, t],
+  );
+
   // ── One playlist ───────────────────────────────────────────────────────
   if (open) {
     const header = (
@@ -170,6 +202,28 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
           </View>
           <Text style={styles.openCount}>{t("bookmarks.playlist.itemsCount", { count: open.itemCount })}</Text>
         </View>
+        {tracks.length > 1 && (
+          <View style={styles.playRow}>
+            <Pressable
+              onPress={() => playAudioQueue(tracks)}
+              style={[styles.playBtn, styles.playBtnMain]}
+              accessibilityRole="button"
+              accessibilityLabel={t("audioPost.playAll")}
+            >
+              <Icon name="Play" size={15} color="#0C0C0E" fill="#0C0C0E" />
+              <Text style={[styles.playText, { color: "#0C0C0E" }]}>{t("audioPost.playAll")}</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => playAudioQueue(tracks, { shuffle: true })}
+              style={styles.playBtn}
+              accessibilityRole="button"
+              accessibilityLabel={t("audioPost.shuffle")}
+            >
+              <Icon name="Shuffle" size={15} color="#FFFFFF" />
+              <Text style={styles.playText}>{t("audioPost.shuffle")}</Text>
+            </Pressable>
+          </View>
+        )}
       </View>
     );
 
@@ -338,6 +392,19 @@ const styles = StyleSheet.create({
   openTitle: { color: "#F9FBFF", fontSize: 16, fontWeight: "700" },
   openDesc: { color: "#8B8D90", fontSize: 12, marginTop: 1 },
   openCount: { color: "#8B8D90", fontSize: 12 },
+  playRow: { flexDirection: "row", gap: 8, paddingHorizontal: 4, paddingBottom: 10 },
+  playBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    height: 36,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
+  },
+  playBtnMain: { backgroundColor: "#FFFFFF", borderColor: "#FFFFFF" },
+  playText: { color: "#FFFFFF", fontSize: 13, fontWeight: "600" },
   errorText: { color: "#A6A9AC", fontSize: 14, textAlign: "center" },
   retryBtn: {
     height: 40,

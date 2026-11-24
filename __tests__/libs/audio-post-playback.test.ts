@@ -2,7 +2,10 @@ import { requestAudioFocus, revokeAudioFocus } from "../../libs/audioFocus";
 import { claimLockScreen, releaseLockScreen } from "../../libs/lockScreen";
 import {
   getAudioPostPlaybackState,
+  playAudioQueue,
   popOutAudioPost,
+  setAudioCrossfade,
+  skipAudioQueue,
   seekAudioPost,
   stopAudioPost,
   takeBackAudioPost,
@@ -225,5 +228,75 @@ describe("libs/audio-post-playback", () => {
     await flush();
     expect(player.play).toHaveBeenCalledTimes(2);
     expect(getAudioPostPlaybackState().isPlaying).toBe(true);
+  });
+  describe("playlists", () => {
+    const tracks = ["1", "2", "3"].map((id) => ({
+      tokenId: id,
+      audioUrl: `https://cdn.example/${id}.mp3`,
+      title: `Song ${id}`,
+      artist: "dehu",
+    }));
+
+    afterEach(() => setAudioCrossfade(0));
+
+    it("plays the list in order and moves on when a track ends", async () => {
+      const players: ReturnType<typeof fakePlayer>[] = [];
+      mockCreateAudioPlayer.mockImplementation(() => {
+        const p = fakePlayer({ playing: true, currentTime: 0 });
+        players.push(p);
+        return p;
+      });
+      playAudioQueue(tracks);
+      await flush();
+      expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "1", queueLength: 3, queuePos: 0 });
+
+      players[0].tick({ didJustFinish: true, currentTime: 100 });
+      await flush();
+      expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "2", queuePos: 1, isPlaying: true });
+      expect(players[0].remove).toHaveBeenCalled();
+
+      skipAudioQueue(1);
+      await flush();
+      expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "3", queuePos: 2 });
+
+      // The last track rests at the end instead of closing.
+      players[2].tick({ didJustFinish: true, currentTime: 100 });
+      expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "3", isPlaying: false });
+    });
+
+    it("fades the next track in under the end of this one", async () => {
+      jest.useFakeTimers();
+      try {
+        const players: ReturnType<typeof fakePlayer>[] = [];
+        mockCreateAudioPlayer.mockImplementation(() => {
+          const p = fakePlayer({ playing: true, currentTime: 0 });
+          players.push(p);
+          return p;
+        });
+        setAudioCrossfade(6);
+        playAudioQueue(tracks);
+        jest.advanceTimersByTime(1000);
+        players[0].tick({ currentTime: 95 });
+        expect(players).toHaveLength(2);
+        expect(players[1].play).toHaveBeenCalled();
+        jest.advanceTimersByTime(2500);
+        expect(players[0].volume).toBeLessThan(1);
+        expect(players[1].volume).toBeGreaterThan(0);
+        jest.advanceTimersByTime(3000);
+        expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "2", queuePos: 1 });
+        expect(players[0].remove).toHaveBeenCalled();
+        expect(players[1].volume).toBe(1);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it("ends the playlist when another post is popped out", async () => {
+      mockCreateAudioPlayer.mockImplementation(() => fakePlayer({ playing: true, currentTime: 0 }));
+      playAudioQueue(tracks);
+      await flush();
+      popOutAudioPost({ track, player: fakePlayer() as any, volume: 1 });
+      expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "42", queueLength: 0 });
+    });
   });
 });

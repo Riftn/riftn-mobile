@@ -6632,6 +6632,12 @@
     "newMessage": "{{name}} te ha enviado un mensaje"
   },
   "audioPost": {
+    "playAll": "Reproducir todo",
+    "shuffle": "Aleatorio",
+    "crossfade": "Fundido",
+    "off": "no",
+    "next": "Siguiente",
+    "previous": "Atrás",
     "popOut": "Pop out — sigue escuchando mientras navegas",
     "closeCornerPlayer": "Cerrar el jugador de esquina",
     "cornerPlayer": "Reproducción de post de audio",

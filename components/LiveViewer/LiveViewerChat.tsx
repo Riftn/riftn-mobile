@@ -15,6 +15,7 @@ import { getAvatarUrl, getBadgeUrlFor, getInlineBadgeOpticalStyle } from "../../
 import BadgeArtwork from "../common/BadgeArtwork";
 import { renderLinkEmojis } from "../common/LinkEmoji";
 import { TEXT_SHADOW } from "../common/ViewerChrome";
+import { claimFlight, currentFlight, reportRow, setChatAnchor, subscribeFlight, type Flight } from "../../libs/liveChatFlight";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
 import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
@@ -110,7 +111,7 @@ const USERNAME_PALETTE = [
   "#D4D4D8",
 ];
 
-const colorForUser = (key?: string): string => {
+export const colorForUser = (key?: string): string => {
   if (!key) return "#e5e7eb";
   let hash = 0;
   for (let i = 0; i < key.length; i++) {
@@ -418,6 +419,33 @@ const LandIn = memo(function LandIn({ glow, children }: { glow: boolean; childre
   return <Animated.View style={style}>{children}</Animated.View>;
 });
 
+/**
+ * Your own line, when it is the one just sent: it stays hidden while its copy
+ * flies in from the box (LiveChatFlyer), tells the copy where it is, and
+ * shows the moment the copy lands, so the line is never drawn twice.
+ */
+const FlightLand = memo(function FlightLand({ flight, children }: { flight: Flight; children: React.ReactNode }) {
+  const ref = useRef<View>(null);
+  const shown = useSharedValue(0);
+  useEffect(() => {
+    const reveal = () => { shown.value = 1; };
+    const unsub = subscribeFlight((f) => { if (!f || f.id !== flight.id || f.done) reveal(); });
+    if (currentFlight()?.id !== flight.id) reveal();
+    // Never leave your line hidden, whatever happens to the copy.
+    const fallback = setTimeout(reveal, 1500);
+    return () => { unsub(); clearTimeout(fallback); };
+  }, [flight.id, shown]);
+  const onLayout = useCallback(() => {
+    ref.current?.measureInWindow((x, y) => reportRow(flight.id, { x, y }));
+  }, [flight.id]);
+  const style = useAnimatedStyle(() => ({ opacity: shown.value }));
+  return (
+    <Animated.View ref={ref} collapsable={false} onLayout={onLayout} style={style}>
+      {children}
+    </Animated.View>
+  );
+});
+
 const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, holding = false, myAddress, onShowReactors, highlightId = null }) => {
   const listRef = useRef<FlatList<ChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
@@ -473,6 +501,21 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
   const seen = useRef<Set<string> | null>(null);
   if (seen.current == null) seen.current = new Set(reversed.map((a, i) => keyExtractor(a, i)));
 
+  // Your sent line that a flight from the box lands on (claimed once, by key).
+  const flights = useRef(new Map<string, Flight>());
+
+  // Where the newest line goes, for the copy flying in from the box: the
+  // list's bottom padding (4) plus a line's own bottom margin (8).
+  const anchorRef = useRef<View>(null);
+  useEffect(() => {
+    setChatAnchor((cb) => {
+      const node = anchorRef.current;
+      if (!node) { cb(null); return; }
+      node.measureInWindow((x, y, width) => cb(width ? { x, y, width } : null));
+    });
+    return () => setChatAnchor(null);
+  }, []);
+
   const renderItem = useCallback(
     ({ item, index }: { item: ChatActivity; index: number }) => {
       const mine = !!myAddress && String(item.user?.address || item.address || "").toLowerCase() === myAddress;
@@ -482,6 +525,12 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
         : plain;
       const key = keyExtractor(item, index);
       if (seen.current!.has(key)) return bubble;
+      let flight = flights.current.get(key);
+      if (!flight && mine && item.status === StreamActivityType.MESSAGE && !item.meta?.gifUrl) {
+        const claimed = claimFlight(String(item.meta?.content || ""));
+        if (claimed) { flight = claimed; flights.current.set(key, claimed); }
+      }
+      if (flight) return <FlightLand flight={flight}>{bubble}</FlightLand>;
       return <LandIn glow={item.status === StreamActivityType.TIP}>{bubble}</LandIn>;
     },
     [handleUserPress, onHold, keyExtractor, myAddress, onShowReactors, highlightId]
@@ -522,6 +571,8 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
         scrollEnabled={!holding}
         showsVerticalScrollIndicator={false}
       />
+      <View ref={anchorRef} collapsable={false} pointerEvents="none"
+        style={{ position: "absolute", left: 16, right: 16, bottom: 12, height: 1 }} />
     </ReactionArrivalScope>
   );
 };

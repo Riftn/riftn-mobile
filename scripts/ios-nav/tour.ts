@@ -2550,10 +2550,93 @@ async function runBarsBack(): Promise<void> {
   console.error("[perf-tour] barsback done");
 }
 
+/**
+ * Typing on a live (concept "B Fold in"): opens a live, puts the cursor in the
+ * chat box (the buttons fold into it), types a long line (the box grows),
+ * flies a copy of a line into the chat, erases the words (the box shrinks)
+ * and closes the keyboard (the buttons come back). Nothing is ever sent.
+ * Use account=review: signed out the box is closed.
+ */
+async function runLiveChat(): Promise<void> {
+  const { Keyboard } = require("react-native") as typeof import("react-native");
+  extra = { startedAt: Date.now(), mode: "livechat" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  let asks = 0;
+  const ask = async (request: string, waitMs: number) => {
+    asks += 1;
+    await AsyncStorage.setItem(SWIPE_KEY, request.replace("#", String(asks)));
+    await sleep(waitMs);
+  };
+  if (signedIn) {
+    await sleep(14000);
+    await ask("tap:not-now-photo-#:201:802", 9000);
+    await ask("tap:not-now-notifications-#:201:649", 9000);
+  }
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => r?.status === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  const hadBefore = new Set(liveInputs);
+  nav.navigate(ScreenNames.LiveViewer, { streamId });
+  await sleep(12000);
+  await shot("livechat-1-idle");
+  await sleep(3500);
+  const box = liveInputs.filter((input) => !hadBefore.has(input)).pop() as
+    | { measureInWindow?: (cb: (x: number, y: number) => void) => void }
+    | undefined;
+  extra.box = !!box;
+  if (box) inputState.focusTextInput(box);
+  else await ask("tap:livechat-box-#:120:806", 9000);
+  await sleep(2500);
+  extra.keyboardUp = Keyboard.isVisible();
+  await shot("livechat-2-tapped");
+  await sleep(3500);
+  await ask("type:livechat-#:this looks so good, where did you film this? the light on the water is unreal", 12000);
+  await shot("livechat-3-typed");
+  await sleep(3500);
+  // A copy of a line on its way into the chat, as a send launches it.
+  const { launchFlight } = require("../../libs/liveChatFlight") as typeof import("../../libs/liveChatFlight");
+  for (let i = 0; i < 3; i++) {
+    const from = await new Promise<{ x: number; y: number }>((resolve) => {
+      if (!box?.measureInWindow) { resolve({ x: 40, y: 700 }); return; }
+      box.measureInWindow((x, y) => resolve({ x: x + 2, y: y + 4 }));
+    });
+    launchFlight(`flying line ${i + 1}`, from);
+    await sleep(150 + i * 120);
+    await shot(`livechat-4-flying-${i + 1}`);
+    await sleep(6000);
+  }
+  await ask("erase:livechat-#:100", 9000);
+  await shot("livechat-5-erased");
+  await sleep(3500);
+  Keyboard.dismiss();
+  await sleep(1500);
+  extra.keyboardAfter = Keyboard.isVisible();
+  await shot("livechat-6-keyboard-down");
+  await sleep(3500);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] livechat done: stream ${streamId || "none"}, box ${String(extra.box)}, signed in ${String(signedIn)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink" && mode !== "profiletabs" && mode !== "barsback") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink" && mode !== "profiletabs" && mode !== "barsback" && mode !== "livechat") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2580,6 +2663,7 @@ void (async () => {
     else if (mode === "sharelink") await runShareLink();
     else if (mode === "moments") await runMoments();
     else if (mode === "profiletabs") await runProfileTabs();
+    else if (mode === "livechat") await runLiveChat();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

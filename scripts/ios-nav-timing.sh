@@ -239,6 +239,10 @@ run() {
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          erase:*)
+            # "erase:<label>:<n>": n presses of Delete in whatever has the cursor.
+            IFS=: read -r _ _ erase_n <<< "$touch"
+            idb ui key-sequence --udid "$UDID" $(for _ in $(seq 1 "${erase_n:-40}"); do printf '42 '; done) >/dev/null 2>&1 || echo "$name: idb erase failed" ;;
           type:*)
             # "type:<label>:<text>": typed into whatever has the cursor.
             IFS=: read -r _ _ type_text <<< "$touch"
@@ -438,6 +442,19 @@ if [ "$MODE" = menu ]; then
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = livechat ]; then
+  # Typing on a live: buttons fold into the box, it grows, a line flies in,
+  # it shrinks, the buttons come back. Pictured in four themes.
+  xcrun simctl spawn "$UDID" defaults write com.apple.Preferences AutomaticMinimizationEnabled -bool NO >/dev/null 2>&1 || true
+  for theme in ${KEYS_THEMES:-system hazy system-light osaka}; do
+    run after "livechat-$theme" "" livechat "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  cat "$OUT/logs/tour.txt"
   exit 0
 fi
 
