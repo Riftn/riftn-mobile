@@ -1,4 +1,5 @@
 {
+  "freeImages": {"title": "Free images", "search": "Search free photos", "note": "Free to use photos. A credit is added when the owner asks for one.", "empty": "No photos found. Try another word.", "failed": "Couldn't add that photo. Try another one.", "credit": "Photo: {{creator}} ({{license}})"},
   "profileSong": {"title": "Profile song", "hint": "A song under your bio. People tap it to listen.", "part": "Plays {{part}}", "change": "Change song", "remove": "Remove", "removed": "Profile song removed", "saved": "Profile song saved", "saveFailed": "Could not save your profile song. Try again.", "autoplay": "Play when people visit", "autoplayHint": "Fades in softly when someone opens your profile. They can stop it with one tap.", "add": "Add a song", "cantUse": "That song can't be used on a profile. Try another one.", "play": "Play {{title}}", "pause": "Pause {{title}}"},
   "painting": {
     "title": "Painting",

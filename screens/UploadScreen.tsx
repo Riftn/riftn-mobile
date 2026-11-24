@@ -129,6 +129,7 @@ import type { StudioEdits } from "../components/Upload/studioPaint";
 import type { FilterSettings } from "../libs/imageFilters";
 import { optionalSkia } from "../libs/skia";
 import { isPaintingFile } from "../libs/painting/engine";
+import FreeImagesSheet, { type FreeImagePick } from "../components/Upload/FreeImagesSheet";
 import type { SavedPainting } from "../components/Upload/paintingSkia";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import WhenOpened from "../components/ui/WhenOpened";
@@ -347,6 +348,7 @@ export default function UploadScreen() {
   // Comic: a photo post shown as collector cards, each page with a caption.
   const [comicMode, setComicMode] = useState(false);
   const [paintingOpen, setPaintingOpen] = useState(false);
+  const [freeImagesOpen, setFreeImagesOpen] = useState(false);
   /** The comic's border preset; null is the theme's own foil. */
   const [comicBorder, setComicBorder] = useState<ComicBorder | null>(null);
   const imageLimit = (comicMode ? getComicImageLimitForBadge : getPostImageLimitForBadge)(
@@ -2378,6 +2380,12 @@ export default function UploadScreen() {
     void adoptImageAssets([{ ...painting, type: "image", assetId: null } as PickedAsset]);
   }, [adoptImageAssets]);
 
+  /** A free library photo joins the post like a picked one; the credit goes under the text. */
+  const handleFreeImagePick = useCallback((image: FreeImagePick, credit: string | null) => {
+    void adoptImageAssets([{ ...image, type: "image", assetId: null } as unknown as PickedAsset]);
+    if (credit) setBodyText((prev) => (prev.includes(credit) ? prev : prev ? `${prev}\n\n${credit}` : credit));
+  }, [adoptImageAssets, setBodyText]);
+
   const handleStudioDone = useCallback((results: StudioResult[]) => {
     setImageEdit(null);
     if (!results.length) return;
@@ -4102,6 +4110,17 @@ export default function UploadScreen() {
                   <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("painting.title")}</Text>
                 </TouchableOpacity>
               )}
+              {!isLiveMode && !isStageMode && !articleMode && !pickedVideo && !pickedAudio && pickedImages.length < imageLimit && (
+                <TouchableOpacity
+                  onPress={() => { setShowPostOptions(false); setFreeImagesOpen(true); }}
+                  accessibilityRole="button"
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: "transparent" }}
+                >
+                  <Icon name="Image" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("freeImages.title")}</Text>
+                </TouchableOpacity>
+              )}
               {!isLiveMode && (
                 <TouchableOpacity
                   onPress={() => { setShowPostOptions(false); setContentWarning(prev => prev === null ? "" : null); }}
@@ -4576,6 +4595,7 @@ export default function UploadScreen() {
           </DmVideoStudio>
         );
       })()}
+      <FreeImagesSheet visible={freeImagesOpen} onClose={() => setFreeImagesOpen(false)} initialQuery={bodyText} onPick={handleFreeImagePick} />
       {PaintingStudio && paintingOpen && (
         <PaintingStudio onClose={() => setPaintingOpen(false)} onDone={handlePaintingDone} />
       )}
