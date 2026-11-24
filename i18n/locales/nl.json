@@ -8245,6 +8245,12 @@
     "viewReposts": "Reposts bekijken"
   },
   "dm": {
+    "trayGif": "GIF en emoji",
+    "trayVoice": "Spraakbericht",
+    "trayTip": "Fooi",
+    "trayPoll": "Peiling",
+    "traySchedule": "Inplannen",
+    "trayFix": "Verbeter met AI",
     "newDrawer": {
       "to": "Aan",
       "placeholder": "Naam of @gebruikersnaam",

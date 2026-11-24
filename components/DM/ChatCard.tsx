@@ -1,25 +1,28 @@
 import React, { memo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE } from "../../theme/colors";
-import { glassTint } from "../../theme/skins";
 import { glowLine } from "../ui/glow";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 
 /*
- * Messages: every chat is its own glass card (design B, as on the web,
- * 2026-11-18). Cards sit 10px apart with no divider lines; something new in a
- * chat lights a bar on the card's left edge, and a ticked card rings in the
- * theme colour. No blur: a long list of blurred cards costs every scroll
- * frame, and the tinted fill reads the same over the page.
+ * Messages: the clean list (picked 2026-11-24, replaces the glass cards).
+ * Rows run edge to edge with a hairline between them that starts at the
+ * text, round 52px photos, and a small dot in the theme colour on the left
+ * edge when something is new.
  *
  * Written dark; System Light turns the greys around as it renders.
  */
 
 export const CHAT_CARD_GAP = 10;
 export const CHAT_CARD_INSET = 12;
-const RADIUS = 18;
+/** Chat rows: 16px in, a 52px photo, 12px gap, so the text starts at 80. */
+export const CHAT_ROW_INSET = 16;
+export const CHAT_ROW_PHOTO = 52;
+/** Photo corners: squared off like the buttons, not round. */
+export const CHAT_ROW_RADIUS = 10;
+export const CHAT_ROW_TEXT_LEFT = CHAT_ROW_INSET + CHAT_ROW_PHOTO + 12;
+export const CHAT_ROW_MIN_HEIGHT = 76;
 
 /** The theme colour a lit bar, a ring or a selected tab takes. */
 export function useChatCardAccent(): string {
@@ -42,51 +45,19 @@ function ChatCardComponent({
   checked?: boolean;
   testID?: string;
 }) {
-  const { skin, isMinimal, isLight } = useAppTheme();
+  const { isMinimal } = useAppTheme();
   const accent = useChatCardAccent();
-  const { feedSeparator, messagesPills } = useAppPrefs();
-  // Pill look: the round count says it, no lit bar on the card's edge.
+  const { messagesPills } = useAppPrefs();
+  // Pill look: the round count says it, no dot on the edge.
   if (messagesPills) unread = false;
-  if (feedSeparator === 'line') {
-    // Plain list (Settings → Appearance → Thin line): no card, a
-    // hairline under each chat, and the same lit bar for something new.
-    return (
-      <View style={[styles.row, checked && { backgroundColor: "rgba(255,255,255,0.06)" }]} testID={testID}>
-        {children}
-        <View pointerEvents="none" style={[styles.line, isMinimal && { backgroundColor: MINIMAL_HAIRLINE }]} />
-        {unread ? (
-          <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, glowLine(accent, 6)]} />
-        ) : null}
-      </View>
-    );
-  }
-  const fill = isMinimal
-    ? "#000000"
-    : skin
-      ? glassTint(String(skin.barFill.backgroundColor ?? "rgb(24,24,27)"), 0.62)
-      : "rgba(24,24,27,0.78)";
+  // The clean list (2026-11-24, phones): no card, a hairline that starts
+  // where the text does, and a small dot on the left edge for something new.
   return (
-    <View style={styles.card} testID={testID}>
-      <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: fill }]} />
-      {!isLight && !isMinimal ? (
-        <LinearGradient
-          pointerEvents="none"
-          colors={["rgba(255,255,255,0.10)", "rgba(255,255,255,0.02)", "rgba(255,255,255,0)"]}
-          locations={[0, 0.45, 1]}
-          style={StyleSheet.absoluteFill}
-        />
-      ) : null}
+    <View style={[styles.row, checked && { backgroundColor: "rgba(255,255,255,0.06)" }]} testID={testID}>
       {children}
-      <View
-        pointerEvents="none"
-        style={[
-          styles.rim,
-          isMinimal && { borderColor: MINIMAL_HAIRLINE },
-          checked && { borderColor: accent, borderWidth: 1.5 },
-        ]}
-      />
+      <View pointerEvents="none" style={[styles.line, isMinimal && { backgroundColor: MINIMAL_HAIRLINE }]} />
       {unread ? (
-        <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, glowLine(accent, 6)]} />
+        <View pointerEvents="none" testID="chat-card-unread" style={[styles.dot, { backgroundColor: accent }]} />
       ) : null}
     </View>
   );
@@ -143,41 +114,29 @@ export function ChatListTabs({
   );
 }
 
-/** Gap between chats (none in the plain list) and inset from the screen edge. */
+/** The clean list runs edge to edge with no gap; each row carries its own 16px inset. */
 export function useChatListSpacing(): { gap: number; inset: number } {
-  const { feedSeparator } = useAppPrefs();
-  return { gap: feedSeparator === 'bento' ? CHAT_CARD_GAP : 0, inset: CHAT_CARD_INSET };
+  return { gap: 0, inset: 0 };
 }
 
 const styles = StyleSheet.create({
   row: {},
   line: {
     position: "absolute",
-    left: 72,
+    left: CHAT_ROW_TEXT_LEFT,
     right: 0,
     bottom: 0,
     height: StyleSheet.hairlineWidth,
     backgroundColor: "rgba(255,255,255,0.12)",
   },
-  card: {
-    borderRadius: RADIUS,
-    overflow: "hidden",
-  },
-  rim: {
-    ...StyleSheet.absoluteFillObject,
-    borderRadius: RADIUS,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.12)",
-  },
-  unread: {
+  dot: {
     position: "absolute",
-    left: 0,
+    left: 5,
     top: "50%",
-    width: 4,
-    height: 28,
-    marginTop: -14,
-    borderTopRightRadius: 3,
-    borderBottomRightRadius: 3,
+    width: 7,
+    height: 7,
+    marginTop: -3.5,
+    borderRadius: 4,
   },
   tabsScroll: { flexGrow: 0, marginHorizontal: -CHAT_CARD_INSET },
   tabs: { paddingHorizontal: CHAT_CARD_INSET, paddingTop: 2, paddingBottom: 4, gap: 4 },

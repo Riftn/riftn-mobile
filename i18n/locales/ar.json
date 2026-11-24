@@ -8131,6 +8131,12 @@
     "viewReposts": "عرض عمليات إعادة النشر"
   },
   "dm": {
+    "trayGif": "GIF ورموز تعبيرية",
+    "trayVoice": "رسالة صوتية",
+    "trayTip": "إكرامية",
+    "trayPoll": "استطلاع",
+    "traySchedule": "جدولة",
+    "trayFix": "إصلاح بالذكاء الاصطناعي",
     "newDrawer": {
       "to": "إلى",
       "placeholder": "الاسم أو @اسم_المستخدم",

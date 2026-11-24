@@ -60,7 +60,7 @@ export interface ScreenHeaderProps {
   /** Page identity artwork key (theme/icons.ts), drawn in the theme's own style. */
   icon?: string;
   /** Web's title island, flat conversation chrome, or controls over media. */
-  appearance?: 'island' | 'flat' | 'controls';
+  appearance?: 'island' | 'flat' | 'controls' | 'centered';
   /** Page navigation stays inside the same island as its title. */
   tabs?: React.ReactNode;
   /** Search and filters. On the pill they wait behind a search button and
@@ -207,6 +207,53 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({
     );
   }
 
+  // Inside a chat: back on the left, the photo with the name under it in the
+  // middle, the chat's own buttons on the right. Both sides take the same
+  // width so the middle stays centred whatever sits on the right.
+  if (appearance === 'centered') {
+    return (
+      <View style={styles.centerBar}>
+        <View style={styles.centerSide}>
+          {showBack ? (
+            <TouchableOpacity
+              onPress={handleBack}
+              className="active:opacity-70"
+              style={styles.flatBack}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              accessibilityRole="button"
+              accessibilityLabel={t("common.goBack")}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={24}
+                color={colors.neutrals[100]}
+                style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined}
+              />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+        <View style={styles.centerMid}>
+          {leftContent ?? null}
+          <View style={styles.centerTitleRow}>
+            <Text numberOfLines={1} className="text-theme-neutrals-100 flex-shrink" style={styles.centerTitle}>
+              {title}
+            </Text>
+            {titleBadge ?? null}
+            {titleAccessory ? <View style={{ marginLeft: 5 }}>{titleAccessory}</View> : null}
+          </View>
+          {subtitle ? (
+            <Text numberOfLines={1} className="text-theme-neutrals-400" style={styles.centerSubtitle}>
+              {subtitle}
+            </Text>
+          ) : null}
+        </View>
+        <View style={[styles.centerSide, { alignItems: 'flex-end' }]}>
+          {rightContent ? <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>{rightContent}</View> : null}
+        </View>
+      </View>
+    );
+  }
+
   if (appearance === 'island') {
     return (
       <PillHeader
@@ -329,6 +376,12 @@ const styles = StyleSheet.create({
   searchIsland: { height: undefined, flexDirection: 'column', alignItems: 'stretch', paddingHorizontal: ISLAND_INSET, paddingVertical: ISLAND_INSET },
   flatBar: { height: SCREEN_HEADER_HEIGHT, paddingHorizontal: 16, justifyContent: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(255,255,255,0.07)' },
   flatRow: { flexDirection: 'row', alignItems: 'center' },
+  centerBar: { flexDirection: 'row', alignItems: 'flex-start', paddingHorizontal: 8, paddingTop: 4, paddingBottom: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(255,255,255,0.08)' },
+  centerSide: { width: 84, paddingTop: 6, flexDirection: 'row', alignItems: 'center' },
+  centerMid: { flex: 1, minWidth: 0, alignItems: 'center' },
+  centerTitleRow: { flexDirection: 'row', alignItems: 'center', marginTop: 4, maxWidth: '100%' },
+  centerTitle: { fontSize: 13, fontWeight: '600' },
+  centerSubtitle: { fontSize: 11, marginTop: 1, maxWidth: '100%' },
   flatBack: { width: 32, height: 36, marginRight: 12, alignItems: 'center', justifyContent: 'center' },
   minimalFrame: {
     borderRadius: ISLAND_RADIUS,

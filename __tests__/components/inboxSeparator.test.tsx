@@ -23,14 +23,14 @@ function InboxRow() {
   return <ChatCard unread checked><Text>{gap}</Text></ChatCard>;
 }
 
-it('restores a legacy plain inbox and follows later feed layout changes', async () => {
+it('keeps the clean list (no gap, unread dot) whatever the feed layout is', async () => {
   await AsyncStorage.setItem('riftn.chat.cards', 'false');
   let view!: ReturnType<typeof create>;
   await act(async () => { view = create(<InboxRow />); });
   expect(view.root.findByType(Text).props.children).toBe(0);
   expect(view.root.findAllByProps({ testID: 'chat-card-unread' }).length).toBeGreaterThan(0);
   await act(async () => { setAppPref('feedSeparator', 'bento'); });
-  expect(view.root.findByType(Text).props.children).toBe(10);
+  expect(view.root.findByType(Text).props.children).toBe(0);
   expect(await AsyncStorage.getItem('dehub.feedSeparator')).toBe('bento');
   await act(async () => { setAppPref('feedSeparator', 'line'); });
   expect(view.root.findByType(Text).props.children).toBe(0);

@@ -48,7 +48,8 @@ import LockPriceRow from "./LockPriceRow";
 /** Per-kind caps, matching the backend's DM limits. */
 const DM_ATTACH_LIMITS = { image: 10 * 1024 * 1024, video: 50 * 1024 * 1024, audio: 20 * 1024 * 1024 } as const;
 import GifPicker from "./GifPicker";
-import ChatAttachSheet, { type ChatAttachOption } from "./ChatAttachSheet";
+import type { ChatAttachOption } from "./ChatAttachSheet";
+import { useChatCardAccent } from "./ChatCard";
 import WhenOpened from "../ui/WhenOpened";
 import SmartReplyTray from "./SmartReplyTray";
 import { useSmartReplies } from "../../hooks/useSmartReplies";
@@ -162,16 +163,18 @@ interface ChatInputBarProps {
 
 const TYPING_IDLE_MS = 5000;
 
-/*
- * Composer metrics. Attach and send/mic are one CONTROL-square box each (with
- * a little hitSlop, a 48dp target), and the field pads to the same height so a
- * single line of text sits on the icons' centre line. The TextInput's own box
- * is zeroed, Android font padding included, or the text rides high in the row.
- */
-const CONTROL = 44;
+/* Composer metrics. The TextInput's own box is zeroed, Android font padding
+ * included, or the text rides high in the field. */
 const LINE = 20;
-const CONTROL_BOX = { width: 32, height: CONTROL } as const;
-const INPUT_BOX = { minHeight: 52, paddingTop: 4, maxHeight: 128 } as const;
+/* The B bar: a squared + (like our buttons), a round field with send inside. */
+const PLUS_BOX = { width: 38, height: 38, borderRadius: 10, backgroundColor: "rgba(255,255,255,0.08)" } as const;
+const FIELD_BOX = { minHeight: 38, maxHeight: 140, borderRadius: 19, borderWidth: 1, borderColor: "rgba(255,255,255,0.14)", paddingLeft: 14, paddingRight: 4 } as const;
+const SEND_DOT = { width: 30, height: 30, borderRadius: 15, marginBottom: 3, marginLeft: 6 } as const;
+/* The drawer + opens: four squared tiles a row, each with its name. */
+const TRAY = { flexDirection: "row", flexWrap: "wrap", paddingHorizontal: 8, paddingTop: 6, paddingBottom: 10, rowGap: 12 } as const;
+const TRAY_CELL = { width: "25%", alignItems: "center" } as const;
+const TRAY_TILE = { width: 54, height: 54, borderRadius: 13, backgroundColor: "rgba(255,255,255,0.08)", alignItems: "center", justifyContent: "center" } as const;
+const TRAY_LABEL = { marginTop: 6, fontSize: 11.5, fontWeight: "600", textAlign: "center", lineHeight: 14, paddingHorizontal: 2 } as const;
 const INPUT_TEXT = {
   margin: 0,
   padding: 0,
@@ -240,10 +243,10 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   const studioBase = useRef(0);
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [gifPickerVisible, setGifPickerVisible] = useState(false);
-  const [attachOpen, setAttachOpen] = useState(false);
+  const [trayOpen, setTrayOpen] = useState(false);
+  const accent = useChatCardAccent();
   // The paperclip: one button, then "photo or video" (gallery) or "file or
   // audio" (anything else on the phone).
-  const [clipOpen, setClipOpen] = useState(false);
   const [composerFocused, setComposerFocused] = useState(false);
   // A copied screenshot or picture: offered as "Paste image" while typing
   // and in the attach sheet, since iOS text fields can't paste pictures.
@@ -642,7 +645,6 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     }
   }, [addToStudio]);
 
-  const gifPress = useMemo(() => keyboardSwap.pressProps(() => keyboardSwap.swapTo(() => setGifPickerVisible(true))), [keyboardSwap]);
 
   const handleGifPicked = useCallback((url: string) => {
     setGifPickerVisible(false);
@@ -719,21 +721,17 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   const insufficientBalance =
     showCostOnSend && dhbBalance != null && dhbBalance < totalCost;
 
-  // The keyboard goes down first so the sheet opens over the thread rather
-  // than stacked on top of the keys.
-  const handleOpenAttach = () => {
+  // + drops the keyboard and opens the drawer in its place; tapping the
+  // field (or + again) closes it.
+  const toggleTray = () => {
     haptic.tap();
+    if (trayOpen) {
+      setTrayOpen(false);
+      return;
+    }
     Keyboard.dismiss();
     refreshClipImage();
-    setAttachOpen(true);
-  };
-
-  // Each option closes the sheet and then runs exactly what its old toolbar
-  // button ran. Closing first matters: the pickers and the GIF, tip and poll
-  // sheets are windows of their own and must not open underneath this one.
-  const fromSheet = (run: () => unknown) => () => {
-    setAttachOpen(false);
-    run();
+    setTrayOpen(true);
   };
   // Scheduling is for a new message, so the clock steps aside during an edit.
   const canSchedule = !!onSchedulePress && !editingMessage;
@@ -745,45 +743,33 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       clear: () => setText.complete(text, ""),
     });
   };
-  const attachOptions: ChatAttachOption[] = [
-    // Tipping is voluntary and never needed to send, and a tip already set is
-    // shown (with its clear button) in the badge above the field — so the gem
-    // gives up its permanent slot in the row.
+  // Everything the composer had as its own button, now behind the +. Each
+  // tile runs exactly what its old button ran; one a chat doesn't allow
+  // (tips, polls, schedule while editing) is left out.
+  const trayOptions: (ChatAttachOption & { onLongPress?: () => void })[] = [
+    { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: () => { void handlePickGallery(); } },
+    { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: () => { void handlePickAnyFile(); } },
+    { key: "gif", icon: "Smile", label: t("dm.trayGif", { defaultValue: "GIF & emoji" }), onPress: () => setGifPickerVisible(true) },
+    { key: "voice", icon: "Mic", label: t("dm.trayVoice", { defaultValue: "Voice note" }), onPress: onStartVoice, disabled: sending },
     ...(canAddTip && onTipPress
-      ? [{ key: "tip", icon: "Gem" as const, label: t("dm.addTip"), onPress: fromSheet(onTipPress) }]
-      : []),
-    ...(clipImage
-      ? [{ key: "paste", icon: "ClipboardPaste" as const, label: t("dm.pasteImage", { defaultValue: "Paste image" }), onPress: fromSheet(handlePasteImage) }]
-      : []),
-    { key: "gif", icon: "Clapperboard", label: t("dm.chooseGif"), onPress: fromSheet(() => setGifPickerVisible(true)) },
-    { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: fromSheet(handlePickGallery) },
-    { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: fromSheet(handlePickAnyFile) },
-    ...(canSchedule
-      ? [{ key: "schedule", icon: "Clock" as const, label: t("dmSchedule.button", { defaultValue: "Schedule message" }), onPress: fromSheet(handleSchedule) }]
-      : []),
-    ...(onNotePress
-      ? [{ key: "note", icon: "Quote" as const, label: t("notes.yourNote", { defaultValue: "Your note" }), onPress: fromSheet(onNotePress) }]
+      ? [{ key: "tip", icon: "Gem" as const, label: t("dm.trayTip", { defaultValue: "Tip" }), onPress: onTipPress }]
       : []),
     ...(onPollPress
-      ? [{ key: "poll", icon: "ChartColumn" as const, label: t("postOptions.createPoll"), onPress: fromSheet(onPollPress) }]
+      ? [{ key: "poll", icon: "ChartColumn" as const, label: t("dm.trayPoll", { defaultValue: "Poll" }), onPress: onPollPress }]
       : []),
-    // Works on what is already typed, so it stays greyed out until there is some.
-    {
-      key: "enhance",
-      icon: "Sparkles",
-      label: t("dm.enhanceWithAi"),
-      onPress: fromSheet(handleEnhance),
-      disabled: !text.trim(),
-    },
-    {
-      key: "translate",
-      icon: "Languages",
-      label: t("common.translate"),
-      onPress: fromSheet(translator.openPicker),
-      disabled: !text.trim(),
-    },
+    ...(canSchedule
+      ? [{ key: "schedule", icon: "Clock" as const, label: t("dm.traySchedule", { defaultValue: "Schedule" }), onPress: handleSchedule }]
+      : []),
+    ...(onNotePress
+      ? [{ key: "note", icon: "Quote" as const, label: t("notes.yourNote", { defaultValue: "Your note" }), onPress: onNotePress }]
+      : []),
+    ...(clipImage
+      ? [{ key: "paste", icon: "ClipboardPaste" as const, label: t("dm.pasteImage", { defaultValue: "Paste image" }), onPress: () => { void handlePasteImage(); } }]
+      : []),
+    // These work on what is already typed, so they stay greyed out until there is some.
+    { key: "translate", icon: "Languages", label: t("common.translate"), onPress: () => { void translator.translate(); }, onLongPress: translator.openPicker, disabled: !text.trim() || translator.busy },
+    { key: "enhance", icon: "Sparkles", label: t("dm.trayFix", { defaultValue: "Fix with AI" }), onPress: () => { void handleEnhance(); }, disabled: !text.trim() },
   ];
-
 
   if (disabled) {
     return (
@@ -1081,115 +1067,121 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
               </TouchableOpacity>
             </Animated.View>
           )}
-          <View className="mx-3 mt-3" style={INPUT_BOX}>
-            <TextInput
-              ref={inputRef}
-              value={text}
-              onChangeText={mentions.handleChangeText}
-              onSelectionChange={mentions.handleSelectionChange}
-              onFocus={() => { setComposerFocused(true); refreshClipImage(); }}
-              onBlur={() => setComposerFocused(false)}
-              placeholder={placeholder}
-              placeholderTextColor="#8B8D90"
-              multiline
-              maxLength={DM_TEXT_MAX_LENGTH}
-              className="text-white text-[15px] leading-5"
-              style={INPUT_TEXT}
-            />
-          </View>
-
-        <View className="flex-row items-center justify-between px-2 pb-2 pt-1">
-          {/* Attach. While an AI rewrite is running every other control is
-              locked, so the spinner the sparkles used to show lives here. */}
-          <TouchableOpacity
-            onPress={handleOpenAttach}
-            className="items-center justify-center"
-            style={CONTROL_BOX}
-            hitSlop={2}
-            activeOpacity={0.6}
-            disabled={enhancing}
-            accessibilityRole="button"
-            accessibilityLabel={t("liveChat.attachTitle")}
-            accessibilityState={{ disabled: enhancing }}
-          >
-            {enhancing ? (
-              <ActivityIndicator size={18} color="#F4F4F5" />
-            ) : (
-              <Icon name="Plus" size={24} color="#A6A9AC" />
-            )}
-          </TouchableOpacity>
-
-          {canAddTip && onTipPress ? <TouchableOpacity onPress={onTipPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.addTip")}><Icon name="Gem" size={20} color="#A1A1AA" /></TouchableOpacity> : null}
-          {canSchedule ? (
-            <TouchableOpacity onPress={handleSchedule} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dmSchedule.button", { defaultValue: "Schedule message" })}>
-              <Icon name="Clock" size={20} color="#A1A1AA" />
-              {scheduledCount > 0 ? <View pointerEvents="none" style={{ position: "absolute", top: 9, right: 3, width: 6, height: 6, borderRadius: 3, backgroundColor: "#F4F4F5" }} /> : null}
+          {/* One row: + on the left, the field with send inside it. Every other
+              button lives behind the +, in the drawer under this row. */}
+          <View className="flex-row items-end px-3 pt-2.5 pb-2" style={{ gap: 8 }}>
+            <TouchableOpacity
+              onPress={toggleTray}
+              hitSlop={4}
+              activeOpacity={0.7}
+              disabled={enhancing}
+              accessibilityRole="button"
+              accessibilityLabel={t("liveChat.attachTitle")}
+              accessibilityState={{ expanded: trayOpen, disabled: enhancing }}
+              testID="dm-plus"
+            >
+              {/* The fill sits on a plain View so System Light's colour pass
+                  turns the white of an open + into ink, as it does for chips. */}
+              <View className="items-center justify-center" style={[PLUS_BOX, trayOpen ? { backgroundColor: accent } : null]}>
+                {enhancing ? (
+                  <ActivityIndicator size={18} color="#F4F4F5" />
+                ) : (
+                  <Icon name={trayOpen ? "X" : "Plus"} size={22} color={trayOpen ? "#0B0B0C" : "#E4E4E7"} />
+                )}
+              </View>
             </TouchableOpacity>
+            <View className="flex-1 flex-row items-end" style={FIELD_BOX}>
+              <View className="flex-1" style={{ paddingVertical: 9 }}>
+                <TextInput
+                  ref={inputRef}
+                  value={text}
+                  onChangeText={mentions.handleChangeText}
+                  onSelectionChange={mentions.handleSelectionChange}
+                  onFocus={() => { setComposerFocused(true); setTrayOpen(false); refreshClipImage(); }}
+                  onBlur={() => setComposerFocused(false)}
+                  placeholder={placeholder}
+                  placeholderTextColor="#8B8D90"
+                  multiline
+                  // The web build's textarea starts two rows tall; one, like the phones.
+                  {...(Platform.OS === "web" ? { numberOfLines: 1 } : null)}
+                  maxLength={DM_TEXT_MAX_LENGTH}
+                  className="text-white text-[15px] leading-5"
+                  style={INPUT_TEXT}
+                />
+              </View>
+              {(
+                showCostOnSend ? (
+                  <TouchableOpacity
+                    onPress={handleSend}
+                    disabled={!showSendButton || sending || enhancing || insufficientBalance || tipBelowFee}
+                    activeOpacity={0.7}
+                    hitSlop={2}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("dm.sendMessage")}
+                    accessibilityState={{ disabled: !showSendButton || sending || enhancing || insufficientBalance || tipBelowFee }}
+                    style={{ height: 30, marginBottom: 3, marginLeft: 6, maxWidth: 88, flexShrink: 1 }}
+                    className={`flex-row items-center justify-center rounded-full px-3 ${
+                      insufficientBalance || tipBelowFee
+                        ? "bg-theme-neutrals-700"
+                        : "bg-white/10 border border-white/20"
+                    }`}
+                  >
+                    {sending ? (
+                      <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                      <>
+                        <Icon name="Send" size={14} color={insufficientBalance || tipBelowFee ? "#666" : "#fff"} />
+                        <Text className={`text-[11px] font-semibold ml-1 flex-shrink ${insufficientBalance || tipBelowFee ? "text-theme-neutrals-500" : "text-white"}`}>
+                          {totalCost} <DhbCoin />
+                        </Text>
+                      </>
+                    )}
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={handleSend}
+                    disabled={!showSendButton || sending || enhancing}
+                    style={{ opacity: showSendButton ? 1 : 0.35 }}
+                    hitSlop={8}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("dm.sendMessage")}
+                    accessibilityState={{ disabled: !showSendButton || sending || enhancing }}
+                  >
+                    <View className="items-center justify-center" style={[SEND_DOT, { backgroundColor: accent }]}>
+                      {sending ? (
+                        <ActivityIndicator size="small" color="#0B0B0C" />
+                      ) : (
+                        <Icon name="ArrowUp" size={18} color="#0B0B0C" />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                )
+              )}
+            </View>
+          </View>
+          {trayOpen ? (
+            <Animated.View entering={FadeIn.duration(140)} exiting={FadeOut.duration(100)} style={TRAY} testID="dm-tray">
+              {trayOptions.map((o) => (
+                <TouchableOpacity
+                  key={o.key}
+                  onPress={() => { haptic.tap(); setTrayOpen(false); o.onPress(); }}
+                  onLongPress={o.onLongPress}
+                  disabled={o.disabled || enhancing}
+                  activeOpacity={0.7}
+                  style={TRAY_CELL}
+                  accessibilityRole="button"
+                  accessibilityLabel={o.label}
+                  accessibilityState={{ disabled: !!o.disabled }}
+                  testID={`dm-tray-${o.key}`}
+                >
+                  <View style={[TRAY_TILE, o.disabled ? { opacity: 0.4 } : null]}>
+                    <Icon name={o.icon} size={23} color="#F4F4F5" />
+                  </View>
+                  <Text numberOfLines={2} className="text-white" style={[TRAY_LABEL, o.disabled ? { opacity: 0.5 } : null]}>{o.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </Animated.View>
           ) : null}
-          <TouchableOpacity {...gifPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.chooseGif")}><Icon name="Smile" size={20} color="#A1A1AA" /></TouchableOpacity>
-          <TouchableOpacity onPress={() => { haptic.tap(); Keyboard.dismiss(); setClipOpen(true); }} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.attachAnything", { defaultValue: "Attach a photo, video, audio or file" })}><Icon name="Paperclip" size={20} color="#A1A1AA" /></TouchableOpacity>
-          <TouchableOpacity onPress={onStartVoice} disabled={enhancing || sending} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("comments.recordVoice")}><Icon name="Mic" size={20} color="#A1A1AA" /></TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => void translator.translate()}
-            onLongPress={translator.openPicker}
-            disabled={enhancing || translator.busy || !text.trim()}
-            style={CONTROL_BOX}
-            className="items-center justify-center"
-            accessibilityRole="button"
-            accessibilityLabel={t("common.translate")}
-          >
-            {translator.busy ? <ActivityIndicator size={16} color="#F4F4F5" /> : <Icon name="Languages" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} />}
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleEnhance} disabled={enhancing || !text.trim()} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.enhanceWithAi")}><Icon name="Sparkles" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} /></TouchableOpacity>
-          {/* Send stays in its own slot, including fee and tip-only sends. */}
-          {(
-            showCostOnSend ? (
-              <TouchableOpacity
-                onPress={handleSend}
-                disabled={!showSendButton || sending || enhancing || insufficientBalance || tipBelowFee}
-                activeOpacity={0.7}
-                hitSlop={2}
-                accessibilityRole="button"
-                accessibilityLabel={t("dm.sendMessage")}
-                accessibilityState={{ disabled: !showSendButton || sending || enhancing || insufficientBalance || tipBelowFee }}
-                style={{ height: CONTROL, maxWidth: 80, flexShrink: 1 }}
-                className={`flex-row items-center justify-center rounded-xl px-3 ${
-                  insufficientBalance || tipBelowFee
-                    ? "bg-theme-neutrals-700"
-                    : "bg-white/10 border border-white/20"
-                }`}
-              >
-                {sending ? (
-                  <ActivityIndicator size="small" color="#fff" />
-                ) : (
-                  <>
-                    <Icon name="Send" size={14} color={insufficientBalance || tipBelowFee ? "#666" : "#fff"} />
-                    <Text className={`text-[11px] font-semibold ml-1 flex-shrink ${insufficientBalance || tipBelowFee ? "text-theme-neutrals-500" : "text-white"}`}>
-                      {totalCost} <DhbCoin />
-                    </Text>
-                  </>
-                )}
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={handleSend}
-                disabled={!showSendButton || sending || enhancing}
-                className="items-center justify-center"
-                style={CONTROL_BOX}
-                hitSlop={2}
-                accessibilityRole="button"
-                accessibilityLabel={t("dm.sendMessage")}
-                accessibilityState={{ disabled: !showSendButton || sending || enhancing }}
-              >
-                {sending ? (
-                  <ActivityIndicator size="small" color="#F4F4F5" />
-                ) : (
-                  <Icon name="Send" size={20} color={showSendButton ? "#A1A1AA" : "#52525B"} />
-                )}
-              </TouchableOpacity>
-            )
-          )}
-        </View>
         {/* Up whenever the other side spoke last and the composer is empty,
             beneath the tools row, and stands down while the keyboard owns
             focus. Whether
@@ -1229,27 +1221,6 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
         )}
       </WhenOpened>
 
-      <WhenOpened open={clipOpen}>
-        {() => (
-          <ChatAttachSheet
-            visible={clipOpen}
-            onClose={() => setClipOpen(false)}
-            options={[
-              { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: () => { setClipOpen(false); void handlePickGallery(); } },
-              { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: () => { setClipOpen(false); void handlePickAnyFile(); } },
-            ]}
-          />
-        )}
-      </WhenOpened>
-      <WhenOpened open={attachOpen}>
-        {() => (
-          <ChatAttachSheet
-            visible={attachOpen}
-            onClose={() => setAttachOpen(false)}
-            options={attachOptions}
-          />
-        )}
-      </WhenOpened>
       <WhenOpened open={translator.pickerOpen}>
         {() => (
           <LanguageSelectModal

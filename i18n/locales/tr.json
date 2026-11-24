@@ -8101,6 +8101,12 @@
     "viewReposts": "Yeniden yayınları görüntüle"
   },
   "dm": {
+    "trayGif": "GIF ve emoji",
+    "trayVoice": "Sesli not",
+    "trayTip": "Bahşiş",
+    "trayPoll": "Anket",
+    "traySchedule": "Zamanla",
+    "trayFix": "Yapay zekâ ile düzelt",
     "newDrawer": {
       "to": "Kime",
       "placeholder": "Ad veya @kullanıcıadı",

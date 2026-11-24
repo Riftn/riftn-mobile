@@ -2284,7 +2284,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           if (id) showUserProfile(id, { source: "chat-header" });
         }}
       >
-        <Avatar uri={peerAvatarUri} size={40} name={peer.displayName || peer.username} />
+        <Avatar uri={peerAvatarUri} size={40} radius={9} name={peer.displayName || peer.username} />
         <MomentPeekBadge peek={peerMoment} size={40} />
       </TouchableOpacity>
     ),
@@ -2463,7 +2463,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   return (
     <View style={{ flex: 1 }} className="bg-theme-neutrals-900">
       <ScreenHeader
-        appearance="flat"
+        appearance="centered"
         title={title}
         leftContent={LeftHeader}
         rightContent={RightHeader}
