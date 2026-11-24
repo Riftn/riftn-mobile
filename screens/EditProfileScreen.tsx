@@ -470,16 +470,39 @@ const EditProfileScreen = () => {
     checkingUsername ||
     (usernameEdited && (usernameAvailable !== true || isReservedUsername(username)));
 
+  // Save always answers a tap. It used to be disabled with nothing changed, and
+  // the post background (and other rows) save on their own, so people tapped
+  // Save after changing those and saw nothing happen at all.
+  const onSavePress = useCallback(() => {
+    if (saving) return;
+    if (checkingUsername) {
+      toastError(null, t("auth.checkingAvailability"));
+      return;
+    }
+    if (usernameEdited && (usernameAvailable !== true || isReservedUsername(username))) {
+      toastError(null, t("setProfile.usernameTaken"));
+      return;
+    }
+    if (!isDirty) {
+      toastSuccess(t("toasts.profile_updated"));
+      navigation.goBack();
+      return;
+    }
+    onSave();
+  }, [saving, checkingUsername, usernameEdited, usernameAvailable, username, isDirty, onSave, navigation, t]);
+
   return (
     <View className="flex-1 bg-theme-background">
       <ScreenHeader
         title={t("screens.editProfile")}
         rightContent={
           <TouchableOpacity
-            onPress={onSave}
+            onPress={onSavePress}
             className={`px-4 py-2 rounded-xl ${saveDisabled ? "bg-theme-neutrals-800" : "bg-blue-600 active:opacity-90"}`}
             activeOpacity={0.8}
-            disabled={saveDisabled}
+            disabled={saving}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityRole="button"
           >
             <View className="flex-row items-center gap-1">
               {saving && <ActivityIndicator size="small" color="#fff" />}

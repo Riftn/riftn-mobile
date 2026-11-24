@@ -21,7 +21,11 @@ import {
   type ScrollViewProps,
   type ViewStyle,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Icon, { type IconName } from '../ui/Icon';
+
+/** Height of the floating tab bar pill plus its gap above the home bar. */
+const SETTINGS_TAB_BAR_ROOM = 96;
 import { useAppTheme } from '../../context/ThemeContext';
 
 import {
@@ -84,6 +88,7 @@ export const SettingsScrollView: React.FC<ScrollViewProps> = ({
   const bento = useSettingsBentoStyle();
   const { skin } = useAppTheme();
   const panel = useContext(SettingsPanelContext);
+  const insets = useSafeAreaInsets();
   // React detaches the outgoing panel's ref (calling this with null) before it
   // attaches the incoming one, so the switch lands in the right order. An
   // unmount effect clearing the scroller would not: passive cleanup runs after
@@ -97,16 +102,22 @@ export const SettingsScrollView: React.FC<ScrollViewProps> = ({
       ref={attach}
       keyboardShouldPersistTaps="handled"
       {...rest}
-      contentContainerStyle={[
-        contentContainerStyle,
-        bento,
-        { marginHorizontal: skin ? 8 : 0, marginTop: 8, marginBottom: 32, padding: 16, paddingBottom: 24 },
-      ]}
+      // Room under the card for the floating tab bar and the home bar, so the
+      // last row of a panel scrolls fully above them instead of half under.
+      contentContainerStyle={{ paddingBottom: insets.bottom + SETTINGS_TAB_BAR_ROOM }}
     >
-      <InSettingsBento.Provider value>
-        {panel ? <PanelHeader title={panel.title} icon={panel.icon} /> : null}
-        {children}
-      </InSettingsBento.Provider>
+      <View
+        style={[
+          contentContainerStyle,
+          bento,
+          { marginHorizontal: skin ? 8 : 0, marginTop: 8, padding: 16, paddingBottom: 24 },
+        ]}
+      >
+        <InSettingsBento.Provider value>
+          {panel ? <PanelHeader title={panel.title} icon={panel.icon} /> : null}
+          {children}
+        </InSettingsBento.Provider>
+      </View>
     </ScrollView>
   );
 };
