@@ -53,10 +53,10 @@ export default function ChatRouteShell({ route }: ChatRouteShellProps) {
   return (
     <View style={{ flex: 1 }} className="bg-theme-neutrals-900">
       <ScreenHeader
-        appearance="flat"
+        appearance="centered"
         title={title}
         subtitle={peer?.username ? `@${peer.username}` : undefined}
-        leftContent={<Avatar uri={avatarUri} size={40} name={peer?.displayName || peer?.username} />}
+        leftContent={<Avatar uri={avatarUri} size={40} radius={9} name={peer?.displayName || peer?.username} />}
       />
     </View>
   );

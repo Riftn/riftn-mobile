@@ -14,7 +14,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import OnlineDot from "../common/OnlineDot";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { formatShortAgo } from "../../libs/date.util";
-import { ChatCard } from "./ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, CHAT_ROW_RADIUS, ChatCard, useChatCardAccent } from "./ChatCard";
 import type { DmConversation, DmMessage, DmUser } from "../../services/dm/dm.types";
 import { getOtherParticipant } from "../../services/dm/dm.types";
 import { useUnreadCount } from "../../store/dm.store";
@@ -76,7 +76,8 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
 }) => {
   usePerfProbe("ConversationRow");
   const { t } = useTranslation();
-  const { colors } = useAppTheme();
+  const { colors, isLight, isMinimal } = useAppTheme();
+  const accent = useChatCardAccent();
   const other = useMemo(
     () => getOtherParticipant(conversation, myUserId, myAddress),
     [conversation, myUserId, myAddress],
@@ -259,8 +260,8 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         activeOpacity={0.7}
         accessibilityState={selecting ? { selected: checked } : undefined}
         testID={selecting ? (checked ? "chat-row-checked" : "chat-row-unchecked") : undefined}
-        className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
-        style={{ minHeight: 72 }}
+        className="flex-row items-center px-4 py-2.5 gap-3"
+        style={{ minHeight: CHAT_ROW_MIN_HEIGHT }}
       >
         {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
@@ -275,12 +276,13 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                 ? avatarUrl
                 : undefined
             }
-            size={44}
+            size={CHAT_ROW_PHOTO}
+            radius={CHAT_ROW_RADIUS}
             name={displayName}
             live={live}
           />
-          {note && !live && <NoteFaceRing note={note.note} />}
-          <MomentPeekBadge peek={moment} size={44} />
+          {note && !live && <NoteFaceRing note={note.note} size={CHAT_ROW_PHOTO} />}
+          <MomentPeekBadge peek={moment} size={CHAT_ROW_PHOTO} />
         </TouchableOpacity>
 
         <View className="flex-1 min-w-0 justify-center">
@@ -290,8 +292,8 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                   name's baseline at the feed's spacing; the online dot follows. */}
               <View style={{ flexDirection: "row", alignItems: "center", flexShrink: 1, minWidth: 0 }}>
                 <Text
-                  className="text-[14px] font-bold text-white"
-                  style={{ flexShrink: 1, lineHeight: 20 }}
+                  className="text-[16px] font-bold text-white"
+                  style={{ flexShrink: 1, lineHeight: 21 }}
                   numberOfLines={1}
                 >
                   {displayName}
@@ -312,7 +314,13 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                 </Text>
               )}
             </View>
-            <Text className="text-[12.5px] text-theme-neutrals-500" style={{ fontVariant: ["tabular-nums"] }}>{timeStr}</Text>
+            {/* Something new: the time takes the theme colour. */}
+            <Text
+              className="text-[13px] text-theme-neutrals-500"
+              style={[{ fontVariant: ["tabular-nums"] }, unreadCount > 0 && { color: isLight || isMinimal ? colors.foreground : accent, fontWeight: "600" }]}
+            >
+              {timeStr}
+            </Text>
             {markedUnread && !(unreadCount > 0) && !reactions && <MarkedUnreadDot />}
             <ReactionAlertBadge reactions={reactions} rowKey={`dm:${conversation._id}`} />
             <UnreadCountChip count={unreadCount} />
@@ -335,12 +343,13 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
               </Text>
             ) : (
               <Text
-                className={`text-[14px] flex-1 text-white ${
+                className={`text-[14px] flex-1 ${
                   unreadCount > 0
-                    ? "font-bold"
-                    : "font-normal"
+                    ? "text-white font-bold"
+                    : "text-theme-neutrals-400 font-normal"
                 }`}
-                numberOfLines={1}
+                style={{ lineHeight: 19 }}
+                numberOfLines={2}
               >
                 {previewText}
               </Text>

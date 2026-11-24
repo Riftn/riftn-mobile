@@ -10,7 +10,7 @@ import { storageImageSource } from "../../libs/cdnImage";
 import { communityKindOf, entryPriceOf } from "../../libs/community-kinds";
 import type { Community } from "../../types/community";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
-import { ChatCard } from "./ChatCard";
+import { CHAT_ROW_MIN_HEIGHT, CHAT_ROW_PHOTO, CHAT_ROW_RADIUS, ChatCard } from "./ChatCard";
 import ReactionAlertBadge, { markChatRow, reactionAlertLine } from "./ReactionAlertBadge";
 import type { ChatReactionSummary } from "../../services/dm/dm.api";
 import UnreadCountChip from "./UnreadCountChip";
@@ -64,26 +64,26 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
       delayLongPress={400}
       activeOpacity={0.7}
       accessibilityState={selecting ? { selected: checked } : undefined}
-      className={`flex-row ${notes?.length ? "items-start" : "items-center"} pl-3 pr-3.5 py-3 gap-3`}
-      style={{ minHeight: 72 }}
+      className={`flex-row ${notes?.length ? "items-start" : "items-center"} px-4 py-2.5 gap-3`}
+      style={{ minHeight: CHAT_ROW_MIN_HEIGHT }}
       testID={`group-chat-row-${kind}`}
     >
       {selecting && <BulkTick checked={checked} />}
       <View
-        style={{ width: 44, height: 44, borderRadius: 12 }}
+        style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO, borderRadius: CHAT_ROW_RADIUS }}
         className="bg-theme-neutrals-800 items-center justify-center overflow-hidden"
       >
         {community.avatar_url
-          ? <Image source={storageImageSource(community.avatar_url, 48)} style={{ width: 44, height: 44 }} contentFit="cover" />
+          ? <Image source={storageImageSource(community.avatar_url, 48)} style={{ width: CHAT_ROW_PHOTO, height: CHAT_ROW_PHOTO }} contentFit="cover" />
           : <Icon name={kindIcon as any} size={22} color="#d4d4d8" />}
       </View>
       <View className="flex-1 justify-center">
         <View className="flex-row items-center gap-1.5">
           <Icon name={kindIcon as any} size={13} color="#a1a1aa" />
-          <Text className="text-theme-neutrals-100 text-[15px] font-semibold flex-shrink" numberOfLines={1}>{community.name}</Text>
+          <Text className="text-theme-neutrals-100 text-[16px] font-semibold flex-shrink" numberOfLines={1}>{community.name}</Text>
           {community.is_private && <Icon name="Lock" size={12} color="#808089" />}
           {!!lastAt && (
-            <Text testID="room-last-at" className="text-[12.5px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>{lastAt}</Text>
+            <Text testID="room-last-at" className="text-[13px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>{lastAt}</Text>
           )}
           {markedUnread && !reactions && !(unread > 0) && <View style={lastAt ? undefined : { marginLeft: "auto" }}><MarkedUnreadDot /></View>}
           {reactions && <View style={lastAt ? undefined : { marginLeft: "auto" }}><ReactionAlertBadge reactions={reactions} rowKey={`room:${community.id}`} /></View>}
@@ -94,7 +94,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
             {reactionAlertLine(t as any, reactions, { named: true })}
           </Text>
         ) : preview ? (
-          <Text testID="room-preview" className={`text-white text-[14px] mt-0.5 ${unread > 0 ? "font-bold" : "font-normal"}`} numberOfLines={1}>{preview}</Text>
+          <Text testID="room-preview" className={`text-[14px] mt-0.5 ${unread > 0 ? "text-white font-bold" : "text-theme-neutrals-400 font-normal"}`} style={{ lineHeight: 19 }} numberOfLines={2}>{preview}</Text>
         ) : (
         <View className="flex-row items-center gap-1 mt-0.5">
           <Text className="text-theme-neutrals-400 text-[14px]" numberOfLines={1}>{subtitle}</Text>
