@@ -295,7 +295,7 @@ describe("libs/audio-post-playback", () => {
       mockCreateAudioPlayer.mockImplementation(() => fakePlayer({ playing: true, currentTime: 0 }));
       playAudioQueue(tracks);
       await flush();
-      popOutAudioPost({ track, player: fakePlayer(), volume: 1 });
+      popOutAudioPost({ track, player: fakePlayer() as any, volume: 1 });
       expect(getAudioPostPlaybackState()).toMatchObject({ tokenId: "42", queueLength: 0 });
     });
   });
