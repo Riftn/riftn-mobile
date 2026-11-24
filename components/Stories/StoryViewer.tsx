@@ -57,8 +57,8 @@ import {
   type StoryViewer as Viewer,
 } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
-import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
-import { formatShortAgo } from "../../libs/date.util";
+import { avatarOf, nameOf, startIndex } from "./story-utils";
+import { momentAgo } from "./moment-age";
 import StoryComments from "./StoryComments";
 import MomentCaption from "./MomentCaption";
 import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
@@ -103,7 +103,7 @@ export default function StoryViewer({
   onOpenProfile: (address: string) => void;
   onClose: () => void;
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
   const queryClient = useQueryClient();
@@ -559,10 +559,7 @@ export default function StoryViewer({
               {own ? t("stories.yourDay", { defaultValue: "Your day" }) : nameOf(entry.author)}
             </Text>
             <Text style={styles.whoSub} numberOfLines={1}>
-              {/* Other languages bring their own "ago" ("9 sa. önce"); "now" never takes one. */}
-              {!i18n.language?.startsWith("en") || ageLabel(item.createdAt) === "now"
-                ? formatShortAgo(item.createdAt)
-                : t("stories.agoLabel", { time: ageLabel(item.createdAt), defaultValue: "{{time}} ago" })}
+              {momentAgo(item.createdAt, t)}
               {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
               {item.closeFriends || item.audience === "close_friends" ? (
                 <Text style={{ color: "#4ade80", fontWeight: "700" }}>{` · ★ ${t("stories.closeFriends", { defaultValue: "Close friends" })}`}</Text>

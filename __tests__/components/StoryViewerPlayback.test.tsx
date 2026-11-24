@@ -34,6 +34,7 @@ jest.mock('../../components/DM/ShareToDmSheet', () => () => null);
 jest.mock('../../components/Stories/MomentIcons', () => ({ MomentHeart: 'MomentHeart', MomentComment: 'MomentComment', MomentShare: 'MomentShare' }));
 jest.mock('../../components/Stories/StoryComments', () => () => null);
 jest.mock('../../components/Stories/MomentCaption', () => () => null);
+jest.mock('../../components/Stories/moment-age', () => ({ momentAgo: () => '1m ago' }));
 jest.mock('../../libs/toast', () => ({ toastError: jest.fn(), toastSuccess: jest.fn() }));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => null }));
 jest.mock('../../services/stories.service', () => ({ deleteStory: jest.fn(async () => ({ ok: true })) }));
