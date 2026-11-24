@@ -9263,6 +9263,14 @@
     "fixSubmit": "ঠিক করার প্রস্তাব দিন"
   },
   "upload": {
+    "translate": "অনুবাদ করুন",
+    "translateTo": "অনুবাদ করুন",
+    "searchLanguages": "ভাষা খুঁজুন",
+    "translatedFrom": "{{language}} থেকে অনূদিত",
+    "translated": "অনুবাদিত",
+    "undoTranslate": "পূর্বাবস্থায় ফেরান",
+    "alreadyIn": "ইতিমধ্যেই {{language}}-এ আছে",
+    "translationFailed": "অনুবাদ ব্যর্থ হয়েছে.",
     "solanaUnavailable": "Solana ওয়ালেট পাওয়া যাচ্ছে না — এই ডিভাইসে আপনার ওয়ালেট কী নেই। ফিরে পেতে আবার সাইন ইন করুন।",
     "solanaTempUnavailable": "Solana-তে পোস্ট করা সাময়িকভাবে বন্ধ। পরিবর্তে Base বা BNB ব্যবহার করুন।",
     "enterTextFirst": "আগে কিছু লিখুন",

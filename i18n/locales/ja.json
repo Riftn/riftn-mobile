@@ -9249,6 +9249,14 @@
     "fixSubmit": "修正案を提案"
   },
   "upload": {
+    "translate": "翻訳",
+    "translateTo": "翻訳先",
+    "searchLanguages": "言語を検索",
+    "translatedFrom": "{{language}} から翻訳",
+    "translated": "翻訳済み",
+    "undoTranslate": "元に戻す",
+    "alreadyIn": "すでに {{language}}",
+    "translationFailed": "翻訳に失敗しました。",
     "solanaUnavailable": "Solana ウォレットを利用できません。この端末にウォレットキーがありません。再度サインインして復元してください。",
     "solanaTempUnavailable": "Solana への投稿は一時的に利用できません。代わりに Base か BNB をお試しください。",
     "enterTextFirst": "まずテキストを入力してください",

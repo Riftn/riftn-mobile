@@ -9276,6 +9276,14 @@
     "fixSubmit": "Stel regstelling voor"
   },
   "upload": {
+    "translate": "Vertaal",
+    "translateTo": "Vertaal na",
+    "searchLanguages": "Soek tale",
+    "translatedFrom": "Vertaal vanaf {{language}}",
+    "translated": "Vertaal",
+    "undoTranslate": "Ontdoen",
+    "alreadyIn": "Reeds in {{language}}",
+    "translationFailed": "Vertaling het misluk.",
     "solanaUnavailable": "Solana-beursie nie beskikbaar nie — hierdie toestel hou nie jou beursiesleutel nie. Meld weer aan om dit te herstel.",
     "solanaTempUnavailable": "Plasing op Solana is tydelik nie beskikbaar nie. Probeer eerder Base of BNB.",
     "enterTextFirst": "Voer eers teks in",

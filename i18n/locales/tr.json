@@ -7391,6 +7391,14 @@
     }
   },
   "upload": {
+    "translate": "Çevir",
+    "translateTo": "Şu dile çevir",
+    "searchLanguages": "Dilleri ara",
+    "translatedFrom": "{{language}} dilinden çevrildi",
+    "translated": "Çevrildi",
+    "undoTranslate": "Geri al",
+    "alreadyIn": "Zaten {{language}} dilinde",
+    "translationFailed": "Çeviri başarısız oldu",
     "altHint": "Göremeyenler için içinde ne olduğunu yazın.",
     "altPlaceholder": "Bu fotoğrafı açıklayın",
     "altTab": "Alternatif metin",

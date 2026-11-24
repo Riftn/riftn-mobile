@@ -9237,6 +9237,14 @@
     "fixSubmit": "सुझाव ठीक करें"
   },
   "upload": {
+    "translate": "अनुवाद करवव",
+    "translateTo": "छत्तीसगढ़ी में अनुवाद करा",
+    "searchLanguages": "भासा मन ला खोजा",
+    "translatedFrom": "{{language}} ले अनुवादित",
+    "translated": "अनुवादित",
+    "undoTranslate": "अनडू (Undo)",
+    "alreadyIn": "{{language}} मा पहले ले हे",
+    "translationFailed": "अनुवाद असफल हो गे हे",
     "solanaUnavailable": "Solana वॉलेट उपलब्ध नइ हे — ये डिवाइस म तोर वॉलेट कुंजी नइ हे। वापस पाय बर फेर ले साइन इन करव।",
     "solanaTempUnavailable": "Solana म पोस्ट करई अभी बंद हे। ओकर बदला Base या BNB ट्राय करव।",
     "enterTextFirst": "पहिली कुछू लिखव",

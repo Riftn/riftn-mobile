@@ -9273,6 +9273,14 @@
     "fixSubmit": "Javasolj javítást"
   },
   "upload": {
+    "translate": "Fordítás",
+    "translateTo": "Fordítás erre:",
+    "searchLanguages": "Nyelvek keresése",
+    "translatedFrom": "Lefordítva innen: {{language}}",
+    "translated": "Lefordítva",
+    "undoTranslate": "Visszavonás",
+    "alreadyIn": "Már ezen a nyelven: {{language}}",
+    "translationFailed": "A fordítás sikertelen",
     "solanaUnavailable": "A Solana tárca nem érhető el — ezen az eszközön nincs meg a kulcsod. Jelentkezz be újra a visszaállításához.",
     "solanaTempUnavailable": "A Solana-közzététel átmenetileg nem érhető el. Próbáld inkább a Base-t vagy a BNB-t.",
     "enterTextFirst": "Először írj be szöveget",

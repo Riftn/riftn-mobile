@@ -9293,6 +9293,14 @@
     "fixSubmit": "Πρότεινε διόρθωση"
   },
   "upload": {
+    "translate": "Μετάφραση",
+    "translateTo": "Μετάφραση σε",
+    "searchLanguages": "Αναζήτηση γλωσσών",
+    "translatedFrom": "Μεταφράστηκε από {{language}}",
+    "translated": "Μεταφράστηκε",
+    "undoTranslate": "Αναίρεση",
+    "alreadyIn": "Ήδη στα {{language}}",
+    "translationFailed": "Η μετάφραση απέτυχε",
     "solanaUnavailable": "Το πορτοφόλι Solana δεν είναι διαθέσιμο — αυτή η συσκευή δεν έχει το κλειδί σου. Συνδέσου ξανά για να το επαναφέρεις.",
     "solanaTempUnavailable": "Η δημοσίευση στο Solana δεν είναι προσωρινά διαθέσιμη. Δοκίμασε Base ή BNB.",
     "enterTextFirst": "Πρώτα γράψε κάποιο κείμενο",

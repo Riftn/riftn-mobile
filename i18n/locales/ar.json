@@ -7421,6 +7421,14 @@
     }
   },
   "upload": {
+    "translate": "ترجمة",
+    "translateTo": "ترجمة إلى",
+    "searchLanguages": "البحث عن لغات",
+    "translatedFrom": "تمت الترجمة من {{language}}",
+    "translated": "تمت الترجمة",
+    "undoTranslate": "تراجع",
+    "alreadyIn": "موجود بالفعل في {{language}}",
+    "translationFailed": "فشلت الترجمة",
     "altHint": "اذكر ما فيها لمن لا يستطيع رؤيتها.",
     "altPlaceholder": "صف هذه الصورة",
     "altTab": "النص البديل",

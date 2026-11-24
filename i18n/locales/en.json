@@ -7188,6 +7188,14 @@
     }
   },
   "upload": {
+    "translate": "Translate",
+    "translateTo": "Translate to",
+    "searchLanguages": "Search languages",
+    "translatedFrom": "Translated from {{language}}",
+    "translated": "Translated",
+    "undoTranslate": "Undo",
+    "alreadyIn": "Already in {{language}}",
+    "translationFailed": "Translation failed",
     "altHint": "Say what is in it for people who cannot see it.",
     "altPlaceholder": "Describe this photo",
     "altTab": "Alt text",

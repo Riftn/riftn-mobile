@@ -7397,6 +7397,14 @@
     }
   },
   "upload": {
+    "translate": "Traducir",
+    "translateTo": "Traducir a",
+    "searchLanguages": "Buscar idiomas",
+    "translatedFrom": "Traducido del {{language}}",
+    "translated": "Traducido",
+    "undoTranslate": "Deshacer",
+    "alreadyIn": "Ya está en {{language}}",
+    "translationFailed": "Error en la traducción",
     "altHint": "Di qué hay en ella para quienes no pueden verla.",
     "altPlaceholder": "Describe esta foto",
     "altTab": "Texto alternativo",

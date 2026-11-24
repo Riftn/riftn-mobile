@@ -7535,6 +7535,14 @@
     }
   },
   "upload": {
+    "translate": "Vertaal",
+    "translateTo": "Vertaal naar",
+    "searchLanguages": "Talen zoeken",
+    "translatedFrom": "Vertaald uit het {{language}}",
+    "translated": "Vertaald",
+    "undoTranslate": "Ongedaan maken",
+    "alreadyIn": "Al in {{language}}",
+    "translationFailed": "Vertaling mislukt",
     "altHint": "Zeg wat erop staat voor mensen die het niet kunnen zien.",
     "altPlaceholder": "Beschrijf deze foto",
     "altTab": "Alt-tekst",
@@ -18709,6 +18717,7 @@
     "asTheySee": "Zoals zij het zien",
     "sentIn": "Verstuurd in het {{language}}",
     "original": "Origineel",
+    "translatedFrom": "Vertaald uit het {{language}}",
     "translated": "Vertaald",
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",

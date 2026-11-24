@@ -9243,6 +9243,14 @@
     "fixSubmit": "Usulake perbaikan"
   },
   "upload": {
+    "translate": "Jarwakna",
+    "translateTo": "Jarwakna menyang",
+    "searchLanguages": "Goleki basa",
+    "translatedFrom": "Dijarwakake saka {{language}}",
+    "translated": "Wis dijarwakake",
+    "undoTranslate": "Batalake",
+    "alreadyIn": "Wis nganggo {{language}}",
+    "translationFailed": "Terjemahan gagal",
     "solanaUnavailable": "Dompet Solana ora kasedhiya — piranti iki ora nyimpen kunci dompetmu. Mlebu maneh kanggo mbalekake.",
     "solanaTempUnavailable": "Ngeposake ing Solana sauntara ora kasedhiya. Coba Base utawa BNB.",
     "enterTextFirst": "Lebokna teks dhisik",

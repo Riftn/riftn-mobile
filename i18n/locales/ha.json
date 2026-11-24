@@ -9239,6 +9239,14 @@
     "fixSubmit": "Ba da shawarar gyara"
   },
   "upload": {
+    "translate": "Fassara",
+    "translateTo": "Fassara zuwa",
+    "searchLanguages": "Nemi harsuna",
+    "translatedFrom": "An fassara daga {{language}}",
+    "translated": "An fassara",
+    "undoTranslate": "Soke",
+    "alreadyIn": "Tuni yana cikin {{language}}",
+    "translationFailed": "Fassarar ta gaza",
     "solanaUnavailable": "Walat ɗin Solana ba ya samuwa — wannan na'urar ba ta da makullin walat ɗinka. Sake shiga don dawo da shi.",
     "solanaTempUnavailable": "Wallafawa a Solana ba ta samuwa na ɗan lokaci. Gwada Base ko BNB maimakon.",
     "enterTextFirst": "Fara da shigar da wasu rubutu",
