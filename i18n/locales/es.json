@@ -180,7 +180,7 @@
       "hate": "Discurso de odio",
       "other": "Otra cosa"
     },
-    "agoLabel": "hace {{time}}",
+    "agoLabel": "hace {{time}}", "now": "ahora",
     "momentTag": "MOMENTO",
     "hoursLeft": "quedan {{n}} h",
     "minutesLeft": "quedan {{n}} min",

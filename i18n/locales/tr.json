@@ -175,7 +175,7 @@
       "hate": "Nefret söylemi",
       "other": "Başka bir şey"
     },
-    "agoLabel": "{{time}} önce",
+    "agoLabel": "{{time}} önce", "now": "şimdi",
     "momentTag": "AN",
     "hoursLeft": "{{n}} sa kaldı",
     "minutesLeft": "{{n}} dk kaldı",
