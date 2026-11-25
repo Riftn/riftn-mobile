@@ -27,7 +27,7 @@ function run(code: string, context: Record<string, unknown>): any {
 }
 
 const resolveContentType = run(
-  slice(card, 'export function resolveContentType', 'function formatShortTimeAgo').replace(/^export /, '') +
+  slice(card, 'export function resolveContentType', 'interface FeedCardProps').replace(/^export /, '') +
     '\nresolveContentType',
   {},
 );
