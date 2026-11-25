@@ -34,7 +34,7 @@ jest.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({}), useQuery
 }] } }) }));
 jest.mock('../../hooks/useStoriesEnabled', () => ({ useStoriesEnabled: () => ({ storiesEnabled: true }) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (run: () => void) => run() }) }));
-jest.mock('../../context/PagerGestureContext', () => ({ useHorizontalScrollGuard: () => null, useHorizontalSectionGuard: () => null }));
+jest.mock('../../context/PagerGestureContext', () => ({ usePagerGestureRef: () => null }));
 jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: mockIsLight }) }));
 jest.mock('../../hooks/useKidsModeLock', () => ({ useKidsModeLock: () => false }));
 jest.mock('../../hooks/useAccountBadge', () => ({ useBadgeAccount: () => mockAccount }));
