@@ -93,6 +93,8 @@ interface VideoPlayerCoreProps {
   liveMode?: boolean;
   suppressLoadingFeedback?: boolean;
   hideControls?: boolean;
+  externalControlsVisible?: boolean;
+  togglePlayRef?: React.Ref<() => void>;
   /** Suppress the built-in top controls row when an external header already provides close/mute. */
   hideTopControls?: boolean;
   /** Use the full parent surface for live viewing, including portrait video. */
@@ -140,6 +142,8 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   liveMode = false,
   suppressLoadingFeedback = false,
   hideControls = false,
+  externalControlsVisible,
+  togglePlayRef,
   hideTopControls = false,
   fillContainer = false,
   onVideoSize,
@@ -533,6 +537,8 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     }
   }, [player, liveMode, clearHideTimer, scheduleHide, recovery]);
 
+  React.useImperativeHandle(togglePlayRef, () => togglePlay, [togglePlay]);
+
   const toggleLoop = useCallback(() => {
     const nextLoop = !isLooping;
     player.loop = nextLoop;
@@ -693,11 +699,12 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
       try {
         player.currentTime = clampedPosition / 1000;
         setPosition(clampedPosition);
+        onProgress?.(clampedPosition, duration);
       } catch (error) {
         logger.warn('[VideoPlayerCore] Seek error:', error);
       }
     },
-    [liveMode, duration, player]
+    [liveMode, duration, player, onProgress]
   );
 
   const seekToRatio = useCallback(
@@ -1060,8 +1067,8 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
         onDubAvailableChange={setDubAvailable}
         tokenId={tokenId}
         positionMs={position}
-        controlsVisible={showControls}
-        bottomOffset={showControls ? 68 : 24}
+        controlsVisible={externalControlsVisible ?? showControls}
+        bottomOffset={(externalControlsVisible ?? showControls) ? 68 : 24}
         player={player}
         isPlaying={isPlaying}
       />
