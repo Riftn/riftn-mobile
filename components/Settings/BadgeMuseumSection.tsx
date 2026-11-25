@@ -5,9 +5,7 @@
  * The museum is off by default, so it shows here and nowhere else until "Show
  * Badge Museum on my profile" is switched on. "View my Badge Museum" opens the
  * full museum (earned and locked, with progress) for yourself either way.
- *
- * The switch saves on its own, merged into a fresh copy of `customs` read from
- * the server, so no other setting is lost (the API replaces the whole blob).
+
  */
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
@@ -15,8 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { useQueryClient } from '@tanstack/react-query';
 import { Divider, SettingsLinkRow, SettingsSection, SettingsToggleRow } from './SettingsPrimitives';
 import { BadgeMuseumSheet, MedalPodium } from '../Profile/BadgeMuseum';
-import { BADGE_MUSEUM_VISIBILITY_KEY, badgeMuseumIsShown, earnedByRarity, useMilestones } from '../../hooks/useMilestones';
-import { useAuthActions, useUser } from '../../context/AuthContext';
+import { badgeMuseumIsShown, earnedByRarity, useMilestones } from '../../hooks/useMilestones';
+import { useUser } from '../../context/AuthContext';
 import { AuthService } from '../../services/auth.service';
 import { getAccountProfile } from '../../services/user.service';
 import { formatCount } from '../../libs/format-count';
@@ -25,11 +23,11 @@ import { toastError } from '../../libs/toast';
 export default function BadgeMuseumSection() {
   const { t } = useTranslation();
   const user = useUser();
-  const { patchUser } = useAuthActions();
   const queryClient = useQueryClient();
   const address = (user as any)?.address || (user as any)?.walletAddress || null;
   const { data } = useMilestones(address);
-  const [shown, setShown] = useState(() => badgeMuseumIsShown(user?.customs as Record<string, unknown> | undefined));
+  const [preference, setPreference] = useState<{ address: string; shown: boolean } | null>(null);
+  const shown = preference?.address === address ? preference?.shown ?? null : null;
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -39,9 +37,11 @@ export default function BadgeMuseumSection() {
     let cancelled = false;
     getAccountProfile(address)
       .then((account) => {
-        if (!cancelled && account) setShown(badgeMuseumIsShown(account.customs as Record<string, unknown> | undefined));
+        if (!cancelled && account) setPreference({ address, shown: badgeMuseumIsShown(account.customs) });
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!cancelled) setPreference(null);
+      });
     return () => {
       cancelled = true;
     };
@@ -50,21 +50,15 @@ export default function BadgeMuseumSection() {
   if (!address) return null;
 
   const toggle = async (next: boolean) => {
+    if (shown === null || saving) return;
     const before = shown;
-    setShown(next);
+    setPreference({ address, shown: next });
     setSaving(true);
     try {
-      const account = await getAccountProfile(address);
-      if (!account) throw new Error(t('settings.updateFailed'));
-      const merged = {
-        ...((account.customs as Record<string, unknown> | undefined) ?? {}),
-        [BADGE_MUSEUM_VISIBILITY_KEY]: next ? 'public' : 'hidden',
-      };
-      await AuthService.updateProfile({ customs: JSON.stringify(merged) });
-      await patchUser({ customs: merged } as any);
+      await AuthService.updateProfile({ badgeMuseumVisibility: next ? 'public' : 'hidden' });
       void queryClient.invalidateQueries({ queryKey: ['profile-milestones'] });
     } catch (error) {
-      setShown(before);
+      setPreference((current) => current?.address === address ? { address, shown: before } : current);
       toastError(error, t('badgeMuseum.saveFailed'));
     } finally {
       setSaving(false);
@@ -89,8 +83,8 @@ export default function BadgeMuseumSection() {
         icon="Eye"
         label={t('badgeMuseum.showSetting')}
         description={t('badgeMuseum.showSettingHint')}
-        value={shown}
-        disabled={saving}
+        value={!!shown}
+        disabled={shown === null || saving}
         onValueChange={(next) => void toggle(next)}
       />
       <Divider />
