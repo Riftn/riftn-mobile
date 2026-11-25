@@ -1,22 +1,22 @@
 import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import type { UnifiedFeedItem } from '../../services/feed.unified.service';
-import { useSaveOwnProfileView } from '../../hooks/useSaveOwnProfileView';
+import { useSaveProfileView } from '../../hooks/useSaveProfileView';
 import VideosRoute from '../../components/Profile/VideosRoute';
 import ProfileImageGrid from '../../components/Profile/ProfileImageGrid';
-import { ProfileViewModeContext, useProfileViewState } from '../../libs/profileViewMode';
+import { getProfileViewDefault, getProfileViewReaderPref, ProfileViewModeContext, startingProfileView, useProfileViewState } from '../../libs/profileViewMode';
 
 const mockPatchUser = jest.fn(async () => {});
-const mockUpdateProfile = jest.fn<Promise<void>, [{ customs: string }]>(async () => {});
+const mockUpdateProfile = jest.fn<Promise<void>, [{ defaultProfileView?: string; profileViewOthers: string }]>(async () => {});
 jest.mock('../../context/AuthContext', () => ({
   useUser: () => ({ walletAddress: 'owner', customs: { defaultProfileView: 'grid' } }),
   useAuthActions: () => ({ patchUser: mockPatchUser }),
 }));
 jest.mock('../../services/auth.service', () => ({ AuthService: {
-  updateProfile: (payload: { customs: string }) => mockUpdateProfile(payload),
+  updateProfile: (payload: { defaultProfileView?: string; profileViewOthers: string }) => mockUpdateProfile(payload),
 } }));
-jest.mock('../../services/user.service', () => ({ getAccount: async () => ({ result: { customs: { keep: true } } }) }));
-jest.mock('../../libs/logger', () => ({ createLogger: () => ({ warn: jest.fn() }) }));
+jest.mock('../../libs', () => ({ toastError: jest.fn() }));
+jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 const mockStorage = new Map<string, string>();
 jest.mock('../../libs/storage', () => ({ storage: {
   getString: (k: string) => mockStorage.get(k),
@@ -75,10 +75,18 @@ it('restores the owner’s choice when Images reopens and scopes it to the reade
   act(() => page.unmount());
 });
 
-it('keeps the last owner selection when an earlier public profile update is in flight', async () => {
+it('uses the saved reader layout across profiles and reads choices from older accounts', () => {
+  const account = { defaultProfileView: 'list' as const, profileViewOthers: 'list' as const, customs: { defaultProfileView: 'grid' } };
+  expect(getProfileViewDefault(account)).toBe('list');
+  expect(startingProfileView('grid', getProfileViewReaderPref(account), false)).toBe('list');
+  expect(getProfileViewReaderPref({ customs: { defaultProfileView: 'list' } })).toBe('list');
+  expect(getProfileViewReaderPref({ customs: { defaultProfileView: 'list', profileViewOthers: 'owner' } })).toBe('owner');
+});
+
+it('keeps the last account selection when an earlier profile layout update is in flight', async () => {
   const local = jest.fn();
   function Owner() {
-    const state = useSaveOwnProfileView({ mode: 'grid', setMode: local }, true);
+    const state = useSaveProfileView({ mode: 'grid', setMode: local }, true);
     return <button onClick={state.setMode as any} />;
   }
   let finish!: () => void;
@@ -93,11 +101,11 @@ it('keeps the last owner selection when an earlier public profile update is in f
   await choose('grid');
   expect(mockUpdateProfile).toHaveBeenCalledTimes(1);
   await act(async () => { finish(); });
-  expect(mockUpdateProfile.mock.calls.map(([payload]) => JSON.parse(payload.customs))).toEqual([
-    { keep: true, defaultProfileView: 'list' },
-    { keep: true, defaultProfileView: 'grid' },
+  expect(mockUpdateProfile.mock.calls.map(([payload]) => payload)).toEqual([
+    { defaultProfileView: 'list', profileViewOthers: 'list' },
+    { defaultProfileView: 'grid', profileViewOthers: 'grid' },
   ]);
-  expect(mockPatchUser).toHaveBeenCalledTimes(1);
-  expect(local.mock.calls).toEqual([['list'], ['grid']]);
+  expect(mockPatchUser).toHaveBeenCalledTimes(2);
+  expect(local).not.toHaveBeenCalled();
   act(() => page.unmount());
 });
