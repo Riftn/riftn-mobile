@@ -2,6 +2,7 @@ import { tokenLabel } from '../../libs/token-label';
 import { useIsNotInterested } from "../../libs/not-interested-store";
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useClockLabel } from "../../libs/minuteClock";
+import { formatArticlePostDate, formatPostAge, formatPostDate, parsePostTimestamp } from "../../i18n/post-timestamp";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../../context/VideoDownloadContext";
@@ -283,22 +284,6 @@ export function resolveContentType(item: UnifiedFeedItem): PostContentType {
   return "image";
 }
 
-function formatShortTimeAgo(dateStr?: string, nowMs = Date.now()): string {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  const diffMs = nowMs - d.getTime();
-  const mins = Math.floor(diffMs / 60000);
-  if (mins < 60) return `${mins || 1}m`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d`;
-  if (days < 30) return `${Math.floor(days / 7)}w`;
-  const months = Math.floor(days / 30);
-  if (months < 12) return `${months}mo`;
-  return `${Math.floor(days / 365)}y`;
-}
-
 interface FeedCardProps {
   item: UnifiedFeedItem;
   /** Dedicated post navigation, rendered beside the player's volume control. */
@@ -375,8 +360,12 @@ const META_PILL = {
 } as const;
 /** The "5m" label, kept moving by the shared clock (see libs/minuteClock). */
 function TimeAgoText({ createdAt, style }: { createdAt: string; style: any }) {
-  const label = useClockLabel((nowMs) => formatShortTimeAgo(createdAt, nowMs));
-  return <Text style={style}>{label}</Text>;
+  const { t, i18n } = useCopy();
+  const date = useMemo(() => parsePostTimestamp(createdAt), [createdAt]);
+  const label = useClockLabel((nowMs) => formatPostAge(date, i18n.language, t, nowMs));
+  if (!date) return null;
+  const exactTimestamp = formatPostDate(date, i18n.language, { dateStyle: "medium", timeStyle: "short" });
+  return <Text style={style} accessibilityLabel={exactTimestamp}>{label}</Text>;
 }
 
 /**
@@ -1099,9 +1088,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // label stays, the link goes.
   const openSuperPowers = DIGITAL_PURCHASES_ENABLED ? goToSuperPowers : undefined;
   const handleShowReactionInfo = useCallback(() => setShowReactionInfo(true), [setShowReactionInfo]);
-  // Relative time moves by the minute at most; recomputing it on every render
-  // parsed the date each time.
-  const timeAgo = useMemo(() => formatShortTimeAgo(createdAt), [createdAt]);
+  const postDate = useMemo(() => parsePostTimestamp(createdAt), [createdAt]);
+  const timeAgo = useMemo(() => formatPostAge(postDate, i18n.language, t), [postDate, i18n.language, t]);
   const warmPost = useCallback(() => {
     if (disablePress || isLive || isVideo || tokenId == null) return;
     seedPostDetail(tokenId, item);
@@ -2893,7 +2881,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   label={t("articles.label")}
                   title={(isTranslated ? translatedTexts.title : localTitle) || undefined}
                   coverUri={item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], FETCH_WIDTH)[0] : undefined}
-                  meta={[createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ")}
+                  meta={[postDate ? formatArticlePostDate(postDate, i18n.language) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ")}
                   hero
                 />
               </View>
@@ -3491,7 +3479,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             label={fullContent ? t("articles.label") : `${t("articles.label")} · ${t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })}`}
             title={(isTranslated ? translatedTexts.title : localTitle) || undefined}
             coverUri={item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], FETCH_WIDTH)[0] : undefined}
-            meta={fullContent ? [createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ") : undefined}
+            meta={fullContent ? [postDate ? formatArticlePostDate(postDate, i18n.language) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ") : undefined}
             hero={fullContent}
           />
         </View>

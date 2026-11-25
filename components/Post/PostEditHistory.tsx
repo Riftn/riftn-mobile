@@ -17,7 +17,7 @@ import Icon from "../ui/Icon";
 import GlassModal from "../ui/GlassModal";
 import CustomSwitch from "../ui/CustomSwitch";
 import { getPostEditHistory, type PostVersion } from "../../services/nft.service";
-import { formatShortAgo } from "../../libs/date.util";
+import { formatPostAge, formatPostDate, parsePostTimestamp } from "../../i18n/post-timestamp";
 import { diffWords } from "../../libs/post-edit-diff";
 
 const Marked: React.FC<{ before: string; after: string }> = ({ before, after }) => {
@@ -49,9 +49,8 @@ export const PostEditHistoryViewer: React.FC<{ versions: PostVersion[] }> = ({ v
   const previous = index > 0 ? versions[index - 1] : null;
   if (!version) return null;
 
-  const when = version.at
-    ? new Date(version.at).toLocaleString(i18n.language || undefined, { dateStyle: "medium", timeStyle: "short" })
-    : "";
+  const date = parsePostTimestamp(version.at);
+  const when = date ? formatPostDate(date, i18n.language, { dateStyle: "medium", timeStyle: "short" }) : "";
   const marks = showChanges && !!previous;
 
   return (
@@ -98,9 +97,9 @@ export const PostEditHistoryLineView: React.FC<{ editCount: number; versions: Po
   editCount,
   versions,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
-  const lastEdit = versions[versions.length - 1]?.at;
+  const lastEdit = parsePostTimestamp(versions[versions.length - 1]?.at);
   if (editCount < 1 || versions.length < 2) return null;
   return (
     <>
@@ -113,7 +112,7 @@ export const PostEditHistoryLineView: React.FC<{ editCount: number; versions: Po
         <View style={styles.lineRight}>
           {!!lastEdit && (
             <Text style={styles.lineMuted} numberOfLines={1}>
-              {t("postEditHistory.lastEdit", { time: formatShortAgo(lastEdit) })}
+              {t("postEditHistory.lastEdit", { time: formatPostAge(lastEdit, i18n.language, t) })}
             </Text>
           )}
           <Icon name="ChevronRight" size={16} color="rgba(255,255,255,0.6)" />
