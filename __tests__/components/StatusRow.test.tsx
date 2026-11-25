@@ -11,7 +11,7 @@ jest.mock('../../libs/supabase-wallet-client', () => ({}));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => '' }));
 jest.mock('../../libs/toast', () => ({}));
 jest.mock('../../context/AuthContext', () => ({}));
-jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: true }) }));
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: true, pageColors: { foreground: '#111', background: '#fff' } }) }));
 jest.mock('../../components/common/Avatar', () => () => null);
 jest.mock('../../components/common/SmartImage', () => () => null);
 jest.mock('../../components/DM/GifPicker', () => () => null);
