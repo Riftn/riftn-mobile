@@ -109,6 +109,35 @@ describe('services/translation.service', () => {
       expect(result.untranslated).toBe(true);
     });
 
+    it('recognizes an unlabelled echo of a chat line already in the reader language', async () => {
+      const text = 'Yes, I should have a bitter coffee.';
+      mockInvoke.mockResolvedValue({ data: { translatedText: text, detectedLanguage: { language: 'auto' } }, error: null });
+      const { translateText } = loadService();
+      const options = { isPublic: true, isChat: true };
+      const expected = { translatedText: text, sourceLang: 'en', sameLanguage: true };
+
+      await expect(translateText(text, 'en', 'auto', options)).resolves.toEqual(expected);
+      await expect(translateText(text, 'en', 'auto', options)).resolves.toEqual(expected);
+      expect(mockInvoke).toHaveBeenCalledTimes(1);
+    });
+
+    it('retries a stored chat echo and does not cache a second unconfirmed echo', async () => {
+      const text = 'I guess four hours of sleep is enough.';
+      const echo = { translatedText: text, sourceLang: 'auto', sameLanguage: true };
+      storage.set('dehub-translation-cache-v4', JSON.stringify([[`${text}::tr`, echo]]));
+      mockInvoke.mockResolvedValueOnce({ data: { translatedText: text }, error: null })
+        .mockResolvedValueOnce({ data: { translatedText: 'Sanırım dört saat uyku yeterli.' }, error: null });
+      const { translateText } = loadService();
+      const options = { isPublic: true, isChat: true };
+
+      await expect(translateText(text, 'tr', 'auto', options)).resolves.toMatchObject({ untranslated: true });
+      await expect(translateText(text, 'tr', 'auto', options)).resolves.toMatchObject({
+        translatedText: 'Sanırım dört saat uyku yeterli.',
+        sameLanguage: false,
+      });
+      expect(mockInvoke).toHaveBeenCalledTimes(2);
+    });
+
     it('does not flag text the server says is already in the target language', async () => {
       mockInvoke.mockResolvedValue({ data: { translatedText: 'Hello there', sameLanguage: true }, error: null });
 

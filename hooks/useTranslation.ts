@@ -88,6 +88,7 @@ export function useTranslation(
   resetKey?: string,
 ): UseTranslationResult {
   const { t: _copy } = _useCopy();
+  const isChat = auto === 'chat';
   const { i18n } = useI18n();
   const targetLang = useMemo(() => getUserLanguage(), [i18n.language]);
   const autoEnabled = useSyncExternalStore(subscribeAutoTranslate, autoTranslateEnabled);
@@ -177,7 +178,7 @@ export function useTranslation(
         const entries = Object.entries(texts).filter(([, v]) => v && v.trim().length > 0);
         const settled = await Promise.allSettled(
           entries.map(async ([key, text]) => {
-            const result = await translateText(text, targetLang, source, { isPublic });
+            const result = await translateText(text, targetLang, source, { isPublic, ...(isChat ? { isChat } : {}) });
             return [key, result] as const;
           }),
         );
@@ -208,8 +209,9 @@ export function useTranslation(
           // looks broken.
           if (toastId !== null) {
             dismissToast(toastId);
-            if (partialFailure) toastError(_copy("copy.b9725da1e57f", { defaultValue: "Translation failed. Please try again." }));
-            else if (results.every(([, result]) => result.untranslated)) toastError(_copy("copy.noTranslationFound", { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
+            const noTranslation = results.every(([, result]) => result.untranslated);
+            if (partialFailure || (isChat && noTranslation)) toastError(_copy("copy.b9725da1e57f", { defaultValue: "Translation failed. Please try again." }));
+            else if (noTranslation) toastError(_copy("copy.noTranslationFound", { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
             else toastSuccess(_copy("copy.caac88c81c38", { defaultValue: "Already in your language" }));
           }
           return;
@@ -238,7 +240,7 @@ export function useTranslation(
         }
       }
     },
-    [texts, reliableBackendLang, targetLang, isPublic, _copy],
+    [texts, reliableBackendLang, targetLang, isPublic, isChat, _copy],
   );
 
   const handleTranslate = useCallback(() => {
