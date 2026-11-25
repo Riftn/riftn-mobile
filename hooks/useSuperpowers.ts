@@ -53,15 +53,15 @@ export const TEAM_UP_KEY = ['superpowers', 'team-up'] as const;
 const SLOT_ROTATION_MS = 5 * 60 * 1000;
 
 /** This account's tier, allowance and bookings. Inert while signed out. */
-export function useSuperpowers() {
+export function useSuperpowers(enabled = true, staleTime = 30_000) {
   const user = useUser();
   const address = (user?.walletAddress || user?.address || '') as string;
 
   return useQuery<SuperPowerStatus>({
     queryKey: SUPERPOWERS_KEY,
     queryFn: fetchSuperpowerStatus,
-    enabled: Boolean(address),
-    staleTime: 30_000,
+    enabled: Boolean(address) && enabled,
+    staleTime,
     retry: 1,
   });
 }
