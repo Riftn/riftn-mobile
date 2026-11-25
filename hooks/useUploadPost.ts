@@ -394,7 +394,7 @@ export function useUploadPost() {
         progress: 0,
         retryCount: 0,
         createdAt: Date.now(),
-        title: p.bodyText.trim() || p.description.trim() || _copy("copy.7e50e2667b86", { defaultValue: "New post" }),
+        title: p.bodyText.trim() || p.description.trim(),
         thumbnailUri: thumb ?? undefined,
         payload: serialized,
         chainId: isSolanaPost ? (p.postChainId as number) : activeChainId,

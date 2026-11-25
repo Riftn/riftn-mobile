@@ -21,6 +21,7 @@ import ScreenHeader from "../components/ScreenHeader";
 import {
   uploadState,
   uploadActions,
+  isUntitledPostUpload,
   type UploadJob,
   type UploadJobStatus,
   MAX_RETRIES,
@@ -41,6 +42,9 @@ const STATUS_CONFIG: Record<
 
 const JobItem = memo<{ job: UploadJob }>(({ job }) => {
   const { t } = useTranslation();
+  const title = isUntitledPostUpload(job)
+    ? t('copy.7e50e2667b86', { defaultValue: 'New post' })
+    : job.title || t('creator.untitled');
   const config = STATUS_CONFIG[job.status];
   const progressPercent = Math.min(Math.round((job.progress ?? 0) * 100), 100);
   const isActive = job.status === "uploading" || job.status === "processing" || job.status === "minting";
@@ -89,7 +93,7 @@ const JobItem = memo<{ job: UploadJob }>(({ job }) => {
 
         <View className="flex-1 mr-3">
           <Text className="text-white text-sm font-medium" numberOfLines={1}>
-            {job.title || t("creator.untitled")}
+            {title}
           </Text>
           <View className="flex-row items-center mt-0.5">
             <Icon name={config.icon as any} size={12} color={config.color} />

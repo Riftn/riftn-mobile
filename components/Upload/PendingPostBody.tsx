@@ -16,7 +16,7 @@ import { useUser } from '../../context/AuthContext';
 import { useAppTheme } from '../../context/ThemeContext';
 import { getAvatarUrl } from '../../libs/misc';
 import { FEED_BENTO_RADIUS } from '../../libs/feed-image-layout';
-import type { UploadJob } from '../../store/upload.store';
+import { isUntitledPostUpload, type UploadJob } from '../../store/upload.store';
 
 /** The card's border, the same hairline as a feed post's bento. */
 export const PENDING_CARD_BORDER = 'rgba(255,255,255,0.12)';
@@ -45,7 +45,9 @@ export const PendingPostBody = memo(function PendingPostBody({ job }: { job: Upl
   const user = useUser();
   const { colors, theme } = useAppTheme();
   const media = mediaOf(job);
-  const text = (job.payload.bodyText || job.payload.description || job.title || '').trim();
+  const text = isUntitledPostUpload(job)
+    ? t('copy.7e50e2667b86', { defaultValue: 'New post' })
+    : (job.payload.bodyText || job.payload.description || job.title || '').trim();
   const name = user?.displayName || user?.username || '';
   const published = tokenIdOf(job) != null;
   const video = job.video;
