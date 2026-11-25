@@ -82,6 +82,7 @@ export function useTranslation(
   auto: boolean | 'chat' | 'topic' = true,
   isPublic: boolean = false,
   resetKey?: string,
+  { showSuccessToast = true }: { showSuccessToast?: boolean } = {},
 ): UseTranslationResult {
   const { t: _copy } = _useCopy();
   const isChat = auto === 'chat';
@@ -224,7 +225,7 @@ export function useTranslation(
         if (toastId !== null) {
           dismissToast(toastId);
           if (partialFailure) toastError(_copy("copy.31198ffcdcba", { defaultValue: "Some text could not be translated." }));
-          else toastSuccess(_copy("copy.bfd4303ae4e5", { defaultValue: "Post translated" }));
+          else if (showSuccessToast) toastSuccess(_copy("copy.bfd4303ae4e5", { defaultValue: "Post translated" }));
         }
       } catch {
         if (toastId !== null) {
@@ -239,7 +240,7 @@ export function useTranslation(
         }
       }
     },
-    [texts, reliableBackendLang, targetLang, isPublic, isChat, _copy],
+    [texts, reliableBackendLang, targetLang, isPublic, isChat, showSuccessToast, _copy],
   );
 
   const handleTranslate = useCallback(() => {
