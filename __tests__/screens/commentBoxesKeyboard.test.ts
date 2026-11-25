@@ -23,6 +23,7 @@ describe("governance comment box", () => {
 
 describe.each([
   "screens/CinemaScreen.tsx",
+  "screens/ListingDetailScreen.tsx",
   "screens/StageRecordingScreen.tsx",
 ])("%s leaves the keyboard to the screen pan", (path) => {
   it("has no KeyboardAvoidingView", () => {

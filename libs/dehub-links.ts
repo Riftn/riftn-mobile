@@ -1,9 +1,10 @@
+import { DIGITAL_PURCHASES_ENABLED } from '../config/storefront';
 /**
  * Riftn Entity Links
  * ==================
  * One parser for every Riftn URL that deserves to render as a card instead of
- * as a link: posts, profiles, communities, community invites and events. The
- * web app has the same module at `src/lib/dehub-links.ts`
+ * as a link: posts, profiles, communities, community invites, stores, store
+ * listings and events. The web app has the same module at `src/lib/dehub-links.ts`
  * — keep the two in step, because a link built on one client is read on the other.
  *
  * Before this, mobile recognised exactly one shape: `/post/<id>` in a DM, matched
@@ -29,6 +30,8 @@ export type DehubLinkKind =
   | 'profile'
   | 'community'
   | 'communityInvite'
+  | 'store'
+  | 'listing'
   | 'event'
   | 'stage'
   | 'bounty'
@@ -55,6 +58,8 @@ export interface DehubLinkMatch {
   username?: string;
   slug?: string;
   code?: string;
+  storeId?: string;
+  listingId?: string;
   eventNumber?: string;
   stageId?: string;
   /** Set when the link used the short form (/stages/7) instead of the uuid. */
@@ -224,6 +229,17 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
   if (scoped[0] === 'communities' && scoped[1]) {
     if (!/^[a-zA-Z0-9_-]+$/.test(scoped[1])) return null;
     return { ...base, kind: 'community', slug: scoped[1] };
+  }
+
+  // ── store / listing ──
+  if (DIGITAL_PURCHASES_ENABLED && isAppScoped && scoped[0] === 'stores' && scoped[1]) {
+    const storeId = scoped[1];
+    if (!/^[a-fA-F0-9-]{8,}$/.test(storeId)) return null;
+    const listingId = queryParam(parts.search, 'listing');
+    if (listingId && /^[a-fA-F0-9-]{8,}$/.test(listingId)) {
+      return { ...base, kind: 'listing', storeId, listingId };
+    }
+    return { ...base, kind: 'store', storeId };
   }
 
   // ── event ──

@@ -1,3 +1,5 @@
+jest.mock('../../config/storefront', () => ({ DIGITAL_PURCHASES_ENABLED: true }));
+
 import i18n from 'i18next';
 import en from '../../i18n/locales/en.json';
 import {
@@ -81,8 +83,19 @@ describe('parseDehubLink', () => {
     });
   });
 
-  it('leaves an old store link as a plain link (Stores closed)', () => {
-    expect(parseDehubLink('https://dehub.io/app/stores/0f4b1c2d-1111-2222-3333-444455556666')).toBeNull();
+  it('separates a store from one of its items by the listing query', () => {
+    const storeId = '0f4b1c2d-1111-2222-3333-444455556666';
+    const listingId = 'aa11bb22-cccc-dddd-eeee-ffff00001111';
+
+    expect(parseDehubLink(`https://dehub.io/app/stores/${storeId}`)).toMatchObject({
+      kind: 'store',
+      storeId,
+    });
+    expect(parseDehubLink(`https://dehub.io/app/stores/${storeId}?listing=${listingId}`)).toMatchObject({
+      kind: 'listing',
+      storeId,
+      listingId,
+    });
   });
 
   it('reads an event link', () => {
@@ -322,6 +335,7 @@ describe('dehubLinkLabel', () => {
 
   it('names every kind', () => {
     expect(dehubLinkLabel('post')).toBe('post');
+    expect(dehubLinkLabel('listing')).toBe('item');
     expect(dehubLinkLabel('communityInvite')).toBe('community invite');
     expect(dehubLinkLabel('bounty')).toBe('bounty');
   });
