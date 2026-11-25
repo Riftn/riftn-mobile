@@ -341,7 +341,7 @@ export default function AgentsScreen() {
 
           <View style={styles.meta}>
             <Text style={styles.metaText}>
-              {t("agents.created")} {new Date(agent.created_at).toLocaleDateString(i18n.language)}
+              {t("agents.created")} {new Date(agent.created_at).toLocaleDateString(i18n.language?.replace('_', '-'))}
             </Text>
             <Pressable
               onPress={() => confirmDelete(agent)}
