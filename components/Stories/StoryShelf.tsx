@@ -1,7 +1,7 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { GestureDetector } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ import { useStoriesEnabled } from "../../hooks/useStoriesEnabled";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
-import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
+import { usePagerGestureRef } from "../../context/PagerGestureContext";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
 import { useKidsModeLock } from "../../hooks/useKidsModeLock";
@@ -138,8 +138,11 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
   const heldSeat = useRef<ShelfSeat>(readShelfSeat());
   const eligibleLive = live.filter(item => !dismissed.includes(liveKey(item)) && data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
-  const scrollGuard = useHorizontalScrollGuard();
-  const shelfGuard = useHorizontalSectionGuard(scrollGuard);
+  const pagerRef = usePagerGestureRef();
+  // Keep a swipe in the native scroll view even if the finger drifts below the shelf.
+  const scrollGuard = useMemo(() => pagerRef
+    ? Gesture.Native().shouldCancelWhenOutside(false).blocksExternalGesture(pagerRef)
+    : null, [pagerRef]);
   const [menu, setMenu] = useState<{ target?: ActivityTarget } | null>();
   const closeMenu = useCallback(() => setMenu(null), []);
   const openBarMenu = () => setMenu({});
@@ -198,6 +201,9 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
       horizontal
       nestedScrollEnabled
       scrollEnabled={!single}
+      directionalLockEnabled
+      bounces={false}
+      overScrollMode="never"
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
       style={styles.wrap}
@@ -227,14 +233,9 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
     </ScrollView>
   );
 
-  if (!scrollGuard || !shelfGuard) return <>{shelfScroll}{menuElement}</>;
   return (
     <>
-      <GestureDetector gesture={shelfGuard}>
-        <View collapsable={false}>
-          <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector>
-        </View>
-      </GestureDetector>
+      {scrollGuard ? <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector> : shelfScroll}
       {menuElement}
     </>
   );
@@ -493,6 +494,9 @@ const styles = StyleSheet.create({
   row: { flexGrow: 1, gap: 8, paddingVertical: 2, alignItems: "center" },
   pill: {
     flexGrow: 1,
+    // Audience updates must not change the width of a pill during a swipe.
+    flexBasis: 150,
+    minWidth: 0,
     height: PILL_H,
     borderRadius: 17,
     borderWidth: 1,
@@ -517,7 +521,7 @@ const styles = StyleSheet.create({
   watcher: { borderWidth: 2, borderRadius: 9, overflow: "hidden" },
   cover: { width: 22, height: 30, borderRadius: 7, borderWidth: 2 },
   more: { marginLeft: 6, fontSize: 11, fontWeight: "700" },
-  loadingPill: { flexGrow: 0, width: 150 },
+  loadingPill: { flexGrow: 0 },
   loadingFace: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, marginLeft: 2 },
   loadingBars: { gap: 6 },
   loadingBar: { width: 64, height: 8, borderRadius: 4 },
