@@ -14,7 +14,7 @@ import { copyToClipboard } from "../../libs/clipboard.utils";
 import { toastSuccess } from "../../libs/toast";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import {
-  CLIP_MAX_S, CLIP_MIN_S, clampRange, liveClipLink, postLiveClip, renderLiveClip, waitForClip, type LiveClip,
+  CLIP_LENGTH_SLACK, CLIP_MAX_S, CLIP_MIN_S, clampRange, liveClipLink, postLiveClip, renderLiveClip, waitForClip, type LiveClip,
 } from "../../services/live-clips.service";
 
 interface Props {
@@ -250,7 +250,7 @@ export default function LiveClipSheet({ clip: initial, visible, onClose, wallet,
           className="bg-theme-neutrals-800 text-theme-neutrals-100 rounded-xl px-4 py-3 text-[15px]"
         />
         <View className="flex-row">
-          {button(t("liveClips.make", { defaultValue: "Make clip" }), make, length < CLIP_MIN_S || length > CLIP_MAX_S + 0.05)}
+          {button(t("liveClips.make", { defaultValue: "Make clip" }), make, length < CLIP_MIN_S - CLIP_LENGTH_SLACK || length > CLIP_MAX_S + CLIP_LENGTH_SLACK)}
         </View>
       </View>
     );

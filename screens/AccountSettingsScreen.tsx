@@ -21,9 +21,6 @@ import { useTranslation } from "react-i18next";
 import {
   View,
   Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  FlatList,
   Alert,
   KeyboardAvoidingView,
   Linking,
@@ -34,7 +31,7 @@ import { useGateToHome } from "../hooks/useGateToHome";
 import { useCanGoBack } from "../hooks/useCanGoBack";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { toastSuccess, toastError } from "../libs";
+import { toastError } from "../libs";
 import { requestAccountDeactivation, requestAccountErasure } from "../services/accountErasure.service";
 import { Image } from "expo-image";
 import { useAppTheme } from "../context/ThemeContext";
@@ -52,9 +49,7 @@ import {
   WEBSITE_LINK,
 } from "../config/links";
 import { IS_APP_STORE_BUILD } from "../config/storefront";
-import GlassModal from "../components/ui/GlassModal";
-import { getFreeAccessList, removeFreeAccess } from "../services/dm/dm.api";
-import { truncateAddress } from "../libs/strings.util";
+import FreeDmAccessSheet from "../components/Settings/FreeDmAccessSheet";
 import Avatar from "../components/common/Avatar";
 import { getAvatarUrl } from "../libs/misc";
 import NotificationSettingsScreen from "./NotificationSettingsScreen";
@@ -135,9 +130,6 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
   const [deactivatingAccount, setDeactivatingAccount] = useState(false);
   const [reviewModalVisible, setReviewModalVisible] = useState(false);
   const [freeDmModalVisible, setFreeDmModalVisible] = useState(false);
-  const [freeAccessList, setFreeAccessList] = useState<string[]>([]);
-  const [freeAccessLoading, setFreeAccessLoading] = useState(false);
-  const [revokingAddress, setRevokingAddress] = useState<string | null>(null);
   const { t } = useTranslation();
   const { theme } = useAppTheme();
   // Opened from the menu, a render-time canGoBack() is still false; this
@@ -220,41 +212,6 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
       } },
     ]);
   };
-
-  const loadFreeAccessList = useCallback(async () => {
-    const address = (user as any)?.address || (user as any)?.walletAddress;
-    if (!address) return;
-    setFreeAccessLoading(true);
-    try {
-      const list = await getFreeAccessList(address);
-      setFreeAccessList(Array.isArray(list) ? list : []);
-    } catch {
-      setFreeAccessList([]);
-    } finally {
-      setFreeAccessLoading(false);
-    }
-  }, [user]);
-
-  const handleOpenFreeAccessList = useCallback(() => {
-    setFreeDmModalVisible(true);
-    loadFreeAccessList();
-  }, [loadFreeAccessList]);
-
-  const handleRevokeAccess = useCallback(
-    async (address: string) => {
-      setRevokingAddress(address);
-      try {
-        await removeFreeAccess(address);
-        setFreeAccessList((prev) => prev.filter((a) => a !== address));
-        toastSuccess(t("screens.freeAccessRevoked"));
-      } catch (e) {
-        toastError(e, t("screens.failedToRevoke"));
-      } finally {
-        setRevokingAddress(null);
-      }
-    },
-    [t]
-  );
 
   const activeTabMeta = TABS.find((tab) => tab.key === activeTab) ?? TABS[0];
   const panelContext = useMemo(
@@ -550,7 +507,7 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
           />
         )}
         {activeTab === "messages" && (
-          <MessagesPanel onOpenFreeAccessList={handleOpenFreeAccessList} />
+          <MessagesPanel onOpenFreeAccessList={() => setFreeDmModalVisible(true)} />
         )}
         {activeTab === "assets" && <AssetsPanel navigation={navigation} />}
         {activeTab === "multipost" && <MultiPostPanel />}
@@ -564,71 +521,10 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
         userAddress={user?.walletAddress || user?.address}
       />
 
-      <GlassModal
+      <FreeDmAccessSheet
         visible={freeDmModalVisible}
         onClose={() => setFreeDmModalVisible(false)}
-        presentation="bottom"
-        maxHeight="70%"
-        panelHeight="70%"
-        blurIntensity={30}
-      >
-        <View className="flex-1">
-          <View className="px-5 pt-4 pb-3 flex-row items-center justify-between border-b border-white/10">
-            <Text className="text-white font-bold text-base">
-              {t("screens.freeDmAccessList")}
-            </Text>
-            {freeAccessLoading && <ActivityIndicator size="small" color="#F4F4F5" />}
-          </View>
-          <Text className="text-theme-neutrals-500 text-xs px-5 pt-3 pb-1">
-            {t("screens.freeDmAccessModalDesc")}
-          </Text>
-          {!freeAccessLoading && freeAccessList.length === 0 ? (
-            <View className="flex-1 items-center justify-center py-12">
-              <Icon name="Gift" size={36} color="#4b5563" />
-              <Text className="text-theme-neutrals-500 text-sm mt-3">
-                {t("screens.noFreeAccessUsers")}
-              </Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-1 text-center px-8">
-                {t("screens.freeDmGrantHint")}
-              </Text>
-            </View>
-          ) : (
-            <FlatList
-              data={freeAccessList}
-              keyExtractor={(item) => item}
-              contentContainerStyle={{ padding: 16, gap: 8 }}
-              renderItem={({ item: address }) => {
-                const busy = revokingAddress === address;
-                return (
-                  <View className="flex-row items-center bg-theme-neutrals-800/60 rounded-xl px-3 py-3 gap-3">
-                    <View className="w-9 h-9 rounded-md bg-theme-neutrals-700 items-center justify-center">
-                      <Icon name="User" size={16} color="#9ca3af" />
-                    </View>
-                    <Text className="flex-1 text-white text-sm font-mono">
-                      {truncateAddress(address, 8, 6)}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => handleRevokeAccess(address)}
-                      disabled={busy}
-                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                      className="bg-white/15 border border-white/20 px-3 py-1.5 rounded-lg"
-                      activeOpacity={0.7}
-                    >
-                      {busy ? (
-                        <ActivityIndicator size="small" color="#F4F4F5" />
-                      ) : (
-                        <Text className="text-white/80 text-xs font-semibold">
-                          {t("screens.revoke")}
-                        </Text>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                );
-              }}
-            />
-          )}
-        </View>
-      </GlassModal>
+      />
     </View>
   );
 };

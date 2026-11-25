@@ -725,7 +725,7 @@ export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => vo
 
 // ── Status row ───────────────────────────────────────────────────────────
 // Statuses (notes) from people you follow sit in one row at the top of Chat,
-// under the tabs and above the chat cards: a white thought cloud over each
+// under the tabs and above the chat cards: a thought cloud over each
 // face, yours first so you can post one. Same as web's StatusRow.
 
 function cloudText(note: Note | null): string {
@@ -736,29 +736,29 @@ function cloudText(note: Note | null): string {
   return note.gifUrl ? "GIF" : "";
 }
 
-// The "What's up?" hint is dark grey under 70 so the dark-theme readability
-// pass (libs/jsx/readability.js) leaves it alone on the white cloud.
-const CLOUD = { backgroundColor: "#fff", shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
+const CLOUD = { shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
 
 function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor; note: Note | null; own?: boolean; label: string; onPress: () => void }) {
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
+  const { isLight, pageColors } = useAppTheme();
   const avatar = getAvatarUrl(author.avatarImageUrl, 60);
   const said = useNoteWords(note?.text, own).shown;
   const words = (note?.text ? said : cloudText(note)) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
   const gif = note?.gifUrl || null;
+  const cloud = { ...CLOUD, backgroundColor: pageColors.foreground };
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
     <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}>
-      <View style={{ minHeight: 60, paddingTop: 2, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
+      {/* The palette already supplies the light and dark colors for this bubble. */}
+      <View className="dark-surface" style={{ minHeight: 60, paddingTop: 2, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
         {words ? (
           <>
-            <View style={[CLOUD, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
-              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? (isLight ? "#71717a" : "#3f3f46") : "#0b0b0c", opacity: own && !note && !isLight ? 0.75 : 1 }}><BoldText text={words} heavy /></Text>
+            <View style={[cloud, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
+              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: pageColors.background }}><BoldText text={words} heavy /></Text>
             </View>
             <View style={{ width: "100%", paddingLeft: 26 }}>
-              <View style={[CLOUD, hair, { width: 8, height: 8, borderRadius: 4, marginTop: 2 }]} />
-              <View style={[CLOUD, hair, { width: 4, height: 4, borderRadius: 2, marginTop: 1, marginLeft: 6 }]} />
+              <View style={[cloud, hair, { width: 8, height: 8, borderRadius: 4, marginTop: 2 }]} />
+              <View style={[cloud, hair, { width: 4, height: 4, borderRadius: 2, marginTop: 1, marginLeft: 6 }]} />
             </View>
           </>
         ) : null}

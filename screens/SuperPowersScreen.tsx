@@ -78,7 +78,7 @@ export default function SuperPowersScreen() {
   const refillsOn = useMemo(() => {
     const iso = status?.cycleEndsAt ?? ladder?.cycleEndsAt;
     if (!iso) return null;
-    return new Date(iso).toLocaleDateString(i18n.language, { day: "numeric", month: "long" });
+    return new Date(iso).toLocaleDateString(i18n.language?.replace('_', '-'), { day: "numeric", month: "long" });
   }, [status?.cycleEndsAt, ladder?.cycleEndsAt, i18n.language]);
 
   // One sheet for every spendable power. It resolves the target a power needs — a
@@ -361,7 +361,7 @@ export default function SuperPowersScreen() {
                     <View style={styles.historySubject}>
                       <Text numberOfLines={1} style={styles.historySubjectText}>{subject}</Text>
                       <Text style={styles.historyDate}>
-                        {new Date(booking.startsAt).toLocaleString(i18n.language, {
+                        {new Date(booking.startsAt).toLocaleString(i18n.language?.replace('_', '-'), {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",

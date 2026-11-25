@@ -30,7 +30,7 @@ import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 import { NoteFaceRing, NoteTag } from "./NotesSheet";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { NoteEntry } from "../../services/notes.service";
 import { stripBold } from "../../libs/bold-markup";
 
@@ -100,8 +100,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   const badgeImg = getBadgeUrlFor(other as any);
   const liveTarget = useLiveTarget(other?.address, username);
   const live = !!liveTarget;
-  // A Moment up: the face shows it on its corner, and a tap plays it.
-  const moment = useFaceMoment(other?.address);
+  const moment = useFaceMoment(selecting ? null : other?.address);
   const openMoments = useOpenMoments(other?.address);
 
   // Last message preview
@@ -267,7 +266,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
           disabled={selecting}
-          onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : handleAvatarPress}
+          onPress={moment ? () => void openMoments() : liveTarget ? () => openLiveTarget(liveTarget) : handleAvatarPress}
           activeOpacity={0.8}
           className="relative"
         >
@@ -283,7 +282,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
             live={live}
           />
           {note && !live && <NoteFaceRing note={note.note} size={CHAT_ROW_PHOTO} />}
-          <MomentPeekBadge peek={moment} size={CHAT_ROW_PHOTO} />
+          <MomentAvatarOutline peek={moment} radius={CHAT_ROW_RADIUS} />
         </TouchableOpacity>
 
         <View className="flex-1 min-w-0 justify-center">

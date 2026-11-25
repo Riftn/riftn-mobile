@@ -12,13 +12,15 @@ import React, { useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { useMutation } from "@tanstack/react-query";
 import ScreenHeader from "../components/ScreenHeader";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
 import Icon from "../components/ui/Icon";
 import { useAuthActions, useAuthState } from "../context/AuthContext";
-import { toastError } from "../libs/toast";
+import { toastError, toastSuccess } from "../libs/toast";
 import {
   createPack,
+  savePack,
   useInvalidatePacks,
   useOwnedPacks,
   usePackStatus,
@@ -39,14 +41,17 @@ const KIND_TAB: Record<PackKind, string> = {
   gif: "creatorPacks.tab.gif",
 };
 
-function PackCard({ pack }: { pack: CreatorPack }) {
+function PackCard({ pack, action }: { pack: CreatorPack; action?: React.ReactNode }) {
   const { t } = useTranslation();
   const { openPack } = usePacksNavigation();
-  return (
+  const details = (
     <Pressable
       onPress={() => openPack(pack.slug)}
       accessibilityRole="button"
-      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+      style={({ pressed }) => [
+        action ? styles.cardDetails : styles.card,
+        pressed && styles.cardPressed,
+      ]}
     >
       <View style={styles.cover}>
         <PackCover pack={pack} size={40} />
@@ -59,6 +64,8 @@ function PackCard({ pack }: { pack: CreatorPack }) {
       </View>
     </Pressable>
   );
+  if (!action) return details;
+  return <View style={styles.card}>{details}{action}</View>;
 }
 
 function TierTable() {
@@ -123,6 +130,14 @@ export default function PacksScreen() {
   const saved = useSavedPacks(wallet);
   const popular = usePopularPacks(kind);
   const invalidate = useInvalidatePacks();
+  const addToPicker = useMutation({
+    mutationFn: ({ wallet, packId }: { wallet: string; packId: string }) => savePack(wallet, packId),
+    onSuccess: async () => {
+      await invalidate();
+      toastSuccess(t("creatorPacks.addedToPicker"));
+    },
+    onError: (err) => toastError(packErrorMessage(err, t)),
+  });
 
   const signedIn = isSignedIn && !!wallet;
   const mine = (owned.data ?? []).filter((p) => p.kind === kind);
@@ -251,7 +266,33 @@ export default function PacksScreen() {
             {popular.isLoading ? (
               <ActivityIndicator size="small" color="#71717A" style={{ alignSelf: "flex-start" }} />
             ) : popular.data?.length ? (
-              popular.data.map((p) => <PackCard key={p.id} pack={p} />)
+              popular.data.map((pack) => (
+                <PackCard
+                  key={pack.id}
+                  pack={pack}
+                  action={pack.owner !== wallet && !added.some((p) => p.id === pack.id) ? (
+                    <KitButton
+                      label={t(signedIn ? "creatorPacks.addToPicker" : "creatorPacks.signInToAdd")}
+                      variant="quiet"
+                      disabled={addToPicker.isPending}
+                      onPress={() => {
+                        if (!signedIn || !wallet) return requireAuth(() => {});
+                        addToPicker.mutate({ wallet, packId: pack.id });
+                      }}
+                    />
+                  ) : undefined}
+                />
+              ))
+            ) : popular.isError ? (
+              <>
+                <Text style={styles.muted}>{t("creatorPacks.errors.generic")}</Text>
+                <KitButton
+                  label={t("common.retry")}
+                  variant="quiet"
+                  disabled={popular.isFetching}
+                  onPress={() => void popular.refetch()}
+                />
+              </>
             ) : (
               <Text style={styles.muted}>{t("creatorPacks.noneYet")}</Text>
             )}
@@ -263,6 +304,13 @@ export default function PacksScreen() {
 }
 
 const styles = StyleSheet.create({
+  cardDetails: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
   root: { flex: 1, backgroundColor: "#010305" },
   tabsWrap: { flexGrow: 0, marginBottom: 4 },
   subtitle: { color: "#A1A1AA", fontSize: 14, lineHeight: 20, paddingHorizontal: 16, paddingBottom: 12 },

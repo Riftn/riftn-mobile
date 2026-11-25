@@ -148,7 +148,7 @@ export default memo(function NotificationBell({ unread = 0, size = 26, color, ac
       {/* Opt-in: Notification settings → "Show the number on the bell". */}
       {showCount && profile.unread > 0 && (
         <View style={{
-          position: 'absolute', top: -size * 0.22, right: -size * 0.38,
+          position: 'absolute', top: -size * 0.22, right: -size * 0.05,
           minWidth: 16, height: 16, paddingHorizontal: 4, borderRadius: 8,
           backgroundColor: red, alignItems: 'center', justifyContent: 'center',
         }}>
