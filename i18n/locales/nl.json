@@ -1579,6 +1579,8 @@
     "pushNotificationsDeviceDesc": "Meldingen naar je apparaat sturen",
     "pushNotificationsDisabled": "Pushmeldingen uitgeschakeld",
     "tapEnableSystemSettings": "Tik om dit in de systeeminstellingen aan te zetten",
+    "enableNotificationChannels": "Zet de meldingskanalen aan in Hoofdinstellingen",
+    "enableDevicePush": "Zet pushmeldingen aan in de systeeminstellingen",
     "pushNotRegistered": "Dit apparaat is niet geregistreerd voor push",
     "pushNotRegisteredDesc": "Meldingen kunnen u niet bereiken terwijl de app is gesloten: deze installatie heeft nooit een push-apparaat geregistreerd. Dat betekent meestal dat de build zijn meldingsconfiguratie mist, die door het installeren van de nieuwste build van riftn.com/apk wordt vervangen.",
     "pushNotRegisteredDescIos": "Meldingen kunnen je niet bereiken terwijl de app gesloten is: deze iPhone heeft zich nooit aangemeld voor pushmeldingen. Controleer in Instellingen of meldingen voor Riftn zijn toegestaan en open de app daarna opnieuw.",
