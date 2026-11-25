@@ -38,7 +38,7 @@ jest.mock('../../libs/deeplink.events', () => ({
 import { getActionFromState } from '@react-navigation/core';
 import * as WebBrowser from 'expo-web-browser';
 import { Linking } from 'react-native';
-import linkingConfig from '../../navigation/linking.config';
+const { default: linkingConfig } = jest.requireActual<typeof import('../../navigation/linking.config')>('../../navigation/linking.config');
 
 const openBrowser = WebBrowser.openBrowserAsync as jest.Mock;
 const openURL = Linking.openURL as jest.Mock;

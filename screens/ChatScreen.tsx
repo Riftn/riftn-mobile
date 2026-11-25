@@ -2317,11 +2317,12 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   );
 
   // The camera on an "Opened" photo: answer that photo with a photo or video.
-  const [cameraRequest, setCameraRequest] = useState(0);
+  const [mediaReplyRequest, setMediaReplyRequest] = useState<{ onPicked: () => void } | null>(null);
+  const closeMediaReply = useCallback(() => setMediaReplyRequest(null), []);
   const handleCameraReply = useCallback(
     (msg: DmMessage) => {
-      setReplyTo(msg);
-      setCameraRequest((n) => n + 1);
+      Keyboard.dismiss();
+      setMediaReplyRequest({ onPicked: () => setReplyTo(msg) });
     },
     [setReplyTo],
   );
@@ -2717,7 +2718,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 disabledMessage={accountBanned ? t("banned.line") : storefrontFeeBlocked ? t("storefront.unavailable") : undefined}
                 sending={sending}
                 replyTo={replyTo}
-                cameraRequest={cameraRequest}
+                mediaReplyRequest={mediaReplyRequest}
+                onCloseMediaReply={closeMediaReply}
                 onCancelReply={() => setReplyTo.complete(replyTo, null)}
                 editingMessage={editingMessage}
                 onCancelEdit={() => setEditingMessage(null)}

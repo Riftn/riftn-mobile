@@ -48,7 +48,7 @@ import LockPriceRow from "./LockPriceRow";
 /** Per-kind caps, matching the backend's DM limits. */
 const DM_ATTACH_LIMITS = { image: 10 * 1024 * 1024, video: 50 * 1024 * 1024, audio: 20 * 1024 * 1024 } as const;
 import GifPicker from "./GifPicker";
-import type { ChatAttachOption } from "./ChatAttachSheet";
+import ChatAttachSheet, { type ChatAttachOption } from "./ChatAttachSheet";
 import { useChatCardAccent } from "./ChatCard";
 import WhenOpened from "../ui/WhenOpened";
 import SmartReplyTray from "./SmartReplyTray";
@@ -116,8 +116,8 @@ interface ChatInputBarProps {
   /** Message being replied to — shows preview strip. */
   replyTo?: DmMessage | null;
   onCancelReply?: () => void;
-  /** Goes up by one to open the camera (answering a photo with a photo or video). */
-  cameraRequest?: number;
+  mediaReplyRequest?: { onPicked: () => void } | null;
+  onCloseMediaReply?: () => void;
   /** Message being edited — prefills input. */
   editingMessage?: DmMessage | null;
   onCancelEdit?: () => void;
@@ -199,7 +199,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   dmFee,
   replyTo,
   onCancelReply,
-  cameraRequest = 0,
+  mediaReplyRequest,
+  onCloseMediaReply,
   editingMessage,
   onCancelEdit,
   sending = false,
@@ -533,7 +534,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   const removeStudioItem = useCallback(() => removeStudioAt(studioActive), [removeStudioAt, studioActive]);
 
   /** Photos AND videos from the gallery in one picker. */
-  const handlePickGallery = useCallback(async () => {
+  const handlePickGallery = useCallback(async (onPicked?: () => void) => {
     await runWithPermissions(["photos"], async () => {
       try {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -578,6 +579,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
           }
           picked.push({ type: "image", uri: asset.uri, mimeType: asset.mimeType || "image/jpeg", width: asset.width || undefined, height: asset.height || undefined, size: asset.fileSize || undefined });
         }
+        if (!picked.length) return;
+        onPicked?.();
         addToStudio(picked);
       } catch (e: unknown) {
         const err = e as { code?: string };
@@ -586,12 +589,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     });
   }, [addToStudio]);
 
-  /**
-   * The camera, straight from an "Opened" photo's camera button: what you
-   * take joins the edit screen like a picked photo, and goes out as a reply
-   * to that photo (the reply is set before this opens).
-   */
-  const handleCamera = useCallback(async () => {
+  const handleCamera = useCallback(async (onPicked: () => void) => {
     try {
       const perm = await ImagePicker.requestCameraPermissionsAsync();
       if (!perm.granted) {
@@ -608,6 +606,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
         } catch {
           /* ignore */
         }
+        onPicked();
         addToStudio([{
           type: "video",
           uri: asset.uri,
@@ -620,17 +619,12 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
         }]);
         return;
       }
+      onPicked();
       addToStudio([{ type: "image", uri: asset.uri, mimeType: asset.mimeType || "image/jpeg", width: asset.width || undefined, height: asset.height || undefined, size: asset.fileSize || undefined }]);
     } catch (e) {
       console.error("[ChatInputBar] camera error", e);
     }
   }, [addToStudio, t]);
-  const lastCameraRequest = useRef(cameraRequest);
-  useEffect(() => {
-    if (cameraRequest === lastCameraRequest.current) return;
-    lastCameraRequest.current = cameraRequest;
-    void handleCamera();
-  }, [cameraRequest, handleCamera]);
 
   const handlePasteImage = useCallback(async () => {
     try {
@@ -1258,6 +1252,30 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
 
       {/* Each of these is built only once it has been opened: closed, they
           were drawn again on every key typed into the box above. */}
+      {onCloseMediaReply && (
+        <WhenOpened open={!!mediaReplyRequest}>
+          {() => (
+            <ChatAttachSheet
+              visible={!!mediaReplyRequest}
+              onClose={onCloseMediaReply}
+              options={[
+                {
+                  key: "camera",
+                  icon: "Camera",
+                  label: t("dm.opened.camera", "Camera"),
+                  onPress: () => { if (mediaReplyRequest) void handleCamera(mediaReplyRequest.onPicked); },
+                },
+                {
+                  key: "gallery",
+                  icon: "Image",
+                  label: t("dm.opened.gallery", "Gallery"),
+                  onPress: () => { if (mediaReplyRequest) void handlePickGallery(mediaReplyRequest.onPicked); },
+                },
+              ]}
+            />
+          )}
+        </WhenOpened>
+      )}
       <WhenOpened open={gifPickerVisible}>
         {() => (
           <GifPicker

@@ -20,6 +20,8 @@ const mockRequireAuth = jest.fn();
 let mockMenuLayout = 'sections';
 jest.mock('../../hooks/useAppPrefs', () => ({ useAppPrefs: () => ({ menuLayout: mockMenuLayout }) }));
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
+jest.mock('../../libs/profiles', () => ({ currentProfileId: jest.fn(() => null), listProfiles: jest.fn(async () => []) }));
+jest.mock('../../components/ui/GlassModal', () => ({ visible, children }: { visible: boolean; children: React.ReactNode }) => visible ? children : null);
 jest.mock('../../components/Home/MenuAccountSwitcher', () => ({ __esModule: true, default: () => null }));
 // The system theme, without the native modules the real provider loads.
 jest.mock('../../context/ThemeContext', () => ({
@@ -94,7 +96,7 @@ const destinations = [
   ['nav.events', 'Events'], ['nav.stages', 'Stages'], ['nav.featureRequests', 'FeatureRequests'],
   ['nav.staking', 'Dpay', false, { initialTab: 'stake' }], ['nav.superpowers', 'SuperPowers'],
   ['nav.governance', 'Governance'], ['nav.dao', 'Dao'], ['screens.work', 'Work'],
-  ['nav.affiliate', 'Affiliate'], ['nav.careers', 'Careers'], ['screens.usernames', 'Usernames'], ['nav.fractions', 'Fractions'], ['screens.accounts', 'Accounts'],
+  ['nav.affiliate', 'Affiliate'], ['nav.careers', 'Careers'], ['screens.stores', 'Stores'], ['screens.usernames', 'Usernames'], ['nav.fractions', 'Fractions'], ['screens.accounts', 'Accounts'],
   ['nav.agents', 'Agents'], ['nav.ads', 'Ads'], ['nav.tv', 'TV'], ['nav.arcade', 'Arcade'],
   ['nav.converter', 'Converter'], ['nav.migrate', 'Migrate'], ['nav.glossary', 'Glossary'], ['nav.guide', 'Guide'],
   ['nav.connectAi', 'Connect'],

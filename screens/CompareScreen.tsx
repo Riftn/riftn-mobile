@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
@@ -9,15 +9,20 @@ import ScreenHeader from '../components/ScreenHeader';
 import { PageEmpty, PageSection, PageTabs } from '../components/page/PageKit';
 import { useAppTheme } from '../context/ThemeContext';
 import { openExternalLink } from '../libs/links.utils';
-import { CATEGORIES, FEATURES, PLATFORMS, COMPETITOR_REVIEWED_ON, UPDATES_REVIEWED_ON, SOURCES, STATUS_LABELS, entryFor, featureTotals, filterFeatures, type PlatformId, type ComparisonEntry } from '../libs/platform-comparison';
+import { CATEGORIES, FEATURES, PLATFORMS, COMPETITOR_REVIEWED_ON, UPDATES_REVIEWED_ON, SOURCES, COMPARISON_FALLBACK_NOTES, STATUS_LABELS, entryFor, featureTotals, filterFeatures, type PlatformId, type ComparisonEntry } from '../libs/platform-comparison';
 import { inComparisonView, type ComparisonView } from '../libs/platform-comparison-views';
 import { DIGITAL_PURCHASES_ENABLED } from '../config/storefront';
 
 /** The launchpad is not in the App Store build (config/storefront), so its source link is left off there. */
 const linkedSource = (source?: string): source is string => !!source && !!SOURCES[source] && (DIGITAL_PURCHASES_ENABLED || source !== 'dehubLaunchpad');
 
+const categoryKey = (category: string) => category.toLowerCase().replace(/[^a-z0-9]+(.)?/g, (_, c: string | undefined) => (c ? c.toUpperCase() : ''));
+
 export default function CompareScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const locale = (i18n.resolvedLanguage ?? i18n.language)?.replace('_', '-');
+  const featureName = useCallback((feature: (typeof FEATURES)[number]) => t(`comparison.f.${feature.id}`, { defaultValue: feature.name }), [t]);
+  const categoryName = useCallback((category: string) => t(`comparison.c.${categoryKey(category)}`, { defaultValue: category }), [t]);
   const copy = (key: string, fallback: string) => t(`comparison.${key}`, { defaultValue: fallback });
   const { colors } = useAppTheme();
   const insets = useSafeAreaInsets();
@@ -34,12 +39,26 @@ export default function CompareScreen() {
     setQuery(incoming?.q ?? '');
     setView(incoming?.view === 'social' || incoming?.view === 'lacks' ? incoming.view : 'all');
   }, [route.params]);
-  const filtered = useMemo(() => filterFeatures(query, category).filter(feature => inComparisonView(feature, view)), [query, category, view]);
+  const filtered = useMemo(() => {
+    const english = new Set(filterFeatures(query, category).map(feature => feature.id));
+    const words = query.trim().toLocaleLowerCase(locale).split(/\s+/).filter(Boolean);
+    return FEATURES.filter(feature => {
+      if ((category !== 'all' && feature.category !== category) || !inComparisonView(feature, view)) return false;
+      if (english.has(feature.id)) return true;
+      const label = `${featureName(feature)} ${categoryName(feature.category)}`.toLocaleLowerCase(locale);
+      return words.every(word => label.includes(word));
+    });
+  }, [query, category, view, locale, featureName, categoryName]);
   const peers = PLATFORMS.filter(item => platform === 'all' || item.id === platform);
   const totals = useMemo(() => featureTotals(filtered), [filtered]);
+  const note = (value: ComparisonEntry) => {
+    if (value.note === COMPARISON_FALLBACK_NOTES.unavailable) return copy('unavailableOnRiftn', value.note);
+    if (value.note === COMPARISON_FALLBACK_NOTES.unverified) return copy('equivalentUnverified', value.note);
+    return value.note;
+  };
   const entry = (value: ComparisonEntry, name: string, restricted = false) => <View style={styles.entry}>
     <View style={styles.entryHeading}><Text style={[styles.name, { color: colors.foreground }]}>{name}</Text><Text style={{ color: colors.mutedForeground }}>{copy(`status.${value.status}`, STATUS_LABELS[value.status])}</Text></View>
-    <Text style={[styles.body, { color: colors.mutedForeground }]}>{value.note}</Text>
+    <Text style={[styles.body, { color: colors.mutedForeground }]}>{note(value)}</Text>
     {restricted && <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('ios', 'Purchase and reward actions are unavailable in the iOS app.')}</Text>}
     {linkedSource(value.source) && <Pressable accessibilityRole="link" onPress={() => { void openExternalLink(SOURCES[value.source!].url); }} style={styles.link}>
       <Text style={{ color: colors.foreground, textDecorationLine: 'underline' }}>{SOURCES[value.source].title}</Text>
@@ -47,7 +66,7 @@ export default function CompareScreen() {
     {value.relatedSources?.map(source => linkedSource(source) && <Pressable key={source} accessibilityRole="link" onPress={() => { void openExternalLink(SOURCES[source].url); }} style={styles.link}><Text style={{ color: colors.foreground, textDecorationLine: 'underline' }}>{SOURCES[source].title}</Text></Pressable>)}
   </View>;
   return <View style={styles.root}>
-    <ScreenHeader title={copy('title', 'Compare Riftn')} icon="glossary" tabs={<PageTabs<PlatformId | 'all'> tabs={[...PLATFORMS.map(p => ({ id: p.id, label: p.name })), { id: 'all', label: copy('allPlatforms', 'All platforms') }]} value={platform} onChange={setPlatform} />}>
+    <ScreenHeader title={t('comparison.title')} icon="glossary" tabs={<PageTabs<PlatformId | 'all'> tabs={[...PLATFORMS.map(p => ({ id: p.id, label: p.name })), { id: 'all', label: copy('allPlatforms', 'All platforms') }]} value={platform} onChange={setPlatform} />}>
       <TextInput value={query} onChangeText={setQuery} accessibilityLabel={copy('search', 'Search features')} placeholder={copy('search', 'Search features')} placeholderTextColor={colors.mutedForeground} autoCorrect={false} style={[styles.input, { color: colors.foreground, borderColor: colors.border }]} />
     </ScreenHeader>
     <FlatList data={filtered} keyExtractor={item => item.id} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: insets.bottom + 90 }} initialNumToRender={8}
@@ -68,12 +87,12 @@ export default function CompareScreen() {
           {[{ id: 'dehub' as const, name: 'Riftn' }, ...peers].map(item => <Text key={item.id} style={[styles.body, { color: colors.mutedForeground }]}>{item.name}: {totals[item.id].yes} / {filtered.length} · {totals[item.id].partial} {copy('nativePartial', 'partial or related-product entries')}</Text>)}
         </PageSection>
         <PageTabs<ComparisonView> tabs={[{ id: 'all', label: copy('viewAll', 'All features') }, { id: 'social', label: copy('viewSocial', 'Social only') }, { id: 'lacks', label: copy('viewLacks', 'What Riftn lacks') }]} value={view} onChange={setView} />
-        <PageTabs<string> tabs={[{ id: 'all', label: copy('allCategories', 'All categories') }, ...CATEGORIES.map(c => ({ id: c, label: c }))]} value={category} onChange={setCategory} />
+        <PageTabs<string> tabs={[{ id: 'all', label: copy('allCategories', 'All categories') }, ...CATEGORIES.map(c => ({ id: c, label: categoryName(c) }))]} value={category} onChange={setCategory} />
         <Text accessibilityLiveRegion="polite" style={[styles.count, { color: colors.mutedForeground }]}>{filtered.length} {copy('matching', 'matching features')}</Text>
       </>}
       renderItem={({ item }) => <PageSection>
-        <Text style={{ color: colors.mutedForeground }}>{item.category}</Text>
-        <Text style={[styles.feature, { color: colors.foreground }]}>{item.name}</Text>
+        <Text style={{ color: colors.mutedForeground }}>{categoryName(item.category)}</Text>
+        <Text style={[styles.feature, { color: colors.foreground }]}>{featureName(item)}</Text>
         {entry(item.dehub, 'Riftn', item.iosRestricted)}
         {peers.map(peer => <View key={peer.id}>{entry(entryFor(item, peer.id), peer.name)}</View>)}
       </PageSection>}
