@@ -372,11 +372,11 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
       const size = asset.size ?? await localFileSize(asset.uri);
       if (request.signal.aborted) return;
       if (!extension || !Object.prototype.hasOwnProperty.call(SONG_FORMATS, extension) || size === 0) {
-        toastError(t("profileSong.invalidAudio", { defaultValue: "Choose a playable audio file." }));
+        toastError(t("profileSong.cantUse"));
         return;
       }
       if (size != null && size > SONG_MAX_MB * 1024 * 1024) {
-        toastError(t("profileSong.audioTooLarge", { defaultValue: "Choose an audio file under {{max}} MB.", max: SONG_MAX_MB }));
+        toastError(t("stages.radioShow.tooBig", { max: SONG_MAX_MB }));
         return;
       }
       const { duration } = await probeGeneratedMedia(asset.uri, "audio", request.signal);
@@ -388,7 +388,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
         uploadExtension: extension,
       });
     } catch {
-      if (!request.signal.aborted) toastError(t("profileSong.invalidAudio", { defaultValue: "Choose a playable audio file." }));
+      if (!request.signal.aborted) toastError(t("profileSong.cantUse"));
     } finally {
       pendingUpload.current = null;
       if (!request.signal.aborted) setReadingFile(false);
@@ -412,7 +412,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
         if (request.signal.aborted) return;
         track = { ...picked, url };
       } catch {
-        if (!request.signal.aborted) toastError(t("profileSong.uploadFailed", { defaultValue: "Could not upload this song. Try again." }));
+        if (!request.signal.aborted) toastError(t("stages.uploadFailed"));
         return;
       } finally {
         pendingUpload.current = null;
@@ -634,7 +634,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
             <TouchableOpacity style={styles.useBtn} onPress={confirm} disabled={uploading} activeOpacity={0.85} accessibilityRole="button" accessibilityState={{ busy: uploading, disabled: uploading }}>
               <Text style={styles.useBtnText}>
                 {uploading
-                  ? t("profileSong.uploading", { defaultValue: "Uploading song…" })
+                  ? t("stages.uploading")
                   : t("copy.0418db35eb35", { defaultValue: "Use this sound" })}
               </Text>
             </TouchableOpacity>
@@ -653,7 +653,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
                   ? <ActivityIndicator size="small" color="#A1A1AA" />
                   : <Ionicons name="cloud-upload-outline" size={18} color="#A1A1AA" />}
                 <Text style={styles.chipTextOn}>
-                  {t("profileSong.uploadFile", { defaultValue: "Upload an audio file" })}
+                  {t("upload.uploadAudio")}
                 </Text>
               </TouchableOpacity>
             )}
