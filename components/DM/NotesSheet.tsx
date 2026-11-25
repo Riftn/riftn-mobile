@@ -35,8 +35,19 @@ import { useNoteWords } from "./note-translate";
 import { formatCount } from "../../libs/format-count";
 import { useUser } from "../../context/AuthContext";
 import { BoldText, stripBold } from "../../libs/bold-markup";
+import { getActivityShelfPreferences, setActivityBarHidden, useActivityShelfPreferences } from "../../libs/activity-shelf-preferences";
+import { ActivityShelfMenu, type ActivityTarget } from "../Stories/ActivityShelfMenu";
 
 export const NOTES_QUERY_KEY = ["dm-notes"] as const;
+
+const statusKey = (entry: NoteEntry) => `status:${entry.note.id}`;
+const visibleNotes = (notes: NoteEntry[], dismissed: string[]) => notes.filter(entry => !dismissed.includes(statusKey(entry)));
+
+function useVisibleNotes(enabled = true) {
+  const { dismissed } = useActivityShelfPreferences();
+  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled });
+  return React.useMemo(() => data ? { ...data, notes: visibleNotes(data.notes, dismissed) } : undefined, [data, dismissed]);
+}
 
 const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.slice(0, 6)}…`;
 /**
@@ -708,7 +719,7 @@ function NoteWriter({ me, mine, onClose }: { me: StoryAuthor; mine: Note | null;
  */
 export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => void }) {
   const { t } = useTranslation();
-  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000 });
+  const data = useVisibleNotes();
   const mine = data?.mine ?? null;
   const notes = data?.notes ?? [];
   if (!mine && notes.length === 0) return null;
@@ -738,7 +749,9 @@ function cloudText(note: Note | null): string {
 
 const CLOUD = { shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
 
-function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor; note: Note | null; own?: boolean; label: string; onPress: () => void }) {
+function StatusTile({ author, note, own, label, onPress, onMenu }: {
+  author: StoryAuthor; note: Note | null; own?: boolean; label: string; onPress: () => void; onMenu: () => void;
+}) {
   const { t } = useTranslation();
   const { isLight, pageColors } = useAppTheme();
   const avatar = getAvatarUrl(author.avatarImageUrl, 60);
@@ -748,7 +761,9 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
   const cloud = { ...CLOUD, backgroundColor: pageColors.foreground };
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
-    <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}>
+    <Pressable onPress={onPress} onLongPress={onMenu} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}
+      accessibilityActions={[{ name: "statusOptions", label: t("notes.statusOptions", { defaultValue: "Status options" }) }]}
+      onAccessibilityAction={event => { if (event.nativeEvent.actionName === "statusOptions") onMenu(); }}>
       {/* The palette already supplies the light and dark colors for this bubble. */}
       <View className="dark-surface" style={{ minHeight: 60, paddingTop: 2, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
         {words ? (
@@ -781,18 +796,34 @@ function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor
 /** The Status row at the top of Chat, for signed-in people. */
 export function StatusRow({ me, onOpen }: { me: StoryAuthor | null; onOpen: (entry: NoteEntry | null) => void }) {
   const { t } = useTranslation();
-  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000 });
+  const c = useNoteInk();
+  const queryClient = useQueryClient();
+  const { statusesHidden } = useActivityShelfPreferences();
+  const [menu, setMenu] = useState<{ target?: ActivityTarget } | null>();
+  const data = useVisibleNotes(!statusesHidden);
   const mine = data?.mine ?? null;
   const notes = data?.notes ?? [];
   const self = mine?.author ?? me;
   if (!self) return null;
+  if (statusesHidden) {
+    return <Pressable accessibilityRole="button" onPress={() => { setMenu(null); setActivityBarHidden(false, "status"); }}
+      style={{ alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: 6, marginHorizontal: 14, minHeight: 36, paddingHorizontal: 12, borderRadius: 18, backgroundColor: c.bubble }}>
+      <Ionicons name="eye-outline" size={16} color={c.ink} />
+      <Text style={{ color: c.ink, fontSize: 13, fontWeight: "600" }}>{t("notes.showStatusBar", { defaultValue: "Show status bar" })}</Text>
+    </Pressable>;
+  }
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 14, paddingBottom: 4 }} keyboardShouldPersistTaps="handled">
-      <StatusTile own author={self} note={mine?.note ?? null} label={t("notes.yourStatus", { defaultValue: "Your status" })} onPress={() => onOpen(null)} />
-      {notes.map((entry) => (
-        <StatusTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} onPress={() => onOpen(entry)} />
-      ))}
-    </ScrollView>
+    <>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 14, paddingBottom: 4 }} keyboardShouldPersistTaps="handled">
+        <StatusTile own author={self} note={mine?.note ?? null} label={t("notes.yourStatus", { defaultValue: "Your status" })} onPress={() => onOpen(null)} onMenu={() => setMenu({})} />
+        {notes.map((entry) => (
+          <StatusTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} onPress={() => onOpen(entry)}
+            onMenu={() => setMenu({ target: { kind: "status", ids: [statusKey(entry)], creator: entry.author.address, open: () => onOpen(entry) } })} />
+        ))}
+      </ScrollView>
+      {menu !== undefined && <ActivityShelfMenu target={menu?.target} visible={!!menu} onClose={() => setMenu(null)} bar="status"
+        onModerated={() => { void queryClient.invalidateQueries({ queryKey: NOTES_QUERY_KEY }); }} />}
+    </>
   );
 }
 
@@ -805,7 +836,7 @@ const lower = (a?: string | null) => (a || "").toLowerCase();
 
 /** Notes by author wallet (lower case). */
 export function useNotesByAuthor(enabled = true): Map<string, NoteEntry> {
-  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled });
+  const data = useVisibleNotes(enabled);
   return React.useMemo(() => new Map((data?.notes ?? []).map((e) => [lower(e.author.address), e])), [data]);
 }
 
@@ -948,7 +979,7 @@ export default function NotesSheet({ visible, onClose, onMessage, initialView = 
     setWriting(false);
     if (!visible || !initialView) { setViewing(null); return; }
     // The list is taken once, so a refresh mid-view never moves the page.
-    const list = qc.getQueryData<{ notes: NoteEntry[] }>(NOTES_QUERY_KEY)?.notes ?? [];
+    const list = visibleNotes(qc.getQueryData<{ notes: NoteEntry[] }>(NOTES_QUERY_KEY)?.notes ?? [], getActivityShelfPreferences().dismissed);
     const at = list.findIndex((e) => e.note.id === initialView.note.id);
     setViewing(at >= 0 ? { entries: list, start: at } : { entries: [initialView], start: 0 });
   }, [visible, initialView, qc]);

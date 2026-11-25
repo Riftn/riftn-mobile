@@ -972,7 +972,7 @@
     "humor": "Mizah",
     "life": "Hayat"
   },
-  "stories": {"you": "Sen", "spot": {"views": "{{n}} görüntülenme", "listening": "{{n}} dinliyor", "moments": "{{n}} An", "oneMoment": "1 An", "watching": "{{n}} izliyor"}, "ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"}, 
+  "stories": {"activity": {"creatorBlocked":"İçerik üreticisi engellendi","creatorMuted":"İçerik üreticisi sessize alındı","hideBar":"Etkinlik çubuğunu gizle","hideLive":"Canlı yayını gizle","hideStory":"Anı gizle","join":"Katıl","liveHidden":"Canlı yayın gizlendi","options":"Etkinlik seçenekleri","showBar":"Etkinlik çubuğunu göster","storyHidden":"An gizlendi","watchLive":"Canlı yayını izle","watchStory":"Anı izle"}, "you": "Sen", "spot": {"views": "{{n}} görüntülenme", "listening": "{{n}} dinliyor", "moments": "{{n}} An", "oneMoment": "1 An", "watching": "{{n}} izliyor"}, "ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"},
     "comments": "Yorumlar",
     "commentFailed": "Yorumun gönderilemedi. Tekrar dene.",
     "noCommentsYet": "Henüz yorum yok. Herkesin görebileceği bir şey yaz.",
@@ -3016,6 +3016,7 @@
     "tokenAmount": "{{amount}} token"
   },
   "postOptions": {
+    "muteCreator": "İçerik üreticisini sessize al",
     "copyImage": "Görseli kopyala",
     "copyGif": "GIF'i kopyala",
     "copyVideo": "Videoyu kopyala",
@@ -19213,6 +19214,12 @@
     }
   },
   "notes": {
+    "hideStatus": "Durumu gizle",
+    "hideStatusBar": "Durum çubuğunu gizle",
+    "showStatusBar": "Durum çubuğunu göster",
+    "statusHidden": "Durum gizlendi",
+    "statusOptions": "Durum seçenekleri",
+    "viewStatus": "Durumu görüntüle",
     "background": "Arka plan",
     "yourPhoto": "Fotoğrafın",
     "newStatus": "Yeni durum",

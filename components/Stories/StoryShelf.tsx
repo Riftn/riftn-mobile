@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -26,6 +26,8 @@ import { storage } from "../../libs/storage";
 import { formatCount } from "../../libs/format-count";
 import { formatShortAgo } from "../../libs/date.util";
 import { useLiveAudience } from "../../hooks/useLiveAudience";
+import { setActivityBarHidden, useActivityShelfPreferences } from "../../libs/activity-shelf-preferences";
+import { ActivityShelfMenu, type ActivityTarget } from "./ActivityShelfMenu";
 
 /** What Home's Moments seat held last time, read before the first frame. */
 type ShelfSeat = "row" | "ask" | "none";
@@ -111,19 +113,42 @@ export function StoryShelfWarm() {
 }
 
 function StoryShelf() {
+  const { hidden, dismissed } = useActivityShelfPreferences();
+  return hidden ? <RestoreActivityBar /> : <VisibleStoryShelf dismissed={dismissed} />;
+}
+
+function RestoreActivityBar() {
+  const { t } = useTranslation();
+  const c = usePillColors();
+  return (
+    <TouchableOpacity accessibilityRole="button" onPress={() => setActivityBarHidden(false)}
+      style={[styles.restore, { borderColor: c.line, backgroundColor: c.fill }]}>
+      <Icon name="Eye" size={16} color={c.ink} />
+      <Text style={[styles.name, { color: c.ink }]}>{t("stories.activity.showBar", { defaultValue: "Show activity bar" })}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const liveKey = (item: LiveNowItem) => `${item.kind}:${item.id}`;
+
+function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
   const { t } = useTranslation();
   const { requireAuth } = useAuthActions();
   const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading, waiting, vetting } = useShelfState();
   const heldSeat = useRef<ShelfSeat>(readShelfSeat());
-  const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
+  const eligibleLive = live.filter(item => !dismissed.includes(liveKey(item)) && data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const scrollGuard = useHorizontalScrollGuard();
   const shelfGuard = useHorizontalSectionGuard(scrollGuard);
+  const [menu, setMenu] = useState<{ target?: ActivityTarget } | null>();
+  const closeMenu = useCallback(() => setMenu(null), []);
+  const openBarMenu = () => setMenu({});
+  const menuElement = menu !== undefined && <ActivityShelfMenu target={menu?.target} visible={!!menu} onClose={closeMenu} />;
 
   const shelf = useMemo(() => data?.shelf ?? [], [data]);
   const watchable = useMemo(
-    () => shelf.map((e) => ({ ...e, items: playable(e.items).filter(item => canSeeMature || !item.isMature) })).filter((e) => e.items.length > 0),
-    [shelf, canSeeMature],
+    () => shelf.map((e) => ({ ...e, items: playable(e.items).filter(item => !dismissed.includes(`story:${item.id}`) && (canSeeMature || !item.isMature)) })).filter((e) => e.items.length > 0),
+    [shelf, canSeeMature, dismissed],
   );
   const own = shelf.find((e) => e.own) ?? null;
   const ownWatchable = watchable.find((e) => e.own) ?? null;
@@ -137,16 +162,21 @@ function StoryShelf() {
     [watchable],
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
+  const openStoryMenu = (entry: ShelfEntry) => setMenu({ target: {
+    kind: "story", ids: entry.items.map(item => `story:${item.id}`),
+    open: () => openEntry(entry), creator: entry.own ? undefined : entry.author.address,
+  } });
 
   const hidden = (!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0;
   // Signed in and nobody has a Moment up (yours included): the ask bar takes
   // the row's place instead of a lone "Your day" tile.
-  const bare = storiesEnabled && !!me && !isLoading && !pending && !own?.items.length && others.length === 0 && eligibleLive.length === 0;
+  const hasOwnMoment = !!own?.items.some(item => !dismissed.includes(`story:${item.id}`));
+  const bare = storiesEnabled && !!me && !isLoading && !pending && !hasOwnMoment && others.length === 0 && eligibleLive.length === 0;
   const seat: ShelfSeat = hidden ? "none" : bare ? "ask" : "row";
   // Until the setting, the first shelf and the live check are in, keep the
   // shape already on screen (or Home's last one): row of loading tiles, ask
   // bar, or nothing, so the feed never moves.
-  const nothingYet = eligibleLive.length === 0 && others.length === 0 && !own?.items.length;
+  const nothingYet = eligibleLive.length === 0 && others.length === 0 && !hasOwnMoment;
   const holding = eligibleLive.length === 0 && (waiting || (vetting && nothingYet));
   if (!holding) heldSeat.current = seat;
   const lastSeat = heldSeat.current;
@@ -154,7 +184,7 @@ function StoryShelf() {
     if (!holding) saveShelfSeat(seat);
   }, [holding, seat]);
   if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
-  if (holding ? lastSeat === "ask" : bare) return <StoryCreateBar />;
+  if (holding ? lastSeat === "ask" : bare) return <><StoryCreateBar onActivityOptions={openBarMenu} />{menuElement}</>;
 
   const showMe = !!(storiesEnabled && me && (pending || ownWatchable));
   const shownOthers = storiesEnabled ? others : [];
@@ -172,7 +202,7 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {(storiesEnabled || holding) && me ? <CreateTile /> : null}
+      {(storiesEnabled || holding) && me ? <CreateTile onActivityOptions={openBarMenu} /> : null}
       {showMe ? (
         <MeTile
           single={single}
@@ -182,26 +212,31 @@ function StoryShelf() {
           entry={ownWatchable}
           processing={!!own?.items.some((i) => i.status === "processing")}
           onOpen={() => ownWatchable && openEntry(ownWatchable)}
+          onMenu={ownWatchable && !pending ? () => openStoryMenu(ownWatchable) : openBarMenu}
           onAdd={add}
         />
       ) : null}
       {eligibleLive.map((item) => (
-        <LiveTile key={`${item.kind}-${item.id}`} item={item} single={single} onOpen={() => openLive(item)} />
+        <LiveTile key={liveKey(item)} item={item} single={single} onOpen={() => openLive(item)}
+          onMenu={() => setMenu({ target: { kind: item.kind, ids: [liveKey(item)], creator: item.wallet, open: () => openLive(item) } })} />
       ))}
       {holding || (storiesEnabled && isLoading) ? [0, 1, 2].map((index) => <LoadingPill key={`loading-${index}`} />) : null}
       {shownOthers.map((entry) => (
-        <PersonTile key={entry.author.address} entry={entry} single={single} onOpen={() => openEntry(entry)} />
+        <PersonTile key={entry.author.address} entry={entry} single={single} onOpen={() => openEntry(entry)} onMenu={() => openStoryMenu(entry)} />
       ))}
     </ScrollView>
   );
 
-  if (!scrollGuard || !shelfGuard) return shelfScroll;
+  if (!scrollGuard || !shelfGuard) return <>{shelfScroll}{menuElement}</>;
   return (
-    <GestureDetector gesture={shelfGuard}>
-      <View collapsable={false}>
-        <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector>
-      </View>
-    </GestureDetector>
+    <>
+      <GestureDetector gesture={shelfGuard}>
+        <View collapsable={false}>
+          <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector>
+        </View>
+      </GestureDetector>
+      {menuElement}
+    </>
   );
 }
 
@@ -220,10 +255,10 @@ const PILL_H = 52;
 const FACE_SIZE = 36;
 const FACE_RADIUS = 12;
 
-function CreateTile() {
+function CreateTile({ onActivityOptions }: { onActivityOptions: () => void }) {
   const { ink } = usePillColors();
   return (
-    <StoryCreateTile height={PILL_H}>
+    <StoryCreateTile height={PILL_H} onActivityOptions={onActivityOptions}>
       <PillFace>
         <Icon name="Plus" size={16} color={ink} strokeWidth={2} />
       </PillFace>
@@ -231,20 +266,25 @@ function CreateTile() {
   );
 }
 
-function Pill({ label, onPress, single, children, extra }: {
+function Pill({ label, onPress, onMenu, single, children, extra }: {
   label: string;
   onPress: () => void;
+  onMenu: () => void;
   /** The only thing up: the pill takes the row and shows its extras. */
   single?: boolean;
   children: React.ReactNode;
   extra?: React.ReactNode;
 }) {
   const c = usePillColors();
+  const { t } = useTranslation();
   return (
     <TouchableOpacity
       style={[styles.pill, { borderColor: c.line, backgroundColor: c.fill }, single && styles.pillSingle]}
       activeOpacity={0.85}
       onPress={onPress}
+      onLongPress={onMenu}
+      accessibilityActions={[{ name: "activityOptions", label: t("stories.activity.options", { defaultValue: "Activity options" }) }]}
+      onAccessibilityAction={event => { if (event.nativeEvent.actionName === "activityOptions") onMenu(); }}
       accessibilityRole="button"
       accessibilityLabel={label}
     >
@@ -343,6 +383,7 @@ function MeTile({
   single,
   onOpen,
   onAdd,
+  onMenu,
 }: {
   single: boolean;
   pending: PendingMoment | null;
@@ -352,6 +393,7 @@ function MeTile({
   processing: boolean;
   onOpen: () => void;
   onAdd: () => void;
+  onMenu: () => void;
 }) {
   const { t } = useTranslation();
   const c = usePillColors();
@@ -366,6 +408,7 @@ function MeTile({
       single={single}
       label={failed ? line : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
+      onMenu={onMenu}
       extra={pending ? null : <MomentCovers entry={entry} />}
     >
       <PillFace>
@@ -383,7 +426,7 @@ function MeTile({
   );
 }
 
-function LiveTile({ item, single, onOpen }: { item: LiveNowItem; single: boolean; onOpen: () => void }) {
+function LiveTile({ item, single, onOpen, onMenu }: { item: LiveNowItem; single: boolean; onOpen: () => void; onMenu: () => void }) {
   const { t } = useTranslation();
   const liveLabel = t("stages.live");
   const line = item.kind === "stage"
@@ -397,6 +440,7 @@ function LiveTile({ item, single, onOpen }: { item: LiveNowItem; single: boolean
       single={single}
       label={`${item.title}, ${liveLabel}`}
       onPress={onOpen}
+      onMenu={onMenu}
       extra={item.kind === "stream" ? <LiveWatchers streamId={item.id} /> : null}
     >
       <PillFace live><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} liveOrbit /></PillFace>
@@ -427,11 +471,11 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   );
 }
 
-function PersonTile({ entry, single, onOpen }: { entry: ShelfEntry; single: boolean; onOpen: () => void }) {
+function PersonTile({ entry, single, onOpen, onMenu }: { entry: ShelfEntry; single: boolean; onOpen: () => void; onMenu: () => void }) {
   const { t } = useTranslation();
   const name = nameOf(entry.author);
   return (
-    <Pill single={single} label={name} onPress={onOpen} extra={<MomentCovers entry={entry} />}>
+    <Pill single={single} label={name} onPress={onOpen} onMenu={onMenu} extra={<MomentCovers entry={entry} />}>
       <PillFace seen={entry.seen} closeFriends={!!entry.closeFriends && !entry.own}>
         <Avatar uri={avatarOf(entry.author, 96)} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />
       </PillFace>
@@ -444,6 +488,7 @@ function PersonTile({ entry, single, onOpen }: { entry: ShelfEntry; single: bool
 }
 
 const styles = StyleSheet.create({
+  restore: { alignSelf: "flex-start", flexDirection: "row", alignItems: "center", gap: 8, minHeight: 36, marginVertical: 6, paddingHorizontal: 12, borderRadius: 18, borderWidth: 1 },
   wrap: { marginTop: 6, marginBottom: 8, flexGrow: 0 },
   row: { flexGrow: 1, gap: 8, paddingVertical: 2, alignItems: "center" },
   pill: {

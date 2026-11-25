@@ -89,7 +89,7 @@ function useCreateFlows() {
   return { pick, openMenu: () => setMenuOpen(true), elements };
 }
 
-export default function StoryCreateBar() {
+export default function StoryCreateBar({ onActivityOptions }: { onActivityOptions?: () => void }) {
   const { t } = useTranslation();
   const user = useUser() as { displayName?: string; username?: string } | null;
   const c = usePalette();
@@ -114,7 +114,7 @@ export default function StoryCreateBar() {
           accessibilityRole="button" accessibilityLabel={t("stories.ask.live", { defaultValue: "Live" })}>
           <Icon name="Radio" size={20} color={c.ink} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconBtn} activeOpacity={0.85} onPress={openMenu} hitSlop={4}
+        <TouchableOpacity style={styles.iconBtn} activeOpacity={0.85} onPress={openMenu} onLongPress={onActivityOptions} hitSlop={4}
           accessibilityRole="button" accessibilityLabel={t("stories.ask.create", { defaultValue: "Create" })}>
           <View style={[styles.key, { backgroundColor: c.keyBg }]}>
             <Icon name="Plus" size={16} color={c.keyInk} strokeWidth={2.4} />
@@ -127,7 +127,7 @@ export default function StoryCreateBar() {
 }
 
 /** First tile of the row while Moments or lives are up: a centred + that opens the same sheet. */
-export function StoryCreateTile({ height, children }: { height: number; children: React.ReactNode }) {
+export function StoryCreateTile({ height, children, onActivityOptions }: { height: number; children: React.ReactNode; onActivityOptions?: () => void }) {
   const { t } = useTranslation();
   const { openMenu, elements } = useCreateFlows();
   const label = t("stories.ask.create", { defaultValue: "Create" });
@@ -137,6 +137,7 @@ export function StoryCreateTile({ height, children }: { height: number; children
         style={[styles.tile, { height }]}
         activeOpacity={0.85}
         onPress={openMenu}
+        onLongPress={onActivityOptions}
         accessibilityRole="button"
         accessibilityLabel={label}
         testID="story-create-tile"

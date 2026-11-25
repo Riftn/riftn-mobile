@@ -2,6 +2,9 @@ import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import { StoryCreateTile } from '../../components/Stories/StoryCreateBar';
 import StoryShelf from '../../components/Stories/StoryShelf';
+import { ActivityShelfMenu } from '../../components/Stories/ActivityShelfMenu';
+import HoldSheet from '../../components/ui/HoldSheet';
+import { getActivityShelfPreferences, setActivityBarHidden, setActivityItemsHidden } from '../../libs/activity-shelf-preferences';
 
 const mockOpenLive = jest.fn();
 const mockOpenStory = jest.fn();
@@ -25,9 +28,9 @@ jest.mock('expo-image', () => ({ Image: 'Image' }));
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'Gradient' }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue || key }) }));
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
-jest.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: { liveHosts: ['host'], shelf: [{
+jest.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({}), useQuery: () => ({ data: { askedHosts: 'host', liveHosts: ['host'], shelf: [{
   author: { address: 'creator', username: 'the_handle', displayName: 'River Song' },
-  items: [{ status: 'ready', type: 'photo', mediaUrl: 'opening.jpg', createdAt: new Date().toISOString() }],
+  items: [{ id: 'opening', status: 'ready', type: 'photo', mediaUrl: 'opening.jpg', createdAt: new Date().toISOString() }],
 }] } }) }));
 jest.mock('../../hooks/useStoriesEnabled', () => ({ useStoriesEnabled: () => ({ storiesEnabled: true }) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (run: () => void) => run() }) }));
@@ -43,6 +46,10 @@ jest.mock('../../services/stories.service', () => ({}));
 jest.mock('../../store/stories.store', () => ({ openStoryViewer: (...args: unknown[]) => mockOpenStory(...args), openStoryCreator: () => mockOpenCreator(), storiesState: {} }));
 jest.mock('../../config/storefront', () => ({}));
 jest.mock('../../hooks/useLiveAudience', () => ({ useLiveAudience: () => ({ data: undefined }) }));
+jest.mock('../../components/ui/HoldSheet', () => 'HoldSheet');
+jest.mock('../../libs/toast', () => ({ toastSuccess: jest.fn() }));
+jest.mock('../../services/block.service', () => ({ blockUser: jest.fn() }));
+jest.mock('../../services/mute.service', () => ({ muteUser: jest.fn() }));
 
 it('names each pill and respects badge visibility', () => {
   let tree!: ReactTestRenderer;
@@ -79,6 +86,61 @@ it('keeps separate Live, Story, and Create controls', () => {
   expect(plus.parent?.props.style).toEqual(storyAvatar.parent?.props.style);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
+});
+
+it('offers the activity actions on long press and hides only the selected story', () => {
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(<StoryShelf />); });
+  const pill = (name: string) => tree.root.findByProps({ accessibilityRole: 'button', accessibilityLabel: name });
+  const select = (key: string) => {
+    const sheet = tree.root.findByType(HoldSheet);
+    expect(sheet.props.visible).toBe(true);
+    const tile = (sheet.props.tiles as { key: string; onPress: () => void }[]).find(item => item.key === key);
+    expect(tile).toBeDefined();
+    act(() => tile?.onPress());
+    act(() => sheet.props.onDismiss());
+  };
+  try {
+    act(() => pill('Trail watch, stages.live').props.onLongPress());
+    select('open');
+    expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
+    act(() => pill('River Song').props.onLongPress());
+    expect(tree.root.findByType(HoldSheet).props.tiles.map((tile: { label: string }) => tile.label)).toEqual([
+      'Hide activity bar', 'Hide story', 'Watch story', 'Mute creator', 'Block creator',
+    ]);
+    select('hide-item');
+    expect(tree.root.findAllByProps({ accessibilityLabel: 'River Song' })).toHaveLength(0);
+    expect(pill('Trail watch, stages.live')).toBeTruthy();
+  } finally {
+    act(() => tree.unmount());
+    setActivityBarHidden(false);
+    setActivityItemsHidden(['story:opening'], false);
+  }
+});
+
+it('waits for native dismissal before opening a status and keeps status visibility separate', () => {
+  const open = jest.fn();
+  const close = jest.fn();
+  const view = <ActivityShelfMenu visible bar="status" onClose={close}
+    target={{ kind: 'status', ids: ['status:one'], creator: 'creator', open }} />;
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(view); });
+  const sheet = tree.root.findByType(HoldSheet);
+  const tiles = sheet.props.tiles as { key: string; label: string; onPress: () => void }[];
+  try {
+    expect(tiles.map(tile => tile.label)).toEqual(['Hide status bar', 'Hide status', 'View status', 'Mute creator', 'Block creator']);
+    act(() => tiles.find(tile => tile.key === 'open')?.onPress());
+    expect(close).toHaveBeenCalledTimes(1);
+    expect(open).not.toHaveBeenCalled();
+    act(() => sheet.props.onDismiss());
+    expect(open).toHaveBeenCalledTimes(1);
+    act(() => tiles.find(tile => tile.key === 'hide-bar')?.onPress());
+    act(() => sheet.props.onDismiss());
+    expect(getActivityShelfPreferences()).toMatchObject({ statusesHidden: true, hidden: false });
+  } finally {
+    act(() => tree.unmount());
+    setActivityBarHidden(false, 'status');
+  }
 });
 
 it('outlines live and moment pills with no grey fill in light mode', () => {
