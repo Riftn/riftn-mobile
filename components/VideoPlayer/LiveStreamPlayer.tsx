@@ -2572,7 +2572,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <LiveViewerActionBar
                   draftScope={chatRoomId ? `stream:${chatRoomId}:composer` : null}
                   viewportHeight={viewportHeight}
-                  canSend={!!canChat && liveChat.connected && !liveChat.isBanned && !muted}
+                  canSend={!!canChat && !liveChat.isBanned && !muted}
                   blockedReason={liveChat.isBanned ? "banned" : muted ? "timedOut" : null}
                   chatEnabled={liveChatEnabled}
                   isLive={isLiveEffective}
