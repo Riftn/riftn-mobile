@@ -919,14 +919,17 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             />
           )}
 
-          {/* Share to Moment — your own public photo or video post, opened in
-              the Moment editor so text and stickers can go on top. */}
           {/* Any public post can go on a Moment; the server refuses private accounts' posts. */}
           {numericTokenId != null && !Number.isNaN(numericTokenId) && canShareToMoment(post) && (
             <OptionRow
               icon="moment-add"
               label={t("stories.shareToMoment", "Share to Moment")}
-              onPress={() => { onClose(); setTimeout(() => openPostMoment(numericTokenId), 300); }}
+              onPress={() => openSubModal(() => {
+                onClose();
+                const open = () => openPostMoment(numericTokenId);
+                if (requireAuth) requireAuth(open);
+                else open();
+              })}
             />
           )}
 

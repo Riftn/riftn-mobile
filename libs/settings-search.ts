@@ -113,7 +113,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
 
   // Messages
   { tab: 'messages', anchor: 'dm-access', label: 'Direct Message Access', labelKey: 'settings.directMessageAccess', keywords: 'who can message fee do not disturb dnd allow dms' },
-  { tab: 'messages', anchor: 'free-dm-access', label: 'Free DM Access', labelKey: 'settings.freeAccessList', keywords: 'bypass fee list free' },
+  { tab: 'messages', anchor: 'free-dm-access', label: 'Free DM Access List', labelKey: 'screens.freeDmAccessList', keywords: 'bypass fee list free add remove username' },
   { tab: 'messages', anchor: 'message-preferences', label: 'Suggested replies', labelKey: 'settings.smartReplies', keywords: 'ai smart reply drafts orb suggestions' },
   { tab: 'messages', anchor: 'message-preferences', label: 'Preferences', labelKey: 'settings.preferences', keywords: 'encryption' },
 

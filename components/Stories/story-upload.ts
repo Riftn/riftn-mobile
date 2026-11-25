@@ -24,10 +24,14 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export function shareMoment(moment: MomentToShare, onDone: () => void) {
   const key = `${Date.now()}`;
+  let pendingPostStory: StoryItem | undefined;
+  let running = false;
   const update = (patch: Partial<{ progress: number; state: "uploading" | "processing" | "failed"; error: string; retry: () => void }>) =>
     setPendingMoment((p) => (p && p.key === key ? { ...p, ...patch } : p));
 
   const run = async () => {
+    if (running) return;
+    running = true;
     setPendingMoment({ key, preview: moment.preview, progress: 0.02, state: "uploading" });
     try {
       let created: StoryItem;
@@ -38,18 +42,21 @@ export function shareMoment(moment: MomentToShare, onDone: () => void) {
           (f) => update({ progress: Math.max(0.02, f) }),
         );
       } else if (!moment.uri && moment.fields.postTokenId != null) {
-        created = await createStory(
+        created = pendingPostStory ?? await createStory(
           { ...moment.fields, type: "video" },
           { overlay: moment.overlayUri ? { uri: moment.overlayUri, name: "layer.png", type: "image/png" } : null },
           (f) => update({ progress: Math.max(0.02, f * 0.92) }),
         );
+        pendingPostStory = created;
         update({ state: "processing", progress: 1 });
         const started = Date.now();
         while (created.status === "processing" && Date.now() - started < POLL_LIMIT_MS) {
           await sleep(POLL_MS);
           created = await getStory(created.id, true).then((r) => r.item).catch(() => created);
         }
-        if (created.status === "failed") throw new Error(created.error || "failed");
+        // After a timeout, retry checking the same Moment so late completion cannot create a duplicate.
+        pendingPostStory = created.status === "processing" ? created : undefined;
+        if (created.status !== "ready") throw new Error(created.error || "Moment video is not ready");
       } else {
         const ext = moment.mimeType.includes("quicktime") ? "mov" : "mp4";
         const draftId = await uploadStoryClip(
@@ -80,6 +87,8 @@ export function shareMoment(moment: MomentToShare, onDone: () => void) {
       update({ state: "failed", error: message, retry: () => void run() });
       toastError(message);
       onDone();
+    } finally {
+      running = false;
     }
   };
   void run();

@@ -127,22 +127,21 @@ export default function StoryCreateBar() {
 }
 
 /** First tile of the row while Moments or lives are up: a centred + that opens the same sheet. */
-export function StoryCreateTile({ width, height }: { width: number; height: number }) {
+export function StoryCreateTile({ height, children }: { height: number; children: React.ReactNode }) {
   const { t } = useTranslation();
-  const c = usePalette();
   const { openMenu, elements } = useCreateFlows();
   const label = t("stories.ask.create", { defaultValue: "Create" });
   return (
     <>
       <TouchableOpacity
-        style={[styles.tile, { width, height, backgroundColor: c.keyBg }]}
+        style={[styles.tile, { height }]}
         activeOpacity={0.85}
         onPress={openMenu}
         accessibilityRole="button"
         accessibilityLabel={label}
         testID="story-create-tile"
       >
-        <Icon name="Plus" size={22} color={c.keyInk} strokeWidth={2.4} />
+        {children}
       </TouchableOpacity>
       {elements}
     </>
@@ -225,8 +224,7 @@ const styles = StyleSheet.create({
   promptText: { fontSize: 15, fontWeight: "500" },
   iconBtn: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   key: { width: 30, height: 30, borderRadius: 8, alignItems: "center", justifyContent: "center" },
-  /** The row's + key: a solid square the height of the pills beside it. */
-  tile: { borderRadius: 17, alignItems: "center", justifyContent: "center" },
+  tile: { minWidth: 44, alignItems: "center", justifyContent: "center" },
   sheet: {
     position: "absolute",
     left: 0,

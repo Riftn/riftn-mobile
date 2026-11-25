@@ -40,6 +40,7 @@ export interface LiveClip {
 
 export const CLIP_MIN_S = 3;
 export const CLIP_MAX_S = 60;
+export const CLIP_LENGTH_SLACK = 1e-6;
 
 async function call<T>(body: Record<string, unknown>, signedIn: boolean): Promise<T> {
   const headers: Record<string, string> = {};
@@ -114,7 +115,11 @@ export function clampRange(start: number, end: number, lo: number, hi: number, m
     if (e - s > CLIP_MAX_S) s = e - CLIP_MAX_S;
     if (e - s < CLIP_MIN_S) e = Math.min(hi, s + CLIP_MIN_S);
   }
-  return [Math.round(s * 10) / 10, Math.round(e * 10) / 10];
+  const roundedStart = Math.max(lo, Math.round(s * 10) / 10);
+  const roundedEnd = Math.min(hi, Math.round(e * 10) / 10);
+  const length = roundedEnd - roundedStart;
+  if (length < CLIP_MIN_S - CLIP_LENGTH_SLACK || length > CLIP_MAX_S + CLIP_LENGTH_SLACK) return [s, e];
+  return [roundedStart, roundedEnd];
 }
 
 async function download(url: string, name: string): Promise<string> {

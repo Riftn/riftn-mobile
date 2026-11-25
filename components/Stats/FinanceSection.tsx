@@ -76,6 +76,7 @@ export default function FinanceSection({ days }: { days: number | null }) {
   const maximum = Math.max(1, ...view.chart.flatMap(row => [row.revenue, row.costs]));
   const points = (kind: "revenue" | "costs") => view.chart.map((row, index) => `${index / Math.max(1, view.chart.length - 1) * chartWidth},${height - 8 - row[kind] / maximum * (height - 16)}`).join(" ");
   const sources: Source[] = query.data.sources.map(source => source.id === "operations_reinvestment" ? { ...source, label: t("stats.money.estimatedOperations", { defaultValue: "Estimated operations" }) } : source);
+  const unavailable = sources.filter(source => source.status === "unavailable");
   const revenue = [...view.revenue.values()].reduce((a, b) => a + b, 0);
   const costs = [...view.costs.values()].reduce((a, b) => a + b, 0);
   return (
@@ -107,7 +108,11 @@ export default function FinanceSection({ days }: { days: number | null }) {
           <Text style={styles.value}>{source.status !== "unavailable" ? (source.status === "partial" ? "~" : "") + usd((kind === "revenue" ? view.revenue : view.costs).get(source.id) ?? 0) : t("stats.money.sourceUnavailable")}</Text>
         </Pressable>)}
       </PageSection>)}
-      {sources.some(source => source.status === "unavailable") && <Text style={styles.hint}>{t("stats.money.unavailable", { sources: sources.filter(source => source.status === "unavailable").map(source => source.label).join(", ") })}</Text>}
+      {unavailable.length > 0 && (
+        <Text style={[styles.hint, styles.availabilityNote]}>
+          {t("stats.money.unavailable", { sources: unavailable.map(source => source.label).join(", ") })}
+        </Text>
+      )}
     </>
   );
 }
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
   label: { color: "#A1A1AA", fontSize: 11, textTransform: "uppercase" },
   amount: { color: "#F4F4F5", fontSize: 24, fontWeight: "700", marginTop: 4 },
   hint: { color: "#A1A1AA", fontSize: 11, lineHeight: 16, marginTop: 4 },
+  availabilityNote: { marginHorizontal: 16 },
   legend: { flexDirection: "row", justifyContent: "space-between", marginBottom: 8 },
   row: { flexDirection: "row", alignItems: "center", paddingVertical: 8, gap: 12 },
   source: { flex: 1 },

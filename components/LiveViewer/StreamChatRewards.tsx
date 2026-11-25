@@ -18,7 +18,7 @@ export function StreamChatRewards({ summary }: { summary: Awaited<ReturnType<typ
               <View key={r.id} className="flex-row items-center gap-1">
                 <Text className="text-xs text-white">{r.title}</Text>
                 <PointsIcon size={12} color="white" />
-                <Text className="text-xs text-white">{r.cost.toLocaleString(i18n.language)}</Text>
+                <Text className="text-xs text-white">{r.cost.toLocaleString(i18n.language?.replace('_', '-'))}</Text>
               </View>
             ))}
           </ScrollView>

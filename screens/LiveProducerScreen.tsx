@@ -851,8 +851,9 @@ const LiveProducerScreen: React.FC = () => {
   // Send chat message from floating chat
   const handleSendChatMessage = useCallback(async (content: string): Promise<boolean> => {
     if (!content || stage !== "live") return false;
-    // Into the room viewers read; the old gateway path only while it is not up.
-    if (chatTokenId != null && liveChat.connected) {
+    // Once the public stream room is known, wait for it to reconnect. The
+    // legacy gateway uses a separate room that current viewers do not read.
+    if (chatTokenId != null) {
       return liveChat.sendMessage({ content, messageType: "text" });
     }
     const tempId = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -878,7 +879,7 @@ const LiveProducerScreen: React.FC = () => {
           (meta.content || message?.content) === content;
       },
     });
-  }, [stage, user, addChatActivity, socketEmitAuthed, socketOn, streamId, streamEntity, t, chatTokenId, liveChat.connected, liveChat.sendMessage]);
+  }, [stage, user, addChatActivity, socketEmitAuthed, socketOn, streamId, streamEntity, t, chatTokenId, liveChat.sendMessage]);
 
   const openEndConfirm = useCallback(() => {
     setShowEndConfirm(true);
