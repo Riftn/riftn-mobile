@@ -73,6 +73,8 @@ const SESSION_KEYS = [
 
 /** True mid-switch so tracking never snapshots half-written keys. */
 let switchGuarded = false;
+let profileStoreVersion = 0;
+let profileWrites = Promise.resolve();
 
 export interface StoredProfileSession {
   /** The live values of SESSION_KEYS at snapshot time (missing keys omitted). */
@@ -199,15 +201,26 @@ async function readRaw(): Promise<any[]> {
 }
 
 async function readStore(): Promise<StoredProfile[]> {
+  const version = profileStoreVersion;
   const raw = await readRaw();
   const profiles = await Promise.all(raw.map(unseal));
   // A registry written before sessions were sealed still carries them inline.
-  if (raw.some((p) => p?.session && !isSealed(p.session))) await persist(profiles);
+  if (raw.some((p) => p?.session && !isSealed(p.session))) await persist(profiles, version);
   return profiles;
 }
 
 /** Writes the registry, sealing every session into SecureStore. */
-async function persist(profiles: StoredProfile[]): Promise<void> {
+function persist(profiles: StoredProfile[], version: number): Promise<void> {
+  // Finish an in-flight write before clearing the registry. Skip stale writes
+  // that were queued while sign-out was removing the saved sessions.
+  const write = profileWrites.then(() => {
+    if (version === profileStoreVersion) return persistProfiles(profiles);
+  });
+  profileWrites = write.catch(() => undefined);
+  return write;
+}
+
+async function persistProfiles(profiles: StoredProfile[]): Promise<void> {
   const before = await readRaw();
   const registry: any[] = [];
   const keep = new Set<string>();
@@ -240,9 +253,9 @@ async function persist(profiles: StoredProfile[]): Promise<void> {
   }
 }
 
-async function writeStore(profiles: StoredProfile[]): Promise<void> {
+async function writeStore(profiles: StoredProfile[], version: number): Promise<void> {
   try {
-    await persist(profiles);
+    await persist(profiles, version);
   } catch {}
   emitChanged();
 }
@@ -283,8 +296,14 @@ export async function getProfile(id: string): Promise<StoredProfile | null> {
   return (await readStore()).find((p) => p.id === id) ?? null;
 }
 
+export async function clearProfiles(): Promise<void> {
+  await persist([], ++profileStoreVersion);
+  emitChanged();
+}
+
 export async function removeProfile(id: string): Promise<void> {
-  await writeStore((await readStore()).filter((p) => p.id !== id));
+  const version = profileStoreVersion;
+  await writeStore((await readStore()).filter((p) => p.id !== id), version);
 }
 
 /**
@@ -294,10 +313,11 @@ export async function removeProfile(id: string): Promise<void> {
  * person.
  */
 export async function removeProfilesForAddress(address: string, keepId?: string | null): Promise<void> {
+  const version = profileStoreVersion;
   const target = address.toLowerCase();
   const profiles = await readStore();
   const kept = profiles.filter((p) => p.id === keepId || p.address.toLowerCase() !== target);
-  if (kept.length !== profiles.length) await writeStore(kept);
+  if (kept.length !== profiles.length) await writeStore(kept, version);
 }
 
 /** Legacy wallet-only and linked sign-ins can leave two rows for one address. */
@@ -351,6 +371,7 @@ async function readSupabaseSession(ownerUid: string | null): Promise<StoredProfi
  * No-op signed out, or while a profile switch has keys in flight.
  */
 async function snapshotSession(adopt: boolean): Promise<void> {
+  const version = profileStoreVersion;
   if (switchGuarded) return;
   const identity = await currentIdentity();
   const token = await SecureStore.getItemAsync(AUTH_TOKEN_KEY);
@@ -404,7 +425,7 @@ async function snapshotSession(adopt: boolean): Promise<void> {
   if (existingIndex >= 0) {
     // Already saved — updating a profile in place can never exceed the limit.
     profiles[existingIndex] = entry;
-    await writeStore(profiles);
+    await writeStore(profiles, version);
     return;
   }
 
@@ -428,7 +449,7 @@ async function snapshotSession(adopt: boolean): Promise<void> {
   }
 
   profiles.push(entry);
-  await writeStore(profiles);
+  await writeStore(profiles, version);
 }
 
 /** Refresh the live account's registry copy, creating nothing. */
@@ -479,12 +500,13 @@ export async function mergeTokensIntoStoredProfile(
   owner: { address: string; uid: string | null },
   tokens: Record<string, string>,
 ): Promise<void> {
+  const version = profileStoreVersion;
   const id = owner.uid ?? `addr:${owner.address.toLowerCase()}`;
   const profiles = await readStore();
   const entry = profiles.find((p) => p.id === id);
   if (!entry?.session) return;
   Object.assign(entry.session.tokens, tokens);
-  await writeStore(profiles);
+  await writeStore(profiles, version);
 }
 
 /**
@@ -496,6 +518,7 @@ export async function mergeTokensIntoStoredProfile(
 export async function dropStoredProfileSession(
   owner: { address: string; uid: string | null },
 ): Promise<void> {
+  const version = profileStoreVersion;
   const address = owner.address.toLowerCase();
   const id = owner.uid ?? `addr:${address}`;
   const profiles = await readStore();
@@ -506,7 +529,7 @@ export async function dropStoredProfileSession(
     entry.session = null;
     changed = true;
   }
-  if (changed) await writeStore(profiles);
+  if (changed) await writeStore(profiles, version);
 }
 
 /**

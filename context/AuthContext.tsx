@@ -60,6 +60,7 @@ import { identifyWallet, resetAnalytics, track } from "../libs/analytics";
 import { setShareRefCode } from "../libs/shareRef";
 import { onSignInWall } from "../libs/sign-in-wall";
 import {
+  clearProfiles,
   currentProfileId,
   listProfiles,
   beginAddProfileAttempt,
@@ -200,7 +201,7 @@ interface AuthContextType {
   balancesLoading: boolean;
   isSignedIn: boolean;
   isFirstTimeUser: boolean;
-  signOut: () => Promise<void>;
+  signOut: (options?: { allAccounts?: boolean }) => Promise<void>;
   skipAuth: () => Promise<void>;
   signInWithWallet: (walletAddress: string, chainId: number, overridePrivateKey?: string, web3AuthMeta?: Record<string, any>) => Promise<void>;
   /**
@@ -270,7 +271,7 @@ interface ProviderContextType {
 
 // Auth actions context (never updates - stable function references)
 interface AuthActionsContextType {
-  signOut: () => Promise<void>;
+  signOut: (options?: { allAccounts?: boolean }) => Promise<void>;
   skipAuth: () => Promise<void>;
   signInWithWallet: (walletAddress: string, chainId: number, overridePrivateKey?: string, web3AuthMeta?: Record<string, any>) => Promise<void>;
   /**
@@ -911,7 +912,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    * accounts are saved on this phone, the most recently used one that still
    * restores takes over. Only the last account lands on the sign-in screen.
    */
-  const logOut = useCallback(async () => {
+  const logOut = useCallback<AuthActionsContextType["signOut"]>(async (options) => {
+    if (options?.allAccounts) {
+      setIsLeavingAccount(true);
+      try {
+        await signOut(false);
+        await clearProfiles();
+      } finally {
+        setIsLeavingAccount(false);
+      }
+      return;
+    }
+
     let others: string[] = [];
     try {
       const leaving = await currentProfileId();
