@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusRow } from '../../components/DM/NotesSheet';
 import { getNotes, type NoteEntry } from '../../services/notes.service';
 
+jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('../../services/notes.service', () => ({ getNotes: jest.fn() }));
 jest.mock('../../services/supabase', () => ({}));
 jest.mock('../../libs/supabase-wallet-client', () => ({}));
