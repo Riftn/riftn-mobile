@@ -18,7 +18,7 @@ export const MENU_GROUPS: readonly MenuGroupDef[] = [
   { id: "create", labelKey: "nav.groups.create", fallback: "Create", keys: ["commandCentre.creator", "creator.editor", "nav.stages", "nav.tv", "nav.prompt", "nav.command", "nav.converter", "nav.migrate", "creatorPacks.title"] },
   { id: "discover", labelKey: "nav.groups.discover", fallback: "Discover", keys: ["nav.events", "nav.arcade", "miniApps.store.title", "nav.leaderboard", "nav.stats", "nav.agents", "nav.creators"] },
   { id: "money", labelKey: "nav.groups.money", fallback: "Money", keys: ["nav.staking", "nav.superpowers", "nav.fractions", "screens.usernames", "screens.accounts", "screens.work", "nav.affiliate", "nav.ads"] },
-  { id: "riftn", labelKey: "nav.groups.riftn", fallback: "Riftn", keys: ["nav.featureRequests", "stats.feedback.title", "nav.governance", "nav.dao", "nav.careers", "nav.guide", "nav.glossary", "Compare Riftn", "nav.docs", "nav.blog", "nav.connectAi"] },
+  { id: "riftn", labelKey: "nav.groups.riftn", fallback: "Riftn", keys: ["nav.featureRequests", "stats.feedback.title", "nav.governance", "nav.dao", "nav.careers", "nav.guide", "nav.glossary", "nav.compareRiftn", "nav.docs", "nav.blog", "nav.connectAi"] },
 ];
 
 /** Never in a group (Home is a bottom tab; it only shows in the search). */

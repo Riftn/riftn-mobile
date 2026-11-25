@@ -39,6 +39,7 @@ const SHARED_IDS: Record<string, string> = {
   "nav.nfts": "nftMarket.title",
   "nav.migrate": "migrate.title",
   "nav.superpowers": "superpowers.title",
+  "nav.compareRiftn": "Compare Riftn", // Keep existing drawer, bar and shortcut positions.
 };
 
 export const navOrderId = (labelKey: string) => SHARED_IDS[labelKey] ?? labelKey;
