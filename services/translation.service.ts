@@ -1,6 +1,7 @@
 import { NativeModules, Platform } from 'react-native';
 import { createLogger } from '../libs/logger';
 import i18n from '../i18n';
+import { normalizeLanguageCode } from '../i18n/language-code';
 import { storage } from '../libs/storage';
 import { TranslationCooldown } from '../libs/translation-cooldown';
 import { supabase } from './supabase';
@@ -237,7 +238,7 @@ export function getDeviceLanguage(): string {
     } else {
       locale = NativeModules.I18nManager?.localeIdentifier;
     }
-    if (locale) return locale.split(/[-_]/)[0].toLowerCase();
+    if (locale) return normalizeLanguageCode(locale);
   } catch {
     // ignore
   }
@@ -258,7 +259,7 @@ export function getDeviceLanguage(): string {
 export function getUserLanguage(): string {
   const chosen = i18n?.language;
   if (chosen) {
-    const normalized = chosen.split(/[-_]/)[0].toLowerCase();
+    const normalized = normalizeLanguageCode(chosen);
     if (normalized) return normalized;
   }
   return getDeviceLanguage();
@@ -281,14 +282,10 @@ export interface TranslateTextResult {
   untranslated?: boolean;
 }
 
-function baseCode(lang: string | null | undefined): string {
-  return (lang || '').split(/[-_]/)[0].toLowerCase();
-}
-
 function looksUntranslated(sameLanguage: boolean, detected: string | null, targetLang: string): boolean {
   if (!sameLanguage) return false;
-  const code = baseCode(detected);
-  return !code || code === 'auto' || code === 'und' || code !== baseCode(targetLang);
+  const code = normalizeLanguageCode(detected || '');
+  return !code || code === 'auto' || code === 'und' || code !== normalizeLanguageCode(targetLang);
 }
 
 // A translation that came back as the text it was given did not translate

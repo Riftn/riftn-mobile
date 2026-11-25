@@ -1,3 +1,4 @@
+import { normalizeLanguageCode } from './language-code';
 import { applyDateLocale } from './date-locale';
 import manifest from './locale-manifest.json';
 /**
@@ -71,7 +72,8 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { code: 'my', name: 'Burmese', nativeName: 'မြန်မာ' },
   { code: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { code: 'zh', name: 'Chinese', nativeName: '中文' },
+  { code: 'zh', name: 'Chinese (Simplified)', nativeName: '简体中文' },
+  { code: 'zh_tw', name: 'Chinese (Traditional)', nativeName: '繁體中文' },
   { code: 'cjy', name: 'Chinese, Jinyu', nativeName: '晋语' },
   { code: 'mnp', name: 'Chinese, Min Bei', nativeName: '闽北语' },
   { code: 'ctg', name: 'Chittagonian', nativeName: 'চাটগাঁইয়া' },
@@ -329,8 +331,8 @@ export async function chooseLanguage(code: string): Promise<{ ok: boolean; needs
  */
 export function detectLanguage(): string {
   const locales = Localization.getLocales?.() || [];
-  const deviceLang = locales[0]?.languageCode || 'en';
-  return deviceLang;
+  const first = locales[0];
+  return normalizeLanguageCode(first?.languageTag || first?.languageCode || 'en');
 }
 
 /**
@@ -344,7 +346,8 @@ export function detectLanguage(): string {
  */
 export function detectCountryLanguage(): string | null {
   const locales = Localization.getLocales?.() || [];
-  const phone = locales[0]?.languageCode || 'en';
+  const first = locales[0];
+  const phone = normalizeLanguageCode(first?.languageTag || first?.languageCode || 'en');
   const phoneShipped = SUPPORTED_LANGUAGES.some((l) => l.code === phone);
   if (phoneShipped && phone !== 'en') return null;
   const region = locales[0]?.regionCode || locales.find((l) => l.regionCode)?.regionCode;

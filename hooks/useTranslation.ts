@@ -2,6 +2,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
 import { useCallback, useRef, useMemo, useEffect, useSyncExternalStore } from 'react';
 import { useTranslation as useI18n } from 'react-i18next';
 import { translateText, getUserLanguage } from '../services/translation.service';
+import { normalizeLanguageCode } from '../i18n/language-code';
 import { autoTranslateEnabled, subscribeAutoTranslate } from '../libs/auto-translate-setting';
 import { ensureAiConsent, hasAiConsent } from '../libs/ai-consent';
 import { queueAutoTranslate } from '../libs/auto-translate-queue';
@@ -44,11 +45,6 @@ const NO_TEXTS: Record<string, string> = {};
 const EMOJI_REGEX = /[\p{Emoji_Presentation}\p{Extended_Pictographic}\u200d\ufe0f]/gu;
 function stripEmojis(text: string): string {
   return text.replace(EMOJI_REGEX, '').replace(/\s+/g, ' ').trim();
-}
-
-/** "pt-BR" and "pt" are the same language for the purpose of skipping work. */
-function baseLang(lang: string): string {
-  return lang.split(/[-_]/)[0].toLowerCase();
 }
 
 /**
@@ -146,7 +142,7 @@ export function useTranslation(
   const shouldShow =
     hasEnoughText &&
     (isTranslated ||
-      (!knownLang || knownLang === 'und' || baseLang(knownLang) !== baseLang(targetLang)));
+      (!knownLang || knownLang === 'und' || normalizeLanguageCode(knownLang) !== normalizeLanguageCode(targetLang)));
 
   /**
    * @param silent - auto-translation, which the reader did not ask for and must
@@ -277,7 +273,7 @@ export function useTranslation(
     // the reader's language. The edge function would answer `sameLanguage` to
     // the same effect, but not asking is cheaper than being told — and on a
     // feed whose majority language matches the reader, this is most of it.
-    if (reliableBackendLang && baseLang(reliableBackendLang) === baseLang(targetLang)) return;
+    if (reliableBackendLang && normalizeLanguageCode(reliableBackendLang) === normalizeLanguageCode(targetLang)) return;
     const tooShort = auto === 'chat'
       ? combinedProse.length < MIN_CHAT_AUTO_LETTERS
       : Object.values(texts).join(' ').trim().length < MIN_AUTO_LENGTH;
@@ -288,7 +284,7 @@ export function useTranslation(
     if (
       auto === 'chat'
       && /^[\p{Script=Latin}]*$/u.test(combinedProse)
-      && !(reliableBackendLang && baseLang(reliableBackendLang) !== baseLang(targetLang))
+      && !(reliableBackendLang && normalizeLanguageCode(reliableBackendLang) !== normalizeLanguageCode(targetLang))
       && !chatLineIsForeign(Object.values(texts).join(' '), targetLang)
     ) return;
 
