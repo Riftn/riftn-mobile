@@ -5,6 +5,16 @@ import { StatusRow } from '../../components/DM/NotesSheet';
 import { getNotes, type NoteEntry } from '../../services/notes.service';
 
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
+jest.mock('react-native', () => ({
+  Platform: { OS: 'ios' },
+  StyleSheet: { flatten: (style: unknown) => style },
+  Animated: { createAnimatedComponent: (component: unknown) => component },
+  View: 'View',
+  Text: 'Text',
+  ScrollView: 'ScrollView',
+  Pressable: (props: Record<string, unknown>) =>
+    require('react').createElement('View', { accessible: true, ...props }),
+}));
 jest.mock('../../services/notes.service', () => ({ getNotes: jest.fn() }));
 jest.mock('../../services/supabase', () => ({}));
 jest.mock('../../libs/supabase-wallet-client', () => ({}));
