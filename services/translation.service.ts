@@ -309,7 +309,7 @@ export async function translateText(
   if (!hasAiConsent()) throw new TranslationServiceError(aiConsentDeclinedMessage(), 403);
 
   const resolvedSource = (source: string | null): string | null => {
-    if (!manualChat || (source && !['auto', 'und', 'unknown'].includes(baseCode(source)))) return source;
+    if (!manualChat || (source && !['auto', 'und', 'unknown'].includes(normalizeLanguageCode(source)))) return source;
     return chatLineMatchesLanguage(text, targetLang) ? targetLang : source;
   };
 
