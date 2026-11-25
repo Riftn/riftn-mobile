@@ -6188,6 +6188,10 @@
     "glossaryLeaderboardDesc": "Gebruikers worden gerangschikt op totale Riftn tokenbalans (wallet + gestaked op alle chains). Ranglijsten worden periodiek bijgewerkt en volgen 1-daagse en 1-weekse veranderingen. Je kunt ook sorteren op verzonden fooien, ontvangen fooien, volgers, likes of abonnees."
   },
   "arcade": {
+    "riftnOriginals": "Originele Riftn-games",
+    "otherGames": "Andere games",
+    "gameCount_one": "{{count}} game",
+    "gameCount_other": "{{count}} games",
     "submitAccessibility": "Dien een spel in bij de speelhal",
     "submitTitle": "Een spel gemaakt?",
     "submitDescription": "Stuur ons een speelbare link ter beoordeling.",

@@ -6001,6 +6001,10 @@
     "glossaryLeaderboardDesc": "Los usuarios se clasifican por el saldo total de tokens Riftn (billetera + en staking en todas las cadenas). Las clasificaciones se actualizan periódicamente y rastrean los cambios de 1 día y 1 semana. También puedes ordenar por propinas enviadas, propinas recibidas, seguidores, me gusta o suscriptores."
   },
   "arcade": {
+    "riftnOriginals": "Originales de Riftn",
+    "otherGames": "Otros juegos",
+    "gameCount_one": "{{count}} juego",
+    "gameCount_other": "{{count}} juegos",
     "submitAccessibility": "Envía un juego a la sala de juegos",
     "submitTitle": "¿Has hecho un juego?",
     "submitDescription": "Envíanos un enlace reproducible para que lo revisemos.",
