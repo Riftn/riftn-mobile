@@ -25,6 +25,7 @@ jest.mock('react-native', () => ({
   Platform: { OS: 'android', select: (spec: Record<string, unknown>) => spec.android ?? spec.native ?? spec.default },
   StyleSheet: { create: (styles: unknown) => styles, absoluteFill: { position: 'absolute' } },
 }));
+jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'LinearGradient' }));
 jest.mock('expo-blur', () => ({ BlurView: 'BlurView' }));
 jest.mock('react-native-reanimated', () => {
