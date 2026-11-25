@@ -33,7 +33,7 @@ const CallNoteCard: React.FC<{
   }
 
   const title = note.kind === "ended"
-    ? kind
+    ? t("calls.ended")
     : note.kind === "declined"
       ? t("calls.declined")
       : isMine ? t("calls.noAnswer") : t("calls.missed");

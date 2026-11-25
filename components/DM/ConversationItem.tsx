@@ -26,6 +26,7 @@ import { useDraftText } from "../../hooks/useDraft";
 import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import { previewLinks } from "../../libs/dehub-links";
+import { localizeDmCallPreview } from "../../libs/callNote";
 import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
@@ -187,7 +188,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         previewIcon: null,
       };
     }
-    const text = stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ") || "";
+    const text = localizeDmCallPreview(last, t) ?? stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ");
     return {
       previewText: withPrefix(text),
       previewIcon: null,

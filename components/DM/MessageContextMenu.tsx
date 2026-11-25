@@ -15,6 +15,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { BlurView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { localizeDmCallPreview } from "../../libs/callNote";
 import Avatar from "../common/Avatar";
 import Icon from "../ui/Icon";
 import PaymentBadge from "./PaymentBadge";
@@ -266,7 +267,7 @@ const FloatingMessage: React.FC<{
                 }`}
                 numberOfLines={2}
               >
-                {stripBold(message.replyTo.content) ||
+                {localizeDmCallPreview(message.replyTo, t) || stripBold(message.replyTo.content) ||
                   (message.replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
               </Text>
             </View>

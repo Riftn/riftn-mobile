@@ -3,6 +3,7 @@ import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
 import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
+import { isDmCallNotice, localizeDmCallPreview } from "../../libs/callNote";
 import { useAppTheme } from "../../context/ThemeContext";
 import { formatMessageTime } from "../../libs/date.util";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -379,7 +380,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     opacity: highlightOpacity.value,
   }));
 
-  const isCallMsg = message.msgType === "msg" && /^[📞📹📵]/u.test(message.content || "");
+  const isCallMsg = message.msgType === "msg" && isDmCallNotice(message.content);
 
   const REPLY_THRESHOLD = 60;
   const translateX = useSharedValue(0);
@@ -1091,7 +1092,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       }`}
                       numberOfLines={2}
                     >
-                      {stripBold(message.replyTo.content) || ""}
+                      {localizeDmCallPreview(message.replyTo, t) || stripBold(message.replyTo.content) || ""}
                     </Text>
                   )}
                 </View>

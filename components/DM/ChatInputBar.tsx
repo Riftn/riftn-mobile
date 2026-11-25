@@ -26,6 +26,7 @@ import {
 import SmartImage from "../common/SmartImage";
 import Animated, { FadeIn, FadeOut, SlideInDown } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
+import { localizeDmCallPreview } from "../../libs/callNote";
 import Icon from "../ui/Icon";
 import { sendAIChat } from "../../services/ai.service";
 import * as ImagePicker from "expo-image-picker";
@@ -849,7 +850,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 className="text-[13px] text-theme-neutrals-400 mt-0.5"
                 numberOfLines={1}
               >
-                {stripBold(replyTo.content) || (replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
+                {localizeDmCallPreview(replyTo, t) || stripBold(replyTo.content) || (replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
               </Text>
             </View>
             <TouchableOpacity onPress={handleCancelReply} hitSlop={8}>

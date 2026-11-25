@@ -4,6 +4,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import type { DmMessage } from "../../services/dm/dm.types";
+import { localizeDmCallPreview } from "../../libs/callNote";
 
 interface PinnedMessageBannerProps {
   pinnedMessage: DmMessage;
@@ -18,7 +19,7 @@ const PinnedMessageBanner: React.FC<PinnedMessageBannerProps> = ({
 }) => {
   const { t } = useTranslation();
   const preview =
-    pinnedMessage.content?.trim() ||
+    localizeDmCallPreview(pinnedMessage, t) || pinnedMessage.content?.trim() ||
     (pinnedMessage.msgType === "media"
       ? t("dm.pinnedMedia")
       : pinnedMessage.msgType === "gif"
