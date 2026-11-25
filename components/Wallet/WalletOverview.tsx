@@ -82,6 +82,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   const appTokensOn = useAppTokensEnabled();
   const { data: appTokens } = useAppTokens(appTokensOn);
   const appDhb = Number(appTokens?.balance ?? 0);
+  const appTokenLabel = appTokens?.symbol === 'RIFT' ? '$RIFT' : tokenLabel();
   const [appSend, setAppSend] = useState(false);
   const [appHistory, setAppHistory] = useState(false);
   const [search, setSearch] = useSurfaceDraft('wallet:search', '');
@@ -165,9 +166,9 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <KitButton label={t('common.retry')} variant="quiet" onPress={() => { void wallet.refresh(); }} />
         </View>}
         {wallet.loading && wallet.tokens.length === 0 ? <ActivityIndicator style={s.loading} color="#aaa" /> : null}
-        {appTokensOn && (!query || `dhb dehub rift riftn tokens ${tokenLabel()}`.toLowerCase().includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`${tokenLabel()}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
+        {appTokensOn && (!query || `dhb dehub rift riftn tokens ${appTokenLabel}`.toLowerCase().includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`${appTokenLabel}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
           <TokenIcon symbol="DHB" />
-          <View style={s.tokenName}><Text style={[s.label, { textTransform: 'capitalize' }]}>{tokenLabel()}</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
+          <View style={s.tokenName}><Text style={[s.label, { textTransform: 'capitalize' }]}>{appTokenLabel}</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{format(appDhb)}</Text><Text style={s.muted}>{wallet.prices.DHB ? `$${(appDhb * wallet.prices.DHB).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
           <Icon name="ChevronRight" size={16} color="#999" />
         </Pressable>}

@@ -210,7 +210,7 @@ export const AppTokenHistorySheet: React.FC<{ open: boolean; onClose: () => void
   return (
     <GlassModal visible={open} onClose={onClose} presentation="bottom" scrollable>
       <View className="p-5 gap-4">
-        <Text className="text-white font-bold text-xl">{t("appTokens.title")}</Text>
+        <Text className="text-white font-bold text-xl">{data?.symbol === "RIFT" ? "$RIFT" : t("appTokens.title")}</Text>
         <View className="rounded-xl bg-white/5 border border-white/10 p-4">
           <Text className="text-2xl font-bold text-white">{fmt(data?.balance ?? 0)} <DhbCoin /></Text>
           <Text className="text-[12px] leading-5 text-white/50 mt-2">{t("appTokens.explainer")}</Text>
