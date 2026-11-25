@@ -69,7 +69,8 @@ jest.mock('../../theme/minimal', () => ({
   minimalTabActive: {},
   minimalTabStrip: {},
 }));
-jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isMinimal: false }) }));
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ theme: 'system', isMinimal: false }) }));
+jest.mock('../../components/theme/CardFrost', () => ({ CardFrost: () => null, useCardFrost: () => false }));
 jest.mock('../../components/DeHubLoader', () => ({ DeHubLoader: 'DeHubLoader' }));
 jest.mock('../../components/Feed/DeHubRefreshControl', () => ({
   DeHubRefreshControl: 'DeHubRefreshControl',
