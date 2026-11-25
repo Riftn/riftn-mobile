@@ -8277,6 +8277,7 @@
     "messagingUnavailable": "La mensajería no está disponible",
     "addCaption": "Añadir un pie de foto…",
     "openTimer": {
+      "sent": "Enviada",
       "secs": "{{n}} s",
       "oneMin": "1 min",
       "chip": "{{time}} al abrirse",

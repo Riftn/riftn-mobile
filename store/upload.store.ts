@@ -218,6 +218,11 @@ let switchingAccount = false;
 let accountGeneration = 0;
 let hydrated = false;
 
+/** Older jobs may have saved the label itself as the title. */
+export function isUntitledPostUpload(job: UploadJob): boolean {
+  return !job.isQuote && !job.payload.bodyText?.trim() && !job.payload.description?.trim();
+}
+
 export function ownsUploadJob(job: UploadJob): boolean {
   return !!ACTIVE_KEY && ACTIVE_KEY === CACHE_PREFIX + ":" + job.walletAddress?.toLowerCase();
 }
