@@ -22,6 +22,9 @@ import { GRAIN, glassTint, type ThemeSkin } from "../../theme/skins";
 import HudBrackets from "../theme/HudBrackets";
 import FrostedPill from "../ui/FrostedPill";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
+import GlassModal from "../ui/GlassModal";
+import PrimaryButton from "../ui/PrimaryButton";
+import { currentProfileId, listProfiles } from "../../libs/profiles";
 import { SheetGlassFill } from "../ui/SheetGlass";
 import { SHEET_GLASS_FILL } from "../../theme/sheetGlass";
 import { Image } from "expo-image";
@@ -552,6 +555,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // nested navigation. The menu re-rendered on every tab switch and push.
   const [menuQuery, setMenuQuery] = useDraftState(MENU_QUERY_DRAFT, "");
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [showSignOutOptions, setShowSignOutOptions] = useState(false);
+  const signOutLocked = useRef(false);
   // Live size, so split-screen and unfolding resize the sheet and its
   // off-screen position instead of keeping the size from app start.
   const { width: screenWidth, height: screenHeight } = useWindowDimensions();
@@ -842,7 +847,10 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // keyboard up over the feed. Closed, it cannot be focused at all.
   const searchRef = useRef<TextInput>(null);
   useEffect(() => {
-    if (!visible) searchRef.current?.blur();
+    if (!visible) {
+      searchRef.current?.blur();
+      setShowSignOutOptions(false);
+    }
   }, [visible]);
   const { onFocus: onSearchFieldFocus } = searchField;
   const onSearchFocus = useCallback(() => {
@@ -882,18 +890,28 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     [navigate, onClose, t],
   );
 
-  const handleSignOut = useCallback(async () => {
-    if (isSigningOut) return;
+  const handleSignOut = useCallback(async (allAccounts?: boolean) => {
+    if (signOutLocked.current) return;
+    signOutLocked.current = true;
     setIsSigningOut(true);
-    onClose();
     try {
-      await signOut();
+      if (allAccounts === undefined) {
+        const [activeId, profiles] = await Promise.all([currentProfileId(), listProfiles()]);
+        if (profiles.some(profile => profile.id !== activeId)) {
+          setShowSignOutOptions(true);
+          return;
+        }
+      }
+      setShowSignOutOptions(false);
+      onClose();
+      await signOut({ allAccounts: allAccounts === true });
     } catch (error) {
       toastError(error, t("settings.logoutFailed"));
     } finally {
+      signOutLocked.current = false;
       setIsSigningOut(false);
     }
-  }, [isSigningOut, onClose, signOut, t]);
+  }, [onClose, signOut, t]);
 
   const handlePost = useCallback(() => {
     navigate(activeRouteName?.startsWith('Work') ? ScreenNames.WorkPost : ScreenNames.Upload);
@@ -1402,7 +1420,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
               accessibilityLabel={t("sidebar.logOut")}
               activeOpacity={0.6}
               disabled={isSigningOut}
-              onPress={handleSignOut}
+              onPress={() => void handleSignOut()}
               style={[styles.logoutButton, isSigningOut && styles.logoutButtonDisabled]}
             >
               <Icon name="LogOut" size={20} color="#A1A1AA" strokeWidth={1.8} />
@@ -1420,6 +1438,34 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
           </View>
         )}
       </Animated.View>
+      <GlassModal visible={visible && showSignOutOptions} onClose={() => setShowSignOutOptions(false)}>
+        <View className="px-2 py-3 gap-2">
+          <Text accessibilityRole="header" style={{ color: appTheme.colors.foreground }} className="text-lg font-semibold">
+            {t("settings.logOut")}
+          </Text>
+          <Text style={{ color: appTheme.colors.neutrals[400] }} className="text-sm mb-2">
+            {t("settings.logOutScopeDescription", "Choose which accounts to log out of on this device.")}
+          </Text>
+          <PrimaryButton
+            neutral
+            title={t("settings.logOutThisAccount", "Log out of this account")}
+            onPress={() => void handleSignOut(false)}
+          />
+          <PrimaryButton
+            neutral
+            title={t("settings.logOutAllAccounts", "Log out of all accounts")}
+            onPress={() => void handleSignOut(true)}
+          />
+          <TouchableOpacity
+            accessibilityRole="button"
+            activeOpacity={0.7}
+            onPress={() => setShowSignOutOptions(false)}
+            className="h-10 rounded-xl items-center justify-center"
+          >
+            <Text style={{ color: appTheme.colors.foreground }} className="text-sm font-medium">{t("common.cancel")}</Text>
+          </TouchableOpacity>
+        </View>
+      </GlassModal>
     </View>
   );
 };

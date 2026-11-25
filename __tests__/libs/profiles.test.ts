@@ -25,6 +25,7 @@ import {
   listProfiles,
   getProfile,
   currentProfileId,
+  clearProfiles,
   removeProfile,
   removeProfilesForAddress,
   snapshotCurrentSession,
@@ -292,6 +293,24 @@ describe('libs/profiles', () => {
   });
 
   describe('removal', () => {
+    it('clears every saved session even when a refresh is updating a profile', async () => {
+      await seedAccountA();
+      await adoptCurrentProfile();
+      await seedAccountB();
+      await adoptCurrentProfile();
+      expect(await listProfiles()).toHaveLength(2);
+
+      const refresh = mergeTokensIntoStoredProfile(
+        { address: ADDR_A, uid: 'uid-a' },
+        { auth_refresh_token: 'rotated-a' },
+      );
+      await Promise.all([refresh, clearProfiles()]);
+
+      expect(await listProfiles()).toEqual([]);
+      expect(Object.keys(mockStore.__store).filter(key => key.startsWith('ps_'))).toEqual([]);
+      expect(await beginProfileSwitch('uid-a')).toBeNull();
+    });
+
     it('forgets one profile and keeps the rest', async () => {
       await seedAccountA();
       await adoptCurrentProfile();
