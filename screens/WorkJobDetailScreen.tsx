@@ -31,6 +31,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Icon from "../components/ui/Icon";
+import TranslateButton from "../components/ui/TranslateButton";
+import { useTranslation as useTextTranslation } from "../hooks/useTranslation";
 import ScreenHeader from "../components/ScreenHeader";
 import { theme } from "../theme";
 import { openInApp } from "../libs/links.utils";
@@ -128,6 +130,13 @@ export default function WorkJobDetailScreen() {
   const { showUserProfile } = useUserProfileSheet();
 
   const { data: job, isLoading, isError, refetch, isRefetching } = useWorkJob(jobId, seed);
+  const contract = job?.job_type === "contract" && job.status !== "draft" ? job : undefined;
+  const jobText = useMemo(() => ({
+    title: contract?.title ?? "",
+    description: contract?.description ?? "",
+  }), [contract?.title, contract?.description]);
+  const translation = useTextTranslation(jobText, undefined, false, false, contract?.id, { showSuccessToast: false });
+  const translatedText = translation.isTranslated ? translation.translatedTexts : undefined;
   // A shared link (dehub.io/bounty/7) carries the job_number, but the child
   // tables key on the job's uuid, so they wait for the job when given a number.
   const jobUuid = /^\d+$/.test(jobId) ? job?.id : jobId;
@@ -255,7 +264,7 @@ export default function WorkJobDetailScreen() {
   return (
     <View style={styles.root}>
       <ScreenHeader
-        title={job.title}
+        title={translatedText?.title ?? job.title}
         rightContent={
           <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
           <BountyShareButton job={job} />
@@ -315,8 +324,19 @@ export default function WorkJobDetailScreen() {
               </Pressable>
             </View>}
 
-            <Text style={styles.jobTitle}>{job.title}</Text>
-            <Text style={styles.jobDesc}>{job.description}</Text>
+            <Text style={styles.jobTitle}>{translatedText?.title ?? job.title}</Text>
+            <Text style={styles.jobDesc}>{translatedText?.description ?? job.description}</Text>
+            {contract && /\p{L}/u.test(`${job.title} ${job.description}`) && (
+              <View style={styles.jobTranslate}>
+                <TranslateButton
+                  showTranslateLabel
+                  isTranslated={translation.isTranslated}
+                  isLoading={translation.isLoading}
+                  onTranslate={translation.handleTranslate}
+                  onShowOriginal={translation.handleShowOriginal}
+                />
+              </View>
+            )}
 
             {!!job.target_url && (
               <Pressable style={styles.linkRow} onPress={() => openInApp(job.target_url!)}>
@@ -921,6 +941,7 @@ const styles = StyleSheet.create({
 
   jobTitle: { color: "#FFFFFF", fontSize: 20, fontWeight: "700", lineHeight: 26 },
   jobDesc: { color: "#D4D4D8", fontSize: 14, lineHeight: 20, marginTop: 8 },
+  jobTranslate: { alignSelf: "flex-start", marginTop: 2 },
 
   linkRow: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 10 },
   linkText: { color: "#A1A1AA", fontSize: 11.5, flex: 1 },

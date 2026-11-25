@@ -15,6 +15,7 @@
  * Mirror of dehubweb's `components/app/BadgeProgress.tsx`.
  */
 
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import { DhbCoin } from "../common/DhbCoin";
 import React, { useMemo } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
@@ -61,6 +62,7 @@ function formatUsd(value: number): string {
 
 export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressProps) {
   const { t } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const scale = useBadgeScale();
   const price = useBadgeLadderPrice();
 
@@ -103,7 +105,7 @@ export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressP
 
         <View className="flex-1 min-w-0">
           <Text numberOfLines={1} className="text-base font-semibold text-white">
-            {standing.tier ?? t("badgeAscension.noBadgeYet")}
+            {standing.tier ? tierLabel(standing.tier) : t("badgeAscension.noBadgeYet")}
           </Text>
           <Text numberOfLines={1} className="text-xs text-white/50">
             {formatDhb(standing.balance)} <DhbCoin />
@@ -118,7 +120,7 @@ export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressP
                 {t("badgeAscension.next")}
               </Text>
               <Text numberOfLines={1} className="text-sm font-medium text-white/80">
-                {standing.nextTier}
+                {tierLabel(standing.nextTier)}
               </Text>
             </>
           ) : (
@@ -149,7 +151,7 @@ export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressP
         <Text className="text-[11px] text-white/40">{percent}%</Text>
         <Text numberOfLines={1} className="text-[11px] text-white/60 flex-1 text-right ml-2">
           {standing.nextTier
-            ? t("badgeAscension.toNextTier", { amount: formatDhb(standing.remaining), tier: standing.nextTier })
+            ? t("badgeAscension.toNextTier", { amount: formatDhb(standing.remaining), tier: tierLabel(standing.nextTier) })
             : t("badgeAscension.everyTierUnlocked")}
         </Text>
       </View>
@@ -177,6 +179,8 @@ export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressP
               >
                 <Image
                   source={badgeImage(rung.name)}
+                  accessible
+                  accessibilityLabel={tierLabel(rung.name)}
                   style={{ width: 18, height: 18, opacity: earned ? 1 : 0.25 }}
                   resizeMode="contain"
                 />

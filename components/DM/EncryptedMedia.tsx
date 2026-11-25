@@ -156,9 +156,15 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   }, [uri, start, onVideoPress]);
 
   const openImage = useCallback(() => {
-    if (shown) navigation.navigate("ImageViewer", { images: [shown], initialIndex: 0, allowDownload: true });
-    else if (status === "error" || status === "idle") void start();
-  }, [shown, status, start, navigation]);
+    if (shown) {
+      if (!isMine && destruct?.mode === "time" && !destruct.openedAt) {
+        void markDmMessageViewed(messageId).catch(() => undefined);
+      }
+      navigation.navigate("ImageViewer", { images: [shown], initialIndex: 0, allowDownload: true });
+    } else if (status === "error" || status === "idle") {
+      void start();
+    }
+  }, [shown, status, start, navigation, isMine, messageId, destruct]);
 
   const openFile = useCallback(async () => {
     const file = uri || (await start());

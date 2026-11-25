@@ -13,6 +13,7 @@ interface TranslateButtonProps {
   onShowOriginal: () => void;
   /** Render inline (in metadata row) vs standalone line */
   inline?: boolean;
+  showTranslateLabel?: boolean;
   /**
    * Comments and chat lines: no Translate button on the row. Translate lives
    * in the long-press menu, so the row only says what happened — Translating…
@@ -42,6 +43,7 @@ const TranslateButtonComponent: React.FC<TranslateButtonProps> = ({
   onTranslate,
   onShowOriginal,
   inline = false,
+  showTranslateLabel = false,
   statusOnly = false,
 }) => {
   const { t } = useI18n();
@@ -68,6 +70,7 @@ const TranslateButtonComponent: React.FC<TranslateButtonProps> = ({
     return (
       <TouchableOpacity
         onPress={onShowOriginal}
+        accessibilityRole="button"
         activeOpacity={0.7}
         hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
         style={style}
@@ -92,8 +95,8 @@ const TranslateButtonComponent: React.FC<TranslateButtonProps> = ({
       <Icon name="Languages" size={16} color={grey} />
       {/* Back on the original after "show original": name the language it is
           in, so the control reads as an offer rather than a mystery. */}
-      {sourceLangName ? (
-        <Text style={{ fontSize: 12, color: grey }}>{sourceLangName}</Text>
+      {showTranslateLabel || sourceLangName ? (
+        <Text style={{ fontSize: 12, color: grey }}>{showTranslateLabel ? t('common.translate') : sourceLangName}</Text>
       ) : null}
     </TouchableOpacity>
   );
