@@ -8216,6 +8216,7 @@
     "messagingUnavailable": "La messagerie n'est pas disponible",
     "addCaption": "Ajouter une légende…",
     "openTimer": {
+      "sent": "Envoyée",
       "secs": "{{n}} s",
       "oneMin": "1 min",
       "chip": "{{time}} après ouverture",

@@ -64,7 +64,7 @@ import EncryptedMedia from "./EncryptedMedia";
 import LockedMedia from "./LockedMedia";
 import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
-import { isSeenOnce, type DmDestruct } from "../../libs/dm-destruct";
+import { isPrivatePhoto, isSeenOnce, type DmDestruct } from "../../libs/dm-destruct";
 import DmTimeLeft from "./DmTimeLeft";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
@@ -660,6 +660,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const handleImageTap = useCallback(
     (url: string, index: number = 0) => {
+      if (!isMine && message.destruct?.mode === "time" && !message.destruct.openedAt) {
+        void markDmMessageViewed(message._id).catch(() => undefined);
+      }
       if (onImagePress) {
         onImagePress(url);
         return;
@@ -673,19 +676,22 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
         allowDownload: true,
       });
     },
-    [navigation, onImagePress, mediaItems],
+    [navigation, onImagePress, mediaItems, isMine, message._id, message.destruct],
   );
 
   // A locked photo opens on its own: the gallery list would be the blurred preview.
   const handleImageTapUrl = useCallback(
     (url: string) => {
+      if (!isMine && message.destruct?.mode === "time" && !message.destruct.openedAt) {
+        void markDmMessageViewed(message._id).catch(() => undefined);
+      }
       if (onImagePress) {
         onImagePress(url);
         return;
       }
       navigation.navigate("ImageViewer", { images: [url], initialIndex: 0, allowDownload: true });
     },
-    [navigation, onImagePress],
+    [navigation, onImagePress, isMine, message._id, message.destruct],
   );
 
   // A view-once photo sent to me: open it once, tell the server (which removes
@@ -706,6 +712,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // An opened view-once / on-open photo stays as an "Opened" pill; the person
   // who got it can answer it with the camera.
   const isMarker = !!message.destruct?.marker;
+  const ownPrivatePhoto = isMine && isPrivatePhoto(message);
   const cameraReply = useMemo(
     () => (!isMine && onCameraReply ? () => onCameraReply(message) : undefined),
     [isMine, onCameraReply, message],
@@ -821,6 +828,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // A tap-to-open timed photo is a text tile, not a picture: its time and ticks go
   // on their own line under it, never on top of the countdown words.
   const isOpenTimerTile =
+    ownPrivatePhoto ||
     (message.destruct?.mode === "open" && mediaItems.some((m) => m.kind === "image" || m.kind === "video")) ||
     (message.destruct?.mode === "open" && encVisual) ||
     (viewOnceForMe && (mediaItems.some((m) => m.kind === "image") || encMedia?.kind === "image"));
@@ -997,7 +1005,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       message.replyTo.sender?.username ||
                       t("settings.unknown")}
                   </Text>
-                  {isSeenOnce(message.replyTo.destruct) ? (
+                  {isSeenOnce(message.replyTo.destruct) || isPrivatePhoto(message.replyTo) ? (
                     // A view-once / on-open photo is quoted by what it was, never the picture.
                     <View className="flex-row items-center gap-1">
                       <Icon
@@ -1105,8 +1113,19 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
               </TouchableOpacity>
             )}
 
+            {ownPrivatePhoto && !isMarker && (
+              <OpenedMarker
+                mine
+                openedAt={message.destruct?.openedAt}
+                onLongPress={handleLongPress}
+                deliveryStatus={message.destruct?.openedAt ? undefined
+                  : isUploadFailed ? "failed"
+                  : isUploading || optimistic._optimistic ? "sending"
+                  : "sent"}
+              />
+            )}
             {/* End-to-end encrypted attachment */}
-            {encMedia && (
+            {!ownPrivatePhoto && encMedia && (
               <View>
                 <EncryptedMedia
                   destruct={message.destruct}
@@ -1130,7 +1149,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             )}
 
             {/* Pay-to-unlock photo or video: its own card, never the plain media path. */}
-            {isMedia && message.lock ? (
+            {isMedia && !ownPrivatePhoto && message.lock ? (
               <LockedMedia
                 message={message}
                 isMine={isMine}
@@ -1142,7 +1161,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             ) : null}
 
             {/* Media (images / video / GIF) */}
-            {mediaItems.length > 0 && !isVoice && !(isMedia && message.lock) && (
+            {mediaItems.length > 0 && !ownPrivatePhoto && !isVoice && !(isMedia && message.lock) && (
               <View>
                 {mediaItems.map((item, idx) =>
                   message.destruct?.mode === "open" && (item.kind === "image" || item.kind === "video") ? (
@@ -1457,7 +1476,8 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             ) : (
               // Inside a run only the last line carries the time; a line that
               // is still sending, failed, or paid keeps its row.
-              isMarker ? null : groupLast || isOpenTimerTile || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
+              isMarker || (ownPrivatePhoto && message.destruct?.openedAt) ? null
+                : groupLast || isOpenTimerTile || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
                 <View className="px-3 pb-1.5">
                   <StatusRow />
                 </View>

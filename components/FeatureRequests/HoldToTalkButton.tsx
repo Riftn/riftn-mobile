@@ -113,7 +113,7 @@ function HoldToTalkControl({ wallet, onText, disabled, beforeStart }: Props) {
           ? <ActivityIndicator size="small" />
           : recording
             ? <View style={styles.dot} />
-            : <Icon name="Mic" size={18} color="#A1A1AA" />}
+            : <Icon name="Mic" size={16} color="#A1A1AA" />}
         <Text style={[styles.text, recording && styles.textLive]} numberOfLines={1}>{label}</Text>
         {recording && <Text style={[styles.text, styles.textLive]}>{`${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`}</Text>}
       </View>
@@ -122,10 +122,10 @@ function HoldToTalkControl({ wallet, onText, disabled, beforeStart }: Props) {
 }
 
 const styles = StyleSheet.create({
-  pill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 8, paddingHorizontal: 10, borderRadius: 10 },
-  pillLive: { backgroundColor: 'hsla(0, 84%, 60%, 0.15)', borderWidth: 1, borderColor: 'hsla(0, 84%, 60%, 0.45)' },
+  pill: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 36, paddingHorizontal: 8, borderRadius: 12, borderWidth: 1, borderColor: 'transparent' },
+  pillLive: { backgroundColor: 'hsla(0, 84%, 60%, 0.15)', borderColor: 'hsla(0, 84%, 60%, 0.45)' },
   dot: { width: 10, height: 10, borderRadius: 5, backgroundColor: '#EF4444', marginHorizontal: 4 },
-  text: { color: '#A1A1AA', fontSize: 13 },
+  text: { color: '#A1A1AA', fontSize: 14, fontWeight: '500' },
   textLive: { color: '#F87171', fontVariant: ['tabular-nums'] },
   disabled: { opacity: 0.5 },
 });
