@@ -20,6 +20,7 @@ const mockRequireAuth = jest.fn();
 let mockMenuLayout = 'sections';
 jest.mock('../../hooks/useAppPrefs', () => ({ useAppPrefs: () => ({ menuLayout: mockMenuLayout }) }));
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
+jest.mock('../../components/ui/GlassModal', () => 'GlassModal');
 jest.mock('../../components/Home/MenuAccountSwitcher', () => ({ __esModule: true, default: () => null }));
 // The system theme, without the native modules the real provider loads.
 jest.mock('../../context/ThemeContext', () => ({

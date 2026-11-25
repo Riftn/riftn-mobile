@@ -17,6 +17,7 @@ const SHEET_HEIGHT = 844 * 0.85;
 const mockHandlers: Record<string, (e: Record<string, number>) => void> = {};
 let mockTheme: AppThemeName = 'system';
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
+jest.mock('../../components/ui/GlassModal', () => 'GlassModal');
 jest.mock('../../components/Home/MenuAccountSwitcher', () => ({ __esModule: true, default: () => null }));
 // Exercise every theme without the native modules the real provider loads.
 jest.mock('../../context/ThemeContext', () => ({
