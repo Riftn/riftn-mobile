@@ -28,6 +28,12 @@ export interface VideoAreaProps {
   onProgress?: (positionMs: number, durationMs: number) => void;
   /** See VideoPlayerCore — the live viewer draws its own scrub line. */
   seekRef?: React.MutableRefObject<((ratio: number) => void) | null>;
+  replayControls?: {
+    visible: boolean;
+    togglePlayRef: React.Ref<() => void>;
+    onPlayStateChange: (playing: boolean) => void;
+    onReady: (durationMs: number) => void;
+  };
   /** A live's pause / play / move-back (see VideoPlayerCore). */
   liveControlRef?: React.MutableRefObject<LiveControl | null>;
   /** Where a live opens: paused and how far behind (see VideoPlayerCore). */
@@ -56,6 +62,7 @@ const VideoArea: React.FC<VideoAreaProps> = ({
   tokenId,
   onProgress,
   seekRef,
+  replayControls,
   liveControlRef,
   liveStart,
   isLive,
@@ -423,7 +430,11 @@ const VideoArea: React.FC<VideoAreaProps> = ({
         liveMode={!!isLive}
         suppressLoadingFeedback={suppressLoadingFeedback}
         hideTopControls={hideTopControls}
-        hideControls={fullscreen && !!isLive}
+        hideControls={!!replayControls || (fullscreen && !!isLive)}
+        externalControlsVisible={replayControls?.visible}
+        togglePlayRef={replayControls?.togglePlayRef}
+        onPlayStateChange={replayControls?.onPlayStateChange}
+        onReady={replayControls?.onReady}
         fillContainer={fullscreen}
         muted={muted}
         onVideoSize={onVideoSize}

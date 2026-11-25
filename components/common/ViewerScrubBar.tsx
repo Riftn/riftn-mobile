@@ -12,14 +12,15 @@
  * the clock yanks the line back to wherever playback still is.
  */
 import React, { memo, useCallback, useMemo, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import type { GestureType } from "react-native-gesture-handler";
 import Reanimated, { runOnJS, useAnimatedReaction, useAnimatedStyle } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import type { SharedValue } from "react-native-reanimated";
 import { useScrubGesture } from "../../hooks/useScrubGesture";
-import { EDGE } from "./ViewerChrome";
+import { EDGE, TEXT_SHADOW } from "./ViewerChrome";
+import { formatTime } from "../VideoPlayerCore/utils";
 
 interface Props {
   /** 0..1 of the timeline. Owned by the caller, read on the UI thread. */
@@ -37,6 +38,8 @@ interface Props {
    * hit area is kept short so the chat box just above keeps its touches.
    */
   liveEnd?: boolean;
+  /** Show the replay clock and its thicker track while viewer chrome is up. */
+  replayDurationMs?: number;
 }
 
 const ViewerScrubBar: React.FC<Props> = ({
@@ -46,10 +49,20 @@ const ViewerScrubBar: React.FC<Props> = ({
   onScrubbingChange,
   blocks,
   liveEnd = false,
+  replayDurationMs = 0,
 }) => {
   const { t } = useTranslation();
   const [scrubbing, setScrubbing] = useState(false);
   const [progressPercent, setProgressPercent] = useState(0);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  useAnimatedReaction(
+    () => Math.floor(Math.round(Math.max(0, Math.min(1, progress.value)) * replayDurationMs) / 1000),
+    (next, previous) => { if (next !== previous) runOnJS(setElapsedSeconds)(next); },
+    [progress, replayDurationMs],
+  );
+  const clock = replayDurationMs > 0
+    ? formatTime(elapsedSeconds * 1000) + " / " + formatTime(replayDurationMs)
+    : undefined;
   useAnimatedReaction(
     () => Math.round(Math.max(0, Math.min(1, progress.value)) * 100),
     (next, previous) => { if (next !== previous) runOnJS(setProgressPercent)(next); },
@@ -105,7 +118,8 @@ const ViewerScrubBar: React.FC<Props> = ({
   }));
 
   return (
-    <View style={styles.track} pointerEvents={enabled ? "auto" : "none"}>
+    <View style={styles.track} pointerEvents={enabled ? "box-none" : "none"}>
+      {clock ? <Text style={styles.clock} accessible={false}>{clock}</Text> : null}
       <GestureDetector gesture={gesture}>
         <View
           style={[styles.hitArea, liveEnd && styles.hitAreaLive]}
@@ -115,7 +129,7 @@ const ViewerScrubBar: React.FC<Props> = ({
           accessible={enabled}
           accessibilityLabel={t('feed.videos')}
           accessibilityState={{ disabled: !enabled }}
-          accessibilityValue={{ min: 0, max: 100, now: progressPercent }}
+          accessibilityValue={{ min: 0, max: 100, now: progressPercent, text: clock }}
           accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
           onAccessibilityAction={({ nativeEvent }) => {
             if (!enabled) return;
@@ -124,15 +138,15 @@ const ViewerScrubBar: React.FC<Props> = ({
             if (delta) handleCommit(Math.max(0, Math.min(1, progress.value + delta)));
           }}
         >
-          <View style={[styles.line, scrubbing && styles.lineActive]}>
+          <View style={[styles.line, (scrubbing || replayDurationMs > 0) && styles.lineActive]}>
             <Reanimated.View
               style={[styles.fill, scrubbing && styles.fillActive, fillStyle]}
             />
             {liveEnd ? <View style={styles.liveDot} pointerEvents="none" /> : null}
+            {scrubbing || replayDurationMs > 0 ? (
+              <Reanimated.View style={[styles.thumb, thumbStyle]} pointerEvents="none" />
+            ) : null}
           </View>
-          {scrubbing ? (
-            <Reanimated.View style={[styles.thumb, thumbStyle]} pointerEvents="none" />
-          ) : null}
         </View>
       </GestureDetector>
     </View>
@@ -147,6 +161,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     // Above the bottom scrim, below whatever chrome is drawn after it.
     zIndex: 8,
+  },
+  clock: {
+    position: "absolute",
+    left: EDGE,
+    bottom: 20,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "500",
+    fontVariant: ["tabular-nums"],
+    ...TEXT_SHADOW,
   },
   hitArea: {
     // The line is 2pt; the finger gets 24.
@@ -188,7 +212,8 @@ const styles = StyleSheet.create({
   },
   thumb: {
     position: "absolute",
-    bottom: 1,
+    top: "50%",
+    marginTop: -7,
     width: 14,
     height: 14,
     marginLeft: -7,
