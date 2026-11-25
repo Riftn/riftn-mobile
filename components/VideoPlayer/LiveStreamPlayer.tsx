@@ -551,6 +551,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
    */
   // A replay draws the overlay too, from the stream's own log (ReplayOverlayLayer).
   const { data: streamOverlay } = useStreamOverlay(streamId, isLiveEffective || !!extractReplayUrl(streamEntity));
+  const [showChatOverlay, setShowChatOverlay] = useState(true);
+  const canToggleChatOverlay = isLiveEffective && !!streamId && !!streamOverlay &&
+    streamOverlay.version > 0 && streamOverlay.renderIn === "app" &&
+    streamOverlay.widgets.some((widget) => widget.enabled && widget.kind === "chat_box");
   // Paused alerts silence the built-in celebration too.
   const overlayOwnsCelebration = !!streamOverlay?.controls?.alertsPaused || !!streamOverlay?.widgets.some(
     (w) => w.enabled && (REPLACES_BUILT_IN_CELEBRATION as readonly string[]).includes(w.kind),
@@ -2615,6 +2619,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             videoSize={videoSize}
             initialViewers={liveViewers ?? 0}
             chatMessages={liveChat.messages}
+            showChatOverlay={showChatOverlay}
             creator={creator?.walletAddress || creator?.address}
           />
         ) : null}
@@ -2676,6 +2681,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           hideReportContent={isLiveEffective && !/^\d+$/.test(String(streamEntity?.tokenId || tokenId))}
           onClip={isLiveEffective && !isEndedEffective ? startClip : undefined}
           onFloat={canMinimise ? floatLive : undefined}
+          chatOverlay={canToggleChatOverlay ? { visible: showChatOverlay, onToggle: () => setShowChatOverlay((visible) => !visible) } : undefined}
           onFollowChange={(following) => setIsFollowing(following)}
           onDeleteSuccess={() => {
             if (navigation.canGoBack()) navigation.goBack();
