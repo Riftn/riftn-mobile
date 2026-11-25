@@ -9,6 +9,7 @@ import { useKidsModeLock } from '../../hooks/useKidsModeLock';
 import { MATURE_CONTENT_ENABLED } from '../../config/storefront';
 import { getStory, getStoryArchive } from '../../services/stories.service';
 import { storiesState, openStoryViewer, closeStoryViewer } from '../../store/stories.store';
+import { useMomentPreviewsBlurred } from '../../libs/momentPreviewBlur';
 import { toastError } from '../../libs/toast';
 
 export default function MomentArchive() {
@@ -36,6 +37,7 @@ export default function MomentArchive() {
 
 function ArchiveItems({ address, canSeeMature }: { address: string; canSeeMature: boolean }) {
   const { t, i18n } = useTranslation();
+  const blurred = useMomentPreviewsBlurred();
   const request = useRef<symbol | null>(null);
   const openedViewer = useRef<typeof storiesState.viewer>(null);
   const archive = useInfiniteQuery({
@@ -75,9 +77,9 @@ function ArchiveItems({ address, canSeeMature }: { address: string; canSeeMature
         const cover = item.posterUrl || (item.type === 'photo' ? item.mediaUrl : null);
         const date = new Date(item.createdAt).toLocaleDateString(i18n.language);
         return (
-          <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.caption ? `${date} · ${item.caption}` : date}
+          <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={!blurred && item.caption ? `${date} · ${item.caption}` : date}
             onPress={() => void open(item.id)} className="h-28 w-20 items-center justify-center overflow-hidden rounded-xl bg-zinc-800">
-            {cover ? <Image source={{ uri: cover }} recyclingKey={item.id} style={{ width: '100%', height: '100%' }} contentFit="cover" />
+            {cover && !blurred ? <Image source={{ uri: cover }} recyclingKey={item.id} style={{ width: '100%', height: '100%' }} contentFit="cover" />
               : <Ionicons name="film-outline" size={22} color="white" />}
             <Text className="absolute inset-x-0 bottom-0 bg-black/70 px-1 py-1 text-center text-xs text-white">{date}</Text>
           </Pressable>

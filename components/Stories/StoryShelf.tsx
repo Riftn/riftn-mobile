@@ -290,7 +290,7 @@ function momentsLine(t: (key: string, options?: Record<string, unknown>) => stri
 function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
   const c = usePillColors();
   const blurred = useMomentPreviewsBlurred();
-  if (!entry || blurred) return null;
+  if (!entry) return null;
   const covers = entry.items
     .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
     .filter((url): url is string => !!url)
@@ -298,10 +298,12 @@ function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
   if (!covers.length) return null;
   return (
     <View style={styles.stack}>
-      {covers.map((url, i) => (
-        <Image key={url} source={{ uri: url }} recyclingKey={url} contentFit="cover" cachePolicy="memory-disk"
-          style={[styles.cover, { borderColor: c.gap }, i > 0 && styles.stackOverlap]} />
-      ))}
+      {covers.map((url, index) => {
+        const style = [styles.cover, { borderColor: c.gap }, index > 0 && styles.stackOverlap];
+        return blurred
+          ? <View key={index} style={[style, styles.coverPlaceholder]} />
+          : <Image key={url} source={{ uri: url }} recyclingKey={url} contentFit="cover" cachePolicy="memory-disk" style={style} />;
+      })}
     </View>
   );
 }
@@ -462,6 +464,7 @@ const styles = StyleSheet.create({
   stackOverlap: { marginLeft: -7 },
   watcher: { borderWidth: 2, borderRadius: 9, overflow: "hidden" },
   cover: { width: 22, height: 30, borderRadius: 7, borderWidth: 2 },
+  coverPlaceholder: { backgroundColor: "rgba(127,127,135,0.3)" },
   more: { marginLeft: 6, fontSize: 11, fontWeight: "700" },
   loadingPill: { flexGrow: 0, width: 150 },
   loadingFace: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, marginLeft: 2 },

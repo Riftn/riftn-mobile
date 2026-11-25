@@ -99,13 +99,12 @@ export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; 
         }}
       >
         <View style={{ borderWidth: rimW, borderColor: rim, borderRadius: r + rimW, overflow: "hidden", backgroundColor: "#27272a" }}>
-          {peek.cover ? (
+          {peek.cover && !blurred ? (
             <Image
               source={{ uri: peek.cover }}
               style={{ width: w, height: h }}
               contentFit="cover"
               cachePolicy="memory-disk"
-              blurRadius={blurred && !seen ? 12 : 0}
               recyclingKey={peek.cover}
             />
           ) : (
