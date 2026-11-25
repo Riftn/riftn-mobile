@@ -6,14 +6,14 @@
  * create: Moment, Post, Live, Stage and Status. Each opens its real flow.
  * Same as web's StoryCreatePill.
  */
-import React, { useEffect, useMemo, useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Icon, { type IconName } from "../ui/Icon";
-import { useUser } from "../../context/AuthContext";
+import { useAuthActions, useUser } from "../../context/AuthContext";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useStages } from "../../context/StageContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -49,19 +49,34 @@ function usePalette() {
 function useCreateFlows() {
   const navigation = useNavigation<any>();
   const { openModal } = useStages();
+  const { requireAuth } = useAuthActions();
   const [menuOpen, setMenuOpen] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
-  const pick = (kind: Kind) => {
-    setMenuOpen(false);
-    if (kind === "moment") openStoryCreator();
+  const pendingPick = useRef<Kind | null>(null);
+  const pick = useCallback((kind: Kind) => {
+    if (kind === "moment") requireAuth(() => openStoryCreator());
     else if (kind === "post") navigation.navigate(ScreenNames.Upload);
     else if (kind === "live") navigation.navigate(ScreenNames.Upload, { live: true });
     else if (kind === "stage") openModal("create");
     else if (kind === "status") setNotesOpen(true);
-  };
+  }, [navigation, openModal, requireAuth]);
+  const finishPick = useCallback(() => {
+    const kind = pendingPick.current;
+    pendingPick.current = null;
+    if (kind) pick(kind);
+  }, [pick]);
   const elements = (
     <>
-      <CreateSheet visible={menuOpen} onClose={() => setMenuOpen(false)} onPick={pick} />
+      <CreateSheet
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onDismiss={finishPick}
+        onPick={(kind) => {
+          if (pendingPick.current) return;
+          pendingPick.current = kind;
+          setMenuOpen(false);
+        }}
+      />
       {notesOpen ? (
         <NotesSheet
           visible={notesOpen}
@@ -134,7 +149,12 @@ export function StoryCreateTile({ width, height }: { width: number; height: numb
   );
 }
 
-function CreateSheet({ visible, onClose, onPick }: { visible: boolean; onClose: () => void; onPick: (kind: Kind) => void }) {
+function CreateSheet({ visible, onClose, onDismiss, onPick }: {
+  visible: boolean;
+  onClose: () => void;
+  onDismiss: () => void;
+  onPick: (kind: Kind) => void;
+}) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const c = usePalette();
@@ -158,10 +178,12 @@ function CreateSheet({ visible, onClose, onPick }: { visible: boolean; onClose: 
   const sheetStyle = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   const backdropStyle = useAnimatedStyle(() => ({ opacity: fade.value }));
 
-  if (!visible && isFullyClosed) return null;
+  useEffect(() => {
+    if (Platform.OS !== "ios" && isFullyClosed) onDismiss();
+  }, [isFullyClosed, onDismiss]);
 
   return (
-    <Modal visible={visible || !isFullyClosed} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
+    <Modal visible={visible || !isFullyClosed} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose} onDismiss={onDismiss}>
       <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]}>
         <SheetBackdrop backdrop={backdrop} />
         <Pressable style={{ flex: 1 }} onPress={onClose} />

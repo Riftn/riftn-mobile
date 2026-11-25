@@ -718,9 +718,10 @@ function TranslateRequestField({ text, setText, limit, disabled }: {
 
 const PromptComposer: React.FC<{
   focusRequest: number;
+  bugReportFocus: number;
   onSubmit: (v: { title: string; description: string; category: FeatureCategory; attachments: FeatureAttachment[] }) => Promise<unknown>;
   submitting: boolean;
-}> = ({ focusRequest, onSubmit, submitting }) => {
+}> = ({ focusRequest, bugReportFocus, onSubmit, submitting }) => {
   const { t } = useTranslation();
   const { skin, isMinimal } = useAppTheme();
   const [title, setTitle] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:title", "");
@@ -735,6 +736,11 @@ const PromptComposer: React.FC<{
   const [studioBase, setStudioBase] = useState<Record<string, { baseUri: string; edits: StudioEdits }>>({});
   const inputRef = React.useRef<TextInput>(null);
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
+  React.useEffect(() => {
+    if (!bugReportFocus) return;
+    setCategory("bug_fix");
+    setDetailsOpen(true);
+  }, [bugReportFocus]);
   const { isSignedIn, needsUsername } = useAuthState();
   const user = useUser();
   const navigation = useNavigation<any>();
@@ -914,6 +920,7 @@ function FeatureRequestsBoard() {
   const [search, setSearch] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:search", "");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [composerFocus, setComposerFocus] = useState(0);
+  const [bugReportFocus, setBugReportFocus] = useState(0);
   const listRef = React.useRef<FlatList<FeatureRequest>>(null);
   // The list is still at the top when a notification opens it, so the row's
   // place on screen is its offset: scroll until it sits a third of the way down.
@@ -1039,6 +1046,7 @@ function FeatureRequestsBoard() {
     if (composeRequest) {
       navigation.setParams({ composeRequest: undefined });
       openSheet();
+      if (composeRequest === "bug") setBugReportFocus(value => value + 1);
     }
   }, [composeRequest, navigation, openSheet]);
 
@@ -1318,7 +1326,7 @@ function FeatureRequestsBoard() {
           }}
           ListHeaderComponent={<>
             <View style={tab !== "requests" || showNotFeasible ? { display: "none" } : undefined}>
-              <PromptComposer focusRequest={composerFocus} submitting={submitMutation.isPending} onSubmit={async v => {
+              <PromptComposer focusRequest={composerFocus} bugReportFocus={bugReportFocus} submitting={submitMutation.isPending} onSubmit={async v => {
                 const result = await submitMutation.mutateAsync(v);
                 setCategory("all"); setSearch.complete(search, ""); setSort("newest");
                 return result;
