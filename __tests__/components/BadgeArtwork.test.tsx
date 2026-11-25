@@ -11,6 +11,7 @@ jest.mock('react-native', () => ({
   StyleSheet: { create: (styles: unknown) => styles, flatten: (styles: unknown) => Array.isArray(styles) ? Object.assign({}, ...styles) : styles, absoluteFillObject: {} },
 }));
 
+jest.mock('../../libs/misc', () => ({ canonicalTierName: (tier: string) => tier }));
 jest.mock('../../libs/badgeShowcase', () => ({
   tierForBadgeImage: jest.fn(() => 'Octopus'), openBadgeShowcase: jest.fn(),
 }));
