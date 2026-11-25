@@ -385,7 +385,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               size={96}
               style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
               live={live}
-              liveQuiet
+              liveOrbit
               onLongPress={() => imageMenu.open("avatar")}
               onPress={() =>
                 moment

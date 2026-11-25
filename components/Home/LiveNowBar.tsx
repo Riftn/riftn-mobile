@@ -190,8 +190,8 @@ function faceSources(item: LiveNowItem, size: number) {
     : { uri: item.avatar, fallbackUri: null };
 }
 
-export function LiveFace({ item, size, live = true, radius }: { item: LiveNowItem; size: number; live?: boolean; radius?: number }) {
-  return <Avatar {...faceSources(item, size)} size={size} radius={radius} name={item.username || item.wallet} live={live} />;
+export function LiveFace({ item, size, live = true, radius, liveOrbit }: { item: LiveNowItem; size: number; live?: boolean; radius?: number; liveOrbit?: boolean }) {
+  return <Avatar {...faceSources(item, size)} size={size} radius={radius} name={item.username || item.wallet} live={live} liveOrbit={liveOrbit} />;
 }
 
 /** What the glass shows: the broadcast when there is a picture, else the host's face. */

@@ -10,6 +10,7 @@ jest.mock('react-native', () => ({
   StyleSheet: { flatten: (s: unknown) => s },
 }));
 jest.mock('../../components/common/LiveRipple', () => 'LiveRipple');
+jest.mock('../../components/common/LiveAvatarOrbit', () => ({ LiveAvatarOrbit: 'LiveAvatarOrbit' }));
 jest.mock('../../components/common/SmartImage', () => 'SmartImage');
 
 const images = (view: ReturnType<typeof render>) =>
@@ -45,4 +46,13 @@ describe('Avatar fallback ladder', () => {
     act(() => images(same)[0].props.onError());
     expect(images(same)).toHaveLength(0);
   });
+});
+
+it('follows the configured avatar shape only while the user is live', () => {
+  const view = render(<Avatar size={36} radius={12} name="Jesse" liveOrbit />);
+  const rings = () => view.UNSAFE_root.findAll((node) => (node.type as unknown) === 'LiveAvatarOrbit');
+  expect(rings()).toHaveLength(0);
+  view.rerender(<Avatar size={36} radius={12} name="Jesse" liveOrbit live />);
+  expect(rings()).toHaveLength(1);
+  expect(rings()[0].props).toMatchObject({ size: 36, radius: 12 });
 });

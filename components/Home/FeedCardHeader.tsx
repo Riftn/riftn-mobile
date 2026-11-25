@@ -159,6 +159,7 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
           className="mr-2"
           name={displayName || username}
           live={live}
+          liveOrbit
         />
         {coAuthors?.length ? <CoAuthorAvatarBadge users={coAuthors} size={avatarSize} /> : null}
         {moment && !live ? (
