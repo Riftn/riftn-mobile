@@ -45,7 +45,7 @@ import {
   effectivePrice,
   PaidButUnconfirmedError,
 } from "../../hooks/useStreamShopping";
-import type { StreamProduct, LiveQuote } from "../../hooks/useStreamShopping";
+import type { StreamProduct, StreamProductListing, LiveQuote } from "../../hooks/useStreamShopping";
 import { useERC20Contract } from "../../hooks/use-web3";
 import { useYieldToWalletUnlock } from "../../hooks/useYieldToWalletUnlock";
 import useKeyboard from "../../hooks/useKeyboard";
@@ -79,15 +79,14 @@ function stockLabel(product: StreamProduct, t: TFunction): string | null {
 }
 
 const Thumb = memo(function Thumb({
-  product,
+  uri,
   size,
   radius = 10,
 }: {
-  product: StreamProduct;
+  uri?: string;
   size: number;
   radius?: number;
 }) {
-  const uri = product.store_listings?.images?.[0];
   return (
     <View
       style={{ width: size, height: size, borderRadius: radius }}
@@ -128,12 +127,12 @@ function PriceText({ product, className }: { product: StreamProduct; className?:
  */
 function CheckoutSheetInner({
   tokenId,
-  product,
+  listing,
   visible,
   onClose,
 }: {
   tokenId: string | number | null | undefined;
-  product: StreamProduct | null;
+  listing: StreamProductListing | null;
   visible: boolean;
   onClose: () => void;
 }) {
@@ -174,7 +173,6 @@ function CheckoutSheetInner({
   );
 
   const { getQuote, buy } = useLiveCheckout(tokenId, sendTransfer);
-  const listing = product?.store_listings || null;
 
   // Re-quote on every open: a stream runs for hours and the host can re-price
   // or sell out mid-broadcast, so a stale quote is not one to charge against.
@@ -201,7 +199,7 @@ function CheckoutSheetInner({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, listing?.id, setNotes, setShipping]);
 
-  if (!product || !listing) return null;
+  if (!listing) return null;
 
   const isSelf = wallet?.toLowerCase() === listing.wallet_address?.toLowerCase();
   const needsShipping = !listing.is_digital;
@@ -260,7 +258,7 @@ function CheckoutSheetInner({
 
           <ScrollView className="max-h-[420px]" keyboardShouldPersistTaps="handled">
             <View className="flex-row mb-4">
-              <Thumb product={product} size={80} radius={14} />
+              <Thumb uri={listing.images?.[0]} size={80} radius={14} />
               <View className="flex-1 ml-3 justify-center">
                 {quote ? (
                   <>
@@ -405,7 +403,7 @@ function ProductSheet({
                   onPress={() => onSelect(product)}
                   className="flex-row items-center p-2 mb-2 rounded-2xl border border-white/10 bg-white/5"
                 >
-                  <Thumb product={product} size={56} radius={12} />
+                  <Thumb uri={product.store_listings?.images?.[0]} size={56} radius={12} />
                   <View className="flex-1 ml-3">
                     <Text className="text-white text-sm" numberOfLines={1}>
                       {product.store_listings?.title}
@@ -460,7 +458,7 @@ export default function StreamShopOverlay({ tokenId }: Props) {
     <View pointerEvents="box-none">
       {activePinned ? (
         <View className="mx-3 mb-2 flex-row items-center rounded-2xl dark-surface bg-black/70 border border-white/15 p-2">
-          <Thumb product={activePinned} size={44} />
+          <Thumb uri={activePinned.store_listings?.images?.[0]} size={44} />
           <View className="flex-1 mx-2.5">
             <Text className="text-white text-xs font-medium" numberOfLines={1}>
               {activePinned.store_listings?.title}
@@ -513,7 +511,7 @@ export default function StreamShopOverlay({ tokenId }: Props) {
 
       <CheckoutSheet
         tokenId={tokenId}
-        product={checkoutFor}
+        listing={checkoutFor?.store_listings ?? null}
         visible={!!checkoutFor}
         onClose={() => setCheckoutFor(null)}
       />
