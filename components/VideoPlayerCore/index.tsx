@@ -806,11 +806,13 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
       isMountedRef.current = false;
       clearHideTimer();
 
-      // Stop playback immediately to prevent lingering audio
-      try {
-        player.pause();
-        player.muted = true;
-      } catch {}
+      // The root PiP host can outlive this viewer.
+      if (!isPictureInPicturePlayer(player)) {
+        try {
+          player.pause();
+          player.muted = true;
+        } catch {}
+      }
 
       // Reset orientation on unmount
       ScreenOrientation.lockAsync(

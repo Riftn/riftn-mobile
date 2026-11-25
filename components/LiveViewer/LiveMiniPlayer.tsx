@@ -22,7 +22,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ActivityIndicator, AppState, Pressable, StyleSheet, Text, View } from "react-native";
-import { useVideoPlayer, VideoView, type VideoSource } from "expo-video";
+import { isPictureInPictureSupported, useVideoPlayer, VideoView, type VideoSource } from "expo-video";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   Easing,
@@ -48,12 +48,13 @@ import { useStages } from "../../context/StageContext";
 import { GLASS_PLAYBACK_CONTROL } from "../../theme/skins";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { requestAudioFocus, releaseAudioFocus } from "../../libs/audioFocus";
+import { configureForBackgroundPlayback, releaseBackgroundPlayback } from "../../libs/audioSession";
 import { useCallInProgress } from "../../libs/visualActivity";
 import { acquireStreamViewer } from "../../libs/stream-presence";
 import { shareAudioWhenSilent } from "../../libs/videoAudioMixing";
 import { LIVE_BUFFER_OPTIONS } from "../../libs/videoBuffering";
 import { settleBehindLiveOnStall } from "../../libs/sharedLivePlayer";
-import { setPictureInPicturePlayer } from "../../libs/pictureInPicture";
+import { isPictureInPicturePlayer, setPictureInPicturePlayer } from "../../libs/pictureInPicture";
 import { closeInAppVideoMini } from "../../libs/in-app-video-mini";
 import { toastInfo } from "../../libs/toast";
 import {
@@ -105,6 +106,8 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
     p.loop = false;
     p.bufferOptions = LIVE_BUFFER_OPTIONS;
     p.muted = false;
+    p.staysActiveInBackground = true;
+    p.showNowPlayingNotification = true;
     shareAudioWhenSilent(p);
     p.play();
   });
@@ -116,7 +119,11 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
   useEffect(() => {
     closeInAppVideoMini();
     requestAudioFocus(closeLiveMini);
-    return () => releaseAudioFocus(closeLiveMini);
+    void configureForBackgroundPlayback().catch(() => {});
+    return () => {
+      releaseAudioFocus(closeLiveMini);
+      void releaseBackgroundPlayback().catch(() => {});
+    };
   }, []);
 
   useEffect(() => settleBehindLiveOnStall(player, entry.url), [player, entry.url]);
@@ -162,6 +169,11 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
       if (cancelled) return;
       try { player.replace(source); player.play(); } catch {}
     };
+    setPlaying(player.playing);
+    setReady(player.status === "readyToPlay");
+    if (player.status === "loading" || player.status === "error") {
+      stallTimer = setTimeout(check, player.status === "error" ? 3000 : STALL_CHECK_MS);
+    }
     const subs = [
       player.addListener("playingChange", ({ isPlaying }) => setPlaying(isPlaying)),
       player.addListener("statusChange", ({ status }) => {
@@ -220,7 +232,8 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
   const viewRef = useRef<VideoView>(null);
-  const firstFrame = useRef(false);
+  const [firstFrame, setFirstFrame] = useState(false);
+  const pipSupported = isPictureInPictureSupported();
   const [bounds, setBounds] = useState<{ width: number; height: number } | null>(null);
 
   const portrait = aspect < 1;
@@ -308,12 +321,23 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
   }, [reducedMotion, shown]);
 
   const startFloat = useCallback(() => {
-    viewRef.current?.startPictureInPicture().catch(() => {});
-  }, []);
+    if (!pipSupported) return;
+    void viewRef.current?.startPictureInPicture().catch(() => {
+      toastInfo(t("player.pipUnavailable"));
+    });
+  }, [pipSupported, t]);
+
+  const releasePiP = useCallback(() => {
+    if (isPictureInPicturePlayer(player)) setPictureInPicturePlayer(null);
+  }, [player]);
+  useEffect(() => releasePiP, [releasePiP]);
+
   // Asked to float from the viewer: as soon as the picture is up.
   useEffect(() => {
-    if (entry.float && ready && firstFrame.current) startFloat();
-  }, [entry.float, ready, startFloat]);
+    if (!entry.float || !firstFrame) return;
+    setLiveMiniMode("video");
+    startFloat();
+  }, [entry.float, firstFrame, startFloat]);
 
   return (
     <View pointerEvents="box-none" style={StyleSheet.absoluteFill}
@@ -332,18 +356,16 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
                 player={player}
                 style={StyleSheet.absoluteFill}
                 contentFit="cover"
+                surfaceType="textureView"
                 nativeControls={false}
                 pointerEvents="none"
-                allowsPictureInPicture
-                startsPictureInPictureAutomatically={playing}
-                onFirstFrameRender={() => {
-                  firstFrame.current = true;
-                  if (entry.float) startFloat();
-                }}
+                allowsPictureInPicture={pipSupported}
+                startsPictureInPictureAutomatically={pipSupported && playing && firstFrame}
+                onFirstFrameRender={() => setFirstFrame(true)}
                 onPictureInPictureStart={() => setPictureInPicturePlayer(player)}
-                onPictureInPictureStop={() => setPictureInPicturePlayer(null)}
+                onPictureInPictureStop={releasePiP}
               />
-              {!ready ? (
+              {!ready || !firstFrame ? (
                 <View style={styles.loading} pointerEvents="none">
                   <ActivityIndicator size="small" color="#FFFFFF" />
                 </View>
@@ -372,10 +394,10 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
                     accessibilityRole="button" accessibilityLabel={t("liveViewer.soundOnly", { defaultValue: "Sound only" })}>
                     <Icon name="Headphones" size={16} color="#FFFFFF" />
                   </Pressable>
-                  <Pressable onPress={startFloat} hitSlop={4} style={styles.control}
+                  {pipSupported && <Pressable onPress={startFloat} disabled={!firstFrame} hitSlop={4} style={styles.control}
                     accessibilityRole="button" accessibilityLabel={t("player.pictureInPicture")}>
                     <Icon name="PictureInPicture2" size={16} color="#FFFFFF" />
-                  </Pressable>
+                  </Pressable>}
                 </View>
               </View>
             </Animated.View>
