@@ -25,6 +25,9 @@ import {
   getUserReposts,
 } from '../../services/user.service';
 import { apiClient } from '../../libs/api.client';
+import { signFollow } from '../../libs/follow-graph';
+
+jest.mock('../../libs/follow-graph', () => ({ signFollow: jest.fn() }));
 
 jest.mock('../../libs/api.client', () => ({
   apiClient: {
@@ -192,6 +195,16 @@ describe('services/user.service', () => {
   });
 
   describe('followUser / unfollowUser', () => {
+    it('keeps a successful private request pending without signing a follow', async () => {
+      mockGet.mockResolvedValueOnce({ result: true, status: 'pending', isPrivateAccount: true });
+
+      await expect(followUser('0xme', '0xtarget')).resolves.toMatchObject({
+        status: 'pending',
+        isPrivateAccount: true,
+      });
+      expect(signFollow).not.toHaveBeenCalled();
+    });
+
     it('follows a user', async () => {
       mockGet.mockResolvedValueOnce({ result: { status: 'following' } });
       const res = await followUser('0xme', '0xtarget');

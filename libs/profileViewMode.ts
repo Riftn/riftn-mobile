@@ -10,14 +10,19 @@ export type ProfileViewMode = "grid" | "list";
 /** Key in the account's `customs` blob. Absent means grid. */
 export const PROFILE_VIEW_DEFAULT_KEY = "defaultProfileView";
 
+interface ProfileViewAccount {
+  defaultProfileView?: ProfileViewMode;
+  profileViewOthers?: ProfileViewReaderPref;
+  customs?: Record<string, unknown>;
+}
+
 export function parseProfileViewDefault(raw: unknown): ProfileViewMode {
   return raw === "list" ? "list" : "grid";
 }
 
 /** Reads the owner's choice off an account record (`customs` may be absent). */
-export function getProfileViewDefault(account: unknown): ProfileViewMode {
-  const customs = (account as { customs?: Record<string, unknown> } | null | undefined)?.customs;
-  return parseProfileViewDefault(customs?.[PROFILE_VIEW_DEFAULT_KEY]);
+export function getProfileViewDefault(account: ProfileViewAccount | null | undefined): ProfileViewMode {
+  return parseProfileViewDefault(account?.defaultProfileView ?? account?.customs?.[PROFILE_VIEW_DEFAULT_KEY]);
 }
 
 /**
@@ -28,13 +33,16 @@ export function getProfileViewDefault(account: unknown): ProfileViewMode {
 export type ProfileViewReaderPref = "owner" | ProfileViewMode;
 export const PROFILE_VIEW_READER_KEY = "profileViewOthers";
 
-export function parseProfileViewReaderPref(raw: unknown): ProfileViewReaderPref {
-  return raw === "grid" || raw === "list" ? raw : "owner";
+export function parseProfileViewReaderPref(raw: unknown, accountDefault?: unknown): ProfileViewReaderPref {
+  if (raw === "grid" || raw === "list" || raw === "owner") return raw;
+  return accountDefault === "grid" || accountDefault === "list" ? accountDefault : "owner";
 }
 
-export function getProfileViewReaderPref(account: unknown): ProfileViewReaderPref {
-  const customs = (account as { customs?: Record<string, unknown> } | null | undefined)?.customs;
-  return parseProfileViewReaderPref(customs?.[PROFILE_VIEW_READER_KEY]);
+export function getProfileViewReaderPref(account: ProfileViewAccount | null | undefined): ProfileViewReaderPref {
+  return parseProfileViewReaderPref(
+    account?.profileViewOthers ?? account?.customs?.[PROFILE_VIEW_READER_KEY],
+    account?.defaultProfileView ?? account?.customs?.[PROFILE_VIEW_DEFAULT_KEY],
+  );
 }
 
 /** The view a profile opens in for this reader. Your own profile always uses your own default. */

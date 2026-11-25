@@ -74,7 +74,7 @@ function ArchiveItems({ address, canSeeMature }: { address: string; canSeeMature
     <ScrollView horizontal contentContainerStyle={{ alignItems: 'center', gap: 8, paddingVertical: 6 }}>
       {items.map(item => {
         const cover = item.posterUrl || (item.type === 'photo' ? item.mediaUrl : null);
-        const date = new Date(item.createdAt).toLocaleDateString(i18n.language);
+        const date = new Date(item.createdAt).toLocaleDateString(i18n.language?.replace('_', '-'));
         return (
           <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.caption ? `${date} · ${item.caption}` : date}
             onPress={() => void open(item.id)} className="h-28 w-20 items-center justify-center overflow-hidden rounded-xl bg-zinc-800">

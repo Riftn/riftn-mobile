@@ -72,7 +72,7 @@ import { haptic } from "../libs/haptics";
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comments/VoiceNoteRecorder";
 import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../components/Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../components/Stories/MomentPeek";
 import OnlineDot from "../components/common/OnlineDot";
 import { useIsOnline } from "../libs/online-presence";
 import { getShowLastSeen, lastSeenWhen, useLastSeen } from "../libs/last-seen";
@@ -2273,7 +2273,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     return url && url !== "default-avatar" ? url : undefined;
   }, [peer.avatarImageUrl]);
 
-  // A Moment up: the header face shows it on its corner, and a tap plays it.
   const peerMoment = useFaceMoment(peer.address);
   const openPeerMoments = useOpenMoments(peer.address);
   const LeftHeader = useMemo(
@@ -2290,7 +2289,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         }}
       >
         <Avatar uri={peerAvatarUri} size={40} radius={9} name={peer.displayName || peer.username} />
-        <MomentPeekBadge peek={peerMoment} size={40} />
+        <MomentAvatarOutline peek={peerMoment} radius={9} />
       </TouchableOpacity>
     ),
     [peerAvatarUri, peer.username, peer.address, showUserProfile, peer.displayName, peerMoment, openPeerMoments],
