@@ -7,15 +7,18 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../context/AuthContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Icon from "../ui/Icon";
 import { toastError, toastSuccess } from "../../libs";
 import { getAccount } from "../../services/user.service";
 import {
   addStreamModerator,
+  getDelegatedStreamBans,
   getMyStreamModeration,
   removeStreamModerator,
   saveMyStreamModeration,
+  unbanFromModeratedStreams,
   unbanFromStreams,
   type MyStreamModeration,
   type StreamModerationPerson,
@@ -44,6 +47,20 @@ function Row({ label, hint, value, onChange }: { label: string; hint?: string; v
 export function ModerationEditor() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const walletAddress = user?.address || user?.walletAddress;
+  const delegatedBansKey = ["delegated-stream-bans", walletAddress?.toLowerCase()] as const;
+  const delegated = useQuery({
+    queryKey: delegatedBansKey,
+    queryFn: getDelegatedStreamBans,
+    enabled: !!walletAddress,
+  });
+  const delegatedUnban = useMutation({
+    mutationFn: ({ creator, address }: { creator: string; address: string }) =>
+      unbanFromModeratedStreams(creator, address),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: delegatedBansKey }),
+    onError: () => toastError(t("liveStudio.moderation.saveFailed")),
+  });
   const { data, isLoading, isError } = useQuery<MyStreamModeration>({
     queryKey: myModerationKey,
     queryFn: getMyStreamModeration,
@@ -205,8 +222,24 @@ export function ModerationEditor() {
 
       <View className="gap-2">
         <Label>{t("liveStudio.moderation.banned")}</Label>
-        <People people={data.banned} empty={t("liveStudio.moderation.noBans")} actionLabel={t("liveStudio.moderation.unban")} onAction={(a) => unban.mutate(a)} />
+        <People people={data.banned} empty={t("liveStudio.moderation.noBans")} actionLabel={t("liveStudio.moderation.unban")} showActionLabel disabled={unban.isPending} onAction={(a) => unban.mutate(a)} />
       </View>
+
+      {(delegated.isError || !!delegated.data?.bans.length) && (
+        <View className="gap-2">
+          <Label>{t("liveStudio.moderation.delegatedBans")}</Label>
+          {delegated.isError ? (
+            <Text className="text-theme-neutrals-400 text-sm">{t("liveStudio.moderation.loadFailed")}</Text>
+          ) : delegated.data?.bans.map(({ creator, banned }) => (
+            <View key={creator.address}>
+              <Text className="text-theme-neutrals-400 text-sm">{nameOf(creator)}</Text>
+              <People people={banned} empty={t("liveStudio.moderation.noBans")} actionLabel={t("liveStudio.moderation.unban")} showActionLabel
+                disabled={delegatedUnban.isPending}
+                onAction={(address) => delegatedUnban.mutate({ creator: creator.address, address })} />
+            </View>
+          ))}
+        </View>
+      )}
 
       <View className="gap-1">
         <Label>{t("liveStudio.moderation.log")}</Label>
@@ -234,11 +267,15 @@ function People({
   people,
   empty,
   actionLabel,
+  showActionLabel,
+  disabled,
   onAction,
 }: {
   people: StreamModerationPerson[];
   empty: string;
   actionLabel: string;
+  showActionLabel?: boolean;
+  disabled?: boolean;
   onAction: (address: string) => void;
 }) {
   if (!people.length) return <Text className="text-theme-neutrals-500 text-sm">{empty}</Text>;
@@ -249,8 +286,8 @@ function People({
           <Text className="flex-1 text-white text-sm" numberOfLines={1}>
             {nameOf(p)}
           </Text>
-          <TouchableOpacity onPress={() => onAction(p.address)} accessibilityLabel={actionLabel} className="p-1">
-            <Icon name="Trash2" size={16} color="#a1a1aa" />
+          <TouchableOpacity disabled={disabled} accessibilityRole="button" onPress={() => onAction(p.address)} accessibilityLabel={actionLabel} className="p-1">
+            {showActionLabel ? <Text className="text-theme-neutrals-400 text-xs font-medium">{actionLabel}</Text> : <Icon name="Trash2" size={16} color="#a1a1aa" />}
           </TouchableOpacity>
         </View>
       ))}

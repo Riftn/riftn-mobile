@@ -354,6 +354,18 @@ export interface StreamModerationLogEntry {
   at: string;
 }
 
+export interface DelegatedStreamBans {
+  bans: { creator: StreamModerationPerson; banned: StreamModerationPerson[] }[];
+}
+
+export async function getDelegatedStreamBans(): Promise<DelegatedStreamBans> {
+  return apiClient.get<DelegatedStreamBans>("/livechat/moderation/delegated/bans", { isAuthRequired: true });
+}
+
+export async function unbanFromModeratedStreams(creator: string, address: string): Promise<void> {
+  await apiClient.delete("/livechat/moderation/delegated/" + encodeURIComponent(creator) + "/bans/" + encodeURIComponent(address), { isAuthRequired: true });
+}
+
 export interface MyStreamModeration {
   settings: StreamModerationSettings;
   moderators: StreamModerationPerson[];
