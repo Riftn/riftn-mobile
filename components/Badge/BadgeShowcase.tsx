@@ -7,6 +7,7 @@
  * dehubweb `src/components/app/badge-showcase/BadgeShowcase.tsx`, and every
  * size, colour and gap here is its Tailwind class.
  */
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import { openWebPurchase } from "../common/WebPurchaseLink";
 import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -100,6 +101,7 @@ function holderArt(tier: string): StickerArt {
 
 export default function BadgeShowcase({ tier, promotedFrom, anchor, onClose }: Props) {
   const { t } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const user = useUser();
   const scale = useBadgeScale();
   const price = useBadgeLadderPrice();
@@ -127,7 +129,7 @@ export default function BadgeShowcase({ tier, promotedFrom, anchor, onClose }: P
         const art = badgeImage(name, "light") ?? badgeImage(name);
         return {
           key: name,
-          label: name,
+          label: tierLabel(name),
           finish: finishFor(i),
           tilt: tiltAt(i),
           sticker: () => (art === undefined ? Promise.reject(new Error(`no art for ${name}`)) : assetDataUrl(art)),
@@ -135,7 +137,7 @@ export default function BadgeShowcase({ tier, promotedFrom, anchor, onClose }: P
           renderThumb: badgeArt(badgeImage(name)),
         };
       }),
-    [],
+    [tierLabel],
   );
 
   const owned = (i: number) => !!standing && standing.index >= i;
@@ -155,7 +157,7 @@ export default function BadgeShowcase({ tier, promotedFrom, anchor, onClose }: P
       anchor={anchor}
       onClose={onClose}
       intro={intro}
-      dialogLabel={(i) => t("badgeShowcase.dialogLabel", { tier: BADGE_ORDER[i] })}
+      dialogLabel={(i) => t("badgeShowcase.dialogLabel", { tier: tierLabel(BADGE_ORDER[i]) })}
       dockLabel={t("badgeShowcase.badges")}
       owned={owned}
       footer={(api) => <HolderActions api={api} />}
@@ -197,6 +199,7 @@ function HolderDetails({
   owned: (i: number) => boolean;
 }) {
   const { t, i18n } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const { width: W } = useWindowDimensions();
   const { index } = api;
   const count = BADGE_ORDER.length;
@@ -250,6 +253,7 @@ function HolderDetails({
   };
 
   const name = BADGE_ORDER[index];
+  const nameLabel = tierLabel(name);
   const threshold = ladder[index].min;
   // On the tier just reached, the header congratulates instead of counting.
   const celebrating = promotedTo === index;
@@ -293,7 +297,7 @@ function HolderDetails({
       <View style={{ alignItems: "center", gap: 6 }}>
         {lineKey ? <Text style={styles.cheer}>{t(lineKey)}</Text> : null}
         <View style={ui.titleRow}>
-          <SwapText text={SHORT_NAMES[name] ?? name} distance={10} duration={280} align="center" style={ui.title} />
+          <SwapText text={nameLabel === name ? SHORT_NAMES[name] ?? nameLabel : nameLabel} distance={10} duration={280} align="center" style={ui.title} />
           <View style={ui.chip}>
             <DhbCoin size={16} />
             <Text style={ui.chipText}>{shortDhb(threshold)}</Text>
@@ -307,7 +311,7 @@ function HolderDetails({
         </View>
         <Text style={ui.muted}>
           {celebrating
-            ? t("badgeAscension.reached", { tier: name })
+            ? t("badgeAscension.reached", { tier: nameLabel })
             : standing
             ? owned(index)
               ? t("badgeShowcase.youHaveThis")
@@ -340,7 +344,7 @@ function HolderDetails({
           onSlide={onSlide}
           onStep={(dir) => onSlide(toPos(ladder[Math.min(count - 1, Math.max(0, index + dir))].min))}
           label={t("badgeShowcase.sliderLabel")}
-          valueText={t("badgeShowcase.sliderValue", { amount: nf.format(amount), tier: name })}
+          valueText={t("badgeShowcase.sliderValue", { amount: nf.format(amount), tier: nameLabel })}
         />
         {/* "You" hangs directly under the green dot, like a you-are-here pin.
             The label clamps inside the card; the pointer never does, so it
