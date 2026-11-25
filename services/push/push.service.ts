@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { isReadMessagePush } from '../../libs/push-tap-data';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
 import { AppState, Platform } from 'react-native';
@@ -761,6 +762,17 @@ export async function getPresentedNotifications(): Promise<Notifications.Notific
     logger.error('Failed to get presented notifications', error);
     return [];
   }
+}
+
+export async function dismissReadMessageNotifications(
+  conversationId: string,
+  address: string,
+  readThrough: number,
+): Promise<void> {
+  const presented = await getPresentedNotifications();
+  await Promise.all(presented
+    .filter((notification) => isReadMessagePush(notification, conversationId, address, readThrough))
+    .map((notification) => dismissNotification(notification.request.identifier)));
 }
 
 /**

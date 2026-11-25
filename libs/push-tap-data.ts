@@ -30,3 +30,21 @@ export function readNotificationData(notification: Notifications.Notification | 
   return null;
 }
 
+/** Only a delivered message push for the conversation and account being read. */
+export function isReadMessagePush(
+  notification: Notifications.Notification,
+  conversationId: string,
+  address: string,
+  readThrough: number,
+): boolean {
+  // A failed quick reply uses the same tap route, but is a local notification.
+  if (notification.request.trigger?.type !== 'push' || notification.date > readThrough) return false;
+  const data = readNotificationData(notification);
+  if (data?.type !== 'new_message') return false;
+  if (typeof data.recipient === 'string' && data.recipient.toLowerCase() !== address.toLowerCase()) return false;
+  const id = data.conversationId ?? (typeof data.deepLink === 'string'
+    ? data.deepLink.match(/^\/dm\/([^/?#]+)(?:[?#]|$)/)?.[1]
+    : undefined);
+  return id === conversationId;
+}
+

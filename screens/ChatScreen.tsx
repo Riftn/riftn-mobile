@@ -27,6 +27,7 @@ import {
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { setOpenConversation, clearOpenConversation } from "../libs/activeChat";
+import { dismissReadMessageNotifications } from "../services/push/push.service";
 import Icon from "../components/ui/Icon";
 
 import ScreenHeader, { SCREEN_HEADER_TITLE_FONT_SIZE } from "../components/ScreenHeader";
@@ -1209,11 +1210,15 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (!currentConvId || !address) return;
     setInitialLoading(true);
     try {
+      const readThrough = Date.now();
       const resp = await getMessages(currentConvId, { address, limit: PAGE_SIZE });
       const msgs = resp?.messages || [];
       const normalized = await decryptIncoming(currentConvId, address, msgs.map(normalizeAuthor));
       if (!isCurrent()) return;
-      if (normalized.length) dmActions.upsertMessages(currentConvId, normalized);
+      if (normalized.length) {
+        dmActions.upsertMessages(currentConvId, normalized);
+        void dismissReadMessageNotifications(currentConvId, address, readThrough);
+      }
       if (msgs.length < PAGE_SIZE) setHasMore(false);
       if (userId) dmActions.markAllRead(currentConvId, userId);
     } catch (e) {

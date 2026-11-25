@@ -1,4 +1,4 @@
-import { readNotificationData } from "../../libs/push-tap-data";
+import { isReadMessagePush, readNotificationData } from "../../libs/push-tap-data";
 
 const tap = (data: unknown, trigger: unknown = null) =>
   ({ request: { identifier: "x", content: { data }, trigger } }) as any;
@@ -24,5 +24,26 @@ describe("readNotificationData", () => {
   it("returns null when nothing names a type", () => {
     expect(readNotificationData(tap({}, { remoteMessage: { data: { body: "not json" } } }))).toBeNull();
     expect(readNotificationData(undefined)).toBeNull();
+  });
+});
+
+describe("isReadMessagePush", () => {
+  const data = { type: "new_message", conversationId: "c1", recipient: "0xAb" };
+  const push = { type: "push" };
+  const read = (payload: unknown, trigger: unknown, date = 100) =>
+    isReadMessagePush({ ...tap(payload, trigger), date }, "c1", "0xab", 100);
+
+  it("matches the delivered DM, including a legacy deep-link payload", () => {
+    expect(read(data, push)).toBe(true);
+    const legacy = { ...push, remoteMessage: { data: { body: JSON.stringify({ type: "new_message", deepLink: "/dm/c1" }) } } };
+    expect(read({}, legacy)).toBe(true);
+  });
+
+  it("preserves new, unrelated and local alerts", () => {
+    expect(read(data, push, 101)).toBe(false);
+    expect(read({ ...data, conversationId: "c2" }, push)).toBe(false);
+    expect(read({ ...data, recipient: "0xCd" }, push)).toBe(false);
+    expect(read({ ...data, type: "incoming_call" }, push)).toBe(false);
+    expect(read(data, null)).toBe(false);
   });
 });
