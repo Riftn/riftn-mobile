@@ -62,7 +62,7 @@ import ProfileBio from "./ProfileBio";
 import ProfileSongRow from "./ProfileSongRow";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
-import { useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
@@ -121,7 +121,6 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   const shortAddr = truncateAddress(address, 5, 5);
   const live = useIsUserLive(address, user?.username);
-  // Your own Moment up: it shows on the corner of your face and a tap plays it.
   const moment = useFaceMoment(address);
   const openMoments = useOpenMoments(address);
   // Explicit sizes: this avatar renders at 88pt, well above the 48pt default
@@ -394,6 +393,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                     )
               }
             />
+            <MomentAvatarOutline peek={moment} radius={PROFILE_AVATAR_RADIUS} />
             </View>
             <TouchableOpacity
               onPress={startChangeAvatar}

@@ -111,7 +111,7 @@ export default function TipPayWith({ visible, amountDhb, walletAddress, value, o
   const payAmount = plan ? formatPayAmount(plan) : null;
   // A dollar figure beside the coin amount, so 0.0018 ETH reads as roughly $5.
   const payUsd = plan && plan.kind !== "none" && plan.payUsd
-    ? new Intl.NumberFormat(i18n.language, { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(plan.payUsd)
+    ? new Intl.NumberFormat(i18n.language?.replace('_', '-'), { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(plan.payUsd)
     : null;
 
   return (

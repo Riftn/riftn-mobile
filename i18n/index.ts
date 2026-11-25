@@ -1,3 +1,4 @@
+import { normalizeLanguageCode } from './language-code';
 import { applyDateLocale } from './date-locale';
 import manifest from './locale-manifest.json';
 /**
@@ -71,7 +72,8 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
   { code: 'my', name: 'Burmese', nativeName: 'မြန်မာ' },
   { code: 'cs', name: 'Czech', nativeName: 'Čeština' },
-  { code: 'zh', name: 'Chinese', nativeName: '中文' },
+  { code: 'zh', name: 'Chinese (Simplified)', nativeName: '简体中文' },
+  { code: 'zh_tw', name: 'Chinese (Traditional)', nativeName: '繁體中文' },
   { code: 'cjy', name: 'Chinese, Jinyu', nativeName: '晋语' },
   { code: 'mnp', name: 'Chinese, Min Bei', nativeName: '闽北语' },
   { code: 'ctg', name: 'Chittagonian', nativeName: 'চাটগাঁইয়া' },
@@ -168,21 +170,23 @@ const packOrigin = process.env.EXPO_PUBLIC_LOCALE_PACK_ORIGIN || 'https://riftn.
 // AsyncStorage is one SQLite file capped at 6 MB; a single language is ~0.9 MB
 // and every translation update used to add a fresh copy without dropping the
 // old one, until the file was full and sign-in failed with SQLITE_FULL.
-// Only the current manifest version is kept.
+// Keep the last usable copy of each pack until its replacement downloads.
 const packStore = new MMKV({ id: 'locale-packs' });
-const PACK_VERSION_PREFIX = `${manifest.version}:`;
 const LEGACY_PACK_PREFIX = 'locale-pack:';
-try {
-  for (const key of packStore.getAllKeys()) {
-    if (!key.startsWith(PACK_VERSION_PREFIX)) packStore.delete(key);
-  }
-} catch {}
-// Free the space old builds used in AsyncStorage. Packs for this version are
-// moved across on first read (below) rather than downloaded again.
-AsyncStorage.getAllKeys()
-  .then((keys) => {
-    const stale = keys.filter((k) => k.startsWith(LEGACY_PACK_PREFIX) && !k.startsWith(LEGACY_PACK_PREFIX + PACK_VERSION_PREFIX));
-    return stale.length ? AsyncStorage.multiRemove(stale) : undefined;
+// Move packs out of the small shared AsyncStorage database, including the last
+// version so a first launch after updating can still use it offline.
+const migrateLegacyPacks = AsyncStorage.getAllKeys()
+  .then(async (keys) => {
+    const legacy = keys.filter((key) => key.startsWith(LEGACY_PACK_PREFIX));
+    if (!legacy.length) return;
+    const moved: string[] = [];
+    for (const [key, value] of await AsyncStorage.multiGet(legacy)) {
+      if (value === null) continue;
+      const cacheKey = key.slice(LEGACY_PACK_PREFIX.length);
+      if (packStore.getString(cacheKey) === undefined) packStore.set(cacheKey, value);
+      moved.push(key);
+    }
+    if (moved.length) await AsyncStorage.multiRemove(moved);
   })
   .catch(() => {});
 const readPackCache = async (key: string): Promise<string | null> => {
@@ -201,9 +205,19 @@ const readPackCache = async (key: string): Promise<string | null> => {
     return null;
   }
 };
-const writePackCache = async (key: string, value: string) => { try { packStore.set(key, value); } catch {} };
+const previousPackKeys = (key: string) => {
+  const suffix = key.slice(key.indexOf(':'));
+  return packStore.getAllKeys().filter(candidate => candidate !== key && candidate.endsWith(suffix));
+};
+const writePackCache = async (key: string, value: string) => {
+  try {
+    packStore.set(key, value);
+    for (const previous of previousPackKeys(key)) packStore.delete(previous);
+  } catch {}
+};
 
 const loadedPacks = new Set<string>();
+const offlinePacks = new Set<string>();
 const retryAfter = new Map<string, number>();
 const pendingPacks = new Map<string, Promise<boolean>>();
 const pendingSourceLanguages = new Map<string, Promise<Record<string, unknown>>>();
@@ -232,7 +246,7 @@ async function loadPack(lang: string, group: string): Promise<boolean> {
   if (!manifest.languages.includes(lang)) return false;
   const key = `${manifest.version}:${lang}:${group}`;
   if (loadedPacks.has(key)) return true;
-  if ((retryAfter.get(key) || 0) > Date.now()) return false;
+  if ((retryAfter.get(key) || 0) > Date.now()) return offlinePacks.has(key);
   if (pendingPacks.has(key)) return pendingPacks.get(key)!;
   const pending = (async () => {
     try {
@@ -258,10 +272,31 @@ async function loadPack(lang: string, group: string): Promise<boolean> {
       }
       // Mark first: resource events rerender consumers synchronously.
       loadedPacks.add(key);
+      offlinePacks.delete(key);
       i18n.addResourceBundle(lang, 'translation', data, true, true);
       fillMissingPluralForms(i18n, lang);
       return true;
-    } catch { retryAfter.set(key, Date.now() + 30_000); return false; }
+    } catch {
+      retryAfter.set(key, Date.now() + 30_000);
+      if (offlinePacks.has(key)) return true;
+      try {
+        await migrateLegacyPacks;
+        const previousKeys = [...previousPackKeys(key), ...previousPackKeys(`${manifest.version}:${lang}:source`)];
+        for (const previous of previousKeys) {
+          const cached = packStore.getString(previous);
+          if (!cached) continue;
+          try {
+            const bundle = JSON.parse(cached);
+            if (!bundle || typeof bundle !== 'object' || Array.isArray(bundle)) continue;
+            offlinePacks.add(key);
+            i18n.addResourceBundle(lang, 'translation', bundle, true, false);
+            fillMissingPluralForms(i18n, lang);
+            return true;
+          } catch { /* Try another cached copy. */ }
+        }
+      } catch { /* Locale storage is unavailable. */ }
+      return false;
+    }
     finally { pendingPacks.delete(key); }
   })();
   pendingPacks.set(key, pending);
@@ -329,8 +364,8 @@ export async function chooseLanguage(code: string): Promise<{ ok: boolean; needs
  */
 export function detectLanguage(): string {
   const locales = Localization.getLocales?.() || [];
-  const deviceLang = locales[0]?.languageCode || 'en';
-  return deviceLang;
+  const first = locales[0];
+  return normalizeLanguageCode(first?.languageTag || first?.languageCode || 'en');
 }
 
 /**
@@ -344,7 +379,8 @@ export function detectLanguage(): string {
  */
 export function detectCountryLanguage(): string | null {
   const locales = Localization.getLocales?.() || [];
-  const phone = locales[0]?.languageCode || 'en';
+  const first = locales[0];
+  const phone = normalizeLanguageCode(first?.languageTag || first?.languageCode || 'en');
   const phoneShipped = SUPPORTED_LANGUAGES.some((l) => l.code === phone);
   if (phoneShipped && phone !== 'en') return null;
   const region = locales[0]?.regionCode || locales.find((l) => l.regionCode)?.regionCode;

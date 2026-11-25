@@ -21,6 +21,7 @@ import TrafficSection from "../components/Stats/TrafficSection";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
 import Icon from "../components/ui/Icon";
 import { ScreenNames } from "../navigation/ScreenNames";
+import { TAB_BAR_CONTENT_INSET } from "../navigation/tabBarLayout";
 
 type Range = "7d" | "30d" | "1y" | "all";
 
@@ -210,7 +211,7 @@ export default function StatsScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#010305" },
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 14 },
-  content: { paddingTop: 4, paddingBottom: 40 },
+  content: { paddingTop: 4, paddingBottom: TAB_BAR_CONTENT_INSET },
   metric: { flex: 1, minWidth: 96, backgroundColor: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.08)", borderWidth: 1, borderRadius: 10, padding: 12 },
   metricLabel: { color: "#8B8D90", fontSize: 11, textTransform: "uppercase", letterSpacing: 0.5 },
   metricValue: { color: "#FFFFFF", fontSize: 24, fontWeight: "700", marginTop: 3 },

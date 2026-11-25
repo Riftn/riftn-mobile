@@ -12,7 +12,7 @@ import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "../
 import { LinearGradient } from "expo-linear-gradient";
 import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu } from "../Profile/ProfileImageMenu";
-import { useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import Icon from "../ui/Icon";
 import { copyToClipboard, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs";
 import { toastSuccess } from "../../libs/toast";
@@ -167,7 +167,6 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   const { width: windowWidth } = useWindowDimensions();
   const badgeRef = useRef<View>(null);
   const liveTarget = useLiveTarget(address, username);
-  // A Moment up: the face shows it on its corner and a tap plays it; the photo moves to the hold menu.
   const moment = useFaceMoment(address);
   const openMoments = useOpenMoments(address);
   // The chips by the name (early supporter and the milestone badges) follow
@@ -240,67 +239,41 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
       );
     }
 
-    if (followLoading) {
-      return (
-        <View style={[btn, { opacity: 0.6 }]}>
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <ActivityIndicator size="small" color="#fff" />
-          </View>
-        </View>
-      );
-    }
-
-    if (isFollowRequestPending) {
-      return (
-        <TouchableOpacity
-          onPress={() => !disableActions && onOpenUnfollow?.()}
-          disabled={disableActions}
-          activeOpacity={0.7}
-          style={[btn, disableActions && { opacity: 0.4 }]}
-        >
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <Icon name="Clock" size={14} color="#fff" />
-            <Text style={s.glassBtnLabel}>{t("follow.requested")}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
-    if (isFollowing) {
-      return (
-        <TouchableOpacity
-          onPress={() => !disableActions && onOpenUnfollow?.()}
-          disabled={disableActions}
-          activeOpacity={0.7}
-          style={[btn, disableActions && { opacity: 0.4 }]}
-        >
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <Text style={s.glassBtnLabel}>{t("filters.following")}</Text>
-            {/* The tick sits inset in its box: pull it in so both sides of the pill match. */}
-            <View style={s.followingTick}>
-              <Icon name="Check" size={14} color="#fff" />
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
+    const disabled = disableActions || followLoading;
+    const action = isFollowing || isFollowRequestPending ? onOpenUnfollow : onFollow;
     return (
       <TouchableOpacity
-        onPress={disableActions ? undefined : onFollow}
-        disabled={disableActions}
+        onPress={disabled ? undefined : action}
+        disabled={disabled}
+        accessibilityState={{ disabled, busy: followLoading }}
         activeOpacity={0.7}
-        style={[btn, disableActions && { opacity: 0.4 }]}
+        style={[btn, disabled && { opacity: followLoading ? 0.6 : 0.4 }]}
       >
         {glassLayers}
         <View style={s.glassBtnContent}>
-          <Icon name="UserPlus" size={14} color="#fff" />
-          <Text style={s.glassBtnLabel}>
-            {followsYou && !isFollowing ? _copy("copy.fd3fdb5a65ea", { defaultValue: "Follow Back" }) : _copy("copy.641d1ef657bd", { defaultValue: "Follow" })}
-          </Text>
+          {followLoading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : isFollowRequestPending ? (
+            <>
+              <Icon name="Clock" size={14} color="#fff" />
+              <Text style={s.glassBtnLabel}>{t("follow.requested")}</Text>
+            </>
+          ) : isFollowing ? (
+            <>
+              <Text style={s.glassBtnLabel}>{t("filters.following")}</Text>
+              {/* The tick sits inset in its box: pull it in so both sides of the pill match. */}
+              <View style={s.followingTick}>
+                <Icon name="Check" size={14} color="#fff" />
+              </View>
+            </>
+          ) : (
+            <>
+              <Icon name="UserPlus" size={14} color="#fff" />
+              <Text style={s.glassBtnLabel}>
+                {followsYou ? _copy("copy.fd3fdb5a65ea", { defaultValue: "Follow Back" }) : _copy("copy.641d1ef657bd", { defaultValue: "Follow" })}
+              </Text>
+            </>
+          )}
         </View>
       </TouchableOpacity>
     );
@@ -356,9 +329,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
             live={live}
             liveOrbit
-            onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
+            onPress={moment ? () => void openMoments() : liveTarget ? () => openLiveTarget(liveTarget) : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
+          <MomentAvatarOutline peek={moment} radius={PROFILE_AVATAR_RADIUS} />
           <ProfilePullRing size={PROFILE_AVATAR_SIZE} radius={PROFILE_AVATAR_RADIUS} color={colors.accent} />
           </Animated.View>
           {(!isBlocked || !!onOpenOptions) && (

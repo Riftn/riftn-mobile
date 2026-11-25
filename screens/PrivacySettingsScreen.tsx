@@ -16,7 +16,7 @@ import {
   SettingsAnchor,
   SettingsScrollView,
 } from '../components/Settings/SettingsAnchor';
-import { PROFILE_VIEW_DEFAULT_KEY, PROFILE_VIEW_READER_KEY, clearProfileViewFlip, parseProfileViewDefault, parseProfileViewReaderPref, type ProfileViewMode, type ProfileViewReaderPref } from '../libs/profileViewMode';
+import { getProfileViewDefault, getProfileViewReaderPref, type ProfileViewMode, type ProfileViewReaderPref } from '../libs/profileViewMode';
 import Icon from '../components/ui/Icon';
 import LoadErrorState from '../components/ui/LoadErrorState';
 import CustomSwitch from '../components/ui/CustomSwitch';
@@ -25,6 +25,7 @@ import AccentButtonGradient from '../components/ui/AccentButtonGradient';
 import Avatar from '../components/common/Avatar';
 import { useUser, useAuthState, useAuthActions } from '../context/AuthContext';
 import { useGateToHome } from '../hooks/useGateToHome';
+import { useProfileViewWriter } from '../hooks/useSaveProfileView';
 import { toastSuccess, toastError } from '../libs';
 import { createLogger } from '../libs/logger';
 import { AuthService } from '../services/auth.service';
@@ -77,6 +78,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const { t: _copy } = _useCopy();
   const user = useUser();
   const { patchUser } = useAuthActions();
+  const writeProfileView = useProfileViewWriter();
   const { isSignedIn, needsUsername } = useAuthState();
   const allow = isSignedIn && !needsUsername;
   useGateToHome(allow);
@@ -115,8 +117,8 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const [followerVisibility, setFollowerVisibility] = useState<FollowerVisibility>('public');
   const [defaultPostVisibility, setDefaultPostVisibility] = useState<PostVisibility>('public');
   const [defaultProfileTab, setDefaultProfileTab] = useState<ProfileDefaultTab>(DEFAULT_PROFILE_TAB);
-  const [defaultProfileView, setDefaultProfileView] = useState<ProfileViewMode>('grid');
-  const [readerProfileView, setReaderProfileView] = useState<ProfileViewReaderPref>('owner');
+  const defaultProfileView = getProfileViewDefault(user);
+  const readerProfileView = getProfileViewReaderPref(user);
   const [aiScraping, setAiScraping] = useState<AiScrapingPreference>('allow');
   const [showOnline, setShowOnline] = useState(false);
   const [showLastSeen, setShowLastSeen] = useState(false);
@@ -191,12 +193,10 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       return { followers: lists.showFollowersList, following: lists.showFollowingList, counts: lists.showCounts };
     })(),
     defaultProfileTab: parseDefaultProfileTab(customs.defaultProfileTab),
-    defaultProfileView: parseProfileViewDefault(customs[PROFILE_VIEW_DEFAULT_KEY]),
-    readerProfileView: parseProfileViewReaderPref(customs[PROFILE_VIEW_READER_KEY]),
   }), [user, customs]);
 
   const userKey = useMemo(() => {
-    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.showLastSeen}|${customs.defaultProfileTab}|${customs[PROFILE_VIEW_DEFAULT_KEY]}|${customs[PROFILE_VIEW_READER_KEY]}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
+    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.showLastSeen}|${customs.defaultProfileTab}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
   }, [user, customs]);
 
   /**
@@ -208,17 +208,20 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
    */
   const [synced, setSynced] = useState(false);
   const syncFromServer = useCallback(async () => {
-    const key = (user as any)?.username || (user as any)?.walletAddress || (user as any)?.address;
+    const address = (user?.walletAddress || user?.address)?.toLowerCase();
+    const key = user?.username || address;
     if (!key) return;
     try {
       const res: any = await getAccount(key);
       const core = res?.data?.result || res?.result || null;
       if (!core) throw new Error('empty account');
-      await patchUser(() => ({
+      await patchUser(current => (current.walletAddress || current.address)?.toLowerCase() !== address ? {} : ({
         hideFollowers: core.hideFollowers === true,
         isPrivate: core.isPrivate === true,
         // Absent on the server means off, so never keep an older cached value.
         hideBadgeAndBalance: core.hideBadgeAndBalance === true,
+        defaultProfileView: core.defaultProfileView,
+        profileViewOthers: core.profileViewOthers,
         ...(core.customs && typeof core.customs === 'object' ? { customs: core.customs } : {}),
       } as any));
       setSynced(true);
@@ -247,8 +250,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     setShowLikes(initial.showLikes);
     setFollowLists(initial.followLists);
     setDefaultProfileTab(initial.defaultProfileTab);
-    setDefaultProfileView(initial.defaultProfileView);
-    setReaderProfileView(initial.readerProfileView);
     if (user && synced) setLoading(false);
   }, [userKey, saving, synced]);
 
@@ -306,8 +307,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       setShowLikes(initial.showLikes);
       setFollowLists(initial.followLists);
       setDefaultProfileTab(initial.defaultProfileTab);
-      setDefaultProfileView(initial.defaultProfileView);
-      setReaderProfileView(initial.readerProfileView);
     } finally {
       setSaving(false);
     }
@@ -344,19 +343,27 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     saveSetting({}, { defaultProfileTab: tab });
   }, [saveSetting]);
 
+  const saveProfileView = useCallback(async (profileViewOthers: ProfileViewReaderPref, defaultProfileView?: ProfileViewMode) => {
+    setSaving(true);
+    try {
+      await writeProfileView(defaultProfileView ? { defaultProfileView, profileViewOthers } : { profileViewOthers });
+      toastSuccess(t('settings.privacySettingUpdated'));
+    } catch (error) {
+      toastError(error, t('settings.failedUpdateSetting'));
+    } finally {
+      setSaving(false);
+    }
+  }, [writeProfileView, t]);
+
   const handleProfileViewChange = useCallback((view: ProfileViewMode) => {
-    setDefaultProfileView(view);
     setShowProfileViewModal(false);
-    // Your own toggle flip on your profile would hide the new default.
-    clearProfileViewFlip(userAddressKey);
-    saveSetting({}, { [PROFILE_VIEW_DEFAULT_KEY]: view });
-  }, [saveSetting, userAddressKey]);
+    void saveProfileView(view, view);
+  }, [saveProfileView]);
 
   const handleReaderViewChange = useCallback((pref: ProfileViewReaderPref) => {
-    setReaderProfileView(pref);
     setShowReaderViewModal(false);
-    saveSetting({}, { [PROFILE_VIEW_READER_KEY]: pref });
-  }, [saveSetting]);
+    void saveProfileView(pref);
+  }, [saveProfileView]);
 
   const handleToggleAiScraping = useCallback((value: boolean) => {
     const next: AiScrapingPreference = value ? 'allow' : 'deny';

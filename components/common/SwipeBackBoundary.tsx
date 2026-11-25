@@ -4,7 +4,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { completesSwipeBack, pageSwipeAllowed, SWIPE_BACK_EDGE, SWIPE_BACK_PAGE_DISTANCE } from '../../libs/swipe-back';
-import { SwipeBackActions, SwipeBackEdgeOwner, type BackAction, type ClaimEdgeSwipe, type RegisterBackAction } from '../../hooks/useSwipeBack';
+import { SwipeBackActions, SwipeBackEdgeOwner, SwipeBackPan, type BackAction, type ClaimEdgeSwipe, type RegisterBackAction } from '../../hooks/useSwipeBack';
 
 export default function SwipeBackBoundary({ children, onBack, enabled = true, isFocused }: {
   children: React.ReactNode;
@@ -132,7 +132,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
     <SwipeBackEdgeOwner.Provider value={claimEdge}>
       <GestureDetector gesture={gesture}>
         <View ref={page} style={{ flex: 1 }} collapsable={false} onTouchStart={markTouch}>
-          {children}
+          <SwipeBackPan.Provider value={active ? gesture : null}>{children}</SwipeBackPan.Provider>
           <Animated.View pointerEvents="none" style={[styles.cue, I18nManager.isRTL ? { right: 0 } : { left: 0 }, cueStyle]}>
             <Ionicons name="arrow-back" size={20} color="#fff" style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined} />
           </Animated.View>

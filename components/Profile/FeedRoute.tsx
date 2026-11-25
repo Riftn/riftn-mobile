@@ -261,7 +261,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 1 }}>
         {pinnedPosts.map((item) => (
           <View key={`pinned-${item.tokenId}`} style={{ width: '33.333%' }}>
-            <ProfileGridTile item={item as UnifiedFeedItem} pinned onPress={openTile} ownerHold={isOwnProfile} onHold={holdTile} />
+            <ProfileGridTile item={item as UnifiedFeedItem} pinned isVisible onPress={openTile} ownerHold={isOwnProfile} onHold={holdTile} />
           </View>
         ))}
       </View>
@@ -311,9 +311,9 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   // its deps, so a fresh arrow per render invalidated it and re-rendered every
   // cell in the window on any re-render of this route.
   const renderItem = useCallback(
-    ({ item, index }: InfiniteFeedRenderItemInfo) => {
+    ({ item, index, isVisible }: InfiniteFeedRenderItemInfo) => {
       placed.current[index] = item as UnifiedFeedItem;
-      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} onHold={holdTile} />;
+      return <ProfileGridTile item={item as UnifiedFeedItem} isVisible={isVisible} onPress={openTile} ownerHold={isOwnProfile} index={index} onHold={holdTile} />;
     },
     [openTile, isOwnProfile],
   );

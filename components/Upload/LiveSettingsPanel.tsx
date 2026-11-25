@@ -147,7 +147,7 @@ const LiveSettingsPanel: React.FC<LiveSettingsPanelProps> = ({
 
   const formattedDate = useMemo(() => {
     if (!state.scheduledDate) return t("live.notSet");
-    return state.scheduledDate.toLocaleString(i18n.language || undefined, {
+    return state.scheduledDate.toLocaleString(i18n.language?.replace('_', '-') || undefined, {
       month: "short",
       day: "numeric",
       hour: "2-digit",

@@ -1,4 +1,4 @@
-import { confirmChatDelivery, roomMessageMatches } from '../libs/chat-delivery';
+import { confirmChatDelivery, roomMessageMatches, waitForChatRoom } from '../libs/chat-delivery';
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
 import { io, Socket } from "socket.io-client";
@@ -292,7 +292,7 @@ export const useLiveChat = (
       });
 
       socket.on(EVENTS.ROOM_JOINED, (data: LiveChatRoomJoinedPayload) => {
-        if (cancelled) return;
+        if (cancelled || (requireRoom && data.room?.roomId !== roomId)) return;
         log.debug("Room joined, messages:", data.messages?.length);
         // The pins ride in on the room rather than in `messages`, so they need
         // the same normalising or the pinned bar reads a blank author.
@@ -539,25 +539,41 @@ export const useLiveChat = (
   const sendMessage = useCallback(async (payload: SendMessagePayload): Promise<boolean> => {
     const socket = socketRef.current;
     const account = user?.walletAddress || user?.address;
-    if (!socket?.connected || !account) return false;
+    if (!socket || !account || (requireRoom && !roomId)) return false;
+    if (!requireRoom && !socket.connected) return false;
+    const isCurrent = () => socketRef.current === socket && roomIdRef.current === roomId &&
+      myAddressRef.current === account.toLowerCase();
     let signedOut = false;
     // The token rides with the message: a connection the server took as a
     // guest is signed in again by the send itself.
-    const deliver = (token: string | null) => confirmChatDelivery({
-      listen: (event, handler) => {
-        if (event === EVENTS.ERROR) {
-          const onError = (data: ChatRefusalPayload) => { if (isAuthRefusal(data)) signedOut = true; handler(data); };
-          socket.on(event, onError); return () => { socket.off(event, onError); };
-        }
-        socket.on(event, handler); return () => { socket.off(event, handler); };
-      },
-      emit: () => {
-        const line = roomIdRef.current ? { ...payload, roomId: roomIdRef.current } : { ...payload };
-        socket.emit(EVENTS.SEND, token ? { ...line, token } : line);
-      },
-      messageEvent: EVENTS.NEW_MESSAGE, errorEvent: EVENTS.ERROR,
-      matches: message => roomMessageMatches(message, { account, content: payload.content ?? '', room: roomIdRef.current, attachment: payload.audioUrl || payload.gif?.url || payload.media?.[0]?.url }),
-    });
+    const deliver = async (token: string | null) => {
+      if (!isCurrent()) return false;
+      if (requireRoom && !(await waitForChatRoom(
+        socket,
+        () => isCurrent() && joinedRef.current,
+        [EVENTS.ROOM_JOINED],
+        () => socket.emit(EVENTS.JOIN, { roomId }),
+      ))) {
+        if (isCurrent()) toastError(t("liveChat.disconnected"));
+        return false;
+      }
+      if (!isCurrent() || !socket.connected) return false;
+      return confirmChatDelivery({
+        listen: (event, handler) => {
+          if (event === EVENTS.ERROR) {
+            const onError = (data: ChatRefusalPayload) => { if (isAuthRefusal(data)) signedOut = true; handler(data); };
+            socket.on(event, onError); return () => { socket.off(event, onError); };
+          }
+          socket.on(event, handler); return () => { socket.off(event, handler); };
+        },
+        emit: () => {
+          const line = roomId ? { ...payload, roomId } : { ...payload };
+          socket.emit(EVENTS.SEND, token ? { ...line, token } : line);
+        },
+        messageEvent: EVENTS.NEW_MESSAGE, errorEvent: EVENTS.ERROR,
+        matches: message => roomMessageMatches(message, { account, content: payload.content ?? '', room: roomId, attachment: payload.audioUrl || payload.gif?.url || payload.media?.[0]?.url }),
+      });
+    };
     const token = await freshToken().catch(() => null);
     if (token) tokenRef.current = token;
     if (await deliver(token)) return true;
@@ -573,7 +589,7 @@ export const useLiveChat = (
       toastError(t("copy.de1ad7135e96", { defaultValue: "Your sign-in session expired. Please sign in again." }));
     }
     return false;
-  }, [user?.walletAddress, user?.address]);
+  }, [roomId, requireRoom, user?.walletAddress, user?.address]);
 
   const editMessage = useCallback(async (messageId: string, content: string): Promise<boolean> => {
     const socket = socketRef.current;

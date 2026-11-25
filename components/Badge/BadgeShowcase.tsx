@@ -260,7 +260,7 @@ function HolderDetails({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const below = useMemo(() => badgePerksForIndex(index - 1), [index, scale]);
   const remaining = standing ? Math.max(0, threshold - standing.balance) : 0;
-  const nf = useMemo(() => new Intl.NumberFormat(i18n.language), [i18n.language]);
+  const nf = useMemo(() => new Intl.NumberFormat(i18n.language?.replace('_', '-')), [i18n.language]);
   const tileWidth = tileWidthFor(W);
   const youPos =
     standing && standing.balance > 0 ? Math.min(100, (toPos(standing.balance) / SLIDER_STEPS) * 100) : null;
