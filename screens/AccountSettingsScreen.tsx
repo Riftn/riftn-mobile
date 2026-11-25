@@ -42,7 +42,6 @@ import ScreenHeader from '../components/ScreenHeader';
 import { PageTabs } from '../components/page/PageKit';
 import { themePageIcon } from "../theme/pageIcons";
 import FullScreenLoader from "../components/FullScreenLoader";
-import ReportBugModal from "../components/Settings/ReportBugModal";
 import ReviewModal from "../components/ReviewModal";
 import Icon, { type IconName } from "../components/ui/Icon";
 import { openInApp } from "../libs/links.utils";
@@ -134,7 +133,6 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
   }, []);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [deactivatingAccount, setDeactivatingAccount] = useState(false);
-  const [bugModalVisible, setBugModalVisible] = useState(false);
   const [reviewModalVisible, setReviewModalVisible] = useState(false);
   const [freeDmModalVisible, setFreeDmModalVisible] = useState(false);
   const [freeAccessList, setFreeAccessList] = useState<string[]>([]);
@@ -467,7 +465,7 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
           icon="Bug"
           label={t("settings.reportBug")}
           description={t("settings.reportBugDesc")}
-          onPress={() => setBugModalVisible(true)}
+          onPress={() => navigation.navigate(ScreenNames.FeatureRequests, { composeRequest: "bug" })}
         />
         <Divider />
         <SettingsLinkRow
@@ -560,11 +558,6 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
       </KeyboardAvoidingView>
       </SettingsPanelContext.Provider>
 
-      <ReportBugModal
-        visible={bugModalVisible}
-        onClose={() => setBugModalVisible(false)}
-        username={(user?.username || user?.email || "Anonymous") as string}
-      />
       <ReviewModal
         visible={reviewModalVisible}
         onClose={() => setReviewModalVisible(false)}
