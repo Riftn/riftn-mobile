@@ -8209,6 +8209,7 @@
     "addCaption": "Açıklama ekle…",
     "opened": {"photoA11y": "Fotoğraf, {{time}} açıldı", "videoA11y": "Video, {{time}} açıldı", "seenAt": "Görüldü {{time}}", "replyCamera": "Kamerayla yanıtla", "quotePhoto": "Fotoğraf · Açıldı", "quoteVideo": "Video · Açıldı"},
     "openTimer": {
+      "sent": "Gönderildi",
       "secs": "{{n}} sn",
       "oneMin": "1 dk",
       "chip": "Açılınca {{time}}",

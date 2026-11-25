@@ -179,6 +179,9 @@ export const dmActions = {
     for (const m of msgs) {
       const prev = map.get(m._id);
       const merged = { ...(prev || {}), ...m };
+      if (prev?.destruct?.openedAt && merged.destruct && !merged.destruct.openedAt && prev.destruct.mode === merged.destruct.mode) {
+        merged.destruct = { ...merged.destruct, openedAt: prev.destruct.openedAt };
+      }
 
       // Apply cached fee confirmation that arrived before this message
       const cached = confirmedFeeCache.get(m._id);
@@ -269,6 +272,18 @@ export const dmActions = {
     if (idx < 0) return;
     list[idx] = { ...list[idx], reactions: { ...(update.reactions || {}) } };
     dmState.messagesByConversation[update.dmId] = [...list];
+  },
+
+  applyDestructOpened({ dmId, messageId, openedAt }: { dmId: ID; messageId: ID; openedAt: string }): void {
+    const list = dmState.messagesByConversation[dmId];
+    const index = list?.findIndex((m) => m._id === messageId) ?? -1;
+    if (!list || index < 0) return;
+    const message = list[index];
+    if (!message.destruct || message.destruct.openedAt || message.destruct.marker) return;
+    if (message.author !== "me" && message.destruct.mode !== "time") return;
+    const updated = [...list];
+    updated[index] = { ...message, destruct: { ...message.destruct, openedAt } };
+    dmState.messagesByConversation[dmId] = updated;
   },
 
   /** Remove a message from the store. */

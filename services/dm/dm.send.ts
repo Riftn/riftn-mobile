@@ -22,7 +22,7 @@ import { isTranslateOutOn, translateOutgoing } from "../../libs/dm-translate-out
 import { encodeMediaDescriptor, type MediaDescriptor, type MediaKind } from "../../libs/dm-e2ee/media";
 import { prepareMediaDescriptor } from "../../libs/dm-e2ee/media-send";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
-import { destructFromChoice, type DmDestructChoice } from "../../libs/dm-destruct";
+import { destructFromChoice, isPrivatePhoto, isSeenOnce, type DmDestructChoice } from "../../libs/dm-destruct";
 import { deleteQuietly, encryptFileToCache, encryptedMediaUrl, openEncryptedMedia, rememberLocalPlaintext } from "../../libs/dm-e2ee/media-files";
 import { peerAddressForConversation } from "../../libs/dm-e2ee/peer";
 import { confirmDmSend, isUnconfirmedSend, type DmSendPayload, type DmSendTransport } from "../../libs/dm-send-confirmation";
@@ -995,8 +995,7 @@ class DmSendQueue {
     paymentStatus?: "pending" | "confirmed" | null;
     voiceDuration?: number;
   }): OptimisticMessage {
-    // A view-once / on-open photo is quoted as "Photo · Opened", never the picture.
-    const seenOnce = params.replyTo?.destruct?.mode === "view" || params.replyTo?.destruct?.mode === "open";
+    const seenOnce = !!params.replyTo && (isSeenOnce(params.replyTo.destruct) || isPrivatePhoto(params.replyTo));
     const replyPreview: ReplyPreview | undefined = params.replyTo
       ? {
           _id: params.replyTo._id,

@@ -16,7 +16,7 @@ jest.mock('expo-file-system/legacy', () => ({}));
 jest.mock('../../libs/dm-e2ee/keys', () => ({ prepareOutgoing: async (_p: string, content: string) => ({ content }), prepareSession: jest.fn() }));
 jest.mock('../../libs/dm-e2ee/media', () => ({ encodeMediaDescriptor: jest.fn() }));
 jest.mock('../../libs/dm-e2ee/media-send', () => ({ prepareMediaDescriptor: jest.fn() }));
-jest.mock('../../libs/dm-destruct', () => ({ destructFromChoice: jest.fn() }));
+jest.mock('../../libs/dm-destruct', () => ({ ...jest.requireActual('../../libs/dm-destruct'), destructFromChoice: jest.fn() }));
 jest.mock('../../libs/dm-e2ee/media-files', () => ({}));
 jest.mock('../../libs/dm-e2ee/peer', () => ({ peerAddressForConversation: () => null }));
 jest.mock('../../libs/dm-send-confirmation', () => ({
