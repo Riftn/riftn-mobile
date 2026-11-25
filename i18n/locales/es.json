@@ -52,7 +52,7 @@
     "humor": "Humor",
     "life": "Vida"
   },
-  "stories": {"you": "Tú", "spot": {"views": "{{n}} vistas", "listening": "{{n}} escuchando", "moments": "{{n}} Momentos", "oneMoment": "1 Momento", "watching": "{{n}} viendo"}, "ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"}, 
+  "stories": {"activity": {"creatorBlocked":"Creador bloqueado","creatorMuted":"Creador silenciado","hideBar":"Ocultar barra de actividad","hideLive":"Ocultar directo","hideStory":"Ocultar Momento","join":"Unirse","liveHidden":"Directo oculto","options":"Opciones de actividad","showBar":"Mostrar barra de actividad","storyHidden":"Momento oculto","watchLive":"Ver directo","watchStory":"Ver Momento"}, "you": "Tú", "spot": {"views": "{{n}} vistas", "listening": "{{n}} escuchando", "moments": "{{n}} Momentos", "oneMoment": "1 Momento", "watching": "{{n}} viendo"}, "ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"},
     "comments": "Comentarios",
     "commentFailed": "Tu comentario no se publicó. Inténtalo de nuevo.",
     "noCommentsYet": "Aún no hay comentarios. Di algo que todos puedan ver.",
@@ -2098,6 +2098,7 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "postOptions": {
+    "muteCreator": "Silenciar al creador",
     "copyImage": "Copiar imagen",
     "copyGif": "Copiar GIF",
     "copyVideo": "Copiar video",
@@ -18295,6 +18296,12 @@
     }
   },
   "notes": {
+    "hideStatus": "Ocultar estado",
+    "hideStatusBar": "Ocultar barra de estados",
+    "showStatusBar": "Mostrar barra de estados",
+    "statusHidden": "Estado oculto",
+    "statusOptions": "Opciones de estado",
+    "viewStatus": "Ver estado",
     "background": "Fondo",
     "yourPhoto": "Tu foto",
     "newStatus": "Nuevo estado",

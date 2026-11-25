@@ -52,7 +52,7 @@
     "humor": "Humour",
     "life": "Vie"
   },
-  "stories": {"you": "Vous", "spot": {"views": "{{n}} vues", "listening": "{{n}} à l'écoute", "moments": "{{n}} Moments", "oneMoment": "1 Moment", "watching": "{{n}} spectateurs"}, "ask": {"prompt": "Quoi de neuf aujourd'hui ?", "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?", "create": "Créer", "moment": "Moment", "momentHint": "Photo ou vidéo pendant 24 heures", "post": "Publication", "postHint": "Texte, photos ou vidéo dans ton fil", "live": "Direct", "liveHint": "Lance un direct vidéo maintenant", "stage": "Scène", "stageHint": "Parle en direct avec ta voix", "status": "Statut", "statusHint": "Une courte note que tes abonnés voient"}, 
+  "stories": {"activity": {"creatorBlocked":"Créateur bloqué","creatorMuted":"Créateur mis en sourdine","hideBar":"Masquer la barre d’activité","hideLive":"Masquer le direct","hideStory":"Masquer le Moment","join":"Rejoindre","liveHidden":"Direct masqué","options":"Options d’activité","showBar":"Afficher la barre d’activité","storyHidden":"Moment masqué","watchLive":"Regarder le direct","watchStory":"Voir le Moment"}, "you": "Vous", "spot": {"views": "{{n}} vues", "listening": "{{n}} à l'écoute", "moments": "{{n}} Moments", "oneMoment": "1 Moment", "watching": "{{n}} spectateurs"}, "ask": {"prompt": "Quoi de neuf aujourd'hui ?", "promptNamed": "Quoi de neuf aujourd'hui, {{name}} ?", "create": "Créer", "moment": "Moment", "momentHint": "Photo ou vidéo pendant 24 heures", "post": "Publication", "postHint": "Texte, photos ou vidéo dans ton fil", "live": "Direct", "liveHint": "Lance un direct vidéo maintenant", "stage": "Scène", "stageHint": "Parle en direct avec ta voix", "status": "Statut", "statusHint": "Une courte note que tes abonnés voient"},
     "comments": "Commentaires",
     "commentFailed": "Ton commentaire n'a pas été publié. Réessaie.",
     "noCommentsYet": "Pas encore de commentaires. Dis quelque chose que tout le monde peut voir.",
@@ -2098,6 +2098,7 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "postOptions": {
+    "muteCreator": "Mettre le créateur en sourdine",
     "copyImage": "Copier l'image",
     "copyGif": "Copier le GIF",
     "copyVideo": "Copier la vidéo",
@@ -18299,6 +18300,12 @@
     }
   },
   "notes": {
+    "hideStatus": "Masquer le statut",
+    "hideStatusBar": "Masquer la barre des statuts",
+    "showStatusBar": "Afficher la barre des statuts",
+    "statusHidden": "Statut masqué",
+    "statusOptions": "Options du statut",
+    "viewStatus": "Voir le statut",
     "background": "Arrière-plan",
     "yourPhoto": "Ta photo",
     "newStatus": "Nouveau statut",
