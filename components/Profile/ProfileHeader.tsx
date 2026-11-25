@@ -1,4 +1,4 @@
-import { PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from './useProfileCollapse';
+import { PROFILE_AVATAR_RADIUS, PROFILE_AVATAR_SIZE, PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from './useProfileCollapse';
 import BadgeArtwork from "../common/BadgeArtwork";
 import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, Pressable, ActivityIndicator, StyleSheet, useWindowDimensions } from "react-native";
@@ -41,8 +41,6 @@ import { shareProfile } from "../../libs/misc";
 import CopyAddressSheet from "../Wallet/CopyAddressSheet";
 import * as ImagePicker from "expo-image-picker";
 
-/** Matches the Avatar `size={96}` below. */
-const PROFILE_AVATAR_PT = 96;
 import {
   openCroppedImagePicker,
   resizeAndCompress,
@@ -128,7 +126,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
   const openMoments = useOpenMoments(address);
   // Explicit sizes: this avatar renders at 88pt, well above the 48pt default
   // getAvatarUrl assumes for feed and comment rows, and the cover is full-bleed.
-  const avatarUrl = getAvatarUrl(user?.avatarImageUrl, PROFILE_AVATAR_PT);
+  const avatarUrl = getAvatarUrl(user?.avatarImageUrl, PROFILE_AVATAR_SIZE);
   const coverUrl = getCoverUrl(user?.coverImageUrl, COVER_WIDTH_PT);
   // Both are tappable and open the pinch-zoom viewer, which has to be handed the
   // original — the sized versions above are for the 88pt/140pt boxes on screen,
@@ -293,7 +291,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
   const imageMenu = useProfileImageMenu();
   // A log-in landing here sends the account's picture into this one.
   const ownAvatarRef = useRef<View>(null);
-  const ownAvatarHidden = useOwnAvatarTarget(ownAvatarRef, Math.round(96 * 0.16), useIsFocused());
+  const ownAvatarHidden = useOwnAvatarTarget(ownAvatarRef, PROFILE_AVATAR_RADIUS, useIsFocused());
   const removeImage = useCallback(
     async (kind: ProfileImageKind) => {
       const isAvatar = kind === "avatar";
@@ -377,12 +375,13 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         {/* Avatar overlapping cover + actions on the right */}
         <View className="flex-row items-start justify-between" style={{ marginTop: -48 }}>
           <Animated.View ref={imageMenu.avatarRef as any} collapsable={false} style={avatarPop}>
-            <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
+            <ProfilePullRing size={PROFILE_AVATAR_SIZE} radius={PROFILE_AVATAR_RADIUS} color={colors.accent} />
             <View ref={ownAvatarRef} collapsable={false} style={ownAvatarHidden ? { opacity: 0 } : undefined}>
             <Avatar
               uri={avatarUrl === "default-avatar" ? undefined : avatarUrl}
               name={displayName}
-              size={96}
+              size={PROFILE_AVATAR_SIZE}
+              radius={PROFILE_AVATAR_RADIUS}
               style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
               live={live}
               liveOrbit

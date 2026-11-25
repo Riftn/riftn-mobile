@@ -1,4 +1,4 @@
-import { PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from '../Profile/useProfileCollapse';
+import { PROFILE_AVATAR_RADIUS, PROFILE_AVATAR_SIZE, PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from '../Profile/useProfileCollapse';
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
 import React, { useCallback, useMemo, useRef } from "react";
@@ -351,14 +351,15 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           <Avatar
             uri={avatarUrl || undefined}
             name={displayName}
-            size={96}
+            size={PROFILE_AVATAR_SIZE}
+            radius={PROFILE_AVATAR_RADIUS}
             style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
             live={live}
             liveOrbit
             onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
-          <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
+          <ProfilePullRing size={PROFILE_AVATAR_SIZE} radius={PROFILE_AVATAR_RADIUS} color={colors.accent} />
           </Animated.View>
           {(!isBlocked || !!onOpenOptions) && (
             <View ref={actionsRef} collapsable={false} onLayout={measureIdentity} className="flex-row items-center gap-2 self-start" style={{ marginTop: 60, marginRight: cinematicPhone ? -4 : -8 }}>

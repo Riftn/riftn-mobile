@@ -59,7 +59,7 @@ export interface LiveNowItem {
   cover?: string | null;
   /** Name shown before the badge; the handle when there is none. */
   displayName?: string | null;
-  /** Everyone who has opened the stream so far (streams only). */
+  /** Views of the associated post (streams only). */
   views?: number;
   /** Staking badge art when the row carried the account (streams); Stages look it up by wallet. */
   badge?: number;
@@ -137,7 +137,7 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
         cover,
         displayName: account?.displayName ?? null,
         badge: account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined,
-        views: Number(row.totalViews) || 0,
+        views: row.postViews,
       });
     });
 
