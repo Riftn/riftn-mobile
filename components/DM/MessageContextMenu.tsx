@@ -28,6 +28,8 @@ import { ReactionStrip, REACTION_STRIP_HEIGHT } from "./MessageReactions";
 import { saveMessageFile, saveMessageImage } from "../../libs/saveMessageMedia";
 import { saveToLibrary } from "../../libs/assistantMedia";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
+import { isPrivatePhoto } from "../../libs/dm-destruct";
+import OpenedMarker from "./OpenedMarker";
 import { canTranslateDm, getDmTranslation, toggleDmTranslation, translateOwnDm } from "../../libs/dm-translation-store";
 import { stripBold } from "../../libs/bold-markup";
 
@@ -137,9 +139,9 @@ const FloatingMessage: React.FC<{
   // on rotation and the float's image used to overflow the screen.
   const { width: SCREEN_WIDTH } = useWindowDimensions();
   const FLOAT_MAX_IMAGE_W = Math.round(SCREEN_WIDTH * 0.75 - 24);
+  const ownPrivatePhoto = isMine && isPrivatePhoto(message);
   const hasMedia =
-    (message.mediaUrls && message.mediaUrls.length > 0) ||
-    message.msgType === "gif";
+    !ownPrivatePhoto && ((message.mediaUrls && message.mediaUrls.length > 0) || message.msgType === "gif");
   const isVoice = message.msgType === "voice";
   const hasText = !!message.content?.trim() && message.msgType !== "gif";
   const fullDate = formatChatTimeSmart(message.createdAt, 0);
@@ -157,6 +159,7 @@ const FloatingMessage: React.FC<{
 
   // Media preview (first media item)
   const mediaUrl = useMemo(() => {
+    if (ownPrivatePhoto) return null;
     if (message.msgType === "gif") {
       const gifMedia = message.mediaUrls?.find(
         (mu) => typeof mu === "object" && /gif/i.test(mu.mimeType || mu.type || ""),
@@ -177,7 +180,7 @@ const FloatingMessage: React.FC<{
     if (typeof first === "object" && first.encrypted) return null;
     const url = typeof first === "string" ? first : first.url;
     return resolveMediaUrl(url);
-  }, [message]);
+  }, [message, ownPrivatePhoto]);
 
   if (isStandaloneTip) {
     const tipSym = message.tipSymbol && message.tipSymbol !== "DHB" ? message.tipSymbol : null;
@@ -274,6 +277,13 @@ const FloatingMessage: React.FC<{
         )}
 
         {/* Media */}
+        {ownPrivatePhoto && (
+          <OpenedMarker
+            mine
+            openedAt={message.destruct?.openedAt}
+            deliveryStatus={message.destruct?.openedAt || message.destruct?.marker ? undefined : "sent"}
+          />
+        )}
         {mediaUrl && (
           <View className="bg-theme-neutrals-700">
             <SmartImage
@@ -501,7 +511,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
    * out; the first is a blurred preview, the second opens on tap.
    */
   const downloadable = useMemo(() => {
-    if (!message || message.msgType !== "media" || message.lock || message.encMedia) return null;
+    if (!message || message.msgType !== "media" || message.lock || message.encMedia || (isMine && isPrivatePhoto(message))) return null;
     const entry = message.mediaUrls?.[0];
     if (!entry || entry.encrypted || !entry.url) return null;
     const url = resolveMediaUrl(entry.url);
@@ -513,7 +523,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
           : entry.type === "audio" || mime.startsWith("audio/") ? "file"
             : "image";
     return { url, kind, name: entry.name, mime: mime || undefined };
-  }, [message]);
+  }, [message, isMine]);
 
   /** A photo, GIF or video this message can copy as itself (not paid or encrypted). */
   const copyableMedia = useMemo(() => {
@@ -639,7 +649,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
         },
       });
     }
-    if (onForward && !unsent)
+    if (onForward && !unsent && !isPrivatePhoto(message))
       rows.push({ icon: "Forward", label: t("dm.forwardMessage"), onPress: handleForward });
     if (downloadable && !unsent)
       rows.push({ icon: "Download", label: t("dm.download", { defaultValue: "Download" }), onPress: handleDownload });

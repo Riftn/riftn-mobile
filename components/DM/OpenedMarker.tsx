@@ -20,12 +20,17 @@ interface Props {
   /** The person who got it: answer with the camera. */
   onCamera?: () => void;
   onLongPress?: () => void;
+  deliveryStatus?: "sending" | "failed" | "sent";
 }
 
-const OpenedMarker: React.FC<Props> = ({ kind = "image", mine, openedAt, onCamera, onLongPress }) => {
+const OpenedMarker: React.FC<Props> = ({ kind = "image", mine, openedAt, onCamera, onLongPress, deliveryStatus }) => {
   const { t } = useTranslation();
   const ink = mine ? "#FFFFFF" : "#F4F4F5";
   const when = openedAt ? formatMessageTime(openedAt) : "";
+  const label = deliveryStatus === "sending" ? t("dm.sending", "Sending…")
+    : deliveryStatus === "failed" ? t("dm.failedToSend", "Failed to send")
+    : deliveryStatus === "sent" ? t("dm.openTimer.sent", "Sent")
+    : t("dm.openTimer.opened", "Opened");
   return (
     <Pressable
       onLongPress={onLongPress}
@@ -33,7 +38,7 @@ const OpenedMarker: React.FC<Props> = ({ kind = "image", mine, openedAt, onCamer
       className="flex-row items-center"
       style={{ paddingLeft: 14, paddingRight: onCamera ? 8 : 16, paddingVertical: 8, gap: 12, minWidth: 168 }}
       accessibilityLabel={
-        kind === "video"
+        deliveryStatus ? `${t("dm.photo", "Photo")}, ${label}` : kind === "video"
           ? t("dm.opened.videoA11y", { time: when, defaultValue: "Video, opened {{time}}" })
           : t("dm.opened.photoA11y", { time: when, defaultValue: "Photo, opened {{time}}" })
       }
@@ -41,7 +46,7 @@ const OpenedMarker: React.FC<Props> = ({ kind = "image", mine, openedAt, onCamer
       <Icon name={kind === "video" ? "Video" : "Image"} size={22} color={ink} />
       <View style={{ flexShrink: 1, flexGrow: 1 }}>
         <Text className={`text-[15px] font-semibold ${mine ? "text-white/80" : "text-theme-neutrals-200"}`}>
-          {t("dm.openTimer.opened", "Opened")}
+          {label}
         </Text>
         {when ? (
           <View className="flex-row items-center" style={{ gap: 4, marginTop: 1 }}>
