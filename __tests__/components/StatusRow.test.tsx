@@ -24,6 +24,7 @@ jest.mock('../../context/AuthContext', () => ({}));
 jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: true, pageColors: { foreground: '#111', background: '#fff' } }) }));
 jest.mock('../../components/common/Avatar', () => () => null);
 jest.mock('../../components/common/SmartImage', () => () => null);
+jest.mock('../../components/Stories/ActivityShelfMenu', () => ({ ActivityShelfMenu: () => null }));
 jest.mock('../../components/DM/GifPicker', () => () => null);
 jest.mock('../../components/Post/SoundPickerSheet', () => () => null);
 jest.mock('../../components/DM/note-translate', () => ({ useNoteWords: (text?: string) => ({ shown: text }) }));
