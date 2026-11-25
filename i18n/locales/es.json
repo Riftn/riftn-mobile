@@ -8134,7 +8134,7 @@
     "viewReposts": "Ver reposiciones"
   },
   "dm": {
-    "opened": {"photoA11y": "Foto, abierta {{time}}", "videoA11y": "Video, abierto {{time}}", "seenAt": "Visto {{time}}", "replyCamera": "Responder con la cámara", "quotePhoto": "Foto · Abierta", "quoteVideo": "Video · Abierto"},
+    "opened": {"camera": "Cámara", "gallery": "Galería", "replyMedia": "Responder con una foto o un vídeo", "photoA11y": "Foto, abierta {{time}}", "videoA11y": "Video, abierto {{time}}", "seenAt": "Visto {{time}}", "replyCamera": "Responder con la cámara", "quotePhoto": "Foto · Abierta", "quoteVideo": "Video · Abierto"},
     "trayGif": "GIF y emoji",
     "trayVoice": "Nota de voz",
     "trayTip": "Propina",
@@ -16420,6 +16420,7 @@
     "noTranslationFound": "No se pudo traducir. Puede ser jerga o un nombre."
   },
   "liveOverlay": {
+    "showCreatorChat": "Mostrar el chat del creador en pantalla",
     "eyebrow": {
       "follow": "Nuevo seguidor",
       "subscribe": "Nuevo suscriptor",

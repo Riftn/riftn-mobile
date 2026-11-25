@@ -1,3 +1,5 @@
+jest.mock('../../config/storefront', () => ({ DIGITAL_PURCHASES_ENABLED: true, iosWebPurchaseLinkAllowed: () => false }));
+
 /**
  * What a one-segment link means.
  *
@@ -219,13 +221,20 @@ describe('parseDeepLink', () => {
   });
 
   // Web answers every /app section at the bare path too and canonicalises onto
-  // it, so a community link is handed out as dehub.io/communities/<slug> now. Both
+  // it, so a store share link is handed out as dehub.io/stores/<id> now. Both
   // spellings have to mean the same thing here or the shared link stops opening
   // the app.
   it('reads a section with or without the /app prefix', () => {
-    const bare = parseDeepLink('https://dehub.io/communities/riftn');
-    expect(bare).toEqual(parseDeepLink('https://dehub.io/app/communities/riftn'));
-    expect(bare).toEqual({ type: 'community', params: { slug: 'riftn' } });
+    const bare = parseDeepLink('https://dehub.io/stores/abc123');
+    expect(bare).toEqual(parseDeepLink('https://dehub.io/app/stores/abc123'));
+    expect(bare).toEqual({ type: 'store', params: { storeId: 'abc123' } });
+    expect(parseDeepLink('https://riftn.com/stores')).toEqual({ type: 'stores', params: {} });
+    expect(parseDeepLink('https://riftn.com/communities/riftn')).toEqual(
+      parseDeepLink('https://riftn.com/app/communities/riftn'),
+    );
+    expect(parseDeepLink('https://riftn.com/stores/abc123?listing=def456')).toEqual({
+      type: 'listing', params: { storeId: 'abc123', listing: 'def456' },
+    });
 
     expect(parseDeepLink('https://dehub.io/post/42')).toEqual({
       type: 'post',

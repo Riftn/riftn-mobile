@@ -1,3 +1,4 @@
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 /**
  * Badge delegation — lending your tier to other accounts
@@ -33,11 +34,12 @@ import { badgeImageFor, truncateAddress } from '../../libs';
 import type { DelegationEntry } from '../../services/badge-delegation.service';
 
 const TierBadge: React.FC<{ tier: string }> = ({ tier }) => {
+  const tierLabel = useBadgeTierLabel();
   const source = badgeImageFor(tier);
   return (
     <View className="flex-row items-center">
       {source ? <Image source={source} className="w-4 h-4 mr-1.5" /> : null}
-      <Text className="text-white text-xs">{tier}</Text>
+      <Text className="text-white text-xs">{tierLabel(tier)}</Text>
     </View>
   );
 };
@@ -77,6 +79,7 @@ const DelegationRow: React.FC<{
 
 const BadgeDelegationSection: React.FC = () => {
   const { t } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const { data, isLoading } = useBadgeDelegations();
   const grant = useGrantDelegation();
   const revoke = useRevokeDelegation();
@@ -137,10 +140,10 @@ const BadgeDelegationSection: React.FC = () => {
           <Text className="text-theme-neutrals-400 text-xs leading-5">
             {t('settings.badgeDelegationSlots', {
               count: data.slots,
-              tier: data.ownTier,
+              tier: tierLabel(data.ownTier ?? ''),
               free: slotsFree,
             })}{' '}
-            {t('settings.badgeDelegationLendsAny', { tier: data.grantableTier ?? data.ownTier })}{' '}
+            {t('settings.badgeDelegationLendsAny', { tier: tierLabel(data.grantableTier ?? data.ownTier ?? '') })}{' '}
             {t('settings.badgeDelegationRaisesOnlyTier')}
           </Text>
         ) : (
@@ -169,14 +172,14 @@ const BadgeDelegationSection: React.FC = () => {
                     activeOpacity={0.7}
                     accessibilityRole="radio"
                     accessibilityState={{ selected, checked: selected }}
-                    accessibilityLabel={name}
+                    accessibilityLabel={tierLabel(name)}
                     className={`flex-row items-center px-3 py-2 mr-2 mb-2 rounded-xl border ${
                       selected ? 'bg-white border-white' : 'bg-theme-neutrals-700/50 border-theme-neutrals-700'
                     } ${!canGrant ? 'opacity-40' : ''}`}
                   >
                     {source ? <Image source={source} className="w-4 h-4 mr-1.5" /> : null}
                     <Text className={`text-xs ${selected ? 'text-[#09090B] font-medium' : 'text-white'}`}>
-                      {name}
+                      {tierLabel(name)}
                     </Text>
                   </TouchableOpacity>
                 );

@@ -60,7 +60,7 @@ describe("bottom sheets clear the Android nav bar", () => {
     expect(src).not.toMatch(/\bpb-8\b/);
     expect(src).toContain("paddingBottom: kbUp ? 32 : Math.max(32, insets.bottom + 16)");
     expect(src).toContain("paddingBottom: Math.max(32, insets.bottom + 16) }}");
-    hookBefore(src, "const { isVisible: kbUp } = useKeyboard();", "if (!product || !listing) return null;");
+    hookBefore(src, "const { isVisible: kbUp } = useKeyboard();", "if (!listing) return null;");
   });
 
   it("shop board pads its scroll content, and reads insets before the early return", () => {

@@ -8161,7 +8161,7 @@
     "viewReposts": "عرض عمليات إعادة النشر"
   },
   "dm": {
-    "opened": {"photoA11y": "صورة، فُتحت {{time}}", "videoA11y": "فيديو، فُتح {{time}}", "seenAt": "شوهدت {{time}}", "replyCamera": "الرد بالكاميرا", "quotePhoto": "صورة · فُتحت", "quoteVideo": "فيديو · فُتح"},
+    "opened": {"camera": "الكاميرا", "gallery": "المعرض", "replyMedia": "الرد بصورة أو فيديو", "photoA11y": "صورة، فُتحت {{time}}", "videoA11y": "فيديو، فُتح {{time}}", "seenAt": "شوهدت {{time}}", "replyCamera": "الرد بالكاميرا", "quotePhoto": "صورة · فُتحت", "quoteVideo": "فيديو · فُتح"},
     "trayGif": "GIF ورموز تعبيرية",
     "trayVoice": "رسالة صوتية",
     "trayTip": "إكرامية",
@@ -16447,6 +16447,7 @@
     "revenueDescription": "الإيرادات من الإعلانات ودعم منشئي المحتوى، في انتظار تسوية الرمز المميز."
   },
   "liveOverlay": {
+    "showCreatorChat": "إظهار دردشة المنشئ على البث",
     "eyebrow": {
       "follow": "متابع جديد",
       "subscribe": "مشترك جديد",

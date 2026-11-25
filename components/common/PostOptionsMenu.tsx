@@ -209,6 +209,7 @@ export interface PostOptionsMenuProps {
   onClip?: () => void;
   /** Live streams: hands the live to the phone's floating window. */
   onFloat?: () => void;
+  chatOverlay?: { visible: boolean; onToggle: () => void };
   onRemix?: (mode: 'green-screen' | 'collab' | 'sound' | 'cut') => void;
   /** Open the post's info page. Hosts that can navigate pass this. */
   onInfoPress?: () => void;
@@ -365,28 +366,40 @@ const QuickBlock: React.FC<{ quick: QuickActions; onClose: () => void }> = memo(
   );
 });
 
+const OptionSwitchRow: React.FC<{
+  icon: IconName;
+  label: string;
+  checked: boolean;
+  onPress: () => void;
+}> = memo(({ icon, label, checked, onPress }) => {
+  const { isLight } = useAppTheme();
+  // hsla so the light-theme pass leaves the switch as drawn here.
+  const track = checked ? (isLight ? "hsla(240,6%,10%,1)" : "hsla(0,0%,100%,1)") : (isLight ? "hsla(0,0%,0%,0.15)" : "hsla(0,0%,100%,0.2)");
+  const knob = checked ? (isLight ? "hsla(0,0%,100%,1)" : "hsla(0,0%,0%,1)") : "hsla(0,0%,100%,1)";
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      accessibilityRole="switch"
+      accessibilityLabel={label}
+      accessibilityState={{ checked }}
+      className="mx-3 flex-row items-center rounded-xl px-3 py-3.5"
+    >
+      <View className="w-5 h-5 items-center justify-center mr-3"><Icon name={icon} size={20} color="#E5E7EB" /></View>
+      <Text style={{ color: "#E5E7EB", flex: 1 }} className="text-[15px] font-medium">{label}</Text>
+      <View style={{ width: 36, height: 20, borderRadius: 10, backgroundColor: track, justifyContent: "center" }}>
+        <View style={{ width: 16, height: 16, borderRadius: 8, marginLeft: checked ? 18 : 2, backgroundColor: knob }} />
+      </View>
+    </TouchableOpacity>
+  );
+});
+
 /** Loop, speed, picture in picture, full screen and sound. The toggles keep the menu open. */
 const PlayerRowsBlock: React.FC<{ player: PlayerRows; onClose: () => void }> = memo(({ player, onClose }) => {
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
-  // hsla so the light-theme pass leaves the switch as drawn here.
-  const track = player.looping ? (isLight ? "hsla(240,6%,10%,1)" : "hsla(0,0%,100%,1)") : (isLight ? "hsla(0,0%,0%,0.15)" : "hsla(0,0%,100%,0.2)");
-  const knob = player.looping ? (isLight ? "hsla(0,0%,100%,1)" : "hsla(0,0%,0%,1)") : "hsla(0,0%,100%,1)";
   return (
     <View className="border-b border-white/10 pb-1 mb-1">
-      <TouchableOpacity
-        onPress={player.onToggleLoop}
-        activeOpacity={0.7}
-        accessibilityRole="switch"
-        accessibilityState={{ checked: player.looping }}
-        className="mx-3 flex-row items-center rounded-xl px-3 py-3.5"
-      >
-        <View className="w-5 h-5 items-center justify-center mr-3"><Icon name="Repeat" size={20} color="#E5E7EB" /></View>
-        <Text style={{ color: "#E5E7EB", flex: 1 }} className="text-[15px] font-medium">{t("player.toggleLoop")}</Text>
-        <View style={{ width: 36, height: 20, borderRadius: 10, backgroundColor: track, justifyContent: "center" }}>
-          <View style={{ width: 16, height: 16, borderRadius: 8, marginLeft: player.looping ? 18 : 2, backgroundColor: knob }} />
-        </View>
-      </TouchableOpacity>
+      <OptionSwitchRow icon="Repeat" label={t("player.toggleLoop")} checked={player.looping} onPress={player.onToggleLoop} />
       <TouchableOpacity onPress={player.onCycleSpeed} activeOpacity={0.7} className="mx-3 flex-row items-center rounded-xl px-3 py-3.5">
         <View className="w-5 h-5 items-center justify-center mr-3"><Icon name="Gauge" size={20} color="#E5E7EB" /></View>
         <Text style={{ color: "#E5E7EB", flex: 1 }} className="text-[15px] font-medium">{t("player.playbackSpeed")}</Text>
@@ -455,6 +468,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   canCast = false,
   onClip,
   onFloat,
+  chatOverlay,
   onRemix,
   onInfoPress,
   onAskAi,
@@ -821,6 +835,14 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
 
         {/* Options list */}
         <View className="pb-6">
+          {chatOverlay ? (
+            <OptionSwitchRow
+              icon="MessageSquare"
+              label={t("liveOverlay.showCreatorChat", { defaultValue: "Show creator’s chat overlay" })}
+              checked={chatOverlay.visible}
+              onPress={chatOverlay.onToggle}
+            />
+          ) : null}
           {player ? <PlayerRowsBlock player={player} onClose={onClose} /> : null}
           {quick ? <QuickBlock quick={quick} onClose={onClose} /> : null}
           {/* Bookmark / pin / post info — first, as in the web drawer. A host

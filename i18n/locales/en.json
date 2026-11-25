@@ -7928,7 +7928,7 @@
     "translateOut": "Send in their language",
     "translateOutOff": "Send as I type",
     "newDrawer": {"to": "To", "placeholder": "Name or @username", "recent": "RECENT", "suggested": "SUGGESTED", "youFollow": "PEOPLE YOU FOLLOW", "chattedBefore": "You talk", "mutual": "Mutual", "dmsOff": "DMs off", "keepTyping": "Keep typing to search everyone", "sayHi": "Say hi to someone", "typeAny": "Type any name or @username"},
-    "opened": {"photoA11y": "Photo, opened {{time}}", "videoA11y": "Video, opened {{time}}", "seenAt": "Seen {{time}}", "replyCamera": "Reply with the camera", "quotePhoto": "Photo · Opened", "quoteVideo": "Video · Opened"},
+    "opened": {"camera": "Camera", "gallery": "Gallery", "replyMedia": "Reply with a photo or video", "photoA11y": "Photo, opened {{time}}", "videoA11y": "Video, opened {{time}}", "seenAt": "Seen {{time}}", "replyCamera": "Reply with the camera", "quotePhoto": "Photo · Opened", "quoteVideo": "Video · Opened"},
     "openTimer": {"secs": "{{n}} sec", "oneMin": "1 min", "chip": "{{time}} once opened", "sent": "Sent", "opened": "Opened", "tapPhoto": "Tap to view", "tapVideo": "Tap to watch", "goneAfter": "Disappears {{time}} after you open it", "left": "{{n}}s", "replayAllowed": "One replay allowed", "tapReplay": "Tap to replay", "lastView": "Last view, {{time}}", "goneAfterReplay": "Disappears {{time}} after you open it. One replay.", "replaying": "Replay"},
     "copyMedia": "Copy media",
     "reportMessage": "Report message",
@@ -9080,6 +9080,7 @@
     }
   },
   "liveOverlay": {
+    "showCreatorChat": "Show creator’s chat overlay",
     "eyebrow": {
       "follow": "New follower",
       "subscribe": "New subscriber",

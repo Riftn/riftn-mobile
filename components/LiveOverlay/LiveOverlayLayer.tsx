@@ -38,6 +38,7 @@ interface Props {
   creator?: string | null;
   /** The stream chat the player already holds, for a chat box widget. */
   chatMessages?: LiveChatMessageData[];
+  showChatOverlay?: boolean;
 }
 
 /** Text messages only, newest last, as the chat box shows them. */
@@ -61,7 +62,7 @@ function chatLines(messages: LiveChatMessageData[] | undefined): OverlayChatLine
   return lines.slice(-12);
 }
 
-export default function LiveOverlayLayer({ streamId, overlay, videoSize, initialViewers, chatMessages, creator }: Props) {
+export default function LiveOverlayLayer({ streamId, overlay, videoSize, initialViewers, chatMessages, creator, showChatOverlay = true }: Props) {
   const { on } = useWebSocket();
   const queryClient = useQueryClient();
   const bus = useMemo(() => createOverlayEventBus(), []);
@@ -73,11 +74,13 @@ export default function LiveOverlayLayer({ streamId, overlay, videoSize, initial
       overlay.renderIn === "app"
         ? drawOrder(
             overlay.widgets.filter(
-              (w) => w.enabled && w.kind !== "poll" && isKnownKind(w.kind) && !(overlay.controls?.alertsPaused && isAlertKind(w.kind)),
+              (w) => w.enabled && w.kind !== "poll" && isKnownKind(w.kind) &&
+                (showChatOverlay || w.kind !== "chat_box") &&
+                !(overlay.controls?.alertsPaused && isAlertKind(w.kind)),
             ),
           )
         : [],
-    [overlay],
+    [overlay, showChatOverlay],
   );
 
   // A poll is the one thing viewers touch, so it is drawn whatever renderIn
