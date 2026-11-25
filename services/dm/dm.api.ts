@@ -242,38 +242,40 @@ export async function tipNotify(params: {
  * required field missing and came back 400 — both of these have always failed.
  */
 export async function addFreeAccess(address: string): Promise<void> {
-  await apiClient.post(
+  const result = await apiClient.post<{ success?: boolean }>(
     "/dm/free-access",
     { userAddress: address },
     { isAuthRequired: true },
   );
+  if (result?.success === false) throw new Error('Could not grant free DM access');
 }
 
 export async function removeFreeAccess(address: string): Promise<void> {
-  await apiClient.delete("/dm/free-access", {
+  const result = await apiClient.delete<{ success?: boolean }>("/dm/free-access", {
     data: { userAddress: address },
     isAuthRequired: true,
   } as any);
+  if (result?.success === false) throw new Error('Could not remove free DM access');
 }
 
-/**
- * The response is `{ success, address, data }`, where `data` holds account
- * objects — not the bare array this used to claim. Callers treat the result as
- * addresses (they filter it with `!==`), so the addresses are what comes back.
- *
- * Typed as an array it was never one, so `Array.isArray(list) ? list : []` at
- * the call site discarded every response and the list rendered empty.
- */
+export interface FreeAccessUser {
+  address: string;
+  username?: string;
+  displayName?: string;
+  avatarImageUrl?: string;
+}
+
 export async function getFreeAccessList(
   creatorAddress: string,
-): Promise<string[]> {
-  const res = await apiClient.get<{ data?: Array<{ address?: string }> }>(
-    `/dm/free-access/${creatorAddress}`,
+): Promise<FreeAccessUser[]> {
+  const res = await apiClient.get<{ success?: boolean; data?: FreeAccessUser[] }>(
+    `/dm/free-access/${encodeURIComponent(creatorAddress)}`,
     { isAuthRequired: true },
   );
-  return (res?.data ?? [])
-    .map((u) => (u?.address || "").toLowerCase())
-    .filter(Boolean);
+  if (res?.success === false || !Array.isArray(res?.data)) {
+    throw new Error('Could not load free DM access');
+  }
+  return res.data.filter(user => Boolean(user?.address));
 }
 
 
