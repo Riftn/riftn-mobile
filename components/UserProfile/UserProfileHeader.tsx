@@ -240,67 +240,41 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
       );
     }
 
-    if (followLoading) {
-      return (
-        <View style={[btn, { opacity: 0.6 }]}>
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <ActivityIndicator size="small" color="#fff" />
-          </View>
-        </View>
-      );
-    }
-
-    if (isFollowRequestPending) {
-      return (
-        <TouchableOpacity
-          onPress={() => !disableActions && onOpenUnfollow?.()}
-          disabled={disableActions}
-          activeOpacity={0.7}
-          style={[btn, disableActions && { opacity: 0.4 }]}
-        >
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <Icon name="Clock" size={14} color="#fff" />
-            <Text style={s.glassBtnLabel}>{t("follow.requested")}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
-    if (isFollowing) {
-      return (
-        <TouchableOpacity
-          onPress={() => !disableActions && onOpenUnfollow?.()}
-          disabled={disableActions}
-          activeOpacity={0.7}
-          style={[btn, disableActions && { opacity: 0.4 }]}
-        >
-          {glassLayers}
-          <View style={s.glassBtnContent}>
-            <Text style={s.glassBtnLabel}>{t("filters.following")}</Text>
-            {/* The tick sits inset in its box: pull it in so both sides of the pill match. */}
-            <View style={s.followingTick}>
-              <Icon name="Check" size={14} color="#fff" />
-            </View>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-
+    const disabled = disableActions || followLoading;
+    const action = isFollowing || isFollowRequestPending ? onOpenUnfollow : onFollow;
     return (
       <TouchableOpacity
-        onPress={disableActions ? undefined : onFollow}
-        disabled={disableActions}
+        onPress={disabled ? undefined : action}
+        disabled={disabled}
+        accessibilityState={{ disabled, busy: followLoading }}
         activeOpacity={0.7}
-        style={[btn, disableActions && { opacity: 0.4 }]}
+        style={[btn, disabled && { opacity: followLoading ? 0.6 : 0.4 }]}
       >
         {glassLayers}
         <View style={s.glassBtnContent}>
-          <Icon name="UserPlus" size={14} color="#fff" />
-          <Text style={s.glassBtnLabel}>
-            {followsYou && !isFollowing ? _copy("copy.fd3fdb5a65ea", { defaultValue: "Follow Back" }) : _copy("copy.641d1ef657bd", { defaultValue: "Follow" })}
-          </Text>
+          {followLoading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : isFollowRequestPending ? (
+            <>
+              <Icon name="Clock" size={14} color="#fff" />
+              <Text style={s.glassBtnLabel}>{t("follow.requested")}</Text>
+            </>
+          ) : isFollowing ? (
+            <>
+              <Text style={s.glassBtnLabel}>{t("filters.following")}</Text>
+              {/* The tick sits inset in its box: pull it in so both sides of the pill match. */}
+              <View style={s.followingTick}>
+                <Icon name="Check" size={14} color="#fff" />
+              </View>
+            </>
+          ) : (
+            <>
+              <Icon name="UserPlus" size={14} color="#fff" />
+              <Text style={s.glassBtnLabel}>
+                {followsYou ? _copy("copy.fd3fdb5a65ea", { defaultValue: "Follow Back" }) : _copy("copy.641d1ef657bd", { defaultValue: "Follow" })}
+              </Text>
+            </>
+          )}
         </View>
       </TouchableOpacity>
     );

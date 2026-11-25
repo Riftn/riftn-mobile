@@ -659,14 +659,16 @@ export interface FollowResponse {
 export async function followUser(followerAddress: string, followingAddress: string): Promise<FollowResponse> {
   const url = `/request_follow?address=${encodeURIComponent(followerAddress)}&following=${encodeURIComponent(followingAddress)}`;
   const res = await apiClient.get<any>(url, { isAuthRequired: true });
-  const payload = res?.data?.result || res?.result || res;
-  const status = payload?.status || 'following';
+  const body = res?.data ?? res;
+  const payload = body?.result && typeof body.result === 'object' ? body.result : body;
+  const rawStatus = payload?.status ?? body?.status;
+  const status = typeof rawStatus === 'string' ? rawStatus : 'following';
   // Signed by the wallet's follow key in the background (libs/follow-graph).
   if (status !== 'pending') signFollow('follow', followerAddress, followingAddress);
   return {
     status,
-    isPrivateAccount: !!payload?.isPrivateAccount,
-    wasPending: !!payload?.wasPending,
+    isPrivateAccount: !!(payload?.isPrivateAccount ?? body?.isPrivateAccount),
+    wasPending: !!(payload?.wasPending ?? body?.wasPending),
   };
 }
 
