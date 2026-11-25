@@ -1,6 +1,6 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { AccessibilityInfo, Animated, Easing, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
@@ -245,9 +245,9 @@ function Pill({ label, onPress, single, children, extra }: {
 }
 
 /** The face with its ring: none once watched, green for Close Friends. */
-function PillFace({ children, seen, closeFriends }: { children: React.ReactNode; seen?: boolean; closeFriends?: boolean }) {
+function PillFace({ children, seen, closeFriends, live }: { children: React.ReactNode; seen?: boolean; closeFriends?: boolean; live?: boolean }) {
   const c = usePillColors();
-  const ring = seen ? "transparent" : closeFriends ? "#22c55e" : c.ring;
+  const ring = seen || live ? "transparent" : closeFriends ? "#22c55e" : c.ring;
   return (
     <View style={[styles.ring, { borderColor: ring }, seen && styles.faceSeen]} pointerEvents="none">
       {children}
@@ -255,13 +255,12 @@ function PillFace({ children, seen, closeFriends }: { children: React.ReactNode;
   );
 }
 
-function PillText({ name, line, after }: { name: React.ReactNode; line: string; after?: React.ReactNode }) {
+function PillText({ name, line }: { name: React.ReactNode; line: string }) {
   const c = usePillColors();
   return (
     <View style={styles.text} pointerEvents="none">
       <View style={styles.nameRow}>
         {name}
-        {after}
       </View>
       {line ? <Text style={[styles.line, { color: c.sub }]} numberOfLines={1}>{line}</Text> : null}
     </View>
@@ -375,30 +374,8 @@ function MeTile({
   );
 }
 
-/** Live: three moving sound bars after the name, as on web. */
-function LiveBars({ label, color }: { label: string; color: string }) {
-  const bars = useRef([0.45, 0.8, 0.6].map((v) => new Animated.Value(v))).current;
-  useEffect(() => {
-    let stopped = false;
-    const loops = bars.map((bar, i) => Animated.loop(Animated.sequence([
-      Animated.timing(bar, { toValue: 1, duration: 420 + i * 90, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-      Animated.timing(bar, { toValue: 0.4, duration: 420 + i * 90, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-    ])));
-    AccessibilityInfo.isReduceMotionEnabled().then((reduce) => { if (!reduce && !stopped) loops.forEach((l) => l.start()); }).catch(() => {});
-    return () => { stopped = true; loops.forEach((l) => l.stop()); };
-  }, [bars]);
-  return (
-    <View pointerEvents="none" style={styles.bars} accessible accessibilityLabel={label}>
-      {bars.map((bar, i) => (
-        <Animated.View key={i} style={[styles.liveBar, { backgroundColor: color, transform: [{ scaleY: bar }] }]} />
-      ))}
-    </View>
-  );
-}
-
 function LiveTile({ item, single, onOpen }: { item: LiveNowItem; single: boolean; onOpen: () => void }) {
   const { t } = useTranslation();
-  const c = usePillColors();
   const liveLabel = t("stages.live");
   const line = item.kind === "stage"
     ? [item.count ? t("stories.spot.listening", { n: item.count, defaultValue: "{{n}} listening" }) : ""]
@@ -413,10 +390,9 @@ function LiveTile({ item, single, onOpen }: { item: LiveNowItem; single: boolean
       onPress={onOpen}
       extra={item.kind === "stream" ? <LiveWatchers streamId={item.id} /> : null}
     >
-      <PillFace><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} live={false} /></PillFace>
+      <PillFace live><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} liveOrbit /></PillFace>
       <PillText
         name={<TileIdentity displayName={item.displayName} fallback={item.username || item.title} lookup={item.kind === "stage" ? item.wallet : undefined} badge={item.badge} />}
-        after={<LiveBars label={liveLabel} color={c.ink} />}
         line={line.filter(Boolean).join(" · ") || item.title}
       />
     </Pill>
@@ -481,8 +457,6 @@ const styles = StyleSheet.create({
   name: { flexShrink: 1, fontSize: 13.5, fontWeight: "700" },
   line: { fontSize: 11.5, fontWeight: "500" },
   identityBadge: { width: 14, height: 14 },
-  bars: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 10 },
-  liveBar: { width: 2.5, height: 10, borderRadius: 2 },
   extra: { marginLeft: "auto", paddingLeft: 8 },
   stack: { flexDirection: "row", alignItems: "center" },
   stackOverlap: { marginLeft: -7 },

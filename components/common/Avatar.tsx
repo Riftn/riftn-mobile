@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import SmartImage from "./SmartImage";
 import LiveRipple from "./LiveRipple";
+import { LiveAvatarOrbit } from "./LiveAvatarOrbit";
 import { isLightToneOn, KeepDark } from "../../libs/jsx/tone";
 
 interface AvatarProps {
@@ -29,10 +30,10 @@ interface AvatarProps {
   borderColor?: string;
   className?: string;
   name?: string;
-  /** On air right now: red outlines ripple out from behind the avatar. */
+  /** On air right now: show the surface's live avatar effect. */
   live?: boolean;
-  /** Profile-sized avatars: a much quieter ripple (see LiveRipple `quiet`). */
-  liveQuiet?: boolean;
+  /** Use a highlight that follows the avatar edge. */
+  liveOrbit?: boolean;
   /** An animated avatar (GIF/WebP) plays; false holds its first frame. */
   animate?: boolean;
 }
@@ -71,7 +72,7 @@ const Avatar: React.FC<AvatarProps> = ({
   className,
   name,
   live = false,
-  liveQuiet = false,
+  liveOrbit = false,
   animate,
 }) => {
   // There used to be a `loaded` flag set from the Image's onLoad, purely to
@@ -106,8 +107,8 @@ const Avatar: React.FC<AvatarProps> = ({
   const initial = useMemo(() => getInitial(name), [name]);
   const fontSize = Math.max(10, Math.round(size * 0.42));
 
-  // When live, the className (usually a margin) moves to the ripple's wrapper
-  // so the rings stay centred on the box itself.
+  // When live, the className (usually a margin) moves to the wrapper
+  // so the effect stays centred on the box itself.
   const content = (
     <View
       className={!onPress && !live ? className : undefined}
@@ -183,9 +184,16 @@ const Avatar: React.FC<AvatarProps> = ({
   );
 
   const box = live ? (
-    <LiveRipple size={size} radius={radius} quiet={liveQuiet} className={!onPress ? className : undefined}>
-      {content}
-    </LiveRipple>
+    liveOrbit ? (
+      <View className={!onPress ? className : undefined}>
+        {content}
+        <LiveAvatarOrbit size={size} radius={radius} />
+      </View>
+    ) : (
+      <LiveRipple size={size} radius={radius} className={!onPress ? className : undefined}>
+        {content}
+      </LiveRipple>
+    )
   ) : content;
 
   if (onPress) {

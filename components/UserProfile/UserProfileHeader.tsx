@@ -354,7 +354,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             size={96}
             style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
             live={live}
-            liveQuiet
+            liveOrbit
             onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
