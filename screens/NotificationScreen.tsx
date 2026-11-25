@@ -1211,12 +1211,14 @@ const NotificationScreen = () => {
   walletAddressRef.current = walletAddress;
 
   const [cached] = useState(() => readNotificationSnapshot(walletAddress));
+  const tabStore = tabStoreFor(walletAddress);
+  const [cachedAll] = useState(() => tabStore.tabs.get('all'));
   // Supabase-side rows from the last refresh. A refresh paints the API page
   // with these as soon as it lands instead of waiting on Supabase as well.
   const customRowsRef = useRef<NotificationItem[]>(
-    cached ? cached.notifications.filter((n) => isCustomNotificationId(n._id)) : [],
+    (cachedAll?.rows ?? cached?.notifications ?? []).filter((n) => isCustomNotificationId(n._id)),
   );
-  const [notifications, setNotifications] = useState<NotificationItem[]>(() => cached?.notifications ?? []);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => cachedAll?.rows ?? cached?.notifications ?? []);
   const notificationsRef = useRef(notifications);
   notificationsRef.current = notifications;
   /**
@@ -1229,7 +1231,7 @@ const NotificationScreen = () => {
   // Mounted on first use: an always-mounted sheet was built on every open.
   const [quickSettingsMounted, setQuickSettingsMounted] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(!cached);
+  const [loading, setLoading] = useState(!cached && !cachedAll);
   // Set when a refresh fails with nothing on screen to fall back on. Until now
   // a failed fetch was a console.warn and an empty list that read as "No
   // notifications", which is a lie the person cannot act on.
@@ -1241,14 +1243,15 @@ const NotificationScreen = () => {
   // Unfiltered snapshot kept alongside the (now server-filtered) list purely so
   // the tab badges and the app badge keep seeing every type.
   const [countsSource, setCountsSource] = useState<NotificationItem[]>(() => cached?.countsSource ?? []);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const pageRef = useRef(cachedAll?.page ?? Math.max(1,
+    Math.ceil(((cached?.notifications.length ?? 0) - customRowsRef.current.length) / PAGE_SIZE),
+  ));
+  const [hasMore, setHasMore] = useState(cachedAll?.hasMore ?? true);
   const [loadingMore, setLoadingMore] = useState(false);
 
   // Every tab visited (or fetched ahead) this open keeps its rows, page and
   // whether more remain, so switching back paints at once. A tab is fetched
   // again only once its rows are older than TAB_FRESH_MS, and then quietly.
-  const tabStore = tabStoreFor(walletAddress);
   const tabCacheRef = useRef(tabStore.tabs);
   tabCacheRef.current = tabStore.tabs;
   // When each tab's first page last landed. A tab drops out of it when a live
@@ -1259,9 +1262,6 @@ const NotificationScreen = () => {
   // The tab the rows in `notifications` belong to. It trails selectedFilter by
   // one commit on a switch, which is what lets the old tab be saved first.
   const rowsFilterRef = useRef<NotificationTypeFilter>('all');
-  // Set when a switch restores a tab's page number, so the page effect does
-  // not go and fetch that page again.
-  const restoringPageRef = useRef(false);
   const countsSourceRef = useRef(countsSource);
   countsSourceRef.current = countsSource;
 
@@ -1708,12 +1708,7 @@ const NotificationScreen = () => {
     user?.username,
   ]);
 
-  const pageRef = useRef(1);
   const selectedFilterRef = useRef<NotificationTypeFilter>('all');
-  
-  useEffect(() => {
-    pageRef.current = page;
-  }, [page]);
   
   useEffect(() => {
     selectedFilterRef.current = selectedFilter;
@@ -1724,8 +1719,8 @@ const NotificationScreen = () => {
   // commit that switches tabs files the old rows under the old tab.
   useEffect(() => {
     if (loading) return;
-    tabCacheRef.current.set(rowsFilterRef.current, { rows: notifications, page, hasMore });
-  }, [loading, notifications, page, hasMore]);
+    tabCacheRef.current.set(rowsFilterRef.current, { rows: notifications, page: pageRef.current, hasMore });
+  }, [loading, notifications, hasMore]);
 
   // The unfiltered page is refreshed on every open. A row in it that a kept
   // tab lacks means that tab has news: mark it due, so it refreshes when
@@ -1819,6 +1814,7 @@ const NotificationScreen = () => {
   // requests, and without this the slowest one wins — landing you on rows
   // from a tab you already left.
   const fetchGenRef = useRef(0);
+  const listFetchingRef = useRef(false);
   // When the latest first-page refresh began, so the realtime join can skip
   // repeating it.
   const lastRefreshAtRef = useRef(0);
@@ -1826,6 +1822,7 @@ const NotificationScreen = () => {
   const fetchNotifications = useCallback(
     async (isRefresh = false, opts?: { skipCounts?: boolean }) => {
       const gen = ++fetchGenRef.current;
+      listFetchingRef.current = true;
       if (isRefresh) lastRefreshAtRef.current = Date.now();
       try {
         // A "mark all as read" still being written: asking now would hand
@@ -1835,7 +1832,7 @@ const NotificationScreen = () => {
           await settling;
           if (gen !== fetchGenRef.current) return;
         }
-        const targetPage = isRefresh ? 1 : pageRef.current;
+        const targetPage = isRefresh ? 1 : pageRef.current + 1;
         const types = apiTypesForFilter(selectedFilterRef.current);
 
         // Ask for this tab's types rather than paging through everything and
@@ -1881,11 +1878,32 @@ const NotificationScreen = () => {
         });
         if (gen !== fetchGenRef.current) return;
 
-        const apiPayload: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
-        // Supabase-side rows (bounty applications, store orders, community
-        // joins, stage alerts) are merged on refresh only. They are a single
-        // recent page, not a paginated source, so folding them in again on
-        // every "load more" would duplicate them down the list.
+        const firstApiPage: NotificationItem[] = res?.data?.result || res?.result || [];
+        let lastPage = targetPage;
+        let hasMoreApi = firstApiPage.length >= PAGE_SIZE;
+        const apiRows = [...firstApiPage];
+        if (isRefresh && pageRef.current > 1) {
+          // Rows can move between offsets on refresh. Replace the loaded window
+          // together so a live update never drops the pages below the first one.
+          const seen = new Set(apiRows.map((n) => n._id));
+          const loadedPage = pageRef.current;
+          while (lastPage < loadedPage && hasMoreApi) {
+            const page = lastPage + 1;
+            const next: any = await getNotifications({ unreadOnly: false, types, page, limit: PAGE_SIZE });
+            if (gen !== fetchGenRef.current) return;
+            const rows: NotificationItem[] = next?.data?.result || next?.result || [];
+            for (const row of rows) {
+              if (seen.has(row._id)) continue;
+              seen.add(row._id);
+              apiRows.push(row);
+            }
+            lastPage = page;
+            hasMoreApi = rows.length >= PAGE_SIZE;
+          }
+        }
+        const apiPayload = applyMarkedAllRead(walletAddressRef.current, apiRows);
+        // Custom notifications are a single recent page. Merge them once on
+        // refresh so loading older API pages cannot duplicate them.
         const payload = isRefresh ? mergeFirstPage(apiPayload, customRowsRef.current) : apiPayload;
         let custom: NotificationItem[] = customRowsRef.current;
 
@@ -1893,11 +1911,11 @@ const NotificationScreen = () => {
           if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
         }
         setLoadError(null);
+        pageRef.current = lastPage;
         if (isRefresh) {
           tabFetchedAtRef.current.set(selectedFilterRef.current, Date.now());
           rowsFilterRef.current = selectedFilterRef.current;
           setNotifications(payload);
-          setPage(1);
         } else {
           // A row can shift onto the next page while the reader scrolls (a new
           // notification pushes everything down one), so skip ones already shown.
@@ -1909,7 +1927,8 @@ const NotificationScreen = () => {
 
         // Measured on the API page alone. The merged Supabase rows are not
         // paginated, so counting them here would claim another page exists.
-        setHasMore(apiPayload.length >= PAGE_SIZE);
+        setHasMore(hasMoreApi);
+        listFetchingRef.current = false;
         setRefreshing(false);
         setLoading(false);
         setLoadingMore(false);
@@ -1927,10 +1946,7 @@ const NotificationScreen = () => {
             for (const n of merged) {
               if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
             }
-            // Only while the list is still the first page; a "load more" that
-            // landed meanwhile keeps its rows and gets the custom ones on the
-            // next refresh.
-            if (pageRef.current === 1) setNotifications(merged);
+            setNotifications(merged);
           }
         }
 
@@ -1948,7 +1964,7 @@ const NotificationScreen = () => {
             // shows a bounty application it does not admit to having.
             if (allPayload) setCountsSource(custom.length ? [...allPayload, ...custom] : allPayload);
           } else {
-            setCountsSource(mergeFirstPage(apiPayload, custom));
+            setCountsSource(mergeFirstPage(applyMarkedAllRead(walletAddressRef.current, firstApiPage), custom));
           }
         }
       } catch (e) {
@@ -1969,6 +1985,7 @@ const NotificationScreen = () => {
         }
       } finally {
         if (gen === fetchGenRef.current) {
+          listFetchingRef.current = false;
           setRefreshing(false);
           setLoading(false);
           setLoadingMore(false);
@@ -2014,7 +2031,7 @@ const NotificationScreen = () => {
     };
   }, [onSocketEvent, walletAddress]);
 
-  const hasFetchedRef = useRef(!!cached);
+  const hasFetchedRef = useRef(!!cached || !!cachedAll);
 
   useFocusEffect(
     useCallback(() => {
@@ -2037,15 +2054,14 @@ const NotificationScreen = () => {
     // Answers still on their way belong to the tab just left; a page landing
     // after the switch would otherwise be appended to this tab's rows.
     fetchGenRef.current++;
+    listFetchingRef.current = false;
     setLoadingMore(false);
     rowsFilterRef.current = selectedFilter;
     const kept = tabCacheRef.current.get(selectedFilter);
     if (kept) {
       // Seen before: paint it as it was left, scroll depth and all, and only
       // ask again if it has gone stale. Nothing on screen changes until then.
-      if (kept.page !== pageRef.current) restoringPageRef.current = true;
       pageRef.current = kept.page;
-      setPage(kept.page);
       setHasMore(kept.hasMore);
       setLoading(false);
       setNotifications(kept.rows);
@@ -2064,9 +2080,7 @@ const NotificationScreen = () => {
     const standIn = selectedFilter === 'all'
       ? countsSourceRef.current
       : countsSourceRef.current.filter((n) => allowed.includes(n.type as NotificationType));
-    if (pageRef.current !== 1) restoringPageRef.current = true;
     pageRef.current = 1;
-    setPage(1);
     // No "load more" off the stand-in rows; the real page sets this.
     setHasMore(false);
     setLoading(standIn.length === 0);
@@ -2085,7 +2099,8 @@ const NotificationScreen = () => {
       const order = orderNotificationTabKeys(TYPE_TABS.map(({ key }) => key), tabActivityCountsRef.current, 'all');
       for (const key of order.slice(0, PREFETCH_TABS)) {
         if (key === 'all' || key === selectedFilterRef.current) continue;
-        if (tabCacheRef.current.has(key) && tabFetchedAtRef.current.has(key)) continue;
+        const kept = tabCacheRef.current.get(key);
+        if (kept && (kept.page > 1 || tabFetchedAtRef.current.has(key))) continue;
         const types = apiTypesForFilter(key);
         if (!types) continue;
         tabFetchedAtRef.current.set(key, Date.now());
@@ -2106,27 +2121,16 @@ const NotificationScreen = () => {
     return () => clearTimeout(timer);
   }, [loading, walletAddress, countsSource]);
 
-  useEffect(() => {
-    if (restoringPageRef.current) {
-      restoringPageRef.current = false;
-      return;
-    }
-    if (page > 1) {
-      setLoadingMore(true);
-      fetchNotificationsRef.current(false);
-    }
-  }, [page]);
-
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setPage(1);
     fetchNotificationsRef.current(true);
   }, []);
 
   const onLoadMore = useCallback(() => {
-    if (loadingMore || !hasMore) return;
-    setPage((p) => p + 1);
-  }, [loadingMore, hasMore]);
+    if (listFetchingRef.current || !hasMore) return;
+    setLoadingMore(true);
+    fetchNotificationsRef.current(false);
+  }, [hasMore]);
 
   const handleFilterChange = useCallback((filter: NotificationTypeFilter) => {
     setSelectedFilter(filter);
