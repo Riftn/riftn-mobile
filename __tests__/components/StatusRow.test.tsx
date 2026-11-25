@@ -18,6 +18,8 @@ jest.mock('../../components/Post/SoundPickerSheet', () => () => null);
 jest.mock('../../components/DM/note-translate', () => ({ useNoteWords: (text?: string) => ({ shown: text }) }));
 jest.mock('expo-audio', () => ({}));
 jest.mock('@expo/vector-icons/Ionicons', () => () => null);
+jest.mock('react-native-safe-area-context', () => ({ useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }) }));
+jest.mock('react-native-svg', () => ({ __esModule: true, default: () => null, Rect: () => null }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue ?? key }) }));
 
 it('opens a followed account’s status without a matching conversation', async () => {
