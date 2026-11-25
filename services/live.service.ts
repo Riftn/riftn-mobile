@@ -57,6 +57,8 @@ export interface LiveStreamEntity {
   settings?: Record<string, any>;
   peakViewers?: number;
   totalViews?: number;
+  /** Views of the associated post. */
+  postViews?: number;
   likes?: number;
   likesCount?: number;
   likesRecord?: Record<string, boolean>;
