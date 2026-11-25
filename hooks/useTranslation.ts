@@ -2,6 +2,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
 import { useCallback, useRef, useMemo, useEffect, useSyncExternalStore } from 'react';
 import { useTranslation as useI18n } from 'react-i18next';
 import { translateText, getUserLanguage } from '../services/translation.service';
+import { normalizeLanguageCode } from '../i18n/language-code';
 import { autoTranslateEnabled, subscribeAutoTranslate } from '../libs/auto-translate-setting';
 import { ensureAiConsent, hasAiConsent } from '../libs/ai-consent';
 import { queueAutoTranslate } from '../libs/auto-translate-queue';
@@ -46,11 +47,6 @@ function stripEmojis(text: string): string {
   return text.replace(EMOJI_REGEX, '').replace(/\s+/g, ' ').trim();
 }
 
-/** "pt-BR" and "pt" are the same language for the purpose of skipping work. */
-function baseLang(lang: string): string {
-  return lang.split(/[-_]/)[0].toLowerCase();
-}
-
 /**
  * Hook for translation of one or more text fields.
  *
@@ -89,6 +85,7 @@ export function useTranslation(
   { showSuccessToast = true }: { showSuccessToast?: boolean } = {},
 ): UseTranslationResult {
   const { t: _copy } = _useCopy();
+  const isChat = auto === 'chat';
   const { i18n } = useI18n();
   const targetLang = useMemo(() => getUserLanguage(), [i18n.language]);
   const autoEnabled = useSyncExternalStore(subscribeAutoTranslate, autoTranslateEnabled);
@@ -147,7 +144,7 @@ export function useTranslation(
   const shouldShow =
     hasEnoughText &&
     (isTranslated ||
-      (!knownLang || knownLang === 'und' || baseLang(knownLang) !== baseLang(targetLang)));
+      (!knownLang || knownLang === 'und' || normalizeLanguageCode(knownLang) !== normalizeLanguageCode(targetLang)));
 
   /**
    * @param silent - auto-translation, which the reader did not ask for and must
@@ -178,7 +175,10 @@ export function useTranslation(
         const entries = Object.entries(texts).filter(([, v]) => v && v.trim().length > 0);
         const settled = await Promise.allSettled(
           entries.map(async ([key, text]) => {
-            const result = await translateText(text, targetLang, source, { isPublic });
+            const result = await translateText(text, targetLang, source, {
+              isPublic,
+              ...(isChat && !silent ? { manualChat: true } : {}),
+            });
             return [key, result] as const;
           }),
         );
@@ -209,8 +209,9 @@ export function useTranslation(
           // looks broken.
           if (toastId !== null) {
             dismissToast(toastId);
-            if (partialFailure) toastError(_copy("copy.b9725da1e57f", { defaultValue: "Translation failed. Please try again." }));
-            else if (results.every(([, result]) => result.untranslated)) toastError(_copy("copy.noTranslationFound", { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
+            const noTranslation = results.every(([, result]) => result.untranslated);
+            if (partialFailure || (isChat && noTranslation)) toastError(_copy("copy.b9725da1e57f", { defaultValue: "Translation failed. Please try again." }));
+            else if (noTranslation) toastError(_copy("copy.noTranslationFound", { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
             else toastSuccess(_copy("copy.caac88c81c38", { defaultValue: "Already in your language" }));
           }
           return;
@@ -239,7 +240,7 @@ export function useTranslation(
         }
       }
     },
-    [texts, reliableBackendLang, targetLang, isPublic, showSuccessToast, _copy],
+    [texts, reliableBackendLang, targetLang, isPublic, isChat, showSuccessToast, _copy],
   );
 
   const handleTranslate = useCallback(() => {
@@ -278,7 +279,7 @@ export function useTranslation(
     // the reader's language. The edge function would answer `sameLanguage` to
     // the same effect, but not asking is cheaper than being told — and on a
     // feed whose majority language matches the reader, this is most of it.
-    if (reliableBackendLang && baseLang(reliableBackendLang) === baseLang(targetLang)) return;
+    if (reliableBackendLang && normalizeLanguageCode(reliableBackendLang) === normalizeLanguageCode(targetLang)) return;
     const tooShort = auto === 'chat'
       ? combinedProse.length < MIN_CHAT_AUTO_LETTERS
       : Object.values(texts).join(' ').trim().length < MIN_AUTO_LENGTH;
@@ -289,7 +290,7 @@ export function useTranslation(
     if (
       auto === 'chat'
       && /^[\p{Script=Latin}]*$/u.test(combinedProse)
-      && !(reliableBackendLang && baseLang(reliableBackendLang) !== baseLang(targetLang))
+      && !(reliableBackendLang && normalizeLanguageCode(reliableBackendLang) !== normalizeLanguageCode(targetLang))
       && !chatLineIsForeign(Object.values(texts).join(' '), targetLang)
     ) return;
 

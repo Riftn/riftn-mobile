@@ -467,7 +467,7 @@ const SetProfileScreen: React.FC<SetProfileScreenProps> = ({ navigation }) => {
               <Ionicons name="calendar-outline" size={20} color={muted} />
               <Text style={[s.fieldText, !birth && { color: muted, fontWeight: "500" }]}>
                 {birth
-                  ? birth.toLocaleDateString(i18n.language || undefined, { day: "numeric", month: "long", year: "numeric" })
+                  ? birth.toLocaleDateString(i18n.language?.replace('_', '-') || undefined, { day: "numeric", month: "long", year: "numeric" })
                   : t("welcome.about.pick", "Pick your birthday")}
               </Text>
             </TouchableOpacity>

@@ -30,7 +30,7 @@ import { View, Text, Pressable, ActivityIndicator, Image, TextInput, ScrollView 
 import { useQuery } from "@tanstack/react-query";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
-import { getBadgeUrl } from "../../libs";
+import { badgeImage } from "../../libs";
 import { getNFT } from "../../services/nft.service";
 import { useBookBoost, useSuperpowerLadder, useSuperpowers } from "../../hooks/useSuperpowers";
 import {
@@ -68,7 +68,8 @@ export default function BoostSheet({
   isOwnPost,
 }: BoostSheetProps) {
   const { t } = useTranslation();
-  const { data: status, isLoading, isError } = useSuperpowers();
+  // A teammate can change the allowance while this sheet is closed.
+  const { data: status, isLoading, isError } = useSuperpowers(visible, 0);
   const { data: ladder } = useSuperpowerLadder();
   const bookBoost = useBookBoost();
 
@@ -117,7 +118,7 @@ export default function BoostSheet({
   const canBook =
     !!status && !!active?.enabled && targetingSatisfied && Number.isFinite(numericTokenId);
 
-  const badgeUrl = status?.tier ? getBadgeUrl(status.badgeBalance) : null;
+  const badgeUrl = badgeImage(status?.tier);
   const tierNames = (ladder?.tiers ?? []).map(r => r.name).filter(Boolean) as string[];
 
   const refillsOn = status?.cycleEndsAt

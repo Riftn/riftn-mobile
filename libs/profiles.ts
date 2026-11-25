@@ -300,24 +300,15 @@ export async function removeProfilesForAddress(address: string, keepId?: string 
   if (kept.length !== profiles.length) await writeStore(kept);
 }
 
-/**
- * One row per Riftn account. Usernames are unique, so two rows sharing one are
- * the same person under an old and a new address (a wallet reset before
- * removeProfilesForAddress existed). The most recently added row is the
- * address the account lives on now.
- */
+/** Legacy wallet-only and linked sign-ins can leave two rows for one address. */
 function withoutStaleDuplicates(profiles: StoredProfile[]): StoredProfile[] {
   const newest = new Map<string, StoredProfile>();
   for (const p of profiles) {
-    const key = p.username?.toLowerCase();
-    if (!key) continue;
+    const key = p.address.toLowerCase();
     const seen = newest.get(key);
     if (!seen || p.addedAt > seen.addedAt) newest.set(key, p);
   }
-  return profiles.filter((p) => {
-    const key = p.username?.toLowerCase();
-    return !key || newest.get(key) === p;
-  });
+  return profiles.filter((p) => newest.get(p.address.toLowerCase()) === p);
 }
 
 /** The Supabase client persists its session under one of these keys. */
@@ -366,8 +357,8 @@ async function snapshotSession(adopt: boolean): Promise<void> {
   // A half-established flow (cleared wallet, no token yet) is not a profile.
   if (!identity || !token) return;
 
-  let profiles = await readStore();
-  let existingIndex = profiles.findIndex((p) => p.id === identity.id);
+  const profiles = await readStore();
+  const existingIndex = profiles.findIndex((p) => p.id === identity.id);
   if (!adopt && existingIndex < 0) return;
 
   let user: CachedUser | null = null;
@@ -409,14 +400,6 @@ async function snapshotSession(adopt: boolean): Promise<void> {
       supabase: (await readSupabaseSession(identity.uid)) ?? existing?.session?.supabase,
     },
   };
-
-  // The live session is the account's current address; any other row under
-  // the same username is the address it was rotated away from.
-  const username = entry.username?.toLowerCase();
-  if (username) {
-    profiles = profiles.filter((p) => p.id === entry.id || p.username?.toLowerCase() !== username);
-    existingIndex = profiles.findIndex((p) => p.id === entry.id);
-  }
 
   if (existingIndex >= 0) {
     // Already saved — updating a profile in place can never exceed the limit.
@@ -799,10 +782,6 @@ export async function completeProfileSwitch(id: string): Promise<void> {
   // Left open, the next dismissal of the sign-in sheet put that account's keys
   // back on disk under the one on screen, and the app reopened as it.
   consumeAddProfileAttempt();
-  const profiles = await readStore();
-  const entry = profiles.find((p) => p.id === id);
-  if (entry) {
-    entry.lastActiveAt = Date.now();
-    await writeStore(profiles);
-  }
+  // The session may have rotated credentials while tracking was guarded.
+  if (await currentProfileId() === id) await snapshotCurrentSession();
 }

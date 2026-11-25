@@ -21,7 +21,6 @@ import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } f
 import { avatarOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
-import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 import { storage } from "../../libs/storage";
 import { formatCount } from "../../libs/format-count";
@@ -173,7 +172,7 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {(storiesEnabled || holding) && me ? <StoryCreateTile width={PILL_H} height={PILL_H} /> : null}
+      {(storiesEnabled || holding) && me ? <CreateTile /> : null}
       {showMe ? (
         <MeTile
           single={single}
@@ -220,6 +219,17 @@ function usePillColors() {
 const PILL_H = 52;
 const FACE_SIZE = 36;
 const FACE_RADIUS = 12;
+
+function CreateTile() {
+  const { ink } = usePillColors();
+  return (
+    <StoryCreateTile height={PILL_H}>
+      <PillFace>
+        <Icon name="Plus" size={16} color={ink} strokeWidth={2} />
+      </PillFace>
+    </StoryCreateTile>
+  );
+}
 
 function Pill({ label, onPress, single, children, extra }: {
   label: string;
@@ -289,8 +299,7 @@ function momentsLine(t: (key: string, options?: Record<string, unknown>) => stri
 /** Small covers of someone's Moments, when the pill has the room. */
 function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
   const c = usePillColors();
-  const blurred = useMomentPreviewsBlurred();
-  if (!entry || blurred) return null;
+  if (!entry) return null;
   const covers = entry.items
     .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
     .filter((url): url is string => !!url)

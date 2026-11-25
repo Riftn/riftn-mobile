@@ -114,6 +114,7 @@ export default function ProfileSongSection() {
       {pickerOpen && (
         <SoundPickerSheet
           visible={pickerOpen}
+          profileSongUploadWallet={user?.address}
           onClose={() => setPickerOpen(false)}
           onSelect={(sound) => {
             setPickerOpen(false);

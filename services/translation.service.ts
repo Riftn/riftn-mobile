@@ -1,8 +1,10 @@
 import { NativeModules, Platform } from 'react-native';
 import { createLogger } from '../libs/logger';
 import i18n from '../i18n';
+import { normalizeLanguageCode } from '../i18n/language-code';
 import { storage } from '../libs/storage';
 import { TranslationCooldown } from '../libs/translation-cooldown';
+import { chatLineMatchesLanguage } from '../libs/chat-language-hint';
 import { supabase } from './supabase';
 import { cdnImageSource } from '../libs/cdnImage';
 import { translateCopy as _translateCopy } from '../i18n/copy';
@@ -29,6 +31,8 @@ export interface TranslateOptions {
    * forgets is the safe kind of wrong.
    */
   isPublic?: boolean;
+  /** Allow a deliberate chat tap to retry an unconfirmed cached reply. */
+  manualChat?: boolean;
 }
 
 export interface TranslateResponse {
@@ -237,7 +241,7 @@ export function getDeviceLanguage(): string {
     } else {
       locale = NativeModules.I18nManager?.localeIdentifier;
     }
-    if (locale) return locale.split(/[-_]/)[0].toLowerCase();
+    if (locale) return normalizeLanguageCode(locale);
   } catch {
     // ignore
   }
@@ -258,7 +262,7 @@ export function getDeviceLanguage(): string {
 export function getUserLanguage(): string {
   const chosen = i18n?.language;
   if (chosen) {
-    const normalized = chosen.split(/[-_]/)[0].toLowerCase();
+    const normalized = normalizeLanguageCode(chosen);
     if (normalized) return normalized;
   }
   return getDeviceLanguage();
@@ -274,21 +278,15 @@ export interface TranslateTextResult {
    */
   sameLanguage: boolean;
   /**
-   * Came back unchanged although nothing says it is in the target language
-   * (slang, a stretched word, a name). Readers get "couldn't translate this"
-   * instead of being told it is already in their language.
+   * Came back unchanged without evidence that it is in the target language.
    */
   untranslated?: boolean;
 }
 
-function baseCode(lang: string | null | undefined): string {
-  return (lang || '').split(/[-_]/)[0].toLowerCase();
-}
-
 function looksUntranslated(sameLanguage: boolean, detected: string | null, targetLang: string): boolean {
   if (!sameLanguage) return false;
-  const code = baseCode(detected);
-  return !code || code === 'auto' || code === 'und' || code !== baseCode(targetLang);
+  const code = normalizeLanguageCode(detected || '');
+  return !code || code === 'auto' || code === 'und' || code !== normalizeLanguageCode(targetLang);
 }
 
 // A translation that came back as the text it was given did not translate
@@ -301,7 +299,7 @@ export async function translateText(
   text: string,
   targetLang: string,
   sourceLang: string = 'auto',
-  { isPublic = false }: TranslateOptions = {},
+  { isPublic = false, manualChat = false }: TranslateOptions = {},
 ): Promise<TranslateTextResult> {
   if (!text || text.trim().length < 1) {
     return { translatedText: text, sourceLang: null, sameLanguage: true };
@@ -310,16 +308,27 @@ export async function translateText(
   // anything that didn't from sending.
   if (!hasAiConsent()) throw new TranslationServiceError(aiConsentDeclinedMessage(), 403);
 
+  const resolvedSource = (source: string | null): string | null => {
+    if (!manualChat || (source && !['auto', 'und', 'unknown'].includes(baseCode(source)))) return source;
+    return chatLineMatchesLanguage(text, targetLang) ? targetLang : source;
+  };
+
   const cached = getCached(text, targetLang);
   if (cached) {
-    log.debug('Cache hit for translation');
     const cachedSame = cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text);
-    return {
-      translatedText: cached.translatedText,
-      sourceLang: cached.sourceLang,
-      sameLanguage: cachedSame,
-      ...(looksUntranslated(cachedSame, cached.sourceLang, targetLang) ? { untranslated: true } : {}),
-    };
+    const source = cachedSame ? resolvedSource(cached.sourceLang) : cached.sourceLang;
+    const untranslated = looksUntranslated(cachedSame, source, targetLang);
+    if (!manualChat || !untranslated) {
+      log.debug('Cache hit for translation');
+      return {
+        translatedText: cached.translatedText,
+        sourceLang: source,
+        sameLanguage: cachedSame,
+        ...(untranslated ? { untranslated: true } : {}),
+      };
+    }
+    cache.delete(cacheKey(text, targetLang));
+    schedulePersist();
   }
 
   log.debug('Translating text', { targetLang, sourceLang, length: text.length });
@@ -330,27 +339,25 @@ export async function translateText(
     throw new TranslationServiceError('Translation unavailable', 500);
   }
 
-  const detectedLang = data.detectedLanguage?.language ?? null;
   const sameLanguage = data.sameLanguage === true || isNoOpTranslation(data.translatedText, text);
+  const detectedLang = data.detectedLanguage?.language ?? null;
+  const source = sameLanguage ? resolvedSource(detectedLang) : detectedLang;
+  const untranslated = data.sameLanguage !== true && looksUntranslated(sameLanguage, source, targetLang);
 
-  // Cached either way — a post already in the reader's language is a settled
-  // answer, and not storing it means auto-translate asks again for every card
-  // that remounts.
-  setCache(text, targetLang, {
-    translatedText: data.translatedText,
-    // The server's "already in that language" answer has no detection; keep
-    // the target so a cache hit is not mistaken for an untranslatable line.
-    sourceLang: data.sameLanguage === true ? (detectedLang ?? targetLang) : detectedLang,
-    sameLanguage,
-  });
+  // Keep a settled answer. An unconfirmed chat echo should allow a fresh tap.
+  if (!manualChat || !untranslated) {
+    setCache(text, targetLang, {
+      translatedText: data.translatedText,
+      sourceLang: data.sameLanguage === true ? targetLang : source,
+      sameLanguage,
+    });
+  }
 
   return {
     translatedText: data.translatedText,
-    sourceLang: detectedLang,
+    sourceLang: source,
     sameLanguage,
-    // The server's own "same language" answer is trusted; an unchanged echo
-    // with no matching detection is not.
-    ...(data.sameLanguage !== true && looksUntranslated(sameLanguage, detectedLang, targetLang) ? { untranslated: true } : {}),
+    ...(untranslated ? { untranslated: true } : {}),
   };
 }
 

@@ -865,6 +865,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           const switched = await getAuthUser<User>();
           const address = switched?.address || switched?.walletAddress;
           if (uid && token && address) await rememberVerifiedProfile(uid, address, token);
+          if (switched && token) {
+            // Saved profile details can change on another device while this
+            // account is inactive. Refresh after restoring the session.
+            void enrichAndStoreUser(switched, { refetch: true, force: true, expectedToken: token })
+              .then(() => snapshotCurrentSession())
+              .catch(() => {});
+          }
         } catch {}
         if (!prevId) setShowSignInModal(false);
         if (afterLogOut) {
@@ -893,7 +900,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return false;
       }
     },
-    [log, openAddProfile, rehydrateFromStorage, _copy]
+    [log, openAddProfile, rehydrateFromStorage, enrichAndStoreUser, _copy]
   );
 
   /**

@@ -5,21 +5,24 @@
  * playable in the app. Reads `config/arcade-games` and shows all of them; the
  * cards use the same approved branding or game captures as the web cards.
  *
- * The registry is one game long on native and three on web, and the reason is
- * written out in `config/arcade-games.ts`. Nothing here assumes either count:
- * the grid is a list, so restoring a game there is the whole change.
  */
 import React, { useCallback } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Linking, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import Avatar from "../components/common/Avatar";
 import Icon from "../components/ui/Icon";
 import ScreenHeader from "../components/ScreenHeader";
 import { PageSection } from "../components/page/PageKit";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ARCADE_GAMES, type ArcadeGame } from "../config/arcade-games";
+import { COCHRANIZ3R, groupArcadeGames } from "../config/arcade-creators";
+import { useUserProfileSheet } from "../context/UserProfileSheetContext";
+import { getAvatarUrl } from "../libs/misc";
+import { getAccountSummariesByUsernames } from "../services/user.service";
 import { WEBSITE_LINK } from "../config/links";
 import { colors } from "../theme/colors";
 import { useAppTheme } from '../context/ThemeContext';
@@ -104,18 +107,30 @@ const GameCard = ({
 );
 };
 
-const FRIEND_GAMES = [
-  { screen: ScreenNames.Okey, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
-  { screen: ScreenNames.SillyCoin, icon: "Coins", title: "games.sillycoin.title", body: "games.sillycoin.cardBlurb", tint: "hsla(35, 70%, 22%, 1)" },
-  { screen: ScreenNames.Chestard, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
-  { screen: ScreenNames.BinaryMetal, icon: "Music", title: "binaryMetal.title", body: "binaryMetal.cardBlurb", tint: "hsla(0, 0%, 14%, 1)" },
-  { screen: ScreenNames.Gratitude, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
+const LINK_GAMES = [
+  { screen: ScreenNames.Okey, creator: { username: 'galatasaray' }, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
+  { screen: ScreenNames.SillyCoin, creator: COCHRANIZ3R, icon: "Coins", title: "games.sillycoin.title", body: "games.sillycoin.cardBlurb", tint: "hsla(35, 70%, 22%, 1)" },
+  { screen: ScreenNames.Chestard, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
+  { screen: ScreenNames.BinaryMetal, creator: COCHRANIZ3R, icon: "Music", title: "binaryMetal.title", body: "binaryMetal.cardBlurb", tint: "hsla(0, 0%, 14%, 1)" },
+  { screen: ScreenNames.Gratitude, creator: COCHRANIZ3R, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
 ] as const;
+
+const CREATOR_GROUPS = groupArcadeGames([...LINK_GAMES, ...ARCADE_GAMES]);
+const CREATOR_USERNAMES = CREATOR_GROUPS.flatMap((group) => group.username ? [group.username] : []);
 
 const ArcadeScreen = () => {
   const navigation = useNavigation<any>();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const { width } = useWindowDimensions();
+  const cardWidth = Math.min(width * 0.82, 344);
+  const { showUserProfile } = useUserProfileSheet();
+  const { data: profiles = [] } = useQuery({
+    queryKey: ["arcade-creator-profiles", CREATOR_USERNAMES],
+    queryFn: () => getAccountSummariesByUsernames(CREATOR_USERNAMES),
+    enabled: CREATOR_USERNAMES.length > 0,
+    staleTime: 5 * 60_000,
+  });
 
   const openGame = useCallback(
     (slug: string) => navigation.navigate(ScreenNames.ArcadeGame, { slug }),
@@ -152,40 +167,79 @@ const ArcadeScreen = () => {
           </Pressable>
         </PageSection>
 
-        {/* Games with friends: native screens, played over days or at a table. */}
-        <PageSection title={t("games.withFriends")}>
-          <View style={styles.friends}>
-            {FRIEND_GAMES.map((g) => (
-              <Pressable
-                key={g.screen}
-                accessibilityRole="button"
-                accessibilityLabel={t(g.title)}
-                onPress={() => navigation.navigate(g.screen)}
-                style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
-              >
-                <View className="dark-surface" style={[styles.friendCard, { backgroundColor: g.tint }]}>
-                  <Icon name={g.icon} size={18} color="#FFFFFF" />
-                  <Text style={styles.friendTitle} numberOfLines={1}>{t(g.title)}</Text>
-                  <Text style={styles.friendBody} numberOfLines={3}>{t(g.body)}</Text>
-                </View>
-              </Pressable>
-            ))}
-          </View>
-        </PageSection>
+        {CREATOR_GROUPS.map((group) => {
+          const profile = group.username ? profiles.find((entry) => entry.username?.toLowerCase() === group.username) : undefined;
+          const name = profile?.displayName?.trim() || group.name || (
+            group.id === "riftn" ? t("arcade.riftnOriginals") : t("arcade.otherGames")
+          );
+          const avatarUrl = profile?.avatarImageUrl ? getAvatarUrl(profile.avatarImageUrl, 32) : group.avatarUrl;
+          const { username, profileUrl } = group;
+          const openProfile = username
+            ? () => showUserProfile(profile?.address || username)
+            : profileUrl ? () => Linking.openURL(profileUrl) : undefined;
+          const identity = (
+            <>
+              <Avatar uri={avatarUrl === "default-avatar" ? undefined : avatarUrl} name={name.replace(/^@/, "")} size={32} />
+              <Text className="text-theme-neutrals-100" style={styles.creatorName} numberOfLines={1}>{name}</Text>
+            </>
+          );
 
-        {ARCADE_GAMES.map((game) => (
-          <GameCard
-            key={game.slug}
-            game={game}
-            onPress={openGame}
-            // King's Gambit is the one game with a lobby: a second way in for
-            // live duels against other players.
-            onPlayOnline={game.slug === "kings-gambit" ? openChessOnline : undefined}
-            playOnlineLabel={t("arcade.chessOnline.playOnline")}
-            onSlow={game.slug === "kings-gambit" ? openSlowChess : undefined}
-            slowLabel={t("games.chess.slowButton")}
-          />
-        ))}
+          return (
+            <View key={group.id} style={styles.creatorShelf}>
+              <View style={styles.creatorHeader}>
+                {openProfile ? (
+                  <Pressable
+                    accessibilityRole="link"
+                    accessibilityLabel={name}
+                    onPress={openProfile}
+                    style={({ pressed }) => [styles.creatorIdentity, pressed && styles.cardPressed]}
+                  >
+                    {identity}
+                  </Pressable>
+                ) : (
+                  <View style={styles.creatorIdentity}>{identity}</View>
+                )}
+                <Text className="text-theme-neutrals-400" style={styles.gameCount}>
+                  {t("arcade.gameCount", { count: group.games.length })}
+                </Text>
+              </View>
+              <ScrollView
+                horizontal
+                directionalLockEnabled
+                nestedScrollEnabled
+                contentContainerStyle={styles.creatorGames}
+              >
+                {group.games.map((game) => (
+                  <View key={"slug" in game ? game.slug : game.screen} style={{ width: cardWidth }}>
+                    {"slug" in game ? (
+                      <GameCard
+                        game={game}
+                        onPress={openGame}
+                        onPlayOnline={game.slug === "kings-gambit" ? openChessOnline : undefined}
+                        playOnlineLabel={t("arcade.chessOnline.playOnline")}
+                        onSlow={game.slug === "kings-gambit" ? openSlowChess : undefined}
+                        slowLabel={t("games.chess.slowButton")}
+                      />
+                    ) : (
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={t(game.title)}
+                        onPress={() => navigation.navigate(game.screen)}
+                        style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
+                      >
+                        <View className="dark-surface" style={[styles.friendCard, { backgroundColor: game.tint }]}>
+                          <Icon name={game.icon} size={18} color="#FFFFFF" />
+                          <Text style={styles.friendTitle} numberOfLines={1}>{t(game.title)}</Text>
+                          <Text style={styles.friendBody} numberOfLines={3}>{t(game.body)}</Text>
+                        </View>
+                      </Pressable>
+                    )}
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -251,7 +305,12 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.1)",
   },
   onlineLabel: { color: "#FFFFFF", fontSize: 12, fontWeight: "600" },
-  friends: { flexDirection: "row", gap: 8 },
+  creatorShelf: { marginBottom: 10 },
+  creatorHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 16, marginBottom: 8, gap: 12 },
+  creatorIdentity: { flexShrink: 1, flexDirection: "row", alignItems: "center", gap: 8 },
+  creatorName: { flexShrink: 1, fontSize: 14, fontWeight: "600" },
+  gameCount: { fontSize: 12, fontVariant: ["tabular-nums"] },
+  creatorGames: { paddingHorizontal: 8, gap: 8 },
   friendCard: { flex: 1, gap: 5, borderRadius: 14, padding: 12, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
   friendTitle: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
   friendBody: { color: "rgba(255,255,255,0.72)", fontSize: 11, lineHeight: 15 },

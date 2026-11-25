@@ -32,7 +32,7 @@ export default function PredictionDetails({ preview }: { preview: LinkPreviewDat
       <View style={styles.timeRow}>
         <Icon name="Clock" size={10} color="#a1a1aa" />
         <Text style={styles.timestamp}>
-          {data.fetchedAt ? new Date(data.fetchedAt).toLocaleString(i18n.language) : t('common.failedToLoad')}
+          {data.fetchedAt ? new Date(data.fetchedAt).toLocaleString(i18n.language?.replace('_', '-')) : t('common.failedToLoad')}
         </Text>
       </View>
     </View>
