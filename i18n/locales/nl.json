@@ -8350,6 +8350,7 @@
     "messagingUnavailable": "Berichten is niet beschikbaar",
     "addCaption": "Ondertitel toevoegen…",
     "openTimer": {
+      "sent": "Verzonden",
       "secs": "{{n}} sec",
       "oneMin": "1 min",
       "chip": "{{time}} na openen",

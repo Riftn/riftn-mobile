@@ -3,6 +3,7 @@
  * Written in the app's dark greys; System Light's colour pass (libs/jsx/tone)
  * flips them, the same as the rest of Post Info.
  */
+import { useBadgeTierLabel } from '../../../i18n/badge-tier-label';
 import React, { useId } from "react";
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Circle, Defs, Line, LinearGradient, Path, Stop } from "react-native-svg";
@@ -228,13 +229,14 @@ function Donut({ values }: { values: number[] }) {
  */
 export function BadgeBreakdown({ badges, signedOut, limit }: { badges: PostStatsBadge[]; signedOut: number; limit?: number }) {
   const { t } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const { isLight } = useAppTheme();
   const withBadge = badges.filter((b) => b.tier >= 0);
   const noBadge = badges.find((b) => b.tier < 0)?.people ?? 0;
   const shown = limit ? withBadge.slice(0, limit) : withBadge;
   const folded = limit ? withBadge.slice(limit).reduce((sum, b) => sum + b.people, 0) : 0;
   const rows = [
-    ...shown.map((b) => ({ key: `t${b.tier}`, name: b.name ?? "", image: badgeImage(b.name, isLight ? "light" : "dark"), people: b.people })),
+    ...shown.map((b) => ({ key: `t${b.tier}`, name: b.name ? tierLabel(b.name) : '', image: badgeImage(b.name, isLight ? "light" : "dark"), people: b.people })),
     ...(folded ? [{ key: "other", name: t("postStats.otherBadges"), image: undefined, people: folded }] : []),
     ...(noBadge ? [{ key: "none", name: t("postStats.noBadge"), image: undefined, people: noBadge }] : []),
     ...(signedOut ? [{ key: "out", name: t("postStats.signedOutViewers"), image: undefined, people: signedOut }] : []),

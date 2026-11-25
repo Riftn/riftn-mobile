@@ -1,3 +1,4 @@
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import React, { memo, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, View, type ImageStyle, type StyleProp, type ViewStyle } from "react-native";
 import { Image as MotionImage, type ImageContentFit } from "expo-image";
@@ -31,6 +32,7 @@ function PlayingBadge({ poster, animation, imageStyle, motionStyle, onError }: {
 /** Idle badges share a still bitmap; only the badge being touched or hovered plays. */
 function BadgeArtwork({ source, style }: Props) {
   const anchor = useRef<View>(null);
+  const tierLabel = useBadgeTierLabel();
   const tier = tierForBadgeImage(source);
   const gold = source === RIFTN_GOLD_BADGE;
   const art = gold ? undefined : badgeHoverArt(tier);
@@ -76,7 +78,7 @@ function BadgeArtwork({ source, style }: Props) {
       style={style as StyleProp<ViewStyle>}
       hitSlop={6}
       accessibilityRole="button"
-      accessibilityLabel={tier ?? undefined}
+      accessibilityLabel={tier ? tierLabel(tier) : undefined}
       testID="holder-badge"
       onHoverIn={() => setHovered(true)}
       onHoverOut={() => setHovered(false)}

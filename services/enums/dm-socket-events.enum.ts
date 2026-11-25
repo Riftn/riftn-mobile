@@ -17,6 +17,7 @@ export enum DMSocketEvent {
   EditMessage = "editMessage",
   ForwardMessage = "forwardMessage",
   DeleteMessage = "deleteMessage",
+  DestructOpened = "destructOpened",
   /** Delete for me: only the caller stops seeing it. */
   HideMessage = "hideMessage",
   FetchMessage = "fetchMessage",

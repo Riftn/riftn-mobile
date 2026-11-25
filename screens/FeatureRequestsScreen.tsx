@@ -55,6 +55,7 @@ import { captureVideoCover } from "../libs/videoCover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "../components/ui/Icon";
+import PrimaryButton from "../components/ui/PrimaryButton";
 import Avatar from "../components/common/Avatar";
 import { TopBuildersCard, TopBuildersProvider } from "../components/FeatureRequests/TopBuilders";
 import GlassModal from "../components/ui/GlassModal";
@@ -507,14 +508,9 @@ const FeatureCard: React.FC<{
             onSubmitEditing={saveNotFeasible}
           />
           <View style={{ flexDirection: "row", gap: 8 }}>
-            <Pressable onPress={saveNotFeasible} disabled={statusMutation.isPending} style={styles.glassBtnSm}>
-              {statusMutation.isPending ? (
-                <ActivityIndicator size="small" color="#FFFFFF" />
-              ) : (
-                <Text style={styles.glassBtnText}>{t("copy.465fe84f18fc", { defaultValue: "Mark Not feasible" })}</Text>
-              )}
-            </Pressable>
-            <Pressable onPress={() => setReasonDraft(null)} style={styles.ghostBtnSm}>
+            <PrimaryButton size="sm" title={t("copy.465fe84f18fc", { defaultValue: "Mark Not feasible" })}
+              onPress={saveNotFeasible} loading={statusMutation.isPending} style={styles.spacedAction} />
+            <Pressable accessibilityRole="button" onPress={() => setReasonDraft(null)} style={styles.ghostBtnSm}>
               <Text style={styles.ghostBtnText}>{t("common.cancel", "Cancel")}</Text>
             </Pressable>
           </View>
@@ -567,7 +563,9 @@ const FeatureCard: React.FC<{
             </View>
           </View>
           <View style={{ flexDirection: "row", gap: 8 }}>
-            <Pressable
+            <PrimaryButton
+              size="sm"
+              title={t("common.save", "Save")}
               onPress={() =>
                 editMutation.mutate(
                   {
@@ -579,19 +577,11 @@ const FeatureCard: React.FC<{
                   { onSuccess: () => setEditing(false) },
                 )
               }
-              disabled={!editTitle.trim() || !editDescription.trim() || editDescription.length > editDescriptionLimit || editMutation.isPending}
-              style={[
-                styles.glassBtnSm,
-                (!editTitle.trim() || !editDescription.trim()) && styles.disabled,
-              ]}
-            >
-              {editMutation.isPending ? (
-                <ActivityIndicator size="small" color="#FFFFFF" />
-              ) : (
-                <Text style={styles.glassBtnText}>{t("common.save", "Save")}</Text>
-              )}
-            </Pressable>
-            <Pressable onPress={() => setEditing(false)} style={styles.ghostBtnSm}>
+              disabled={!editTitle.trim() || !editDescription.trim() || editDescription.length > editDescriptionLimit}
+              loading={editMutation.isPending}
+              style={styles.spacedAction}
+            />
+            <Pressable accessibilityRole="button" onPress={() => setEditing(false)} style={styles.ghostBtnSm}>
               <Text style={styles.ghostBtnText}>{t("common.cancel", "Cancel")}</Text>
             </Pressable>
           </View>
@@ -847,7 +837,7 @@ const PromptComposer: React.FC<{
       <View style={styles.promptToolbar}>
         <Pressable onPress={pickMedia} disabled={submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS}
           accessibilityRole="button" style={[styles.promptAttach, (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) && styles.disabled]}>
-          <Icon name="ImagePlus" size={18} color="#A1A1AA" />
+          <Icon name="ImagePlus" size={16} color="#A1A1AA" />
           <Text style={styles.promptAttachText}>{t("features.promptAttach", "Attach images")}</Text>
         </Pressable>
         <HoldToTalkButton wallet={user ? (user.walletAddress || user.address)?.toLowerCase() : undefined}
@@ -858,11 +848,8 @@ const PromptComposer: React.FC<{
         <Text style={styles.promptCount}>{description.length}/{DESC_MAX}</Text>
       </View>
       <Text style={[styles.promptCount, { marginBottom: 8 }]}>{t("features.deviceInfoNote", "Device info is attached to help us fix bugs.")}</Text>
-      <Pressable onPress={handleSubmit} disabled={!valid || submitting} accessibilityRole="button"
-        style={[styles.glassBtn, (!valid || submitting) && styles.disabled]}>
-        {submitting ? <ActivityIndicator color="#FFFFFF" /> : <Icon name="ArrowUp" size={16} color="#FFFFFF" />}
-        <Text style={styles.glassBtnText}>{t("features.promptPost", "Post prompt")}</Text>
-      </Pressable>
+      <PrimaryButton title={t("features.promptPost", "Post prompt")} icon="ArrowUp"
+        onPress={handleSubmit} disabled={!valid} loading={submitting} style={styles.spacedAction} />
       <Pressable onPress={() => setDetailsOpen(value => !value)} accessibilityRole="button" accessibilityState={{ expanded: detailsOpen }} style={styles.promptDetails}>
         <Text style={styles.promptHint}>{t("features.promptDetails", "Optional details")}</Text>
         <CollapsibleChevron open={detailsOpen} size={14} color="#808089" />
@@ -1137,15 +1124,14 @@ function FeatureRequestsBoard() {
               {t("features.promptSubtitle", "Build Riftn by talking to it.")}
             </Text>
           </View>
-          <Pressable
+          <PrimaryButton
+            size="icon"
+            title={t("features.submitDrawerTitle")}
+            icon="Plus"
             onPress={openSheet}
             hitSlop={8}
             style={styles.headerAddBtn}
-            accessibilityRole="button"
-            accessibilityLabel={t("features.submitDrawerTitle")}
-          >
-            <Icon name="Plus" size={16} color="#FFFFFF" />
-          </Pressable>
+          />
         </View>
 
         {/* Search */}
@@ -1357,19 +1343,15 @@ function FeatureRequestsBoard() {
           ListEmptyComponent={loading ? <View style={styles.center}><DeHubLoader size={56} /></View> : showListError ? (
             <ThemePanel style={[styles.emptyBento, Platform.OS === "android" && skin?.card, isMinimal && minimalFlat]}>
               <Text style={styles.emptyTitle}>{t("features.loadFailed")}</Text>
-              <Pressable onPress={() => onRefresh()} style={styles.glassBtnSm}>
-                <Text style={styles.glassBtnText}>{t("common.retry")}</Text>
-              </Pressable>
+              <PrimaryButton title={t("common.retry")} onPress={onRefresh} style={styles.spacedAction} />
             </ThemePanel>
           ) : <ThemePanel style={[styles.emptyBento, Platform.OS === "android" && skin?.card, isMinimal && minimalFlat]}>
               <Icon name="Lightbulb" size={44} color="#3F3F46" />
               <Text style={styles.emptyTitle}>{emptyCopy.title}</Text>
               {!!emptyCopy.body && <Text style={styles.emptyBody}>{emptyCopy.body}</Text>}
               {tab === "requests" && !debouncedSearch && (
-                <Pressable onPress={openSheet} style={styles.glassBtn}>
-                  <Icon name="Plus" size={16} color="#FFFFFF" />
-                  <Text style={styles.glassBtnText}>{t("features.submitFeatureRequest")}</Text>
-                </Pressable>
+                <PrimaryButton title={t("features.submitFeatureRequest")} icon="Plus" onPress={openSheet}
+                  style={styles.spacedAction} />
               )}
             </ThemePanel>
           }
@@ -1410,8 +1392,8 @@ const styles = StyleSheet.create({
   },
   promptFilename: { fontSize: 10, color: "#A1A1AA", marginTop: 4 },
   promptToolbar: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
-  promptAttach: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8 },
-  promptAttachText: { color: "#A1A1AA", fontSize: 13 },
+  promptAttach: { flexDirection: "row", alignItems: "center", gap: 8, minHeight: 36, borderRadius: 12 },
+  promptAttachText: { color: "#A1A1AA", fontSize: 14, fontWeight: "500" },
   promptCount: { color: "#808089", fontSize: 11 },
   promptDetails: { flexDirection: "row", alignItems: "center", gap: 6, paddingTop: 12 },
 
@@ -1444,17 +1426,7 @@ const styles = StyleSheet.create({
   },
   pageTitle: { color: "#FFFFFF", fontSize: 20, fontWeight: "700" },
   pageSubtitle: { color: "#808089", fontSize: 13, marginTop: 2 },
-  headerAddBtn: {
-    flexShrink: 0,
-    width: 36,
-    height: 36,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: GLASS_BG,
-    borderWidth: 1,
-    borderColor: GLASS_BORDER,
-  },
+  headerAddBtn: { flexShrink: 0 },
 
   // Search — 40pt, zinc-800 on a zinc-700 hairline.
   searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
@@ -1624,41 +1596,15 @@ const styles = StyleSheet.create({
   emptyBody: { color: "#808089", fontSize: 13, textAlign: "center" },
 
   // Buttons.
-  glassBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    marginTop: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    backgroundColor: GLASS_BG,
-    borderWidth: 1,
-    borderColor: GLASS_BORDER,
-  },
-  glassBtnSm: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 6,
-    marginTop: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    backgroundColor: GLASS_BG,
-    borderWidth: 1,
-    borderColor: GLASS_BORDER,
-  },
-  glassBtnText: { color: "#FFFFFF", fontSize: 13.5, fontWeight: "600", flexShrink: 0 },
+  spacedAction: { marginTop: 8 },
   ghostBtnSm: {
     marginTop: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 10,
+    height: 36,
+    paddingHorizontal: 12,
+    borderRadius: 12,
     justifyContent: "center",
   },
-  ghostBtnText: { color: "#A1A1AA", fontSize: 13.5, fontWeight: "500", flexShrink: 0 },
+  ghostBtnText: { color: "#A1A1AA", fontSize: 14, fontWeight: "500", flexShrink: 0 },
   disabled: { opacity: 0.4 },
 
   // Submit sheet.

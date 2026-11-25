@@ -10,6 +10,7 @@
  * panel uses. Reusing them keeps the two surfaces from drifting apart in 110
  * locales, and means nothing new had to be translated for this.
  */
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -38,6 +39,7 @@ const LendBadgeSheet: React.FC<LendBadgeSheetProps> = ({
   displayName,
 }) => {
   const { t } = useTranslation();
+  const tierLabel = useBadgeTierLabel();
   const { data, isLoading } = useBadgeDelegations();
   const grant = useGrantDelegation();
   const revoke = useRevokeDelegation();
@@ -85,7 +87,7 @@ const LendBadgeSheet: React.FC<LendBadgeSheetProps> = ({
         ) : lentToThem ? (
           <>
             <Text className="text-theme-neutrals-400 text-xs leading-5 mb-3">
-              {t('settings.badgeDelegationGranted', { to: who, tier: lentToThem.tier })}
+              {t('settings.badgeDelegationGranted', { to: who, tier: tierLabel(lentToThem.tier) })}
             </Text>
             <TouchableOpacity
               onPress={() => revoke.mutate(lentToThem.address, { onSuccess: onClose })}
@@ -113,7 +115,7 @@ const LendBadgeSheet: React.FC<LendBadgeSheetProps> = ({
             <Text className="text-theme-neutrals-400 text-xs leading-5 mb-3">
               {t('settings.badgeDelegationSlots', {
                 count: data.slots,
-                tier: data.ownTier ?? data.grantableTier,
+                tier: tierLabel(data.ownTier ?? data.grantableTier ?? ''),
                 free: slotsFree,
               })}{' '}
               {t('settings.badgeDelegationRaisesOnlyTier')}
@@ -144,7 +146,7 @@ const LendBadgeSheet: React.FC<LendBadgeSheetProps> = ({
                           <Image source={tierSource} className="w-4 h-4 mr-1.5" />
                         ) : null}
                         <Text className={selected ? 'text-black text-xs' : 'text-white text-xs'}>
-                          {name}
+                          {tierLabel(name)}
                         </Text>
                       </TouchableOpacity>
                     );

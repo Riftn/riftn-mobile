@@ -142,6 +142,7 @@ import {
   getPeerPolicy,
 } from "../store/dm.store";
 import { dmSendQueue } from "../services/dm/dm.send";
+import { isPrivatePhoto } from "../libs/dm-destruct";
 import { ensureDmEncryption, retryDmEncryption, type DmEncryptionStatus } from "../libs/dm-e2ee/setup";
 import { decryptIncoming } from "../libs/dm-e2ee/peer";
 import { onIdentityChange, prepareOutgoing } from "../libs/dm-e2ee/keys";
@@ -1353,6 +1354,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           dmActions.removeMessage(payload);
         }
       }),
+      ws.on(DMSocketEvent.DestructOpened, (payload: { dmId: ID; messageId: ID; openedAt: string }) => {
+        if (payload.dmId === currentConvId) dmActions.applyDestructOpened(payload);
+      }),
     );
 
     // Read receipt — ignore self-receipts (our own markAsRead echoed back)
@@ -1948,6 +1952,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   /** Sends one message on to another chat. Resolves false when it could not go from this phone. */
   const forwardOne = useCallback(
     async (msg: DmMessage, targetConvId: ID): Promise<boolean> => {
+      if (isPrivatePhoto(msg)) return false;
       if (msg.encMedia) {
         try {
           await dmSendQueue.forwardEncryptedMedia({
