@@ -16420,6 +16420,7 @@
     "noTranslationFound": "Impossible de traduire ce message. C'est peut-être de l'argot ou un nom."
   },
   "liveOverlay": {
+    "showCreatorChat": "Afficher le chat du créateur à l'écran",
     "eyebrow": {
       "follow": "Nouvel abonné",
       "subscribe": "Nouveau membre",
