@@ -19,15 +19,16 @@ export default function MomentArchive() {
   const canSeeMature = MATURE_CONTENT_ENABLED && !!user?.showMatureContent && !kidsMode;
   const [open, setOpen] = useState(false);
   if (!address) return null;
+  const title = t('stories.momentArchive', { defaultValue: 'Moment archive' });
+  const privacyLabel = t('stories.archiveOnlyYou', { defaultValue: 'Only you can see this' });
   return (
     <View className="mt-3">
       <Pressable accessibilityRole="button" accessibilityState={{ expanded: open }} onPress={() => setOpen(!open)}
+        accessibilityLabel={`${title}. ${privacyLabel}`}
         className="self-start min-h-11 flex-row items-center gap-2 px-2">
         <Ionicons name="archive-outline" size={17} color="#a1a1aa" />
-        <Text className="font-semibold text-theme-neutrals-100">{t('stories.momentArchive', { defaultValue: 'Moment archive' })}</Text>
-        {/* Says out loud that nobody else sees it (the server only returns it to you). */}
+        <Text className="font-semibold text-theme-neutrals-100">{title}</Text>
         <Ionicons name="lock-closed" size={12} color="#a1a1aa" />
-        <Text className="text-xs text-theme-neutrals-400">{t('stories.archiveOnlyYou')}</Text>
       </Pressable>
       {open && <ArchiveItems key={address + canSeeMature} address={address} canSeeMature={canSeeMature} />}
     </View>
