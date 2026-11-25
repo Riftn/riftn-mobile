@@ -16417,6 +16417,7 @@
     "noTranslationFound": "No se pudo traducir. Puede ser jerga o un nombre."
   },
   "liveOverlay": {
+    "showCreatorChat": "Mostrar el chat del creador en pantalla",
     "eyebrow": {
       "follow": "Nuevo seguidor",
       "subscribe": "Nuevo suscriptor",

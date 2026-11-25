@@ -9077,6 +9077,7 @@
     }
   },
   "liveOverlay": {
+    "showCreatorChat": "Show creator’s chat overlay",
     "eyebrow": {
       "follow": "New follower",
       "subscribe": "New subscriber",

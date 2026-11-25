@@ -16411,6 +16411,7 @@
     "watch": "Bu yaratıcıyı desteklemek için bir reklam izleyin"
   },
   "liveOverlay": {
+    "showCreatorChat": "İçerik üreticisinin sohbet katmanını göster",
     "eyebrow": {
       "follow": "Yeni takipçi",
       "subscribe": "Yeni abone",

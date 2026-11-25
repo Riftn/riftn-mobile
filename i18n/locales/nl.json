@@ -16668,6 +16668,7 @@
     "receipt": "${{amount}} toegevoegd aan de advertentie-inkomsten van de maker. tokenafrekening is in behandeling."
   },
   "liveOverlay": {
+    "showCreatorChat": "De chat van de maker in beeld tonen",
     "eyebrow": {
       "follow": "Nieuwe volger",
       "subscribe": "Nieuwe abonnee",
