@@ -1,5 +1,6 @@
 import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
+import { StoryCreateTile } from '../../components/Stories/StoryCreateBar';
 import StoryShelf from '../../components/Stories/StoryShelf';
 
 const mockOpenLive = jest.fn();
@@ -16,7 +17,9 @@ jest.mock('react-native', () => ({
   AccessibilityInfo: { isReduceMotionEnabled: () => Promise.resolve(true) },
   StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {}, hairlineWidth: 0.5 },
 }));
-jest.mock('../../components/Stories/StoryCreateBar', () => ({ __esModule: true, default: () => null, StoryCreateTile: () => 'CreateTile' }));
+jest.mock('../../components/Stories/StoryCreateBar', () => ({
+  __esModule: true, default: () => null, StoryCreateTile: ({ children }: { children: React.ReactNode }) => children,
+}));
 jest.mock('react-native-gesture-handler', () => ({ GestureDetector: 'GestureDetector' }));
 jest.mock('expo-image', () => ({ Image: 'Image' }));
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'Gradient' }));
@@ -57,7 +60,7 @@ it('names each pill and respects badge visibility', () => {
   mockAccount.hideBadgeAndBalance = false;
 });
 
-it('keeps Live, Stories and the create button independently tappable', () => {
+it('keeps separate Live, Story, and Create controls', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const tap = (label: string) => {
@@ -68,8 +71,12 @@ it('keeps Live, Stories and the create button independently tappable', () => {
   expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
   tap('River Song');
   expect(mockOpenStory).toHaveBeenCalledWith(expect.any(Array), 0);
-  // With nothing of your own up, the row leads with the + key, as tall as the pills.
-  expect(tree.root.findAll(node => node.props.width === 52 && node.props.height === 52).length).toBeGreaterThan(0);
+  const createTile = tree.root.findByType(StoryCreateTile);
+  const plus = createTile.findByProps({ name: 'Plus' });
+  const storyAvatar = tree.root.findByProps({ name: 'River Song', size: 36 });
+  expect(createTile.props.height).toBe(52);
+  expect(plus.props.size).toBe(16);
+  expect(plus.parent?.props.style).toEqual(storyAvatar.parent?.props.style);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
 });

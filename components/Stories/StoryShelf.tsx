@@ -173,7 +173,7 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {(storiesEnabled || holding) && me ? <StoryCreateTile width={PILL_H} height={PILL_H} /> : null}
+      {(storiesEnabled || holding) && me ? <CreateTile /> : null}
       {showMe ? (
         <MeTile
           single={single}
@@ -220,6 +220,17 @@ function usePillColors() {
 const PILL_H = 52;
 const FACE_SIZE = 36;
 const FACE_RADIUS = 12;
+
+function CreateTile() {
+  const { ink } = usePillColors();
+  return (
+    <StoryCreateTile height={PILL_H}>
+      <PillFace>
+        <Icon name="Plus" size={16} color={ink} strokeWidth={2} />
+      </PillFace>
+    </StoryCreateTile>
+  );
+}
 
 function Pill({ label, onPress, single, children, extra }: {
   label: string;
