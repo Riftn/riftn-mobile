@@ -4352,6 +4352,7 @@
     "pooledTotal": "{{amount}} jetons mis en commun"
   },
   "governance": {
+    "freeVoting": "Le vote est gratuit. Votre badge de staking détermine le poids de votre voix.",
     "optionVoters_one": "{{count}} votant",
     "optionVoters_other": "{{count}} votants",
     "optionWinner": "Gagnant : {{option}}",
@@ -17312,6 +17313,8 @@
     "enter": "Entrer dans le donjon"
   },
   "tokenLaunch": {
+    "riftTitle": "Lancement de $RIFT sur chaîne",
+    "riftStatus": "$RIFT est la monnaie interne de Riftn. Vous pouvez déjà l’utiliser dans Riftn. Le jeton sur chaîne reste à lancer et ne dispose d’aucune adresse de contrat ni cotation officielle. Inscrivez-vous pour recevoir un e-mail au lancement.",
     "eyebrow": "À venir bientôt",
     "title": "Le jeton arrive bientôt",
     "body": "Achat fermé en attendant le nouveau jeton. Recevez un email dès sa sortie.",

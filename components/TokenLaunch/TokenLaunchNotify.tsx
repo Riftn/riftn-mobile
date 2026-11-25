@@ -75,7 +75,7 @@ export default function TokenLaunchNotify() {
       <View style={styles.wrap} testID="token-launch">
         <ThemeIcon icon="buy" size={64} style={{ marginBottom: 14 }} />
         <Text style={styles.eyebrow}>{t("tokenLaunch.eyebrow").toUpperCase()}</Text>
-        <Text className="text-theme-neutrals-100" style={styles.title}>{t("tokenLaunch.title")}</Text>
+        <Text className="text-theme-neutrals-100" style={styles.title}>{t("tokenLaunch.riftTitle")}</Text>
 
         {joined ? (
           <View style={{ alignItems: "center", marginTop: 16 }} accessibilityLiveRegion="polite">
@@ -89,7 +89,7 @@ export default function TokenLaunchNotify() {
           </View>
         ) : (
           <>
-            <Text className="text-theme-neutrals-400" style={styles.body}>{t("tokenLaunch.body")}</Text>
+            <Text className="text-theme-neutrals-400" style={styles.body}>{t("tokenLaunch.riftStatus")}</Text>
             {loading ? (
               <ActivityIndicator style={{ marginTop: 20 }} color="#A1A1AA" />
             ) : accountEmail ? (

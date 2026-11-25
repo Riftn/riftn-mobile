@@ -3,8 +3,7 @@
  * ================
  * Native port of the web GovernancePage (/governance). A token-holder proposal
  * board with Active / Passed / Rejected tabs and for/against vote visualisation.
- * Read-only for now — weighted voting and proposal submission need the DHB
- * balance/badge + contract layer (deferred, matching the web3 bucket).
+ * Open proposals can be voted on from the proposal detail screen.
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

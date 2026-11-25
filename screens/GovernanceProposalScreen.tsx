@@ -482,6 +482,8 @@ export default function GovernanceProposalScreen() {
               <Text style={styles.cardTitle}>{proposal.title}</Text>
               {!!proposal.description && <Text style={styles.cardDesc}>{proposal.description}</Text>}
 
+              {votingOpen && <Text style={styles.cardDesc}>{t("governance.freeVoting")}</Text>}
+
               {multiple ? (
                 <View style={{ marginTop: 4 }}>
                   <ProposalOptionsList

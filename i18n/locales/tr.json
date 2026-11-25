@@ -5198,6 +5198,7 @@
     "pooledTotal": "{{amount}} token havuzlandı"
   },
   "governance": {
+    "freeVoting": "Oy vermek ücretsizdir. Oyunun ağırlığını staking rozetin belirler.",
     "optionVoters_one": "{{count}} oy veren",
     "optionVoters_other": "{{count}} oy veren",
     "optionWinner": "Kazanan: {{option}}",
@@ -18157,6 +18158,8 @@
     "enter": "Zindana gir"
   },
   "tokenLaunch": {
+    "riftTitle": "Zincir üstü $RIFT lansmanı",
+    "riftStatus": "$RIFT, Riftn’in uygulama içi para birimidir. Riftn’de şimdiden kullanılabilir. Zincir üstü token henüz piyasaya sürülmedi ve resmî sözleşme adresi veya borsa listelemesi yok. Lansman e-postası için kaydol.",
     "eyebrow": "Çok yakında",
     "title": "Token çok yakında çıkıyor",
     "body": "Alışveriş kapalı, yeni token hazırlanırken. Canlı olunca hemen bir e-posta alacaksın.",
