@@ -9,7 +9,6 @@
  */
 import { Skia, FontSlant, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
 import * as FileSystem from "expo-file-system/legacy";
-import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import type { StoryMention } from "../../services/stories.service";
 
 import { captionFontStyle, type CaptionFont } from "./caption-fonts";
@@ -149,6 +148,7 @@ export async function composePhoto(uri: string, layers: TextLayer[], look: Photo
   let image = await Skia.Data.fromURI(uri).then(data => Skia.Image.MakeImageFromEncoded(data)).catch(() => null);
   if (!image) {
     // The native photo loader can read formats such as HEIC that Skia rejects.
+    const { manipulateAsync, SaveFormat } = await import("expo-image-manipulator");
     const jpeg = await manipulateAsync(uri, [], { compress: 1, format: SaveFormat.JPEG });
     try {
       image = Skia.Image.MakeImageFromEncoded(await Skia.Data.fromURI(jpeg.uri));
