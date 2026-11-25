@@ -769,9 +769,11 @@ export async function dismissReadMessageNotifications(
   address: string,
   readThrough: number,
 ): Promise<void> {
+  // Expo returns delivered dates in seconds on iOS and milliseconds on Android.
+  const readThroughDate = Platform.OS === 'ios' ? readThrough / 1000 : readThrough;
   const presented = await getPresentedNotifications();
   await Promise.all(presented
-    .filter((notification) => isReadMessagePush(notification, conversationId, address, readThrough))
+    .filter((notification) => isReadMessagePush(notification, conversationId, address, readThroughDate))
     .map((notification) => dismissNotification(notification.request.identifier)));
 }
 
