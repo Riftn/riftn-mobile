@@ -6027,6 +6027,13 @@
     "glossaryLeaderboardDesc": "يتم ترتيب المستخدمين حسب إجمالي رصيد رموز Riftn (المحفظة + المثبتة عبر جميع السلاسل). يتم تحديث التصنيفات بشكل دوري وتتبع التغييرات على مدار يوم واحد وأسبوع واحد. يمكنك أيضًا الفرز حسب الإكراميات المرسلة، الإكراميات المستلمة، المتابعون، الإعجابات، أو المشتركون."
   },
   "arcade": {
+    "riftnOriginals": "ألعاب Riftn الأصلية",
+    "otherGames": "ألعاب أخرى",
+    "gameCount_one": "{{count}} لعبة",
+    "gameCount_two": "{{count}} لعبة",
+    "gameCount_few": "{{count}} ألعاب",
+    "gameCount_many": "{{count}} لعبة",
+    "gameCount_other": "{{count}} لعبة",
     "submitAccessibility": "إرسال لعبة إلى الأركيد",
     "submitTitle": "صنعت لعبة؟",
     "submitDescription": "أرسل لنا رابطًا قابلاً للعب للمراجعة.",

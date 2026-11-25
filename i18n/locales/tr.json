@@ -5997,6 +5997,10 @@
     "glossaryLeaderboardDesc": "Kullanıcılar, toplam Riftn jeton bakiyesine (tüm zincirlerdeki cüzdan + stake edilmiş) göre sıralanır. Sıralamalar periyodik olarak güncellenir ve 1 günlük ve 1 haftalık değişiklikleri izler. Ayrıca gönderilen bahşişler, alınan bahşişler, takipçiler, beğeniler veya aboneler tarafından da sıralayabilirsiniz."
   },
   "arcade": {
+    "riftnOriginals": "Riftn orijinalleri",
+    "otherGames": "Diğer oyunlar",
+    "gameCount_one": "{{count}} oyun",
+    "gameCount_other": "{{count}} oyun",
     "submitAccessibility": "Bir oyunu arcade'e gönderin",
     "submitTitle": "Bir oyun mu yaptınız?",
     "submitDescription": "İnceleme için oynanabilir bir bağlantı gönderin.",

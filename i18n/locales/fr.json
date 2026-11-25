@@ -6007,6 +6007,10 @@
     "glossaryLeaderboardDesc": "Les utilisateurs sont classés par solde total de jetons Riftn (portefeuille + mis en jeu sur toutes les chaînes). Les classements sont mis à jour périodiquement et suivent les changements sur 1 jour et 1 semaine. Vous pouvez également trier par pourboires envoyés, pourboires reçus, abonnés, likes ou abonnements."
   },
   "arcade": {
+    "riftnOriginals": "Jeux originaux de Riftn",
+    "otherGames": "Autres jeux",
+    "gameCount_one": "{{count}} jeu",
+    "gameCount_other": "{{count}} jeux",
     "submitAccessibility": "Soumettre un jeu à l'arcade",
     "submitTitle": "Vous avez créé un jeu ?",
     "submitDescription": "Envoyez-nous un lien jouable pour examen.",
