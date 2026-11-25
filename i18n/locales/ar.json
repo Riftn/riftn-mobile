@@ -8158,7 +8158,7 @@
     "viewReposts": "عرض عمليات إعادة النشر"
   },
   "dm": {
-    "opened": {"photoA11y": "صورة، فُتحت {{time}}", "videoA11y": "فيديو، فُتح {{time}}", "seenAt": "شوهدت {{time}}", "replyCamera": "الرد بالكاميرا", "quotePhoto": "صورة · فُتحت", "quoteVideo": "فيديو · فُتح"},
+    "opened": {"camera": "الكاميرا", "gallery": "المعرض", "replyMedia": "الرد بصورة أو فيديو", "photoA11y": "صورة، فُتحت {{time}}", "videoA11y": "فيديو، فُتح {{time}}", "seenAt": "شوهدت {{time}}", "replyCamera": "الرد بالكاميرا", "quotePhoto": "صورة · فُتحت", "quoteVideo": "فيديو · فُتح"},
     "trayGif": "GIF ورموز تعبيرية",
     "trayVoice": "رسالة صوتية",
     "trayTip": "إكرامية",

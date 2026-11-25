@@ -255,7 +255,7 @@ export default memo(function ShopBoard({
       {checkout ? (
         <CheckoutSheet
           tokenId={tokenId ?? null}
-          product={checkout}
+          listing={checkout?.store_listings ?? null}
           visible={!!checkout}
           onClose={() => setCheckout(null)}
         />

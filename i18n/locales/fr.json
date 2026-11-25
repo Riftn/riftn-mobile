@@ -8135,7 +8135,7 @@
     "viewReposts": "Afficher les reposts"
   },
   "dm": {
-    "opened": {"photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
+    "opened": {"camera": "Appareil photo", "gallery": "Galerie", "replyMedia": "Répondre avec une photo ou une vidéo", "photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
     "trayGif": "GIF et emoji",
     "trayVoice": "Note vocale",
     "trayTip": "Pourboire",

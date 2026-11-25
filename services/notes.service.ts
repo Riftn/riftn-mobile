@@ -1,7 +1,8 @@
 /**
  * Notes: a short line (60 characters) with an optional song, GIF or place,
  * shown in the row at the top of Messages for 24 hours. One per person; a new
- * one replaces the old. Same API as web's `lib/api/dehub/notes`.
+ * one replaces the old. The API returns your own note and eligible active
+ * notes from people you follow, regardless of how long ago you followed them.
  */
 import { apiClient } from "../libs";
 import type { StoryAuthor, StorySong } from "./stories.service";
