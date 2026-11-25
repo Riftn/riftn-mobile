@@ -8,7 +8,6 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { useStoriesEnabled } from "../../hooks/useStoriesEnabled";
 import { formatCount } from "../../libs/format-count";
 import { useMomentPeek, refreshMomentPeeks } from "../../libs/moment-peek";
-import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import { toastError, toastInfo } from "../../libs/toast";
 import { getUserStories, type MomentPeek } from "../../services/stories.service";
 import { openStoryViewer } from "../../store/stories.store";
@@ -66,7 +65,6 @@ export const CLOSE_FRIENDS_GREEN = "#22c55e";
 
 export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; size: number; big?: boolean }) {
   const { isLight, skin, accent, pageColors } = useAppTheme();
-  const blurred = useMomentPreviewsBlurred();
   if (!peek) return null;
   const seen = peek.state === "seen";
   const rim = seen
@@ -105,7 +103,6 @@ export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; 
               style={{ width: w, height: h }}
               contentFit="cover"
               cachePolicy="memory-disk"
-              blurRadius={blurred && !seen ? 12 : 0}
               recyclingKey={peek.cover}
             />
           ) : (

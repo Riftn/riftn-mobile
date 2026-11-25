@@ -21,7 +21,6 @@ import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } f
 import { avatarOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
-import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 import { storage } from "../../libs/storage";
 import { formatCount } from "../../libs/format-count";
@@ -300,8 +299,7 @@ function momentsLine(t: (key: string, options?: Record<string, unknown>) => stri
 /** Small covers of someone's Moments, when the pill has the room. */
 function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
   const c = usePillColors();
-  const blurred = useMomentPreviewsBlurred();
-  if (!entry || blurred) return null;
+  if (!entry) return null;
   const covers = entry.items
     .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
     .filter((url): url is string => !!url)
