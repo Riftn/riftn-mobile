@@ -177,6 +177,7 @@ export const useUserProfileData = (
   const [isFollowRequestPending, setIsFollowRequestPending] = useState<boolean>(false);
   const [followsYou, setFollowsYou] = useState<boolean>(false);
   const [followLoading, setFollowLoading] = useState<boolean>(false);
+  const followInFlight = useRef(false);
   const [youBlocked, setYouBlocked] = useState<boolean>(false);
   const [blockedYou, setBlockedYou] = useState<boolean>(false);
   const [isBlocked, setIsBlocked] = useState<boolean>(false);
@@ -461,65 +462,54 @@ export const useUserProfileData = (
   }, [data, authUser, _copy]);
 
   const handleFollow = useCallback(() => {
-    if (isFollowing || isFollowRequestPending || !profileData) return;
+    if (followInFlight.current || isFollowing || isFollowRequestPending || !profileData) return;
+    const requestedProfile = lastRequestedRef.current;
 
     requireAuth(async () => {
-      haptic.tap();
       const acct = (authUser?.address || "").toLowerCase();
       const target = (data?.address || profileData.address).toLowerCase();
+      const isCurrentProfile = () => isMountedRef.current && lastRequestedRef.current === requestedProfile && viewerRef.current?.toLowerCase() === acct;
+      if (!acct || !target || followInFlight.current || !isCurrentProfile()) return;
 
-      if (!acct || !target) return;
-
+      followInFlight.current = true;
       const isTargetPrivate = data?.isPrivate === true;
 
-      if (isTargetPrivate) {
-        // Delay the optimistic update so the Follow button's touch gesture
-        // fully completes before React swaps it to "Requested" — prevents
-        // the touch-up from bleeding into the newly mounted Requested button.
-        setTimeout(() => setIsFollowRequestPending(true), 300);
-      } else {
-        // Optimistic: instant follow for public accounts
-        setIsFollowing(true);
-
-        // Optimistic update: increment follower count
-        setData((prev) => {
-          if (!prev) return prev;
-          const currentCount = resolveCount(prev.followers, (prev as any).follower_count);
-          return { ...prev, followers: currentCount + 1 };
-        });
-
-        // Update auth user's following count
-        patchUser?.((u: any) => {
-          const currentCount = resolveCount(u.followings, u.following_count);
-          return { followings: currentCount + 1 };
-        });
-      }
-
-      try {
-        const res = await followUser(acct, target);
-
-        // If private account → follow request sent (pending), not instant follow
-        if (res.status === 'pending') {
-          setIsFollowing(false);
-          setIsFollowRequestPending(true);
-        }
-      } catch (e) {
-        if (isTargetPrivate) {
-          setIsFollowRequestPending(false);
-        } else {
-          setIsFollowing(false);
-          // Rollback: decrement follower count
+      const setAcceptedFollow = (following: boolean) => {
+        const delta = following ? 1 : -1;
+        if (isCurrentProfile()) {
+          setIsFollowing(following);
           setData((prev) => {
             if (!prev) return prev;
             const currentCount = resolveCount(prev.followers, (prev as any).follower_count);
-            return { ...prev, followers: Math.max(0, currentCount - 1) };
-          });
-          patchUser?.((u: any) => {
-            const currentCount = resolveCount(u.followings, u.following_count);
-            return { followings: Math.max(0, currentCount - 1) };
+            return { ...prev, followers: Math.max(0, currentCount + delta) };
           });
         }
+        if (viewerRef.current?.toLowerCase() === acct) {
+          patchUser?.((u: any) => {
+            const currentCount = resolveCount(u.followings, u.following_count);
+            return { followings: Math.max(0, currentCount + delta) };
+          });
+        }
+      };
+
+      try {
+        haptic.tap();
+        if (isTargetPrivate) setFollowLoading(true);
+        else setAcceptedFollow(true);
+        const res = await followUser(acct, target);
+
+        if (res.status === 'pending') {
+          if (!isTargetPrivate) setAcceptedFollow(false);
+          if (isCurrentProfile()) setIsFollowRequestPending(true);
+        } else if (isTargetPrivate) {
+          setAcceptedFollow(true);
+        }
+      } catch (e) {
+        if (!isTargetPrivate) setAcceptedFollow(false);
         reportActionError(e, _copy("copy.f5a7643bdaac", { defaultValue: "Failed to follow user" }));
+      } finally {
+        followInFlight.current = false;
+        if (isTargetPrivate && isMountedRef.current) setFollowLoading(false);
       }
     });
   }, [
@@ -534,7 +524,7 @@ export const useUserProfileData = (
   ]);
 
   const handleUnfollow = useCallback(() => {
-    if (followLoading || !profileData) return;
+    if (followInFlight.current || followLoading || !profileData) return;
     // Allow unfollow if following OR if there's a pending request to cancel
     if (!isFollowing && !isFollowRequestPending) return;
 

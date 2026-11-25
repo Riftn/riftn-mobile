@@ -188,7 +188,9 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
   // the sign-in options cut off under the legal line.
   const [signH, setSignH] = useState(0);
   const headlineExtra = Math.max(0, signH + HEADLINE_OVERLAP);
-  const lanesH = Math.floor(Math.max(160, availableHeight - reservedHeight - headlineExtra));
+  // Let decorative clips give up their space to the sign-in options on short
+  // screens. Keep enough height for the headline to overlap without clipping.
+  const lanesH = Math.floor(Math.max(-HEADLINE_OVERLAP, availableHeight - reservedHeight - headlineExtra));
 
   return (
     <View style={styles.root}>

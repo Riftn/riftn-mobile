@@ -8,7 +8,6 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { useStoriesEnabled } from "../../hooks/useStoriesEnabled";
 import { formatCount } from "../../libs/format-count";
 import { useMomentPeek, refreshMomentPeeks } from "../../libs/moment-peek";
-import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 import { toastError, toastInfo } from "../../libs/toast";
 import { getUserStories, type MomentPeek } from "../../services/stories.service";
 import { openStoryViewer } from "../../store/stories.store";
@@ -55,18 +54,33 @@ export function useOpenMoments(address: string | null | undefined) {
   }, [address, t, viewer]);
 }
 
-/**
- * Corner Peek (same as web's MomentFace): a small portrait of someone's Moment
- * on the bottom corner of their face, rimmed in the theme colour (grey once
- * watched all). Place it as a sibling right after the Avatar, inside the
- * pressable that opens the Moments. It takes no touches itself.
- */
 /** Close Friends Moments: green rim until watched. */
 export const CLOSE_FRIENDS_GREEN = "#22c55e";
 
+/** Draw inside the avatar's pressable, alongside the avatar. */
+export function MomentAvatarOutline({ peek, radius }: { peek: MomentPeek | null; radius: number }) {
+  if (!peek) return null;
+  const width = 2;
+  return (
+    <View
+      pointerEvents="none"
+      style={{
+        position: "absolute",
+        top: -width,
+        right: -width,
+        bottom: -width,
+        left: -width,
+        borderWidth: width,
+        borderRadius: radius + width,
+        borderColor: peek.closeFriends ? CLOSE_FRIENDS_GREEN : "#ef4444",
+      }}
+    />
+  );
+}
+
+/** Corner cover preview for feed avatars. */
 export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; size: number; big?: boolean }) {
   const { isLight, skin, accent, pageColors } = useAppTheme();
-  const blurred = useMomentPreviewsBlurred();
   if (!peek) return null;
   const seen = peek.state === "seen";
   const rim = seen
@@ -105,7 +119,6 @@ export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; 
               style={{ width: w, height: h }}
               contentFit="cover"
               cachePolicy="memory-disk"
-              blurRadius={blurred && !seen ? 12 : 0}
               recyclingKey={peek.cover}
             />
           ) : (

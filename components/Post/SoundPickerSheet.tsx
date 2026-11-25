@@ -19,6 +19,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as DocumentPicker from "expo-document-picker";
+import { randomUUID } from "expo-crypto";
 import Avatar from "../common/Avatar";
 import Slider from "@react-native-community/slider";
 import { Image } from "expo-image";
@@ -28,6 +30,9 @@ import { clock, playableSoundUrl, soundWindow, soundWindowCorrection, suggestedS
 import { useAudioPlayer } from "expo-audio";
 import { getUnifiedFeed, type UnifiedFeedItem } from "../../services/feed.unified.service";
 import { buildImageUrl, getAvatarUrl } from "../../libs";
+import { toastError } from "../../libs/toast";
+import { localFileSize, uploadLocalFileToBucket } from "../../libs/storage-upload";
+import { probeGeneratedMedia } from "../../libs/editor/generatedMediaProbe";
 import type { AttachedSound } from "../../hooks/usePostSound";
 
 const MIN_PCT = 0.55;
@@ -37,6 +42,7 @@ interface Props {
   visible: boolean;
   onClose: () => void;
   onSelect: (sound: AttachedSound) => void;
+  profileSongUploadWallet?: string;
   currentSound?: AttachedSound | null;
   /** Length of the attached video, in seconds: the part matches it. */
   clipSeconds?: number;
@@ -74,6 +80,14 @@ interface OutsideTrack {
 }
 
 const LENGTHS = [15, 30, 60] as const;
+const SONG_BUCKET = "soundboard-sounds";
+const SONG_MAX_MB = 15;
+const SONG_FORMATS = {
+  mp3: "audio/mpeg", wav: "audio/wav", m4a: "audio/mp4", aac: "audio/aac",
+  ogg: "audio/ogg", flac: "audio/flac", webm: "audio/webm",
+};
+type SongExtension = keyof typeof SONG_FORMATS;
+type PickedSound = SoundCandidate & { uploadExtension?: SongExtension };
 
 async function fetchOutside(source: "audius" | "commons", q: string, offset: number) {
   const body = await apiClient.get<{ tracks?: OutsideTrack[]; nextOffset?: number }>("/sounds", {
@@ -142,7 +156,7 @@ async function fetchRiftn(q: string, page: number) {
   return { items: (res.result || []).map(toRiftnCandidate), next: res.pagination?.hasMore ? page + 1 : undefined };
 }
 
-const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, currentSound, clipSeconds, initialPicked, initialLibrary, opaque }) => {
+const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, currentSound, clipSeconds, initialPicked, initialLibrary, opaque, profileSongUploadWallet }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const glassPanel = useDrawerGlass() && !opaque;
@@ -159,9 +173,16 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
   const [failed, setFailed] = useState(false);
   const [next, setNext] = useState<number | undefined>(undefined);
   const [playingKey, setPlayingKey] = useState<string | null>(null);
-  const [picked, setPicked] = useState<SoundCandidate | null>(initialPicked ?? null);
+  const [picked, setPicked] = useState<PickedSound | null>(initialPicked ?? null);
   const [start, setStart] = useState(initialPicked ? 42 : 0);
   const [length, setLength] = useState<number>(30);
+  const pendingUpload = useRef<AbortController | null>(null);
+  const [readingFile, setReadingFile] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  useEffect(() => () => { pendingUpload.current?.abort(); }, []);
+  const closePicker = useCallback(() => {
+    if (!uploading) onClose();
+  }, [onClose, uploading]);
   // Single preview player; each track is attached with replace() rather than
   // creating and unloading a Sound per tap.
   const previewPlayer = useAudioPlayer(null);
@@ -210,7 +231,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
         },
         onPanResponderRelease: (_, g) => {
           if (g.dy > 80 || g.vy > 0.5) {
-            onClose();
+            closePicker();
           } else {
             Animated.spring(heightAnim, {
               toValue: heightPct < (MIN_PCT + MAX_PCT) / 2 ? MIN_PCT : MAX_PCT,
@@ -221,7 +242,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
           }
         },
       }),
-    [heightPct, heightAnim, onClose, SCREEN_H],
+    [heightPct, heightAnim, closePicker, SCREEN_H],
   );
 
   // Debounce search
@@ -328,7 +349,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
     track.library === "riftn" ? null : { source: track.library, page: track.pageUrl, license: track.license, licenseUrl: track.licenseUrl },
   ), [wholeSong, clampedStart, partLength]);
 
-  const pick = useCallback((track: SoundCandidate) => {
+  const pick = useCallback((track: PickedSound) => {
     stopPreview();
     const same = currentSound && playableSoundUrl(currentSound.url) === track.url;
     // A new song opens on its likely chorus; re-opening the current one keeps its part.
@@ -337,20 +358,78 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
     setPicked(track);
   }, [currentSound, stopPreview, fixedLength, length]);
 
-  const confirm = useCallback(() => {
-    if (!picked) return;
+  const pickFile = async () => {
+    if (!profileSongUploadWallet || pendingUpload.current) return;
+    const request = new AbortController();
+    pendingUpload.current = request;
+    setReadingFile(true);
+    try {
+      const result = await DocumentPicker.getDocumentAsync({ type: "audio/*", copyToCacheDirectory: true });
+      if (result.canceled || request.signal.aborted) return;
+      const asset = result.assets[0];
+      if (!asset) return;
+      const extension = asset.name.split(".").pop()?.toLowerCase() as SongExtension | undefined;
+      const size = asset.size ?? await localFileSize(asset.uri);
+      if (request.signal.aborted) return;
+      if (!extension || !Object.prototype.hasOwnProperty.call(SONG_FORMATS, extension) || size === 0) {
+        toastError(t("profileSong.cantUse"));
+        return;
+      }
+      if (size != null && size > SONG_MAX_MB * 1024 * 1024) {
+        toastError(t("stages.radioShow.tooBig", { max: SONG_MAX_MB }));
+        return;
+      }
+      const { duration } = await probeGeneratedMedia(asset.uri, "audio", request.signal);
+      if (request.signal.aborted) return;
+      const id = randomUUID();
+      pick({
+        key: id, library: "riftn", url: asset.uri, duration, creator: "", tokenId: "0",
+        title: asset.name.replace(/\.[^.]+$/, "").trim() || asset.name,
+        uploadExtension: extension,
+      });
+    } catch {
+      if (!request.signal.aborted) toastError(t("profileSong.cantUse"));
+    } finally {
+      pendingUpload.current = null;
+      if (!request.signal.aborted) setReadingFile(false);
+    }
+  };
+
+  const confirm = async () => {
+    if (!picked || pendingUpload.current) return;
     stopPreview();
+    let track = picked;
+    if (picked.uploadExtension && profileSongUploadWallet) {
+      const request = new AbortController();
+      pendingUpload.current = request;
+      setUploading(true);
+      try {
+        const extension = picked.uploadExtension;
+        const path = `${profileSongUploadWallet.toLowerCase()}/profile-songs/${randomUUID()}.${extension}`;
+        const url = await uploadLocalFileToBucket({
+          bucket: SONG_BUCKET, path, uri: picked.url, contentType: SONG_FORMATS[extension],
+        });
+        if (request.signal.aborted) return;
+        track = { ...picked, url };
+      } catch {
+        if (!request.signal.aborted) toastError(t("stages.uploadFailed"));
+        return;
+      } finally {
+        pendingUpload.current = null;
+        if (!request.signal.aborted) setUploading(false);
+      }
+    }
     onSelect({
-      url: partUrl(picked),
-      title: picked.title,
-      creator: picked.creator,
-      creatorAvatar: picked.artwork,
-      tokenId: picked.tokenId,
-      duration: picked.duration,
-      source: picked.library,
+      url: partUrl(track),
+      title: track.title,
+      creator: track.creator,
+      creatorAvatar: track.artwork,
+      tokenId: track.tokenId,
+      duration: track.duration,
+      source: track.library,
     });
     setPicked(null);
-  }, [picked, stopPreview, onSelect, partUrl]);
+  };
 
   // Moving the part restarts a playing preview at its new start.
   const partKey = picked ? `part:${picked.key}` : "";
@@ -382,7 +461,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
         <TouchableOpacity
           style={[styles.trackRow, isSelected && styles.trackRowSelected]}
           activeOpacity={0.7}
-          onPress={() => pick(item)}
+          onPress={() => { if (!pendingUpload.current) pick(item); }}
           accessibilityRole="button"
         >
           <TouchableOpacity
@@ -430,13 +509,17 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
   const partPlaying = !!picked && playingKey === partKey;
 
   return (
-    <Modal visible={visible} transparent animationType="fade" onRequestClose={() => (picked ? setPicked(null) : onClose())}>
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={() => {
+      if (uploading) return;
+      if (picked) { stopPreview(); setPicked(null); }
+      else closePicker();
+    }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
       <SheetBackdrop backdrop={backdrop} />
-      <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
+      <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={closePicker} />
       <Animated.View style={[styles.sheet, glassPanel && GLASS_PANEL_CLEAR, opaque && styles.sheetSolid, { height: sheetHeight }]}>
         {glassPanel ? <SheetGlass backdropBlurred={backdrop.blurred} /> : null}
         {/* Only the handle + header drag the sheet; on the whole sheet the
@@ -453,6 +536,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
             <View style={styles.headerLeft}>
               {picked && (
                 <TouchableOpacity
+                  disabled={uploading}
                   onPress={() => { stopPreview(); setPicked(null); }}
                   hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}
                   accessibilityRole="button"
@@ -463,7 +547,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
               )}
               <Text style={styles.title}>{picked ? t("copy.55b1ec6f0360", { defaultValue: "Pick the part" }) : t("upload.addSound")}</Text>
             </View>
-            <TouchableOpacity onPress={onClose} hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}>
+            <TouchableOpacity onPress={closePicker} disabled={uploading} hitSlop={{ top: 8, right: 8, bottom: 8, left: 8 }}>
               <Ionicons name="close" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
@@ -547,12 +631,32 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
               </View>
             )}
 
-            <TouchableOpacity style={styles.useBtn} onPress={confirm} activeOpacity={0.85} accessibilityRole="button">
-              <Text style={styles.useBtnText}>{t("copy.0418db35eb35", { defaultValue: "Use this sound" })}</Text>
+            <TouchableOpacity style={styles.useBtn} onPress={confirm} disabled={uploading} activeOpacity={0.85} accessibilityRole="button" accessibilityState={{ busy: uploading, disabled: uploading }}>
+              <Text style={styles.useBtnText}>
+                {uploading
+                  ? t("stages.uploading")
+                  : t("copy.0418db35eb35", { defaultValue: "Use this sound" })}
+              </Text>
             </TouchableOpacity>
           </View>
         ) : (
           <>
+            {profileSongUploadWallet && (
+              <TouchableOpacity
+                style={[styles.searchContainer, styles.uploadFile]}
+                onPress={pickFile}
+                disabled={readingFile}
+                accessibilityRole="button"
+                accessibilityState={{ disabled: readingFile, busy: readingFile }}
+              >
+                {readingFile
+                  ? <ActivityIndicator size="small" color="#A1A1AA" />
+                  : <Ionicons name="cloud-upload-outline" size={18} color="#A1A1AA" />}
+                <Text style={styles.chipTextOn}>
+                  {t("upload.uploadAudio")}
+                </Text>
+              </TouchableOpacity>
+            )}
             {/* Libraries */}
             <View style={styles.libraryRow}>
               {libraries.map((item) => (
@@ -696,6 +800,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   searchInput: { flex: 1, fontSize: 15, color: "#fff" },
+  uploadFile: { justifyContent: "center" },
   list: { paddingHorizontal: 16 },
   trackRow: {
     flexDirection: "row",

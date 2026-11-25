@@ -1,5 +1,6 @@
 import { translateCopy as _translateCopy } from '../i18n/copy';
 import { IS_APP_STORE_BUILD } from './storefront';
+import type { ArcadeCreator } from './arcade-creators';
 /**
  * The Arcade registry (native).
  * =============================
@@ -55,6 +56,7 @@ import { IS_APP_STORE_BUILD } from './storefront';
 const WEBSITE_LINK = 'https://dehub.io';
 
 export interface ArcadeGameCredit {
+  author?: string;
   /** Upstream project name, as its authors write it. */
   name: string;
   /** Upstream repository. */
@@ -70,6 +72,7 @@ export interface ArcadeGameCredit {
 }
 
 export interface ArcadeGame {
+  creator?: ArcadeCreator;
   /** Route param under the Arcade, and the key everything else joins on. */
   slug: string;
   title: string;
@@ -256,6 +259,7 @@ const ALL_ARCADE_GAMES: ArcadeGame[] = [
   },
   {
     slug: 'trenchstar',
+    creator: 'riftn',
     get title() { return _translateCopy("copy.d9bac180ccc1", { defaultValue: "Chartopia" }); },
     brand: require('../assets/brand/chartopia-brand-v1.webp'),
     get tagline() { return _translateCopy("copy.52c873592957", { defaultValue: "Stand in a trading floor built out of live markets." }); },
@@ -295,6 +299,7 @@ const ALL_ARCADE_GAMES: ArcadeGame[] = [
   },
   {
     slug: 'street-slayer',
+    creator: 'riftn',
     get title() { return _translateCopy("copy.71b386d38529", { defaultValue: "Street Slayer" }); },
     get tagline() { return _translateCopy("copy.883791f091e3", { defaultValue: "A neon-street brawler, made for Riftn alone." }); },
     get description() { return _translateCopy("copy.7a56c707abec", { defaultValue: "A side-scrolling beat ’em up down a neon-lit street: pick one of three fighters, then punch, kick and throw your way through everything the block sends at you." }); },
@@ -303,6 +308,7 @@ const ALL_ARCADE_GAMES: ArcadeGame[] = [
     get artAlt() { return _translateCopy("copy.4b6b806e9540", { defaultValue: "Three street fighters closing in on the player character outside a neon-lit shopfront in Street Slayer" }); },
     credit: {
       name: 'Street Slayer',
+      author: 'Studio Shook Pixel',
       // Commissioned for Riftn from Studio Shook Pixel rather than found: there
       // is no public repository, so this points at the arcade that hosts it.
       url: 'https://dehub.io/arcade/street-slayer',

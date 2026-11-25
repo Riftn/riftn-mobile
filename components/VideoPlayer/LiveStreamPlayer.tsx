@@ -19,6 +19,8 @@ import {
 } from "react-native";
 import * as ScreenOrientation from "expo-screen-orientation";
 import VideoArea from "./VideoArea";
+import CenterControls from "../VideoPlayerCore/CenterControls";
+import { getProgressRatio, PLAYER_CONSTANTS } from "../VideoPlayerCore/utils";
 import { useUser, useAuthState, useAuthActions } from "../../context/AuthContext";
 import { useStreamAccessInfo } from "../../libs/validators.util";
 import {
@@ -1667,30 +1669,28 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, []);
   const liveTimeshiftTag = useMemo(() => <LiveTimeshiftTag timeshift={timeshift} />, [timeshift]);
 
-  /**
-   * The timeline the scrub line draws, in 0..1 of the source.
-   *
-   * A stream that is actually on air has no duration to scrub through, so
-   * `seekRef` comes back null and the bar sits at zero and refuses the
-   * drag. A replay — an ended stream with a recording, which is most of
-   * what anyone opens after the fact — is an ordinary file, and gets the
-   * same bar the shorts viewer has.
-   */
   const progress = useSharedValue(0);
-  const durationRef = useRef(0);
   const scrubbingRef = useRef(false);
   const seekRef = useRef<((ratio: number) => void) | null>(null);
-  const [seekable, setSeekable] = useState(false);
-  // Where a replay is, for the overlay that plays its log back (ReplayOverlayLayer).
+  const toggleReplayRef = useRef<(() => void) | null>(null);
+  const [replayDurationMs, setReplayDurationMs] = useState(0);
+  const [replayPlaying, setReplayPlaying] = useState(false);
+  // The overlay uses the replay's actual playhead while the viewer previews a seek.
   const replayPositionRef = useRef(0);
+  useEffect(() => {
+    replayPositionRef.current = 0;
+    progress.value = 0;
+    setReplayDurationMs(0);
+    setReplayPlaying(false);
+  }, [replayUrl, progress]);
+  const handleReplayReady = useCallback((durationMs: number) => {
+    if (Number.isFinite(durationMs) && durationMs > 0) setReplayDurationMs(durationMs);
+  }, []);
   const handleProgress = useCallback((positionMs: number, durationMs: number) => {
+    if (!Number.isFinite(durationMs) || durationMs <= 0) return;
     replayPositionRef.current = positionMs;
-    durationRef.current = durationMs;
-    setSeekable(durationMs > 0);
-    // A drag owns the bar until the finger lifts; the clock would otherwise
-    // yank it back to wherever playback still is.
-    if (scrubbingRef.current || !(durationMs > 0)) return;
-    progress.value = Math.max(0, Math.min(1, positionMs / durationMs));
+    setReplayDurationMs(durationMs);
+    if (!scrubbingRef.current) progress.value = getProgressRatio(positionMs, durationMs);
   }, [progress]);
   const handleScrubbingChange = useCallback((scrubbing: boolean) => {
     scrubbingRef.current = scrubbing;
@@ -1698,6 +1698,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const handleSeek = useCallback((ratio: number) => {
     seekRef.current?.(ratio);
   }, []);
+  const jumpReplay = useCallback((seconds: number) => {
+    if (scrubbingRef.current || replayDurationMs <= 0) return;
+    handleSeek(getProgressRatio(progress.value * replayDurationMs + seconds * 1000, replayDurationMs));
+  }, [handleSeek, progress, replayDurationMs]);
+  const toggleReplay = useCallback(() => toggleReplayRef.current?.(), []);
 
   /**
    * A live can't be paused, so the screen itself is the clear button: tap the
@@ -2331,8 +2336,14 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             streamInfo={streamEntity?.streamInfo as any}
             minter={(streamEntity?.address as any) || (minterProp as any)}
             tokenId={(streamEntity?.tokenId as any) || (tokenId as any)}
-            onProgress={handleProgress}
-            seekRef={seekRef}
+            onProgress={isPlayingReplay ? handleProgress : undefined}
+            seekRef={isPlayingReplay ? seekRef : undefined}
+            replayControls={isPlayingReplay ? {
+              visible: !chromeHidden,
+              togglePlayRef: toggleReplayRef,
+              onPlayStateChange: setReplayPlaying,
+              onReady: handleReplayReady,
+            } : undefined}
             liveControlRef={isPlayingReplay ? undefined : liveControlRef}
             liveStart={isPlayingReplay ? null : liveStart}
             /* A replay is a finished file: it gets a scrubber, a live stream does not. */
@@ -2350,15 +2361,12 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
       {/* Overlay container on top of video */}
       <View className="absolute inset-0" pointerEvents="box-none">
-        {/* The timeline, on the floor of the screen — the same bar the
-            shorts viewer draws, from the same component. It stays through
-            immersive: a viewer who has just cleared the chrome to watch is
-            exactly the one who wants to move about in a replay. */}
-        {isPlayingReplay && (
+        {isPlayingReplay && isPlayable && (
           <ViewerScrubBar
             progress={progress}
             onSeek={handleSeek}
-            enabled={seekable}
+            enabled={replayDurationMs > 0}
+            replayDurationMs={chromeHidden ? undefined : replayDurationMs || undefined}
             onScrubbingChange={handleScrubbingChange}
           />
         )}
@@ -2405,6 +2413,18 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             pointerEvents="none"
           />
   
+          {isPlayingReplay && isPlayable && !chromeHidden && (
+            <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, styles.replayControls]}>
+              <CenterControls
+                isPlaying={replayPlaying}
+                isBuffering={false}
+                onTogglePlay={toggleReplay}
+                onSeekBack={() => jumpReplay(-PLAYER_CONSTANTS.SEEK_BACKWARD_SECONDS)}
+                onSeekForward={() => jumpReplay(PLAYER_CONSTANTS.SEEK_FORWARD_SECONDS)}
+                hideSeekButtons={replayDurationMs <= 0}
+              />
+            </View>
+          )}
           {/* Main content layout */}
           <View className="flex-1" pointerEvents="box-none">
             {/* Flat EDGE, no inset: the root SafeAreaView already pays the status bar
@@ -2467,7 +2487,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
               </View>
   
               {/* Bottom section: shop + chat + reactions + input */}
-              <View pointerEvents="box-none" style={{ paddingBottom: EDGE + 10, flexShrink: 1, minHeight: 0 }}>
+              <View pointerEvents="box-none" style={{ paddingBottom: EDGE + (isPlayingReplay && replayDurationMs > 0 ? 26 : 10), flexShrink: 1, minHeight: 0 }}>
                 {/* Whatever the host has put "on air", above the chat so a busy
                     room cannot scroll it away. Renders nothing when the stream
                     has no products attached. */}
@@ -2552,7 +2572,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <LiveViewerActionBar
                   draftScope={chatRoomId ? `stream:${chatRoomId}:composer` : null}
                   viewportHeight={viewportHeight}
-                  canSend={!!canChat && liveChat.connected && !liveChat.isBanned && !muted}
+                  canSend={!!canChat && !liveChat.isBanned && !muted}
                   blockedReason={liveChat.isBanned ? "banned" : muted ? "timedOut" : null}
                   chatEnabled={liveChatEnabled}
                   isLive={isLiveEffective}
@@ -2772,5 +2792,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  replayControls: { justifyContent: "center", alignItems: "center" },
+});
 
 export default LiveStreamPlayer;

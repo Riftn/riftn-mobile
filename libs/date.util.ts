@@ -14,7 +14,7 @@ import { periodLabels, uses12Hour } from './clockWheel';
  * English dates inside a Japanese app. Pass this instead.
  */
 export function appLocale(): string | undefined {
-  return i18n.language || undefined;
+  return i18n.language?.replace('_', '-') || undefined;
 }
 
 /**
@@ -95,7 +95,7 @@ export function formatNotificationDate(isoDateString: Date | string) {
   // showed on every notification row in all 110 locales.
   let weekday: string;
   try {
-    weekday = date.toLocaleDateString(i18n.language || undefined, { weekday: "long" });
+    weekday = date.toLocaleDateString(i18n.language?.replace('_', '-') || undefined, { weekday: "long" });
   } catch {
     weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][date.getDay()];
   }

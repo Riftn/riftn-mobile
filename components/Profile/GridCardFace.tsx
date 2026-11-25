@@ -408,17 +408,11 @@ function GridCardFaceComponent({ card, tokenId, item, ...face }: GridCardFacePro
 
 export const GridCardFace = memo(GridCardFaceComponent);
 
-/**
- * A text post with no link may still carry a poll; the feed payload has no
- * "has poll" flag, so ask (usePoll batches every tile on screen into one call).
- */
-export const GridPollProbe = memo(function GridPollProbe({ tokenId, poster, ...face }: FaceProps & { tokenId: number; poster: React.ReactElement }) {
+export const GridPollFace = memo(function GridPollFace({ poll, words, chip, palette }: Omit<FaceProps, "fallback"> & { poll: NonNullable<ReturnType<typeof usePoll>["poll"]> }) {
   const { t } = useTranslation();
-  const { poll } = usePoll(tokenId > 0 ? tokenId : null) as any;
-  if (!poll) return poster;
   const options = poll.options || [];
-  const total = poll.totalVotes || options.reduce((n: number, o: any) => n + (o.voteCount || 0), 0);
-  return <PollBody poll={poll} options={options} total={total} words={face.words} chip={face.chip} palette={face.palette} t={t} />;
+  const total = poll.totalVotes || options.reduce((n, o) => n + (o.voteCount || 0), 0);
+  return <PollBody poll={poll} options={options} total={total} words={words} chip={chip} palette={palette} t={t} />;
 });
 
 const styles = StyleSheet.create({
