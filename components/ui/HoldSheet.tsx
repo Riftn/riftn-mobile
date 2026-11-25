@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Pressable, ScrollView, useWindowDimensions, StyleSheet, BackHandler, Keyboard } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Platform, Pressable, ScrollView, useWindowDimensions, StyleSheet, BackHandler, Keyboard } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -51,6 +51,7 @@ interface HoldSheetProps {
   visible: boolean;
   layout: HoldLayout | null;
   onClose: () => void;
+  onDismiss?: () => void;
   /** Reaction row; null hides it (own comment, signed out). */
   reactions: HoldReactionChip[] | null;
   onReaction?: (key: string) => void;
@@ -114,7 +115,7 @@ export function useHoldLift() {
 }
 
 export default function HoldSheet(props: HoldSheetProps) {
-  const { visible, onClose, onLift, liftTop, frame, inline } = props;
+  const { visible, onClose, onDismiss, onLift, liftTop, frame, inline } = props;
   // While the sheet plays its way out, hosts have usually cleared the row,
   // the reactions and the tiles already. Draw the last open state until the
   // exit finishes, so closing slides down instead of vanishing in one frame.
@@ -206,12 +207,16 @@ export default function HoldSheet(props: HoldSheetProps) {
   useEffect(() => {
     if (!mounted) { setSheetH(0); setSheetY(0); }
   }, [mounted]);
+  const fullyClosed = !visible && !mounted;
+  useEffect(() => {
+    if (fullyClosed && (inline || Platform.OS !== "ios")) onDismiss?.();
+  }, [fullyClosed, inline, onDismiss]);
   const fadeStyle = useAnimatedStyle(() => ({ opacity: progress.value }));
   const sheetStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: (1 - progress.value) * (sheetH > 0 ? sheetH + insets.bottom + SIDE + 24 : SCREEN_HEIGHT) }],
   }));
 
-  if (!visible && !mounted) return null;
+  if (fullyClosed && (!onDismiss || inline)) return null;
 
   const mainTiles = tiles.filter((tile) => !tile.secondary);
   const sideTiles = tiles.filter((tile) => tile.secondary);
@@ -224,7 +229,7 @@ export default function HoldSheet(props: HoldSheetProps) {
   const rowH = layout?.height ?? 0;
 
   return (
-    <Layer inline={!!inline} closing={!visible} rootRef={rootRef} onRootLayout={measureOrigin} onClose={onClose}>
+    <Layer inline={!!inline} closing={!visible} visible={!fullyClosed} rootRef={rootRef} onRootLayout={measureOrigin} onClose={onClose} onDismiss={onDismiss}>
       {/* Dim everything but the held row: one wash above it, one below. */}
       <Pressable style={{ flex: 1 }} onPress={visible ? onClose : undefined} accessibilityRole="button" accessibilityLabel={t("common.close")}>
         {layout ? (
@@ -400,17 +405,19 @@ export default function HoldSheet(props: HoldSheetProps) {
   );
 }
 
-function Layer({ inline, closing, rootRef, onRootLayout, onClose, children }: {
+function Layer({ inline, closing, visible, rootRef, onRootLayout, onClose, onDismiss, children }: {
   inline: boolean;
   closing: boolean;
+  visible: boolean;
   rootRef: React.RefObject<View | null>;
   onRootLayout: () => void;
   onClose: () => void;
+  onDismiss?: () => void;
   children: React.ReactNode;
 }) {
   if (!inline) {
     return (
-      <Modal transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
+      <Modal visible={visible} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose} onDismiss={onDismiss}>
         {children}
       </Modal>
     );

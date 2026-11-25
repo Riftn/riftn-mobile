@@ -2,8 +2,9 @@ import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import { StoryCreateTile } from '../../components/Stories/StoryCreateBar';
 import StoryShelf from '../../components/Stories/StoryShelf';
+import { ActivityShelfMenu } from '../../components/Stories/ActivityShelfMenu';
 import HoldSheet from '../../components/ui/HoldSheet';
-import { setActivityBarHidden, setActivityItemsHidden } from '../../libs/activity-shelf-preferences';
+import { getActivityShelfPreferences, setActivityBarHidden, setActivityItemsHidden } from '../../libs/activity-shelf-preferences';
 
 const mockOpenLive = jest.fn();
 const mockOpenStory = jest.fn();
@@ -97,6 +98,7 @@ it('offers the activity actions on long press and hides only the selected story'
     const tile = (sheet.props.tiles as { key: string; onPress: () => void }[]).find(item => item.key === key);
     expect(tile).toBeDefined();
     act(() => tile?.onPress());
+    act(() => sheet.props.onDismiss());
   };
   try {
     act(() => pill('Trail watch, stages.live').props.onLongPress());
@@ -104,7 +106,7 @@ it('offers the activity actions on long press and hides only the selected story'
     expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
     act(() => pill('River Song').props.onLongPress());
     expect(tree.root.findByType(HoldSheet).props.tiles.map((tile: { label: string }) => tile.label)).toEqual([
-      'Hide activity bar', 'Hide story', 'Watch', 'Mute creator', 'Block creator',
+      'Hide activity bar', 'Hide story', 'Watch story', 'Mute creator', 'Block creator',
     ]);
     select('hide-item');
     expect(tree.root.findAllByProps({ accessibilityLabel: 'River Song' })).toHaveLength(0);
@@ -113,6 +115,31 @@ it('offers the activity actions on long press and hides only the selected story'
     act(() => tree.unmount());
     setActivityBarHidden(false);
     setActivityItemsHidden(['story:opening'], false);
+  }
+});
+
+it('waits for native dismissal before opening a status and keeps status visibility separate', () => {
+  const open = jest.fn();
+  const close = jest.fn();
+  const view = <ActivityShelfMenu visible bar="status" onClose={close}
+    target={{ kind: 'status', ids: ['status:one'], creator: 'creator', open }} />;
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(view); });
+  const sheet = tree.root.findByType(HoldSheet);
+  const tiles = sheet.props.tiles as { key: string; label: string; onPress: () => void }[];
+  try {
+    expect(tiles.map(tile => tile.label)).toEqual(['Hide status bar', 'Hide status', 'View status', 'Mute creator', 'Block creator']);
+    act(() => tiles.find(tile => tile.key === 'open')?.onPress());
+    expect(close).toHaveBeenCalledTimes(1);
+    expect(open).not.toHaveBeenCalled();
+    act(() => sheet.props.onDismiss());
+    expect(open).toHaveBeenCalledTimes(1);
+    act(() => tiles.find(tile => tile.key === 'hide-bar')?.onPress());
+    act(() => sheet.props.onDismiss());
+    expect(getActivityShelfPreferences()).toMatchObject({ statusesHidden: true, hidden: false });
+  } finally {
+    act(() => tree.unmount());
+    setActivityBarHidden(false, 'status');
   }
 });
 
