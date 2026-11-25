@@ -64,7 +64,6 @@ import SearchRequestPrompt from "../Search/SearchRequestPrompt";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 import { defaultMenuGroupOf, groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
 import { moveMenuTile, saveMenuGroupMoves, useMenuGroupMoves } from "../../libs/menuGroupMoves";
-import MarketTicker from "../games/MarketTicker";
 
 // The menu is a bottom sheet: grab handle, who is signed in, the search field,
 // then a four-column grid of the same glossy 3D icons the web menu uses. It
@@ -1273,8 +1272,6 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                   <Text style={styles.sectionTitle}>{t(group.labelKey, group.fallback)}</Text>
                   <Text style={styles.sectionCount}>{group.items.length}</Text>
                 </View>
-                {/* BTC, ETH and gold over the Money group. */}
-                {group.id === "money" ? <MarketTicker /> : null}
                 <View style={styles.grid}>{sortGroup(group).map((item) => renderPlain(item, tileWidth, false))}</View>
               </View>
             ))
@@ -1322,7 +1319,6 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                 return (
                   <View style={[styles.folderPanel, square && styles.square, { borderColor: hairline }]}>
                     <Text style={styles.folderPanelTitle}>{t(open.labelKey, open.fallback)}</Text>
-                    {open.id === "money" ? <MarketTicker /> : null}
                     <View style={styles.grid}>{sortGroup(open).map((item) => renderPlain(item, panelTileWidth, true))}</View>
                   </View>
                 );
@@ -1345,7 +1341,6 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                           importantForAccessibility={current ? "auto" : "no-hide-descendants"}
                           pointerEvents={current ? "auto" : "none"}
                         >
-                          {group.id === "money" ? <MarketTicker /> : null}
                           {current
                             ? dragGrid(true)
                             // Every group stays drawn (a handful of tiles each), so a
