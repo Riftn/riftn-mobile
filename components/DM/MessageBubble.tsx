@@ -387,15 +387,20 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const [swipeArmed, setSwipeArmed] = useState(false);
   const noSwipe = useMemo(() => Gesture.Tap(), []);
 
+  const replyTarget = useRef({ message, onSwipeToReply });
+  replyTarget.current = { message, onSwipeToReply };
   const fireSwipeReply = useCallback(() => {
+    const target = replyTarget.current;
+    if (!target.onSwipeToReply) return;
     haptic.select();
-    onSwipeToReply?.(message);
-  }, [message, onSwipeToReply]);
+    target.onSwipeToReply(target.message);
+  }, []);
 
   const panGesture = useMemo(
     () =>
       // iOS keeps rightward swipes for native back navigation.
       Gesture.Pan()
+        .maxPointers(1)
         .activeOffsetX(Platform.OS === "ios" ? -14 : [-14, 14])
         .failOffsetY([-15, 15])
         .onStart(() => {
