@@ -1326,7 +1326,12 @@ function FeatureRequestsBoard() {
       </View>
 
       {/* Content */}
-      <KeyboardAvoidingView style={styles.root} behavior="padding" enabled={Platform.OS === "ios"}>
+      <KeyboardAvoidingView
+        style={styles.root}
+        behavior="padding"
+        enabled={Platform.OS === "ios"}
+        keyboardVerticalOffset={insets.top}
+      >
         <FlatList
           ref={listRef}
           onLayout={event => {
