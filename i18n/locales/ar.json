@@ -8223,6 +8223,7 @@
     "messagingUnavailable": "الرسائل غير متاحة",
     "addCaption": "إضافة تعليق توضيحي...",
     "openTimer": {
+      "sent": "تم الإرسال",
       "secs": "{{n}} ث",
       "oneMin": "دقيقة واحدة",
       "chip": "{{time}} بعد الفتح",
