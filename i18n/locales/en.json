@@ -5814,6 +5814,10 @@
     "glossaryLeaderboardDesc": "Users are ranked by total Riftn token balance (wallet + staked across all chains). Rankings update periodically and track 1-day and 1-week changes. You can also sort by tips sent, tips received, followers, likes, or subscribers."
   },
   "arcade": {
+    "riftnOriginals": "Riftn originals",
+    "otherGames": "Other games",
+    "gameCount_one": "{{count}} game",
+    "gameCount_other": "{{count}} games",
     "submitAccessibility": "Submit a game to the arcade",
     "submitTitle": "Made a game?",
     "submitDescription": "Send us a playable link for review.",
