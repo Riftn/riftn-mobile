@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../navigation/ScreenNames';
 import {
+  AppState,
   View,
   Text,
   TouchableOpacity,
@@ -52,6 +53,7 @@ import {
   usePublicChatAlertsPerHour,
 } from '../libs/public-chat-alerts';
 import { SettingsOptionModal, Divider } from '../components/Settings/SettingsPrimitives';
+import { revealSetting } from '../libs/settings-search';
 
 const logger = createLogger('NotificationSettings');
 
@@ -90,33 +92,36 @@ const TypeRow: React.FC<TypeRowProps> = ({
   config, inAppValue, pushValue, onInAppToggle, onPushToggle, inAppDisabled, pushDisabled,
 }) => {
   const { t } = useTranslation();
-  const allDisabled = inAppDisabled && pushDisabled;
+  const inAppLabel = t('settings.notifInApp');
+  const pushLabel = t('settings.notifPush');
   return (
-    <View className={`px-4 py-3 ${allDisabled ? 'opacity-40' : ''}`}>
+    <View className="px-4 py-3">
       <View className="flex-row items-center mb-2.5">
         <View className="mr-3 w-8 h-8 rounded-lg bg-theme-neutrals-700/50 items-center justify-center">
-          <Icon name={config.icon} size={16} color={allDisabled ? '#6B7280' : config.iconColor} />
+          <Icon name={config.icon} size={16} color={config.iconColor} />
         </View>
         <View className="flex-1">
-          <Text className={`text-sm font-medium ${allDisabled ? 'text-theme-neutrals-500' : 'text-white'}`}>{config.label}</Text>
-          <Text className={`text-xs ${allDisabled ? 'text-theme-neutrals-600' : 'text-theme-neutrals-500'}`}>{config.description}</Text>
+          <Text className="text-sm font-medium text-white">{config.label}</Text>
+          <Text className="text-xs text-theme-neutrals-500">{config.description}</Text>
         </View>
       </View>
       <View className="flex-row justify-end items-center ml-11 gap-5">
-        <View className={`flex-row items-center ${inAppDisabled ? 'opacity-40' : ''}`}>
-          <Text className={`text-xs mr-2.5 ${inAppDisabled ? 'text-theme-neutrals-600' : 'text-theme-neutrals-400'}`}>{t('settings.notifInApp')}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-xs mr-2.5 text-theme-neutrals-400">{inAppLabel}</Text>
           <CustomSwitch
             value={inAppDisabled ? false : inAppValue}
             onValueChange={onInAppToggle}
             disabled={inAppDisabled}
+            accessibilityLabel={`${config.label}, ${inAppLabel}`}
           />
         </View>
-        <View className={`flex-row items-center ${pushDisabled ? 'opacity-40' : ''}`}>
-          <Text className={`text-xs mr-2.5 ${pushDisabled ? 'text-theme-neutrals-600' : 'text-theme-neutrals-400'}`}>{t('settings.notifPush')}</Text>
+        <View className="flex-row items-center">
+          <Text className="text-xs mr-2.5 text-theme-neutrals-400">{pushLabel}</Text>
           <CustomSwitch
             value={pushDisabled ? false : pushValue}
             onValueChange={onPushToggle}
             disabled={pushDisabled}
+            accessibilityLabel={`${config.label}, ${pushLabel}`}
           />
         </View>
       </View>
@@ -244,6 +249,15 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
     // saved those reverted values.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active') {
+        void getNotificationPermissionStatus().then(({ granted }) => setPushPermissionGranted(granted));
+      }
+    });
+    return () => subscription.remove();
+  }, []);
 
   const savePreferences = useCallback(async (newPrefs: NotificationPreferences) => {
     setSaving(true);
@@ -514,6 +528,21 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
             </View>
           </View>
         </SettingsAnchor>
+
+        {(!pushPermissionGranted || !prefs.pushEnabled || !prefs.inAppEnabled) && (
+          <TouchableOpacity
+            accessibilityRole="button"
+            onPress={pushPermissionGranted ? () => revealSetting('master-controls') : openSystemSettings}
+            className="mt-4 flex-row items-center justify-between rounded-xl bg-white/5 p-3"
+          >
+            <Text className="flex-1 text-sm text-white mr-2">
+              {pushPermissionGranted
+                ? t('settings.enableNotificationChannels')
+                : t('settings.enableDevicePush')}
+            </Text>
+            <Icon name="ChevronRight" size={16} color="#8B8D90" />
+          </TouchableOpacity>
+        )}
 
         {CATEGORIES.map(category => (
           <SettingsAnchor key={category.key} id={'notify-' + category.key}>

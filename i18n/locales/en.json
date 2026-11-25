@@ -1486,6 +1486,8 @@
     "pushNotificationsDeviceDesc": "Send notifications to your device",
     "pushNotificationsDisabled": "Push Notifications Disabled",
     "tapEnableSystemSettings": "Tap to enable in system settings",
+    "enableNotificationChannels": "Turn on notification channels in Master Controls",
+    "enableDevicePush": "Enable push notifications in system settings",
     "pushNotRegistered": "This device is not registered for push",
     "pushNotRegisteredDesc": "Notifications cannot reach you while the app is closed: this install never registered a push device. That usually means the build is missing its notification configuration, which installing the latest build from riftn.com/apk replaces.",
     "pushNotRegisteredDescIos": "Notifications cannot reach you while the app is closed: this iPhone never registered for push. Check that notifications are allowed for Riftn in Settings, then open the app again.",
