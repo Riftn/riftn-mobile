@@ -59,7 +59,7 @@ const OpenedMarker: React.FC<Props> = ({ kind = "image", mine, openedAt, onCamer
             onPress={onCamera}
             hitSlop={6}
             accessibilityRole="button"
-            accessibilityLabel={t("dm.opened.replyCamera", "Reply with the camera")}
+            accessibilityLabel={t("dm.opened.replyMedia", "Reply with a photo or video")}
           >
             <View style={{ width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", backgroundColor: "hsla(0,0%,50%,0.2)" }}>
               <Icon name="Camera" size={20} color={ink} />
