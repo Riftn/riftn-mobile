@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    paddingHorizontal: EDGE,
     // Above the bottom scrim, below whatever chrome is drawn after it.
     zIndex: 8,
   },
@@ -176,7 +177,6 @@ const styles = StyleSheet.create({
     // The line is 2pt; the finger gets 24.
     height: 24,
     justifyContent: "flex-end",
-    paddingHorizontal: EDGE,
     paddingBottom: 6,
   },
   hitAreaLive: {
