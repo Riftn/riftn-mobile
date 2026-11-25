@@ -6,14 +6,14 @@
  * create: Moment, Post, Live, Stage and Status. Each opens its real flow.
  * Same as web's StoryCreatePill.
  */
-import React, { useEffect, useMemo, useState } from "react";
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Icon, { type IconName } from "../ui/Icon";
-import { useUser } from "../../context/AuthContext";
+import { useAuthActions, useUser } from "../../context/AuthContext";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useStages } from "../../context/StageContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -49,19 +49,34 @@ function usePalette() {
 function useCreateFlows() {
   const navigation = useNavigation<any>();
   const { openModal } = useStages();
+  const { requireAuth } = useAuthActions();
   const [menuOpen, setMenuOpen] = useState(false);
   const [notesOpen, setNotesOpen] = useState(false);
-  const pick = (kind: Kind) => {
-    setMenuOpen(false);
-    if (kind === "moment") openStoryCreator();
+  const pendingPick = useRef<Kind | null>(null);
+  const pick = useCallback((kind: Kind) => {
+    if (kind === "moment") requireAuth(() => openStoryCreator());
     else if (kind === "post") navigation.navigate(ScreenNames.Upload);
     else if (kind === "live") navigation.navigate(ScreenNames.Upload, { live: true });
     else if (kind === "stage") openModal("create");
     else if (kind === "status") setNotesOpen(true);
-  };
+  }, [navigation, openModal, requireAuth]);
+  const finishPick = useCallback(() => {
+    const kind = pendingPick.current;
+    pendingPick.current = null;
+    if (kind) pick(kind);
+  }, [pick]);
   const elements = (
     <>
-      <CreateSheet visible={menuOpen} onClose={() => setMenuOpen(false)} onPick={pick} />
+      <CreateSheet
+        visible={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        onDismiss={finishPick}
+        onPick={(kind) => {
+          if (pendingPick.current) return;
+          pendingPick.current = kind;
+          setMenuOpen(false);
+        }}
+      />
       {notesOpen ? (
         <NotesSheet
           visible={notesOpen}
@@ -112,29 +127,33 @@ export default function StoryCreateBar() {
 }
 
 /** First tile of the row while Moments or lives are up: a centred + that opens the same sheet. */
-export function StoryCreateTile({ width, height }: { width: number; height: number }) {
+export function StoryCreateTile({ height, children }: { height: number; children: React.ReactNode }) {
   const { t } = useTranslation();
-  const c = usePalette();
   const { openMenu, elements } = useCreateFlows();
   const label = t("stories.ask.create", { defaultValue: "Create" });
   return (
     <>
       <TouchableOpacity
-        style={[styles.tile, { width, height, backgroundColor: c.keyBg }]}
+        style={[styles.tile, { height }]}
         activeOpacity={0.85}
         onPress={openMenu}
         accessibilityRole="button"
         accessibilityLabel={label}
         testID="story-create-tile"
       >
-        <Icon name="Plus" size={22} color={c.keyInk} strokeWidth={2.4} />
+        {children}
       </TouchableOpacity>
       {elements}
     </>
   );
 }
 
-function CreateSheet({ visible, onClose, onPick }: { visible: boolean; onClose: () => void; onPick: (kind: Kind) => void }) {
+function CreateSheet({ visible, onClose, onDismiss, onPick }: {
+  visible: boolean;
+  onClose: () => void;
+  onDismiss: () => void;
+  onPick: (kind: Kind) => void;
+}) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const c = usePalette();
@@ -158,10 +177,12 @@ function CreateSheet({ visible, onClose, onPick }: { visible: boolean; onClose: 
   const sheetStyle = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   const backdropStyle = useAnimatedStyle(() => ({ opacity: fade.value }));
 
-  if (!visible && isFullyClosed) return null;
+  useEffect(() => {
+    if (Platform.OS !== "ios" && isFullyClosed) onDismiss();
+  }, [isFullyClosed, onDismiss]);
 
   return (
-    <Modal visible={visible || !isFullyClosed} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
+    <Modal visible={visible || !isFullyClosed} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose} onDismiss={onDismiss}>
       <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]}>
         <SheetBackdrop backdrop={backdrop} />
         <Pressable style={{ flex: 1 }} onPress={onClose} />
@@ -203,8 +224,7 @@ const styles = StyleSheet.create({
   promptText: { fontSize: 15, fontWeight: "500" },
   iconBtn: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   key: { width: 30, height: 30, borderRadius: 8, alignItems: "center", justifyContent: "center" },
-  /** The row's + key: a solid square the height of the pills beside it. */
-  tile: { borderRadius: 17, alignItems: "center", justifyContent: "center" },
+  tile: { minWidth: 44, alignItems: "center", justifyContent: "center" },
   sheet: {
     position: "absolute",
     left: 0,

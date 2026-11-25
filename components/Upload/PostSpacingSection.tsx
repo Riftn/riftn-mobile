@@ -56,13 +56,19 @@ export function PostSpacingSection() {
   const wallet = (user?.walletAddress || user?.address || "").toLowerCase();
   const chip = useChip();
   const spacing = usePostSpacing(true);
+  const queryKey = [POST_SPACING_KEY, wallet] as const;
   const save = useMutation({
     mutationFn: savePostSpacing,
-    onSuccess: (next) => queryClient.setQueryData([POST_SPACING_KEY, wallet], next),
+    scope: { id: `${POST_SPACING_KEY}:${wallet}` },
+    onSuccess: async (next) => {
+      await queryClient.cancelQueries({ queryKey, exact: true });
+      queryClient.setQueryData(queryKey, next);
+    },
     onError: () => toastError(t("postSpacing.saveFailed", { defaultValue: "Could not save that. Try again." })),
   });
   if (!wallet) return null;
 
+  const controlsDisabled = spacing.isLoading || save.isPending;
   const data = save.isPending && save.variables !== undefined
     ? { ...(spacing.data ?? { nextAt: null, waiting: 0 }), gapMinutes: save.variables }
     : spacing.data;
@@ -78,13 +84,24 @@ export function PostSpacingSection() {
           <Text style={styles.title}>{t("postSpacing.title", { defaultValue: "Space my posts" })}</Text>
           {!on ? <Text style={styles.sub}>{t("postSpacing.offHint", { defaultValue: "Each post waits its turn after your last one." })}</Text> : null}
         </View>
-        <CustomSwitch value={on} onValueChange={(v) => save.mutate(v ? (gap || 60) : 0)} />
+        <CustomSwitch
+          value={on}
+          disabled={controlsDisabled}
+          accessibilityLabel={t("postSpacing.title", { defaultValue: "Space my posts" })}
+          onValueChange={(v) => save.mutate(v ? (gap || 60) : 0)}
+        />
       </View>
       {on ? (
         <>
           <View style={styles.chips} accessibilityRole="radiogroup">
             {SPACING_CHOICES.map((g) => (
-              <Pressable key={g} onPress={() => g !== gap && save.mutate(g)} accessibilityRole="radio" accessibilityState={{ selected: g === gap }}>
+              <Pressable
+                key={g}
+                disabled={controlsDisabled}
+                onPress={() => g !== gap && save.mutate(g)}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: g === gap, disabled: controlsDisabled }}
+              >
                 <View style={chip.box(g === gap)}>
                   <Text style={[styles.chipText, chip.ink(g === gap)]}>{gapLabel(g, t)}</Text>
                 </View>
