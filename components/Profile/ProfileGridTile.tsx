@@ -1,8 +1,11 @@
 import React, { memo, useCallback, useMemo, useRef } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import BlurSafeImage from "../common/BlurSafeImage";
 import { useTranslation } from "react-i18next";
+import { useTranslation as usePostTranslation } from "../../hooks/useTranslation";
+import { usePoll } from "../../hooks/usePolls";
+import { useFeedSurfaceActive } from "../../libs/visualActivity";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
 import { resolveContentType } from "../Home/FeedCard";
@@ -18,7 +21,7 @@ import type { PostLookRow } from "../common/PostOptionsMenu";
 import { ArticleTileFace, openArticleTilePicker, useProfileArticleTile } from "./ArticleTile";
 import { articleReadMinutes } from "../../libs/articleTile";
 import { mediaCardOf, textCardOf, wordsWithoutLinks } from "../../libs/gridCard";
-import { GridCardFace, GridPollProbe, type GridPalette } from "./GridCardFace";
+import { GridCardFace, GridPollFace, type GridPalette } from "./GridCardFace";
 import { FormatMark, type FormatKind } from "./FormatMark";
 import { GRIP_ROOM, GridGrip, useGridDrag } from "./GridDrag";
 
@@ -69,6 +72,7 @@ function plainText(text?: string): string {
 }
 
 interface ProfileGridTileProps {
+  isVisible?: boolean;
   item: UnifiedFeedItem;
   pinned?: boolean;
   onPress: (item: UnifiedFeedItem, kind: GridTileKind, images: string[]) => void;
@@ -88,7 +92,7 @@ interface ProfileGridTileProps {
 
 const noPress = () => {};
 
-const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold, index, onHold }) => {
+const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold, index, onHold, isVisible = false }) => {
   const { t } = useTranslation();
   const drag = useGridDrag();
   const hasGrip = !!drag && index != null && !pinned && !(item as any).isRepost;
@@ -99,6 +103,8 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
   const { theme, isLight } = useAppTheme();
   const kind = gridTileKind(item);
   const id = String(item.tokenId ?? item.id ?? "");
+  const tokenNum = Number(item.tokenId) || 0;
+  const surfaceActive = useFeedSurfaceActive();
 
   const images = useMemo(() => {
     if (Array.isArray(item.imageUrls) && item.imageUrls.length > 0) return buildFeedImageUrls(item.imageUrls, TILE_FETCH_WIDTH);
@@ -133,8 +139,28 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
   const posterLine = isOsaka ? "rgba(255,111,181,0.22)" : lightPoster ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.1)";
   // A text post whose feed card is a stage, poll, event, link... is drawn as
   // a small copy of that card (GridCardFace). Locked words stay hidden.
-  const locked = !!(item as any).isLocked && !(item as any).isUnlocked;
+  const locked = !!item.isLocked && !item.isUnlocked;
   const card = kind === "text" && !locked ? textCardOf(item as any) : null;
+  const probePoll = kind === "text" && !card && !locked && tokenNum > 0;
+  const { poll, loading: pollPending } = usePoll(probePoll ? tokenNum : null);
+  const rawWords = kind === "article" ? item.title || item.name : item.description || item.name;
+  const originalWords = plainText(card ? wordsWithoutLinks(rawWords || "") : rawWords);
+  const hasPreview = (!card && !poll?.question) || card?.kind === "quote" || card?.kind === "sharedPost";
+  const translatable = kind === "text" && hasPreview && !!originalWords && !item.isLocked && !item.isPPV &&
+    (!item.visibility || item.visibility === "public");
+  const translationTexts = useMemo(() => {
+    const name = (item.name || item.title || "").trim();
+    return {
+      title: translatable && name.toLowerCase() !== "untitled" ? name : "",
+      description: translatable ? item.description || "" : "",
+    };
+  }, [item.name, item.title, item.description, translatable]);
+  const { isTranslated, translatedTexts, isLoading: translating, shouldShow, handleTranslate, handleShowOriginal } =
+    usePostTranslation(translationTexts, item.detectedLanguage, isVisible && surfaceActive && !pollPending, true, id);
+  const translatedWords = item.description ? translatedTexts.description : translatedTexts.title;
+  const words = isTranslated && translatedWords
+    ? plainText(card ? wordsWithoutLinks(translatedWords) : translatedWords)
+    : originalWords;
   // The owner's text-post backdrop (customs.postBg) on their own words only.
   const ownOrProfileBg = usePostBgFor(item as any);
   const postBg = kind === "text" && !card && !(item as any).isRepost ? ownOrProfileBg : null;
@@ -180,9 +206,7 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
     </View>
   ) : null;
 
-  const label = plainText(item.name || item.title || item.description) || t("profile.post", "Post");
-
-  const tokenNum = Number(item.tokenId) || 0;
+  const label = (isTranslated ? words : plainText(item.name || item.title || item.description)) || t("profile.post", "Post");
   const palette: GridPalette = {
     ink,
     sub,
@@ -195,8 +219,6 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
   const softLight = kind === "text" && !card && !postBg;
   let body: React.ReactNode;
   if (kind === "text" || kind === "article") {
-    const rawWords = kind === "article" ? item.title || item.name : item.description || item.name;
-    const words = plainText(card ? wordsWithoutLinks(rawWords || "") : rawWords);
     const posterInner = (format: FormatKind = "text") => (
       <View style={styles.textInner}>
         {pinChip ? <View style={styles.inlineChip}>{pinChip}</View> : softLight ? <View style={styles.softGap} /> : <Text style={[styles.quote, { color: ink }]}>{"“"}</Text>}
@@ -220,10 +242,10 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
           </>
         ) : card ? (
           <GridCardFace card={card} tokenId={tokenNum} item={item} words={words} chip={pinChip ?? undefined} palette={palette} fallback={posterInner(card.kind)} />
-        ) : locked || tokenNum <= 0 ? (
-          posterInner()
+        ) : poll ? (
+          <GridPollFace poll={poll} words={words} chip={pinChip ?? undefined} palette={palette} />
         ) : (
-          <GridPollProbe tokenId={tokenNum} words={words} chip={pinChip ?? undefined} palette={palette} poster={posterInner()} fallback={posterInner("poll")} />
+          posterInner()
         )}
         {kind === "article" && pinChip}
       </View>
@@ -291,6 +313,20 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
       >
         {({ pressed }) => <View style={[styles.press, pressed && styles.pressed]}>{body}</View>}
       </Pressable>
+      {onPress !== noPress && translatable && shouldShow && (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={translating ? t("common.translating") : isTranslated ? t("common.showOriginal") : t("common.translate")}
+          accessibilityState={{ busy: translating, disabled: translating }}
+          disabled={translating}
+          onPress={isTranslated ? handleShowOriginal : handleTranslate}
+          style={[styles.translate, { backgroundColor: palette.glass }]}
+        >
+          {translating
+            ? <ActivityIndicator size="small" color={ink} />
+            : <Icon name={isTranslated ? "RotateCcw" : "Languages"} size={15} color={ink} />}
+        </Pressable>
+      )}
       {hasGrip && (
         <GridGrip
           index={index as number}
@@ -311,6 +347,7 @@ const styles = StyleSheet.create({
   cell: { width: "100%", aspectRatio: 3 / 4, padding: 1 },
   press: { flex: 1 },
   pressed: { transform: [{ scale: 0.97 }] },
+  translate: { position: "absolute", top: 3, right: 26, zIndex: 3, width: 26, height: 26, borderRadius: 7, alignItems: "center", justifyContent: "center" },
   fill: { flex: 1, borderRadius: 3, overflow: "hidden" },
   center: { alignItems: "center", justifyContent: "center" },
   shade: { backgroundColor: "rgba(0,0,0,0.16)" },
