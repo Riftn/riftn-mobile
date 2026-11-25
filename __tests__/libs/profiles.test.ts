@@ -232,9 +232,21 @@ describe('libs/profiles', () => {
       // …and the outgoing account's user blob did not survive the swap.
       expect(await SecureStore.getItemAsync('auth_user')).toContain('Alice');
 
+      await setRefreshToken('rtok-a-rotated');
       await completeProfileSwitch('uid-a');
-      // Registry still holds both accounts after landing on A.
       expect(await listProfiles()).toHaveLength(2);
+      expect((await getProfile('uid-a'))?.session?.tokens.auth_refresh_token).toBe('rtok-a-rotated');
+    });
+
+    it('preserves both sessions when one account takes a handle cached by another', async () => {
+      await seedAccountA();
+      await adoptCurrentProfile();
+      await seedAccountB();
+      await SecureStore.setItemAsync('auth_user', JSON.stringify({ username: 'alice', address: ADDR_B }));
+      await adoptCurrentProfile();
+
+      expect(await listProfiles()).toHaveLength(2);
+      expect((await beginProfileSwitch('uid-a'))?.address).toBe(ADDR_A);
     });
 
     it('returns null for an unknown or session-less profile without touching disk', async () => {
@@ -303,18 +315,18 @@ describe('libs/profiles', () => {
       expect(profiles.map((p) => p.address)).toEqual([ADDR_B]);
     });
 
-    it('shows one row per username, the most recently added', async () => {
+    it('shows the most recently added row for the same wallet address', async () => {
       const row = (id: string, address: string, addedAt: number) => ({
         id, uid: null, address, name: 'Clips', username: 'clips', avatarUrl: null,
         addedAt, lastActiveAt: 10_000 - addedAt, badgeBalance: null, session: null,
       });
       await AsyncStorage.setItem(
         PROFILES_STORAGE_KEY,
-        JSON.stringify([row(`addr:${ADDR_A}`, ADDR_A, 1), row(`addr:${ADDR_B}`, ADDR_B, 2)])
+        JSON.stringify([row(`addr:${ADDR_A}`, ADDR_A, 1), { ...row('uid-a', ADDR_A, 2), uid: 'uid-a' }])
       );
 
       const profiles = await listProfiles();
-      expect(profiles.map((p) => p.address)).toEqual([ADDR_B]);
+      expect(profiles.map((p) => p.id)).toEqual(['uid-a']);
     });
   });
 });

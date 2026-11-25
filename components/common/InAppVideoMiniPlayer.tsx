@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AppState, Pressable, StyleSheet, View } from 'react-native';
-import { VideoView } from 'expo-video';
+import { isPictureInPictureSupported, VideoView } from 'expo-video';
 import { Image } from 'expo-image';
 import Animated, { cancelAnimation, Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,8 @@ import Icon from '../ui/Icon';
 import { KeepDarkScope } from '../../libs/jsx/tone';
 import { useUser } from '../../context/AuthContext';
 import { requestAudioFocus, releaseAudioFocus } from '../../libs/audioFocus';
+import { isPictureInPicturePlayer, setPictureInPicturePlayer } from '../../libs/pictureInPicture';
+import { toastInfo } from '../../libs/toast';
 import { ownsPostMedia, preparePostMediaNavigation } from '../../libs/post-media-session';
 import {
   cancelInAppMiniHandoff, closeInAppVideoMini, getInAppMiniVersion, getInAppVideoMini, inAppMiniReady,
@@ -41,7 +43,9 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
   const { t } = useTranslation();
   const reducedMotion = useReducedMotion();
   const [playing, setPlaying] = useState(() => entry.player.playing);
-  const firstFrame = useRef(false);
+  const [firstFrame, setFirstFrame] = useState(false);
+  const viewRef = useRef<VideoView>(null);
+  const pipSupported = isPictureInPictureSupported();
   const ownsSurface = useSyncExternalStore(callback => {
     entry.session.listeners.add(callback);
     return () => { entry.session.listeners.delete(callback); };
@@ -57,6 +61,10 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
     if (!ownsPostMedia(entry.session, entry.token)) return;
     try { entry.player.pause(); } catch {}
   }, [entry]);
+  const releasePiP = useCallback(() => {
+    if (isPictureInPicturePlayer(entry.player)) setPictureInPicturePlayer(null);
+  }, [entry.player]);
+  useEffect(() => releasePiP, [releasePiP]);
   useEffect(() => {
     const options = { duration: reducedMotion ? 0 : 220, easing: Easing.out(Easing.cubic) };
     x.value = withTiming(Math.max(8, bounds.width - targetWidth - 12), options);
@@ -69,26 +77,26 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
   useEffect(() => {
     requestAudioFocus(stop);
     const playingSub = entry.player.addListener('playingChange', event => setPlaying(event.isPlaying));
-    // A mini player with sound keeps playing when the app is minimised
-    // (libs/backgroundVideoAudio); a silent one stops as before.
+    // On devices without PiP, silent video stops when leaving the app.
     const appSub = AppState.addEventListener('change', state => {
-      if (state === 'active') return;
+      if (state === 'active' || (pipSupported && viewRef.current)) return;
       let audible = false;
       try { audible = entry.player.playing && !entry.player.muted && entry.player.volume > 0; } catch {}
       if (!audible) stop();
     });
     // Abort a stalled surface handoff instead of hiding it behind a poster.
     // The original route remains mounted until a real hosted frame arrives.
-    const timer = setTimeout(() => {
-      if (!firstFrame.current) cancelInAppMiniHandoff(entry);
-    }, 1200);
     return () => {
-      clearTimeout(timer);
       playingSub.remove();
       appSub.remove();
       releaseAudioFocus(stop);
     };
-  }, [entry, stop]);
+  }, [entry, pipSupported, stop]);
+  useEffect(() => {
+    if (firstFrame) return;
+    const timer = setTimeout(() => cancelInAppMiniHandoff(entry), 1200);
+    return () => clearTimeout(timer);
+  }, [entry, firstFrame]);
   useEffect(() => {
     if (!entry.restoring) return;
     const timer = setTimeout(() => {
@@ -113,10 +121,13 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
           poster fills it until the first frame: "contain" left black bands
           wherever the poster's shape differed slightly from the video's. */}
       {entry.thumbnail ? <Image source={{ uri: entry.thumbnail }} style={StyleSheet.absoluteFill} contentFit="cover" transition={0} /> : null}
-      {ownsSurface ? <VideoView player={entry.player} style={StyleSheet.absoluteFill}
+      {ownsSurface ? <VideoView ref={viewRef} player={entry.player} style={StyleSheet.absoluteFill}
         contentFit="contain" surfaceType="textureView" nativeControls={false} pointerEvents="none"
-        startsPictureInPictureAutomatically={false} allowsPictureInPicture={false}
-        onFirstFrameRender={() => { firstFrame.current = true; inAppMiniReady(entry); }} /> : null}
+        startsPictureInPictureAutomatically={pipSupported && playing && firstFrame}
+        allowsPictureInPicture={pipSupported}
+        onPictureInPictureStart={() => setPictureInPicturePlayer(entry.player)}
+        onPictureInPictureStop={releasePiP}
+        onFirstFrameRender={() => { setFirstFrame(true); inAppMiniReady(entry); }} /> : null}
       <Pressable accessibilityRole="button" accessibilityLabel={t('player.fullscreen')} onPress={restore} style={StyleSheet.absoluteFill} />
       <View pointerEvents="box-none" style={styles.controls}>
         <Pressable accessibilityRole="button" accessibilityLabel={t(playing ? 'audioPost.pause' : 'audioPost.play')}
@@ -124,6 +135,12 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
             if (entry.player.playing) { entry.session.userPaused = true; stop(); }
             else { entry.session.userPaused = false; requestAudioFocus(stop); entry.player.play(); }
           }} style={styles.control}><Icon name={playing ? 'Pause' : 'Play'} size={18} color="#FFFFFF" /></Pressable>
+        {pipSupported && firstFrame && (
+          <Pressable accessibilityRole="button" accessibilityLabel={t('player.pictureInPicture')}
+            onPress={() => {
+              void viewRef.current?.startPictureInPicture().catch(() => toastInfo(t('player.pipUnavailable')));
+            }} style={styles.control}><Icon name="PictureInPicture2" size={18} color="#FFFFFF" /></Pressable>
+        )}
         <Pressable accessibilityRole="button" accessibilityLabel={t('common.close')}
           onPress={closeInAppVideoMini} style={styles.control}><Icon name="X" size={18} color="#FFFFFF" /></Pressable>
       </View>

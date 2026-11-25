@@ -44,7 +44,7 @@ export default function ConnectedAppsSection() {
   };
 
   const when = (iso: string | null) =>
-    iso ? new Date(iso).toLocaleDateString(i18n.language, { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+    iso ? new Date(iso).toLocaleDateString(i18n.language?.replace('_', '-'), { year: 'numeric', month: 'short', day: 'numeric' }) : '';
 
   // Only people who have actually signed a Mastodon app in see this section.
   // Everyone else (nearly everyone) gets nothing, not an empty card.

@@ -114,7 +114,7 @@ function StreamerDetails({
 }) {
   const { t, i18n } = useTranslation();
   const { width: W } = useWindowDimensions();
-  const nf = useMemo(() => new Intl.NumberFormat(i18n.language), [i18n.language]);
+  const nf = useMemo(() => new Intl.NumberFormat(i18n.language?.replace('_', '-')), [i18n.language]);
   const tileWidth = tileWidthFor(W);
 
   const id = STREAMER_BADGE_IDS[api.index];

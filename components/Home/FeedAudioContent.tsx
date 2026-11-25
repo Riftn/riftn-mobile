@@ -1,8 +1,18 @@
 import React from 'react';
+import { Pressable } from 'react-native';
 
 /** Keep the player unmounted until every access requirement is satisfied. */
 export default function FeedAudioContent({ gated, cover, children }: {
   gated: boolean; cover: React.ReactNode; children: React.ReactNode;
 }) {
-  return <>{cover}{!gated && children}</>;
+  return (
+    <>
+      {cover}
+      {!gated && children && (
+        <Pressable accessible={false} onPress={event => event.stopPropagation()}>
+          {children}
+        </Pressable>
+      )}
+    </>
+  );
 }

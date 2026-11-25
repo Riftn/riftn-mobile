@@ -21,9 +21,9 @@ export default function RichLinkCard({ preview, style }: { preview: RichPreview;
   const { t, i18n } = useTranslation();
   const { isMinimal, skin } = useAppTheme();
   const data = preview.rich;
-  const number = (value: number) => new Intl.NumberFormat(i18n.language, { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+  const number = (value: number) => new Intl.NumberFormat(i18n.language?.replace('_', '-'), { notation: 'compact', maximumFractionDigits: 1 }).format(value);
   const metric = (item: RichDetails['metrics'][number]) => item.kind === 'duration' ? duration(item.value) : item.kind === 'tvl'
-    ? new Intl.NumberFormat(i18n.language, { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 2 }).format(item.value) : number(item.value);
+    ? new Intl.NumberFormat(i18n.language?.replace('_', '-'), { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 2 }).format(item.value) : number(item.value);
   return <View style={[styles.card, isMinimal && minimalFlat, skin?.material === 'glass' && skin.card, style]}>
     <TouchableOpacity activeOpacity={0.85} accessibilityRole="link" onPress={() => openInApp(preview.url)} style={styles.body}>
       <View style={styles.row}>
@@ -55,8 +55,8 @@ export default function RichLinkCard({ preview, style }: { preview: RichPreview;
         </View>)}
         {(data.totalChoices || 0) > data.choices.length && <Text style={styles.muted}>+{data.totalChoices! - data.choices.length}</Text>}
       </View>}
-      {data.endsAt && <View style={[styles.row, styles.footer]}><Icon name="CalendarClock" size={11} color="#a1a1aa" /><Text style={styles.muted}>{new Date(data.endsAt).toLocaleString(i18n.language)}</Text></View>}
-      <View style={[styles.row, styles.footer]}><Icon name="Clock" size={10} color="#a1a1aa" /><Text style={styles.timestamp}>{data.fetchedAt ? new Date(data.fetchedAt).toLocaleString(i18n.language) : t('common.failedToLoad')}</Text></View>
+      {data.endsAt && <View style={[styles.row, styles.footer]}><Icon name="CalendarClock" size={11} color="#a1a1aa" /><Text style={styles.muted}>{new Date(data.endsAt).toLocaleString(i18n.language?.replace('_', '-'))}</Text></View>}
+      <View style={[styles.row, styles.footer]}><Icon name="Clock" size={10} color="#a1a1aa" /><Text style={styles.timestamp}>{data.fetchedAt ? new Date(data.fetchedAt).toLocaleString(i18n.language?.replace('_', '-')) : t('common.failedToLoad')}</Text></View>
     </TouchableOpacity>
     {data.audioUrl && <ShareAudio key={data.audioUrl} url={data.audioUrl} />}
   </View>;
