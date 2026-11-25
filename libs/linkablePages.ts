@@ -73,7 +73,7 @@ export const LINKABLE_PAGES: LinkablePage[] = [
   { path: '/apps', labelKey: 'miniApps.store.title', icon: 'LayoutGrid', storefrontHidden: true },
   { path: '/converter', labelKey: 'nav.converter', icon: 'ArrowDownToLine', storefrontHidden: true },
   { path: '/migrate-youtube', labelKey: 'nav.migrate', icon: 'FolderInput', storefrontHidden: true },
-  { path: '/compare', labelKey: 'Compare Riftn', icon: 'Scroll', storefrontHidden: true },
+  { path: '/compare', labelKey: 'comparison.title', icon: 'Scroll', storefrontHidden: true },
   { path: '/premium', labelKey: 'nav.premium', icon: 'Crown', storefrontHidden: true },
   { path: '/pricing', labelKey: 'nav.pricing', icon: 'Tag', storefrontHidden: true },
   { path: '/planned', labelKey: 'planned.title', icon: 'CalendarDays' },
