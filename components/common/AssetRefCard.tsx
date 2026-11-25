@@ -315,7 +315,7 @@ const OwnTokenComingSoonCard: React.FC = () => {
                 <Text style={styles.soonBadgeText}>{t('hero.comingSoon', 'Coming Soon')}</Text>
               </View>
             </View>
-            <Text style={styles.soonTitle}>{t('tokenLaunch.title', 'Token launching soon')}</Text>
+            <Text style={styles.soonTitle}>{t('tokenLaunch.riftTitle', '$RIFT on-chain launch')}</Text>
             <Text style={styles.meta}>
               {t('cashtag.listingBody', "Riftn tokens aren't trading yet. Get an email when trading opens.")}
             </Text>

@@ -4199,6 +4199,7 @@
     "power": "power"
   },
   "governance": {
+    "freeVoting": "Voting is free. Your staking badge determines your vote weight.",
     "optionVoters_one": "{{count}} voter",
     "optionVoters_other": "{{count}} voters",
     "optionWinner": "Winner: {{option}}",
@@ -16985,6 +16986,8 @@
     "eyebrow": "Coming soon",
     "title": "Token launching soon",
     "body": "Buying is closed while the new token gets ready. Get an email the moment it goes live.",
+    "riftTitle": "$RIFT on-chain launch",
+    "riftStatus": "$RIFT is already usable inside Riftn. The on-chain token has yet to launch. There is no official contract address or exchange listing. Sign up for a launch email.",
     "notifyMe": "Notify me",
     "sendTo": "We will email {{email}}",
     "emailLabel": "Email",
