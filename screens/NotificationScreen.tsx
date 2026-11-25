@@ -307,7 +307,7 @@ const TypeTabs: React.FC<TypeTabsProps> = React.memo(({ selected, onSelect, coun
                 accessibilityLabel={t(tab.label)}
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}
               >
-                <Icon name={tab.icon as any} size={16} color={ink} strokeWidth={isActive ? 2 : 1.8} />
+                <Icon name={tab.icon as any} size={tab.key === 'reposts' ? 22 : 20} color={ink} strokeWidth={isActive ? 2 : 1.8} />
                 {count > 0 ? (
                   <Text style={{ color: ink, fontSize: 12, fontWeight: '700' }}>
                     {count > 99 ? '99+' : count}
@@ -2460,7 +2460,7 @@ const NotificationScreen = () => {
                   style={{ width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
                   hitSlop={{ top: 5, bottom: 5, left: 3, right: 3 }}
                 >
-                  <Icon name="SlidersHorizontal" size={16} color="#A1A1AA" />
+                  <Icon name="SlidersHorizontal" size={20} color="#A1A1AA" />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setSearch('')}
@@ -2469,7 +2469,7 @@ const NotificationScreen = () => {
                   style={{ width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}
                   hitSlop={{ top: 5, bottom: 5, left: 3, right: 3 }}
                 >
-                  <Icon name="Search" size={16} color="#A1A1AA" />
+                  <Icon name="Search" size={20} color="#A1A1AA" />
                 </TouchableOpacity>
             <TouchableOpacity
               onPress={handleMarkAllRead}
@@ -2480,7 +2480,7 @@ const NotificationScreen = () => {
               style={{ width: 34, height: 34, borderRadius: 10, alignItems: 'center', justifyContent: 'center', opacity: hasUnread ? 1 : 0.45 }}
               hitSlop={{ top: 5, bottom: 5, left: 3, right: 3 }}
             >
-              <Icon name="CheckCheck" size={16} color="#A1A1AA" />
+              <Icon name="CheckCheck" size={20} color="#A1A1AA" />
             </TouchableOpacity>
               </View>
               }
