@@ -1,5 +1,6 @@
 {
   "comparison": {
+    "title": "Compare Riftn",
     "search": "Search features",
     "features": "features",
     "peerReviewDate": "Competitor documentation reviewed:",
@@ -925,7 +926,6 @@
     "webOnlyHint": "Finish this on riftn.com. It opens in Safari."
   },
   "nav": {
-    "compareRiftn": "Compare Riftn",
     "launchpad": "Launchpad",
     "findWords": {
       "home": "feed, timeline, latest posts, for you, following, front page",

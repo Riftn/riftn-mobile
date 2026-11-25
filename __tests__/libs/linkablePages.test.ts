@@ -18,7 +18,6 @@ describe('pages you can link to', () => {
 
   it('names every page with a real string', () => {
     for (const page of LINKABLE_PAGES) {
-      if (page.labelKey.includes(' ')) continue; // "Compare Riftn" is its own name.
       expect(typeof lookup(page.labelKey)).toBe('string');
     }
   });

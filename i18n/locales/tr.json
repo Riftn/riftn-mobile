@@ -1,5 +1,6 @@
 {
   "comparison": {
+    "title": "Riftn’i karşılaştır",
     "search": "Özellikleri ara",
     "features": "özellik",
     "peerReviewDate": "İncelenen rakip belgeleri:",
@@ -1889,7 +1890,6 @@
     "webOnlyHint": "Bunu riftn.com'da tamamla. Safari'de açılır."
   },
   "nav": {
-    "compareRiftn": "Riftn’i karşılaştır",
     "launchpad": "Lanser Aracı",
     "findWords": {
       "home": "ana sayfa, akış, son gönderiler, senin için, takip edilenler, ön sayfa",

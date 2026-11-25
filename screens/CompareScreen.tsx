@@ -66,7 +66,7 @@ export default function CompareScreen() {
     {value.relatedSources?.map(source => linkedSource(source) && <Pressable key={source} accessibilityRole="link" onPress={() => { void openExternalLink(SOURCES[source].url); }} style={styles.link}><Text style={{ color: colors.foreground, textDecorationLine: 'underline' }}>{SOURCES[source].title}</Text></Pressable>)}
   </View>;
   return <View style={styles.root}>
-    <ScreenHeader title={t('nav.compareRiftn')} icon="glossary" tabs={<PageTabs<PlatformId | 'all'> tabs={[...PLATFORMS.map(p => ({ id: p.id, label: p.name })), { id: 'all', label: copy('allPlatforms', 'All platforms') }]} value={platform} onChange={setPlatform} />}>
+    <ScreenHeader title={t('comparison.title')} icon="glossary" tabs={<PageTabs<PlatformId | 'all'> tabs={[...PLATFORMS.map(p => ({ id: p.id, label: p.name })), { id: 'all', label: copy('allPlatforms', 'All platforms') }]} value={platform} onChange={setPlatform} />}>
       <TextInput value={query} onChangeText={setQuery} accessibilityLabel={copy('search', 'Search features')} placeholder={copy('search', 'Search features')} placeholderTextColor={colors.mutedForeground} autoCorrect={false} style={[styles.input, { color: colors.foreground, borderColor: colors.border }]} />
     </ScreenHeader>
     <FlatList data={filtered} keyExtractor={item => item.id} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: insets.bottom + 90 }} initialNumToRender={8}
