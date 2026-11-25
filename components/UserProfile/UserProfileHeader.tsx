@@ -12,7 +12,7 @@ import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "../
 import { LinearGradient } from "expo-linear-gradient";
 import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu } from "../Profile/ProfileImageMenu";
-import { useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import Icon from "../ui/Icon";
 import { copyToClipboard, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs";
 import { toastSuccess } from "../../libs/toast";
@@ -167,7 +167,6 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   const { width: windowWidth } = useWindowDimensions();
   const badgeRef = useRef<View>(null);
   const liveTarget = useLiveTarget(address, username);
-  // A Moment up: the face shows it on its corner and a tap plays it; the photo moves to the hold menu.
   const moment = useFaceMoment(address);
   const openMoments = useOpenMoments(address);
   // The chips by the name (early supporter and the milestone badges) follow
@@ -356,9 +355,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
             live={live}
             liveOrbit
-            onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
+            onPress={moment ? () => void openMoments() : liveTarget ? () => openLiveTarget(liveTarget) : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
+          <MomentAvatarOutline peek={moment} radius={PROFILE_AVATAR_RADIUS} />
           <ProfilePullRing size={PROFILE_AVATAR_SIZE} radius={PROFILE_AVATAR_RADIUS} color={colors.accent} />
           </Animated.View>
           {(!isBlocked || !!onOpenOptions) && (

@@ -78,7 +78,7 @@ import TranslateButton from "../ui/TranslateButton";
 import { isAssistantAddress } from "../../libs/assistant";
 import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assistantActionLinks";
 import AssistantActionCard from "../Assistant/AssistantActionCard";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import { stripBold } from "../../libs/bold-markup";
 
 /**
@@ -924,6 +924,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                   : undefined
               }
               size={28}
+              radius={5}
               name={senderUser?.displayName || senderUser?.username}
             />
           )}
@@ -936,9 +937,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                     : undefined
                 }
                 size={28}
+                radius={5}
                 name={senderUser?.displayName || senderUser?.username}
               />
-              <MomentPeekBadge peek={senderMoment} size={28} />
+              <MomentAvatarOutline peek={senderMoment} radius={5} />
             </TouchableOpacity>
           )}
 
