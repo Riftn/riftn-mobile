@@ -20,7 +20,7 @@ export function useProfileViewWriter() {
     const previous = pending.get(address);
     const write = (previous?.catch(() => {}) ?? Promise.resolve()).then(async () => {
       if (activeAddress.current !== address) return;
-      await AuthService.updateProfile(update);
+      await AuthService.updateProfile({ ...update, layoutViewer: address });
       await patchUser(current => (current?.walletAddress || current?.address)?.toLowerCase() === address ? update : {});
     });
     pending.set(address, write);

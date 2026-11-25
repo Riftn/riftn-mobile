@@ -7,13 +7,14 @@ import ProfileImageGrid from '../../components/Profile/ProfileImageGrid';
 import { getProfileViewDefault, getProfileViewReaderPref, ProfileViewModeContext, startingProfileView, useProfileViewState } from '../../libs/profileViewMode';
 
 const mockPatchUser = jest.fn(async () => {});
-const mockUpdateProfile = jest.fn<Promise<void>, [{ defaultProfileView?: string; profileViewOthers: string }]>(async () => {});
+type LayoutPayload = { defaultProfileView?: string; profileViewOthers: string; layoutViewer: string };
+const mockUpdateProfile = jest.fn<Promise<void>, [LayoutPayload]>(async () => {});
 jest.mock('../../context/AuthContext', () => ({
   useUser: () => ({ walletAddress: 'owner', customs: { defaultProfileView: 'grid' } }),
   useAuthActions: () => ({ patchUser: mockPatchUser }),
 }));
 jest.mock('../../services/auth.service', () => ({ AuthService: {
-  updateProfile: (payload: { defaultProfileView?: string; profileViewOthers: string }) => mockUpdateProfile(payload),
+  updateProfile: (payload: LayoutPayload) => mockUpdateProfile(payload),
 } }));
 jest.mock('../../libs', () => ({ toastError: jest.fn() }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
@@ -102,8 +103,8 @@ it('keeps the last account selection when an earlier profile layout update is in
   expect(mockUpdateProfile).toHaveBeenCalledTimes(1);
   await act(async () => { finish(); });
   expect(mockUpdateProfile.mock.calls.map(([payload]) => payload)).toEqual([
-    { defaultProfileView: 'list', profileViewOthers: 'list' },
-    { defaultProfileView: 'grid', profileViewOthers: 'grid' },
+    { defaultProfileView: 'list', profileViewOthers: 'list', layoutViewer: 'owner' },
+    { defaultProfileView: 'grid', profileViewOthers: 'grid', layoutViewer: 'owner' },
   ]);
   expect(mockPatchUser).toHaveBeenCalledTimes(2);
   expect(local).not.toHaveBeenCalled();

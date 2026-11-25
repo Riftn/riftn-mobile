@@ -208,13 +208,14 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
    */
   const [synced, setSynced] = useState(false);
   const syncFromServer = useCallback(async () => {
-    const key = (user as any)?.username || (user as any)?.walletAddress || (user as any)?.address;
+    const address = (user?.walletAddress || user?.address)?.toLowerCase();
+    const key = user?.username || address;
     if (!key) return;
     try {
       const res: any = await getAccount(key);
       const core = res?.data?.result || res?.result || null;
       if (!core) throw new Error('empty account');
-      await patchUser(() => ({
+      await patchUser(current => (current.walletAddress || current.address)?.toLowerCase() !== address ? {} : ({
         hideFollowers: core.hideFollowers === true,
         isPrivate: core.isPrivate === true,
         // Absent on the server means off, so never keep an older cached value.
