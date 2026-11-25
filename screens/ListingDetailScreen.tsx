@@ -373,41 +373,6 @@ export default function ListingDetailScreen() {
               <Text style={styles.buyBtnText}>{t("liveShop.buyNow")}</Text>
             </Pressable>
           )}
-              <Text style={styles.fieldLabel}>{t("stores.detail.noteOptional")}</Text>
-              <TextInput
-                value={notes}
-                onChangeText={setNotes}
-                placeholder={t("stores.detail.notePlaceholder")}
-                placeholderTextColor="#8B8D90"
-                style={styles.input}
-              />
-
-              <Pressable
-                onPress={handleBuy}
-                disabled={buying || priceDhb <= 0}
-                style={[styles.buyBtn, (buying || priceDhb <= 0) && styles.buyBtnDisabled]}
-              >
-                {buying ? (
-                  <ActivityIndicator color="#000000" />
-                ) : (
-                  <>
-                    <Icon name="ShoppingCart" size={17} color="#000000" />
-                    <Text style={styles.buyBtnText}>
-                      {priceDhb > 0
-                        ? t("stores.detail.buyFor", {
-                            amount: priceDhb.toLocaleString(appLocale()),
-                          })
-                        : t("stores.detail.loadingPrice")}
-                    </Text>
-                  </>
-                )}
-              </Pressable>
-              <Text style={styles.buyHint}>
-                {t("stores.detail.paymentHint")}
-              </Text>
-            </>
-          )}
-
           {/* Reviews */}
           <Text style={styles.sectionTitle}>
             {t("stores.detail.reviewCount", { count })}
