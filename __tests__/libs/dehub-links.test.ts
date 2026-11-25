@@ -91,7 +91,7 @@ describe('parseDehubLink', () => {
       kind: 'store',
       storeId,
     });
-    expect(parseDehubLink(`https://dehub.io/app/stores/${storeId}?listing=${listingId}`)).toMatchObject({
+    expect(parseDehubLink(`https://riftn.com/stores/${storeId}?listing=${listingId}`)).toMatchObject({
       kind: 'listing',
       storeId,
       listingId,

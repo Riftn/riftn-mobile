@@ -232,7 +232,7 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
   }
 
   // ── store / listing ──
-  if (DIGITAL_PURCHASES_ENABLED && isAppScoped && scoped[0] === 'stores' && scoped[1]) {
+  if (DIGITAL_PURCHASES_ENABLED && scoped[0] === 'stores' && scoped.length === 2) {
     const storeId = scoped[1];
     if (!/^[a-fA-F0-9-]{8,}$/.test(storeId)) return null;
     const listingId = queryParam(parts.search, 'listing');
