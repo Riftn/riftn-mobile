@@ -100,12 +100,13 @@ export default function FreeDmAccessSheet({ visible, onClose }: { visible: boole
         </View>
 
         <View className="mx-5 flex-row items-center gap-2 rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-800/60 px-3">
-          <Icon name="Search" size={18} />
+          <Icon name="Search" size={18} color="#8B8D90" />
           <TextInput
-            className="flex-1 min-h-11 text-white text-sm placeholder:text-theme-neutrals-400"
+            className="flex-1 min-h-11 text-white text-sm"
             value={search}
             onChangeText={setSearch}
             placeholder={searchLabel}
+            placeholderTextColor="#8B8D90"
             accessibilityLabel={searchLabel}
             autoCapitalize="none"
             autoCorrect={false}
@@ -113,7 +114,7 @@ export default function FreeDmAccessSheet({ visible, onClose }: { visible: boole
           />
           {search ? (
             <TouchableOpacity onPress={() => setSearch('')} accessibilityRole="button" accessibilityLabel={t('sidebar.clearSearch')} hitSlop={8}>
-              <Icon name="X" size={16} />
+              <Icon name="X" size={16} color="#8B8D90" />
             </TouchableOpacity>
           ) : null}
         </View>
@@ -157,7 +158,7 @@ export default function FreeDmAccessSheet({ visible, onClose }: { visible: boole
                     {user.username && <Text className="text-theme-neutrals-400 text-xs" numberOfLines={1}>@{user.username}</Text>}
                   </View>
                   {selected ? (
-                    <View className="flex-row items-center gap-1.5 rounded-full bg-theme-accent/15 px-3 py-2">
+                    <View className="min-h-9 flex-row items-center gap-1.5 rounded-full bg-theme-accent/15 px-3">
                       <Icon name="Check" size={14} />
                       <Text className="text-theme-accent text-xs font-semibold">{t('settings.freeDmSelected', 'Selected')}</Text>
                     </View>
