@@ -50,7 +50,7 @@ export const PostEditHistoryViewer: React.FC<{ versions: PostVersion[] }> = ({ v
   if (!version) return null;
 
   const when = version.at
-    ? new Date(version.at).toLocaleString(i18n.language || undefined, { dateStyle: "medium", timeStyle: "short" })
+    ? new Date(version.at).toLocaleString(i18n.language?.replace('_', '-') || undefined, { dateStyle: "medium", timeStyle: "short" })
     : "";
   const marks = showChanges && !!previous;
 

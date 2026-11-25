@@ -164,6 +164,8 @@ export interface User {
    * reads and writes the same keys so both clients agree.
    */
   customs?: Record<string, string>;
+  defaultProfileView?: 'grid' | 'list';
+  profileViewOthers?: 'grid' | 'list' | 'owner';
   likes?: string[];
   unlocked?: string[];
   createdAt?: string;

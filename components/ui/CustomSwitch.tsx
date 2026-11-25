@@ -23,29 +23,19 @@ const THUMB_SIZE = 22;
 const THUMB_MARGIN = 3;
 const TRAVEL = TRACK_W - THUMB_SIZE - THUMB_MARGIN * 2;
 
-function isPale(color: string): boolean {
-  const hex = /^#([\da-f]{6})$/i.exec(color);
-  if (!hex) return /^(?:white|#fff)$/i.test(color);
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex[1].slice(i, i + 2), 16));
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b > 200;
-}
-
 const CustomSwitch: React.FC<CustomSwitchProps> = ({
   value,
   onValueChange,
   disabled = false,
   accessibilityLabel,
 }) => {
-  // Animated styles never pass through the JSX colour pass (libs/jsx/tone.js),
-  // so System Light's colours are picked here.
-  const { colors, pageColors, isLight } = useAppTheme();
-  const offTrack = isLight ? '#A1A1AA' : colors.neutrals[800];
-  const offThumb = isLight ? '#FFFFFF' : colors.accentSecondary;
-  // System's accent is white; on a light page that track vanishes, so it
-  // turns to ink there with a white thumb.
-  const paleAccent = isLight && isPale(pageColors.accent);
-  const onTrack = paleAccent ? '#18181B' : pageColors.accent;
-  const onThumb = paleAccent ? '#FFFFFF' : pageColors.accentForeground;
+  // Animated styles bypass the JSX colour pass, so use the resolved palette.
+  const { theme, pageColors, isLight } = useAppTheme();
+  const isSystem = theme === 'system';
+  const offTrack = pageColors.neutrals[isLight ? 400 : isSystem ? 600 : 800];
+  const onTrack = pageColors.accent;
+  const onThumb = pageColors.accentForeground;
+  const offThumb = isSystem ? onThumb : pageColors.accentSecondary;
   const progress = useSharedValue(value ? 1 : 0);
 
   useEffect(() => {
@@ -69,18 +59,15 @@ const CustomSwitch: React.FC<CustomSwitchProps> = ({
     ),
   }), [offThumb, onThumb]);
 
-  const handlePress = () => {
-    if (!disabled) onValueChange(!value);
-  };
-
   return (
     <Pressable
-      onPress={handlePress}
+      onPress={() => onValueChange(!value)}
+      disabled={disabled}
       hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
       accessibilityRole="switch"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={{ checked: value, disabled }}
-      style={disabled ? { opacity: 0.5 } : undefined}
+      style={disabled ? { opacity: isSystem ? 0.65 : 0.5 } : undefined}
     >
       {/* The resting colours and position are drawn plainly too. On iPhone an
           animated style can miss its first frame on a switch mounted below the

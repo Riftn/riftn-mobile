@@ -44,7 +44,7 @@ import { useProfileDislikesCount, useProfileLikesCount } from "./useProfileDisli
 import { useTabBarScrollHide } from "../../hooks/useTabBarScrollHide";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
 import { ProfileViewModeContext, getProfileViewDefault, useProfileViewState } from "../../libs/profileViewMode";
-import { useSaveOwnProfileView } from "../../hooks/useSaveOwnProfileView";
+import { useSaveProfileView } from "../../hooks/useSaveProfileView";
 
 type ProfileRoute = { key: string; title: string; icon: IconName };
 
@@ -63,7 +63,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     [user],
   );
   // Your toolbar choice also sets the public default for your profile.
-  const profileView = useSaveOwnProfileView(useProfileViewState(address, getProfileViewDefault(user), address), !!address);
+  const profileView = useSaveProfileView(useProfileViewState(null, getProfileViewDefault(user)), true);
   // Your text-post backdrop on your own tiles (customs.postBg).
   const postBg = useResolvedPostBg(address, user?.customs);
   const rawArt = user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) : "";

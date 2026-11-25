@@ -617,31 +617,22 @@ const WebBar: React.FC<WebBarProps> = memo(({ index, clock, drive, level, maxH, 
   const rate = 2 + ((index * 47) % 4);
   const offset = ((index * 23) % 180) / 180;
   const capH = Math.max(2, Math.min(3, maxH * 0.025));
-  const barStyle = useAnimatedStyle(() => {
+  const motion = useAnimatedStyle(() => {
     const swing = Math.sin((clock.value * rate + offset) * TAU) ** 2;
     const playing = Math.min(1, level * (0.55 + 0.6 * swing));
     const v = level + (playing - level) * drive.value;
-    return { height: Math.max(2, v * maxH) };
-  });
-  const capStyle = useAnimatedStyle(() => {
-    const swing = Math.sin((clock.value * rate + offset) * TAU) ** 2;
-    const playing = Math.min(1, level * (0.55 + 0.6 * swing));
-    const v = level + (playing - level) * drive.value;
-    return { bottom: Math.max(2, v * maxH) + 1 };
+    return { transform: [{ translateY: maxH - Math.max(2, v * maxH) }] };
   });
   const radius = Math.min(width / 2, 4);
+  // Move the bar and its peak together. The band's clip trims the bar at its
+  // base without animating layout for the bar or peak on every frame.
   return (
-    <>
-      <Animated.View
-        style={[
-          { position: "absolute", left: x, bottom: 0, width, backgroundColor: color, borderTopLeftRadius: radius, borderTopRightRadius: radius },
-          barStyle,
-        ]}
-      />
-      <Animated.View
-        style={[{ position: "absolute", left: x, width, height: capH, borderRadius: capH / 2, backgroundColor: capColor }, capStyle]}
-      />
-    </>
+    <Animated.View style={[
+      { position: "absolute", left: x, bottom: 0, width, height: maxH, backgroundColor: color, borderTopLeftRadius: radius, borderTopRightRadius: radius },
+      motion,
+    ]}>
+      <View style={{ position: "absolute", left: 0, right: 0, bottom: maxH + 1, height: capH, borderRadius: capH / 2, backgroundColor: capColor }} />
+    </Animated.View>
   );
 });
 

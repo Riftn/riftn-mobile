@@ -145,8 +145,17 @@ async function save(snapshot: SkImage, png: boolean): Promise<string> {
 
 /** The photo and its words, flattened into one 1080 x 1920 JPEG. */
 export async function composePhoto(uri: string, layers: TextLayer[], look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur"): Promise<string> {
-  const data = await Skia.Data.fromURI(uri);
-  const image = Skia.Image.MakeImageFromEncoded(data);
+  let image = await Skia.Data.fromURI(uri).then(data => Skia.Image.MakeImageFromEncoded(data)).catch(() => null);
+  if (!image) {
+    // The native photo loader can read formats such as HEIC that Skia rejects.
+    const { manipulateAsync, SaveFormat } = await import("expo-image-manipulator");
+    const jpeg = await manipulateAsync(uri, [], { compress: 1, format: SaveFormat.JPEG });
+    try {
+      image = Skia.Image.MakeImageFromEncoded(await Skia.Data.fromURI(jpeg.uri));
+    } finally {
+      await FileSystem.deleteAsync(jpeg.uri, { idempotent: true }).catch(() => {});
+    }
+  }
   if (!image) throw new Error("could not decode image");
   const surface = Skia.Surface.Make(OUT_W, OUT_H) ?? Skia.Surface.MakeOffscreen(OUT_W, OUT_H);
   if (!surface) throw new Error("could not allocate surface");

@@ -7,10 +7,13 @@ import { fr } from 'date-fns/locale/fr';
 import { nl } from 'date-fns/locale/nl';
 import { tr } from 'date-fns/locale/tr';
 import { enUS } from 'date-fns/locale/en-US';
+import { zhCN } from 'date-fns/locale/zh-CN';
+import { zhTW } from 'date-fns/locale/zh-TW';
+import { normalizeLanguageCode } from './language-code';
 
-const locales = { ar, es, fr, nl, tr };
+const locales = { ar, es, fr, nl, tr, zh: zhCN, zh_tw: zhTW };
 export function applyDateLocale(language: string): void {
-  setDefaultOptions({ locale: locales[language as keyof typeof locales] || enUS });
+  setDefaultOptions({ locale: locales[normalizeLanguageCode(language) as keyof typeof locales] || enUS });
 }
 
 export function formatRelativeTime(input: string | number | Date | null | undefined, language: string, style: 'long' | 'short' | 'narrow' = 'long'): string {
@@ -27,7 +30,7 @@ export function formatRelativeTime(input: string | number | Date | null | undefi
   } catch {
     // Hermes builds can omit RelativeTimeFormat entirely. Retrying it in
     // English throws again and takes down every translated conversation row.
-    const locale = locales[language.split(/[-_]/)[0] as keyof typeof locales] || enUS;
+    const locale = locales[normalizeLanguageCode(language) as keyof typeof locales] || enUS;
     const now = Date.now();
     return formatDistance(new Date(now - elapsed), new Date(now), { locale, addSuffix: true });
   }

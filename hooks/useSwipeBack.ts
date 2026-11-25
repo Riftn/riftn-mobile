@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useRef } from 'react';
+import type { GestureType } from 'react-native-gesture-handler';
 
 export type BackAction = () => void;
 export type RegisterBackAction = (action: BackAction) => () => void;
 export const SwipeBackActions = createContext<RegisterBackAction | null>(null);
+export const SwipeBackPan = createContext<GestureType | null>(null);
 
 /** Keep the swipe tied to the same guarded/local action as the visible arrow. */
 export function useSwipeBackAction(action: BackAction | undefined, enabled = true) {
