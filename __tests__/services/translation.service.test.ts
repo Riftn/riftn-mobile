@@ -113,7 +113,7 @@ describe('services/translation.service', () => {
       const text = 'Yes, I should have a bitter coffee.';
       mockInvoke.mockResolvedValue({ data: { translatedText: text, detectedLanguage: { language: 'auto' } }, error: null });
       const { translateText } = loadService();
-      const options = { isPublic: true, isChat: true };
+      const options = { isPublic: true, manualChat: true };
       const expected = { translatedText: text, sourceLang: 'en', sameLanguage: true };
 
       await expect(translateText(text, 'en', 'auto', options)).resolves.toEqual(expected);
@@ -128,7 +128,7 @@ describe('services/translation.service', () => {
       mockInvoke.mockResolvedValueOnce({ data: { translatedText: text }, error: null })
         .mockResolvedValueOnce({ data: { translatedText: 'Sanırım dört saat uyku yeterli.' }, error: null });
       const { translateText } = loadService();
-      const options = { isPublic: true, isChat: true };
+      const options = { isPublic: true, manualChat: true };
 
       await expect(translateText(text, 'tr', 'auto', options)).resolves.toMatchObject({ untranslated: true });
       await expect(translateText(text, 'tr', 'auto', options)).resolves.toMatchObject({

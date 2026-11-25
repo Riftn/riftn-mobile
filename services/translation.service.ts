@@ -30,7 +30,8 @@ export interface TranslateOptions {
    * forgets is the safe kind of wrong.
    */
   isPublic?: boolean;
-  isChat?: boolean;
+  /** Allow a deliberate chat tap to retry an unconfirmed cached reply. */
+  manualChat?: boolean;
 }
 
 export interface TranslateResponse {
@@ -301,7 +302,7 @@ export async function translateText(
   text: string,
   targetLang: string,
   sourceLang: string = 'auto',
-  { isPublic = false, isChat = false }: TranslateOptions = {},
+  { isPublic = false, manualChat = false }: TranslateOptions = {},
 ): Promise<TranslateTextResult> {
   if (!text || text.trim().length < 1) {
     return { translatedText: text, sourceLang: null, sameLanguage: true };
@@ -311,7 +312,7 @@ export async function translateText(
   if (!hasAiConsent()) throw new TranslationServiceError(aiConsentDeclinedMessage(), 403);
 
   const resolvedSource = (source: string | null): string | null => {
-    if (!isChat || (source && !['auto', 'und', 'unknown'].includes(baseCode(source)))) return source;
+    if (!manualChat || (source && !['auto', 'und', 'unknown'].includes(baseCode(source)))) return source;
     return chatLineMatchesLanguage(text, targetLang) ? targetLang : source;
   };
 
@@ -320,7 +321,7 @@ export async function translateText(
     const cachedSame = cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text);
     const source = cachedSame ? resolvedSource(cached.sourceLang) : cached.sourceLang;
     const untranslated = looksUntranslated(cachedSame, source, targetLang);
-    if (!isChat || !untranslated) {
+    if (!manualChat || !untranslated) {
       log.debug('Cache hit for translation');
       return {
         translatedText: cached.translatedText,
@@ -347,7 +348,7 @@ export async function translateText(
   const untranslated = data.sameLanguage !== true && looksUntranslated(sameLanguage, source, targetLang);
 
   // Keep a settled answer. An unconfirmed chat echo should allow a fresh tap.
-  if (!isChat || !untranslated) {
+  if (!manualChat || !untranslated) {
     setCache(text, targetLang, {
       translatedText: data.translatedText,
       sourceLang: data.sameLanguage === true ? targetLang : source,

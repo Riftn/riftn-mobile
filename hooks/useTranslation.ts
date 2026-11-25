@@ -178,7 +178,10 @@ export function useTranslation(
         const entries = Object.entries(texts).filter(([, v]) => v && v.trim().length > 0);
         const settled = await Promise.allSettled(
           entries.map(async ([key, text]) => {
-            const result = await translateText(text, targetLang, source, { isPublic, ...(isChat ? { isChat } : {}) });
+            const result = await translateText(text, targetLang, source, {
+              isPublic,
+              ...(isChat && !silent ? { manualChat: true } : {}),
+            });
             return [key, result] as const;
           }),
         );
