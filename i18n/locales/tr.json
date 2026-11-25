@@ -2191,6 +2191,9 @@
     "loggedOut": "Çıkış yapıldı",
     "loggedOutNowUsing": "Çıkış yapıldı. Şimdi {{name}} kullanılıyor",
     "logoutFailed": "Çıkış başarısız",
+    "logOutThisAccount": "Bu hesaptan çıkış yap",
+    "logOutAllAccounts": "Tüm hesaplardan çıkış yap",
+    "logOutScopeDescription": "Bu cihazda hangi hesaplardan çıkış yapmak istediğini seç.",
     "profile": "Profil",
     "notifications": "Bildirimler",
     "privacy": "Gizlilik",
@@ -9124,7 +9127,7 @@
     "editFailed": "Düzenleme kaydedilmedi. Tekrar dene.",
     "messagingUnavailable": "Mesajlaşma mevcut değil",
     "addCaption": "Açıklama ekle…",
-    "opened": {"photoA11y": "Fotoğraf, {{time}} açıldı", "videoA11y": "Video, {{time}} açıldı", "seenAt": "Görüldü {{time}}", "replyCamera": "Kamerayla yanıtla", "quotePhoto": "Fotoğraf · Açıldı", "quoteVideo": "Video · Açıldı"},
+    "opened": {"camera": "Kamera", "gallery": "Galeri", "replyMedia": "Fotoğraf veya videoyla yanıtla", "photoA11y": "Fotoğraf, {{time}} açıldı", "videoA11y": "Video, {{time}} açıldı", "seenAt": "Görüldü {{time}}", "replyCamera": "Kamerayla yanıtla", "quotePhoto": "Fotoğraf · Açıldı", "quoteVideo": "Video · Açıldı"},
     "openTimer": {
       "sent": "Gönderildi",
       "secs": "{{n}} sn",
@@ -17331,6 +17334,7 @@
     "watch": "Bu yaratıcıyı desteklemek için bir reklam izleyin"
   },
   "liveOverlay": {
+    "showCreatorChat": "İçerik üreticisinin sohbet katmanını göster",
     "eyebrow": {
       "follow": "Yeni takipçi",
       "subscribe": "Yeni abone",

@@ -1341,6 +1341,9 @@
     "loggedOut": "Uitgelogd",
     "loggedOutNowUsing": "Uitgelogd. Je gebruikt nu {{name}}",
     "logoutFailed": "Uitloggen mislukt",
+    "logOutThisAccount": "Uitloggen bij dit account",
+    "logOutAllAccounts": "Uitloggen bij alle accounts",
+    "logOutScopeDescription": "Kies bij welke accounts je op dit apparaat wilt uitloggen.",
     "profile": "Profiel",
     "notifications": "Meldingen",
     "privacy": "Privacy",
@@ -8334,7 +8337,7 @@
     "viewReposts": "Reposts bekijken"
   },
   "dm": {
-    "opened": {"photoA11y": "Foto, geopend {{time}}", "videoA11y": "Video, geopend {{time}}", "seenAt": "Gezien {{time}}", "replyCamera": "Antwoord met de camera", "quotePhoto": "Foto · Geopend", "quoteVideo": "Video · Geopend"},
+    "opened": {"camera": "Camera", "gallery": "Galerij", "replyMedia": "Reageren met een foto of video", "photoA11y": "Foto, geopend {{time}}", "videoA11y": "Video, geopend {{time}}", "seenAt": "Gezien {{time}}", "replyCamera": "Antwoord met de camera", "quotePhoto": "Foto · Geopend", "quoteVideo": "Video · Geopend"},
     "trayGif": "GIF en emoji",
     "trayVoice": "Spraakbericht",
     "trayTip": "Fooi",
@@ -16733,6 +16736,7 @@
     "receipt": "${{amount}} toegevoegd aan de advertentie-inkomsten van de maker. tokenafrekening is in behandeling."
   },
   "liveOverlay": {
+    "showCreatorChat": "De chat van de maker in beeld tonen",
     "eyebrow": {
       "follow": "Nieuwe volger",
       "subscribe": "Nieuwe abonnee",

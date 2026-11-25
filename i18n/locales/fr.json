@@ -1341,6 +1341,9 @@
     "loggedOut": "Déconnecté",
     "loggedOutNowUsing": "Déconnecté. Vous utilisez maintenant {{name}}",
     "logoutFailed": "Échec de la déconnexion",
+    "logOutThisAccount": "Se déconnecter de ce compte",
+    "logOutAllAccounts": "Se déconnecter de tous les comptes",
+    "logOutScopeDescription": "Choisissez les comptes à déconnecter sur cet appareil.",
     "profile": "Profil",
     "notifications": "Notifications",
     "privacy": "Confidentialité",
@@ -8200,7 +8203,7 @@
     "viewReposts": "Afficher les reposts"
   },
   "dm": {
-    "opened": {"photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
+    "opened": {"camera": "Appareil photo", "gallery": "Galerie", "replyMedia": "Répondre avec une photo ou une vidéo", "photoA11y": "Photo, ouverte {{time}}", "videoA11y": "Vidéo, ouverte {{time}}", "seenAt": "Vu {{time}}", "replyCamera": "Répondre avec la caméra", "quotePhoto": "Photo · Ouverte", "quoteVideo": "Vidéo · Ouverte"},
     "trayGif": "GIF et emoji",
     "trayVoice": "Note vocale",
     "trayTip": "Pourboire",
@@ -16486,6 +16489,7 @@
     "noTranslationFound": "Impossible de traduire ce message. C'est peut-être de l'argot ou un nom."
   },
   "liveOverlay": {
+    "showCreatorChat": "Afficher le chat du créateur à l'écran",
     "eyebrow": {
       "follow": "Nouvel abonné",
       "subscribe": "Nouveau membre",
