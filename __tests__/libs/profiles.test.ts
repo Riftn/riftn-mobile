@@ -93,11 +93,11 @@ describe('libs/profiles', () => {
     await seedAccountA();
     await adoptCurrentProfile();
     const account = await getProfile('uid-a');
+    await seedAccountB();
+    await adoptCurrentProfile();
     const registry = JSON.parse((await AsyncStorage.getItem(PROFILES_STORAGE_KEY)) ?? '[]');
     registry.push({ ...account, id: `addr:${ADDR_A}`, addedAt: 0 });
     await AsyncStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(registry));
-    await seedAccountB();
-    await adoptCurrentProfile();
 
     await expect(removeSavedProfile(ADDR_B)).rejects.toThrow();
     await setAuthToken('tok-b-rotated');
