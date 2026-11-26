@@ -294,6 +294,7 @@ export interface SillyBoardRow {
 }
 
 export interface SillyState {
+  transferNotificationsEnabled?: boolean;
   rules: { maxTapsPerSecond: number; offlineCapHours: number; maxLevel: number };
   me: SillyMe | null;
   transfers: SillyTransfer[];
@@ -301,6 +302,8 @@ export interface SillyState {
 }
 
 export const sillyState = (signedIn: boolean) => get<SillyState>('/games/sillycoin', signedIn);
+export const sillySetTransferNotifications = (enabled: boolean) =>
+  post<{ enabled: boolean }>('/games/sillycoin/transfer-notifications', { enabled });
 export const sillyMine = (taps: number) => post<{ me: SillyMe; accepted: number }>('/games/sillycoin/mine', { taps });
 export const sillyUpgrade = (kind: SillyUpgradeKind, taps: number) => post<{ me: SillyMe }>('/games/sillycoin/upgrade', { kind, taps });
 export const sillySend = (body: { to: string; amount: number; note?: string; taps: number }) =>
