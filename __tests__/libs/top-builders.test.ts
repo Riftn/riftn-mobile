@@ -1,4 +1,30 @@
-import { periodStart, rankBuilders } from '../../libs/top-builders';
+import { fetchBuilderRows, periodStart, rankBuilders } from '../../libs/top-builders';
+
+describe('fetchBuilderRows', () => {
+  it('includes qualifying activity after the API row limit', async () => {
+    const date = '2026-11-26T01:00:00Z';
+    const comments = Array.from({ length: 1000 }, (_, index) => ({
+      id: String(index).padStart(4, '0'), wallet_address: '0xa', feature_request_id: 'own', created_at: date,
+    }));
+    comments.push({ id: '1000', wallet_address: '0xA', feature_request_id: 'other', created_at: date });
+    const cursors: (string | null)[] = [];
+    const rows = await fetchBuilderRows(async (limit, afterId) => {
+      cursors.push(afterId);
+      return {
+        data: comments.filter(row => afterId === null || row.id > afterId).slice(0, Math.min(limit, 1000)),
+        error: null,
+      };
+    });
+    const requests = [
+      { id: 'own', author_wallet_address: '0xa', status: 'open', vote_count: 0, created_at: date, updated_at: date },
+      { id: 'other', author_wallet_address: '0xb', status: 'open', vote_count: 0, created_at: date, updated_at: date },
+    ];
+
+    expect(cursors).toEqual([null, '0999']);
+    expect(rows).toEqual(comments);
+    expect(rankBuilders(requests, rows, 0, [])[0]).toMatchObject({ wallet: '0xa', comments: 1, points: 2 });
+  });
+});
 
 describe('rankBuilders', () => {
   it('keeps scores and history on their wallets when two handles swap', () => {

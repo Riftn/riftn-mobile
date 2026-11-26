@@ -25,7 +25,7 @@ import SheetDismissHandle from "../ui/SheetDismissHandle";
 import { SHEET_GLASS_BORDER, SHEET_GLASS_FILL_UNBLURRED } from "../../theme/sheetGlass";
 import { getAccountSummaries } from "../../services/user.service";
 import {
-  rankBuilders, periodStart, SHIPPED_POINTS, VOTE_POINTS, COMMENT_POINTS, COMMENT_CAP,
+  fetchBuilderRows, rankBuilders, periodStart, SHIPPED_POINTS, VOTE_POINTS, COMMENT_POINTS, COMMENT_CAP,
   type BuilderPeriod, type BuilderRequestRow, type BuilderCommentRow, type TopBuilder,
 } from "../../libs/top-builders";
 
@@ -87,20 +87,24 @@ function useTopBuilderRows() {
   return useQuery({
     queryKey: ["feature-top-builders", "profiles"],
     queryFn: async () => {
-      const [reqs, comments] = await Promise.all([
-        supabase
-          .from("feature_requests")
-          .select("id,author_wallet_address,status,vote_count,created_at,updated_at")
-          .limit(5000),
-        supabase
-          .from("feature_request_comments")
-          .select("wallet_address,feature_request_id,created_at")
-          .limit(10000),
+      const [requests, commentRows]: [BuilderRequestRow[], BuilderCommentRow[]] = await Promise.all([
+        fetchBuilderRows((limit, afterId) => {
+          const query = supabase
+            .from("feature_requests")
+            .select("id,author_wallet_address,status,vote_count,created_at,updated_at")
+            .order("id")
+            .limit(limit);
+          return afterId === null ? query : query.gt("id", afterId);
+        }),
+        fetchBuilderRows((limit, afterId) => {
+          const query = supabase
+            .from("feature_request_comments")
+            .select("id,wallet_address,feature_request_id,created_at")
+            .order("id")
+            .limit(limit);
+          return afterId === null ? query : query.gt("id", afterId);
+        }),
       ]);
-      if (reqs.error) throw reqs.error;
-      if (comments.error) throw comments.error;
-      const requests: BuilderRequestRow[] = reqs.data ?? [];
-      const commentRows: BuilderCommentRow[] = comments.data ?? [];
       const profiles = await getAccountSummaries([
         ...requests.map(row => row.author_wallet_address),
         ...commentRows.map(row => row.wallet_address),
