@@ -84,3 +84,189 @@ index 93ff750..94f4bd9 100644
          _peerConnectionFactory = [[RTCPeerConnectionFactory alloc] initWithEncoderFactory:encoderFactory
                                                                             decoderFactory:decoderFactory
                                                                                audioDevice:audioDevice];
+diff --git a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/AbstractVideoCaptureController.java b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/AbstractVideoCaptureController.java
+--- a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/AbstractVideoCaptureController.java
++++ b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/AbstractVideoCaptureController.java
+@@ -1,4 +1,6 @@
+ package com.oney.WebRTCModule;
++
++import android.util.Log;
+ 
+ import androidx.annotation.Nullable;
+ import androidx.core.util.Consumer;
+@@ -78,9 +80,7 @@
+         try {
+             videoCapturer.startCapture(targetWidth, targetHeight, targetFps);
+         } catch (RuntimeException e) {
+-            // XXX This can only fail if we initialize the capturer incorrectly,
+-            // which we don't. Thus, ignore any failures here since we trust
+-            // ourselves.
++            Log.e(AbstractVideoCaptureController.class.getSimpleName(), "Failed to start capture", e);
+         }
+     }
+ 
+diff --git a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/GetUserMediaImpl.java b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/GetUserMediaImpl.java
+--- a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/GetUserMediaImpl.java
++++ b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/GetUserMediaImpl.java
+@@ -57,8 +57,8 @@
+ 
+     private final WebRTCModule webRTCModule;
+ 
+-    private Promise displayMediaPromise;
+-    private Intent mediaProjectionPermissionResultData;
++    private volatile Promise displayMediaPromise;
++    private volatile Intent mediaProjectionPermissionResultData;
+ 
+     GetUserMediaImpl(WebRTCModule webRTCModule, ReactApplicationContext reactContext) {
+         this.webRTCModule = webRTCModule;
+@@ -69,7 +69,10 @@
+             public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+                 super.onActivityResult(activity, requestCode, resultCode, data);
+                 if (requestCode == PERMISSION_REQUEST_CODE) {
+-                    if (resultCode != Activity.RESULT_OK) {
++                    if (displayMediaPromise == null || mediaProjectionPermissionResultData != null) {
++                        return;
++                    }
++                    if (resultCode != Activity.RESULT_OK || data == null) {
+                         displayMediaPromise.reject("DOMException", "NotAllowedError");
+                         displayMediaPromise = null;
+                         return;
+@@ -77,10 +80,18 @@
+ 
+                     mediaProjectionPermissionResultData = data;
+ 
+-                    ThreadUtils.runOnExecutor(() -> {
+-                        MediaProjectionService.launch(activity);
+-                        createScreenStream();
+-                    });
++                    MediaProjectionService.launch(activity).whenComplete((unused, error) ->
++                        ThreadUtils.runOnExecutor(() -> {
++                            if (error != null) {
++                                Log.e(TAG, "Failed to start media projection service", error);
++                                mediaProjectionPermissionResultData = null;
++                                displayMediaPromise.reject("DOMException", "AbortError");
++                                displayMediaPromise = null;
++                                return;
++                            }
++                            createScreenStream();
++                        })
++                    );
+                 }
+             }
+         });
+diff --git a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/MediaProjectionService.java b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/MediaProjectionService.java
+--- a/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/MediaProjectionService.java
++++ b/node_modules/react-native-webrtc/android/src/main/java/com/oney/WebRTCModule/MediaProjectionService.java
+@@ -7,10 +7,14 @@
+ import android.content.Intent;
+ import android.content.pm.ServiceInfo;
+ import android.os.Build;
++import android.os.Handler;
+ import android.os.IBinder;
++import android.os.Looper;
+ import android.util.Log;
+ 
+ import java.util.Random;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.TimeoutException;
+ 
+ /**
+  * This class implements an Android {@link Service}, a foreground one specifically, and it's
+@@ -24,33 +28,45 @@
+ 
+     static final int NOTIFICATION_ID = new Random().nextInt(99999) + 10000;
+ 
+-    public static void launch(Context context) {
++    private static final long START_TIMEOUT_MS = 10_000;
++    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
++
++    // Set after Android returns capture consent. The activity result, service
++    // startup and timeout are all delivered on the main thread.
++    private static CompletableFuture<Void> startFuture;
++
++    public static CompletableFuture<Void> launch(Context context) {
+         if (!WebRTCModuleOptions.getInstance().enableMediaProjectionService) {
+-            return;
++            return CompletableFuture.completedFuture(null);
+         }
+ 
+-        MediaProjectionNotification.createNotificationChannel(context);
+-        Intent intent = new Intent(context, MediaProjectionService.class);
+-        ComponentName componentName;
+-
++        CompletableFuture<Void> ready = new CompletableFuture<>();
+         try {
+-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+-                componentName = context.startForegroundService(intent);
+-            } else {
+-                componentName = context.startService(intent);
++            MediaProjectionNotification.createNotificationChannel(context);
++            Intent intent = new Intent(context, MediaProjectionService.class);
++            ComponentName componentName = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
++                    ? context.startForegroundService(intent)
++                    : context.startService(intent);
++            if (componentName == null) {
++                throw new IllegalStateException("Media projection service not started");
+             }
+-        } catch (RuntimeException e) {
+-            // Avoid crashing due to ForegroundServiceStartNotAllowedException (API level 31).
+-            // See: https://developer.android.com/guide/components/foreground-services#background-start-restrictions
+-            Log.w(TAG, "Media projection service not started", e);
+-            return;
++        } catch (RuntimeException error) {
++            ready.completeExceptionally(error);
++            return ready;
+         }
+ 
+-        if (componentName == null) {
+-            Log.w(TAG, "Media projection service not started");
+-        } else {
+-            Log.i(TAG, "Media projection service started");
+-        }
++        startFuture = ready;
++        Context application = context.getApplicationContext();
++        Runnable timeout = () -> {
++            if (startFuture == ready) {
++                startFuture = null;
++                abort(application);
++                ready.completeExceptionally(new TimeoutException("Media projection service was not ready"));
++            }
++        };
++        MAIN_HANDLER.postDelayed(timeout, START_TIMEOUT_MS);
++        ready.whenComplete((unused, error) -> MAIN_HANDLER.removeCallbacks(timeout));
++        return ready;
+     }
+ 
+     public static void abort(Context context) {
+@@ -69,14 +85,25 @@
+ 
+     @Override
+     public int onStartCommand(Intent intent, int flags, int startId) {
+-        Notification notification = MediaProjectionNotification.buildMediaProjectionNotification(this);
+-
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+-            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
+-        } else {
+-            startForeground(NOTIFICATION_ID, notification);
++        CompletableFuture<Void> ready = startFuture;
++        startFuture = null;
++        if (ready == null) {
++            stopSelf(startId);
++            return START_NOT_STICKY;
+         }
+ 
++        try {
++            Notification notification = MediaProjectionNotification.buildMediaProjectionNotification(this);
++            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
++                startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION);
++            } else {
++                startForeground(NOTIFICATION_ID, notification);
++            }
++            ready.complete(null);
++        } catch (RuntimeException error) {
++            stopSelf(startId);
++            ready.completeExceptionally(error);
++        }
+         return START_NOT_STICKY;
+     }
+ }
