@@ -5,6 +5,7 @@ import React, { useState, useCallback, useMemo, useEffect, useLayoutEffect, useR
 import { useOnDemandTranslate } from "../hooks/useOnDemandTranslate";
 import { ensureAiConsent } from "../libs/ai-consent";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   View,
   Text,
@@ -60,7 +61,7 @@ import { buildCdnPath, getAvatarUrl, getBadgeUrlFor, getShortsThumbnailUrl, getI
 import { cdnImage } from "../libs/cdnImage";
 import { addDismissedIds, getDismissedIds } from "../libs/notifications.dismissed";
 import { openInApp } from "../libs/links.utils";
-import { IS_APP_STORE_BUILD } from "../config/storefront";
+import { APP_TOKENS_QUERY_KEY } from "../hooks/useAppTokens";
 import { emitStageDeepLink } from "../libs/deeplink.events";
 import { stageDeepLinkFor } from "../libs/stage-notifications";
 import Avatar from "../components/common/Avatar";
@@ -1191,6 +1192,7 @@ function tabStoreFor(wallet: string | null): TabStore {
 
 const NotificationScreen = () => {
   const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
   const { isMinimal } = useAppTheme();
   const insets = useSafeAreaInsets();
   const { patchUser } = useAuthActions();
@@ -1665,7 +1667,8 @@ const NotificationScreen = () => {
       case 'video_removal':
       case 'account_warning':
       case 'system':
-        if (type === NotificationType.SYSTEM && metadata?.articleUrl === 'https://riftn.com/app/wallet' && !IS_APP_STORE_BUILD) {
+        if (type === NotificationType.SYSTEM && metadata?.articleUrl === 'https://riftn.com/app/wallet') {
+          void queryClient.invalidateQueries({ queryKey: [APP_TOKENS_QUERY_KEY] });
           leaveTo(ScreenNames.Dpay, { initialTab: 'wallet' });
         } else if (metadata?.articleUrl) {
           openInApp(metadata.articleUrl);
@@ -1707,6 +1710,7 @@ const NotificationScreen = () => {
     markAsReadAsync,
     markCachedRead,
     openBountyByNumber,
+    queryClient,
     navigation,
     user?.address,
     user?.walletAddress,
