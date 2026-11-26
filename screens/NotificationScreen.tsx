@@ -60,6 +60,7 @@ import { buildCdnPath, getAvatarUrl, getBadgeUrlFor, getShortsThumbnailUrl, getI
 import { cdnImage } from "../libs/cdnImage";
 import { addDismissedIds, getDismissedIds } from "../libs/notifications.dismissed";
 import { openInApp } from "../libs/links.utils";
+import { IS_APP_STORE_BUILD } from "../config/storefront";
 import { emitStageDeepLink } from "../libs/deeplink.events";
 import { stageDeepLinkFor } from "../libs/stage-notifications";
 import Avatar from "../components/common/Avatar";
@@ -1664,7 +1665,11 @@ const NotificationScreen = () => {
       case 'video_removal':
       case 'account_warning':
       case 'system':
-        if (metadata?.articleUrl) openInApp(metadata.articleUrl);
+        if (type === NotificationType.SYSTEM && metadata?.articleUrl === 'https://riftn.com/app/wallet' && !IS_APP_STORE_BUILD) {
+          leaveTo(ScreenNames.Dpay, { initialTab: 'wallet' });
+        } else if (metadata?.articleUrl) {
+          openInApp(metadata.articleUrl);
+        }
         break;
 
       case NotificationType.STORY_LIKE:
