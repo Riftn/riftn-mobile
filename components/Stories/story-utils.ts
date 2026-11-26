@@ -37,11 +37,6 @@ export function startIndex(entry: ShelfEntry): number {
   return i >= 0 ? i : 0;
 }
 
-export function coverOf(entry: ShelfEntry): string | null {
-  const item = entry.items[startIndex(entry)];
-  return item?.posterUrl || (item?.type === 'photo' ? item.mediaUrl : null);
-}
-
 export const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.slice(0, 6)}…`;
 
 export function avatarOf(a: StoryAuthor, size = 48): string | null {
