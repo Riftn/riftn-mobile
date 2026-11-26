@@ -148,7 +148,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
   );
   if (embedded) {
     return (
-      <SwipeBackBoundary onBack={onClose} enabled={visible}>
+      <SwipeBackBoundary onBack={onClose} enabled={visible && !viewerImages} allowIOS protectSideways>
       <View className="flex-1 bg-theme-neutrals-900">
         <ProfilePullFrame pull={pull} cover={pullCover}>
           <UserProfileSheetContent
@@ -212,7 +212,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
   return (
       <FrostedBackground>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SwipeBackBoundary onBack={onClose} enabled={visible}>
+        <SwipeBackBoundary onBack={onClose} enabled={visible && !viewerImages} allowIOS protectSideways>
         {/* Its own nav state: a modal sits above the tabs, so the home bar is
             out of sight and this one hides with this profile's scroll. */}
         <TabBarHideProvider>

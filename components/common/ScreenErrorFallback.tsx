@@ -165,6 +165,8 @@ export function withScreenBoundary({ route, navigation, options, children }: Scr
   return <SwipeBackBoundary
     isFocused={() => navigation.isFocused()}
     onBack={!guarded && canPop ? () => navigation.goBack() : undefined}
+    allowIOS={route.name === ScreenNames.ImageFeed}
+    protectSideways={route.name === ScreenNames.ImageFeed}
   >{Platform.OS === "ios" && !Platform.isPad && IOS_SHEETS.has((options as any)?.presentation)
     ? <SheetFrame><ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary></SheetFrame>
     : <ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary>}</SwipeBackBoundary>;

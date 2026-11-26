@@ -658,6 +658,8 @@ function AppNavigatorContent() {
             presentation: 'transparentModal',
             contentStyle: { backgroundColor: 'transparent' },
             animation: 'none',
+            gestureEnabled: false,
+            fullScreenGestureEnabled: false,
           }}
         />
         <Stack.Screen
