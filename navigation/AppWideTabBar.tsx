@@ -43,6 +43,7 @@ const NO_BAR = new Set<string>([
   ScreenNames.ShortsViewer,
   ScreenNames.VideoPlayer,
   ScreenNames.LiveViewer,
+  ScreenNames.LiveAttendeeProfile,
   ScreenNames.LiveProducer,
   ScreenNames.LiveStudio,
   ScreenNames.Chat,

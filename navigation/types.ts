@@ -97,6 +97,7 @@ export type AppStackParamList = {
     nft?: any;
     accessInfo?: any;
   };
+  [ScreenNames.LiveAttendeeProfile]: { identifier: string };
   [ScreenNames.Leaderboard]: undefined;
   [ScreenNames.Notifications]: { filtered?: boolean } | undefined;
   [ScreenNames.NotificationSettings]: undefined;
