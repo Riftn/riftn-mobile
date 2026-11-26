@@ -14,6 +14,7 @@ import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
 import { setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
+import { readNotificationData } from '../../libs/push-tap-data';
 
 const logger = createLogger('PushService');
 
@@ -128,6 +129,10 @@ export interface NotificationData {
   [key: string]: unknown;
 }
 
+function conversationIdFromDmLink(deepLink: unknown): string | undefined {
+  return typeof deepLink === 'string' ? deepLink.match(/\/dm\/([^/?#]+)/)?.[1] : undefined;
+}
+
 // Configure default behavior when notification is received in foreground
 Notifications.setNotificationHandler({
   handleNotification: async (notification) => {
@@ -137,8 +142,7 @@ Notifications.setNotificationHandler({
     const isCall = data.type === 'incoming_call';
     // A message for the chat already open on screen: the reader is in it, the
     // line lands in the thread, so no banner and no sound.
-    const conversationId = data.conversationId
-      ?? (typeof data.deepLink === 'string' ? data.deepLink.match(/\/dm\/([^/?#]+)/)?.[1] : undefined);
+    const conversationId = data.conversationId ?? conversationIdFromDmLink(data.deepLink);
     const inOpenChat = data.type === 'new_message'
       && AppState.currentState === 'active'
       && isConversationOpen(conversationId);
@@ -761,6 +765,31 @@ export async function getPresentedNotifications(): Promise<Notifications.Notific
     logger.error('Failed to get presented notifications', error);
     return [];
   }
+}
+
+/** Dismiss the current account's delivered message alerts through this read. */
+export async function dismissReadMessageNotifications(
+  conversationId: string,
+  recipient: string,
+  readThrough: number,
+  isCurrent: () => boolean,
+): Promise<void> {
+  const account = recipient.toLowerCase();
+  const presented = await getPresentedNotifications();
+  if (!isCurrent()) return;
+
+  const matching = presented.filter(notification => {
+    if (!(notification.date > 0 && notification.date <= readThrough)) return false;
+    const data = readNotificationData(notification);
+    // Two accounts on one phone can be participants in the same conversation.
+    // An alert without a recipient cannot safely be attributed to either one.
+    if (data?.type !== 'new_message' || typeof data.recipient !== 'string' || data.recipient.toLowerCase() !== account) {
+      return false;
+    }
+    const id = typeof data.conversationId === 'string' ? data.conversationId : conversationIdFromDmLink(data.deepLink);
+    return id === conversationId;
+  });
+  await Promise.all(matching.map(notification => dismissNotification(notification.request.identifier)));
 }
 
 /**

@@ -1,5 +1,6 @@
 import {
   clearPushTokenCache,
+  dismissReadMessageNotifications,
   getDefaultNotificationPreferences,
   mergePreferences,
   registerPushTokenWithBackend,
@@ -11,6 +12,8 @@ import {
 // carry it or the import throws before any test runs.
 jest.mock('expo-notifications', () => ({
   setNotificationHandler: jest.fn(),
+  getPresentedNotificationsAsync: jest.fn(),
+  dismissNotificationAsync: jest.fn(),
   AndroidImportance: { DEFAULT: 3, HIGH: 4, MAX: 5 },
   AndroidNotificationVisibility: { PUBLIC: 1 },
 }));
@@ -28,6 +31,7 @@ jest.mock('../../modules/call-screen', () => ({
   callScreenSupported: () => true,
 }));
 import { Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import { getVoipToken } from '../../modules/call-screen';
 import { apiClient } from '../../libs/api.client';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
@@ -47,6 +51,54 @@ const ALL_KEYS: NotificationPreferenceKey[] = [
   'accountAlerts',
   'announcements',
 ];
+
+describe('dismissing read message alerts', () => {
+  const readThrough = 1770000000000;
+  const message = { type: 'new_message', conversationId: 'chat-1', recipient: '0xABC' };
+  const presented = jest.mocked(Notifications.getPresentedNotificationsAsync);
+  const dismiss = jest.mocked(Notifications.dismissNotificationAsync);
+
+  const alert = (identifier: string, data: object, date = readThrough, trigger: unknown = null) => ({
+    date,
+    request: { identifier, content: { data }, trigger },
+  }) as Notifications.Notification;
+
+  beforeEach(() => {
+    presented.mockReset();
+    dismiss.mockReset().mockResolvedValue(undefined);
+  });
+
+  it('dismisses only delivered alerts for this account and conversation through the read', async () => {
+    const legacy = { type: 'new_message', deepLink: '/dm/chat-1?from=push', recipient: '0xabc' };
+    presented.mockResolvedValue([
+      alert('content', message),
+      alert('android', {}, readThrough - 1, { remoteMessage: { data: { body: JSON.stringify(message) } } }),
+      alert('ios', {}, readThrough - 1, { payload: { body: legacy } }),
+      alert('other-chat', { ...message, conversationId: 'chat-2' }),
+      alert('other-account', { ...message, recipient: '0xdef' }),
+      alert('other-type', { ...message, type: 'dm_reaction' }),
+      alert('unowned', { ...message, recipient: undefined }),
+      alert('too-new', message, readThrough + 1),
+      alert('undated', message, 0),
+    ]);
+
+    await dismissReadMessageNotifications('chat-1', '0xabc', readThrough, () => true);
+
+    expect(dismiss.mock.calls).toEqual([['content'], ['android'], ['ios']]);
+  });
+
+  it('leaves alerts visible if the reader leaves while the tray is being queried', async () => {
+    let current = true;
+    presented.mockImplementation(async () => {
+      current = false;
+      return [alert('content', message)];
+    });
+
+    await dismissReadMessageNotifications('chat-1', '0xabc', readThrough, () => current);
+
+    expect(dismiss).not.toHaveBeenCalled();
+  });
+});
 
 describe('services/push.service notification preferences', () => {
   describe('getDefaultNotificationPreferences', () => {
