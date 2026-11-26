@@ -4,6 +4,14 @@ import { act, fireEvent, render } from "@testing-library/react-native";
 import LiveWhosHereSheet from "../../components/LiveViewer/LiveWhosHereSheet";
 import type { LiveAudience } from "../../services/live.service";
 
+jest.mock("dehub-jsx/jsx-runtime", () => jest.requireActual("react/jsx-runtime"));
+jest.mock("react-native", () => ({
+  Platform: { OS: "ios" },
+  Pressable: "Pressable",
+  StyleSheet: { create: (styles: unknown) => styles, flatten: (styles: unknown) => styles },
+  Text: "Text",
+  View: "View",
+}));
 jest.mock("react-i18next", () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
 jest.mock("../../context/ThemeContext", () => ({ useAppTheme: () => ({ theme: "system" }) }));
 jest.mock("../../components/ui/Icon", () => () => null);
