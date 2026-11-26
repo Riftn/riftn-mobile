@@ -99,6 +99,7 @@ interface VideoPlayerCoreProps {
   hideTopControls?: boolean;
   /** Use the full parent surface for live viewing, including portrait video. */
   fillContainer?: boolean;
+  pictureFit?: "cover" | "contain";
   /**
    * Fires once the source reports its picture size. The live viewer uses it
    * to decide whether "fullscreen" should also turn the phone sideways.
@@ -146,6 +147,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   togglePlayRef,
   hideTopControls = false,
   fillContainer = false,
+  pictureFit = "contain",
   onVideoSize,
   tokenId,
   title,
@@ -936,7 +938,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
           onFirstFrameRender={() => { setFirstFrameSource(sourceUrl); recovery.progress(); }}
           focusable={false}
           style={styles.video}
-          contentFit="contain"
+          contentFit={pictureFit}
           nativeControls={false}
           // Was gated on `fullscreen` for the same non-reason as the audio
           // session above: wanting the video to follow you out of the app has

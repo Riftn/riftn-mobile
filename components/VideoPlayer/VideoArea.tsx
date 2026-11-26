@@ -47,6 +47,7 @@ export interface VideoAreaProps {
   hideTopControls?: boolean;
   /** Controlled mute — see VideoPlayerCore. */
   muted?: boolean;
+  pictureFit?: "cover" | "contain";
   /** The source's picture size, once known. */
   onVideoSize?: (size: { width: number; height: number }) => void;
 }
@@ -71,6 +72,7 @@ const VideoArea: React.FC<VideoAreaProps> = ({
   fullscreen,
   hideTopControls,
   muted,
+  pictureFit,
   onVideoSize,
 }) => {
   const showPurchaseOffer = usePurchaseOfferVisible();
@@ -437,6 +439,7 @@ const VideoArea: React.FC<VideoAreaProps> = ({
         onReady={replayControls?.onReady}
         fillContainer={fullscreen}
         muted={muted}
+        pictureFit={pictureFit}
         onVideoSize={onVideoSize}
         tokenId={isLive ? undefined : tokenId}
         creator={isLive ? undefined : minterAddress}
