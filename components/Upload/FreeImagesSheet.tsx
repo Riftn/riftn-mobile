@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from "react-native";
+import { ActivityIndicator, FlatList, KeyboardAvoidingView, Modal, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system/legacy";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
+import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
 import { searchFreeAssets, type FreeAsset } from "../../libs/editor/freeAssets";
 import { toastError } from "../../libs/toast";
 
@@ -27,6 +28,9 @@ interface Props {
 }
 
 const EXT: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" };
+const SEARCH_INSET = 12;
+const SEARCH_ICON_SIZE = 16;
+const SEARCH_GAP = 8;
 
 /**
  * Free photo search for a post: the same open library the editor uses, so a
@@ -37,6 +41,8 @@ export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const { colors: themeColors } = useAppTheme();
+  const searchField = useSearchFieldMaterial();
+  const searchLabel = t("freeImages.search");
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState("");
   const [items, setItems] = useState<FreeAsset[]>([]);
@@ -93,19 +99,24 @@ export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick
               <Icon name="X" size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           </View>
-          <View style={{ marginHorizontal: 16, flexDirection: "row", alignItems: "center", borderRadius: 12, borderWidth: 1, borderColor: themeColors.border, paddingHorizontal: 10 }}>
-            <Icon name="Search" size={16} color={themeColors.mutedForeground} />
-            <TextInput
-              value={query}
-              onChangeText={setQuery}
-              placeholder={t("freeImages.search")}
-              placeholderTextColor={themeColors.mutedForeground}
-              returnKeyType="search"
-              onSubmitEditing={() => { if (query.trim()) setSubmitted(query.trim()); }}
-              style={{ flex: 1, height: 40, marginLeft: 8, color: themeColors.foreground, fontSize: 15 }}
-            />
+          <View style={styles.searchSection}>
+            <View style={[styles.searchRow, searchField.surface]}>
+              <Icon name="Search" size={SEARCH_ICON_SIZE} color={themeColors.mutedForeground} />
+              <TextInput
+                value={query}
+                onChangeText={setQuery}
+                placeholder={searchLabel}
+                accessibilityLabel={searchLabel}
+                placeholderTextColor={themeColors.mutedForeground}
+                returnKeyType="search"
+                onFocus={searchField.onFocus}
+                onBlur={searchField.onBlur}
+                onSubmitEditing={() => { if (query.trim()) setSubmitted(query.trim()); }}
+                style={[styles.searchInput, SEARCH_INPUT_CLEAR, { color: themeColors.foreground }]}
+              />
+            </View>
+            <Text style={[styles.searchNote, { color: themeColors.mutedForeground }]}>{t("freeImages.note")}</Text>
           </View>
-          <Text style={{ marginHorizontal: 16, marginTop: 8, fontSize: 11, color: themeColors.mutedForeground }}>{t("freeImages.note")}</Text>
           {loading ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><ActivityIndicator color={themeColors.foreground} /></View>
           ) : (
@@ -141,3 +152,16 @@ export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  searchSection: { paddingHorizontal: 16, gap: 8 },
+  searchRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: SEARCH_GAP,
+    borderRadius: 12,
+    paddingHorizontal: SEARCH_INSET,
+  },
+  searchInput: { flex: 1, minHeight: 44, paddingHorizontal: 0, fontSize: 15 },
+  searchNote: { paddingStart: SEARCH_INSET + SEARCH_ICON_SIZE + SEARCH_GAP, fontSize: 13, lineHeight: 18 },
+});
