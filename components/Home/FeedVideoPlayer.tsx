@@ -1,3 +1,4 @@
+import { PpvPreviewButton, PpvPreviewSheet } from "./PpvFreePreview";
 import { tokenLabel } from '../../libs/token-label';
 import { usePerfProbe } from "../../libs/perfTrace";
 import { PersistentVideoView } from '../common/PersistentVideoView';
@@ -181,6 +182,8 @@ interface FeedVideoPlayerProps {
   onPlaybackFailed?: () => void;
   isContentGated: boolean;
   isPPVLocked: boolean;
+  ppvPreviewReady?: boolean;
+  onPpvPreviewPress?: () => void;
   isHoldingsLocked: boolean;
   isBountyLocked: boolean;
   /** Subscribers-only post: the viewer has no plan with this creator. */
@@ -314,6 +317,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   onPlaybackFailed,
   isContentGated,
   isPPVLocked,
+  onPpvPreviewPress,
   isHoldingsLocked,
   isBountyLocked,
   isSubLocked,
@@ -1644,6 +1648,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
       )}
 
       {isContentGated && renderGatedOverlay()}
+      {onPpvPreviewPress && <PpvPreviewButton onPress={onPpvPreviewPress} />}
 
       {isBounty && (
         <TouchableOpacity
@@ -2516,10 +2521,13 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
   // the next post would mount a player and start by itself.
   const postKey = String(props.tokenId ?? props.thumbnail ?? "");
   const [wanted, setWanted] = useCellState(false, [postKey]);
+  const [previewOpen, setPreviewOpen] = useCellState(false, [postKey]);
   const [inPictureInPicture, setInPictureInPicture] = useCellState(false, [postKey]);
 
   const { isVisible, isAutoplayActive = true, isContentGated, videoUrl, onPress } = props;
   const transcodingStatus = useVideoProcessingStatus(props.tokenId, props.transcodingStatus, isVisible && playbackAllowed);
+  const previewEnabled = props.ppvPreviewReady && props.isPPVLocked && !props.isHoldingsLocked && !props.isSubLocked
+    && !props.isBounty && props.tokenId != null && transcodingStatus !== "pending" && transcodingStatus !== "on" && transcodingStatus !== "failed";
   const needsChrome =
     isContentGated || transcodingStatus === "pending" || transcodingStatus === "on" || transcodingStatus === "failed";
   const visible = (isVisible && playbackAllowed) || (inPictureInPicture && !callInProgress);
@@ -2536,7 +2544,8 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
   // poster, the same as any other card.
   useEffect(() => {
     if (!isVisible) setWanted(false);
-  }, [isVisible, setWanted]);
+    if (!isVisible || !surfaceActive || !previewEnabled) setPreviewOpen(false);
+  }, [isVisible, surfaceActive, previewEnabled, setWanted, setPreviewOpen]);
 
   const onPosterPress = useCallback(() => {
     if (props.onOpenViewer && !isContentGated) {
@@ -2550,6 +2559,8 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
     setWanted(true);
   }, [props.onOpenViewer, isContentGated, videoUrl, onPress, setWanted]);
 
+  const openPreview = useCallback(() => setPreviewOpen(true), [setPreviewOpen]);
+  const closePreview = useCallback(() => setPreviewOpen(false), [setPreviewOpen]);
   const markWanted = useCallback(() => setWanted(true), [setWanted]);
 
   // Unmuting a poster starts it right there with sound: a tapped start reads
@@ -2571,6 +2582,7 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
       key={onLadder ? `${postKey}:hls` : postKey}
       {...props}
       transcodingStatus={transcodingStatus}
+      onPpvPreviewPress={previewEnabled ? openPreview : undefined}
       isVisible={visible}
       isAutoplayActive={isAutoplayActive || inPictureInPicture}
       onPictureInPictureChange={setInPictureInPicture}
@@ -2580,11 +2592,11 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
       sharedPoster={!props.postPage}
     />
   ) : null;
-  if (props.postPage && activePlayer) return activePlayer;
+
   // Keep one native image view through autoplay allocation, source fallback,
   // and release. Replacing the poster component cleared its decoded bitmap
   // for a frame every time a scrolling card mounted or unmounted a player.
-  return (
+  const poster = (
     <FeedVideoPoster
       inlineWidth={props.inlineWidth}
       tokenId={props.tokenId}
@@ -2603,6 +2615,14 @@ const FeedVideoPlayer: React.FC<FeedVideoPlayerProps> = (props) => {
     >
       {activePlayer}
     </FeedVideoPoster>
+  );
+  return (
+    <>
+      {props.postPage && activePlayer ? activePlayer : poster}
+      {previewEnabled && (
+        <PpvPreviewSheet tokenId={postKey} signedIn={props.isSignedIn} open={previewOpen} onClose={closePreview} />
+      )}
+    </>
   );
 };
 

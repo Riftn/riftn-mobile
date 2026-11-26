@@ -2136,6 +2136,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       downloadTitle={localTitle || "video"}
       isContentGated={isActuallyGated}
       isPPVLocked={isActuallyLockedPPV}
+      ppvPreviewReady={DIGITAL_PURCHASES_ENABLED && item.ppvPreview?.ready === true}
       isHoldingsLocked={isActuallyLockedHoldings}
       isBountyLocked={false}
       isSubLocked={isActuallySubGated}

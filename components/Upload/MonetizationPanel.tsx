@@ -24,11 +24,13 @@ import { DIRECT_TIP_TOKENS } from "../../libs/direct-tip-tokens";
 import { supportedTokens, ChainId } from "../../config/constants";
 import { useCreatorPlans } from "../../hooks/useCreatorPlans";
 import { useUser } from "../../context/AuthContext";
+import { parsePpvPreviewSeconds } from "../../libs/ppv-preview";
 import { FIELD_TEXT } from "../../theme/inputs";
 
 
 export type PpvData = {
   price: string;
+  previewSeconds?: string;
   /** Payment token symbol — DHB on EVM, or an SPL token on Solana (#41). */
   tokenSymbol?: string;
 };
@@ -63,6 +65,7 @@ export type MonetizationState = {
 
 type MonetizationPanelProps = {
   draftScope?: string;
+  canConfigurePpvPreview?: boolean;
   state: MonetizationState;
   onChange: (next: MonetizationState) => void;
   /** Open plan setup above the composer without abandoning the post draft. */
@@ -152,6 +155,7 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
   onAutoExpandHandled,
   postChainId,
   onCreatePlan,
+  canConfigurePpvPreview = false,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -183,6 +187,7 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
 
   // Draft state for forms (not committed until confirm)
   const [ppvDraft, setPpvDraft] = useSurfaceDraft<PpvData>("components/Upload/MonetizationPanel.tsx:ppvDraft", state.ppvData, draftScope);
+  const previewInvalid = canConfigurePpvPreview && parsePpvPreviewSeconds(ppvDraft.previewSeconds) === null;
   const ppvStable = !isSolana && (ppvDraft.tokenSymbol === "USDC" || ppvDraft.tokenSymbol === "USDT")
     ? ppvDraft.tokenSymbol
     : null;
@@ -227,9 +232,10 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
   );
 
   const confirmPpv = useCallback(() => {
+    if (previewInvalid) return;
     onChange({ ...state, ppvEnabled: true, ppvData: ppvDraft });
     setExpandedSection(null);
-  }, [state, onChange, ppvDraft]);
+  }, [state, onChange, ppvDraft, previewInvalid]);
 
   const cancelPpv = useCallback(() => {
     if (!state.ppvEnabled) onChange({ ...state, ppvEnabled: false });
@@ -394,7 +400,7 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
       </View>
       <ExpandableSection
         expanded={expandedSection === "ppv"}
-        maxHeight={SECTION_HEIGHT_PPV + (isSolana ? 48 : evmPpvSymbols.length > 1 ? 56 : 0)}
+        maxHeight={SECTION_HEIGHT_PPV + (isSolana ? 48 : evmPpvSymbols.length > 1 ? 56 : 0) + (canConfigurePpvPreview ? 116 : 0)}
       >
         <View className="pb-3">
           <Text className="text-white font-semibold text-sm mb-3">
@@ -444,13 +450,36 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
                 ? t("monetization.paymentsStable", { symbol: ppvStable })
                 : t("monetization.paymentsBase")}
           </Text>
+          {canConfigurePpvPreview && (
+            <View className="mt-3 gap-1.5">
+              <Text className="text-theme-neutrals-100 text-sm">
+                {t('ppvPreview.seconds', { defaultValue: 'Free preview (seconds)' })}
+              </Text>
+              <TextInput
+                value={ppvDraft.previewSeconds ?? ''}
+                onChangeText={value => setPpvDraft(draft => ({ ...draft, previewSeconds: value }))}
+                keyboardType="number-pad"
+                accessibilityLabel={t('ppvPreview.seconds', { defaultValue: 'Free preview (seconds)' })}
+                accessibilityHint={t('ppvPreview.secondsHint', { defaultValue: 'Choose 1–30 seconds. Enter 0 to skip the preview.' })}
+                placeholder="0"
+                placeholderTextColor="#6F7174"
+                className="h-11 rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-900 px-3 text-sm text-theme-neutrals-100"
+                style={FIELD_TEXT}
+              />
+              <Text className="text-theme-neutrals-300 text-sm leading-5">
+                {t('ppvPreview.secondsHint', { defaultValue: 'Choose 1–30 seconds. Enter 0 to skip the preview.' })}
+              </Text>
+            </View>
+          )}
           <View className="flex-row justify-end mt-3 gap-3">
             <TouchableOpacity onPress={cancelPpv} className="px-4 py-2">
               <Text className="text-theme-neutrals-400 text-sm">{t("common.cancel")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={confirmPpv}
-              className="flex-row items-center px-4 py-2 rounded-xl overflow-hidden"
+              disabled={previewInvalid}
+              accessibilityState={{ disabled: previewInvalid }}
+              className={`flex-row items-center px-4 py-2 rounded-xl overflow-hidden ${previewInvalid ? "opacity-50" : ""}`}
             >
               <GlassIndicator borderRadius={12} />
               <Icon name="Check" size={16} color="#fff" />
