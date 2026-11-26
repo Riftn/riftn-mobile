@@ -4,6 +4,7 @@ import SuperPowersScreen from '../../screens/SuperPowersScreen';
 
 let mockStatus: any;
 let mockPurchases = false;
+const mockCancelBoost = jest.fn();
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   View: 'View', Text: 'Text', ScrollView: 'ScrollView', Pressable: 'Pressable',
@@ -21,7 +22,7 @@ jest.mock('../../hooks/useSuperpowers', () => ({
   useSuperpowerLadder: () => ({ data: { powers: [
     { key: 'team_up', label: 'Team up', available: true, tier: null },
   ], tiers: [] }, isLoading: false }),
-  useCancelBoost: () => ({ mutate: jest.fn() }),
+  useCancelBoost: () => ({ mutate: mockCancelBoost }),
 }));
 jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/ScreenHeader', () => 'ScreenHeader');
@@ -53,20 +54,26 @@ jest.mock('../../components/Dpay/BuyDhbSheet', () => {
   return { __esModule: true, default: () => element('Text', { testID: 'token-purchase' }, 'Token purchase') };
 });
 
-beforeEach(() => { mockStatus = undefined; mockPurchases = false; });
+beforeEach(() => {
+  mockStatus = undefined;
+  mockPurchases = false;
+  mockCancelBoost.mockClear();
+});
 
 const boost = { key: 'boost', label: 'Boost', summary: 'Boost a post', tier: 'Crab', unlocked: true, available: true };
 
-it('shows an existing badge and usage on iOS without spending or cancelling a boost', () => {
+it('lets iOS users cancel an active boost from usage without offering a purchase or new boost', () => {
   mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [
     { id: 'queued', power: 'boost', status: 'active', startsAt: '2026-11-27T00:00:00Z', served: 0 },
+    { id: 'completed', power: 'boost', status: 'completed', startsAt: '2026-11-26T00:00:00Z', served: 4 },
   ], powers: [boost] };
   const view = render(<SuperPowersScreen />);
   expect(view.getByText('Boost a post')).toBeTruthy();
   fireEvent.press(view.getByText('superpowers.pastUsage'));
   expect(view.getByText('superpowers.usageTitle')).toBeTruthy();
   expect(view.getByText('converter.statusQueued')).toBeTruthy();
-  expect(view.queryByText('common.cancel')).toBeNull();
+  fireEvent.press(view.getByText('common.cancel'));
+  expect(mockCancelBoost).toHaveBeenCalledWith('queued', expect.any(Object));
   expect(view.queryByText('auth.use')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();
 });
