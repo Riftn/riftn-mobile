@@ -52,7 +52,6 @@ function useDecryptedMedia(url: string | null, d: MediaDescriptor, messageId: st
       const file = await openEncryptedMedia({
         url,
         descriptor: d,
-  tileSize,
         messageId,
         onProgress: (p) => { if (alive.current) setProgress(p); },
       });
@@ -123,6 +122,7 @@ const Percent: React.FC<{ progress: number }> = ({ progress }) => (
 
 const EncryptedMediaComponent: React.FC<Props> = ({
   descriptor: d,
+  tileSize,
   rawUrl,
   messageId,
   isMine,
