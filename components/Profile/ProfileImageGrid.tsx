@@ -1,8 +1,8 @@
-import React, { memo, useCallback, useMemo } from "react";
-import { View, TouchableOpacity, StyleSheet, useWindowDimensions, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
-import Animated from "react-native-reanimated";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { View, TouchableOpacity, StyleSheet, useWindowDimensions, type LayoutChangeEvent, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
 import { Image } from "expo-image";
 import FeedCard from "../Home/FeedCard";
+import { useTranslation } from "react-i18next";
 import { useFeedCardVisibility } from "../../hooks/useFeedCardVisibility";
 import { useProfileViewMode } from "../../libs/profileViewMode";
 import type { UnifiedFeedItem as ImagePost } from "../../services/feed.unified.service";
@@ -12,26 +12,10 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
 import { TAB_BAR_CONTENT_INSET } from "../../navigation/tabBarLayout";
 import { PaneAnimatedFlatList } from "./profilePaneScroll";
+import { hintedImageRatio } from "../../libs/image-size-hints";
+import { profilePhotoRows } from "../../libs/profile-photo-rows";
 
-// Tile sizes follow from the outer padding and the gap, so each theme gets its
-// own set: the system grid sits 8pt in from each edge with 2pt gutters; the
-// minimal grid runs edge to edge with 1pt gutters on black, like web. The
-// width is the live window width, so split-screen and unfolding re-flow it.
-const makeGridMetrics = (screenWidth: number, gap: number, padding: number, placeholder: string) => {
-  const small = (screenWidth - padding - gap * 2) / 3;
-  const large = small * 2 + gap;
-  const rowHeights = [large + gap, large + gap, small + gap];
-  return {
-    gap,
-    padding,
-    placeholder,
-    small,
-    large,
-    rowHeights,
-    patternHeight: rowHeights[0] + rowHeights[1] + rowHeights[2],
-  };
-};
-type GridMetrics = ReturnType<typeof makeGridMetrics>;
+const imagePath = (post: ImagePost) => post.imageUrls?.[0] || post.imageUrl || post.thumbnailUrl || "";
 
 interface ProfileImageGridProps {
   images: ImagePost[];
@@ -44,134 +28,96 @@ interface ProfileImageGridProps {
   ListHeaderComponent?: React.ReactElement | null;
 }
 
-interface GridRowData {
-  key: string;
-  rowType: 0 | 1 | 2;
-  startIndex: number;
-}
-
-const buildRows = (count: number): GridRowData[] => {
-  const rows: GridRowData[] = [];
-  let index = 0;
-  let rowNum = 0;
-  while (index < count) {
-    rows.push({ key: `gpr-${rowNum}`, rowType: (rowNum % 3) as 0 | 1 | 2, startIndex: index });
-    index += 3;
-    rowNum++;
-  }
-  return rows;
-};
-
-const ImageTile = memo<{ post: ImagePost; size: number; placeholder: string; onPress: () => void }>(
-  ({ post, size, placeholder, onPress }) => {
-    const uri = useMemo(() => {
-      if (post.imageUrls?.length) return getImageUrlApiSimple(post.imageUrls[0]);
-      return getImageUrlApiSimple(post.imageUrl || post.thumbnailUrl || "");
-    }, [post.imageUrls, post.imageUrl, post.thumbnailUrl]);
-
-    return (
-      <TouchableOpacity
-        activeOpacity={0.85}
-        onPress={onPress}
-        style={{ width: size, height: size, backgroundColor: placeholder }}
-      >
-        <Image
-          source={uri}
-          style={StyleSheet.absoluteFill}
-          contentFit="cover"
-          recyclingKey={uri}
-          cachePolicy="memory-disk"
-          transition={150}
-        />
-        {(post.imageUrls?.length ?? 0) > 1 && (
-          <View style={s.multiIcon}>
-            <Icon name="Copy" size={14} color="#fff" />
-          </View>
-        )}
-      </TouchableOpacity>
-    );
-  },
-  (prev, next) =>
-    prev.onPress === next.onPress && prev.post === next.post &&
-    (prev.post.id ?? prev.post.tokenId) ===
-      (next.post.id ?? next.post.tokenId) && prev.size === next.size &&
-    prev.placeholder === next.placeholder,
-);
-
-const GridRow = memo<{ row: GridRowData; data: ImagePost[]; m: GridMetrics; onPress: (index: number) => void }>(
-  ({ row, data, m, onPress }) => {
-    const { rowType, startIndex } = row;
-    const a = data[startIndex];
-    const b = data[startIndex + 1];
-    const c = data[startIndex + 2];
-    const rowStyle = [s.row, { gap: m.gap, marginBottom: m.gap }];
-    const colStyle = { gap: m.gap };
-
-    if (rowType === 0) {
-      return (
-        <View style={rowStyle}>
-          {a && <ImageTile post={a} size={m.large} placeholder={m.placeholder} onPress={() => onPress(startIndex)} />}
-          <View style={colStyle}>
-            {b && <ImageTile post={b} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex + 1)} />}
-            {c && <ImageTile post={c} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex + 2)} />}
-          </View>
+const ImageTile = memo(function ImageTile({ post, width, height, radius, placeholder, onPress }: {
+  post: ImagePost;
+  width: number;
+  height: number;
+  radius: number;
+  placeholder: string;
+  onPress?: () => void;
+}) {
+  const { t } = useTranslation();
+  const path = imagePath(post);
+  const uri = path ? getImageUrlApiSimple(path) : "";
+  return (
+    <TouchableOpacity
+      activeOpacity={0.85}
+      accessibilityRole="button"
+      accessibilityLabel={post.mediaDescriptions?.[0] || post.description || t("profileImage.view")}
+      disabled={!onPress}
+      onPress={onPress}
+      style={{ width, height, borderRadius: radius, overflow: "hidden", backgroundColor: placeholder }}
+    >
+      <Image
+        source={uri || undefined}
+        style={StyleSheet.absoluteFill}
+        contentFit="contain"
+        recyclingKey={uri}
+        cachePolicy="memory-disk"
+        transition={150}
+      />
+      {(post.imageUrls?.length ?? 0) > 1 && (
+        <View style={s.multiIcon}>
+          <Icon name="Copy" size={14} color="#fff" />
         </View>
-      );
-    }
-    if (rowType === 1) {
-      return (
-        <View style={rowStyle}>
-          <View style={colStyle}>
-            {a && <ImageTile post={a} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex)} />}
-            {b && <ImageTile post={b} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex + 1)} />}
-          </View>
-          {c && <ImageTile post={c} size={m.large} placeholder={m.placeholder} onPress={() => onPress(startIndex + 2)} />}
-        </View>
-      );
-    }
-    return (
-      <View style={rowStyle}>
-        {a && <ImageTile post={a} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex)} />}
-        {b && <ImageTile post={b} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex + 1)} />}
-        {c && <ImageTile post={c} size={m.small} placeholder={m.placeholder} onPress={() => onPress(startIndex + 2)} />}
-      </View>
-    );
-  },
-);
+      )}
+    </TouchableOpacity>
+  );
+});
 
 const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, onImagePress, onBeforeNavigate, scrollEnabled = true, onScroll, ListHeaderComponent }) => {
   const viewMode = useProfileViewMode();
-  const { isMinimal } = useAppTheme();
+  const { theme, isMinimal, colors } = useAppTheme();
   const cinematicPhone = useCinematicPhone();
   const cinematic = cinematicPhone && !!ListHeaderComponent;
   const { width: screenWidth } = useWindowDimensions();
-  const m = useMemo(
-    () => (isMinimal ? makeGridMetrics(screenWidth, 1, 0, "#000") : makeGridMetrics(screenWidth, 2, cinematic ? 0 : 16, "#1D1F21")),
-    [isMinimal, cinematic, screenWidth],
-  );
-  const rows = useMemo(() => buildRows(images.length), [images.length]);
+  const [layoutWidth, setLayoutWidth] = useState(0);
+  const onLayout = useCallback((event: LayoutChangeEvent) => setLayoutWidth(event.nativeEvent.layout.width), []);
+  const gridWidth = layoutWidth || screenWidth;
+  const adaptive = theme !== "system" && !isMinimal;
+  const padding = cinematic || isMinimal ? 0 : 8;
+  const gap = isMinimal ? 1 : adaptive ? 8 : 2;
+  const radius = adaptive && !cinematicPhone ? 12 : 0;
+
+  const rows = useMemo(() => {
+    let offset = 0;
+    return profilePhotoRows(images.map(post => hintedImageRatio(imagePath(post))), adaptive)
+      .map(({ start, count, tracks }) => {
+        const width = Math.max(0, gridWidth - 2 * padding - (tracks.length - 1) * gap);
+        const height = width / tracks.reduce((total, track) => total + track, 0);
+        const row = { start, count, tracks, height, offset };
+        offset += height + gap;
+        return row;
+      });
+  }, [images, adaptive, gridWidth, padding, gap]);
   const imageKey = useCallback((item: ImagePost, index: number) => String(item.tokenId ?? item.id ?? index), []);
   const visibility = useFeedCardVisibility(imageKey as (item: unknown, index: number) => string);
 
   const renderRow = useCallback(
-    ({ item: row }: { item: GridRowData }) => (
-      <GridRow row={row} data={images} m={m} onPress={onImagePress ?? (() => {})} />
+    ({ item: row }: { item: (typeof rows)[number] }) => (
+      <View style={[s.row, { gap, marginBottom: gap }]}>
+        {images.slice(row.start, row.start + row.count).map((post, column) => {
+          const index = row.start + column;
+          return (
+            <ImageTile
+              key={imageKey(post, index)}
+              post={post}
+              width={row.height * row.tracks[column]}
+              height={row.height}
+              placeholder={colors.card}
+              radius={radius}
+              onPress={onImagePress ? () => onImagePress(index) : undefined}
+            />
+          );
+        })}
+      </View>
     ),
-    [images, m, onImagePress],
+    [images, imageKey, gap, colors.card, radius, onImagePress],
   );
 
-  const keyExtractor = useCallback((item: GridRowData) => item.key, []);
   const getItemLayout = useCallback(
-    (_: any, index: number) => {
-      const patternGroup = Math.floor(index / 3);
-      const rowInPattern = index % 3;
-      const offset =
-        patternGroup * m.patternHeight +
-        (rowInPattern >= 1 ? m.rowHeights[0] : 0) +
-        (rowInPattern >= 2 ? m.rowHeights[1] : 0);
-      return { length: m.rowHeights[rowInPattern], offset, index };
-    },
-    [m],
+    (_: unknown, index: number) => ({ length: rows[index].height + gap, offset: rows[index].offset, index }),
+    [rows, gap],
   );
 
   if (images.length === 0) return ListHeaderComponent ?? null;
@@ -207,50 +153,16 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
     );
   }
 
-  if (images.length < 4) {
-    return (
-      <PaneAnimatedFlatList
-        ref={listRef}
-        data={[]}
-        keyExtractor={() => "x"}
-        renderItem={null as any}
-        ListHeaderComponent={
-          <>
-            {ListHeaderComponent}
-            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: m.gap, paddingHorizontal: m.padding / 2 }}>
-              {images.map((post, idx) => (
-                <ImageTile
-                  key={post.id ?? post.tokenId ?? idx}
-                  post={post}
-                  size={m.small}
-                  placeholder={m.placeholder}
-                  onPress={() => onImagePress?.(idx)}
-                />
-              ))}
-            </View>
-          </>
-        }
-        // Same tail as the other profile tabs, so the last row clears the nav
-        // pill on Home and the system bar in the full-screen sheet.
-        contentContainerStyle={{ paddingBottom: TAB_BAR_CONTENT_INSET }}
-        scrollEnabled={scrollEnabled}
-        onScroll={onScroll}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-      />
-    );
-  }
-
   return (
     <PaneAnimatedFlatList
-        ref={listRef}
+      ref={listRef}
       data={rows}
-      keyExtractor={keyExtractor}
+      keyExtractor={(row: (typeof rows)[number]) => String(row.start)}
       renderItem={renderRow}
-      // getItemLayout assumes a fixed row pattern with no header; skip it when a
-      // (variable-height) header is present so scroll offsets stay correct.
+      // A variable-height header isn't included in the row offsets.
       getItemLayout={ListHeaderComponent ? undefined : getItemLayout}
-      contentContainerStyle={{ paddingHorizontal: m.padding / 2, paddingBottom: TAB_BAR_CONTENT_INSET }}
+      onLayout={onLayout}
+      contentContainerStyle={{ paddingHorizontal: padding, paddingBottom: TAB_BAR_CONTENT_INSET }}
       showsVerticalScrollIndicator={false}
       initialNumToRender={6}
       maxToRenderPerBatch={6}
@@ -265,7 +177,6 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
 };
 
 const s = StyleSheet.create({
-  // Gaps come from the active GridMetrics, applied inline by GridRow.
   row: { flexDirection: "row" },
   multiIcon: { position: "absolute", top: 4, right: 4, backgroundColor: "rgba(0,0,0,0.4)", borderRadius: 6, padding: 3 },
 });
