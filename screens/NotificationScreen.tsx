@@ -1627,12 +1627,12 @@ const NotificationScreen = () => {
         if (tokenId) navigateToFeed(tokenId, undefined, postType);
         break;
 
-      case 'new_message':
-        if (metadata?.deepLink) {
-          const match = metadata.deepLink.match(/\/dm\/(.+)/);
-          if (match?.[1]) navigateToDM(match[1]);
-        }
+      case 'new_message': {
+        const conversation = metadata?.conversationId || metadata?.deepLink?.match(/^\/dm\/([^/?#]+)/)?.[1];
+        if (conversation) navigateToDM(conversation);
+        else leaveTo(ScreenNames.Root, { screen: ScreenNames.DM }, { pop: true });
         break;
+      }
 
       case NotificationType.FIAT_PAYMENT_COMPLETED:
         leaveTo(ScreenNames.Dpay as never);
@@ -1688,7 +1688,11 @@ const NotificationScreen = () => {
           break;
         }
         // A tag in live or public chat opens that chat, not a post page.
-        if (openChatMention(navigation.navigate as any, { mentionContext: metadata?.mentionContext, tokenId })) break;
+        if (openChatMention(leaveTo, {
+          mentionContext: metadata?.mentionContext,
+          tokenId,
+          chatMessageId: metadata?.chatMessageId,
+        })) break;
         if (tokenId) navigateToFeed(tokenId, commentId, postType);
         break;
 
