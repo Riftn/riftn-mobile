@@ -37,6 +37,7 @@ import {
 } from '../../services/asset.service';
 import { type AssetRef } from '../../libs/asset-refs';
 import { isDhbSymbol } from '../../libs/dhb-symbols';
+import { isDhbListingQuery, RIFT_REFERENCE_PRICE } from '../../libs/dhb-listing';
 
 const DEHUB_COIN = require('../../assets/web-icons/dehub-coin.png');
 
@@ -276,23 +277,13 @@ const ResolvedCard: React.FC<{ asset: ResolvedAsset }> = ({ asset }) => {
 /** Brand name, not copy: it reads the same in every language. */
 const OWN_TOKEN_NAME = 'Riftn';
 
-/** The old token's contract addresses, which now mean "coming soon" too. */
-const OWN_TOKEN_ADDRESSES = new Set([
-  '0xd20ab1015f6a2de4a6fddebab270113f689c2f7c',
-  '0x680d3113caf77b61b510f332d5ef4cf5b41a761d',
-  '0x99bb69ee1bbfc7706c3ebb79b21c5b698fe58ec0',
-]);
-
 function isOwnTokenRef(ref: AssetRef): boolean {
-  return ref.kind === 'ticker'
-    ? isDhbSymbol(ref.value)
-    : OWN_TOKEN_ADDRESSES.has(ref.value.toLowerCase());
+  return ref.kind === 'ticker' ? isDhbSymbol(ref.value) : isDhbListingQuery(ref.value);
 }
 
 /**
  * $RIFT, $RIFTN, $DHB and $DEHUB all mean our token, and the new one is not
- * trading yet. No lookup, no price, no contract: the card says it is coming
- * soon, and a tap opens the ticker sheet with the launch list.
+ * trading yet. The card shows the reference price and opens the ticker sheet.
  */
 const OwnTokenComingSoonCard: React.FC = () => {
   const { t } = _useCopy();
@@ -309,7 +300,7 @@ const OwnTokenComingSoonCard: React.FC = () => {
           <Image source={DEHUB_COIN} style={styles.logo} contentFit="cover" />
           <View style={styles.body}>
             <View style={styles.titleRow}>
-              <Text style={styles.symbol}>{tokenLabel()}</Text>
+              <Text style={styles.symbol}>$RIFT</Text>
               <Text style={styles.name} numberOfLines={1}>{OWN_TOKEN_NAME}</Text>
               <View style={styles.soonBadge}>
                 <Text style={styles.soonBadgeText}>{t('hero.comingSoon', 'Coming Soon')}</Text>
@@ -320,6 +311,7 @@ const OwnTokenComingSoonCard: React.FC = () => {
               {t('cashtag.listingBody', "Riftn tokens aren't trading yet. Get an email when trading opens.")}
             </Text>
           </View>
+          <Text style={styles.price}>{RIFT_REFERENCE_PRICE}</Text>
         </View>
       </TouchableOpacity>
 

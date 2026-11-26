@@ -77,6 +77,9 @@ export default function TokenLaunchNotify() {
         <Text style={styles.eyebrow}>{t("tokenLaunch.eyebrow").toUpperCase()}</Text>
         <Text className="text-theme-neutrals-100" style={styles.title}>{t("tokenLaunch.riftTitle")}</Text>
 
+        <Text className="text-theme-neutrals-400" style={styles.body}>
+          {t("tokenLaunch.earnOnly", "For now, you can only earn tokens by using the app.")}
+        </Text>
         {joined ? (
           <View style={{ alignItems: "center", marginTop: 16 }} accessibilityLiveRegion="polite">
             <View style={[styles.joinedPill, { borderRadius: radius }]}>

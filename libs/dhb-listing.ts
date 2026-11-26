@@ -17,6 +17,18 @@ import { supabase } from "../services/supabase";
 import { getSupabaseAuthMeta } from "../services/auth/supabaseAuth.service";
 import { isDhbSymbol } from "./dhb-symbols";
 
+export const RIFT_REFERENCE_PRICE = "$0.001";
+
+const LEGACY_ADDRESSES = new Set([
+  "0xd20ab1015f6a2de4a6fddebab270113f689c2f7c",
+  "0x680d3113caf77b61b510f332d5ef4cf5b41a761d",
+  "0x99bb69ee1bbfc7706c3ebb79b21c5b698fe58ec0",
+]);
+
+export function isDhbListingQuery(query: string): boolean {
+  return isDhbSymbol(query) || LEGACY_ADDRESSES.has(query.trim().toLowerCase());
+}
+
 export function isDhbListingSymbol(symbol: string): boolean {
   return isDhbSymbol(symbol);
 }

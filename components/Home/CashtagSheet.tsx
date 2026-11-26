@@ -252,7 +252,7 @@ const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, o
 
             {isDhb ? (
               <ScrollView style={styles.content} bounces={false} keyboardShouldPersistTaps="handled">
-                {DIGITAL_PURCHASES_ENABLED ? <DhbListingSoon /> : null}
+                {DIGITAL_PURCHASES_ENABLED ? <DhbListingSoon showSymbol={false} /> : null}
               </ScrollView>
             ) : loading ? (
               <View style={styles.center}>
