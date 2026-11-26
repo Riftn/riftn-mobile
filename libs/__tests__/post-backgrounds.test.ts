@@ -4,6 +4,8 @@ import {
   parsePostBg,
   parsePostBgColors,
   postBgFromToken,
+  postBgFromStored,
+  postBgPhotoStored,
   postBgIsVideo,
   postBgPaletteIndex,
   postBgToken,
@@ -66,6 +68,15 @@ describe('profile post backgrounds', () => {
     expect(postBgIsVideo('file:///data/user/0/app/cache/clip.MOV')).toBe(true);
     expect(postBgIsVideo('blob:https://riftn.com/abc#video')).toBe(true);
     expect(parsePostBg({ postBg: 'photo', postBgImage: KEY.replace(/\.webp$/, '.mov') })).toBeNull();
+  });
+
+  it('reuses the stored photo for the selected post without falling back to a different image', () => {
+    const profilePhoto = parsePostBg({ postBg: 'photo', postBgImage: KEY });
+    const postPhoto = postBgFromStored('photo||postbgs/older-post-photo.mp4');
+    expect(postBgPhotoStored(postPhoto?.image)).toBe('photo||postbgs/older-post-photo.mp4');
+    expect(postBgPhotoStored(profilePhoto?.image)).toBe(`photo||${KEY}`);
+    expect(postBgPhotoStored('blob:https://riftn.com/local-preview')).toBeNull();
+    expect(postBgPhotoStored('https://elsewhere.example/postbgs/photo.webp')).toBeNull();
   });
 
   it('carries a whole look through one string', () => {
