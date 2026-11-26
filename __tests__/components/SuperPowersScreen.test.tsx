@@ -22,7 +22,10 @@ jest.mock('../../hooks/useSuperpowers', () => ({
   useSuperpowers: () => ({ data: mockStatus, isLoading: false, refetch: jest.fn() }),
   useSuperpowerLadder: () => ({ data: { powers: [
     { key: 'team_up', label: 'Team up', available: true, tier: null },
-  ], tiers: [{ name: 'Crab', boostsPerCycle: 1, minutesPerBoost: 15 }] }, isLoading: false }),
+  ], tiers: [
+    { name: 'Crab', boostsPerCycle: 1, minutesPerBoost: 15 },
+    { name: 'Ghost Lobster', boostsPerCycle: 1, minutesPerBoost: 20 },
+  ] }, isLoading: false }),
   useCancelBoost: () => ({ mutate: mockCancelBoost }),
 }));
 jest.mock('../../components/ui/Icon', () => 'Icon');
@@ -74,6 +77,7 @@ it('localizes English API labels in Turkish, including the orbit and badge ladde
   expect(view.getByLabelText('Sinyal Fişeği')).toBeTruthy();
   expect(view.getByText('Kaplan Köpekbalığı')).toBeTruthy();
   expect(view.getByText('Yengeç')).toBeTruthy();
+  expect(view.getByText('Hayalet Istakoz')).toBeTruthy();
   expect(view.getByText('superpowers.unlocksAt Ahtapot')).toBeTruthy();
   expect(view.getByText('Takipçilerine bir gönderi hakkında tek bir bildirim gönder.')).toBeTruthy();
 });
