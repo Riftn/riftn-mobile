@@ -1,3 +1,4 @@
+import { DM_PHOTO_BATCH_LIMIT } from "../../libs/dm-e2ee/media";
 import { usePerfProbe } from "../../libs/perfTrace";
 import { useKeyboardSwap } from "../../hooks/useKeyboardSwap";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -105,6 +106,7 @@ export type ChatMediaAttachment = {
 
 interface ChatInputBarProps {
   onSendText: (text: string) => Promise<boolean>;
+  onSendPhotos?: (photos: ChatMediaAttachment[], caption?: string) => Promise<boolean>;
   onSendMedia: (attachment: ChatMediaAttachment, caption?: string) => Promise<boolean>;
   /** Offer "Lock photo" (pay to unlock) on a picked photo or video. 1:1 DMs only. */
   allowLock?: boolean;
@@ -191,6 +193,7 @@ const INPUT_TEXT = {
 const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   onSendText,
   onSendMedia,
+  onSendPhotos,
   allowLock = false,
   onSendGif,
   onStartVoice,
@@ -440,9 +443,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       return;
     }
 
-    // Everything in the edit screen: back to the chat at once, then one
-    // message per photo/video in order, the caption riding on the first.
-    // Whatever fails comes back into the edit screen.
+    // Send in order and put the caption on the first message.
     if (studio.length) {
       const queue = [...studio];
       const caption = text.trim() || undefined;
@@ -450,15 +451,26 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       setStudio([]);
       setStudioActive(0);
       setText.complete(text, "");
-      for (let i = 0; i < queue.length; i++) {
+      const ordinaryPhoto = (item: ChatMediaAttachment) => item.type === "image" && !item.destruct && !item.lockPrice;
+      for (let i = 0; i < queue.length;) {
         const m = queue[i];
+        let end = i + 1;
+        if (onSendPhotos && ordinaryPhoto(m)) {
+          while (end < queue.length && end - i < DM_PHOTO_BATCH_LIMIT && ordinaryPhoto(queue[end])) end++;
+        }
         const base = m.type === "video" ? { ...m, options: cleanVideoOptions(m.options, m.duration) } : m;
         const out = m.destruct ? { ...base, destruct: withReplay(m.destruct, m.destructReplay) ?? null } : base;
-        if (!(await onSendMedia(out, i === 0 ? caption : undefined))) {
+        const mediaCaption = i === 0 ? caption : undefined;
+        const grouped = onSendPhotos && end - i > 1;
+        const sent = grouped
+          ? await onSendPhotos(queue.slice(i, end), mediaCaption)
+          : await onSendMedia(out, mediaCaption);
+        if (!sent) {
           setStudio(queue.slice(i));
           if (i === 0 && caption) setText(caption);
           return;
         }
+        i = end;
       }
       return;
     }
@@ -493,7 +505,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       if (plain) plainTaken.current = null;
       else sendInFlight.current = false;
     }
-  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendGif, emitTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText, replyTo]);
+  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendPhotos, onSendGif, emitTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText, replyTo]);
 
 
   /** Picked photos/videos join the edit screen, which opens on the newest. */

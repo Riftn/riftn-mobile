@@ -60,6 +60,14 @@ describe("dm-e2ee media", () => {
     expect(() => decryptMediaBytes(cut, key)).toThrow();
   });
 
+  it("opens an ordered photo batch and rejects an invalid extra file key", () => {
+    const first = { kind: "image" as const, mime: "image/jpeg", size: 100, k: fileKeyToString(new Uint8Array(32)) };
+    const next = { ...first, mime: "image/png", k: fileKeyToString(new Uint8Array(32).fill(1)) };
+    const album = { ...first, photos: [next], caption: "Both photos" };
+    expect(decodeMediaDescriptor(encodeMediaDescriptor(album))).toEqual(album);
+    expect(decodeMediaDescriptor(encodeMediaDescriptor({ ...album, photos: [{ ...next, k: "bad" }] }))).toBeNull();
+  });
+
   it("matches the cross-platform vector", () => {
     mockFixedRandom = (n) => {
       const out = new Uint8Array(n);

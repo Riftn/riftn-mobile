@@ -12,6 +12,10 @@ jest.mock('../../services/dm/dm.api', () => ({ uploadDmMedia: jest.fn(), tipNoti
 jest.mock('../../libs/assets.util', () => ({ guessMime: () => 'image/jpeg' }));
 jest.mock('../../libs/logger', () => ({ createLogger: () => ({ debug: jest.fn(), warn: jest.fn(), error: jest.fn(), info: jest.fn() }) }));
 jest.mock('../../config/constants', () => ({ supportedTokens: [] }));
+jest.mock('expo-crypto', () => ({
+  randomUUID: () => require('node:crypto').randomUUID(),
+  getRandomBytes: (n: number) => new Uint8Array(require('node:crypto').randomBytes(n)),
+}));
 jest.mock('expo-file-system/legacy', () => ({}));
 jest.mock('../../libs/dm-e2ee/keys', () => ({ prepareOutgoing: async (_p: string, content: string) => ({ content }), prepareSession: jest.fn() }));
 jest.mock('../../libs/dm-e2ee/media', () => ({ encodeMediaDescriptor: jest.fn() }));

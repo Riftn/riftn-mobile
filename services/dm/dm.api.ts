@@ -143,7 +143,7 @@ export async function getMessages(
 export async function uploadDmMedia(
   params: UploadDmMediaParams,
 ): Promise<DmMessage> {
-  const { conversationId, senderId, files, msgType, voiceDuration, content, txHash, tipTxHash, replyTo, encryptedKind, mediaOptions, destruct, lockPrice } =
+  const { conversationId, senderId, files, batchId, msgType, voiceDuration, content, txHash, tipTxHash, replyTo, encryptedKind, mediaOptions, destruct, lockPrice } =
     params;
 
   const form = new FormData();
@@ -156,6 +156,7 @@ export async function uploadDmMedia(
         : guessMime(f.uri, "application/octet-stream");
     form.append("files", { uri: f.uri, name, type } as unknown as Blob);
   }
+  if (batchId) form.append("batchId", batchId);
   form.append("conversationId", String(conversationId));
   form.append("senderId", String(senderId));
   if (msgType) form.append("msgType", msgType);
@@ -174,7 +175,7 @@ export async function uploadDmMedia(
   if (mediaOptions) form.append("mediaOptions", JSON.stringify(mediaOptions));
   if (destruct) form.append("destruct", String(destruct));
 
-  return apiClient.post<DmMessage>("/dm/upload", form, {
+  return apiClient.post<DmMessage>(batchId ? "/dm/upload-photos" : "/dm/upload", form, {
     isAuthRequired: true,
     timeoutMs: params.timeoutMs,
   });
