@@ -3,9 +3,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
-import Animated, { ReduceMotion, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { KeepDark } from "../../libs/jsx/tone";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useSnapshot } from "valtio";
@@ -24,9 +21,10 @@ import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } f
 import { avatarOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
-import StoryCreateBar from "./StoryCreateBar";
+import StoryCreateBar, { StoryCreateTile } from "./StoryCreateBar";
 import { storage } from "../../libs/storage";
 import { formatCount } from "../../libs/format-count";
+import { formatShortAgo } from "../../libs/date.util";
 import { useLiveAudience } from "../../hooks/useLiveAudience";
 import { setActivityBarHidden, useActivityShelfPreferences } from "../../libs/activity-shelf-preferences";
 import { ActivityShelfMenu, type ActivityTarget } from "./ActivityShelfMenu";
@@ -191,15 +189,18 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
   if (holding ? lastSeat === "none" || (lastSeat === "ask" && !me) : hidden) return null;
   if (holding ? lastSeat === "ask" : bare) return <><StoryCreateBar onActivityOptions={openBarMenu} />{menuElement}</>;
 
-  const processing = !!own?.items.some(item => item.status === "processing" && !dismissed.includes(`story:${item.id}`));
-  const showMe = !!(storiesEnabled && me && (pending || processing || ownWatchable));
+  const showMe = !!(storiesEnabled && me && (pending || ownWatchable));
   const shownOthers = storiesEnabled ? others : [];
-  const loading = holding || (storiesEnabled && isLoading);
-  const liveOnly = !loading && !showMe && shownOthers.length === 0 && eligibleLive.length === 1;
+  // How many pills are up. With exactly 1 the pill takes the whole row and
+  // shows a little more (who is watching, or the Moments themselves).
+  const upCount = holding || isLoading ? 0 : (showMe ? 1 : 0) + eligibleLive.length + shownOthers.length;
+  const single = upCount === 1;
+
   const shelfScroll = (
     <ScrollView
       horizontal
       nestedScrollEnabled
+      scrollEnabled={!single}
       directionalLockEnabled
       bounces={false}
       overScrollMode="never"
@@ -207,25 +208,27 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {(storiesEnabled || holding) && me ? <CreateTile onAdd={add} onActivityOptions={openBarMenu} /> : null}
+      {(storiesEnabled || holding) && me ? <CreateTile onActivityOptions={openBarMenu} /> : null}
       {showMe ? (
         <MeTile
+          single={single}
           pending={pending as PendingMoment | null}
           avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
           name={t("stories.you", { defaultValue: "You" })}
           entry={ownWatchable}
-          processing={processing}
+          processing={!!own?.items.some((i) => i.status === "processing")}
           onOpen={() => ownWatchable && openEntry(ownWatchable)}
           onMenu={ownWatchable && !pending ? () => openStoryMenu(ownWatchable) : openBarMenu}
+          onAdd={add}
         />
       ) : null}
-      {loading ? [0, 1, 2].map(index => <LoadingTile key={`loading-${index}`} />) : null}
-      {shownOthers.map(entry => (
-        <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} onMenu={() => openStoryMenu(entry)} />
-      ))}
-      {eligibleLive.map(item => (
-        <LiveTile key={liveKey(item)} item={item} single={liveOnly} onOpen={() => openLive(item)}
+      {eligibleLive.map((item) => (
+        <LiveTile key={liveKey(item)} item={item} single={single} onOpen={() => openLive(item)}
           onMenu={() => setMenu({ target: { kind: item.kind, ids: [liveKey(item)], creator: item.wallet, open: () => openLive(item) } })} />
+      ))}
+      {holding || (storiesEnabled && isLoading) ? [0, 1, 2].map((index) => <LoadingPill key={`loading-${index}`} />) : null}
+      {shownOthers.map((entry) => (
+        <PersonTile key={entry.author.address} entry={entry} single={single} onOpen={() => openEntry(entry)} onMenu={() => openStoryMenu(entry)} />
       ))}
     </ScrollView>
   );
@@ -253,97 +256,15 @@ const PILL_H = 52;
 const FACE_SIZE = 36;
 const FACE_RADIUS = 12;
 
-const PORTRAIT_WIDTH = 80;
-const PORTRAIT_HEIGHT = 96;
-const MOMENT_RING = ["#ffba4d", "#f22b61", "#a715ee"] as const;
-const CLOSE_FRIENDS_RING = ["#a3e635", "#22c55e", "#0d9f69"] as const;
-
-function CreateTile({ onAdd, onActivityOptions }: { onAdd: () => void; onActivityOptions: () => void }) {
-  const { t } = useTranslation();
-  const c = usePillColors();
+function CreateTile({ onActivityOptions }: { onActivityOptions: () => void }) {
+  const { ink } = usePillColors();
   return (
-    <PortraitButton label={t("stories.addMoment", { defaultValue: "Add a moment" })} onPress={onAdd} onMenu={onActivityOptions}
-      style={styles.createTile}>
-      <View style={[styles.createKey, { backgroundColor: c.ink }]}>
-        <Icon name="Plus" size={20} color={c.gap} />
-      </View>
-      <Text style={[styles.portraitName, styles.createLabel, { color: c.ink }]} numberOfLines={2}>
-        {t("stories.yourDay", { defaultValue: "Your day" })}
-      </Text>
-    </PortraitButton>
+    <StoryCreateTile height={PILL_H} onActivityOptions={onActivityOptions}>
+      <PillFace>
+        <Icon name="Plus" size={16} color={ink} strokeWidth={2} />
+      </PillFace>
+    </StoryCreateTile>
   );
-}
-
-function PortraitButton({ label, onPress, onMenu, busy, hint, style, children }: {
-  label: string;
-  onPress: () => void;
-  onMenu: () => void;
-  busy?: boolean;
-  hint?: string;
-  style?: typeof styles.createTile;
-  children: React.ReactNode;
-}) {
-  const { t } = useTranslation();
-  const { colors } = useAppTheme();
-  return (
-    <TouchableOpacity
-      activeOpacity={0.85}
-      style={[styles.portrait, style, { backgroundColor: colors.card, borderColor: colors.border }]}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      accessibilityHint={hint}
-      accessibilityState={busy ? { busy: true, disabled: true } : undefined}
-      disabled={busy}
-      onPress={onPress}
-      onLongPress={onMenu}
-      accessibilityActions={busy ? undefined : [{ name: "activityOptions", label: t("stories.activity.options", { defaultValue: "Activity options" }) }]}
-      onAccessibilityAction={event => { if (!busy && event.nativeEvent.actionName === "activityOptions") onMenu(); }}
-    >
-      {children}
-    </TouchableOpacity>
-  );
-}
-
-function PortraitPhoto({ avatar, name, seen = false, closeFriends, retry }: {
-  avatar: string | null;
-  name: string;
-  seen?: boolean;
-  closeFriends?: boolean;
-  retry?: boolean;
-}) {
-  const c = usePillColors();
-  const opacity = useSharedValue(seen ? 0.48 : 1);
-  useEffect(() => {
-    opacity.value = withTiming(seen ? 0.48 : 1, { duration: 240, reduceMotion: ReduceMotion.System });
-  }, [opacity, seen]);
-  const fade = useAnimatedStyle(() => ({ opacity: opacity.value }));
-  return (
-    <Animated.View style={[StyleSheet.absoluteFillObject, fade]} pointerEvents="none">
-      <LinearGradient colors={closeFriends ? CLOSE_FRIENDS_RING : MOMENT_RING} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }}
-        style={styles.portraitRing}>
-        <View style={[styles.photoFrame, { backgroundColor: c.gap }]}>
-          {retry
-            ? <Icon name="RotateCcw" size={20} color={c.ink} />
-            : <Avatar uri={avatar} size={PORTRAIT_WIDTH - 8} radius={9} name={name} style={styles.photo} />}
-        </View>
-      </LinearGradient>
-    </Animated.View>
-  );
-}
-
-function PortraitCaption({ children, status }: { children: React.ReactNode; status?: boolean }) {
-  return (
-    <KeepDark.Provider value>
-      <LinearGradient colors={["transparent", "hsla(0,0%,0%,0.79)", "hsla(0,0%,0%,0.94)"]} locations={[0, 0.4, 1]} style={[styles.caption, status && styles.statusCaption]} pointerEvents="none">
-        {children}
-      </LinearGradient>
-    </KeepDark.Provider>
-  );
-}
-
-function LoadingTile() {
-  const c = usePillColors();
-  return <View style={[styles.portrait, { backgroundColor: c.wash, borderColor: c.line }]} accessible={false} />;
 }
 
 function Pill({ label, onPress, onMenu, single, children, extra }: {
@@ -374,6 +295,17 @@ function Pill({ label, onPress, onMenu, single, children, extra }: {
   );
 }
 
+/** The face with its ring: none once watched, green for Close Friends. */
+function PillFace({ children, seen, closeFriends, live }: { children: React.ReactNode; seen?: boolean; closeFriends?: boolean; live?: boolean }) {
+  const c = usePillColors();
+  const ring = seen || live ? "transparent" : closeFriends ? "#22c55e" : c.ring;
+  return (
+    <View style={[styles.ring, { borderColor: ring }, seen && styles.faceSeen]} pointerEvents="none">
+      {children}
+    </View>
+  );
+}
+
 function PillText({ name, line }: { name: React.ReactNode; line: string }) {
   const c = usePillColors();
   return (
@@ -382,6 +314,44 @@ function PillText({ name, line }: { name: React.ReactNode; line: string }) {
         {name}
       </View>
       {line ? <Text style={[styles.line, { color: c.sub }]} numberOfLines={1}>{line}</Text> : null}
+    </View>
+  );
+}
+
+function LoadingPill() {
+  const c = usePillColors();
+  return (
+    <View style={[styles.pill, styles.loadingPill, { borderColor: c.line }]}>
+      <View style={[styles.loadingFace, { backgroundColor: c.wash }]} />
+      <View style={styles.loadingBars}>
+        <View style={[styles.loadingBar, { backgroundColor: c.wash }]} />
+        <View style={[styles.loadingBar, styles.loadingBarShort, { backgroundColor: c.wash }]} />
+      </View>
+    </View>
+  );
+}
+
+function momentsLine(t: (key: string, options?: Record<string, unknown>) => string, count: number) {
+  return count === 1
+    ? t("stories.spot.oneMoment", { defaultValue: "1 Moment" })
+    : t("stories.spot.moments", { n: formatCount(count), defaultValue: "{{n}} Moments" });
+}
+
+/** Small covers of someone's Moments, when the pill has the room. */
+function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
+  const c = usePillColors();
+  if (!entry) return null;
+  const covers = entry.items
+    .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
+    .filter((url): url is string => !!url)
+    .slice(0, 3);
+  if (!covers.length) return null;
+  return (
+    <View style={styles.stack}>
+      {covers.map((url, i) => (
+        <Image key={url} source={{ uri: url }} recyclingKey={url} contentFit="cover" cachePolicy="memory-disk"
+          style={[styles.cover, { borderColor: c.gap }, i > 0 && styles.stackOverlap]} />
+      ))}
     </View>
   );
 }
@@ -405,33 +375,55 @@ function LiveWatchers({ streamId }: { streamId: string }) {
   );
 }
 
-function MeTile({ pending, avatar, name, entry, processing, onOpen, onMenu }: {
+function MeTile({
+  pending,
+  avatar,
+  name,
+  entry,
+  processing,
+  single,
+  onOpen,
+  onAdd,
+  onMenu,
+}: {
+  single: boolean;
   pending: PendingMoment | null;
   avatar: string | null;
   name: string;
   entry: ShelfEntry | null;
   processing: boolean;
   onOpen: () => void;
+  onAdd: () => void;
   onMenu: () => void;
 }) {
   const { t } = useTranslation();
+  const c = usePillColors();
   const failed = pending?.state === "failed";
-  const busy = !failed && (!!pending || (processing && !entry));
-  const posting = t("stories.posting", { defaultValue: "Posting…" });
-  const retry = t("stories.tapRetry", { defaultValue: "Tap to retry" });
+  const line = failed
+    ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
+    : pending || processing
+      ? t("stories.posting", { defaultValue: "Posting…" })
+      : momentsLine(t, entry?.items.length ?? 0);
   return (
-    <PortraitButton label={failed ? retry : busy ? posting : name} busy={busy} onMenu={onMenu}
-      onPress={failed ? () => pending?.retry?.() : onOpen}>
-      <PortraitPhoto avatar={avatar} name={name} retry={failed} />
-      <PortraitCaption status={busy || failed}>
-        <Text style={styles.portraitName} numberOfLines={busy || failed ? 2 : 1}>{failed ? retry : busy ? posting : name}</Text>
-      </PortraitCaption>
+    <Pill
+      single={single}
+      label={failed ? line : name}
+      onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
+      onMenu={onMenu}
+      extra={pending ? null : <MomentCovers entry={entry} />}
+    >
+      <PillFace>
+        {failed
+          ? <View style={[styles.retry, { backgroundColor: c.wash }]}><Icon name="RotateCcw" size={16} color={c.ink} /></View>
+          : <Avatar uri={avatar} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />}
+      </PillFace>
+      <PillText name={<Text style={[styles.name, { color: c.ink }]} numberOfLines={1}>{name}</Text>} line={line} />
       {pending && !failed ? (
-        <View style={styles.progressTrack} pointerEvents="none">
-          <View style={[styles.progressFill, { width: `${pending.state === "processing" ? 100 : Math.max(6, Math.round(pending.progress * 100))}%` }]} />
+        <View style={[styles.progressTrack, { backgroundColor: c.wash }]} pointerEvents="none">
+          <View style={[styles.progressFill, { backgroundColor: c.ink, width: `${pending.state === "processing" ? 100 : Math.max(6, Math.round(pending.progress * 100))}%` }]} />
         </View>
       ) : null}
-    </PortraitButton>
+    </Pill>
   );
 }
 
@@ -452,7 +444,7 @@ function LiveTile({ item, single, onOpen, onMenu }: { item: LiveNowItem; single:
       onMenu={onMenu}
       extra={item.kind === "stream" ? <LiveWatchers streamId={item.id} /> : null}
     >
-      <View style={styles.liveFace} pointerEvents="none"><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} liveOrbit /></View>
+      <PillFace live><LiveFace item={item} size={FACE_SIZE} radius={FACE_RADIUS} liveOrbit /></PillFace>
       <PillText
         name={<TileIdentity displayName={item.displayName} fallback={item.username || item.title} lookup={item.kind === "stage" ? item.wallet : undefined} badge={item.badge} />}
         line={line.filter(Boolean).join(" · ") || item.title}
@@ -461,19 +453,18 @@ function LiveTile({ item, single, onOpen, onMenu }: { item: LiveNowItem; single:
   );
 }
 
-function TileIdentity({ displayName, fallback, lookup, badge, onPhoto }: {
+function TileIdentity({ displayName, fallback, lookup, badge }: {
   displayName?: string | null;
   fallback: string;
   lookup?: string;
   badge?: number;
-  onPhoto?: boolean;
 }) {
   const account = useBadgeAccount(lookup);
   const c = usePillColors();
   const artwork = badge ?? (account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined);
   return (
     <>
-      <Text style={onPhoto ? styles.portraitName : [styles.name, { color: c.ink }]} numberOfLines={1}>
+      <Text style={[styles.name, { color: c.ink }]} numberOfLines={1}>
         {displayName?.trim() || account?.displayName?.trim() || fallback}
       </Text>
       {artwork != null && <Image source={artwork} style={styles.identityBadge} contentFit="contain" />}
@@ -481,17 +472,19 @@ function TileIdentity({ displayName, fallback, lookup, badge, onPhoto }: {
   );
 }
 
-function PersonTile({ entry, onOpen, onMenu }: { entry: ShelfEntry; onOpen: () => void; onMenu: () => void }) {
+function PersonTile({ entry, single, onOpen, onMenu }: { entry: ShelfEntry; single: boolean; onOpen: () => void; onMenu: () => void }) {
   const { t } = useTranslation();
   const name = nameOf(entry.author);
   return (
-    <PortraitButton label={name} hint={entry.seen ? t("stories.watchedCount", { n: formatCount(entry.items.length) }) : undefined}
-      onPress={onOpen} onMenu={onMenu}>
-      <PortraitPhoto avatar={avatarOf(entry.author, 192)} name={name} seen={entry.seen} closeFriends={entry.closeFriends} />
-      <PortraitCaption>
-        <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} onPhoto />
-      </PortraitCaption>
-    </PortraitButton>
+    <Pill single={single} label={name} onPress={onOpen} onMenu={onMenu} extra={<MomentCovers entry={entry} />}>
+      <PillFace seen={entry.seen} closeFriends={!!entry.closeFriends && !entry.own}>
+        <Avatar uri={avatarOf(entry.author, 96)} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />
+      </PillFace>
+      <PillText
+        name={<TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />}
+        line={[entry.latestAt ? formatShortAgo(entry.latestAt) : "", momentsLine(t, entry.items.length)].filter(Boolean).join(" · ")}
+      />
+    </Pill>
   );
 }
 
@@ -515,17 +508,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   pillSingle: { flex: 1, minWidth: 0 },
-  liveFace: { width: FACE_SIZE + 7, height: FACE_SIZE + 7, alignItems: "center", justifyContent: "center" },
-  portrait: { width: PORTRAIT_WIDTH, height: PORTRAIT_HEIGHT, flexShrink: 0, borderRadius: 12, borderWidth: 1, overflow: "hidden" },
-  createTile: { alignItems: "center", justifyContent: "center", gap: 6, paddingHorizontal: 8 },
-  createKey: { width: 32, height: 32, borderRadius: 12, alignItems: "center", justifyContent: "center" },
-  createLabel: { textAlign: "center" },
-  portraitRing: { flex: 1, padding: 2, borderRadius: 11 },
-  photoFrame: { flex: 1, padding: 1, borderRadius: 9, justifyContent: "center", alignItems: "center", overflow: "hidden" },
-  photo: { width: "100%", height: "100%" },
-  caption: { position: "absolute", left: 3, right: 3, bottom: 3, borderBottomLeftRadius: 9, borderBottomRightRadius: 9, flexDirection: "row", alignItems: "center", gap: 3, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 8 },
-  statusCaption: { paddingHorizontal: 6 },
-  portraitName: { flexShrink: 1, color: "hsla(0,0%,100%,1)", fontSize: 13, lineHeight: 17, fontWeight: "700" },
+  ring: { width: FACE_SIZE + 7, height: FACE_SIZE + 7, borderRadius: FACE_RADIUS + 3.5, borderWidth: 1.5, padding: 2, alignItems: "center", justifyContent: "center" },
+  faceSeen: { opacity: 0.8 },
   text: { flexShrink: 1, minWidth: 0, gap: 1 },
   nameRow: { flexDirection: "row", alignItems: "center", gap: 5, minWidth: 0 },
   name: { flexShrink: 1, fontSize: 13.5, fontWeight: "700" },
@@ -535,9 +519,16 @@ const styles = StyleSheet.create({
   stack: { flexDirection: "row", alignItems: "center" },
   stackOverlap: { marginLeft: -7 },
   watcher: { borderWidth: 2, borderRadius: 9, overflow: "hidden" },
+  cover: { width: 22, height: 30, borderRadius: 7, borderWidth: 2 },
   more: { marginLeft: 6, fontSize: 11, fontWeight: "700" },
-  progressTrack: { position: "absolute", left: 9, right: 9, bottom: 5, height: 2, borderRadius: 2, overflow: "hidden", backgroundColor: "hsla(0,0%,100%,0.25)" },
-  progressFill: { height: 2, backgroundColor: "hsla(0,0%,100%,1)" },
+  loadingPill: { flexGrow: 0 },
+  loadingFace: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, marginLeft: 2 },
+  loadingBars: { gap: 6 },
+  loadingBar: { width: 64, height: 8, borderRadius: 4 },
+  loadingBarShort: { width: 44 },
+  progressTrack: { position: "absolute", left: 8, right: 8, bottom: 4, height: 2, borderRadius: 2, overflow: "hidden" },
+  progressFill: { height: 2 },
+  retry: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, alignItems: "center", justifyContent: "center" },
 });
 
 export default React.memo(StoryShelf);
