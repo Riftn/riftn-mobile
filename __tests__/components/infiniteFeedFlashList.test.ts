@@ -116,7 +116,7 @@ describe('own profile scroll handler', () => {
   };
 
   it('drives the bottom nav from the UI thread on the Reanimated lists', () => {
-    expect(tabs).toContain('useAnimatedScrollHandler');
+    expect(read('components/Profile/profilePaneScroll.tsx')).toContain('useAnimatedScrollHandler');
     for (const key of ['home', 'posts', 'videos', 'songs', 'live', 'fractions', 'pinned', 'playlists']) {
       expect(routeLine(key)).toContain('onScroll={workletScroll}');
     }

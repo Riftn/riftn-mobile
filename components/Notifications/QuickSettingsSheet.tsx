@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import GlassModal from "../ui/GlassModal";
+import PrimaryButton from "../ui/PrimaryButton";
 import CustomSwitch from "../ui/CustomSwitch";
 import Icon, { type IconName } from "../ui/Icon";
 import { notificationAccentFill } from "./notificationAccent";
@@ -19,7 +20,9 @@ import { toastError } from "../../libs";
 interface QuickSettingsSheetProps {
   visible: boolean;
   onClose: () => void;
+  onDismiss: () => void;
   hasUnread: boolean;
+  canClear: boolean;
   onMarkAllRead: () => void;
   onClearAll: () => void;
   onOpenAllSettings: () => void;
@@ -27,7 +30,6 @@ interface QuickSettingsSheetProps {
 
 const FG = "#F4F4F5";
 const MUTED = "#8B8D90";
-const LINE = "#52525B";
 const HAIRLINE = "#27272A";
 
 /** The six switches web's notifications page carries, in web's order. */
@@ -59,7 +61,9 @@ function readPrefs(user: unknown): NotificationPreferences {
 const QuickSettingsSheet: React.FC<QuickSettingsSheetProps> = ({
   visible,
   onClose,
+  onDismiss,
   hasUnread,
+  canClear,
   onMarkAllRead,
   onClearAll,
   onOpenAllSettings,
@@ -94,7 +98,7 @@ const QuickSettingsSheet: React.FC<QuickSettingsSheetProps> = ({
   }, [patchUser, t]);
 
   return (
-    <GlassModal surface="theme" visible={visible} onClose={onClose} presentation="bottom" opaque scrollable dragFromContent maxHeight="85%">
+    <GlassModal surface="theme" visible={visible} onClose={onClose} onDismiss={onDismiss} presentation="bottom" opaque scrollable dragFromContent maxHeight="85%">
       {/* A handle, no close button: drag down anywhere on it (once its list is
           at the top) or tap outside to close. */}
       <View style={{ alignItems: "center", paddingTop: 10 }}>
@@ -105,7 +109,7 @@ const QuickSettingsSheet: React.FC<QuickSettingsSheetProps> = ({
           {t("notifications.settings")}
         </Text>
 
-        <View style={{ flexDirection: "row", gap: 8, marginBottom: 14 }}>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 8, marginBottom: 14 }}>
           <TouchableOpacity
             onPress={() => { onMarkAllRead(); onClose(); }}
             disabled={!hasUnread}
@@ -117,16 +121,14 @@ const QuickSettingsSheet: React.FC<QuickSettingsSheetProps> = ({
               {t("notifications.markAllRead")}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => { onClearAll(); onClose(); }}
-            accessibilityRole="button"
-            style={{ flexDirection: "row", alignItems: "center", gap: 6, height: 32, paddingHorizontal: 14, borderRadius: 16, borderWidth: 1, borderColor: LINE }}
-          >
-            <Icon name="X" size={15} color={FG} />
-            <Text style={{ fontSize: 13, fontWeight: "600", color: FG }}>
-              {t("notifications.clearAll")}
-            </Text>
-          </TouchableOpacity>
+          <PrimaryButton
+            title={t("notifications.clearAll")}
+            icon="Trash2"
+            neutral
+            disabled={!canClear}
+            onPress={onClearAll}
+            hitSlop={2}
+          />
         </View>
 
         <Text style={{ fontSize: 12, fontWeight: "600", letterSpacing: 0.7, textTransform: "uppercase", marginBottom: 4, color: MUTED }}>

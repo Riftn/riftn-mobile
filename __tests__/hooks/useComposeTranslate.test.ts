@@ -26,6 +26,15 @@ it('translates a request draft privately into the preferred language, and rememb
   expect(translateText).toHaveBeenLastCalledWith('Hello', 'fr', 'auto', { isPublic: false });
 });
 
+it('uses conversational translation for a chat draft', async () => {
+  const update = jest.fn();
+  (translateText as jest.Mock).mockResolvedValue({ translatedText: 'Hola' });
+  const { result } = renderHook(() => useComposeTranslate('Hello', update, undefined, 'chat'));
+  await act(async () => { await result.current.translate('es'); });
+  expect(translateText).toHaveBeenLastCalledWith('Hello', 'es', 'auto', { isChat: true });
+  expect(update).toHaveBeenCalledWith('Hola');
+});
+
 it('leaves the draft alone when translation fails', async () => {
   const update = jest.fn();
   (translateText as jest.Mock).mockRejectedValue(new Error('offline'));

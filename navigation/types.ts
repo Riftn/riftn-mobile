@@ -269,6 +269,7 @@ export type AppStackParamList = {
   [ScreenNames.Okey]: { table?: string } | undefined;
   [ScreenNames.SillyCoin]: undefined;
   [ScreenNames.Gratitude]: { game?: string } | undefined;
+  [ScreenNames.Spend]: { game?: string } | undefined;
   [ScreenNames.Chestard]: undefined;
   [ScreenNames.Apps]: undefined;
   /** `slug` keys into miniapp_apps; `from` is the launch source the app sees. */

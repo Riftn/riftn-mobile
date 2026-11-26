@@ -1,4 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
+import StageEntryControls from "./StageEntryControls";
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import {
@@ -685,6 +686,10 @@ const LiveStageModal: React.FC = () => {
             can't sit unnoticed just because the host hasn't scrolled past the
             speaker grid yet. Capped at ~3 rows with its own scroll so a flood
             of requests can't push the reactions bar and controls off-screen. */}
+        {isHostRole && !!myWallet && (
+          <StageEntryControls key={currentSpace.id} spaceId={currentSpace.id} wallet={myWallet} />
+        )}
+
         {isHostRole && handRequests.length > 0 && (
           <View
             style={{

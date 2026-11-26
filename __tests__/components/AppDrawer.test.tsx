@@ -1,5 +1,3 @@
-import { storage as draftStorage } from '../../libs/storage';
-import { __resetDraftCacheForTests } from '../../libs/draft-cache';
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react-native';
 import { Keyboard } from 'react-native';
@@ -7,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import AppDrawer, { HomeShortcuts } from '../../components/Home/AppDrawer';
 import { toggleHomeShortcut, writeNavOrder } from '../../libs/navOrder';
+import { storage } from '../../libs/storage';
 
 const mockDispatch = jest.fn();
 let mockSignedIn = true;
@@ -178,6 +177,25 @@ it('hides the balance chip when the wallet holds no DHB', () => {
   expect(view.queryByLabelText('nav.wallet 0')).toBeNull();
 });
 
+it('masks the balance from the eye without opening the wallet and remembers the choice', () => {
+  const close = jest.fn();
+  const view = render(<AppDrawer visible onClose={close} />);
+  fireEvent.press(view.getByLabelText('wallet.hideBalance'));
+
+  expect(view.getByText('••••')).toBeTruthy();
+  expect(view.queryByLabelText('nav.wallet 500')).toBeNull();
+  expect(mockDispatch).not.toHaveBeenCalled();
+  expect(close).not.toHaveBeenCalled();
+  expect(storage.getBoolean('riftn.hideBalance')).toBe(true);
+
+  view.rerender(<AppDrawer visible={false} onClose={close} />);
+  view.rerender(<AppDrawer visible onClose={close} />);
+  expect(view.getByText('••••')).toBeTruthy();
+  fireEvent.press(view.getByLabelText('wallet.showBalance'));
+  expect(view.getByLabelText('nav.wallet 500')).toBeTruthy();
+  expect(storage.getBoolean('riftn.hideBalance')).toBe(false);
+});
+
 it('shows the spendable ledger amount in the wallet chip even with legacy holdings', () => {
   mockBalance = 3_550_000;
   mockLedger.enabled = true;
@@ -216,7 +234,21 @@ it('leaves Home and the feed tabs off the resting menu but finds Home by search'
   expect(mockDispatch).toHaveBeenCalledWith({ type: 'NAVIGATE', payload: { name: 'App', params: { screen: 'Root', params: { screen: 'Home', params: undefined }, pop: true } } });
 });
 
-beforeEach(() => { draftStorage.delete('dehub-drafts-v1'); __resetDraftCacheForTests(); });
+it('clears the filter and dismisses the keyboard while keeping the menu open', () => {
+  const close = jest.fn();
+  const view = render(<AppDrawer visible onClose={close} />);
+  const field = () => view.getByLabelText('sidebar.searchMenu');
+  fireEvent.changeText(field(), 'wallet');
+  fireEvent.press(view.getByLabelText('sidebar.clearSearch'));
+  expect(field().props.value).toBe('');
+  expect(Keyboard.dismiss).toHaveBeenCalledTimes(1);
+  expect(close).not.toHaveBeenCalled();
+
+  fireEvent.changeText(field(), 'wallet');
+  view.rerender(<AppDrawer visible={false} onClose={close} />);
+  view.rerender(<AppDrawer visible onClose={close} />);
+  expect(field().props.value).toBe('');
+});
 
 describe('tabs layout (the default)', () => {
   beforeEach(() => { mockMenuLayout = 'tabs'; });

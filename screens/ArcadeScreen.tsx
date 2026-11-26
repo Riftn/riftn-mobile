@@ -9,20 +9,24 @@
 import React, { useCallback } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Linking, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Avatar from "../components/common/Avatar";
 import Icon from "../components/ui/Icon";
+import PrimaryButton from "../components/ui/PrimaryButton";
 import ScreenHeader from "../components/ScreenHeader";
 import { PageSection } from "../components/page/PageKit";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ARCADE_GAMES, type ArcadeGame } from "../config/arcade-games";
 import { COCHRANIZ3R, groupArcadeGames } from "../config/arcade-creators";
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
+import { useUser } from "../context/AuthContext";
 import { getAvatarUrl } from "../libs/misc";
 import { getAccountSummariesByUsernames } from "../services/user.service";
+import { getArcadeListings, setArcadeListing, type ArcadeListingState } from "../services/games.service";
+import { toastError } from "../libs/toast";
 import { WEBSITE_LINK } from "../config/links";
 import { colors } from "../theme/colors";
 import { useAppTheme } from '../context/ThemeContext';
@@ -113,7 +117,15 @@ const LINK_GAMES = [
   { screen: ScreenNames.Chestard, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
   { screen: ScreenNames.BinaryMetal, creator: COCHRANIZ3R, icon: "Music", title: "binaryMetal.title", body: "binaryMetal.cardBlurb", tint: "hsla(0, 0%, 14%, 1)" },
   { screen: ScreenNames.Gratitude, creator: COCHRANIZ3R, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
+  { screen: ScreenNames.Spend, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.spend.title", body: "games.spend.cardBlurb", tint: "hsla(143, 55%, 21%, 1)" },
 ] as const;
+
+// Linked games use their lowercase screen name as the listing slug. Binary Metal
+// keeps the hyphen from its public route.
+function arcadeListingSlug(game: ArcadeGame | { screen: ScreenNames }): string | null {
+  if (!("screen" in game)) return null;
+  return game.screen === ScreenNames.BinaryMetal ? "binary-metal" : game.screen.toLowerCase();
+}
 
 const CREATOR_GROUPS = groupArcadeGames([...LINK_GAMES, ...ARCADE_GAMES]);
 const CREATOR_USERNAMES = CREATOR_GROUPS.flatMap((group) => group.username ? [group.username] : []);
@@ -125,6 +137,29 @@ const ArcadeScreen = () => {
   const { width } = useWindowDimensions();
   const cardWidth = Math.min(width * 0.82, 344);
   const { showUserProfile } = useUserProfileSheet();
+  const wallet = useUser()?.walletAddress?.toLowerCase() ?? null;
+  const focused = useIsFocused();
+  const queryClient = useQueryClient();
+  const listingQueryKey = ["arcade-listings"];
+  const listings = useQuery({
+    queryKey: [...listingQueryKey, wallet],
+    queryFn: () => getArcadeListings(Boolean(wallet)),
+    enabled: focused,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+  });
+  const changeListing = useMutation({
+    mutationFn: ({ slug, hidden }: { slug: string; hidden: boolean }) => setArcadeListing(slug, hidden),
+    onSuccess: async ({ slug, hidden }) => {
+      await queryClient.cancelQueries({ queryKey: listingQueryKey });
+      queryClient.setQueriesData<ArcadeListingState>({ queryKey: listingQueryKey }, (current) => current && ({
+        ...current,
+        hidden: hidden ? [...new Set([...current.hidden, slug])] : current.hidden.filter((id) => id !== slug),
+      }));
+      await queryClient.invalidateQueries({ queryKey: listingQueryKey });
+    },
+    onError: () => toastError(t("arcade.listingUpdateError")),
+  });
   const { data: profiles = [] } = useQuery({
     queryKey: ["arcade-creator-profiles", CREATOR_USERNAMES],
     queryFn: () => getAccountSummariesByUsernames(CREATOR_USERNAMES),
@@ -167,7 +202,19 @@ const ArcadeScreen = () => {
           </Pressable>
         </PageSection>
 
+        {listings.isError && !listings.data && (
+          <Text className="text-theme-neutrals-400" style={styles.listingHint}>{t("arcade.listingsLoadError")}</Text>
+        )}
         {CREATOR_GROUPS.map((group) => {
+          const games = group.games.filter((game) => {
+            const slug = arcadeListingSlug(game);
+            return !slug || (listings.data && (!listings.data.hidden.includes(slug) || listings.data.editable.includes(slug)));
+          });
+          if (!games.length) return null;
+          const editable = games.some((game) => {
+            const slug = arcadeListingSlug(game);
+            return slug !== null && listings.data?.editable.includes(slug);
+          });
           const profile = group.username ? profiles.find((entry) => entry.username?.toLowerCase() === group.username) : undefined;
           const name = profile?.displayName?.trim() || group.name || (
             group.id === "riftn" ? t("arcade.riftnOriginals") : t("arcade.otherGames")
@@ -200,42 +247,64 @@ const ArcadeScreen = () => {
                   <View style={styles.creatorIdentity}>{identity}</View>
                 )}
                 <Text className="text-theme-neutrals-400" style={styles.gameCount}>
-                  {t("arcade.gameCount", { count: group.games.length })}
+                  {t("arcade.gameCount", { count: games.length })}
                 </Text>
               </View>
+              {editable && (
+                <Text className="text-theme-neutrals-400" style={styles.listingHint}>{t("arcade.listingHint")}</Text>
+              )}
               <ScrollView
                 horizontal
                 directionalLockEnabled
                 nestedScrollEnabled
                 contentContainerStyle={styles.creatorGames}
               >
-                {group.games.map((game) => (
-                  <View key={"slug" in game ? game.slug : game.screen} style={{ width: cardWidth }}>
-                    {"slug" in game ? (
-                      <GameCard
-                        game={game}
-                        onPress={openGame}
-                        onPlayOnline={game.slug === "kings-gambit" ? openChessOnline : undefined}
-                        playOnlineLabel={t("arcade.chessOnline.playOnline")}
-                        onSlow={game.slug === "kings-gambit" ? openSlowChess : undefined}
-                        slowLabel={t("games.chess.slowButton")}
-                      />
-                    ) : (
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={t(game.title)}
-                        onPress={() => navigation.navigate(game.screen)}
-                        style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
-                      >
-                        <View className="dark-surface" style={[styles.friendCard, { backgroundColor: game.tint }]}>
-                          <Icon name={game.icon} size={18} color="#FFFFFF" />
-                          <Text style={styles.friendTitle} numberOfLines={1}>{t(game.title)}</Text>
-                          <Text style={styles.friendBody} numberOfLines={3}>{t(game.body)}</Text>
-                        </View>
-                      </Pressable>
-                    )}
-                  </View>
-                ))}
+                {games.map((game) => {
+                  const slug = arcadeListingSlug(game);
+                  const canEdit = slug !== null && listings.data?.editable.includes(slug);
+                  const hidden = slug !== null && Boolean(listings.data?.hidden.includes(slug));
+                  const loading = changeListing.isPending && changeListing.variables?.slug === slug;
+                  const action = t(hidden ? "arcade.showListing" : "arcade.hideListing");
+                  return (
+                    <View key={"slug" in game ? game.slug : game.screen} style={[styles.listingCard, { width: cardWidth }]}>
+                      {"slug" in game ? (
+                        <GameCard
+                          game={game}
+                          onPress={openGame}
+                          onPlayOnline={game.slug === "kings-gambit" ? openChessOnline : undefined}
+                          playOnlineLabel={t("arcade.chessOnline.playOnline")}
+                          onSlow={game.slug === "kings-gambit" ? openSlowChess : undefined}
+                          slowLabel={t("games.chess.slowButton")}
+                        />
+                      ) : (
+                        <Pressable
+                          accessibilityRole="button"
+                          accessibilityLabel={t(game.title)}
+                          onPress={() => navigation.navigate(game.screen)}
+                          style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
+                        >
+                          <View className="dark-surface" style={[styles.friendCard, { backgroundColor: game.tint }]}>
+                            <Icon name={game.icon} size={18} color="#FFFFFF" />
+                            <Text style={styles.friendTitle} numberOfLines={1}>{t(game.title)}</Text>
+                            <Text style={styles.friendBody} numberOfLines={3}>{t(game.body)}</Text>
+                          </View>
+                        </Pressable>
+                      )}
+                      {canEdit && (
+                        <PrimaryButton
+                          title={action}
+                          accessibilityLabel={t("arcade.listingActionLabel", { action, game: "slug" in game ? game.title : t(game.title) })}
+                          icon={hidden ? "Eye" : "EyeOff"}
+                          loading={loading}
+                          disabled={changeListing.isPending && !loading}
+                          hitSlop={2}
+                          style={styles.listingAction}
+                          onPress={() => changeListing.mutate({ slug, hidden: !hidden })}
+                        />
+                      )}
+                    </View>
+                  );
+                })}
               </ScrollView>
             </View>
           );
@@ -311,6 +380,9 @@ const styles = StyleSheet.create({
   creatorName: { flexShrink: 1, fontSize: 14, fontWeight: "600" },
   gameCount: { fontSize: 12, fontVariant: ["tabular-nums"] },
   creatorGames: { paddingHorizontal: 8, gap: 8 },
+  listingCard: { gap: 8 },
+  listingAction: { alignSelf: "flex-start" },
+  listingHint: { fontSize: 13, lineHeight: 18, marginHorizontal: 16, marginBottom: 8 },
   friendCard: { flex: 1, gap: 5, borderRadius: 14, padding: 12, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
   friendTitle: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
   friendBody: { color: "rgba(255,255,255,0.72)", fontSize: 11, lineHeight: 15 },

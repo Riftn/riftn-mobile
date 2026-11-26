@@ -1,6 +1,4 @@
-import { useDraftState } from '../../hooks/useDraftState';
 /** The key useSurfaceDraft gave this field on the App screen, so a saved query survives the switch. */
-const MENU_QUERY_DRAFT = `field:${JSON.stringify(["components/Home/AppDrawer.tsx:menuQuery", JSON.stringify(["App", []])])}`;
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from '../../hooks/useSearchFieldMaterial';
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import React, { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
@@ -551,10 +549,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const androidGlass = Platform.OS === "android";
   const hud = themeName === "war";
   const square = !!skin?.square || appTheme.isMinimal;
-  // A fixed draft key, not useSurfaceDraft: that reads the route context, and
-  // this menu sits in the App screen, whose route object changes with every
-  // nested navigation. The menu re-rendered on every tab switch and push.
-  const [menuQuery, setMenuQuery] = useDraftState(MENU_QUERY_DRAFT, "");
+  const [menuQuery, setMenuQuery] = useState("");
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [showSignOutOptions, setShowSignOutOptions] = useState(false);
   const signOutLocked = useRef(false);
@@ -787,16 +782,17 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // Never reopen the sheet mid-filter, and always on the first group.
   useEffect(() => {
     if (!visible) {
-      setMenuQuery.initialize("");
+      setMenuQuery("");
       setSearchOpen(false);
       setMenuTab(0);
       setOpenFolder(null);
     }
-  }, [visible, setMenuQuery]);
+  }, [visible]);
   const closeSearch = useCallback(() => {
-    setMenuQuery.complete(menuQuery, "");
+    Keyboard.dismiss();
+    setMenuQuery("");
     setSearchOpen(false);
-  }, [menuQuery, setMenuQuery]);
+  }, []);
   // Tabs: the groups sit side by side and a sideways drag moves them under the
   // finger; tabPos is the group on show, fractional mid-drag, and the tab
   // pill reads it too.
@@ -869,9 +865,9 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const runFullSearch = useCallback(() => {
     const query = menuQuery.trim();
     if (!query) return;
-    setMenuQuery.complete(menuQuery, "");
+    setMenuQuery("");
     navigate(ScreenNames.Explore, { q: query, ts: Date.now() }, true);
-  }, [menuQuery, navigate, setMenuQuery]);
+  }, [menuQuery, navigate]);
 
   const handleItemPress = useCallback(
     (item: DrawerItem) => {
@@ -1159,33 +1155,28 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                   </View>
                 </TouchableOpacity>
                 {DIGITAL_PURCHASES_ENABLED && Number.isFinite(walletBalance) && (walletBalance > 0 || legacyBalance > 0) && (
-                  <View style={[styles.balanceChip, square && styles.square]}>
-                    <TouchableOpacity
-                      accessibilityRole="button"
-                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${walletBalance.toLocaleString()}`}
-                      onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
-                      activeOpacity={0.7}
-                      style={styles.balanceMain}
-                    >
-                      <DhbCoin size={16} />
-                      {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
-                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : walletBalance >= 10_000 ? formatCompactNumber(walletBalance) : walletBalance.toLocaleString()}</Text>
-                    </TouchableOpacity>
-                    {/* Eye: hide or show the number on this device (Requests 4c8cc200). */}
+                  <View style={styles.balanceControls}>
                     <TouchableOpacity
                       accessibilityRole="button"
                       accessibilityLabel={balanceHidden ? t("wallet.showBalance", { defaultValue: "Show balance" }) : t("wallet.hideBalance", { defaultValue: "Hide balance" })}
                       accessibilityState={{ selected: balanceHidden }}
                       onPress={() => setBalanceHidden(!balanceHidden)}
                       activeOpacity={0.6}
-                      hitSlop={{ top: 8, bottom: 8, right: 6 }}
                       style={styles.balanceEye}
                       testID="drawer-balance-eye"
                     >
-                      {/* Plain white so it follows the number's colour in every theme (System Light turns it dark); dimmed a touch (Requests 70b20f3f). */}
-                      <View style={styles.balanceEyeIcon}>
-                        <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={15} color="#FFFFFF" />
-                      </View>
+                      <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={20} color={appTheme.colors.foreground} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      accessibilityRole="button"
+                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${walletBalance.toLocaleString()}`}
+                      onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
+                      activeOpacity={0.7}
+                      style={[styles.balanceChip, square && styles.square]}
+                    >
+                      <DhbCoin size={16} />
+                      {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
+                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : walletBalance >= 10_000 ? formatCompactNumber(walletBalance) : walletBalance.toLocaleString()}</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -1212,63 +1203,64 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
               </View>
             )}
 
-            {/* Menu search. Filters the tiles below; anything that is not a
-                page is one tap away via the hand-off, which runs the query on
-                the Explore tab. */}
-            {tabsHeader && !searchOpen && !menuQuery ? (
-              <View style={styles.tabsRow}>
-                <TouchableOpacity
-                  accessibilityRole="button"
-                  accessibilityLabel={t("sidebar.searchMenu")}
-                  onPress={() => setSearchOpen(true)}
-                  activeOpacity={0.7}
-                  style={[styles.searchButton, square && styles.square, searchField.surface]}
-                >
-                  <Icon name="Search" size={18} color="#D4D4D8" />
-                </TouchableOpacity>
-                <MenuTabs
-                  tabRefs={tabRefs}
-                  labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
-                  pos={tabPos}
-                  onChange={setMenuTab}
-                  square={square}
-                  surface={searchField.surface}
-                />
-              </View>
-            ) : (
-            <View style={[styles.searchWrap, square && styles.square, searchField.surface]}>
-              <Icon name="Search" size={16} color="#808089" />
-              <TextInput
-                ref={searchRef}
-                editable={visible}
-                value={menuQuery}
-                onChangeText={setMenuQuery}
-                placeholder={t("sidebar.searchMenu")}
-                placeholderTextColor="#808089"
-                style={[styles.searchInput, SEARCH_INPUT_CLEAR]}
-                onFocus={onSearchFocus}
-                onBlur={searchField.onBlur}
-                returnKeyType="search"
-                onSubmitEditing={runFullSearch}
-                autoCorrect={false}
-                autoCapitalize="none"
-                accessibilityLabel={t("sidebar.searchMenu")}
-                autoFocus={tabsHeader && searchOpen}
-              />
-              {(menuQuery.length > 0 || (tabsHeader && searchOpen)) && (
-                <TouchableOpacity
-                  onPress={closeSearch}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("sidebar.clearSearch")}
-                >
-                  <Icon name="X" size={15} color="#A1A1AA" />
-                </TouchableOpacity>
-              )}
-            </View>
-            )}
           </View>
         </GestureDetector>
+
+        {/* Keep native input selection and taps outside the sheet's drag gesture. */}
+        {tabsHeader && !searchOpen && !menuQuery ? (
+          <View style={styles.tabsRow}>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={t("sidebar.searchMenu")}
+              onPress={() => setSearchOpen(true)}
+              activeOpacity={0.7}
+              style={[styles.searchButton, square && styles.square, searchField.surface]}
+            >
+              <Icon name="Search" size={18} color="#D4D4D8" />
+            </TouchableOpacity>
+            <MenuTabs
+              tabRefs={tabRefs}
+              labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
+              pos={tabPos}
+              onChange={setMenuTab}
+              square={square}
+              surface={searchField.surface}
+            />
+          </View>
+        ) : (
+          <View style={[styles.searchWrap, square && styles.square, searchField.surface]}>
+            <Icon name="Search" size={16} color="#808089" />
+            <TextInput
+              ref={searchRef}
+              editable={visible}
+              value={menuQuery}
+              onChangeText={setMenuQuery}
+              placeholder={t("sidebar.searchMenu")}
+              placeholderTextColor="#808089"
+              style={[styles.searchInput, SEARCH_INPUT_CLEAR]}
+              cursorColor={appTheme.colors.foreground}
+              selectionColor={Platform.OS === "ios" ? appTheme.colors.foreground : undefined}
+              onFocus={onSearchFocus}
+              onBlur={searchField.onBlur}
+              returnKeyType="search"
+              onSubmitEditing={runFullSearch}
+              autoCorrect={false}
+              autoCapitalize="none"
+              accessibilityLabel={t("sidebar.searchMenu")}
+              autoFocus={tabsHeader && searchOpen}
+            />
+            {(menuQuery.length > 0 || (tabsHeader && searchOpen)) && (
+              <TouchableOpacity
+                onPress={closeSearch}
+                accessibilityRole="button"
+                accessibilityLabel={t("sidebar.clearSearch")}
+                style={styles.searchClose}
+              >
+                <Icon name="X" size={15} color="#A1A1AA" />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
 
         <Animated.ScrollView
           ref={menuReorder.scrollRef}
@@ -1573,31 +1565,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.10)",
   },
+  balanceControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    flexShrink: 0,
+  },
+  balanceEye: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   balanceChip: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 6,
     height: 34,
+    paddingHorizontal: 12,
     borderRadius: 10,
     backgroundColor: "rgba(255, 255, 255, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.16)",
-  },
-  balanceMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    height: "100%",
-    paddingLeft: 12,
-    paddingRight: 6,
-  },
-  balanceEye: {
-    height: "100%",
-    justifyContent: "center",
-    paddingLeft: 2,
-    paddingRight: 10,
-  },
-  balanceEyeIcon: {
-    opacity: 0.8,
   },
   balanceText: {
     color: "#FFFFFF",
@@ -1625,6 +1614,14 @@ const styles = StyleSheet.create({
     // Android's TextInput carries its own vertical padding, which pushes the
     // text off-centre inside a fixed-height row.
     paddingVertical: 0,
+  },
+  searchClose: {
+    width: 42,
+    height: 42,
+    marginLeft: -9,
+    marginRight: -12,
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabsRow: {
     flexDirection: "row",

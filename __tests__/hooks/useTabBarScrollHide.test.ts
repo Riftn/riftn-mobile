@@ -72,7 +72,10 @@ describe("profile pages carry the home nav", () => {
     // plain one where a plain ScrollView or FlatList can render.
     expect(tabs.match(/listHeader=\{listHeader\} onScroll=\{(onScroll|workletScroll)\}/g)).toHaveLength(13);
     expect(tabs.match(/onScroll=\{workletScroll\}/g)).toHaveLength(11);
-    expect(tabs).toContain("driveProfile(event.contentOffset.y)");
+    const pane = read("components/Profile/profilePaneScroll.tsx");
+    expect(pane).toContain("onScrollY(tab, event.contentOffset.y)");
+    expect(tabs).toContain("onScrollY={driveProfile}");
+    expect(tabs).toContain("if (key !== activeKeyShared.value) return;");
     expect(tabs).toContain("drive(y)");
     expect(tabs).toContain("profileScrollY.value = y");
   });

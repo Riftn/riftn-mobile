@@ -34,7 +34,7 @@ const key = (wallet: string) => `notif-list:v${VERSION}:${wallet.toLowerCase()}`
 
 let memory: NotificationSnapshot | null = null;
 let markedAll: { wallet: string; cutoff: number; at: number; pending: Promise<unknown> | null } | null = null;
-let inflight: { wallet: string; startedAt: number; promise: Promise<NotificationFirstPage | null> } | null = null;
+let inflight: { wallet: string; startedAt: number; id: symbol; promise: Promise<NotificationFirstPage | null> } | null = null;
 
 const sameWallet = (a: string | null | undefined, b: string | null | undefined) =>
   !!a && !!b && a.toLowerCase() === b.toLowerCase();
@@ -93,6 +93,21 @@ export function writeNotificationSnapshot(
       // Disk full or unwritable: the in-memory copy still serves this session.
     }
   }, 400);
+}
+
+/** A successful clear invalidates both the saved list and any earlier warm-up. */
+export function invalidateNotificationSnapshot(wallet: string): void {
+  if (inflight && sameWallet(inflight.wallet, wallet)) inflight = null;
+  if (memory && sameWallet(memory.wallet, wallet)) {
+    memory = null;
+    if (diskTimer) clearTimeout(diskTimer);
+    diskTimer = null;
+  }
+  try {
+    storage.delete(key(wallet));
+  } catch {
+    // The next fetch still reads the authoritative server list.
+  }
 }
 
 /**
@@ -177,6 +192,7 @@ export function prefetchNotifications(
     return Promise.resolve(null);
   }
   const startedAt = Date.now();
+  const id = Symbol();
   const promise: Promise<NotificationFirstPage | null> = (async () => {
     try {
       await markAllReadSettled(wallet);
@@ -185,6 +201,7 @@ export function prefetchNotifications(
         getNotifications({ unreadOnly: false, page: 1, limit: 15 }),
         fetchCustomNotifications(wallet).catch(() => []),
       ]);
+      if (inflight?.id !== id) return null;
       const api: NotificationItem[] = applyMarkedAllRead(wallet, res?.data?.result || res?.result || []);
       const merged = mergeFirstPage(api, applyMarkedAllRead(wallet, custom));
       writeNotificationSnapshot(wallet, merged, merged);
@@ -192,10 +209,10 @@ export function prefetchNotifications(
     } catch {
       return null;
     } finally {
-      if (inflight?.startedAt === startedAt) inflight = null;
+      if (inflight?.id === id) inflight = null;
     }
   })();
-  inflight = { wallet, startedAt, promise };
+  inflight = { wallet, startedAt, id, promise };
   return promise;
 }
 

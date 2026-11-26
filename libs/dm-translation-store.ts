@@ -33,14 +33,17 @@ function set(id: string, next: DmTranslation | undefined) {
   listeners.get(id)?.forEach((fn) => fn());
 }
 
-/** Text worth translating: links and @/$ handles left out, they don't translate. */
 export function dmTranslatableText(content?: string | null): string {
-  return (parseMomentReply(content)?.text ?? content ?? '').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').trim();
+  return parseMomentReply(content)?.text ?? content ?? '';
+}
+
+function dmTranslationProse(text: string): string {
+  return text.replace(/(?:https?:\/\/|www\.)[^\s<>]+|[@#$][\p{L}\p{M}\p{N}_]+(?:[.-][\p{L}\p{M}\p{N}_]+)*/giu, ' ');
 }
 
 /** Has at least a few letters, so emoji-only or link-only messages get no Translate. */
 export function canTranslateDm(content?: string | null): boolean {
-  return dmTranslatableText(content).replace(/[^\p{L}]/gu, '').length >= 2;
+  return dmTranslationProse(dmTranslatableText(content)).replace(/[^\p{L}]/gu, '').length >= 2;
 }
 
 export function getDmTranslation(id: string): DmTranslation | undefined {
@@ -79,11 +82,11 @@ export async function toggleDmTranslation(id: string, content?: string | null): 
   if (current?.status === 'hidden') return set(id, { status: 'shown', text: current.text });
 
   const text = dmTranslatableText(content);
-  if (!text) return;
+  if (!dmTranslationProse(text).trim()) return;
   if (!hasAiConsent() && !(await ensureAiConsent())) return;
   set(id, { status: 'loading' });
   try {
-    const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
+    const result = await translateText(text, getUserLanguage(), 'auto', { isChat: true, manualChat: true });
     if (result.sameLanguage || !result.translatedText?.trim()) {
       set(id, undefined);
       if (result.untranslated) toastError(i18n.t('copy.noTranslationFound', { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
@@ -120,17 +123,17 @@ export async function translateOwnDm(id: string, content?: string | null): Promi
   if (current?.status === 'hidden') return set(id, { status: 'shown', text: current.text });
 
   const text = dmTranslatableText(content);
-  if (!text) return;
+  if (!dmTranslationProse(text).trim()) return;
   if (!hasAiConsent() && !(await ensureAiConsent())) return;
   set(id, { status: 'loading' });
   try {
     const mine = getUserLanguage();
-    let result = await translateText(text, mine, 'auto', { isPublic: false });
+    let result = await translateText(text, mine, 'auto', { isChat: true, manualChat: true });
     const same = (r: typeof result) =>
       r.sameLanguage || !r.translatedText?.trim() || r.translatedText.trim().toLowerCase() === text.toLowerCase();
     if (same(result) && !result.untranslated) {
       const other = await composeLanguage();
-      if (other && other !== mine) result = await translateText(text, other, 'auto', { isPublic: false });
+      if (other && other !== mine) result = await translateText(text, other, 'auto', { isChat: true, manualChat: true });
     }
     if (same(result)) {
       set(id, undefined);
@@ -154,7 +157,7 @@ const MIN_AUTO_LETTERS = 4;
  * language ("bom dia galera"). Slang and names stay as typed.
  */
 export function shouldAutoTranslateDm(content: string | null | undefined, readerLang: string): boolean {
-  const text = dmTranslatableText(content).replace(/[@#$][\p{L}\p{N}_.-]+/gu, ' ');
+  const text = dmTranslationProse(dmTranslatableText(content)).replace(/\s+/g, ' ').trim();
   const letters = text.replace(/[^\p{L}]/gu, '');
   if (letters.length < MIN_AUTO_LETTERS) return false;
   if (/^[\p{Script=Latin}]*$/u.test(letters)) return chatLineIsForeign(text, readerLang);
@@ -170,13 +173,13 @@ export async function autoTranslateDm(id: string, content?: string | null): Prom
   if (autoTried.has(id) || entries.has(id)) return;
   if (!hasAiConsent()) return;
   const text = dmTranslatableText(content);
-  if (!text) return;
+  if (!dmTranslationProse(text).trim()) return;
   // Over this hour's budget: leave it untried so it can translate later.
   if (!takeAutoTranslateSlot()) return;
   autoTried.add(id);
   // No 'loading' state: an unasked-for translation shows nothing until it lands.
   try {
-    const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
+    const result = await translateText(text, getUserLanguage(), 'auto', { isChat: true });
     if (result.sameLanguage || !result.translatedText?.trim() || result.translatedText.trim() === text) return;
     // The reader may have pressed Translate meanwhile; their answer stands.
     if (entries.has(id)) return;
@@ -195,9 +198,9 @@ const TRANSLATE_ABOVE_LIMIT = 100;
 async function translateDmQuietly(id: string, content?: string | null): Promise<void> {
   if (entries.has(id)) return;
   const text = dmTranslatableText(content);
-  if (!text) return;
+  if (!dmTranslationProse(text).trim()) return;
   try {
-    const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
+    const result = await translateText(text, getUserLanguage(), 'auto', { isChat: true });
     if (result.sameLanguage || !result.translatedText?.trim() || result.translatedText.trim() === text) return;
     // The reader may have translated it themselves meanwhile; their answer stands.
     if (entries.has(id)) return;

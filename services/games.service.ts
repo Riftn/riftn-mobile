@@ -8,6 +8,7 @@
  * tap. Nothing here moves money.
  */
 import { apiClient } from '../libs/api.client';
+import type { SpendAction, SpendCreate, SpendGame, SpendLobby } from '../libs/spend';
 
 function unwrap<T>(response: any): T {
   if (response && response.status === false) throw new Error(response.error || response.message || 'Request failed');
@@ -15,6 +16,25 @@ function unwrap<T>(response: any): T {
 }
 const get = async <T,>(path: string, auth = true) => unwrap<T>(await apiClient.get(path, { isAuthRequired: auth }));
 const post = async <T,>(path: string, body: Record<string, unknown> = {}) => unwrap<T>(await apiClient.post(path, body, { isAuthRequired: true }));
+
+export interface ArcadeListingState {
+  hidden: string[];
+  editable: string[];
+}
+
+export const getArcadeListings = (signedIn: boolean) =>
+  get<ArcadeListingState>('/games/arcade-listings', signedIn);
+
+export const setArcadeListing = (slug: string, hidden: boolean) =>
+  post<{ slug: string; hidden: boolean }>(`/games/arcade-listings/${encodeURIComponent(slug)}`, { hidden });
+
+const SPEND_API = '/games/spend';
+const spendApiPath = (id: string) => SPEND_API + '/' + encodeURIComponent(id);
+export const spendList = () => get<SpendLobby>(SPEND_API);
+export const spendGet = (id: string, signedIn: boolean) => get<{ game: SpendGame }>(spendApiPath(id), signedIn);
+export const spendCreate = (body: SpendCreate) => post<{ game: SpendGame }>(SPEND_API, body);
+export const spendAction = (id: string, action: SpendAction) =>
+  post<{ game: SpendGame }>(spendApiPath(id) + '/' + action.name, 'body' in action ? action.body : {});
 
 export interface GamePlayer {
   address: string;
@@ -294,6 +314,7 @@ export interface SillyBoardRow {
 }
 
 export interface SillyState {
+  transferNotificationsEnabled?: boolean;
   rules: { maxTapsPerSecond: number; offlineCapHours: number; maxLevel: number };
   me: SillyMe | null;
   transfers: SillyTransfer[];
@@ -301,6 +322,8 @@ export interface SillyState {
 }
 
 export const sillyState = (signedIn: boolean) => get<SillyState>('/games/sillycoin', signedIn);
+export const sillySetTransferNotifications = (enabled: boolean) =>
+  post<{ enabled: boolean }>('/games/sillycoin/transfer-notifications', { enabled });
 export const sillyMine = (taps: number) => post<{ me: SillyMe; accepted: number }>('/games/sillycoin/mine', { taps });
 export const sillyUpgrade = (kind: SillyUpgradeKind, taps: number) => post<{ me: SillyMe }>('/games/sillycoin/upgrade', { kind, taps });
 export const sillySend = (body: { to: string; amount: number; note?: string; taps: number }) =>

@@ -19,11 +19,12 @@ import { ActivityIndicator, AppState, Pressable, ScrollView, StyleSheet, Text, T
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming } from 'react-native-reanimated';
 import Svg, { Circle, Defs, Ellipse, LinearGradient, RadialGradient, Stop, Text as SvgText } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 import Icon from '../components/ui/Icon';
+import CustomSwitch from '../components/ui/CustomSwitch';
 import Avatar from '../components/common/Avatar';
 import ScreenHeader from '../components/ScreenHeader';
 import { KitButton, PageSection } from '../components/page/PageKit';
@@ -33,7 +34,7 @@ import { toastError, toastSuccess } from '../libs/toast';
 import ArcadeShareSheet from '../components/games/ArcadeShareSheet';
 import { formatCount } from '../libs/format-count';
 import {
-  SILLY_UPGRADES, sillyMine, sillySend, sillyState, sillyUpgrade,
+  SILLY_UPGRADES, sillyMine, sillySend, sillySetTransferNotifications, sillyState, sillyUpgrade,
   type GamePlayer, type SillyMe, type SillyState, type SillyUpgrade, type SillyUpgradeKind,
 } from '../services/games.service';
 
@@ -131,6 +132,17 @@ function SillyGame({ wallet, data }: { wallet: string | null; data: SillyState |
   const navigation = useNavigation<any>();
   const queryClient = useQueryClient();
   const signedIn = !!wallet;
+  const transferNotifications = useMutation({
+    mutationFn: sillySetTransferNotifications,
+    onSuccess: async ({ enabled }) => {
+      const queryKey = ['sillycoin', wallet];
+      await queryClient.cancelQueries({ queryKey, exact: true });
+      queryClient.setQueryData<SillyState>(queryKey, (current) =>
+        current ? { ...current, transferNotificationsEnabled: enabled } : current,
+      );
+    },
+    onError: (error) => toastError(errorText(error)),
+  });
 
   const [base, setBase] = useState<{ me: SillyMe; at: number } | null>(null);
   const pending = useRef(0);
@@ -362,6 +374,20 @@ function SillyGame({ wallet, data }: { wallet: string | null; data: SillyState |
           />
         </View>
         <Text style={styles.note}>{t('games.sillycoin.sendNote')}</Text>
+        {signedIn && typeof data?.transferNotificationsEnabled === 'boolean' ? (
+          <View style={styles.transferNotifications}>
+            <Text style={styles.transferNotificationsLabel}>
+              {t('games.sillycoin.transferNotifications')}
+            </Text>
+            <CustomSwitch
+              accessibilityLabel={t('games.sillycoin.transferNotifications')}
+              value={data.transferNotificationsEnabled}
+              onValueChange={(enabled) => transferNotifications.mutate(enabled)}
+              disabled={transferNotifications.isPending}
+              busy={transferNotifications.isPending}
+            />
+          </View>
+        ) : null}
         {transfers.length ? (
           <View style={{ gap: 6, marginTop: 10 }}>
             {transfers.slice(0, 6).map((tr) => (
@@ -447,6 +473,8 @@ const SillyCoinScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  transferNotifications: { flexDirection: 'row', alignItems: 'center', gap: 12, marginVertical: 12 },
+  transferNotificationsLabel: { flex: 1, color: SOFT, fontSize: 14 },
   intro: { color: SOFT, fontSize: 12, lineHeight: 18, paddingHorizontal: 16, paddingBottom: 12 },
   hero: { alignItems: 'center', paddingVertical: 6 },
   balanceLabel: { color: GOLD_SOFT, fontSize: 11, fontWeight: '700', letterSpacing: 0.6, textTransform: 'uppercase' },

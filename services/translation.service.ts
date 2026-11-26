@@ -22,6 +22,7 @@ export interface TranslateRequest {
    * sent, so a direct message never reaches them.
    */
   public?: boolean;
+  purpose?: 'chat';
 }
 
 export interface TranslateOptions {
@@ -31,6 +32,8 @@ export interface TranslateOptions {
    * forgets is the safe kind of wrong.
    */
   isPublic?: boolean;
+  /** Translate the supplied text as a standalone conversational message. */
+  isChat?: boolean;
   /** Allow a deliberate chat tap to retry an unconfirmed cached reply. */
   manualChat?: boolean;
 }
@@ -84,8 +87,7 @@ function isExpandedExample(source: string, output: string): boolean {
     output.length > Math.max(160, original.length * 12) && output.includes("\n");
 }
 
-function getCached(text: string, targetLang: string): CacheEntry | undefined {
-  const key = cacheKey(text, targetLang);
+function getCached(key: string, text: string): CacheEntry | undefined {
   const entry = cache.get(key);
   if (entry && isExpandedExample(text, entry.translatedText)) {
     cache.delete(key);
@@ -99,8 +101,7 @@ function getCached(text: string, targetLang: string): CacheEntry | undefined {
   return entry;
 }
 
-function setCache(text: string, targetLang: string, entry: CacheEntry): void {
-  const key = cacheKey(text, targetLang);
+function setCache(key: string, entry: CacheEntry): void {
   if (cache.size >= MAX_CACHE) {
     const oldest = cache.keys().next().value;
     if (oldest) cache.delete(oldest);
@@ -191,17 +192,20 @@ function requestTranslation(
   targetLang: string,
   sourceLang: string,
   isPublic: boolean,
+  isChat: boolean,
 ): Promise<TranslateResponse> {
-  const key = `${cacheKey(text, targetLang)}-${isPublic ? 'p' : 'x'}`;
+  const key = `${cacheKey(text, targetLang)}-${isPublic ? 'p' : 'x'}${isChat ? '-chat' : ''}`;
   const existing = inFlightRequests.get(key);
   if (existing) return existing;
 
   const request = (async () => {
     translationCooldown.assertReady(key);
     const { data, error } = await supabase.functions.invoke('translate-text', {
-      body: (isPublic
-        ? { text, targetLang, sourceLang, public: true }
-        : { text, targetLang, sourceLang }) satisfies TranslateRequest,
+      body: {
+        text, targetLang, sourceLang,
+        ...(isPublic && { public: true }),
+        ...(isChat && { purpose: 'chat' }),
+      } satisfies TranslateRequest,
     });
     if (error) {
       await translationCooldown.observe(key, error);
@@ -299,7 +303,7 @@ export async function translateText(
   text: string,
   targetLang: string,
   sourceLang: string = 'auto',
-  { isPublic = false, manualChat = false }: TranslateOptions = {},
+  { isPublic = false, isChat = false, manualChat = false }: TranslateOptions = {},
 ): Promise<TranslateTextResult> {
   if (!text || text.trim().length < 1) {
     return { translatedText: text, sourceLang: null, sameLanguage: true };
@@ -313,7 +317,8 @@ export async function translateText(
     return chatLineMatchesLanguage(text, targetLang) ? targetLang : source;
   };
 
-  const cached = getCached(text, targetLang);
+  const key = cacheKey(text, isChat ? `${targetLang}::chat-${isPublic ? 'public' : 'private'}` : targetLang);
+  const cached = getCached(key, text);
   if (cached) {
     const cachedSame = cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text);
     const source = cachedSame ? resolvedSource(cached.sourceLang) : cached.sourceLang;
@@ -327,13 +332,13 @@ export async function translateText(
         ...(untranslated ? { untranslated: true } : {}),
       };
     }
-    cache.delete(cacheKey(text, targetLang));
+    cache.delete(key);
     schedulePersist();
   }
 
   log.debug('Translating text', { targetLang, sourceLang, length: text.length });
 
-  const data = await requestTranslation(text, targetLang, sourceLang, isPublic);
+  const data = await requestTranslation(text, targetLang, sourceLang, isPublic, isChat);
 
   if (!data?.translatedText || isExpandedExample(text, data.translatedText)) {
     throw new TranslationServiceError('Translation unavailable', 500);
@@ -346,7 +351,7 @@ export async function translateText(
 
   // Keep a settled answer. An unconfirmed chat echo should allow a fresh tap.
   if (!manualChat || !untranslated) {
-    setCache(text, targetLang, {
+    setCache(key, {
       translatedText: data.translatedText,
       sourceLang: data.sameLanguage === true ? targetLang : source,
       sameLanguage,

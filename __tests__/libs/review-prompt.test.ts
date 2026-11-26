@@ -7,7 +7,7 @@ import * as Application from 'expo-application';
 import * as StoreReview from 'expo-store-review';
 import { track } from '../../libs/analytics';
 import { Linking } from 'react-native';
-import { dismissReviewCard, noteNotificationMoment, notePostPublished, openStoreReviewPage, requestReviewAfter, shouldShowReviewCard } from '../../libs/review-prompt';
+import { dismissReviewCard, noteHomeVisitDay, noteNotificationMoment, notePostPublished, openStoreReviewPage, requestReviewAfter, shouldShowReviewCard } from '../../libs/review-prompt';
 
 const DAY = 86400_000;
 const stored = new Map<string, string>();
@@ -57,28 +57,30 @@ it('only the first tip is a review moment', async () => {
 });
 
 describe('Home review card', () => {
+  const visitHome = async (now: number) => shouldShowReviewCard(await noteHomeVisitDay(now), now);
+
   const visitDays = async (start: number, days: number) => {
     let last = false;
-    for (let i = 0; i < days; i++) last = await shouldShowReviewCard(start + i * DAY);
+    for (let i = 0; i < days; i++) last = await visitHome(start + i * DAY);
     return last;
   };
 
   it('waits for Home on four different days, counting a day once', async () => {
     const start = Date.now();
-    expect(await shouldShowReviewCard(start)).toBe(false);
-    expect(await shouldShowReviewCard(start + 1000)).toBe(false);
+    expect(await visitHome(start)).toBe(false);
+    expect(await visitHome(start + 1000)).toBe(false);
     expect(await visitDays(start + DAY, 2)).toBe(false);
-    expect(await shouldShowReviewCard(start + 3 * DAY)).toBe(true);
+    expect(await visitHome(start + 3 * DAY)).toBe(true);
   });
 
   it('Not now hides it for 30 days, the second time for good', async () => {
     const start = Date.now();
     expect(await visitDays(start, 4)).toBe(true);
     await dismissReviewCard(start + 3 * DAY);
-    expect(await shouldShowReviewCard(start + 10 * DAY)).toBe(false);
-    expect(await shouldShowReviewCard(start + 34 * DAY)).toBe(true);
+    expect(await visitHome(start + 10 * DAY)).toBe(false);
+    expect(await visitHome(start + 34 * DAY)).toBe(true);
     await dismissReviewCard(start + 34 * DAY);
-    expect(await shouldShowReviewCard(start + 100 * DAY)).toBe(false);
+    expect(await visitHome(start + 100 * DAY)).toBe(false);
   });
 
   it('Rate opens the store review page and retires the card', async () => {
@@ -86,7 +88,7 @@ describe('Home review card', () => {
     expect(await visitDays(start, 4)).toBe(true);
     await openStoreReviewPage(start + 3 * DAY);
     expect(Linking.openURL).toHaveBeenCalledWith(expect.stringContaining('id6770382811?action=write-review'));
-    expect(await shouldShowReviewCard(start + 200 * DAY)).toBe(false);
+    expect(await visitHome(start + 200 * DAY)).toBe(false);
   });
 
   it('stays away while the OS review sheet is cooling down', async () => {

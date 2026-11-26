@@ -41,7 +41,6 @@ const ALL_KEYS: NotificationPreferenceKey[] = [
   'comments',
   'commentReplies',
   'mentions',
-  'directMessages',
   'newFollowers',
   'tips',
   'subscriptions',

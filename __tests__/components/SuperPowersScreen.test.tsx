@@ -4,6 +4,8 @@ import SuperPowersScreen from '../../screens/SuperPowersScreen';
 
 let mockStatus: any;
 let mockPurchases = false;
+let mockLanguage = 'en';
+const mockCancelBoost = jest.fn();
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   View: 'View', Text: 'Text', ScrollView: 'ScrollView', Pressable: 'Pressable',
@@ -11,7 +13,7 @@ jest.mock('react-native', () => ({
   useWindowDimensions: () => ({ width: 390, height: 844 }),
   StyleSheet: { create: (s: unknown) => s, flatten: (s: unknown) => s },
 }));
-jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key, i18n: { language: 'en' } }) }));
+jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key, i18n: { language: mockLanguage } }) }));
 jest.mock('../../theme', () => ({ theme: { colors: { accent: '#fff' } } }));
 jest.mock('../../libs', () => ({ badgeImage: () => null, toastError: jest.fn(), toastSuccess: jest.fn() }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: '0xgranted' }) }));
@@ -20,8 +22,11 @@ jest.mock('../../hooks/useSuperpowers', () => ({
   useSuperpowers: () => ({ data: mockStatus, isLoading: false, refetch: jest.fn() }),
   useSuperpowerLadder: () => ({ data: { powers: [
     { key: 'team_up', label: 'Team up', available: true, tier: null },
-  ], tiers: [] }, isLoading: false }),
-  useCancelBoost: () => ({ mutate: jest.fn() }),
+  ], tiers: [
+    { name: 'Crab', boostsPerCycle: 1, minutesPerBoost: 15 },
+    { name: 'Ghost Lobster', boostsPerCycle: 1, minutesPerBoost: 20 },
+  ] }, isLoading: false }),
+  useCancelBoost: () => ({ mutate: mockCancelBoost }),
 }));
 jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/ScreenHeader', () => 'ScreenHeader');
@@ -53,20 +58,42 @@ jest.mock('../../components/Dpay/BuyDhbSheet', () => {
   return { __esModule: true, default: () => element('Text', { testID: 'token-purchase' }, 'Token purchase') };
 });
 
-beforeEach(() => { mockStatus = undefined; mockPurchases = false; });
+beforeEach(() => {
+  mockStatus = undefined;
+  mockPurchases = false;
+  mockLanguage = 'en';
+  mockCancelBoost.mockClear();
+});
 
 const boost = { key: 'boost', label: 'Boost', summary: 'Boost a post', tier: 'Crab', unlocked: true, available: true };
 
-it('shows an existing badge and usage on iOS without spending or cancelling a boost', () => {
+it('localizes English API labels in Turkish, including the orbit and badge ladder', () => {
+  mockLanguage = 'tr-TR';
+  mockStatus = { tier: 'Tiger Shark', badgeBalance: 0, boostsLeft: 2, bookings: [], powers: [
+    { ...boost, key: 'signal_flare', label: 'Signal Flare', summary: 'One notification to your followers about one post.', tier: 'Octopus' },
+  ] };
+
+  const view = render(<SuperPowersScreen />);
+  expect(view.getByLabelText('Sinyal Fişeği')).toBeTruthy();
+  expect(view.getByText('Kaplan Köpekbalığı')).toBeTruthy();
+  expect(view.getByText('Yengeç')).toBeTruthy();
+  expect(view.getByText('Hayalet Istakoz')).toBeTruthy();
+  expect(view.getByText('superpowers.unlocksAt Ahtapot')).toBeTruthy();
+  expect(view.getByText('Takipçilerine bir gönderi hakkında tek bir bildirim gönder.')).toBeTruthy();
+});
+
+it('lets iOS users cancel an active boost from usage without offering a purchase or new boost', () => {
   mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [
     { id: 'queued', power: 'boost', status: 'active', startsAt: '2026-11-27T00:00:00Z', served: 0 },
+    { id: 'completed', power: 'boost', status: 'completed', startsAt: '2026-11-26T00:00:00Z', served: 4 },
   ], powers: [boost] };
   const view = render(<SuperPowersScreen />);
   expect(view.getByText('Boost a post')).toBeTruthy();
   fireEvent.press(view.getByText('superpowers.pastUsage'));
   expect(view.getByText('superpowers.usageTitle')).toBeTruthy();
   expect(view.getByText('converter.statusQueued')).toBeTruthy();
-  expect(view.queryByText('common.cancel')).toBeNull();
+  fireEvent.press(view.getByText('common.cancel'));
+  expect(mockCancelBoost).toHaveBeenCalledWith('queued', expect.any(Object));
   expect(view.queryByText('auth.use')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();
 });

@@ -1,3 +1,4 @@
+import { useAppTheme } from "../../context/ThemeContext";
 /**
  * Bubble content for an end-to-end encrypted attachment.
  *
@@ -103,6 +104,7 @@ function useDecryptedMedia(url: string | null, d: MediaDescriptor, messageId: st
 
 interface Props {
   descriptor: MediaDescriptor;
+  tileSize?: number;
   /** Raw mediaUrls entry; absent while the server is still storing the upload. */
   rawUrl?: string | null;
   messageId: string;
@@ -120,6 +122,7 @@ const Percent: React.FC<{ progress: number }> = ({ progress }) => (
 
 const EncryptedMediaComponent: React.FC<Props> = ({
   descriptor: d,
+  tileSize,
   rawUrl,
   messageId,
   isMine,
@@ -129,6 +132,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   onCamera,
 }) => {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
   const navigation = useNavigation<any>();
   const { width: windowWidth } = useWindowDimensions();
   const url = encryptedMediaUrl(rawUrl);
@@ -149,6 +153,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   }
   boxW = Math.max(Math.round(boxW), MIN_W);
   boxH = Math.round(boxH);
+  if (tileSize) boxW = boxH = tileSize;
 
   const openVideo = useCallback(async () => {
     const file = uri || (await start());
@@ -263,7 +268,12 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   if (d.kind === "image") {
     return (
       <DmTimeLeft destruct={destruct}>
-        <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}>
+        <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}
+          className={tileSize ? "rounded-xl overflow-hidden" : undefined}
+          accessibilityRole={tileSize ? "button" : undefined}
+          accessibilityLabel={tileSize ? (status === "error" ? t("common.retry") : t("dm.photo", "Photo")) : undefined}
+          accessibilityState={tileSize ? { busy: status === "idle" || status === "loading" } : undefined}
+          disabled={!!tileSize && !shown && status !== "error"}>
           <View className="bg-theme-neutrals-700" style={{ width: boxW, height: boxH }}>
             {shown ? (
               <SmartImage
@@ -278,7 +288,9 @@ const EncryptedMediaComponent: React.FC<Props> = ({
             ) : (
               placeholder
             )}
-            {!shown && overlay(null)}
+            {!shown && (tileSize && status === "idle"
+              ? <View className="absolute inset-0 items-center justify-center"><ActivityIndicator size="small" color={colors.foreground} /></View>
+              : overlay(null))}
           </View>
         </TouchableOpacity>
       </DmTimeLeft>

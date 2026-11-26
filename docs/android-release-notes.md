@@ -1,5 +1,6 @@
-Riftn 1.19.1 for Android.
+Riftn for Android.
 
+- Live screen sharing waits for Android's capture service before switching from the camera, fixing intermittent black video when sharing starts.
 - Message requests: chats from people you don't follow wait under Requests.
 - Posts show their edit history, and you can schedule a direct message.
 - New call screen with ringing, ended and declined steps.

@@ -76,6 +76,26 @@ describe('services/translation.service', () => {
       });
     });
 
+    it('keeps chat translations apart from regular text and separates private and public chat', async () => {
+      mockInvoke.mockResolvedValueOnce({ data: { translatedText: 'Merhaba' }, error: null })
+        .mockResolvedValueOnce({ data: { translatedText: 'Selam' }, error: null })
+        .mockResolvedValueOnce({ data: { translatedText: 'Hey' }, error: null });
+      const { translateText } = loadService();
+      await translateText('Hola', 'tr');
+
+      const privateChat = { isChat: true };
+      await expect(translateText('Hola', 'tr', 'auto', privateChat)).resolves.toMatchObject({ translatedText: 'Selam' });
+      expect(mockInvoke).toHaveBeenLastCalledWith('translate-text', {
+        body: { text: 'Hola', targetLang: 'tr', sourceLang: 'auto', purpose: 'chat' },
+      });
+      await expect(translateText('Hola', 'tr', 'auto', { ...privateChat, isPublic: true })).resolves.toMatchObject({ translatedText: 'Hey' });
+      expect(mockInvoke).toHaveBeenLastCalledWith('translate-text', {
+        body: { text: 'Hola', targetLang: 'tr', sourceLang: 'auto', public: true, purpose: 'chat' },
+      });
+      await expect(translateText('Hola', 'tr', 'auto', privateChat)).resolves.toMatchObject({ translatedText: 'Selam' });
+      expect(mockInvoke).toHaveBeenCalledTimes(3);
+    });
+
     it('reports sameLanguage when the server says the text needed nothing', async () => {
       mockInvoke.mockResolvedValue({
         data: { translatedText: 'Hello there', sameLanguage: true },

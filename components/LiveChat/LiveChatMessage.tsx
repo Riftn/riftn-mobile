@@ -98,6 +98,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   replying = false,
 }) => {
   const { t: _copy } = _useCopy();
+  const replyTargetId = message.replyTo?._id || message.replyTo?.id;
   const { showUserProfile } = useUserProfileSheet();
   const { t } = useI18n();
   // Reader's chat text size (Settings → Appearance), on top of the phone's own font size.
@@ -314,10 +315,8 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
           // first one off half way.
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => {
-              const replyId = message.replyTo?._id || message.replyTo?.id;
-              if (replyId && onReplyPress) onReplyPress(replyId);
-            }}
+            accessibilityRole={replyTargetId && onReplyPress ? "button" : undefined}
+            onPress={replyTargetId && onReplyPress ? () => onReplyPress(replyTargetId) : undefined}
             onLongPress={handleLongPress}
             delayLongPress={350}
             style={{

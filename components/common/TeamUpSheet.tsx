@@ -28,6 +28,7 @@ import type { TeamUpTeam } from '../../services/superpower.service';
 import { getAvatarUrl, toastError, toastSuccess } from '../../libs';
 import { useAuthActions } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import { useBadgeTierLabel } from '../../i18n/badge-tier-label';
 import Avatar from './Avatar';
 import GlassModal from '../ui/GlassModal';
 import Icon from '../ui/Icon';
@@ -100,6 +101,7 @@ export default function TeamUpSheet({
   address: string | null;
 }) {
   const { t } = useTranslation();
+  const badgeLabel = useBadgeTierLabel();
   const { requireAuth } = useAuthActions();
   const [name, setName] = useSurfaceDraft("components/common/TeamUpSheet.tsx:name", '');
   const [description, setDescription] = useSurfaceDraft("components/common/TeamUpSheet.tsx:description", '');
@@ -128,7 +130,7 @@ export default function TeamUpSheet({
   const team = mine.data;
   const [editDescription, setEditDescription] = useSurfaceDraft("components/common/TeamUpSheet.tsx:editDescription", '', team?.id ?? null);
   const isOwner = !!team && team.ownerAddress.toLowerCase() === myAddress;
-  const tierLabel = (tier: string | null) => tier || t('teamUp.noBadgeYet');
+  const tierLabel = (tier: string | null) => tier ? badgeLabel(tier) : t('teamUp.noBadgeYet');
 
   const startEditing = () => {
     setEditDescription.initialize(team?.description ?? '');

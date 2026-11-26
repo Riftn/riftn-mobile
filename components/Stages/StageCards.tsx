@@ -1,3 +1,4 @@
+import { stageRoomLabel, stageTopicLabel, stageHeadcount } from '../../i18n/stage-room-copy';
 /**
  * Stage cards — one shape per state, shared by every stage surface
  * ================================================================
@@ -10,7 +11,7 @@
  * under a black gradient — so a host's artwork was cut off and dimmed at the
  * same time — and an ended stage had no artwork at all, which is why recorded
  * stages were an anonymous list of rows. Covers now go through StageCoverArt:
- * whole, 16:9, above the text, on every state including ended.
+ * a thumbnail for live rooms and the full 16:9 cover for upcoming and recorded stages.
  *
  * @module components/Stages/StageCards
  */
@@ -27,6 +28,7 @@ import {
 } from "react-native";
 import { shareWithRef } from "../../libs/shareRef";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
 import Avatar from "../common/Avatar";
@@ -44,11 +46,13 @@ import type { AudioSpace } from "../../hooks/useStages";
 import { appLocale } from "../../libs/date.util";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE, MINIMAL_INSET, MINIMAL_WASH } from "../../theme/minimal";
-import { PageSection } from "../page/PageKit";
+import { KitButton, PageSection } from "../page/PageKit";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 
 import { formatCount } from '../../libs/format-count';
+import { isRadioShow } from '../../libs/stage-radio-show';
+import { supabase } from '../../services/supabase';
 /** How long the stage ran, from its own timestamps. Mirrors web's row. */
 export function stageDuration(space: AudioSpace): string | null {
   if (!space.started_at || !space.ended_at) return null;
@@ -225,9 +229,26 @@ export const LiveStageCard: React.FC<{
 }> = ({ space, isCurrent, isMine, isBusy = false, onOpen, onEnd }) => {
   const { t } = useTranslation();
   const { isMinimal } = useAppTheme();
-  // Web counts the host in; a stage with a host and no audience read as
-  // "0 listening" here while web showed 1.
   const heads = Math.max(1, (space.speaker_count || 1) + (space.listener_count || 0));
+  const isRadio = isRadioShow(space);
+  const action = isCurrent ? stageRoomLabel(t, 'returnToStage') : stageRoomLabel(t, 'join');
+  const { data: participants = [] } = useQuery({
+    queryKey: ["stage-list-faces", space.id, space.speaker_count, space.listener_count],
+    enabled: heads > 1,
+    placeholderData: (previous) => previous,
+    staleTime: 20_000,
+    queryFn: async (): Promise<{ id: string; wallet_address: string; username: string | null; avatar: string | null }[]> => {
+      const { data, error } = await supabase.from("space_participants")
+        .select("id, wallet_address, username, avatar")
+        .eq("space_id", space.id)
+        .neq("role", "host")
+        .is("left_at", null)
+        .order("joined_at", { ascending: false })
+        .limit(4);
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
 
   const confirmEnd = useCallback(() => {
     Alert.alert(t("stages.endThisStage"), t("stages.endSpaceConfirm", { title: space.title }), [
@@ -237,72 +258,65 @@ export const LiveStageCard: React.FC<{
   }, [onEnd, space.title, t]);
 
   return (
-    // The page kit draws the frame: a card on the canvas themes, a full-width
-    // hairline row on System and minimal.
     <PageSection flush style={isMine ? (isMinimal ? m.cardMine : styles.cardMine) : undefined}>
-    <TouchableOpacity
-      style={isBusy ? styles.cardBusy : undefined}
-      onPress={onOpen}
-      disabled={isBusy}
-      activeOpacity={0.85}
-      accessibilityRole="button"
-      accessibilityState={{ disabled: isBusy }}
-    >
-      <StageCoverArt uri={space.cover_image_url} title={space.title} stage={space} />
-
-      <View style={[styles.body, isMinimal && m.body]}>
-        <View style={styles.topRow}>
-          <View style={[styles.liveChip, isMinimal && m.outline]}>
-            <View style={styles.liveDot} />
-            <Text style={styles.liveChipText}>
-              {isCurrent ? t("stages.inThisStage") : t("stages.live")}
+      <View style={[styles.liveRow, isMinimal && m.body]}>
+        <View style={styles.liveArtwork}>
+          <StageCoverArt uri={space.cover_image_url} stage={space} />
+        </View>
+        <View style={styles.liveInfo}>
+          <Text style={styles.title} numberOfLines={2}>{space.title}</Text>
+          <View style={styles.liveHost}>
+            <Avatar {...storedAvatarSources(space.host_avatar, space.host_wallet_address, 20)}
+              size={20} name={space.host_username || space.host_wallet_address} />
+            <Text style={styles.hostedBy} numberOfLines={1}>
+              @{hostHandle(space, t("common.anonymous"))}
             </Text>
           </View>
+          {!!space.description && <Text style={styles.description} numberOfLines={1}>{space.description}</Text>}
+        </View>
+        <View style={styles.liveActions}>
+          <KitButton label={action} onPress={onOpen} disabled={isBusy}
+            icon={isBusy ? <ActivityIndicator size="small" /> : undefined} />
           <View style={styles.topActions}>
-            <View style={styles.countRow}>
-              {isBusy ? (
-                <ActivityIndicator size="small" color="rgba(255,255,255,0.5)" />
-              ) : (
-                <Icon name="Users" size={13} color="rgba(255,255,255,0.5)" />
-              )}
-              <Text style={styles.countText}>{formatCount(heads)}</Text>
-            </View>
-            <TouchableOpacity
-              onPress={() => shareStage(space)}
-              hitSlop={8}
-              style={[styles.iconBtn, isMinimal && m.outline]}
-              accessibilityRole="button"
-              accessibilityLabel={t("stages.shareStage")}
-            >
+            <TouchableOpacity onPress={() => shareStage(space)} hitSlop={8}
+              style={[styles.iconBtn, isMinimal && m.outline]} accessibilityRole="button"
+              accessibilityLabel={t("stages.shareStage")}>
               <Icon name="Share2" size={15} color="rgba(255,255,255,0.6)" />
             </TouchableOpacity>
             {!!onEnd && (
-              <TouchableOpacity
-                onPress={confirmEnd}
-                hitSlop={8}
-                style={[styles.endBtn, isMinimal && m.outline]}
-                accessibilityRole="button"
-                accessibilityLabel={t("stages.endThisStage")}
-              >
+              <TouchableOpacity onPress={confirmEnd} hitSlop={8}
+                style={[styles.endBtn, isMinimal && m.outline]} accessibilityRole="button"
+                accessibilityLabel={t("stages.endThisStage")}>
                 <Text style={styles.endText}>{t("stages.end")}</Text>
               </TouchableOpacity>
             )}
           </View>
         </View>
-
-        <HostRow space={space} />
-
-        <Text style={styles.title} numberOfLines={2}>
-          {space.title}
-        </Text>
-        {!!space.description && (
-          <Text style={styles.description} numberOfLines={2}>
-            {space.description}
-          </Text>
-        )}
-        <StageReminderFaces spaceId={space.id} />
       </View>
-    </TouchableOpacity>
+      <View style={[styles.liveMeta, isMinimal && m.body]}>
+        <View style={[styles.liveChip, isRadio && styles.radioChip]}>
+          <View style={[styles.liveDot, isRadio && styles.radioDot]} />
+          <Text style={[styles.liveChipText, isRadio && styles.radioText]}>
+            {isRadio ? stageRoomLabel(t, 'liveRadio') : t("stages.live")}
+          </Text>
+        </View>
+        {space.entry_locked && <Text style={[styles.stageFlag, styles.stageLocked]}>{stageRoomLabel(t, 'entryLocked')}</Text>}
+        {!!space.topic && <Text style={styles.stageFlag}>{stageTopicLabel(t, space.topic)}</Text>}
+        <View style={styles.countRow} accessible accessibilityLabel={stageHeadcount(heads)}>
+          <Icon name="Users" size={13} color="rgba(255,255,255,0.65)" />
+          <Text style={styles.countText}>{formatCount(heads)}</Text>
+        </View>
+        {heads > 1 && participants.length > 0 && (
+          <View style={styles.liveFaces} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            {participants.map((person) => (
+              <View key={person.id} style={styles.liveFace}>
+                <Avatar {...storedAvatarSources(person.avatar, person.wallet_address, 22)}
+                  size={22} name={person.username || person.wallet_address} borderColor="#17171A" borderWidth={1} />
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
     </PageSection>
   );
 };
@@ -543,9 +557,6 @@ const styles = StyleSheet.create({
   cardMine: {
     backgroundColor: "rgba(255,255,255,0.08)",
   },
-  cardBusy: {
-    opacity: 0.6,
-  },
   btnBusy: {
     opacity: 0.6,
   },
@@ -587,6 +598,47 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "600",
   },
+  liveRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    padding: 12,
+    paddingBottom: 4,
+  },
+  liveArtwork: {
+    width: 64,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  liveInfo: {
+    flex: 1,
+    minWidth: 0,
+    gap: 4,
+  },
+  liveHost: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+  },
+  liveActions: {
+    alignItems: "flex-end",
+    gap: 6,
+  },
+  liveMeta: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: 9,
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+  },
+  liveFaces: {
+    flexDirection: "row",
+    paddingLeft: 5,
+  },
+  liveFace: {
+    marginLeft: -5,
+  },
   liveChip: {
     flexDirection: "row",
     alignItems: "center",
@@ -594,20 +646,26 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: radius.md,
-    backgroundColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(244,63,94,0.15)",
   },
+  radioChip: { backgroundColor: "rgba(56,189,248,0.15)" },
   liveDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#FB7185",
   },
+  radioDot: { backgroundColor: "#38BDF8" },
   liveChipText: {
-    color: "#F4F4F5",
+    color: "#FDA4AF",
     fontSize: 11,
     fontWeight: "700",
     letterSpacing: 0.6,
   },
+  radioText: { color: "#7DD3FC" },
+  stageFlag: { fontSize: 11, fontWeight: "600", color: "#D4D4D8", backgroundColor: "rgba(255,255,255,0.10)",
+    paddingHorizontal: 5, paddingVertical: 2, borderRadius: 4 },
+  stageLocked: { color: "#FDE68A", backgroundColor: "rgba(245,158,11,0.15)" },
   countRow: {
     flexDirection: "row",
     alignItems: "center",

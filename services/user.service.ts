@@ -178,6 +178,7 @@ export interface NotificationItem {
   bountyType?: 'viewer' | 'commentor';
   // Metadata with deep link and external URLs
   metadata?: {
+    game?: string;
     conversationId?: string;
     deepLink?: string;
     articleUrl?: string;
@@ -390,6 +391,10 @@ export async function markNotificationAsRead(notificationId: string) {
     console.warn('[user.service] markNotificationAsRead error', e);
     throw e;
   }
+}
+
+export function clearAllNotifications(wallet: string, through: number) {
+  return apiClient.post<{ clearedThrough: string }>('/notification/clear-all', { wallet, through }, { isAuthRequired: true });
 }
 
 /**

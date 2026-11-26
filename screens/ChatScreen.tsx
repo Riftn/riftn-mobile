@@ -23,9 +23,10 @@ import {
   Alert,
   TouchableWithoutFeedback,
   BackHandler,
+  AppState,
   Pressable,
 } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { setOpenConversation, clearOpenConversation } from "../libs/activeChat";
 import Icon from "../components/ui/Icon";
 
@@ -317,7 +318,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // The fresh newest page has landed (the store can hold an older cached copy).
   const [headLoaded, setHeadLoaded] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [remoteTyping, setRemoteTyping] = useState(false);
+  const [remoteTypingChat, setRemoteTypingChat] = useState<string | null>(null);
 
   // Picking several messages: hold one, Select, then tap others. null = not picking.
   const [pickedMsgs, setPickedMsgs] = useState<Set<string> | null>(null);
@@ -409,6 +410,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
 
   const currentConvId = convId || createdConvIdRef.current;
+  const isChatFocused = useIsFocused();
   // A push for this chat stays quiet while it is on screen (push.service).
   useFocusEffect(
     useCallback(() => {
@@ -476,6 +478,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       badgeImg: ((other as any) ?? (target as any))?.hideBadgeAndBalance ? undefined : getBadgeUrlFor((other as any) ?? (target as any)),
     };
   }, [currentConvId, conversations, target, targetAddress, userId, address]);
+
+  const typingChatId = allow && isChatFocused && userId && currentConvId
+    && /^[a-f0-9]{24}$/i.test(String(currentConvId)) && !isAssistantAddress(peer.address)
+    ? String(currentConvId)
+    : null;
 
   const peerLocalTime = useProfileLocalTime(
     target?.address?.toLowerCase() === peer.address?.toLowerCase() ? target?.customs?.publicTimeZone : undefined,
@@ -1319,24 +1326,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   useEffect(() => {
     const unsubs: Array<() => void> = [];
 
-    // Typing indicator
-    unsubs.push(
-      ws.on(DMSocketEvent.Typing, (p: any) => {
-        const cId = resolveConvId(p?.dmId, p?.conversation);
-        if (cId !== currentConvId) return;
-        const fromId = String(p?.userId || p?.sender || "");
-        if (fromId === userId) return;
-        setRemoteTyping(true);
-      }),
-    );
-    unsubs.push(
-      ws.on(DMSocketEvent.StopTyping, (p: any) => {
-        const cId = resolveConvId(p?.dmId, p?.conversation);
-        if (cId !== currentConvId) return;
-        setRemoteTyping(false);
-      }),
-    );
-
     // Edit
     unsubs.push(
       ws.on(DMSocketEvent.EditMessage, (payload: EditMessageResponse) => {
@@ -1436,12 +1425,34 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     return () => unsubs.forEach((u) => { try { u(); } catch {} });
   }, [ws, currentConvId, userId, settlePendingEdit, t]);
 
-  // Auto-clear typing after 5s silence
   useEffect(() => {
-    if (!remoteTyping) return;
-    const t = setTimeout(() => setRemoteTyping(false), 5000);
-    return () => clearTimeout(t);
-  }, [remoteTyping]);
+    if (!typingChatId) return;
+    let expiry: ReturnType<typeof setTimeout> | undefined;
+    const clear = () => {
+      clearTimeout(expiry);
+      setRemoteTypingChat(null);
+    };
+    const matchesPeer = (event?: { dmId: string; userId: string }) =>
+      event?.dmId === typingChatId && !!event.userId && event.userId !== String(userId);
+    const offTyping = ws.on(DMSocketEvent.Typing, (event) => {
+      if (!matchesPeer(event) || AppState.currentState !== "active") return;
+      clearTimeout(expiry);
+      setRemoteTypingChat(typingChatId);
+      expiry = setTimeout(clear, 7000);
+    });
+    const offStop = ws.on(DMSocketEvent.StopTyping, (event) => {
+      if (matchesPeer(event)) clear();
+    });
+    const appState = AppState.addEventListener("change", (state) => {
+      if (state !== "active") clear();
+    });
+    return () => {
+      offTyping();
+      offStop();
+      appState.remove();
+      clear();
+    };
+  }, [typingChatId, userId, ws]);
 
 
   const ensureConversation = useCallback(async (): Promise<ID> => {
@@ -1779,6 +1790,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [user, address, dmDisabled, dmReason, dmFee, currentConvId, userId, scrollToBottom, replyTo, tipAmount, planBlocks, setReplyTo, t],
   );
 
+  const onSendPhotos = useCallback(
+    async (files: ChatMediaAttachment[], caption?: string) => {
+      if (!user || dmDisabled) {
+        toastWarning(dmReason || t("copy.dae38d549299", { defaultValue: "Can't send right now" }));
+        return false;
+      }
+      if (planBlocks("image", tipAmount)) return false;
+
+      const sentId = dmSendQueue.sendPhotos({
+        conversationId: currentConvId || "temp",
+        userId: userId || "me",
+        address,
+        files,
+        caption,
+        replyTo,
+        dmFee,
+      });
+      // Retry belongs to the failed message in the thread.
+      await dmSendQueue.waitForDelivery(sentId);
+      scrollToBottom();
+      setReplyTo.complete(replyTo, null);
+      return true;
+    },
+    [user, dmDisabled, dmReason, t, planBlocks, tipAmount, currentConvId, userId, address, replyTo, dmFee, scrollToBottom, setReplyTo],
+  );
+
   const handleVoiceComplete = useCallback(
     (result: VoiceNoteResult) => {
       if (!user || dmDisabled || !result.uri) return;
@@ -2091,13 +2128,13 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   const onTypingChange = useCallback(
     (isTyping: boolean) => {
-      if (!currentConvId) return;
+      if (!typingChatId) return;
       ws.emitAuthed(
         isTyping ? DMSocketEvent.Typing : DMSocketEvent.StopTyping,
-        { dmId: currentConvId },
+        { dmId: typingChatId },
       );
     },
-    [currentConvId, ws],
+    [typingChatId, ws],
   );
 
 
@@ -2115,18 +2152,19 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       if (!list?.length) return;
       const msgType = payload?.msgType || "";
       const match = list.find((p) => {
-        if (msgType === "media") return p.msgType === "media";
+        if (msgType === "media") return p.msgType === "media" && (p.mediaUrls?.length ?? 0) < 2;
         return false;
       });
       if (match) dmActions.removeOptimistic(convId, match._tempId);
     };
     const onJob = (payload: any) => {
+      if (payload?.photoBatch) return;
       const raw = payload?.message || payload;
       const cId = resolveConvId(raw?.conversation, payload?.dmId);
       if (cId !== convId) return;
       const list = (dmState as any).optimisticByConversation?.[convId] as OptimisticMessage[] | undefined;
       if (!list?.length) return;
-      const match = list.find((p) => p.msgType === "media");
+      const match = list.find((p) => p.msgType === "media" && (p.mediaUrls?.length ?? 0) < 2);
       if (match) dmActions.removeOptimistic(convId, match._tempId);
     };
     const u1 = ws.on(DMSocketEvent.SendMessage, onServerMsg);
@@ -2491,7 +2529,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         title={title}
         leftContent={LeftHeader}
         rightContent={RightHeader}
-        subtitle={remoteTyping ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peerSubtitle || undefined}
+        subtitle={typingChatId && remoteTypingChat === typingChatId ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peerSubtitle || undefined}
         titleBadge={(peer as any).badgeImg ? (
           <BadgeArtwork
             source={(peer as any).badgeImg}
@@ -2716,10 +2754,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 scheduledCount={scheduled.items.length}
                 onSendText={onSendText}
                 onSendMedia={onSendMedia}
+                onSendPhotos={tipAmount > 0 || (dmFee?.required && !dmFee.hasFreeAccess) ? undefined : onSendPhotos}
                 allowLock={DIGITAL_PURCHASES_ENABLED}
                 onSendGif={onSendGif}
                 onStartVoice={onStartVoice}
-                onTypingChange={onTypingChange}
+                onTypingChange={typingChatId ? onTypingChange : undefined}
                 // A paid DM (the recipient charges per message) is a purchase the
                 // App Store build cannot take (3.1.1), so the bar says so instead.
                 disabled={creating || accountBanned || storefrontFeeBlocked}

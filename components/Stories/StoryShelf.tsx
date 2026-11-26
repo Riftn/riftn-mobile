@@ -191,8 +191,7 @@ function VisibleStoryShelf({ dismissed }: { dismissed: string[] }) {
 
   const showMe = !!(storiesEnabled && me && (pending || ownWatchable));
   const shownOthers = storiesEnabled ? others : [];
-  // How many pills are up. With exactly 1 the pill takes the whole row and
-  // shows a little more (who is watching, or the Moments themselves).
+  // A single pill stretches across the row and can show live watcher avatars.
   const upCount = holding || isLoading ? 0 : (showMe ? 1 : 0) + eligibleLive.length + shownOthers.length;
   const single = upCount === 1;
 
@@ -337,25 +336,6 @@ function momentsLine(t: (key: string, options?: Record<string, unknown>) => stri
     : t("stories.spot.moments", { n: formatCount(count), defaultValue: "{{n}} Moments" });
 }
 
-/** Small covers of someone's Moments, when the pill has the room. */
-function MomentCovers({ entry }: { entry: ShelfEntry | null }) {
-  const c = usePillColors();
-  if (!entry) return null;
-  const covers = entry.items
-    .map((item) => item.posterUrl || (item.type === "photo" ? item.mediaUrl : null))
-    .filter((url): url is string => !!url)
-    .slice(0, 3);
-  if (!covers.length) return null;
-  return (
-    <View style={styles.stack}>
-      {covers.map((url, i) => (
-        <Image key={url} source={{ uri: url }} recyclingKey={url} contentFit="cover" cachePolicy="memory-disk"
-          style={[styles.cover, { borderColor: c.gap }, i > 0 && styles.stackOverlap]} />
-      ))}
-    </View>
-  );
-}
-
 /** A few faces of who is watching a live, and how many more. */
 function LiveWatchers({ streamId }: { streamId: string }) {
   const c = usePillColors();
@@ -410,7 +390,6 @@ function MeTile({
       label={failed ? line : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
       onMenu={onMenu}
-      extra={pending ? null : <MomentCovers entry={entry} />}
     >
       <PillFace>
         {failed
@@ -476,7 +455,7 @@ function PersonTile({ entry, single, onOpen, onMenu }: { entry: ShelfEntry; sing
   const { t } = useTranslation();
   const name = nameOf(entry.author);
   return (
-    <Pill single={single} label={name} onPress={onOpen} onMenu={onMenu} extra={<MomentCovers entry={entry} />}>
+    <Pill single={single} label={name} onPress={onOpen} onMenu={onMenu}>
       <PillFace seen={entry.seen} closeFriends={!!entry.closeFriends && !entry.own}>
         <Avatar uri={avatarOf(entry.author, 96)} size={FACE_SIZE} radius={FACE_RADIUS} name={name} />
       </PillFace>
@@ -519,7 +498,6 @@ const styles = StyleSheet.create({
   stack: { flexDirection: "row", alignItems: "center" },
   stackOverlap: { marginLeft: -7 },
   watcher: { borderWidth: 2, borderRadius: 9, overflow: "hidden" },
-  cover: { width: 22, height: 30, borderRadius: 7, borderWidth: 2 },
   more: { marginLeft: 6, fontSize: 11, fontWeight: "700" },
   loadingPill: { flexGrow: 0 },
   loadingFace: { width: FACE_SIZE, height: FACE_SIZE, borderRadius: FACE_RADIUS, marginLeft: 2 },

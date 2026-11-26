@@ -1,6 +1,5 @@
 import React, { useCallback, useRef } from "react";
 import { Text, View } from "react-native";
-import { Image } from "expo-image";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import { useUser } from "../../context/AuthContext";
@@ -78,7 +77,7 @@ export function MomentAvatarOutline({ peek, radius }: { peek: MomentPeek | null;
   );
 }
 
-/** Corner cover preview for feed avatars. */
+/** Corner badge for feed avatars with active Moments. */
 export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; size: number; big?: boolean }) {
   const { isLight, skin, accent, pageColors } = useAppTheme();
   if (!peek) return null;
@@ -113,17 +112,7 @@ export function MomentPeekBadge({ peek, size, big }: { peek: MomentPeek | null; 
         }}
       >
         <View style={{ borderWidth: rimW, borderColor: rim, borderRadius: r + rimW, overflow: "hidden", backgroundColor: "#27272a" }}>
-          {peek.cover ? (
-            <Image
-              source={{ uri: peek.cover }}
-              style={{ width: w, height: h }}
-              contentFit="cover"
-              cachePolicy="memory-disk"
-              recyclingKey={peek.cover}
-            />
-          ) : (
-            <View style={{ width: w, height: h, backgroundColor: "#3f3f46" }} />
-          )}
+          <View style={{ width: w, height: h, backgroundColor: "#3f3f46" }} />
           {seen && <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(9,9,11,0.5)" }} />}
         </View>
       </Animated.View>
