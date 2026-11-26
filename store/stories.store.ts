@@ -22,15 +22,15 @@ export interface StoryRemixSource {
 }
 
 interface StoriesState {
-  viewer: { entries: ShelfEntry[]; index: number; standalone: boolean } | null;
+  viewer: { entries: ShelfEntry[]; index: number; standalone: boolean; openComments: boolean } | null;
   creator: { remixSource?: StoryRemixSource; postTokenId?: number } | null;
   pending: PendingMoment | null;
 }
 
 export const storiesState = proxy<StoriesState>({ viewer: null, creator: null, pending: null });
 
-export function openStoryViewer(entries: ShelfEntry[], index: number, standalone = false) {
-  storiesState.viewer = ref({ entries, index, standalone });
+export function openStoryViewer(entries: ShelfEntry[], index: number, standalone = false, { openComments = false } = {}) {
+  storiesState.viewer = ref({ entries, index, standalone, openComments });
 }
 
 export function closeStoryViewer() {

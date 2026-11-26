@@ -94,11 +94,13 @@ type Sheet = null | "more" | "viewers" | "comments" | "report" | "delete" | "sha
 export default function StoryViewer({
   entries,
   index: firstIndex,
+  openComments = false,
   onOpenProfile,
   onClose,
 }: {
   entries: ShelfEntry[];
   index: number;
+  openComments?: boolean;
   onOpenProfile: (address: string) => void;
   onClose: () => void;
 }) {
@@ -148,7 +150,7 @@ export default function StoryViewer({
   // the Moment so there is time to press it.
   const [postPeekId, setPostPeekId] = useState<string | null>(null);
   const [typing, setTyping] = useState(false);
-  const [sheet, setSheet] = useState<Sheet>(null);
+  const [sheet, setSheet] = useState<Sheet>(openComments ? "comments" : null);
   const [muted, setMuted] = useState(false);
   const [reply, setReply] = useState("");
   const [liked, setLiked] = useState<Record<string, boolean>>({});

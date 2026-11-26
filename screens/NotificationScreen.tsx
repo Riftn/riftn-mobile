@@ -1678,7 +1678,11 @@ const NotificationScreen = () => {
       case NotificationType.STORY_LIKE:
       case NotificationType.STORY_MENTION:
       case NotificationType.STORY_COMMENT:
-        void openMomentById(metadata?.storyId, (user as { walletAddress?: string } | null)?.walletAddress || user?.address);
+        void openMomentById(
+          metadata?.storyId,
+          (user as { walletAddress?: string } | null)?.walletAddress || user?.address,
+          { openComments: type === NotificationType.STORY_COMMENT },
+        );
         break;
 
       case 'mention':
