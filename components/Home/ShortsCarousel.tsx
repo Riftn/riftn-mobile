@@ -18,6 +18,7 @@ import { shortsBatchCount } from '../../libs/shortsRotation';
 import { useHorizontalScrollGuard } from "../../context/PagerGestureContext";
 import { getUnifiedFeed, type UnifiedFeedItem } from "../../services/feed.unified.service";
 import { isShortsPhoto } from "../../libs/shortsPhotos";
+import { runWhenSettled } from "../../libs/run-when-settled";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 import ShortsGridCard from "./ShortsGridCard";
@@ -39,7 +40,7 @@ const historyStore: ShortsHistoryStore = {
 
 const REDRAW_AFTER_AWAY_MS = 10 * 60 * 1000;
 
-export function useHomeShortsCarousel(enabled: boolean, postCount: number, active: boolean) {
+export function useHomeShortsCarousel(enabled: boolean, postCount: number, active: boolean, primaryFeedSettled: boolean) {
   const shortsEnabled = useAppPrefs().shorts;
   const user = useUser();
   const viewer = user?.walletAddress || user?.id || 'guest';
@@ -85,7 +86,15 @@ export function useHomeShortsCarousel(enabled: boolean, postCount: number, activ
     previousActive.current = onScreen;
   }, [onScreen, refresh]);
 
-  const queryEnabled = enabled && shortsEnabled && onScreen;
+  const visible = enabled && shortsEnabled && onScreen;
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!visible || !primaryFeedSettled || ready) return;
+    return runWhenSettled(() => setReady(true));
+  }, [visible, primaryFeedSettled, ready]);
+
+  // Keep the larger candidate requests out of the first Home load.
+  const queryEnabled = visible && ready;
   const videos = useInfiniteQuery({
     queryKey: ['home-shorts-videos', viewer],
     queryFn: ({ pageParam }) => getUnifiedFeed({ postType: 'video', sortBy: 'views', sortOrder: 'desc', range: 'month', limit: 50, page: pageParam, status: 'all' }),
