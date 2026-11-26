@@ -205,8 +205,14 @@ jobs:
           grep -E "(warning|error):" xcodebuild.log | grep -v "/Pods/" | sort | uniq -c | sort -rn > sim-check/app-warnings.txt || true
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
+      - name: Check the iOS Google sign-in permission dialog
+        if: inputs.task == 'googleprompt'
+        timeout-minutes: 12
+        run: |
+          APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
+          bash scripts/ios-google-prompt-check.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
       - name: Walk every page in dark, light and System Light
-        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed' && inputs.task != 'livetheme' && inputs.task != 'reactions' && inputs.task != 'rowreactions' && inputs.task != 'freeze' && inputs.task != 'feedline' && inputs.task != 'moments' && inputs.task != 'sharelink' && inputs.task != 'profiletabs' && inputs.task != 'barsback' && inputs.task != 'livechat'
+        if: inputs.task != 'googleprompt' && inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed' && inputs.task != 'livetheme' && inputs.task != 'reactions' && inputs.task != 'rowreactions' && inputs.task != 'freeze' && inputs.task != 'feedline' && inputs.task != 'moments' && inputs.task != 'sharelink' && inputs.task != 'profiletabs' && inputs.task != 'barsback' && inputs.task != 'livechat'
         timeout-minutes: 45
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
