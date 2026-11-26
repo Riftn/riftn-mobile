@@ -13,6 +13,7 @@ import { BlurView } from "expo-blur";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { localizeDmCallPreview } from "../../libs/callNote";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl } from "../../libs/misc";
 import { formatRelativeFromNow } from "../../libs/date.util";
@@ -120,7 +121,7 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
     if (last.msgType === "voice") text = t("dm.voiceNote");
     else if (last.msgType === "gif") text = "GIF";
     else if (last.msgType === "media") text = last.encMedia ? encryptedMediaLabel(last.encMedia, t) : t("dm.photo");
-    else text = previewLinks(last.content ?? "").replace(/\n/g, " ") || "";
+    else text = localizeDmCallPreview(last, t) ?? previewLinks(last.content ?? "").replace(/\n/g, " ");
     if (isMine) text = t("dm.youSaid", { text });
     const ts = formatRelativeFromNow(last.createdAt || conversation.lastMessageAt);
     return { previewText: text, timeStr: ts };
