@@ -18855,5 +18855,6 @@
     "postSnapshot": "Publicar una captura",
     "shareLink": "Compartir enlace",
     "snapshotFailed": "No se pudo hacer la captura. Inténtalo de nuevo."
-  }
+  },
+  "ppvPreview": {"watch": "Ver vista previa gratis", "title": "Vista previa gratuita del vídeo", "unavailable": "Vista previa no disponible", "retry": "Volver a intentar", "loading": "Cargando vista previa…", "seconds": "Vista previa gratuita (segundos)", "secondsHint": "Elige entre 1 y 30 segundos. Introduce 0 para omitir la vista previa."}
 }

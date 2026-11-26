@@ -1,3 +1,4 @@
+import { canConfigurePpvPreview, parsePpvPreviewSeconds } from "../libs/ppv-preview";
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useCallback, useMemo } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -308,6 +309,12 @@ export function useUploadPost() {
         mimeType: guessMime(img.uri, "image/jpeg"),
       }));
       const streamInfo = buildStreamInfo(p.monetization, p.postChainId);
+      const previewSeconds = parsePpvPreviewSeconds(p.monetization.ppvData.previewSeconds);
+      if (p.monetization.ppvEnabled && previewSeconds && canConfigurePpvPreview(
+        postType === "video", !!(p.visibility || p.contentRating || p.spoilerText?.trim() || p.destruct), p.monetization,
+      )) {
+        streamInfo.payPerViewPreviewSeconds = previewSeconds;
+      }
 
       // Subscribers-only is NOT part of streamInfo. It rides in the `plans`
       // field — the creator’s own plan ids — and the feed pipeline opens the

@@ -125,6 +125,7 @@ export interface UnifiedFeedItem {
    *  posts with a rendition ready; play it through getPlaybackUrl. */
   hlsUrl?: string;
   previewUrl?: string;
+  ppvPreview?: { ready?: boolean };
   /**
    * Seek-preview sprite sheet: `url` is a bucket key, `private` marks a paid
    * post's sheet. Read it through libs/storyboard.

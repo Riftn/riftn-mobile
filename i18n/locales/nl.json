@@ -19107,5 +19107,6 @@
     "postSnapshot": "Momentopname plaatsen",
     "shareLink": "Link delen",
     "snapshotFailed": "Momentopname mislukt. Probeer opnieuw."
-  }
+  },
+  "ppvPreview": {"watch": "Gratis voorvertoning bekijken", "title": "Gratis videovoorvertoning", "unavailable": "Voorvertoning niet beschikbaar", "retry": "Opnieuw proberen", "loading": "Voorvertoning laden…", "seconds": "Gratis voorvertoning (seconden)", "secondsHint": "Kies 1 tot 30 seconden. Voer 0 in om de voorvertoning over te slaan."}
 }
