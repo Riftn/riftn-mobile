@@ -938,7 +938,7 @@ function ViewerSheet({
                 ))}
                 {audience.hasNextPage ? (
                   <SheetRow
-                    label={t("common.showMore", { defaultValue: "Show more" })}
+                    label={t("common.loadMore", { defaultValue: "Load more" })}
                     onPress={() => void audience.fetchNextPage({ cancelRefetch: false })}
                     disabled={audience.isFetching}
                     loading={audience.isFetchingNextPage}
