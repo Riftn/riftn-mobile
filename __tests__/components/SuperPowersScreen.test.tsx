@@ -39,7 +39,7 @@ jest.mock('../../components/page/PageKit', () => {
 });
 jest.mock('../../components/Badge/BadgeProgress', () => ({ BadgeProgress: () => null }));
 jest.mock('../../components/common/SuperPowerIcon', () => 'SuperPowerIcon');
-jest.mock('../../components/ui/GlassModal', () => ({ __esModule: true, default: () => null }));
+jest.mock('../../components/ui/GlassModal', () => ({ __esModule: true, default: ({ visible, children }: any) => visible ? children : null }));
 jest.mock('../../components/common/SpendPowerSheet', () => {
   const element = require('react').createElement;
   return { __esModule: true, default: ({ power }: any) => power ? element('Text', { testID: 'spend-power' }, power.key) : null };
@@ -55,26 +55,41 @@ jest.mock('../../components/Dpay/BuyDhbSheet', () => {
 
 beforeEach(() => { mockStatus = undefined; mockPurchases = false; });
 
-it('lets a granted badge spend its server allowance without an iOS purchase control', () => {
-  mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [], powers: [
-    { key: 'boost', label: 'Boost', summary: 'Boost a post', tier: 'Crab', unlocked: true, available: true },
-  ] };
+const boost = { key: 'boost', label: 'Boost', summary: 'Boost a post', tier: 'Crab', unlocked: true, available: true };
+
+it('shows an existing badge and usage on iOS without spending or cancelling a boost', () => {
+  mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [
+    { id: 'queued', power: 'boost', status: 'active', startsAt: '2026-11-27T00:00:00Z', served: 0 },
+  ], powers: [boost] };
   const view = render(<SuperPowersScreen />);
-  // The panel opens on the first power this badge can spend.
-  expect(view.getByText('Boost')).toBeTruthy();
-  fireEvent.press(view.getByText('auth.use'));
-  expect(view.getByTestId('spend-power').props.children).toBe('boost');
-  expect(view.queryByText('superpowers.getDhb')).toBeNull();
+  expect(view.getByText('Boost a post')).toBeTruthy();
+  fireEvent.press(view.getByText('superpowers.pastUsage'));
+  expect(view.getByText('superpowers.usageTitle')).toBeTruthy();
+  expect(view.getByText('converter.statusQueued')).toBeTruthy();
+  expect(view.queryByText('common.cancel')).toBeNull();
+  expect(view.queryByText('auth.use')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();
 });
 
-it('keeps Team up accessible without a badge or a purchase', () => {
+it('shows Team up in the iOS catalog without opening the team management sheet', () => {
   const view = render(<SuperPowersScreen />);
-  // Signed out, only Team up is live, so the panel opens on it.
-  fireEvent.press(view.getAllByText('Team up').slice(-1)[0]);
-  expect(view.getByTestId('team-up')).toBeTruthy();
+  expect(view.getByText('Team up')).toBeTruthy();
+  expect(view.getByText('storefront.unavailable')).toBeTruthy();
+  expect(view.getAllByRole('button', { name: 'Team up', exact: true })).toHaveLength(1);
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
-  expect(view.queryByTestId('token-purchase')).toBeNull();
+});
+
+it('keeps existing boost and Team up actions available on Android', () => {
+  mockPurchases = true;
+  mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [], powers: [
+    boost, { key: 'team_up', label: 'Team up', available: true, tier: null },
+  ] };
+  const view = render(<SuperPowersScreen />);
+  fireEvent.press(view.getByText('auth.use'));
+  expect(view.getByTestId('spend-power').props.children).toBe('boost');
+  fireEvent.press(view.getByRole('button', { name: 'Team up' }));
+  fireEvent.press(view.getAllByRole('button', { name: 'Team up', exact: true })[1]);
+  expect(view.getByTestId('team-up')).toBeTruthy();
 });
 
 it('retains the optional token purchase on platforms where it is enabled', () => {

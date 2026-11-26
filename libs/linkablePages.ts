@@ -55,7 +55,7 @@ export const LINKABLE_PAGES: LinkablePage[] = [
   { path: '/app/messages', labelKey: 'nav.messages', icon: 'MessageSquare' },
   { path: '/app/bookmarks', labelKey: 'nav.bookmarks', icon: 'Bookmark' },
   { path: '/app/settings', labelKey: 'nav.settings', icon: 'SettingsCog' },
-  { path: '/app/superpowers', labelKey: 'nav.superpowers', icon: 'Zap', storefrontHidden: true },
+  { path: '/app/superpowers', labelKey: 'nav.superpowers', icon: 'Zap' },
   { path: '/governance', labelKey: 'nav.governance', icon: 'Vote', storefrontHidden: true },
   { path: '/dao', labelKey: 'nav.dao', icon: 'Landmark', storefrontHidden: true },
   { path: '/work', labelKey: 'screens.work', icon: 'Hammer', storefrontHidden: true },

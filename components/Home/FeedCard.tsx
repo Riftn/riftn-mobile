@@ -1095,9 +1095,6 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const sound = attachedSoundFrom(soundtrack);
     requireAuth?.(() => navigation.navigate(ScreenNames.Upload as never, { sound } as never));
   }, [soundtrack, requireAuth, navigation]);
-  // The App Store build has no SuperPowers page (config/storefront): the
-  // label stays, the link goes.
-  const openSuperPowers = DIGITAL_PURCHASES_ENABLED ? goToSuperPowers : undefined;
   const handleShowReactionInfo = useCallback(() => setShowReactionInfo(true), [setShowReactionInfo]);
   // Relative time moves by the minute at most; recomputing it on every render
   // parsed the date each time.
@@ -2798,7 +2795,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <FeedCardHeader
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
-                onBoostedPress={openSuperPowers}
+                onBoostedPress={goToSuperPowers}
                 avatarUrl={avatar} displayName={displayName} username={username} address={minterAddress}
                 badgeImage={badgeImg} onUserPress={handleUserPress} onMenuPress={handleOpenOptions}
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
@@ -3061,7 +3058,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <FeedCardHeader
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
-                onBoostedPress={openSuperPowers}
+                onBoostedPress={goToSuperPowers}
                 avatarUrl={avatar}
                 displayName={displayName}
                 username={username}
@@ -3180,7 +3177,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             <FeedCardHeader
                 coAuthors={coAuthorState.users}
               boosted={isBoosted}
-              onBoostedPress={openSuperPowers}
+              onBoostedPress={goToSuperPowers}
               avatarUrl={avatar}
               displayName={displayName}
               username={username}
@@ -3417,7 +3414,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       {!desk && <FeedCardHeader
                 coAuthors={coAuthorState.users}
         boosted={isBoosted}
-        onBoostedPress={openSuperPowers}
+        onBoostedPress={goToSuperPowers}
         avatarUrl={avatar}
         displayName={displayName}
         username={username}

@@ -465,7 +465,7 @@ function AppNavigatorContent() {
             holding crypto may not unlock features (config/storefront). */}
         <Stack.Screen
           name={ScreenNames.SuperPowers}
-          getComponent={() => storefrontRoute(deferredScreen('../screens/SuperPowersScreen#default', () => require("../screens/SuperPowersScreen").default), "/app/superpowers")}
+          getComponent={() => deferredScreen('../screens/SuperPowersScreen#default', () => require("../screens/SuperPowersScreen").default)}
         />
         {/* Public: browsing is open, voting/submitting prompts sign-in. */}
         <Stack.Screen
