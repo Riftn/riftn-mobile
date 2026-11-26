@@ -115,16 +115,13 @@ const LINK_GAMES = [
   { screen: ScreenNames.Okey, creator: { username: 'galatasaray' }, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
   { screen: ScreenNames.SillyCoin, creator: COCHRANIZ3R, icon: "Coins", title: "games.sillycoin.title", body: "games.sillycoin.cardBlurb", tint: "hsla(35, 70%, 22%, 1)" },
   { screen: ScreenNames.Chestard, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
-  { screen: ScreenNames.BinaryMetal, creator: COCHRANIZ3R, icon: "Music", title: "binaryMetal.title", body: "binaryMetal.cardBlurb", tint: "hsla(0, 0%, 14%, 1)" },
   { screen: ScreenNames.Gratitude, creator: COCHRANIZ3R, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
   { screen: ScreenNames.Spend, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.spend.title", body: "games.spend.cardBlurb", tint: "hsla(143, 55%, 21%, 1)" },
 ] as const;
 
-// Linked games use their lowercase screen name as the listing slug. Binary Metal
-// keeps the hyphen from its public route.
 function arcadeListingSlug(game: ArcadeGame | { screen: ScreenNames }): string | null {
   if (!("screen" in game)) return null;
-  return game.screen === ScreenNames.BinaryMetal ? "binary-metal" : game.screen.toLowerCase();
+  return game.screen.toLowerCase();
 }
 
 const CREATOR_GROUPS = groupArcadeGames([...LINK_GAMES, ...ARCADE_GAMES]);
