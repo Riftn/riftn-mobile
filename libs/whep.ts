@@ -45,6 +45,7 @@ export interface WhepSubscription {
 export interface SubscribeOptions {
   /** Full WHEP endpoint, from whepEndpointFor(). */
   endpoint: string;
+  signal?: AbortSignal;
   onStateChange?: (state: WhepState, detail?: string) => void;
 }
 
@@ -74,7 +75,7 @@ const ICE_ENOUGH_GRACE_MS = 150;
  * address and learns where the phone is from its first connectivity check,
  * so the offer needs no STUN answer in it. The first candidate is enough.
  */
-function waitForIceGathering(pc: any): Promise<void> {
+function waitForIceGathering(pc: any, signal?: AbortSignal): Promise<void> {
   if (pc.iceGatheringState === 'complete') return Promise.resolve();
   return new Promise((resolve) => {
     let settled = false;
@@ -84,6 +85,7 @@ function waitForIceGathering(pc: any): Promise<void> {
       settled = true;
       clearTimeout(timer);
       clearTimeout(grace);
+      signal?.removeEventListener('abort', finish);
       try {
         pc.removeEventListener?.('icegatheringstatechange', onChange);
         pc.removeEventListener?.('icecandidate', onCandidate);
@@ -99,6 +101,7 @@ function waitForIceGathering(pc: any): Promise<void> {
       if (grace || !event?.candidate) return;
       grace = setTimeout(finish, ICE_ENOUGH_GRACE_MS);
     };
+    const timer = setTimeout(finish, ICE_GATHERING_TIMEOUT_MS);
     try {
       pc.addEventListener?.('icegatheringstatechange', onChange);
       pc.addEventListener?.('icecandidate', onCandidate);
@@ -106,7 +109,8 @@ function waitForIceGathering(pc: any): Promise<void> {
       finish();
       return;
     }
-    const timer = setTimeout(finish, ICE_GATHERING_TIMEOUT_MS);
+    signal?.addEventListener('abort', finish);
+    if (signal?.aborted) finish();
   });
 }
 
@@ -139,8 +143,10 @@ function resolveSessionResource(response: Response, endpoint: string): string | 
 
 export async function subscribeToWhep({
   endpoint,
+  signal,
   onStateChange,
 }: SubscribeOptions): Promise<WhepSubscription> {
+  if (signal?.aborted) throw new Error('WHEP subscription cancelled');
   const pc: any = new RTCPeerConnection({ iceServers: ICE_SERVERS, bundlePolicy: 'max-bundle' });
   const stream = new MediaStream();
   let resourceUrl: string | null = null;
@@ -151,27 +157,35 @@ export async function subscribeToWhep({
     onStateChange?.(state, detail);
   };
 
+  const deleteResource = async () => {
+    const url = resourceUrl;
+    resourceUrl = null;
+    if (!url) return;
+    try {
+      await fetch(url, { method: 'DELETE' });
+    } catch {
+      // The server times the session out on its own.
+    }
+  };
+  const abort = () => { void stop(); };
   const stop = async (): Promise<void> => {
     if (stopped) return;
     stopped = true;
-    try {
-      pc.close();
-    } catch {
-      /* already closed */
-    }
-    if (resourceUrl) {
-      try {
-        await fetch(resourceUrl, { method: 'DELETE' });
-      } catch {
-        // The server times the session out on its own; this is tidiness.
-      }
-    }
+    signal?.removeEventListener('abort', abort);
+    try { pc.close(); } catch { /* already closed */ }
+    try { stream.release(false); } catch { /* already released */ }
     onStateChange?.('closed');
+    await deleteResource();
+  };
+  const checkOpen = () => {
+    if (stopped) throw new Error('WHEP subscription cancelled');
   };
 
+  signal?.addEventListener('abort', abort);
   emit('connecting');
 
   try {
+    checkOpen();
     // recvonly: this is playback, nothing is ever sent back up — which is also
     // why it needs no camera or microphone permission.
     pc.addTransceiver('video', { direction: 'recvonly' });
@@ -180,7 +194,7 @@ export async function subscribeToWhep({
     pc.addEventListener('track', (event: any) => {
       // One MediaStream for both tracks: handing a view two separate streams
       // renders whichever arrived last and drops the other.
-      if (event?.track) stream.addTrack(event.track);
+      if (!stopped && event?.track) stream.addTrack(event.track);
     });
 
     pc.addEventListener('connectionstatechange', () => {
@@ -200,12 +214,15 @@ export async function subscribeToWhep({
     });
 
     const offer = await pc.createOffer({});
+    checkOpen();
     await pc.setLocalDescription(offer);
-    await waitForIceGathering(pc);
+    await waitForIceGathering(pc, signal);
+    checkOpen();
 
     const sdp = pc.localDescription?.sdp;
     if (!sdp) throw new Error('no local description');
 
+    // Let an in-flight POST return its Location so we can delete a late session.
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/sdp' },
@@ -213,11 +230,15 @@ export async function subscribeToWhep({
     });
     if (!response.ok) throw new WhepRefusedError(response.status);
 
+    resourceUrl = resolveSessionResource(response, endpoint);
+    if (stopped) await deleteResource();
+    checkOpen();
     const answer = await response.text();
+    checkOpen();
     if (!answer.trim()) throw new Error('empty answer');
 
-    resourceUrl = resolveSessionResource(response, endpoint);
     await pc.setRemoteDescription({ type: 'answer', sdp: answer });
+    checkOpen();
 
     const framesDecoded = async (): Promise<number | null> => {
       if (stopped) return null;
@@ -236,6 +257,7 @@ export async function subscribeToWhep({
       }
     };
 
+    signal?.removeEventListener('abort', abort);
     return { stream, stop, framesDecoded };
   } catch (error) {
     await stop();
