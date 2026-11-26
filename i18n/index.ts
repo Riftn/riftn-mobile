@@ -368,6 +368,15 @@ export function detectLanguage(): string {
   return normalizeLanguageCode(first?.languageTag || first?.languageCode || 'en');
 }
 
+/** Read the local choice without loading a translation pack. */
+export async function readPreferredLanguage(): Promise<string> {
+  try {
+    const saved = await AsyncStorage.getItem(STORAGE_KEY);
+    if (saved) return saved;
+  } catch { /* Use the phone language if local storage is unavailable. */ }
+  return detectLanguage();
+}
+
 /**
  * The language first-run setup starts on, when it differs from the phone's.
  *
