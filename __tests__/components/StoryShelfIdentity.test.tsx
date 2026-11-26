@@ -1,6 +1,5 @@
 import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
-import { StoryCreateTile } from '../../components/Stories/StoryCreateBar';
 import StoryShelf from '../../components/Stories/StoryShelf';
 import { ActivityShelfMenu } from '../../components/Stories/ActivityShelfMenu';
 import HoldSheet from '../../components/ui/HoldSheet';
@@ -12,6 +11,7 @@ const mockOpenCreator = jest.fn();
 const mockLive = { id: 'live-room', kind: 'stream', wallet: 'host', title: 'Trail watch', displayName: 'Maya Chen', cover: 'broadcast.jpg' };
 let mockIsLight = false;
 const mockAccount = { hideBadgeAndBalance: false };
+let mockSeen = false;
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View',
@@ -21,21 +21,26 @@ jest.mock('react-native', () => ({
   StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {}, hairlineWidth: 0.5 },
 }));
 jest.mock('../../components/Stories/StoryCreateBar', () => ({
-  __esModule: true, default: () => null, StoryCreateTile: ({ children }: { children: React.ReactNode }) => children,
+  __esModule: true, default: () => null,
 }));
 jest.mock('react-native-gesture-handler', () => ({ GestureDetector: 'GestureDetector' }));
 jest.mock('expo-image', () => ({ Image: 'Image' }));
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'Gradient' }));
+jest.mock('react-native-reanimated', () => ({
+  __esModule: true, default: { View: 'AnimatedView' }, ReduceMotion: { System: 'system' },
+  useSharedValue: (value: number) => ({ value }), useAnimatedStyle: (style: () => unknown) => style(),
+  withTiming: (value: number) => value,
+}));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue || key }) }));
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
 jest.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({}), useQuery: () => ({ data: { askedHosts: 'host', liveHosts: ['host'], shelf: [{
-  author: { address: 'creator', username: 'the_handle', displayName: 'River Song' },
+  author: { address: 'creator', username: 'the_handle', displayName: 'River Song', avatarImageUrl: 'https://riftn.com/avatar.jpg' }, seen: mockSeen,
   items: [{ id: 'opening', status: 'ready', type: 'photo', mediaUrl: 'opening.jpg', createdAt: new Date().toISOString() }],
 }] } }) }));
 jest.mock('../../hooks/useStoriesEnabled', () => ({ useStoriesEnabled: () => ({ storiesEnabled: true }) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (run: () => void) => run() }) }));
 jest.mock('../../context/PagerGestureContext', () => ({ usePagerGestureRef: () => null }));
-jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: mockIsLight }) }));
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: mockIsLight, colors: { card: '#1c1c1c', border: '#333' } }) }));
 jest.mock('../../hooks/useKidsModeLock', () => ({ useKidsModeLock: () => false }));
 jest.mock('../../hooks/useAccountBadge', () => ({ useBadgeAccount: () => mockAccount }));
 jest.mock('../../components/Home/LiveNowBar', () => ({ LiveFace: 'LiveFace', useLiveNowItems: () => ({ items: [mockLive], open: mockOpenLive }) }));
@@ -51,7 +56,7 @@ jest.mock('../../libs/toast', () => ({ toastSuccess: jest.fn() }));
 jest.mock('../../services/block.service', () => ({ blockUser: jest.fn() }));
 jest.mock('../../services/mute.service', () => ({ muteUser: jest.fn() }));
 
-it('names each pill and respects badge visibility', () => {
+it('names each tile and respects badge visibility', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const nodes = () => tree.root.findAll(node => typeof node.type === 'string');
@@ -78,12 +83,15 @@ it('keeps separate Live, Story, and Create controls', () => {
   expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
   tap('River Song');
   expect(mockOpenStory).toHaveBeenCalledWith(expect.any(Array), 0);
-  const createTile = tree.root.findByType(StoryCreateTile);
-  const plus = createTile.findByProps({ name: 'Plus' });
-  const storyAvatar = tree.root.findByProps({ name: 'River Song', size: 36 });
-  expect(createTile.props.height).toBe(52);
-  expect(plus.props.size).toBe(16);
-  expect(plus.parent?.props.style).toEqual(storyAvatar.parent?.props.style);
+  tap('Add a moment');
+  expect(mockOpenCreator).toHaveBeenCalledTimes(1);
+  const getButton = (label: string) => tree.root.findByProps({ accessibilityRole: 'button', accessibilityLabel: label });
+  const createTile = getButton('Add a moment');
+  const storyTile = getButton('River Song');
+  const avatar = storyTile.findByProps({ uri: 'https://riftn.com/avatar.jpg' });
+  expect(createTile.props.style[0]).toEqual(storyTile.props.style[0]);
+  expect(avatar.props.name).toBe('River Song');
+  expect(storyTile.findAllByProps({ source: { uri: 'opening.jpg' } })).toHaveLength(0);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
 });
@@ -143,7 +151,7 @@ it('waits for native dismissal before opening a status and keeps status visibili
   }
 });
 
-it('outlines live and moment pills with no grey fill in light mode', () => {
+it('keeps the live outline transparent in light mode', () => {
   let tree!: ReactTestRenderer;
   mockIsLight = true;
   try {
@@ -151,7 +159,7 @@ it('outlines live and moment pills with no grey fill in light mode', () => {
     const pills = tree.root.findAll(node => String(node.type) === 'TouchableOpacity' && Array.isArray(node.props.style) && node.props.style.some(
       (style: { borderColor?: string } | undefined) => style?.borderColor === 'hsla(240,8%,4%,0.1)',
     ));
-    expect(pills).toHaveLength(2);
+    expect(pills).toHaveLength(1);
     for (const pill of pills) {
       expect(pill.props.style).toContainEqual({ borderColor: 'hsla(240,8%,4%,0.1)', backgroundColor: 'transparent' });
     }
@@ -161,13 +169,17 @@ it('outlines live and moment pills with no grey fill in light mode', () => {
   }
 });
 
-it('shows no time chip on moment tiles; the time lives inside the moment', () => {
+it('fades a watched portrait and exposes its watched state', () => {
+  mockSeen = true;
   let tree!: ReactTestRenderer;
-  act(() => { tree = create(<StoryShelf />); });
-  const flatten = (style: unknown): Record<string, unknown> =>
-    Array.isArray(style) ? Object.assign({}, ...style.filter(Boolean).map(flatten)) : (style as Record<string, unknown>) ?? {};
-  const rims = tree.root.findAll(node => typeof node.type === 'string'
-    && flatten(node.props.style).borderColor === 'rgba(255,255,255,0.55)');
-  expect(rims).toHaveLength(0);
-  act(() => tree.unmount());
+  try {
+    act(() => { tree = create(<StoryShelf />); });
+    const button = tree.root.findByProps({ accessibilityRole: 'button', accessibilityLabel: 'River Song' });
+    expect(button.props.accessibilityHint).toBe('Watched');
+    const media = button.findAll(node => String(node.type) === 'AnimatedView')[0];
+    expect(media.props.style).toContainEqual({ opacity: 0.48 });
+  } finally {
+    act(() => tree?.unmount());
+    mockSeen = false;
+  }
 });
