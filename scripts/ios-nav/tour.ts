@@ -1461,6 +1461,18 @@ async function runKeys(): Promise<void> {
     await shot("7-composer-keyboard-down");
     await sleep(700);
     await note("composer", { upOnOpen, height: Keyboard.metrics()?.height, route: nav.getCurrentRoute()?.name });
+
+    // Scroll from the article body to the last setting in the same gesture area.
+    // Capture the share preview and the settings above the docked toolbar.
+    await ask("find:article-tab-#:Article", 9000);
+    await ask("where:article-title-#:Article title", 4500);
+    await ask("scroll:article-preview-#:-350", 5500);
+    await shot("8-article-share-preview");
+    await sleep(700);
+    await ask("scroll:article-settings-#:-520", 5500);
+    await shot("9-article-last-settings");
+    await sleep(700);
+    await ask("where:article-reply-setting-#:Who can reply", 4500);
     if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
     await sleep(2500);
   }
