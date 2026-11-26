@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { IS_APP_STORE_BUILD } from "../config/storefront";
 import { useAuthState, useUser } from "../context/AuthContext";
-import { getAppTokensConfig, getMyAppTokens } from "../services/app-tokens.service";
+import { getAppTokenPreview, getAppTokensConfig, getMyAppTokens } from "../services/app-tokens.service";
 
 export const APP_TOKENS_QUERY_KEY = "app-tokens-me";
 
@@ -34,6 +34,19 @@ export function useAppTokens(enabled = true) {
     queryKey: [APP_TOKENS_QUERY_KEY, address?.toLowerCase() ?? null],
     queryFn: getMyAppTokens,
     enabled: enabled && isSignedIn && !!address,
+    staleTime: 15_000,
+    retry: false,
+  });
+}
+
+export function useAppTokenPreview(open: boolean) {
+  const { isSignedIn } = useAuthState();
+  const user = useUser();
+  const address = (user?.walletAddress || user?.address)?.toLowerCase();
+  return useQuery({
+    queryKey: ["app-token-preview", address],
+    queryFn: getAppTokenPreview,
+    enabled: open && isSignedIn && !!address,
     staleTime: 15_000,
     retry: false,
   });

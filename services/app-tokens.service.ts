@@ -38,6 +38,16 @@ export interface AppTokensAccount {
   entries: AppTokenEntry[];
 }
 
+export interface AppTokenPreviewData {
+  balance: string;
+  fanSiteCredit: string | null;
+  credits: Pick<AppTokenEntry, "kind" | "amount" | "counterparty" | "at">[];
+}
+
+export function getAppTokenPreview(): Promise<AppTokenPreviewData> {
+  return apiClient.get<AppTokenPreviewData>("/app-tokens/preview");
+}
+
 export interface AppTokenStakeRequest {
   direction: "stake" | "unstake";
   amount: string;
