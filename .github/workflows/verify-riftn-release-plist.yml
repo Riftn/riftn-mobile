@@ -1,0 +1,79 @@
+name: Verify Riftn iOS release metadata
+
+on:
+  push:
+    branches: [verify/ios-google-sign-in-app-name]
+    paths: [.github/workflows/verify-riftn-release-plist.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Inspect the signed archive uploaded to App Store Connect
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_ID: 9f8100e2-814d-483a-86e9-2d446c3bb1b5
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import plistlib
+          import re
+          import shutil
+          import urllib.request
+          import zipfile
+
+          query = """
+          query Build($id: ID!) {
+            builds {
+              byId(buildId: $id) {
+                appVersion appBuildVersion gitCommitHash
+                artifacts { applicationArchiveUrl }
+              }
+            }
+          }
+          """
+          body = json.dumps({"query": query, "variables": {"id": os.environ["BUILD_ID"]}}).encode()
+          req = urllib.request.Request(
+              "https://api.expo.dev/graphql",
+              data=body,
+              headers={
+                  "Authorization": "Bearer " + os.environ["EXPO_TOKEN"],
+                  "Content-Type": "application/json",
+                  "User-Agent": "dehub-ops",
+              },
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              build = json.load(response)["data"]["builds"]["byId"]
+          assert build["gitCommitHash"] == "91c4ef125ffa2be7628868c4314ba4ba10bf9b8c"
+          assert build["appVersion"] == "1.20.3" and build["appBuildVersion"] == "43"
+
+          archive_req = urllib.request.Request(
+              build["artifacts"]["applicationArchiveUrl"], headers={"User-Agent": "dehub-ops"}
+          )
+          with urllib.request.urlopen(archive_req, timeout=90) as response, open("release.ipa", "wb") as target:
+              shutil.copyfileobj(response, target)
+          with zipfile.ZipFile("release.ipa") as release:
+              matches = [name for name in release.namelist() if re.fullmatch(r"Payload/[^/]+\.app/Info\.plist", name)]
+              assert len(matches) == 1, matches
+              plist = plistlib.loads(release.read(matches[0]))
+
+          expected = {
+              "CFBundleIdentifier": "io.dehub.mobile",
+              "CFBundleDisplayName": "Riftn",
+              "CFBundleName": "Riftn",
+              "CFBundleShortVersionString": "1.20.3",
+              "CFBundleVersion": "43",
+          }
+          actual = {key: plist[key] for key in expected}
+          print(json.dumps(actual, indent=2))
+          assert actual == expected
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("Verified the signed Riftn 1.20.3 archive (build 43).\n\n")
+              for key, value in actual.items():
+                  summary.write(f"- `{key}` is `{value}`\n")
+          PY
