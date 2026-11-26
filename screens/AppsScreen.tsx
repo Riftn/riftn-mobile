@@ -164,6 +164,19 @@ export default function AppsScreen() {
     [navigation],
   );
   const build = () => openInApp(`${WEBSITE_LINK}/apps/dev`);
+  const builtInApps = [
+    {
+      slug: "binary-metal",
+      art: `${WEBSITE_LINK}/og/music-binary-metal.jpg`,
+      title: t("binaryMetal.title"),
+      tagline: t("binaryMetal.cardBlurb"),
+      open: () => navigation.navigate(ScreenNames.BinaryMetal),
+    },
+    ...ARCADE_GAMES.map((game) => ({
+      ...game,
+      open: () => navigation.navigate(ScreenNames.ArcadeGame, { slug: game.slug }),
+    })),
+  ];
 
   return (
     <View className="bg-theme-background" style={styles.screen}>
@@ -255,12 +268,12 @@ export default function AppsScreen() {
         {!query && category === "all" ? (
           <PageSection eyebrow={t("miniApps.store.fromDehub")}>
             <View style={styles.list}>
-            {ARCADE_GAMES.map((game) => (
+            {builtInApps.map((game) => (
               <Pressable
                 key={game.slug}
                 accessibilityRole="button"
                 accessibilityLabel={game.title}
-                onPress={() => navigation.navigate(ScreenNames.ArcadeGame, { slug: game.slug })}
+                onPress={game.open}
                 style={({ pressed }) => [styles.row, pressed && styles.pressed]}
               >
                 <Image source={{ uri: game.art }} style={styles.icon} />
