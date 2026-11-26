@@ -1,6 +1,10 @@
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import { DhbCoin } from "../common/DhbCoin";
 import StakingHistory from "./StakingHistory";
+import { AppTokenStaking } from "./AppTokenStaking";
+import { useAppTokensConfig } from "../../hooks/useAppTokens";
+import { IS_APP_STORE_BUILD } from "../../config/storefront";
+import { KitButton } from "../page/PageKit";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   View,
@@ -120,7 +124,31 @@ function fmt(val: number): string {
   return val.toLocaleString(appLocale(), { maximumFractionDigits: 2 });
 }
 
-const StakingTab: React.FC = () => {
+function StakingTab() {
+  const { t } = useTranslation();
+  const config = useAppTokensConfig();
+  const [showLegacy, setShowLegacy] = useState(false);
+  if (IS_APP_STORE_BUILD) return <LegacyStakingTab />;
+  if (config.isPending) return <ActivityIndicator color="#fff" />;
+  if (config.isError && !config.data) {
+    return <KitButton label={t("staking.retryConfig", "Retry loading staking")} onPress={() => void config.refetch()} />;
+  }
+  if (!config.data?.staking) return <LegacyStakingTab withdrawalsOnly={config.data?.enabled === true} />;
+
+  return (
+    <View className="gap-4">
+      <AppTokenStaking />
+      <TouchableOpacity accessibilityRole="button" accessibilityState={{ expanded: showLegacy }}
+        className="self-start px-3 py-2 border border-white/15 rounded-lg"
+        onPress={() => setShowLegacy(value => !value)}>
+        <Text className="text-white">{t("staking.legacyDhb", "Legacy DHB staking")}</Text>
+      </TouchableOpacity>
+      {showLegacy && <LegacyStakingTab withdrawalsOnly />}
+    </View>
+  );
+}
+
+function LegacyStakingTab({ withdrawalsOnly = false }: { withdrawalsOnly?: boolean }) {
   const { t } = useTranslation();
   // Minimal: the section cards dissolve into hairline-separated rows; the
   // mode toggle, amount field and buttons keep their fill.
@@ -165,7 +193,8 @@ const StakingTab: React.FC = () => {
   const [unstakeQueued, setUnstakeQueued] = useState<number>(0);
   const [earned, setEarned] = useState<number>(0);
   const [loading, setLoading] = useState(true);
-  const [mode, setMode] = useState<"stake" | "unstake">("stake");
+  const [selectedMode, setMode] = useState<"stake" | "unstake">("stake");
+  const mode = withdrawalsOnly ? "unstake" : selectedMode;
   const [amount, setAmount] = useSurfaceDraft("components/Wallet/StakingTab.tsx:amount", "");
   const [isBusy, setIsBusy] = useState(false);
   /** A manual "did my transfer land yet?" check is in flight. */
@@ -726,8 +755,7 @@ const StakingTab: React.FC = () => {
 
       {/* Stake / Unstake card */}
       <View className="bg-white/5 border border-white/10 rounded-xl p-4 mb-4" style={mRow}>
-        {/* Mode toggle */}
-        <View className="flex-row bg-white/[0.04] rounded-xl p-1 mb-4">
+        {!withdrawalsOnly && <View className="flex-row bg-white/[0.04] rounded-xl p-1 mb-4">
           {(["stake", "unstake"] as const).map((m) => (
             <TouchableOpacity
               key={m}
@@ -748,7 +776,7 @@ const StakingTab: React.FC = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </View>}
 
         <Text className="text-white/60 text-xs mb-4">
           {mode === "stake"
@@ -829,8 +857,7 @@ const StakingTab: React.FC = () => {
         </Text>
       </View>
 
-      {/* Manual staking address */}
-      <View className="bg-white/[0.03] border border-white/10 rounded-xl p-4" style={mFlat}>
+      {!withdrawalsOnly && <View className="bg-white/[0.03] border border-white/10 rounded-xl p-4" style={mFlat}>
         <Text className="text-white/50 text-xs mb-2">
           {t("staking.orSendDirectly")}
         </Text>
@@ -843,7 +870,7 @@ const StakingTab: React.FC = () => {
           </Text>
           <Ionicons name="copy-outline" size={14} color="rgba(255,255,255,0.4)" />
         </TouchableOpacity>
-      </View>
+      </View>}
 
       <StakingHistory walletAddress={walletAddress} style={mFlat} />
 
@@ -856,6 +883,6 @@ const StakingTab: React.FC = () => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 export default StakingTab;

@@ -11,6 +11,7 @@ export interface AppTokensConfig {
   enabled: boolean;
   symbol: string;
   deposits: boolean;
+  staking?: boolean;
 }
 
 export interface AppTokenPerson {
@@ -21,7 +22,7 @@ export interface AppTokenPerson {
 }
 
 export interface AppTokenEntry {
-  kind: "opening" | "send" | "receive" | "spend" | "refund" | "deposit" | "adjust";
+  kind: "opening" | "send" | "receive" | "spend" | "refund" | "deposit" | "adjust" | "stake" | "unstake";
   /** Signed decimal string: "-12.5" left, "12.5" arrived. */
   amount: string;
   purpose?: string;
@@ -33,7 +34,24 @@ export interface AppTokenEntry {
 export interface AppTokensAccount {
   symbol: string;
   balance: string;
+  staked?: string;
   entries: AppTokenEntry[];
+}
+
+export interface AppTokenStakeRequest {
+  direction: "stake" | "unstake";
+  amount: string;
+  key: string;
+}
+
+export interface AppTokenStakeResult {
+  ok: true;
+  balance: string;
+  staked: string;
+}
+
+export function moveAppTokenStake(input: AppTokenStakeRequest): Promise<AppTokenStakeResult> {
+  return apiClient.post("/app-tokens/staking", input);
 }
 
 export function getAppTokensConfig(): Promise<AppTokensConfig> {

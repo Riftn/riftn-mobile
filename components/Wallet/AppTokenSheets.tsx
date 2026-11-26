@@ -187,6 +187,8 @@ function EntryRow({ entry }: { entry: AppTokenEntry }) {
     refund: t("appTokens.kindRefund"),
     deposit: t("appTokens.kindDeposit"),
     adjust: t("appTokens.kindAdjust"),
+    stake: t("appTokens.kindStaked", "Staked"),
+    unstake: t("appTokens.kindUnstaked", "Unstaked"),
   }[entry.kind];
   const positive = !entry.amount.startsWith("-");
   return (
@@ -213,6 +215,9 @@ export const AppTokenHistorySheet: React.FC<{ open: boolean; onClose: () => void
         <Text className="text-white font-bold text-xl">{data?.symbol === "RIFT" ? "$RIFT" : t("appTokens.title")}</Text>
         <View className="rounded-xl bg-white/5 border border-white/10 p-4">
           <Text className="text-2xl font-bold text-white">{fmt(data?.balance ?? 0)} <DhbCoin /></Text>
+          {Number(data?.staked) > 0 && (
+            <Text className="text-sm text-white/70 mt-2">{t("appTokens.stakedBalance", { amount: fmt(data?.staked ?? "0"), defaultValue: "{{amount}} staked" })}</Text>
+          )}
           <Text className="text-[12px] leading-5 text-white/50 mt-2">{t("appTokens.explainer")}</Text>
         </View>
         <TouchableOpacity onPress={() => { onClose(); onSend(); }} className="h-11 rounded-xl bg-theme-neutrals-700 flex-row items-center justify-center gap-2">
