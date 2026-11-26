@@ -4,10 +4,8 @@
  * Owns one WHEP session: opens it when asked, tears it down on the way out,
  * mirrors the viewer's mute switch onto the remote audio track, and — the part
  * every caller depends on — reports failure instead of hiding it, so the
- * surface can fall back to the HLS ladder it used before. WebRTC is the only
- * way an Apple device can play a self-hosted broadcast at all, and it is still
- * not available on every network, so "failed" has to be a first-class answer
- * rather than a black screen.
+ * surface can fall back to HLS. WebRTC keeps a viewer close to the live edge
+ * but is not available on every network.
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -88,15 +86,17 @@ interface Result {
 export function useWhepStream({ enabled, stream, muted = false, paused = false }: Options): Result {
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
-  const [media, setMedia] = useState<MediaStream | null>(null);
-  const [failed, setFailed] = useState(false);
-  const sessionRef = useRef<WhepSubscription | null>(null);
+  const [attached, setAttached] = useState<{ endpoint: string; stream: MediaStream } | null>(null);
+  const [failedEndpoint, setFailedEndpoint] = useState<string | null>(null);
 
   const playbackId = stream?.playbackId ?? null;
   // Checked once per stream: a stream that just went silent here starts on
   // HLS, and so does every stream on a network that just dropped WebRTC.
   const silentBefore = useMemo(() => whepRecentlySilent(playbackId) || webRtcRecentlyBlocked(), [playbackId]);
-  const endpoint = enabled && !failed && !silentBefore ? whepEndpointFor(stream) : null;
+  const requestedEndpoint = enabled && !silentBefore ? whepEndpointFor(stream) : null;
+  const failed = requestedEndpoint != null && failedEndpoint === requestedEndpoint;
+  const endpoint = failed ? null : requestedEndpoint;
+  const media = attached?.endpoint === endpoint ? attached.stream : null;
   const pictureRef = useRef<() => void>(() => undefined);
   const onPicture = useCallback((size: { width: number; height: number }) => {
     if (isRealPicture(size)) pictureRef.current();
@@ -106,6 +106,7 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
     if (!endpoint) return;
 
     let cancelled = false;
+    let session: WhepSubscription | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let pictured = false;
     pictureRef.current = () => {
@@ -120,21 +121,33 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
     let connected = false;
     let connectTimer: ReturnType<typeof setTimeout> | undefined;
 
-    const giveUp = () => {
+    const giveUp = (reason: string) => {
+      if (cancelled) return;
+      // A late answer or state event can arrive before React cleans up the
+      // effect. The attempt ends here so it cannot replace the HLS picture.
+      cancelled = true;
+      clearTimeout(timer);
       clearInterval(watchdog);
       clearTimeout(connectTimer);
-      if (cancelled) return;
-      setMedia(null);
+      void session?.stop();
+      session = undefined;
+      setAttached(null);
       // Latched: one attempt per stream. Without it a flapping connection
       // would trade the picture back and forth with the HLS player.
-      setFailed(true);
+      setFailedEndpoint(endpoint);
+      if (pictured) {
+        require('../libs/errorReporter').reportError('LiveStreamPlayer', ['WebRTC playback fell back to HLS'], {
+          level: 'info',
+          metadata: { playbackId, reason },
+        });
+      }
     };
 
     const start = async () => {
       try {
         const { subscribeToWhep } = await import('../libs/whep');
         if (cancelled) return;
-        const session = await subscribeToWhep({
+        const opened = await subscribeToWhep({
           endpoint,
           onStateChange: (state) => {
             if (cancelled) return;
@@ -142,35 +155,36 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
               connected = true;
               clearTimeout(connectTimer);
             }
-            if (state === 'failed') giveUp();
+            if (state === 'failed') giveUp('connection lost');
             // ICE can sit in "disconnected" for half a minute before it calls
             // it failed; the watchdog below moves on well before that.
             reconnectingSince = state === 'reconnecting' ? reconnectingSince || Date.now() : 0;
           },
         });
         if (cancelled) {
-          await session.stop();
+          await opened.stop();
           return;
         }
-        sessionRef.current = session;
-        setMedia(session.stream);
-        watchForFreeze(session);
+        session = opened;
+        setAttached({ endpoint, stream: opened.stream });
+        watchForFreeze(opened);
         if (!connected) {
           connectTimer = setTimeout(() => {
             if (cancelled || connected || pictured) return;
             // The server answered and the media never arrived: this network
             // does not carry WebRTC. Skip it for a while, on every stream.
             rememberWebRtcBlocked();
-            giveUp();
+            giveUp('no media route');
           }, CONNECT_TIMEOUT_MS);
         }
       } catch (e) {
+        if (cancelled) return;
         // The server said no to this stream (one WebRTC cannot carry): the
         // next open goes straight to HLS. Not for a 404, which is a stream
         // between two broadcasts.
         const refused = e as { name?: string; status?: number } | null;
         if (refused?.name === 'WhepRefusedError' && refused.status !== 404) rememberWhepSilent(playbackId);
-        giveUp();
+        giveUp('subscribe failed');
       }
     };
 
@@ -187,19 +201,19 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
         }
         const now = Date.now();
         if (reconnectingSince && now - reconnectingSince >= WHEP_FROZEN_MS && lastMovedAt <= reconnectingSince) {
-          giveUp();
+          giveUp('reconnect timed out');
           return;
         }
         if (!pictured) return;
         checking = true;
         void session.framesDecoded().then((frames) => {
           checking = false;
-          if (cancelled || frames == null) return;
+          if (cancelled || AppState.currentState !== 'active' || pausedRef.current || frames == null) return;
           if (frames !== lastFrames) {
             lastFrames = frames;
             lastMovedAt = Date.now();
           } else if (Date.now() - lastMovedAt >= WHEP_FROZEN_MS) {
-            giveUp();
+            giveUp('frozen picture');
           }
         });
       }, WHEP_FROZEN_CHECK_MS);
@@ -210,7 +224,7 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
       // never arrived. Remember it so the next open goes straight to HLS.
       if (cancelled || pictured) return;
       rememberWhepSilent(playbackId);
-      giveUp();
+      giveUp('no picture');
     }, START_TIMEOUT_MS);
 
     void start();
@@ -221,12 +235,10 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
       clearTimeout(connectTimer);
       clearInterval(watchdog);
       pictureRef.current = () => undefined;
-      const session = sessionRef.current;
-      sessionRef.current = null;
-      setMedia(null);
+      setAttached(null);
       void session?.stop();
     };
-  }, [endpoint]);
+  }, [endpoint, playbackId]);
 
   // The sound switch belongs to the track, not to a player: there is no
   // element in between to mute. Applied on every change, and on first attach.
