@@ -1,0 +1,779 @@
+{
+  "acm": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب مرة ثانية"
+  },
+  "acw": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب مرة ثانية"
+  },
+  "aec": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب تاني"
+  },
+  "af": {
+    "noInternetTitle": "Geen internetverbinding nie",
+    "noInternetBody": "Kontroleer asseblief jou internetverbinding en probeer weer. Jy moet aan die internet gekoppel wees om Riftn te gebruik.",
+    "noInternetStatus": "Vanlyn - Geen netwerkverbinding nie",
+    "noInternetHint": "Maak seker Wi-Fi of mobiele data is aangeskakel, tik dan op \"{{action}}\"",
+    "tryAgain": "Probeer weer"
+  },
+  "ajp": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب مرة تانية"
+  },
+  "am": {
+    "noInternetTitle": "የበይነመረብ ግንኙነት የለም",
+    "noInternetBody": "እባክዎ የበይነመረብ ግንኙነትዎን ያረጋግጡ እና እንደገና ይሞክሩ። Riftn ለመጠቀም ከበይነመረቡ ጋር መገናኘት ያስፈልግዎታል።",
+    "noInternetStatus": "ከመስመር ውጭ - ምንም የአውታረ መረብ ግንኙነት የለም",
+    "noInternetHint": "Wi-Fi ወይም የሞባይል ዳታ መብራቱን ያረጋግጡ፣ ከዚያ \"{{action}}\" ን ይንኩ።",
+    "tryAgain": "እንደገና ሞክር"
+  },
+  "apd": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب تاني"
+  },
+  "ar": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوّال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "حاول مرة أخرى"
+  },
+  "ary": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "الرجاء التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "عاود جرّب"
+  },
+  "arz": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب تاني"
+  },
+  "ayn": {
+    "noInternetTitle": "لا يوجد اتصال بالإنترنت",
+    "noInternetBody": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى. تحتاج إلى الاتصال بالإنترنت لاستخدام Riftn.",
+    "noInternetStatus": "غير متصل - لا يوجد اتصال بالشبكة",
+    "noInternetHint": "تأكد من تشغيل Wi-Fi أو بيانات الجوال، ثم اضغط على \"{{action}}\"",
+    "tryAgain": "جرّب مرة ثانية"
+  },
+  "az": {
+    "noInternetTitle": "İnternet bağlantısı yoxdur",
+    "noInternetBody": "Xahiş edirik internet bağlantınızı yoxlayın və yenidən cəhd edin. Riftn-dan istifadə etmək üçün internetə qoşulmalısınız.",
+    "noInternetStatus": "Offline - Şəbəkə bağlantısı yoxdur",
+    "noInternetHint": "Wi-Fi və ya mobil məlumatın açıq olduğundan əmin olun, sonra \"{{action}}\" düyməsini basın",
+    "tryAgain": "Yenidən cəhd et"
+  },
+  "be": {
+    "noInternetTitle": "Няма падлучэння да Інтэрнэту",
+    "noInternetBody": "Калі ласка, праверце вашае падлучэнне да Інтэрнэту і паспрабуйце зноў. Вам неабходна быць падлучаным да Інтэрнэту, каб выкарыстоўваць Riftn.",
+    "noInternetStatus": "Афлайн - няма сеткавага злучэння",
+    "noInternetHint": "Пераканайцеся, што Wi-Fi або мабільныя дадзеныя ўключаны, затым націсніце \"{{action}}\"",
+    "tryAgain": "Паспрабаваць зноў"
+  },
+  "bg": {
+    "noInternetTitle": "Няма интернет връзка",
+    "noInternetBody": "Моля, проверете интернет връзката си и опитайте отново. Трябва да сте свързани с интернет, за да използвате Riftn.",
+    "noInternetStatus": "Офлайн - Няма мрежова връзка",
+    "noInternetHint": "Уверете се, че Wi-Fi или мобилните данни са включени, след което докоснете \"{{action}}\"",
+    "tryAgain": "Опитай отново"
+  },
+  "bho": {
+    "noInternetTitle": "कोई इंटरनेट कनेक्शन नहीं",
+    "noInternetBody": "कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें। Riftn का उपयोग करने के लिए आपको इंटरनेट से कनेक्ट होना होगा।",
+    "noInternetStatus": "ऑफ़लाइन - कोई नेटवर्क कनेक्शन नहीं",
+    "noInternetHint": "सुनिश्चित करें कि वाई-फाई या मोबाइल डेटा चालू है, फिर \"{{action}}\" पर टैप करें",
+    "tryAgain": "फेर से कोसिस करीं"
+  },
+  "bn": {
+    "noInternetTitle": "ইন্টারনেট সংযোগ নেই",
+    "noInternetBody": "অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন। Riftn ব্যবহার করার জন্য আপনার ইন্টারনেট সংযোগ প্রয়োজন।",
+    "noInternetStatus": "অফলাইন - কোনও নেটওয়ার্ক সংযোগ নেই",
+    "noInternetHint": "ওয়াই-ফাই বা মোবাইল ডেটা চালু আছে কিনা তা নিশ্চিত করুন, তারপরে \"{{action}}\" ট্যাপ করুন",
+    "tryAgain": "আবার চেষ্টা করুন"
+  },
+  "ca": {
+    "noInternetTitle": "Sense connexió a Internet",
+    "noInternetBody": "Comprova la teva connexió a Internet i torna-ho a provar. Necessites estar connectat a Internet per utilitzar Riftn.",
+    "noInternetStatus": "Desconnectat - Sense connexió de xarxa",
+    "noInternetHint": "Assegura't que el Wi-Fi o les dades mòbils estiguin activats, després toca \"{{action}}\"",
+    "tryAgain": "Torna-ho a provar"
+  },
+  "cjy": {
+    "noInternetTitle": "没有互联网连接",
+    "noInternetBody": "请检查您的互联网连接并重试。您需要连接到互联网才能使用 Riftn。",
+    "noInternetStatus": "离线 - 没有网络连接",
+    "noInternetHint": "确保 Wi-Fi 或移动数据已打开，然后点击“{{action}}”",
+    "tryAgain": "再试一下"
+  },
+  "cs": {
+    "noInternetTitle": "Žádné připojení k internetu",
+    "noInternetBody": "Zkontrolujte své připojení k internetu a zkuste to znovu. K používání Riftnu musíte být připojeni k internetu.",
+    "noInternetStatus": "Offline - Žádné síťové připojení",
+    "noInternetHint": "Ujistěte se, že je zapnutá Wi-Fi nebo mobilní data, a poté klepněte na \"{{action}}\"",
+    "tryAgain": "Zkusit znovu"
+  },
+  "ctg": {
+    "noInternetTitle": "ইন্টারনেট সংযোগ নেই",
+    "noInternetBody": "অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন। Riftn ব্যবহার করার জন্য আপনার ইন্টারনেট সংযোগ থাকতে হবে।",
+    "noInternetStatus": "অফলাইন - নেটওয়ার্ক সংযোগ নেই",
+    "noInternetHint": "Wi-Fi বা মোবাইল ডেটা চালু আছে কিনা তা নিশ্চিত করুন, তারপর \"{{action}}\" ট্যাপ করুন",
+    "tryAgain": "আবার চেষ্টা গর"
+  },
+  "da": {
+    "noInternetTitle": "Ingen internetforbindelse",
+    "noInternetBody": "Tjek venligst din internetforbindelse og prøv igen. Du skal være forbundet til internettet for at bruge Riftn.",
+    "noInternetStatus": "Offline - Ingen netværksforbindelse",
+    "noInternetHint": "Sørg for, at Wi-Fi eller mobildata er slået til, og tryk derefter på \"{{action}}\"",
+    "tryAgain": "Prøv igen"
+  },
+  "dcc": {
+    "noInternetTitle": "انٹرنیٹ کنکشن نہیں ہے",
+    "noInternetBody": "براہ کرم اپنے انٹرنیٹ کنکشن کو چیک کریں اور دوبارہ کوشش کریں۔ Riftn استعمال کرنے کے لیے آپ کو انٹرنیٹ سے منسلک ہونا ضروری ہے۔",
+    "noInternetStatus": "آف لائن - کوئی نیٹ ورک کنکشن نہیں",
+    "noInternetHint": "یقینی بنائیں کہ وائی فائی یا موبائل ڈیٹا آن ہے، پھر \"{{action}}\" پر ٹیپ کریں",
+    "tryAgain": "پھر سے کوشش کرو"
+  },
+  "de": {
+    "noInternetTitle": "Keine Internetverbindung",
+    "noInternetBody": "Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut. Sie müssen mit dem Internet verbunden sein, um Riftn nutzen zu können.",
+    "noInternetStatus": "Offline - Keine Netzwerkverbindung",
+    "noInternetHint": "Stellen Sie sicher, dass WLAN oder mobile Daten eingeschaltet sind, und tippen Sie dann auf \"{{action}}\"",
+    "tryAgain": "Erneut versuchen"
+  },
+  "dyu": {
+    "noInternetTitle": "Pas de connexion Internet",
+    "noInternetBody": "N'i b'i ka ɛntɛrinɛti yɔrɔ lajɛ ani i ka segi k'a ɲini. I mako be ɛntɛrinɛti la walisa ka Riftn ta.",
+    "noInternetStatus": "Mɔgɔ tɛ sɔn ka baara wɛrɛ kɛ, a tɛ se ka baara wɛrɛ kɛ.",
+    "noInternetHint": "Aw ye a to Wi-Fi wala telefɔni ka kunnafoniw ka yɛlɛ, o kɔ, aw ye \"{{action}}\" sɛbɛn",
+    "tryAgain": "A lajɛ kokura"
+  },
+  "el": {
+    "noInternetTitle": "Χωρίς σύνδεση στο διαδίκτυο",
+    "noInternetBody": "Ελέγξτε τη σύνδεσή σας στο διαδίκτυο και δοκιμάστε ξανά. Πρέπει να είστε συνδεδεμένοι στο διαδίκτυο για να χρησιμοποιήσετε το Riftn.",
+    "noInternetStatus": "Εκτός σύνδεσης - Χωρίς σύνδεση δικτύου",
+    "noInternetHint": "Βεβαιωθείτε ότι το Wi-Fi ή τα δεδομένα κινητής τηλεφωνίας είναι ενεργοποιημένα, στη συνέχεια πατήστε \"{{action}}\"",
+    "tryAgain": "Δοκιμάστε ξανά"
+  },
+  "en": {
+    "noInternetTitle": "No Internet Connection",
+    "noInternetBody": "Please check your internet connection and try again. You need to be connected to the internet to use Riftn.",
+    "noInternetStatus": "Offline - No network connection",
+    "noInternetHint": "Make sure Wi-Fi or mobile data is turned on, then tap \"{{action}}\"",
+    "tryAgain": "Try again"
+  },
+  "es": {
+    "noInternetTitle": "Sin conexión a Internet",
+    "noInternetBody": "Comprueba tu conexión a Internet e inténtalo de nuevo. Necesitas estar conectado a Internet para usar Riftn.",
+    "noInternetStatus": "Sin conexión - Sin conexión de red",
+    "noInternetHint": "Asegúrate de que Wi-Fi o datos móviles estén activados, luego toca \"{{action}}\"",
+    "tryAgain": "Intentar de nuevo"
+  },
+  "et": {
+    "noInternetTitle": "Pole internetiühendust",
+    "noInternetBody": "Palun kontrollige oma internetiühendust ja proovige uuesti. Riftni kasutamiseks peate olema ühendatud internetiga.",
+    "noInternetStatus": "Võrguühenduseta – võrguühendust pole",
+    "noInternetHint": "Veenduge, et Wi-Fi või mobiilne andmeside on sisse lülitatud, seejärel puudutage \"{{action}}\"",
+    "tryAgain": "Proovi uuesti"
+  },
+  "fa": {
+    "noInternetTitle": "عدم اتصال به اینترنت",
+    "noInternetBody": "لطفاً اتصال اینترنت خود را بررسی کرده و دوباره امتحان کنید. برای استفاده از Riftn باید به اینترنت متصل باشید.",
+    "noInternetStatus": "آفلاین - عدم اتصال به شبکه",
+    "noInternetHint": "مطمئن شوید که Wi-Fi یا داده تلفن همراه روشن است، سپس روی \"{{action}}\" ضربه بزنید",
+    "tryAgain": "تلاش دوباره"
+  },
+  "fi": {
+    "noInternetTitle": "Ei internetyhteyttä",
+    "noInternetBody": "Tarkista internetyhteytesi ja yritä uudelleen. Tarvitset internet-yhteyden käyttääksesi Riftnia.",
+    "noInternetStatus": "Offline - Ei verkkoyhteyttä",
+    "noInternetHint": "Varmista, että Wi-Fi tai mobiilidata on päällä, ja napauta sitten \"{{action}}\"",
+    "tryAgain": "Yritä uudelleen"
+  },
+  "fr": {
+    "noInternetTitle": "Pas de connexion Internet",
+    "noInternetBody": "Veuillez vérifier votre connexion Internet et réessayer. Vous devez être connecté à Internet pour utiliser Riftn.",
+    "noInternetStatus": "Hors ligne - Aucune connexion réseau",
+    "noInternetHint": "Assurez-vous que le Wi-Fi ou les données mobiles sont activés, puis appuyez sur \"{{action}}\"",
+    "tryAgain": "Réessayer"
+  },
+  "gsw": {
+    "noInternetTitle": "Kei Internetverbindig",
+    "noInternetBody": "Bitte prüf dini Internetverbindig und versuechs nomal. Du bruchsch en Internetverbindig zum Riftn bruche.",
+    "noInternetStatus": "Offline - Kei Netzwerkverbindig",
+    "noInternetHint": "Stell sicher, dass Wi-Fi oder mobile Date agschalte sind, und tippe denn uf \"{{action}}\"",
+    "tryAgain": "Nomal probiere"
+  },
+  "gu": {
+    "noInternetTitle": "ઇન્ટરનેટ કનેક્શન નથી",
+    "noInternetBody": "કૃપા કરીને તમારા ઇન્ટરનેટ કનેક્શનને તપાસો અને ફરી પ્રયાસ કરો. Riftn નો ઉપયોગ કરવા માટે તમારે ઇન્ટરનેટ સાથે કનેક્ટેડ રહેવાની જરૂર છે.",
+    "noInternetStatus": "ઑફલાઇન - કોઈ નેટવર્ક કનેક્શન નથી",
+    "noInternetHint": "ખાતરી કરો કે Wi-Fi અથવા મોબાઇલ ડેટા ચાલુ છે, પછી \"{{action}}\" પર ટેપ કરો",
+    "tryAgain": "ફરી પ્રયાસ કરો"
+  },
+  "ha": {
+    "noInternetTitle": "Babu Haɗin Intanet",
+    "noInternetBody": "Da fatan za a duba haɗin intanet ɗin ku kuma a sake gwadawa. Kuna buƙatar haɗawa da intanet don amfani da Riftn.",
+    "noInternetStatus": "Ba a layi - Babu haɗin cibiyar sadarwa",
+    "noInternetHint": "Tabbatar da cewa Wi-Fi ko bayanan hannu an kunna su, sannan danna \"{{action}}\"",
+    "tryAgain": "Sake gwadawa"
+  },
+  "he": {
+    "noInternetTitle": "אין חיבור לאינטרנט",
+    "noInternetBody": "אנא בדוק את חיבור האינטרנט שלך ונסה שוב. עליך להיות מחובר לאינטרנט כדי להשתמש ב-Riftn.",
+    "noInternetStatus": "לא מקוון - אין חיבור רשת",
+    "noInternetHint": "ודא ש-Wi-Fi או נתונים סלולריים מופעלים, ואז הקש \"{{action}}\"",
+    "tryAgain": "נסה שוב"
+  },
+  "hi": {
+    "noInternetTitle": "कोई इंटरनेट कनेक्शन नहीं",
+    "noInternetBody": "कृपया अपने इंटरनेट कनेक्शन की जांच करें और पुनः प्रयास करें। Riftn का उपयोग करने के लिए आपको इंटरनेट से कनेक्ट होना होगा।",
+    "noInternetStatus": "ऑफ़लाइन - कोई नेटवर्क कनेक्शन नहीं",
+    "noInternetHint": "सुनिश्चित करें कि वाई-फाई या मोबाइल डेटा चालू है, फिर \"{{action}}\" पर टैप करें",
+    "tryAgain": "फिर से कोशिश करें"
+  },
+  "hne": {
+    "noInternetTitle": "कोई इंटरनेट कनेक्शन नहीं",
+    "noInternetBody": "कृपया अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें। Riftn का उपयोग करने के लिए आपको इंटरनेट से कनेक्ट होना होगा।",
+    "noInternetStatus": "ऑफ़लाइन - कोई नेटवर्क कनेक्शन नहीं",
+    "noInternetHint": "सुनिश्चित करें कि वाई-फाई या मोबाइल डेटा चालू है, फिर \"{{action}}\" पर टैप करें",
+    "tryAgain": "फेर कोसिस करव"
+  },
+  "hr": {
+    "noInternetTitle": "Nema internetske veze",
+    "noInternetBody": "Provjerite svoju internetsku vezu i pokušajte ponovno. Morate biti povezani na internet da biste koristili Riftn.",
+    "noInternetStatus": "Izvan mreže - Nema mrežne veze",
+    "noInternetHint": "Provjerite je li Wi-Fi ili mobilni podaci uključeni, a zatim dodirnite \"{{action}}\"",
+    "tryAgain": "Pokušaj ponovno"
+  },
+  "hu": {
+    "noInternetTitle": "Nincs internetkapcsolat",
+    "noInternetBody": "Kérjük, ellenőrizze az internetkapcsolatát, és próbálkozzon újra. Az internethez csatlakoznia kell a Riftn használatához.",
+    "noInternetStatus": "Offline - Nincs hálózati kapcsolat",
+    "noInternetHint": "Győződjön meg róla, hogy a Wi-Fi vagy a mobiladat be van kapcsolva, majd koppintson a \"{{action}}\" elemre.",
+    "tryAgain": "Próbáld újra"
+  },
+  "hy": {
+    "noInternetTitle": "Ինտերնետ կապ չկա",
+    "noInternetBody": "Խնդրում ենք ստուգել ձեր ինտերնետ կապը և նորից փորձել։ Riftn օգտագործելու համար անհրաժեշտ է ինտերնետ կապ։",
+    "noInternetStatus": "Անցանց - Ցանցային կապ չկա",
+    "noInternetHint": "Համոզվեք, որ Wi-Fi կամ բջջային տվյալները միացված են, այնուհետև հպեք «{{action}}»",
+    "tryAgain": "Փորձել կրկին"
+  },
+  "id": {
+    "noInternetTitle": "Tidak Ada Koneksi Internet",
+    "noInternetBody": "Periksa koneksi internet Anda dan coba lagi. Anda perlu terhubung ke internet untuk menggunakan Riftn.",
+    "noInternetStatus": "Offline - Tidak ada koneksi jaringan",
+    "noInternetHint": "Pastikan Wi-Fi atau data seluler aktif, lalu ketuk \"{{action}}\"",
+    "tryAgain": "Coba lagi"
+  },
+  "ig": {
+    "noInternetTitle": "Enweghị njikọ Internet",
+    "noInternetBody": "Biko lelee njikọ internet gị ma gbalịa ọzọ. Ị chọrọ ijikọ na internet iji jiri Riftn.",
+    "noInternetStatus": "N'ịntanetị - Enweghị njikọ netwọkụ",
+    "noInternetHint": "Jide n'aka na Wi-Fi ma ọ bụ data mkpanaka gbanyere, wee pịa \"{{action}}\"",
+    "tryAgain": "Nwaa ọzọ"
+  },
+  "it": {
+    "noInternetTitle": "Nessuna connessione Internet",
+    "noInternetBody": "Controlla la tua connessione Internet e riprova. Devi essere connesso a Internet per usare Riftn.",
+    "noInternetStatus": "Offline - Nessuna connessione di rete",
+    "noInternetHint": "Assicurati che il Wi-Fi o i dati mobili siano attivi, quindi tocca \"{{action}}\"",
+    "tryAgain": "Riprova"
+  },
+  "ja": {
+    "noInternetTitle": "インターネット接続がありません",
+    "noInternetBody": "インターネット接続を確認して、もう一度お試しください。Riftnを使用するにはインターネットに接続する必要があります。",
+    "noInternetStatus": "オフライン - ネットワーク接続がありません",
+    "noInternetHint": "Wi-Fiまたはモバイルデータ通信がオンになっていることを確認してから、「{{action}}」をタップしてください。",
+    "tryAgain": "もう一度試す"
+  },
+  "jv": {
+    "noInternetTitle": "Ora Ana Sambungan Internet",
+    "noInternetBody": "Mangga priksa sambungan internet sampeyan lan coba maneh. Sampeyan kudu nyambung menyang internet kanggo nggunakake Riftn.",
+    "noInternetStatus": "Offline - Ora ana sambungan jaringan",
+    "noInternetHint": "Priksa manawa Wi-Fi utawa data seluler wis urip, banjur tutul \"{{action}}\"",
+    "tryAgain": "Coba maneh"
+  },
+  "ka": {
+    "noInternetTitle": "ინტერნეტი არ არის",
+    "noInternetBody": "გთხოვთ, შეამოწმოთ თქვენი ინტერნეტ კავშირი და სცადოთ ხელახლა. Riftn-ის გამოსაყენებლად გჭირდებათ ინტერნეტი.",
+    "noInternetStatus": "ხაზგარეშე - ქსელური კავშირი არ არის",
+    "noInternetHint": "დარწმუნდით, რომ ჩართულია Wi-Fi ან მობილური მონაცემები, შემდეგ შეეხეთ \"{{action}}\"",
+    "tryAgain": "კიდევ სცადეთ"
+  },
+  "kk": {
+    "noInternetTitle": "Интернет қосылымы жоқ",
+    "noInternetBody": "Интернет қосылымыңызды тексеріп, қайталап көріңіз. Riftn қолдану үшін интернетке қосылуыңыз қажет.",
+    "noInternetStatus": "Желіде жоқ - Желі қосылымы жоқ",
+    "noInternetHint": "Wi-Fi немесе мобильді деректердің қосылғанына көз жеткізіп, содан кейін \"{{action}}\" түймесін басыңыз",
+    "tryAgain": "Қайталап көру"
+  },
+  "km": {
+    "noInternetTitle": "គ្មានការតភ្ជាប់អ៊ីនធឺណិត",
+    "noInternetBody": "សូមពិនិត្យមើលការតភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។ អ្នកត្រូវតែភ្ជាប់អ៊ីនធឺណិតដើម្បីប្រើ Riftn។",
+    "noInternetStatus": "ក្រៅបណ្តាញ - គ្មានការតភ្ជាប់បណ្តាញ",
+    "noInternetHint": "ត្រូវប្រាកដថា Wi-Fi ឬទិន្នន័យចល័តត្រូវបានបើក បន្ទាប់មកចុច \"{{action}}\"",
+    "tryAgain": "ព្យាយាមម្តងទៀត"
+  },
+  "kn": {
+    "noInternetTitle": "ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವಿಲ್ಲ",
+    "noInternetBody": "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕವನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ. Riftn ಬಳಸಲು ನೀವು ಇಂಟರ್ನೆಟ್‌ಗೆ ಸಂಪರ್ಕ ಹೊಂದಿರಬೇಕು.",
+    "noInternetStatus": "ಆಫ್‌ಲೈನ್ - ನೆಟ್‌ವರ್ಕ್ ಸಂಪರ್ಕವಿಲ್ಲ",
+    "noInternetHint": "Wi-Fi ಅಥವಾ ಮೊಬೈಲ್ ಡೇಟಾ ಆನ್ ಆಗಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ, ನಂತರ \"{{action}}\" ಟ್ಯಾಪ್ ಮಾಡಿ",
+    "tryAgain": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"
+  },
+  "ko": {
+    "noInternetTitle": "인터넷 연결 없음",
+    "noInternetBody": "인터넷 연결을 확인하고 다시 시도하세요. Riftn를 사용하려면 인터넷에 연결되어 있어야 합니다.",
+    "noInternetStatus": "오프라인 - 네트워크 연결 없음",
+    "noInternetHint": "Wi-Fi 또는 모바일 데이터가 켜져 있는지 확인한 후 \"{{action}}\"을 탭하세요.",
+    "tryAgain": "다시 시도"
+  },
+  "ku": {
+    "noInternetTitle": "Girêdana înternetê tune ye",
+    "noInternetBody": "Ji kerema xwe girêdana xwe ya înternetê kontrol bike û dîsa biceribîne. Ji bo bikaranîna Riftn divê tu bi înternetê ve girêdayî bî.",
+    "noInternetStatus": "Negirêdayî - Girêdana torê tune ye",
+    "noInternetHint": "Piştrast bike ku Wi-Fi an daneyên mobîl vekirî ye, paşê li \"{{action}}\" bitikîne",
+    "tryAgain": "Dîsa biceribîne"
+  },
+  "ky": {
+    "noInternetTitle": "Интернет байланышы жок",
+    "noInternetBody": "Интернет байланышыңызды текшерип, кайра аракет кылыңыз. Riftn колдонуу үчүн интернетке туташуу керек.",
+    "noInternetStatus": "Оффлайн - тармакка туташуу жок",
+    "noInternetHint": "Wi-Fi же мобилдик маалымат күйгүзүлгөнүн текшерип, андан кийин \"{{action}}\" басыңыз",
+    "tryAgain": "Кайра аракет кылуу"
+  },
+  "lo": {
+    "noInternetTitle": "ບໍ່ມີການເຊື່ອມຕໍ່ອິນເຕີເນັດ",
+    "noInternetBody": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ ແລະລອງອີກຄັ້ງ. ທ່ານຕ້ອງເຊື່ອມຕໍ່ອິນເຕີເນັດເພື່ອໃຊ້ Riftn.",
+    "noInternetStatus": "ອອບລາຍ - ບໍ່ມີການເຊື່ອມຕໍ່ເຄືອຂ່າຍ",
+    "noInternetHint": "ກວດໃຫ້ແນ່ໃຈວ່າ Wi-Fi ຫຼືຂໍ້ມູນມືຖືເປີດຢູ່, ຈາກນັ້ນແຕະ \"{{action}}\"",
+    "tryAgain": "ລອງອີກຄັ້ງ"
+  },
+  "lt": {
+    "noInternetTitle": "Nėra interneto ryšio",
+    "noInternetBody": "Patikrinkite savo interneto ryšį ir bandykite dar kartą. Norint naudotis Riftn, reikia būti prisijungus prie interneto.",
+    "noInternetStatus": "Neprisijungęs – nėra tinklo ryšio",
+    "noInternetHint": "Įsitikinkite, kad įjungtas „Wi-Fi“ arba mobilusis duomenų ryšys, tada palieskite „{{action}}“",
+    "tryAgain": "Bandyti dar kartą"
+  },
+  "lv": {
+    "noInternetTitle": "Nav interneta savienojuma",
+    "noInternetBody": "Lūdzu, pārbaudiet interneta savienojumu un mēģiniet vēlreiz. Lai izmantotu Riftn, jums ir jābūt savienotam ar internetu.",
+    "noInternetStatus": "Bezsaistē - Nav tīkla savienojuma",
+    "noInternetHint": "Pārliecinieties, ka Wi-Fi vai mobilie dati ir ieslēgti, pēc tam nospiediet \"{{action}}\"",
+    "tryAgain": "Mēģināt vēlreiz"
+  },
+  "mag": {
+    "noInternetTitle": "कोई इंटरनेट कनेक्शन नहीं",
+    "noInternetBody": "कृपया अपने इंटरनेट कनेक्शन की जाँच करें और पुनः प्रयास करें। Riftn का उपयोग करने के लिए आपको इंटरनेट से कनेक्ट होना होगा।",
+    "noInternetStatus": "ऑफ़लाइन - कोई नेटवर्क कनेक्शन नहीं",
+    "noInternetHint": "सुनिश्चित करें कि वाई-फाई या मोबाइल डेटा चालू है, फिर \"{{action}}\" पर टैप करें",
+    "tryAgain": "फेर कोसिस करऽ"
+  },
+  "mg": {
+    "noInternetTitle": "Tsy misy fifandraisana amin'ny Internet",
+    "noInternetBody": "Azafady jereo ny fifandraisanao amin'ny Internet ary manandrama indray. Mila mifandray amin'ny Internet ianao mba hampiasana ny Riftn.",
+    "noInternetStatus": "Tsy misy Internet - Tsy misy fifandraisana amin'ny tambajotra",
+    "noInternetHint": "Azafady mba ataovy azo antoka fa tafiditra ny Wi-Fi na ny finday data, ary tsindrio ny \"{{action}}\"",
+    "tryAgain": "Andramo indray"
+  },
+  "mi": {
+    "noInternetTitle": "Kāore he hononga Ipurangi",
+    "noInternetBody": "Tēnā tirohia tō hononga Ipurangi, ka ngana anō. Me hono koe ki te Ipurangi kia taea ai te whakamahi i te Riftn.",
+    "noInternetStatus": "Tūmau - Kāore he hononga whatunga",
+    "noInternetHint": "Me whakarite kia whakakā te Wi-Fi, te raraunga pūkoro rānei, kātahi ka pēhi i te \"{{action}}\"",
+    "tryAgain": "Ngana anō"
+  },
+  "ml": {
+    "noInternetTitle": "ഇന്റർനെറ്റ് കണക്ഷൻ ഇല്ല",
+    "noInternetBody": "ദയവായി നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക. Riftn ഉപയോഗിക്കാൻ നിങ്ങൾക്ക് ഇന്റർനെറ്റുമായി ബന്ധിപ്പിച്ചിരിക്കണം.",
+    "noInternetStatus": "ഓഫ്‌ലൈൻ - നെറ്റ്‌വർക്ക് കണക്ഷൻ ഇല്ല",
+    "noInternetHint": "Wi-Fi അല്ലെങ്കിൽ മൊബൈൽ ഡാറ്റ ഓൺ ആണെന്ന് ഉറപ്പാക്കുക, തുടർന്ന് \"{{action}}\" ടാപ്പ് ചെയ്യുക",
+    "tryAgain": "വീണ്ടും ശ്രമിക്കുക"
+  },
+  "mn": {
+    "noInternetTitle": "Интернэт холболт байхгүй",
+    "noInternetBody": "Интернет холболтоо шалгаад дахин оролдоно уу. Riftn ашиглахын тулд та интернетэд холбогдсон байх ёстой.",
+    "noInternetStatus": "Офлайн - Сүлжээний холболт байхгүй",
+    "noInternetHint": "Wi-Fi эсвэл гар утасны өгөгдөл асаалттай эсэхийг шалгаад \"{{action}}\" товчийг дарна уу.",
+    "tryAgain": "Дахин оролдох"
+  },
+  "mnp": {
+    "noInternetTitle": "沒有互聯網連接",
+    "noInternetBody": "請檢查您的互聯網連接並重試。您需要連接到互聯網才能使用 Riftn。",
+    "noInternetStatus": "離線 - 無網絡連接",
+    "noInternetHint": "確保 Wi-Fi 或移動數據已打開，然後點擊“{{action}}”",
+    "tryAgain": "再试一下"
+  },
+  "mr": {
+    "noInternetTitle": "इंटरनेट कनेक्शन नाही",
+    "noInternetBody": "कृपया आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. Riftn वापरण्यासाठी तुम्हाला इंटरनेटशी कनेक्ट असणे आवश्यक आहे.",
+    "noInternetStatus": "ऑफलाइन - नेटवर्क कनेक्शन नाही",
+    "noInternetHint": "Wi-Fi किंवा मोबाइल डेटा चालू असल्याची खात्री करा, नंतर \"{{action}}\" वर टॅप करा",
+    "tryAgain": "पुन्हा प्रयत्न करा"
+  },
+  "ms": {
+    "noInternetTitle": "Tiada Sambungan Internet",
+    "noInternetBody": "Sila semak sambungan internet anda dan cuba lagi. Anda perlu disambungkan ke internet untuk menggunakan Riftn.",
+    "noInternetStatus": "Luar Talian - Tiada sambungan rangkaian",
+    "noInternetHint": "Pastikan Wi-Fi atau data mudah alih dihidupkan, kemudian ketik \"{{action}}\"",
+    "tryAgain": "Cuba lagi"
+  },
+  "my": {
+    "noInternetTitle": "အင်တာနက်ဆက်သွယ်မှုမရှိပါ",
+    "noInternetBody": "သင်၏အင်တာနက်ဆက်သွယ်မှုကိုစစ်ဆေးပြီးထပ်မံကြိုးစားပါ။ Riftn ကိုအသုံးပြုရန်အင်တာနက်နှင့်ဆက်သွယ်ရမည်။",
+    "noInternetStatus": "အော့ဖ်လိုင်း - ကွန်ယက်ဆက်သွယ်မှုမရှိပါ",
+    "noInternetHint": "Wi-Fi သို့မဟုတ် မိုဘိုင်းဒေတာဖွင့်ထားကြောင်းသေချာပါစေ၊ ထို့နောက် \"{{action}}\" ကိုနှိပ်ပါ။",
+    "tryAgain": "ထပ်စမ်းကြည့်ရန်"
+  },
+  "ne": {
+    "noInternetTitle": "इन्टरनेट जडान छैन",
+    "noInternetBody": "कृपया आफ्नो इन्टरनेट जडान जाँच गर्नुहोस् र फेरि प्रयास गर्नुहोस्। Riftn प्रयोग गर्न तपाईं इन्टरनेटमा जडान हुनुपर्दछ।",
+    "noInternetStatus": "अफलाइन - कुनै नेटवर्क जडान छैन",
+    "noInternetHint": "Wi-Fi वा मोबाइल डेटा अन छ भनी सुनिश्चित गर्नुहोस्, त्यसपछि \"{{action}}\" ट्याप गर्नुहोस्",
+    "tryAgain": "फेरि प्रयास गर्नुहोस्"
+  },
+  "nl": {
+    "noInternetTitle": "Geen internetverbinding",
+    "noInternetBody": "Controleer uw internetverbinding en probeer het opnieuw. U moet verbonden zijn met internet om Riftn te gebruiken.",
+    "noInternetStatus": "Offline - Geen netwerkverbinding",
+    "noInternetHint": "Zorg ervoor dat Wi-Fi of mobiele data is ingeschakeld en tik vervolgens op \"{{action}}\"",
+    "tryAgain": "Opnieuw proberen"
+  },
+  "no": {
+    "noInternetTitle": "Ingen internettforbindelse",
+    "noInternetBody": "Vennligst sjekk internettforbindelsen din og prøv igjen. Du må være koblet til internett for å bruke Riftn.",
+    "noInternetStatus": "Frakoblet - Ingen nettverksforbindelse",
+    "noInternetHint": "Sørg for at Wi-Fi eller mobildata er slått på, og trykk deretter på \"{{action}}\"",
+    "tryAgain": "Prøv igjen"
+  },
+  "om": {
+    "noInternetTitle": "Walitti qabamummaa Intarneetii hin qabu",
+    "noInternetBody": "Walitti qabamummaa Intarneetii kee mirkaneeffadhuu deebiitii yaali. Riftn fayyadamuuuf Intarneetitti walitti qabamuun si barbaachisa.",
+    "noInternetStatus": "Offline - Walitti qabamummaa network hin qabu",
+    "noInternetHint": "Wi-Fi ykn mobaayil daataa akka on godhamte mirkaneeffadhuu, achiin booda \"{{action}}\" tuqi",
+    "tryAgain": "Irra deebi'ii yaali"
+  },
+  "or": {
+    "noInternetTitle": "ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ନାହିଁ",
+    "noInternetBody": "ଦୟାକରି ଆପଣଙ୍କ ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ପୁଣି ଥରେ ଚେଷ୍ଟା କରନ୍ତୁ। Riftn ବ୍ୟବହାର କରିବା ପାଇଁ ଆପଣଙ୍କୁ ଇଣ୍ଟରନେଟ୍ ସହିତ ସଂଯୁକ୍ତ ହେବା ଆବଶ୍ୟକ।",
+    "noInternetStatus": "ଅଫଲାଇନ୍ - ନେଟୱାର୍କ ସଂଯୋଗ ନାହିଁ",
+    "noInternetHint": "ୱାଇ-ଫାଇ କିମ୍ବା ମୋବାଇଲ୍ ଡାଟା ଅନ୍ ଅଛି କି ନାହିଁ ନିଶ୍ଚିତ କରନ୍ତୁ, ତା'ପରେ \"{{action}}\" ଟାପ୍ କରନ୍ତୁ",
+    "tryAgain": "ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ"
+  },
+  "pa": {
+    "noInternetTitle": "ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਨਹੀਂ ਹੈ",
+    "noInternetBody": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ। Riftn ਦੀ ਵਰਤੋਂ ਕਰਨ ਲਈ ਤੁਹਾਨੂੰ ਇੰਟਰਨੈਟ ਨਾਲ ਕਨੈਕਟ ਹੋਣ ਦੀ ਲੋੜ ਹੈ।",
+    "noInternetStatus": "ਔਫਲਾਈਨ - ਕੋਈ ਨੈੱਟਵਰਕ ਕਨੈਕਸ਼ਨ ਨਹੀਂ",
+    "noInternetHint": "ਯਕੀਨੀ ਬਣਾਓ ਕਿ Wi-Fi ਜਾਂ ਮੋਬਾਈਲ ਡਾਟਾ ਚਾਲੂ ਹੈ, ਫਿਰ \"{{action}}\" 'ਤੇ ਟੈਪ ਕਰੋ",
+    "tryAgain": "ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+  },
+  "pbt": {
+    "noInternetTitle": "د انټرنیټ اتصال نشته",
+    "noInternetBody": "مهرباني وکړئ خپل د انټرنیټ اتصال وګورئ او بیا هڅه وکړئ. د Riftn کارولو لپاره تاسو باید انټرنیټ سره وصل شئ.",
+    "noInternetStatus": "آفلاین - د شبکې اتصال نشته",
+    "noInternetHint": "ډاډ ترلاسه کړئ چې وای فای یا ګرځنده ډیټا فعال دی، بیا \"{{action}}\" ټایپ کړئ",
+    "tryAgain": "بیا هڅه وکړئ"
+  },
+  "pcm": {
+    "noInternetTitle": "Internet no dey",
+    "noInternetBody": "Abeg check your internet connection and try again. You need internet to use Riftn.",
+    "noInternetStatus": "Offline - Network no dey",
+    "noInternetHint": "Make sure say Wi-Fi or mobile data dey on, then tap \"{{action}}\"",
+    "tryAgain": "Try am again"
+  },
+  "pl": {
+    "noInternetTitle": "Brak połączenia z Internetem",
+    "noInternetBody": "Sprawdź swoje połączenie internetowe i spróbuj ponownie. Aby korzystać z Riftn, musisz mieć połączenie z Internetem.",
+    "noInternetStatus": "Offline - Brak połączenia sieciowego",
+    "noInternetHint": "Upewnij się, że Wi-Fi lub dane mobilne są włączone, a następnie dotknij \"{{action}}\"",
+    "tryAgain": "Spróbuj ponownie"
+  },
+  "pt": {
+    "noInternetTitle": "Sem conexão com a Internet",
+    "noInternetBody": "Verifique sua conexão com a internet e tente novamente. Você precisa estar conectado à internet para usar o Riftn.",
+    "noInternetStatus": "Offline - Sem conexão de rede",
+    "noInternetHint": "Certifique-se de que o Wi-Fi ou os dados móveis estejam ativados e, em seguida, toque em \"{{action}}\"",
+    "tryAgain": "Tentar de novo"
+  },
+  "qu": {
+    "noInternetTitle": "Mana Internetnin kanchu",
+    "noInternetBody": "Internetniyki kaqta qhawariy ima yapayta munanki chayta. Riftnta llamk'achinaykipaq internetnin kaqta necesitanki.",
+    "noInternetStatus": "Mana Internetnin kanchu - Mana Networknin kanchu",
+    "noInternetHint": "Wi-Fi utaq celular datosnin kaqta hap'iy, chaymanta \"{{action}}\" hap'iy",
+    "tryAgain": "Wakmanta yachapay"
+  },
+  "rkt": {
+    "noInternetTitle": "ইন্টারনেট সংযোগ নেই",
+    "noInternetBody": "অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন। Riftn ব্যবহার করার জন্য আপনার ইন্টারনেট সংযোগ প্রয়োজন।",
+    "noInternetStatus": "অফলাইন - কোনও নেটওয়ার্ক সংযোগ নেই",
+    "noInternetHint": "ওয়াই-ফাই বা মোবাইল ডেটা চালু আছে কিনা তা নিশ্চিত করুন, তারপরে \"{{action}}\" ট্যাপ করুন",
+    "tryAgain": "ফির চেষ্টা করেন"
+  },
+  "ro": {
+    "noInternetTitle": "Fără conexiune la internet",
+    "noInternetBody": "Verifică-ți conexiunea la internet și încearcă din nou. Trebuie să fii conectat la internet pentru a folosi Riftn.",
+    "noInternetStatus": "Offline - Fără conexiune la rețea",
+    "noInternetHint": "Asigură-te că Wi-Fi sau datele mobile sunt activate, apoi atinge \"{{action}}\"",
+    "tryAgain": "Încearcă din nou"
+  },
+  "ru": {
+    "noInternetTitle": "Нет подключения к Интернету",
+    "noInternetBody": "Проверьте подключение к Интернету и попробуйте снова. Вам необходимо подключение к Интернету, чтобы использовать Riftn.",
+    "noInternetStatus": "Офлайн - Нет сетевого подключения",
+    "noInternetHint": "Убедитесь, что Wi-Fi или мобильные данные включены, затем нажмите \"{{action}}\"",
+    "tryAgain": "Попробовать снова"
+  },
+  "sa": {
+    "noInternetTitle": "इंटरनेट कनेक्शन नाही",
+    "noInternetBody": "कृपया आपले इंटरनेट कनेक्शन तपासा आणि पुन्हा प्रयत्न करा. Riftn वापरण्यासाठी तुम्हाला इंटरनेटशी कनेक्ट असणे आवश्यक आहे.",
+    "noInternetStatus": "ऑफलाइन - नेटवर्क कनेक्शन नाही",
+    "noInternetHint": "Wi-Fi किंवा मोबाइल डेटा चालू असल्याची खात्री करा, नंतर \"{{action}}\" वर टॅप करा",
+    "tryAgain": "पुनः प्रयत्नं कुरुत"
+  },
+  "sd": {
+    "noInternetTitle": "انٽرنيٽ ڪنيڪشن ناهي",
+    "noInternetBody": "مهرباني ڪري پنهنجي انٽرنيٽ ڪنيڪشن چيڪ ڪريو ۽ ٻيهر ڪوشش ڪريو. Riftn استعمال ڪرڻ لاءِ توهان کي انٽرنيٽ سان ڳنڍيل هجڻ ضروري آهي.",
+    "noInternetStatus": "آف لائن - نيٽ ورڪ ڪنيڪشن ناهي",
+    "noInternetHint": "پڪ ڪريو ته وائي فائي يا موبائيل ڊيٽا آن آهي، پوءِ \"{{action}}\" تي ٽيپ ڪريو",
+    "tryAgain": "ٻيهر ڪوشش ڪريو"
+  },
+  "sdr": {
+    "noInternetTitle": "इंटरनेट नखे",
+    "noInternetBody": "आपन इंटरनेट कनेक्सन देखा आउर फिर कोसिस करा। Riftn चलाए ले इंटरनेट से जुड़ल रहेक जरूरी हे।",
+    "noInternetStatus": "ऑफलाइन - नेटवर्क नखे",
+    "noInternetHint": "Wi-Fi या मोबाइल डेटा चालू हे कि नी देखा, फिर \"{{action}}\" दबावा",
+    "tryAgain": "फेर कोसिस करा"
+  },
+  "si": {
+    "noInternetTitle": "අන්තර්ජාල සම්බන්ධතාවක් නැත",
+    "noInternetBody": "කරුණාකර ඔබේ අන්තර්ජාල සම්බන්ධතාව පරීක්ෂා කර නැවත උත්සාහ කරන්න. Riftn භාවිතා කිරීමට ඔබට අන්තර්ජාලයට සම්බන්ධ වීමට අවශ්‍ය වේ.",
+    "noInternetStatus": "නොබැඳි - ජාල සම්බන්ධතාවක් නැත",
+    "noInternetHint": "Wi-Fi හෝ ජංගම දත්ත ක්‍රියාත්මක කර ඇති බවට වග බලා ගන්න, ඉන්පසු \"{{action}}\" තට්ටු කරන්න",
+    "tryAgain": "නැවත උත්සාහ කරන්න"
+  },
+  "sk": {
+    "noInternetTitle": "Žiadne internetové pripojenie",
+    "noInternetBody": "Skontrolujte svoje internetové pripojenie a skúste to znova. Na používanie Riftnu potrebujete byť pripojení na internet.",
+    "noInternetStatus": "Offline - Žiadne sieťové pripojenie",
+    "noInternetHint": "Uistite sa, že máte zapnutú Wi-Fi alebo mobilné dáta, potom klepnite na \"{{action}}\"",
+    "tryAgain": "Skúsiť znova"
+  },
+  "skr": {
+    "noInternetTitle": "انٹرنیٹ کنکشن نہیں",
+    "noInternetBody": "مہربانی کر کے اپنڑاں انٹرنیٹ کنکشن چیک کرو تے ٻل ٻیا کوشش کرو۔ ڈی ہب استعمال کرن لئی تساں کوں انٹرنیٹ نال جُڑیا ہووݨا چاہیدا اے۔",
+    "noInternetStatus": "آف لائن - نیٹ ورک کنکشن نہیں",
+    "noInternetHint": "یقینی بݨوو وائی فائی یا موبائل ڈیٹا آن اے، پھر \"{{action}}\" تے ٹیپ کرو",
+    "tryAgain": "ولدا کوشش کرو"
+  },
+  "so": {
+    "noInternetTitle": "Ma jirto xiriir internet ah",
+    "noInternetBody": "Fadlan hubi xiriirkaaga internetka oo mar kale isku day. Waxaad u baahan tahay inaad ku xirnaato internetka si aad u isticmaasho Riftn.",
+    "noInternetStatus": "Offline - Ma jirto xiriir shabakad",
+    "noInternetHint": "Hubi in Wi-Fi ama xogta mobaylka ay shidan tahay, ka dibna taabo \"{{action}}\"",
+    "tryAgain": "Mar kale isku day"
+  },
+  "sq": {
+    "noInternetTitle": "Nuk ka lidhje interneti",
+    "noInternetBody": "Ju lutemi kontrolloni lidhjen tuaj me internetin dhe provoni përsëri. Ju duhet të jeni të lidhur me internetin për të përdorur Riftn.",
+    "noInternetStatus": "Offline - Nuk ka lidhje rrjeti",
+    "noInternetHint": "Sigurohuni që Wi-Fi ose të dhënat mobile të jenë të aktivizuara, pastaj shtypni \"{{action}}\"",
+    "tryAgain": "Provo përsëri"
+  },
+  "sr": {
+    "noInternetTitle": "Нема интернетске везе",
+    "noInternetBody": "Провјерите своју интернетску везу и покушајте поновно. Морате бити повезани на интернет да бисте користили Riftn.",
+    "noInternetStatus": "Изван мреже - Нема мрежне везе",
+    "noInternetHint": "Провјерите је ли Wi-Fi или мобилни подаци укључени, а затим додирните \"{{action}}\"",
+    "tryAgain": "Покушај поново"
+  },
+  "sv": {
+    "noInternetTitle": "Ingen internetanslutning",
+    "noInternetBody": "Kontrollera din internetanslutning och försök igen. Du måste vara ansluten till internet för att använda Riftn.",
+    "noInternetStatus": "Offline - Ingen nätverksanslutning",
+    "noInternetHint": "Se till att Wi-Fi eller mobildata är påslaget och tryck sedan på \"{{action}}\"",
+    "tryAgain": "Försök igen"
+  },
+  "sw": {
+    "noInternetTitle": "Hakuna Muunganisho wa Mtandao",
+    "noInternetBody": "Tafadhali angalia muunganisho wako wa intaneti na ujaribu tena. Unahitaji kuunganishwa kwenye intaneti ili kutumia Riftn.",
+    "noInternetStatus": "Nje ya Mtandao - Hakuna muunganisho wa mtandao",
+    "noInternetHint": "Hakikisha Wi-Fi au data ya simu imewashwa, kisha gusa \"{{action}}\"",
+    "tryAgain": "Jaribu tena"
+  },
+  "syl": {
+    "noInternetTitle": "ইন্টারনেট সংযোগ নেই",
+    "noInternetBody": "অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন। Riftn ব্যবহার করার জন্য আপনার ইন্টারনেট সংযোগ প্রয়োজন।",
+    "noInternetStatus": "অফলাইন - কোনও নেটওয়ার্ক সংযোগ নেই",
+    "noInternetHint": "ওয়াই-ফাই বা মোবাইল ডেটা চালু আছে কিনা তা নিশ্চিত করুন, তারপর \"{{action}}\" ট্যাপ করুন",
+    "tryAgain": "আবার চেষ্টা করউক্কা"
+  },
+  "ta": {
+    "noInternetTitle": "இணைய இணைப்பு இல்லை",
+    "noInternetBody": "உங்கள் இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும். Riftn ஐப் பயன்படுத்த நீங்கள் இணையத்துடன் இணைக்கப்பட்டிருக்க வேண்டும்.",
+    "noInternetStatus": "ஆஃப்லைனில் - நெட்வொர்க் இணைப்பு இல்லை",
+    "noInternetHint": "Wi-Fi அல்லது மொபைல் டேட்டா ஆன் செய்யப்பட்டிருப்பதை உறுதிசெய்து, பின்னர் \"{{action}}\" என்பதைத் தட்டவும்",
+    "tryAgain": "மீண்டும் முயற்சி"
+  },
+  "te": {
+    "noInternetTitle": "ఇంటర్నెట్ కనెక్షన్ లేదు",
+    "noInternetBody": "దయచేసి మీ ఇంటర్నెట్ కనెక్షన్‌ని తనిఖీ చేసి, మళ్లీ ప్రయత్నించండి. Riftnని ఉపయోగించడానికి మీరు ఇంటర్నెట్‌కి కనెక్ట్ అయి ఉండాలి.",
+    "noInternetStatus": "ఆఫ్‌లైన్ - నెట్‌వర్క్ కనెక్షన్ లేదు",
+    "noInternetHint": "Wi-Fi లేదా మొబైల్ డేటా ఆన్ చేయబడిందని నిర్ధారించుకోండి, ఆపై \"{{action}}\" నొక్కండి",
+    "tryAgain": "మళ్లీ ప్రయత్నించండి"
+  },
+  "tg": {
+    "noInternetTitle": "Ҳеҷ пайвасти интернет вуҷуд надорад",
+    "noInternetBody": "Лутфан, пайвасти интернети худро тафтиш кунед ва дубора кӯшиш кунед. Шумо бояд ба интернет пайваст бошед, то Riftn-ро истифода баред.",
+    "noInternetStatus": "Офлайн - Пайвасти шабака вуҷуд надорад",
+    "noInternetHint": "Боварӣ ҳосил кунед, ки Wi-Fi ё маълумоти мобилӣ фаъол аст, пас \"{{action}}\" -ро пахш кунед",
+    "tryAgain": "Аз нав кӯшиш кунед"
+  },
+  "th": {
+    "noInternetTitle": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต",
+    "noInternetBody": "โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง คุณต้องเชื่อมต่ออินเทอร์เน็ตเพื่อใช้ Riftn",
+    "noInternetStatus": "ออฟไลน์ - ไม่มีการเชื่อมต่อเครือข่าย",
+    "noInternetHint": "ตรวจสอบให้แน่ใจว่าเปิด Wi-Fi หรือข้อมูลมือถืออยู่ จากนั้นแตะ \"{{action}}\"",
+    "tryAgain": "ลองอีกครั้ง"
+  },
+  "ti": {
+    "noInternetTitle": "ምስ መርበብ ሓበሬታ ርክብ ተቋሪፁ",
+    "noInternetBody": "በጃኻ ኢንተርነትካ መርምር እሞ መሊስካ ፈትኖ ። Riftn ንምጥቃም ምስ ኢንተርነት ክትራኸብ ኣለካ ።",
+    "noInternetStatus": "ምስ ይጥፋእ - ኔትወርክ ኣይብሉን",
+    "noInternetHint": "Wi-Fi ወይ ተንቀሳቃሲ ሓበሬታ ከም ዚበራበር ኣረጋግጽ ፣ ድሕሪኡ ድማ \"{{action}}\" ጠውቑ",
+    "tryAgain": "እንደገና ፈትን"
+  },
+  "tk": {
+    "noInternetTitle": "Internet birikmesi ýok",
+    "noInternetBody": "Internet birikmäňizi barlaň we täzeden synanyşyň. Riftn-dan peýdalanmak üçin internete birikmek zerur.",
+    "noInternetStatus": "Ofllaýn - Tor birikmesi ýok",
+    "noInternetHint": "Wi-Fi ýa-da mobil maglumatlaryňyzyň ýakylygyny üpjün ediň, soňra \"{{action}}\" düwmesine basyň",
+    "tryAgain": "Täzeden synanyş"
+  },
+  "tl": {
+    "noInternetTitle": "Walang Koneksyon sa Internet",
+    "noInternetBody": "Pakisuri ang iyong koneksyon sa internet at subukang muli. Kailangan mong konektado sa internet upang magamit ang Riftn.",
+    "noInternetStatus": "Offline - Walang koneksyon sa network",
+    "noInternetHint": "Siguraduhing naka-on ang Wi-Fi o mobile data, pagkatapos ay i-tap ang \"{{action}}\"",
+    "tryAgain": "Subukan ulit"
+  },
+  "tr": {
+    "noInternetTitle": "İnternet Bağlantısı Yok",
+    "noInternetBody": "Lütfen internet bağlantınızı kontrol edin ve tekrar deneyin. Riftn'ı kullanmak için internete bağlı olmanız gerekir.",
+    "noInternetStatus": "Çevrimdışı - Ağ bağlantısı yok",
+    "noInternetHint": "Wi-Fi veya mobil verinin açık olduğundan emin olun, ardından \"{{action}}\" seçeneğine dokunun",
+    "tryAgain": "Tekrar dene"
+  },
+  "tts": {
+    "noInternetTitle": "ไม่มีการเชื่อมต่ออินเทอร์เน็ต",
+    "noInternetBody": "โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณและลองอีกครั้ง คุณต้องเชื่อมต่ออินเทอร์เน็ตเพื่อใช้ Riftn",
+    "noInternetStatus": "ออฟไลน์ - ไม่มีการเชื่อมต่อเครือข่าย",
+    "noInternetHint": "ตรวจสอบให้แน่ใจว่า Wi-Fi หรือข้อมูลมือถือเปิดอยู่ จากนั้นแตะ \"{{action}}\"",
+    "tryAgain": "ลองใหม่อีกเทื่อ"
+  },
+  "ug": {
+    "noInternetTitle": "تورداشمايۋاتىدۇ",
+    "noInternetBody": "تور ئۇلىنىشىڭىزنى تەكشۈرۈپ، قايتا سىناپ بېقىڭ. Riftn نى ئىشلىتىش ئۈچۈن تورغا ئۇلىنىشىڭىز كېرەك.",
+    "noInternetStatus": "توردا - تور ئۇلىنىشى يوق",
+    "noInternetHint": "Wi-Fi ياكى ئۆزگىچە سانلىق مەلۇماتنىڭ قوزغىتىلغانلىقىنى جەزملەشتۈرۈپ، \"{{action}}\" نى چېكىڭ",
+    "tryAgain": "قايتا سىناش"
+  },
+  "uk": {
+    "noInternetTitle": "Немає підключення до Інтернету",
+    "noInternetBody": "Будь ласка, перевірте ваше інтернет-з'єднання та спробуйте ще раз. Вам потрібно бути підключеним до Інтернету, щоб користуватися Riftn.",
+    "noInternetStatus": "Офлайн - Немає мережевого з'єднання",
+    "noInternetHint": "Переконайтеся, що Wi-Fi або мобільні дані увімкнені, а потім натисніть \"{{action}}\"",
+    "tryAgain": "Спробувати ще раз"
+  },
+  "ur": {
+    "noInternetTitle": "انٹرنیٹ کنکشن نہیں ہے",
+    "noInternetBody": "براہ کرم اپنے انٹرنیٹ کنکشن کو چیک کریں اور دوبارہ کوشش کریں۔ Riftn استعمال کرنے کے لیے آپ کو انٹرنیٹ سے منسلک ہونا ضروری ہے۔",
+    "noInternetStatus": "آف لائن - کوئی نیٹ ورک کنکشن نہیں",
+    "noInternetHint": "یقینی بنائیں کہ وائی فائی یا موبائل ڈیٹا آن ہے، پھر \"{{action}}\" پر ٹیپ کریں",
+    "tryAgain": "دوبارہ کوشش کریں"
+  },
+  "uz": {
+    "noInternetTitle": "Internet ulanishi yo'q",
+    "noInternetBody": "Internet ulanishingizni tekshiring va qayta urinib ko'ring. Riftn'dan foydalanish uchun internetga ulanishingiz kerak.",
+    "noInternetStatus": "Chiqarilgan - Tarmoq ulanishi yo'q",
+    "noInternetHint": "Wi-Fi yoki mobil ma'lumotlar yoqilganligiga ishonch hosil qiling, so'ng \"{{action}}\" tugmasini bosing",
+    "tryAgain": "Qayta urinish"
+  },
+  "vi": {
+    "noInternetTitle": "Không có kết nối Internet",
+    "noInternetBody": "Vui lòng kiểm tra kết nối internet của bạn và thử lại. Bạn cần kết nối internet để sử dụng Riftn.",
+    "noInternetStatus": "Ngoại tuyến - Không có kết nối mạng",
+    "noInternetHint": "Đảm bảo Wi-Fi hoặc dữ liệu di động đã bật, sau đó nhấn \"{{action}}\"",
+    "tryAgain": "Thử lại"
+  },
+  "wes": {
+    "noInternetTitle": "Internet no dey",
+    "noInternetBody": "Abeg check your internet connection and try again. You need internet to use Riftn.",
+    "noInternetStatus": "Offline - Network no dey",
+    "noInternetHint": "Make sure say Wi-Fi or mobile data dey on, then tap \"{{action}}\"",
+    "tryAgain": "Tray agen"
+  },
+  "wuu": {
+    "noInternetTitle": "没有网络连接",
+    "noInternetBody": "请检查您的网络连接并重试。您需要连接到互联网才能使用 Riftn。",
+    "noInternetStatus": "离线 - 没有网络连接",
+    "noInternetHint": "确保 Wi-Fi 或移动数据已打开，然后点击“{{action}}”",
+    "tryAgain": "再试一下"
+  },
+  "yo": {
+    "noInternetTitle": "Kò sí Ìsopọ̀ Ayelujara",
+    "noInternetBody": "Jọ̀wọ́ ṣàyẹ̀wò ìsopọ̀ ayelujara rẹ kí o sì tún yẹ̀wò. O ní láti sopọ̀ mọ́ ayelujara láti lo Riftn.",
+    "noInternetStatus": "Kò sí ìsopọ̀ - Kò sí ìsopọ̀ àwọn ohun èlò",
+    "noInternetHint": "Ríi dájú pé Wi-Fi tàbí adàbọ̀ àwọn ohun èlò ti tan, kí o sì tẹ \"{{action}}\"",
+    "tryAgain": "Tún gbìyànjú"
+  },
+  "yue": {
+    "noInternetTitle": "沒有網路連線",
+    "noInternetBody": "請檢查您的網路連線並重試。您需要連線到網際網路才能使用 Riftn。",
+    "noInternetStatus": "離線 - 沒有網路連線",
+    "noInternetHint": "請確保 Wi-Fi 或行動數據已開啟，然後點擊「{{action}}」",
+    "tryAgain": "再試一次"
+  },
+  "zh": {
+    "noInternetTitle": "没有互联网连接",
+    "noInternetBody": "请检查您的互联网连接并重试。您需要连接到互联网才能使用 Riftn。",
+    "noInternetStatus": "离线 - 没有网络连接",
+    "noInternetHint": "确保 Wi-Fi 或移动数据已打开，然后点击“{{action}}”",
+    "tryAgain": "重试"
+  },
+  "zh_tw": {
+    "noInternetTitle": "沒有網際網路連線",
+    "noInternetBody": "請檢查您的網際網路連線並重試。您需要連線到網際網路才能使用 Riftn。",
+    "noInternetStatus": "離線 - 沒有網路連線",
+    "noInternetHint": "確保 Wi-Fi 或行動數據已開啟，然後點選“{{action}}”",
+    "tryAgain": "重試"
+  },
+  "zu": {
+    "noInternetTitle": "Ayikho uxhumano lwe-inthanethi",
+    "noInternetBody": "Sicela uhlole uxhumano lwakho lwe-inthanethi bese uzama futhi. Udinga ukuxhunywa kwi-inthanethi ukuze usebenzise i-Riftn.",
+    "noInternetStatus": "Ayixhunyiwe - Ayikho uxhumano lwenethiwekhi",
+    "noInternetHint": "Qiniseka ukuthi i-Wi-Fi noma idatha yeselula ivuliwe, bese uthepha ku-\"{{action}}\"",
+    "tryAgain": "Zama futhi"
+  }
+}

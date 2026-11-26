@@ -442,11 +442,14 @@ i18n.on('languageChanged', applyKeyboardDoneLabel);
 // only an _other, so t(key, { count: 1 }) resolved to nothing.
 fillMissingPluralForms(i18n, 'en');
 
+// Connection copy only needs the local choice, even if no locale pack can load.
+export const startupLanguage = AsyncStorage.getItem(STORAGE_KEY)
+  .then(saved => saved || detectLanguage());
+
 // On startup, switch to saved or device language
 (async () => {
   try {
-    const saved = await AsyncStorage.getItem(STORAGE_KEY);
-    const target = saved || detectLanguage();
+    const target = await startupLanguage;
     let active = i18n.language || 'en';
     // English that only stands in for a pack that failed to load is not the
     // reader's language: stay unsettled so it is never reported as theirs.
