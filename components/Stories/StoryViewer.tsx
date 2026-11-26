@@ -119,6 +119,9 @@ export default function StoryViewer({
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
   const snapshot: StoryItem | undefined = entry?.items[itemIdx];
+  // An archived thread was opened under its owner's session.
+  const archivedThread = openComments && snapshot && (snapshot.expired || Date.parse(snapshot.expiresAt) <= Date.now());
+  const archiveOwnerChanged = archivedThread && entry?.author.address.toLowerCase() !== me;
   const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except' || snapshot?.audience === 'close_friends';
   const delivery = useQuery({
     queryKey: ['private-story-playback', snapshot?.id, me],
@@ -131,14 +134,15 @@ export default function StoryViewer({
     retry: false,
   });
   const item = useMemo(() => {
+    if (archiveOwnerChanged) return undefined;
     if (!customAudience) return snapshot;
     if (!snapshot || !me || !delivery.isSuccess) return undefined;
     const { mediaUrl, posterUrl, overlayUrl } = delivery.data.item;
     return { ...snapshot, mediaUrl, posterUrl, overlayUrl };
-  }, [snapshot, customAudience, me, delivery.data, delivery.isSuccess]);
+  }, [snapshot, customAudience, archiveOwnerChanged, me, delivery.data, delivery.isSuccess]);
   useEffect(() => {
-    if (customAudience && (!me || delivery.isError)) onClose();
-  }, [customAudience, me, delivery.isError, onClose]);
+    if (archiveOwnerChanged || (customAudience && (!me || delivery.isError))) onClose();
+  }, [archiveOwnerChanged, customAudience, me, delivery.isError, onClose]);
   const own = !!entry && (entry.own || entry.author.address.toLowerCase() === me);
 
   const [progress, setProgress] = useState(0);
