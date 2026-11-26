@@ -1099,15 +1099,16 @@ const LiveChatScreen: React.FC = () => {
     setPendingFocus(target._id);
   }, [search.results, searchText, jumpToMessage, t]);
 
-  // A copied message link to the public chat: open the room on that line
-  // and light it up. The app reads the main room only.
-  useLinkedMessage("public", messages.length > 0, async (id) => {
+  const focusMessage = useCallback(async (id: string) => {
     isAtBottomRef.current = false;
     setAtBottom(false);
     const found = await jumpToMessage(id);
     if (found) setPendingFocus(id);
-    return !!found;
-  });
+    return found;
+  }, [jumpToMessage]);
+
+  // The app opens copied links to messages in the main room.
+  useLinkedMessage("public", messages.length > 0, focusMessage);
   const handleContextCopyLink = useCallback((msg: LiveChatMessageData) => {
     copyChatMessageLink({ kind: "public" }, msg._id);
   }, []);
@@ -1136,10 +1137,12 @@ const LiveChatScreen: React.FC = () => {
   );
 
   const handleReplyPress = useCallback(
-    (messageId: string) => {
-      highlightAndScroll(messageId);
+    async (messageId: string) => {
+      if (hiddenLines.has(messageId) || !(await focusMessage(messageId))) {
+        toastError(t("chatSearch.gone", { defaultValue: "That message is no longer here" }));
+      }
     },
-    [highlightAndScroll],
+    [hiddenLines, focusMessage, t],
   );
 
   const replyingId = replyingTo?._id;
