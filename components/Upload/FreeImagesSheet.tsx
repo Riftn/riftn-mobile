@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
-import { searchFreeAssets, type FreeAsset } from "../../libs/editor/freeAssets";
+import { searchFreeAssets, searchFreeCoverPhotos, type FreeAsset } from "../../libs/editor/freeAssets";
 import { toastError } from "../../libs/toast";
 
 export interface FreeImagePick {
@@ -23,6 +23,8 @@ interface Props {
   onClose: () => void;
   /** Starting search, usually the first words of the post. */
   initialQuery?: string;
+  /** Article covers and their link previews have no credit field. */
+  forArticleCover?: boolean;
   /** The downloaded photo plus its credit line when the owner asks for one. */
   onPick: (image: FreeImagePick, credit: string | null) => void;
 }
@@ -36,7 +38,7 @@ const SEARCH_GAP = 8;
  * Free photo search for a post: the same open library the editor uses, so a
  * picture can go next to a post without being in the phone's gallery first.
  */
-export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick }: Props) {
+export default function FreeImagesSheet({ visible, onClose, initialQuery, forArticleCover = false, onPick }: Props) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
@@ -48,54 +50,77 @@ export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick
   const [items, setItems] = useState<FreeAsset[]>([]);
   const [loading, setLoading] = useState(false);
   const [picking, setPicking] = useState<string | null>(null);
-  const runRef = useRef(0);
+  const selectionRef = useRef<symbol | null>(null);
+
+  useEffect(() => () => { selectionRef.current = null; }, [visible]);
+
+  const close = () => {
+    selectionRef.current = null;
+    setPicking(null);
+    onClose();
+  };
 
   useEffect(() => {
     if (!visible) return;
     const start = (initialQuery || "").replace(/https?:\/\/\S+/g, "").replace(/[#@]\S+/g, "").trim().split(/\s+/).slice(0, 4).join(" ");
+    setItems([]);
     setQuery(start);
     setSubmitted(start || "nature");
   }, [visible, initialQuery]);
 
   useEffect(() => {
     if (!visible || !submitted) return;
-    const run = ++runRef.current;
+    const controller = new AbortController();
     setLoading(true);
-    searchFreeAssets({ kind: "photo", query: submitted })
-      .then((r) => { if (run === runRef.current) setItems(r.items.filter((a) => /^image\/(jpeg|png|webp)/.test(a.mimeType) || !a.mimeType)); })
-      .catch(() => { if (run === runRef.current) setItems([]); })
-      .finally(() => { if (run === runRef.current) setLoading(false); });
-  }, [visible, submitted]);
+    const results = forArticleCover
+      ? searchFreeCoverPhotos(submitted, controller.signal)
+      : searchFreeAssets({ kind: "photo", query: submitted, signal: controller.signal })
+        .then(result => result.items.filter(asset => /^image\/(jpeg|png|webp)/.test(asset.mimeType) || !asset.mimeType));
+    results
+      .then(photos => { if (!controller.signal.aborted) setItems(photos); })
+      .catch(() => { if (!controller.signal.aborted) setItems([]); })
+      .finally(() => { if (!controller.signal.aborted) setLoading(false); });
+    return () => controller.abort();
+  }, [visible, submitted, forArticleCover]);
 
   const pick = async (asset: FreeAsset) => {
-    if (picking) return;
+    if (selectionRef.current) return;
+    const selection = Symbol();
+    selectionRef.current = selection;
     setPicking(asset.id);
     try {
       const mime = (asset.mimeType || "image/jpeg").split(";")[0].trim().toLowerCase().replace("image/jpg", "image/jpeg");
       const ext = EXT[mime] || "jpg";
       const target = `${FileSystem.cacheDirectory}free-image-${Date.now()}.${ext}`;
       const res = await FileSystem.downloadAsync(asset.downloadUrl, target);
+      if (selection !== selectionRef.current) {
+        void FileSystem.deleteAsync(res.uri, { idempotent: true }).catch(() => {});
+        return;
+      }
       if (res.status < 200 || res.status >= 300) throw new Error(`download ${res.status}`);
       const credit = asset.attributionRequired && asset.creator
         ? t("freeImages.credit", { creator: asset.creator, license: asset.license })
         : null;
       onPick({ uri: res.uri, width: asset.width || 1080, height: asset.height || 1080, fileName: `free-image.${ext}`, mimeType: mime }, credit);
-      onClose();
+      close();
     } catch {
-      toastError(t("freeImages.failed"));
+      if (selection === selectionRef.current) toastError(t("freeImages.failed"));
     } finally {
-      setPicking(null);
+      if (selection === selectionRef.current) {
+        selectionRef.current = null;
+        setPicking(null);
+      }
     }
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={close}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1, justifyContent: "flex-end" }}>
-        <Pressable style={{ flex: 1 }} onPress={onClose} accessibilityLabel={t("common.close", { defaultValue: "Close" })} />
+        <Pressable style={{ flex: 1 }} onPress={close} accessibilityLabel={t("common.close", { defaultValue: "Close" })} />
         <View style={{ height: height * 0.78, backgroundColor: themeColors.card, borderTopLeftRadius: 20, borderTopRightRadius: 20, borderTopWidth: 1, borderColor: themeColors.border, paddingBottom: insets.bottom }}>
           <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 16, paddingTop: 14, paddingBottom: 10 }}>
             <Text style={{ flex: 1, fontSize: 17, fontWeight: "600", color: themeColors.foreground }}>{t("freeImages.title")}</Text>
-            <TouchableOpacity onPress={onClose} hitSlop={10} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <TouchableOpacity onPress={close} hitSlop={11} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
               <Icon name="X" size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           </View>
@@ -115,7 +140,7 @@ export default function FreeImagesSheet({ visible, onClose, initialQuery, onPick
                 style={[styles.searchInput, SEARCH_INPUT_CLEAR, { color: themeColors.foreground }]}
               />
             </View>
-            <Text style={[styles.searchNote, { color: themeColors.mutedForeground }]}>{t("freeImages.note")}</Text>
+            {!forArticleCover && <Text style={[styles.searchNote, { color: themeColors.mutedForeground }]}>{t("freeImages.note")}</Text>}
           </View>
           {loading ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}><ActivityIndicator color={themeColors.foreground} /></View>
