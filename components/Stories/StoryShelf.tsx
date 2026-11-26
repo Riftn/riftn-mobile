@@ -331,10 +331,10 @@ function PortraitPhoto({ avatar, name, seen = false, closeFriends, retry }: {
   );
 }
 
-function PortraitCaption({ children }: { children: React.ReactNode }) {
+function PortraitCaption({ children, status }: { children: React.ReactNode; status?: boolean }) {
   return (
     <KeepDark.Provider value>
-      <LinearGradient colors={["transparent", "hsla(0,0%,0%,0.79)", "hsla(0,0%,0%,0.94)"]} locations={[0, 0.4, 1]} style={styles.caption} pointerEvents="none">
+      <LinearGradient colors={["transparent", "hsla(0,0%,0%,0.79)", "hsla(0,0%,0%,0.94)"]} locations={[0, 0.4, 1]} style={[styles.caption, status && styles.statusCaption]} pointerEvents="none">
         {children}
       </LinearGradient>
     </KeepDark.Provider>
@@ -423,8 +423,8 @@ function MeTile({ pending, avatar, name, entry, processing, onOpen, onMenu }: {
     <PortraitButton label={failed ? retry : busy ? posting : name} busy={busy} onMenu={onMenu}
       onPress={failed ? () => pending?.retry?.() : onOpen}>
       <PortraitPhoto avatar={avatar} name={name} retry={failed} />
-      <PortraitCaption>
-        <Text style={styles.portraitName} numberOfLines={1}>{failed ? retry : busy ? posting : name}</Text>
+      <PortraitCaption status={busy || failed}>
+        <Text style={styles.portraitName} numberOfLines={busy || failed ? 2 : 1}>{failed ? retry : busy ? posting : name}</Text>
       </PortraitCaption>
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
@@ -524,6 +524,7 @@ const styles = StyleSheet.create({
   photoFrame: { flex: 1, padding: 1, borderRadius: 9, justifyContent: "center", alignItems: "center", overflow: "hidden" },
   photo: { width: "100%", height: "100%" },
   caption: { position: "absolute", left: 3, right: 3, bottom: 3, borderBottomLeftRadius: 9, borderBottomRightRadius: 9, flexDirection: "row", alignItems: "center", gap: 3, paddingTop: 15, paddingBottom: 5, paddingHorizontal: 8 },
+  statusCaption: { paddingHorizontal: 6 },
   portraitName: { flexShrink: 1, color: "hsla(0,0%,100%,1)", fontSize: 13, lineHeight: 17, fontWeight: "700" },
   text: { flexShrink: 1, minWidth: 0, gap: 1 },
   nameRow: { flexDirection: "row", alignItems: "center", gap: 5, minWidth: 0 },
