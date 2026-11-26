@@ -24,6 +24,7 @@ import CustomSwitch from '../components/ui/CustomSwitch';
 import { setShowMessagesCount, setShowNotificationCount, useShowMessagesCount, useShowNotificationCount } from '../libs/notification-count-setting';
 import { useUser, useAuthState, useAuthActions } from '../context/AuthContext';
 import { syncEmailLinkStatus } from '../services/email-link.service';
+import { getAccountProfile } from '../services/user.service';
 import {
   smsNotificationsService,
   type SmsNotificationStatus,
@@ -145,7 +146,6 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
     { key: 'comments', label: t('settings.comments'), description: t('settings.notifCommentsDesc'), icon: 'MessageCircle', iconColor: '#9ca3af', category: 'engagement' },
     { key: 'commentReplies', label: t('settings.notifReplies'), description: t('settings.notifRepliesDesc'), icon: 'MessageSquare', iconColor: '#9ca3af', category: 'engagement' },
     { key: 'mentions', label: t('settings.notifMentions'), description: t('settings.notifMentionsDesc'), icon: 'AtSign', iconColor: '#9ca3af', category: 'engagement' },
-    { key: 'directMessages', label: t('settings.directMessages'), description: t('settings.directMessagesDesc'), icon: 'Mail', iconColor: '#9ca3af', category: 'social' },
     { key: 'newFollowers', label: t('settings.newFollowers'), description: t('settings.notifNewFollowersDesc'), icon: 'UserPlus', iconColor: '#9ca3af', category: 'social' },
     { key: 'livestreamStart', label: t('settings.notifLiveStreams'), description: t('settings.notifLiveStreamsDesc'), icon: 'Radio', iconColor: '#9ca3af', category: 'social' },
     { key: 'tips', label: t('settings.notifTips'), description: t('settings.notifTipsDesc'), icon: 'Banknote', iconColor: '#9ca3af', category: 'monetization' },
@@ -165,6 +165,8 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [privateMessagePreference, setPrivateMessagePreference] = useState<{ address: string; enabled: boolean } | null>(null);
+  const [savingPrivateMessagePreference, setSavingPrivateMessagePreference] = useState(false);
   const [pushPermissionGranted, setPushPermissionGranted] = useState(false);
   // Permission is not delivery. This is the other half: whether a token was
   // ever minted for this install.
@@ -229,7 +231,8 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
         if (userPrefs) {
           try {
             const parsed = typeof userPrefs === 'string' ? JSON.parse(userPrefs) : userPrefs;
-            setPrefs(mergePreferences(getDefaultNotificationPreferences(), parsed));
+            const { privateMessagePushOnly: _privateMessagePushOnly, ...channelPrefs } = parsed ?? {};
+            setPrefs(mergePreferences(getDefaultNotificationPreferences(), channelPrefs));
           } catch {
             logger.warn('Failed to parse notification preferences');
           }
@@ -249,6 +252,31 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
     // saved those reverted values.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userAddress]);
+
+  useEffect(() => {
+    if (!allow || !userAddress) return;
+    let active = true;
+    void getAccountProfile(userAddress).then(profile => {
+      const prefs = (profile as { notificationPreferences?: { privateMessagePushOnly?: boolean } } | undefined)?.notificationPreferences;
+      if (active && profile) {
+        setPrivateMessagePreference({ address: userAddress, enabled: prefs?.privateMessagePushOnly === true });
+      }
+    }).catch(() => {});
+    return () => { active = false; };
+  }, [allow, userAddress]);
+
+  const togglePrivateMessagePushOnly = async (enabled: boolean) => {
+    setSavingPrivateMessagePreference(true);
+    try {
+      if (await updateNotificationPreferences({ privateMessagePushOnly: enabled })) {
+        setPrivateMessagePreference(current => current?.address === userAddress ? { ...current, enabled } : current);
+      } else {
+        toastError(null, t('toasts.failed_to_save_settings'));
+      }
+    } finally {
+      setSavingPrivateMessagePreference(false);
+    }
+  };
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (state) => {
@@ -566,6 +594,30 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
                     />
                   </React.Fragment>
                 ))}
+                {category.key === 'social' && (
+                  <SettingsAnchor id="private-message-push-only">
+                    <Divider />
+                    <View className="px-4 py-3 flex-row items-center">
+                      <View className="mr-3 w-8 h-8 rounded-lg bg-theme-neutrals-700/50 items-center justify-center">
+                        <Icon name="Mail" size={16} color="#9ca3af" />
+                      </View>
+                      <View className="flex-1 pr-3">
+                        <Text className="text-sm font-medium text-white">
+                          {t('settings.privateMessagePushOnly', 'Private messages: push only')}
+                        </Text>
+                        <Text className="text-xs text-theme-neutrals-500">
+                          {t('settings.privateMessagePushOnlyDesc', 'Send new one-to-one message alerts as push only. Alerts already in your inbox stay there.')}
+                        </Text>
+                      </View>
+                      <CustomSwitch
+                        value={privateMessagePreference?.address === userAddress && privateMessagePreference.enabled}
+                        onValueChange={togglePrivateMessagePushOnly}
+                        disabled={privateMessagePreference?.address !== userAddress || savingPrivateMessagePreference}
+                        accessibilityLabel={t('settings.privateMessagePushOnly', 'Private messages: push only')}
+                      />
+                    </View>
+                  </SettingsAnchor>
+                )}
               </View>
             </View>
           </SettingsAnchor>

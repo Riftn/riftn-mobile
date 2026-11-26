@@ -23,9 +23,6 @@ export type NotificationPreferenceKey =
   | 'comments'
   | 'commentReplies'
   | 'mentions'
-  // Key name matches web's `PushPreferences.directMessages`
-  // (dehubweb src/lib/api/dehub/push.ts) so the two clients agree on the name.
-  | 'directMessages'
   | 'newFollowers'
   | 'tips'
   | 'subscriptions'
@@ -147,10 +144,10 @@ Notifications.setNotificationHandler({
       && AppState.currentState === 'active'
       && isConversationOpen(conversationId);
     const show = !isCall && !inOpenChat;
-    // A message while the app is open drops in as Riftn's own banner, which
-    // can be pulled down to reply. It stays in the notification list too.
+    // Use the system notification for push-only DMs, including in the foreground.
     const bannered = show
       && data.type === 'new_message'
+      && data.pushOnly !== true
       && AppState.currentState === 'active'
       && typeof conversationId === 'string'
       && showMessageBanner({
@@ -608,7 +605,6 @@ export function getDefaultNotificationPreferences(): NotificationPreferences {
     comments: true,
     commentReplies: true,
     mentions: true,
-    directMessages: true,
     newFollowers: true,
     tips: true,
     subscriptions: true,
@@ -677,7 +673,7 @@ export function mergePreferences(
  * Uses the /update_profile endpoint with notificationPreferences field.
  */
 export async function updateNotificationPreferences(
-  preferences: Partial<NotificationPreferences>
+  preferences: Partial<NotificationPreferences> & { privateMessagePushOnly?: boolean }
 ): Promise<boolean> {
   try {
     const formData = new FormData();
