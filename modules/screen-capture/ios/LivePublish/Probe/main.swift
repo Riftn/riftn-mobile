@@ -50,6 +50,17 @@ if CommandLine.arguments.count > 1, CommandLine.arguments[1] == "--selftest" {
     }
     check(produced >= 15, "aac produced \(produced) of 20")
   } else { check(false, "aac encoder") }
+  var limiter = LivePeakLimiter(sampleRate: LiveAudioMixer.sampleRate)
+  var appAudio: [Float] = [0.95, -0.9, 0.5, -0.25]
+  let original = appAudio
+  limiter.process(&appAudio)
+  check(appAudio == original, "app audio at unity gain is unchanged")
+  var overlap: [Float] = [1.25, -0.625]
+  limiter.process(&overlap)
+  check(overlap == [1, -0.5], "overlap is limited without moving the stereo image")
+  var afterPeak = [Float](repeating: 0.5, count: 1_440)
+  limiter.process(&afterPeak)
+  check(afterPeak[0] > 0.4 && afterPeak[0] < 0.41 && afterPeak.last == 0.5, "limiter recovers between beats")
   print("SELFTEST OK")
   exit(0)
 }

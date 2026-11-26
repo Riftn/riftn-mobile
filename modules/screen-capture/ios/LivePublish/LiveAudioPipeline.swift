@@ -30,6 +30,7 @@ final class LiveAudioMixer {
   private var primed: [Bool] = Array(repeating: false, count: Source.allCases.count)
   private var converters: [AVAudioConverter?] = Array(repeating: nil, count: Source.allCases.count)
   private var formats: [AudioStreamBasicDescription?] = Array(repeating: nil, count: Source.allCases.count)
+  private var limiter = LivePeakLimiter(sampleRate: LiveAudioMixer.sampleRate)
   private let output = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: sampleRate, channels: 2, interleaved: true)!
   private(set) var lastHeard: [CFTimeInterval] = Array(repeating: 0, count: Source.allCases.count)
 
@@ -80,7 +81,7 @@ final class LiveAudioMixer {
       heads[index] += take
       if take < frames * LiveAudioMixer.channels { primed[index] = false }
     }
-    for i in mix.indices { mix[i] = max(-1, min(1, mix[i])) }
+    limiter.process(&mix)
     return mix
   }
 
@@ -160,6 +161,27 @@ final class LiveAudioMixer {
       }
     }
     return (out, asbd)
+  }
+}
+
+/// Apply the same gain to both channels only when the combined signal
+/// would clip. Recover quickly between peaks so one loud beat doesn't
+/// turn down the music that follows it.
+struct LivePeakLimiter {
+  private var gain: Float = 1
+  private let recovery: Float
+
+  init(sampleRate: Double) {
+    recovery = 1 / Float(sampleRate * 0.015)
+  }
+
+  mutating func process(_ stereo: inout [Float]) {
+    for i in stride(from: 0, to: stereo.count, by: 2) {
+      let peak = max(abs(stereo[i]), abs(stereo[i + 1]))
+      gain = min(1, gain + recovery, peak > 1 ? 1 / peak : 1)
+      stereo[i] *= gain
+      stereo[i + 1] *= gain
+    }
   }
 }
 
