@@ -80,7 +80,9 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   // App tokens: when the server switches them on, DHB is the in-app balance
   // and Send moves app tokens only. Onchain DHB is not shown or sent here.
   const appTokensOn = useAppTokensEnabled();
-  const { data: appTokens } = useAppTokens(appTokensOn);
+  const { data: appTokens, refetch: refreshAppTokens } = useAppTokens(appTokensOn || !DIGITAL_PURCHASES_ENABLED);
+  // The App Store wallet can show the balance without offering app-token sends.
+  const showAppTokens = appTokensOn || (!DIGITAL_PURCHASES_ENABLED && appTokens?.symbol === 'RIFT');
   const appDhb = Number(appTokens?.balance ?? 0);
   const appTokenLabel = appTokens?.symbol === 'RIFT' ? '$RIFT' : tokenLabel();
   const [appSend, setAppSend] = useState(false);
@@ -126,7 +128,10 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   return <View style={s.screen}>
     <ScreenHeader title={t('wallet.title')} icon="wallet" />
     <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={s.content}
-      refreshControl={<DeHubRefreshControl refreshing={wallet.refreshing} onRefresh={() => { void wallet.refresh(); }} />}>
+      refreshControl={<DeHubRefreshControl refreshing={wallet.refreshing} onRefresh={() => {
+        void wallet.refresh();
+        if (showAppTokens) void refreshAppTokens();
+      }} />}>
       <PageSection>
         <View style={s.balanceRow}>
           <TokenIcon symbol="DHB" />
@@ -166,11 +171,11 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <KitButton label={t('common.retry')} variant="quiet" onPress={() => { void wallet.refresh(); }} />
         </View>}
         {wallet.loading && wallet.tokens.length === 0 ? <ActivityIndicator style={s.loading} color="#aaa" /> : null}
-        {appTokensOn && (!query || `dhb dehub rift riftn tokens ${appTokenLabel}`.toLowerCase().includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`${appTokenLabel}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
+        {showAppTokens && (!query || `dhb dehub rift riftn tokens ${appTokenLabel}`.toLowerCase().includes(query)) && <Pressable disabled={!appTokensOn} accessibilityRole={appTokensOn ? 'button' : 'text'} accessibilityLabel={`${appTokenLabel}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
           <TokenIcon symbol="DHB" />
           <View style={s.tokenName}><Text style={[s.label, { textTransform: 'capitalize' }]}>{appTokenLabel}</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{format(appDhb)}</Text><Text style={s.muted}>{wallet.prices.DHB ? `$${(appDhb * wallet.prices.DHB).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
-          <Icon name="ChevronRight" size={16} color="#999" />
+          {appTokensOn && <Icon name="ChevronRight" size={16} color="#999" />}
         </Pressable>}
         {visible.map(item => <Pressable key={item.symbol} accessibilityRole="button" accessibilityLabel={`${tokenLabel(item.symbol)}, ${item.unknown ? t('common.failedToLoad') : format(item.amount)}`} onPress={() => setGroup(item)} style={s.tokenRow}>
           <TokenIcon symbol={item.symbol} />
@@ -178,7 +183,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{item.unknown ? (item.amount > 0 ? `≈ ${format(item.amount)}` : '—') : format(item.amount)}</Text><Text style={s.muted}>{!item.unknown && wallet.prices[item.symbol] ? `$${(item.amount * wallet.prices[item.symbol]).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
           <Icon name="ChevronRight" size={16} color="#999" />
         </Pressable>)}
-        {!wallet.loading && !visible.length && !wallet.failedChains.length && !appTokensOn && <Text style={s.empty}>{t(query ? 'common.noResults' : 'wallet.zeroBalance')}</Text>}
+        {!wallet.loading && !visible.length && !wallet.failedChains.length && !showAppTokens && <Text style={s.empty}>{t(query ? 'common.noResults' : 'wallet.zeroBalance')}</Text>}
         {!!credits?.tokens && (!query || t('credits.subscriptionTokens').toLowerCase().includes(query)) && <Pressable style={s.tokenRow} onPress={() => toastInfo(t('credits.untradableTokens'))}>
           <TokenIcon symbol="DHB" /><View style={s.tokenName}><Text style={s.label}>{t('credits.subscriptionTokens')}</Text><Text style={s.muted}>{t('credits.subscriptionTokensOnly')}</Text></View><Text style={s.label}>{format(credits.tokens)}</Text>
         </Pressable>}
