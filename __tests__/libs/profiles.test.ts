@@ -27,6 +27,7 @@ import {
   currentProfileId,
   clearProfiles,
   removeProfile,
+  removeSavedProfile,
   removeProfilesForAddress,
   snapshotCurrentSession,
   beginProfileSwitch,
@@ -86,6 +87,31 @@ describe('libs/profiles', () => {
     // …and any displacement marker, which is module-scoped and would otherwise
     // leak into the next test.
     consumeAddProfileAttempt();
+  });
+
+  it('forgets legacy duplicates without a concurrent refresh restoring them', async () => {
+    await seedAccountA();
+    await adoptCurrentProfile();
+    const account = await getProfile('uid-a');
+    const registry = JSON.parse((await AsyncStorage.getItem(PROFILES_STORAGE_KEY)) ?? '[]');
+    registry.push({ ...account, id: `addr:${ADDR_A}`, addedAt: 0 });
+    await AsyncStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(registry));
+    await seedAccountB();
+    await adoptCurrentProfile();
+
+    await expect(removeSavedProfile(ADDR_B)).rejects.toThrow();
+    await setAuthToken('tok-b-rotated');
+    await Promise.all([
+      removeSavedProfile(ADDR_A.toUpperCase()),
+      snapshotCurrentSession(),
+      mergeTokensIntoStoredProfile({ address: ADDR_A, uid: 'uid-a' }, { auth_token: 'tok-a-rotated' }),
+    ]);
+
+    expect(await getProfile('uid-a')).toBeNull();
+    expect(await getProfile(`addr:${ADDR_A}`)).toBeNull();
+    expect((await listProfiles()).map((profile) => profile.address)).toEqual([ADDR_B]);
+    expect((await getProfile(`addr:${ADDR_B}`))?.session?.tokens.auth_token).toBe('tok-b-rotated');
+    expect(mockStore.__store['ps_uid-a_auth_token']).toBeUndefined();
   });
 
   it('keeps the verified Google session when correcting its profile address', async () => {

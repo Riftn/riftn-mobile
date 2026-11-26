@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icon from '../ui/Icon';
 import Avatar from '../common/Avatar';
+import RemoveSavedProfileButton from '../common/RemoveSavedProfileButton';
 import SavedProfileName from '../common/SavedProfileName';
 import { getAvatarUrl } from '../../libs/misc';
 import { SettingsSection, Divider } from './SettingsPrimitives';
@@ -29,36 +30,28 @@ export function ProfilesSection({ onSelect }: { onSelect?: () => void } = {}) {
   const { switchToProfile, openAddProfile } = useAuthActions();
   const [profiles, setProfiles] = useState<StoredProfile[]>([]);
   const [switchingId, setSwitchingId] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(false);
+  const busy = !!switchingId || removing;
+  const activeAddress = (user?.walletAddress || user?.address)?.toLowerCase();
 
   useEffect(() => {
     let cancelled = false;
     const sync = () => {
       listProfiles().then((list) => {
         if (!cancelled) setProfiles(list);
-      });
+      }).catch(() => undefined);
     };
     sync();
+    const unsub = subscribeProfilesChanged(sync);
     return () => {
       cancelled = true;
-      // unsubscribe handled below via the returned fn captured per call
+      unsub();
     };
-  }, []);
-
-  useEffect(() => {
-    const unsub = subscribeProfilesChanged(() => {
-      listProfiles().then((list) => setProfiles(list));
-    });
-    return unsub;
-  }, []);
-
-  // The live account's own row mirrors whoever is signed in right now.
-  useEffect(() => {
-    listProfiles().then((list) => setProfiles(list));
-  }, [user?.address]);
+  }, [activeAddress]);
 
   const handleSwitch = useCallback(
     async (id: string) => {
-      if (switchingId) return;
+      if (busy) return;
       onSelect?.();
       setSwitchingId(id);
       try {
@@ -67,12 +60,10 @@ export function ProfilesSection({ onSelect }: { onSelect?: () => void } = {}) {
         setSwitchingId(null);
       }
     },
-    [switchingId, switchToProfile, onSelect]
+    [busy, switchToProfile, onSelect]
   );
 
   if (profiles.length === 0 && !user) return null;
-
-  const activeAddress = user?.walletAddress || user?.address;
 
   return (
     <SettingsSection
@@ -81,49 +72,54 @@ export function ProfilesSection({ onSelect }: { onSelect?: () => void } = {}) {
       note={t('settings.profilesDesc', 'Accounts saved on this device')}
     >
       {profiles.map((profile, index) => {
-        const isActive =
-          !!activeAddress &&
-          profile.address.toLowerCase() === activeAddress.toLowerCase();
+        const isActive = profile.address.toLowerCase() === activeAddress;
         return (
           <React.Fragment key={profile.id}>
             {index > 0 ? <Divider /> : null}
-            <TouchableOpacity
-              onPress={() => handleSwitch(profile.id)}
-              disabled={isActive || !!switchingId}
-              activeOpacity={0.7}
-              className="px-4 py-3 flex-row items-center"
-            >
-              <View className="mr-3">
-                <Avatar
-                  uri={profile.avatarUrl ? getAvatarUrl(profile.avatarUrl) : undefined}
-                  size={36}
-                  name={profile.name || profile.username || undefined}
-                />
-              </View>
-              <View className="flex-1 mr-2">
-                <SavedProfileName profile={profile} className="text-white text-base leading-5 font-medium" />
-                {(profile.username || (!profile.session && !isActive)) && (
-                  <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5" numberOfLines={1}>
-                    {[
-                      profile.username && `@${profile.username}`,
-                      !profile.session && !isActive && t('settings.profileSignedOut', 'sign in to switch'),
-                    ].filter(Boolean).join(' · ')}
-                  </Text>
-                )}
-              </View>
-              {switchingId === profile.id ? (
-                <ActivityIndicator size="small" color="#9ca3af" />
-              ) : isActive ? (
-                <Icon name="Check" size={18} color="#F4F4F5" />
-              ) : null}
-            </TouchableOpacity>
+            <View className="flex-row items-center pr-2">
+              <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityState={{ selected: isActive }}
+                onPress={() => handleSwitch(profile.id)}
+                disabled={isActive || busy}
+                activeOpacity={0.7}
+                className="flex-1 px-4 py-3 flex-row items-center"
+              >
+                <View className="mr-3">
+                  <Avatar
+                    uri={profile.avatarUrl ? getAvatarUrl(profile.avatarUrl) : undefined}
+                    size={36}
+                    name={profile.name || profile.username || undefined}
+                  />
+                </View>
+                <View className="flex-1 mr-2">
+                  <SavedProfileName profile={profile} className="text-white text-base leading-5 font-medium" />
+                  {(profile.username || (!profile.session && !isActive)) && (
+                    <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5" numberOfLines={1}>
+                      {[
+                        profile.username && `@${profile.username}`,
+                        !profile.session && !isActive && t('settings.profileSignedOut', 'sign in to switch'),
+                      ].filter(Boolean).join(' · ')}
+                    </Text>
+                  )}
+                </View>
+                {switchingId === profile.id ? (
+                  <ActivityIndicator size="small" color="#9ca3af" />
+                ) : isActive ? (
+                  <Icon name="Check" size={18} color="#F4F4F5" />
+                ) : null}
+              </TouchableOpacity>
+              {!!activeAddress && !isActive && (
+                <RemoveSavedProfileButton profile={profile} disabled={busy} onRemovingChange={setRemoving} />
+              )}
+            </View>
           </React.Fragment>
         );
       })}
       <Divider />
       <TouchableOpacity
         onPress={() => { onSelect?.(); openAddProfile(); }}
-        disabled={!!switchingId}
+        disabled={busy}
         activeOpacity={0.7}
         className="px-4 py-3 flex-row items-center"
       >

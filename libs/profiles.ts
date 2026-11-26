@@ -201,22 +201,31 @@ async function readRaw(): Promise<any[]> {
 }
 
 async function readStore(): Promise<StoredProfile[]> {
-  const version = profileStoreVersion;
   const raw = await readRaw();
-  const profiles = await Promise.all(raw.map(unseal));
   // A registry written before sessions were sealed still carries them inline.
-  if (raw.some((p) => p?.session && !isSealed(p.session))) await persist(profiles, version);
-  return profiles;
+  if (raw.some((p) => p?.session && !isSealed(p.session))) {
+    await queueProfileWrite(profileStoreVersion, async () => {
+      const latest = await readRaw();
+      if (latest.some((p) => p?.session && !isSealed(p.session))) {
+        await persistProfiles(await Promise.all(latest.map(unseal)));
+      }
+    });
+    return readProfiles();
+  }
+  return Promise.all(raw.map(unseal));
 }
 
-/** Writes the registry, sealing every session into SecureStore. */
-function persist(profiles: StoredProfile[], version: number): Promise<void> {
+function readProfiles(): Promise<StoredProfile[]> {
+  return readRaw().then((raw) => Promise.all(raw.map(unseal)));
+}
+
+function queueProfileWrite<T>(version: number, update: () => Promise<T>): Promise<T | undefined> {
   // Finish an in-flight write before clearing the registry. Skip stale writes
   // that were queued while sign-out was removing the saved sessions.
   const write = profileWrites.then(() => {
-    if (version === profileStoreVersion) return persistProfiles(profiles);
+    if (version === profileStoreVersion) return update();
   });
-  profileWrites = write.catch(() => undefined);
+  profileWrites = write.then(() => undefined, () => undefined);
   return write;
 }
 
@@ -253,9 +262,9 @@ async function persistProfiles(profiles: StoredProfile[]): Promise<void> {
   }
 }
 
-async function writeStore(profiles: StoredProfile[], version: number): Promise<void> {
+async function writeStore(profiles: StoredProfile[]): Promise<void> {
   try {
-    await persist(profiles, version);
+    await persistProfiles(profiles);
   } catch {}
   emitChanged();
 }
@@ -297,13 +306,32 @@ export async function getProfile(id: string): Promise<StoredProfile | null> {
 }
 
 export async function clearProfiles(): Promise<void> {
-  await persist([], ++profileStoreVersion);
+  await queueProfileWrite(++profileStoreVersion, () => persistProfiles([]));
   emitChanged();
 }
 
-export async function removeProfile(id: string): Promise<void> {
-  const version = profileStoreVersion;
-  await writeStore((await readStore()).filter((p) => p.id !== id), version);
+export function removeProfile(id: string): Promise<void> {
+  return queueProfileWrite(profileStoreVersion, async () => {
+    await writeStore((await readProfiles()).filter((p) => p.id !== id));
+  });
+}
+
+/** Forget every saved row for an inactive account, including legacy duplicates. */
+export async function removeSavedProfile(address: string): Promise<void> {
+  const target = address.toLowerCase();
+  await queueProfileWrite(profileStoreVersion, async () => {
+    const live = await currentIdentity();
+    if (switchGuarded || !live || live.address.toLowerCase() === target) {
+      throw new Error('Cannot remove a profile while it is active or switching');
+    }
+
+    const profiles = await readProfiles();
+    const kept = profiles.filter((profile) => profile.address.toLowerCase() !== target);
+    if (kept.length !== profiles.length) {
+      await persistProfiles(kept);
+      emitChanged();
+    }
+  });
 }
 
 /**
@@ -312,12 +340,13 @@ export async function removeProfile(id: string): Promise<void> {
  * row would otherwise sit beside the new one as a second copy of the same
  * person.
  */
-export async function removeProfilesForAddress(address: string, keepId?: string | null): Promise<void> {
-  const version = profileStoreVersion;
+export function removeProfilesForAddress(address: string, keepId?: string | null): Promise<void> {
   const target = address.toLowerCase();
-  const profiles = await readStore();
-  const kept = profiles.filter((p) => p.id === keepId || p.address.toLowerCase() !== target);
-  if (kept.length !== profiles.length) await writeStore(kept, version);
+  return queueProfileWrite(profileStoreVersion, async () => {
+    const profiles = await readProfiles();
+    const kept = profiles.filter((p) => p.id === keepId || p.address.toLowerCase() !== target);
+    if (kept.length !== profiles.length) await writeStore(kept);
+  });
 }
 
 /** Legacy wallet-only and linked sign-ins can leave two rows for one address. */
@@ -370,15 +399,18 @@ async function readSupabaseSession(ownerUid: string | null): Promise<StoredProfi
  *
  * No-op signed out, or while a profile switch has keys in flight.
  */
-async function snapshotSession(adopt: boolean): Promise<void> {
-  const version = profileStoreVersion;
+function snapshotSession(adopt: boolean): Promise<void> {
+  return queueProfileWrite(profileStoreVersion, () => saveSessionSnapshot(adopt));
+}
+
+async function saveSessionSnapshot(adopt: boolean): Promise<void> {
   if (switchGuarded) return;
   const identity = await currentIdentity();
   const token = await SecureStore.getItemAsync(AUTH_TOKEN_KEY);
   // A half-established flow (cleared wallet, no token yet) is not a profile.
   if (!identity || !token) return;
 
-  const profiles = await readStore();
+  const profiles = await readProfiles();
   const existingIndex = profiles.findIndex((p) => p.id === identity.id);
   if (!adopt && existingIndex < 0) return;
 
@@ -425,7 +457,7 @@ async function snapshotSession(adopt: boolean): Promise<void> {
   if (existingIndex >= 0) {
     // Already saved — updating a profile in place can never exceed the limit.
     profiles[existingIndex] = entry;
-    await writeStore(profiles, version);
+    await writeStore(profiles);
     return;
   }
 
@@ -449,7 +481,7 @@ async function snapshotSession(adopt: boolean): Promise<void> {
   }
 
   profiles.push(entry);
-  await writeStore(profiles, version);
+  await writeStore(profiles);
 }
 
 /** Refresh the live account's registry copy, creating nothing. */
@@ -496,17 +528,18 @@ export async function preserveOutgoingProfile(): Promise<boolean> {
  * alive — a stash left holding a refresh token the server already rotated gets
  * its whole family revoked on reuse.
  */
-export async function mergeTokensIntoStoredProfile(
+export function mergeTokensIntoStoredProfile(
   owner: { address: string; uid: string | null },
   tokens: Record<string, string>,
 ): Promise<void> {
-  const version = profileStoreVersion;
   const id = owner.uid ?? `addr:${owner.address.toLowerCase()}`;
-  const profiles = await readStore();
-  const entry = profiles.find((p) => p.id === id);
-  if (!entry?.session) return;
-  Object.assign(entry.session.tokens, tokens);
-  await writeStore(profiles, version);
+  return queueProfileWrite(profileStoreVersion, async () => {
+    const profiles = await readProfiles();
+    const entry = profiles.find((p) => p.id === id);
+    if (!entry?.session) return;
+    Object.assign(entry.session.tokens, tokens);
+    await writeStore(profiles);
+  });
 }
 
 /**
@@ -515,21 +548,22 @@ export async function mergeTokensIntoStoredProfile(
  * offering it under "Continue as" only bounces the person straight back to the
  * sign-in sheet every time they pick it.
  */
-export async function dropStoredProfileSession(
+export function dropStoredProfileSession(
   owner: { address: string; uid: string | null },
 ): Promise<void> {
-  const version = profileStoreVersion;
   const address = owner.address.toLowerCase();
   const id = owner.uid ?? `addr:${address}`;
-  const profiles = await readStore();
-  let changed = false;
-  for (const entry of profiles) {
-    if (!entry.session) continue;
-    if (entry.id !== id && entry.address?.toLowerCase() !== address) continue;
-    entry.session = null;
-    changed = true;
-  }
-  if (changed) await writeStore(profiles, version);
+  return queueProfileWrite(profileStoreVersion, async () => {
+    const profiles = await readProfiles();
+    let changed = false;
+    for (const entry of profiles) {
+      if (!entry.session) continue;
+      if (entry.id !== id && entry.address?.toLowerCase() !== address) continue;
+      entry.session = null;
+      changed = true;
+    }
+    if (changed) await writeStore(profiles);
+  });
 }
 
 /**
@@ -743,10 +777,14 @@ export interface ProfileSwitchPlan {
  * target has no usable stored session, in which case disk is untouched.
  */
 export async function beginProfileSwitch(id: string): Promise<ProfileSwitchPlan | null> {
-  const entry = await getProfile(id);
+  return (await queueProfileWrite(profileStoreVersion, () => stageProfileSwitch(id))) ?? null;
+}
+
+async function stageProfileSwitch(id: string): Promise<ProfileSwitchPlan | null> {
+  const entry = (await readProfiles()).find((profile) => profile.id === id);
   if (!entry?.session) return null;
 
-  await snapshotCurrentSession();
+  await saveSessionSnapshot(false);
   const outgoing = await currentIdentity();
 
   switchGuarded = true;
@@ -756,7 +794,7 @@ export async function beginProfileSwitch(id: string): Promise<ProfileSwitchPlan 
     // Put the outgoing account's just-refreshed snapshot back — disk must end
     // up describing exactly one whole identity.
     try {
-      const prev = outgoing ? await getProfile(outgoing.id) : null;
+      const prev = outgoing && (await readProfiles()).find((profile) => profile.id === outgoing.id);
       await applyStash(prev?.session ?? null);
     } catch {}
     switchGuarded = false;
