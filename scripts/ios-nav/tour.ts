@@ -1467,6 +1467,11 @@ async function runKeys(): Promise<void> {
 async function runBuildPromptCheck(): Promise<void> {
   const { Keyboard } = require("react-native") as typeof import("react-native");
   extra = { startedAt: Date.now(), mode: "build-prompt" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
   await sleep(12000);
   nav.navigate(ScreenNames.FeatureRequests);
   await sleep(6500);
