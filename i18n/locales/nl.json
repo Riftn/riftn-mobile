@@ -6381,6 +6381,11 @@
     "noVoice": "Je apparaat heeft geen stem voor deze taal."
   },
   "stages": {
+    "returnToStage": "Terug",
+    "liveRadio": "Live radio",
+    "stageHeadcount_one": "{{count}} deelnemer",
+    "stageHeadcount_other": "{{count}} deelnemers",
+    "join": "Deelnemen",
     "radioShow": {
       "toggle": "Radioshow",
       "hint": "Muziek eerst: speel je eigen nummers of een playlist, praat wanneer je wilt. Luisteraars komen wanneer ze willen, en hij staat in de rij Radio op Verkennen.",

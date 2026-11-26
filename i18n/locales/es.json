@@ -6243,6 +6243,11 @@
     "filedOn": "Abierto el {{date}}"
   },
   "stages": {
+    "returnToStage": "Volver",
+    "liveRadio": "Radio en directo",
+    "stageHeadcount_one": "{{count}} participante",
+    "stageHeadcount_other": "{{count}} participantes",
+    "join": "Unirse",
     "radioShow": {
       "toggle": "Programa de radio",
       "hint": "La música primero: pon tus canciones o una lista, habla cuando quieras. Los oyentes entran cuando quieran y aparece en la fila Radio de Explorar.",
