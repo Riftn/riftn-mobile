@@ -11,8 +11,6 @@ import { openBadgeShowcase, tierForBadgeImage } from "../../libs/badgeShowcase";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MONO_TEXT } from "../../theme/skins";
-import { useLiveTarget } from "../../hooks/useIsUserLive";
-import { openLiveTarget } from "../../libs/openLiveTarget";
 import { prefetchUserProfile } from "../../hooks/useUserProfileData";
 
 /** Glass squares: rounded rectangles, never circles. */
@@ -180,8 +178,6 @@ export const PostStageCreator = memo(function PostStageCreator({
   const { t } = useTranslation();
   const { skin } = useAppTheme();
   const badgeRef = useRef<View>(null);
-  const liveTarget = useLiveTarget(address, username);
-  const live = !!liveTarget;
   const mono = skin?.mono ? MONO_TEXT : null;
   const sub = [
     username ? `@${username}` : null,
@@ -195,10 +191,6 @@ export const PostStageCreator = memo(function PostStageCreator({
           uri={avatarUrl && avatarUrl !== "default-avatar" ? avatarUrl : undefined}
           size={40}
           name={displayName || username}
-          live={live}
-          // Its own touchable while live, so the avatar opens the stream and
-          // the name beside it still opens the profile.
-          onPress={liveTarget ? () => openLiveTarget(liveTarget) : undefined}
         />
         <View style={styles.identityText}>
           <View style={styles.nameRow}>

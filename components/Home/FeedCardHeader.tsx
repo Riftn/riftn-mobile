@@ -49,6 +49,7 @@ export interface FeedCardHeaderProps {
   address?: string;
   badgeImage?: any;
   onUserPress?: () => void;
+  postPage?: boolean;
   avatarSize?: number;
   onMenuPress?: () => void;
   onBoostPress?: () => void;
@@ -115,6 +116,7 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   address,
   badgeImage,
   onUserPress,
+  postPage = false,
   avatarSize = 32,
   onMenuPress,
   onBoostPress,
@@ -129,13 +131,13 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   const litColor = isLight ? LIT_LIGHT : LIT_DARK;
   const boltPress = onBoostPress ?? (boosted ? onBoostedPress : undefined);
   const badgeRef = useRef<View>(null);
-  // While they are live the avatar opens the stream; name and @handle
-  // still open the profile.
-  const liveTarget = useLiveTarget(address, username);
+  // In the feed the face can open a live or Moment. On the post page it
+  // opens the same profile as the name and handle.
+  const liveTarget = useLiveTarget(postPage ? undefined : address, postPage ? undefined : username);
   const live = !!liveTarget;
   // A Moment up (and no co-author badge in that corner): a small peek of it
   // sits on the face and a tap on the face opens it. Live still wins the tap.
-  const moment = useFaceMoment(coAuthors?.length ? null : address);
+  const moment = useFaceMoment(postPage || coAuthors?.length ? null : address);
   const openMoments = useOpenMoments(address);
   // Start fetching the profile as the finger lands, so it is usually in hand
   // by the time the tap is released and the page slides in.
@@ -150,6 +152,8 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
       <Pressable
         onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : onUserPress}
         onPressIn={liveTarget || moment || !onUserPress ? undefined : warmProfile}
+        accessibilityRole={postPage ? "button" : undefined}
+        accessibilityLabel={postPage ? t("liveViewer.openProfileOf", { name: displayName }) : undefined}
         style={{ flexShrink: 0 }}
         hitSlop={IDENTITY_HIT_SLOP}
       >

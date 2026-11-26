@@ -294,6 +294,7 @@ interface FeedCardProps {
   onCategorySelect?: (category: string) => void;
   fullContent?: boolean;
   disablePress?: boolean;
+  postPage?: boolean;
   /** Held press on the card (450 ms): own profile text posts open the background picker. */
   onHold?: () => void;
   /**
@@ -481,6 +482,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   onCategorySelect,
   fullContent = false,
   disablePress = false,
+  postPage = false,
   onHold,
   menuHost,
   onCommentPress: onCommentPressProp,
@@ -2793,6 +2795,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           <View style={{ flexDirection: 'row', gap: SCREEN_WIDTH < 768 ? 16 : 24, alignItems: 'stretch' }}>
             <View style={{ flex: 1, minWidth: 0 }}>
               <FeedCardHeader
+                postPage={postPage}
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={goToSuperPowers}
@@ -3057,6 +3060,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const photoHeader = cinematicMedia && !chipOverMedia ? (
       <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: firstImageHeaderBelow ? 10 : leadInset }}>
               <FeedCardHeader
+                postPage={postPage}
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={goToSuperPowers}
@@ -3176,6 +3180,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         ) : (
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: leadInset }}>
             <FeedCardHeader
+              postPage={postPage}
                 coAuthors={coAuthorState.users}
               boosted={isBoosted}
               onBoostedPress={goToSuperPowers}
@@ -3413,6 +3418,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           card is ~100 native views, each one paid for at mount mid-fling. */}
       {!retainFeedNav && postVideo && matureGate.isGated && <PostStageChrome overMedia={false} />}
       {!desk && <FeedCardHeader
+        postPage={postPage}
                 coAuthors={coAuthorState.users}
         boosted={isBoosted}
         onBoostedPress={goToSuperPowers}
