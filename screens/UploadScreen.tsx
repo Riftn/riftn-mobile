@@ -162,6 +162,7 @@ import { TranslatedDraftNote } from "../components/Upload/TranslatedDraftNote";
 import { rememberTranslateLang, translateDraft, translateLanguageName } from "../libs/post-translate";
 import { ensureAiConsent } from "../libs/ai-consent";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
+import { PostFormatControls } from "../components/common/PostTextFormatting";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
 import { uploadLocalFileToBucket, fileExtension, contentTypeForExtension } from "../libs/storage-upload";
@@ -3021,6 +3022,8 @@ export default function UploadScreen() {
               autoFocus
               scrollEnabled={false}
             /></GestureDetector>}
+            {!articleMode && <PostFormatControls value={bodyText} inputRef={bodyInputRef}
+              selectionRef={bodySelectionRef} maxLength={DESCRIPTION_MAX} onChangeText={setBodyText} />}
             {articleMode && (
               <ArticleEditor
                 look={articleUi}
