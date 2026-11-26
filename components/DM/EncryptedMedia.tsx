@@ -1,3 +1,4 @@
+import { useAppTheme } from "../../context/ThemeContext";
 /**
  * Bubble content for an end-to-end encrypted attachment.
  *
@@ -131,6 +132,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   onCamera,
 }) => {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
   const navigation = useNavigation<any>();
   const { width: windowWidth } = useWindowDimensions();
   const url = encryptedMediaUrl(rawUrl);
@@ -287,7 +289,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
               placeholder
             )}
             {!shown && (tileSize && status === "idle"
-              ? <View className="absolute inset-0 items-center justify-center"><ActivityIndicator size="small" color="#B5B5B5" /></View>
+              ? <View className="absolute inset-0 items-center justify-center"><ActivityIndicator size="small" color={colors.foreground} /></View>
               : overlay(null))}
           </View>
         </TouchableOpacity>

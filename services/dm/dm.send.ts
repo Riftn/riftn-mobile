@@ -943,7 +943,7 @@ class DmSendQueue {
       const content = descriptor
         ? (await prepareOutgoing(peer!, encodeMediaDescriptor(descriptor))).content
         : await this.wireContent(convId, job.address, caption);
-      if (descriptor && (!isEncryptedContent(content) || content.length > MAX_ENVELOPE_CHARS)) {
+      if (descriptor ? !isEncryptedContent(content) || content.length > MAX_ENVELOPE_CHARS : isEncryptedContent(content)) {
         throw new Error("Could not encrypt the photo batch.");
       }
       const timeout = UPLOAD_TIMEOUT_IMAGE * 3;

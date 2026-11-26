@@ -160,6 +160,7 @@ interface AutoImageProps {
  */
 const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, tileSize, onPress, onLongPress }) => {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
   const { width: windowWidth } = useWindowDimensions();
   const [aspect, setAspect] = useState<number>(DEFAULT_ASPECT);
   const [loading, setLoading] = useState(true);
@@ -205,7 +206,7 @@ const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, tileSize, onPres
           className="bg-theme-neutrals-700 items-center justify-center"
           style={{ width: displayW, height: displayH }}
         >
-          <Icon name="Image" size={32} color={tileSize ? "#B5B5B5" : "#555"} />
+          <Icon name="Image" size={32} color={tileSize ? colors.foreground : "#555"} />
           <Text className={tileSize ? "text-theme-neutrals-100 text-[13px] mt-1" : "text-theme-neutrals-500 text-[11px] mt-1"}>
             {t("dm.failedToLoad")}
           </Text>
@@ -231,7 +232,7 @@ const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, tileSize, onPres
             className="absolute inset-0 bg-theme-neutrals-700 items-center justify-center"
             style={{ width: displayW, height: displayH }}
           >
-            <ActivityIndicator size="small" color={tileSize ? "#B5B5B5" : "#555"} />
+            <ActivityIndicator size="small" color={tileSize ? colors.foreground : "#555"} />
           </View>
         )}
         {/* expo-image takes no className, so the backdrop lives on a wrapper. */}
