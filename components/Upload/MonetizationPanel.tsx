@@ -187,6 +187,7 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
 
   // Draft state for forms (not committed until confirm)
   const [ppvDraft, setPpvDraft] = useSurfaceDraft<PpvData>("components/Upload/MonetizationPanel.tsx:ppvDraft", state.ppvData, draftScope);
+  const [previewFocused, setPreviewFocused] = useState(false);
   const previewInvalid = canConfigurePpvPreview && parsePpvPreviewSeconds(ppvDraft.previewSeconds) === null;
   const ppvStable = !isSolana && (ppvDraft.tokenSymbol === "USDC" || ppvDraft.tokenSymbol === "USDT")
     ? ppvDraft.tokenSymbol
@@ -459,11 +460,13 @@ const MonetizationPanel: React.FC<MonetizationPanelProps> = ({
                 value={ppvDraft.previewSeconds ?? ''}
                 onChangeText={value => setPpvDraft(draft => ({ ...draft, previewSeconds: value }))}
                 keyboardType="number-pad"
+                onFocus={() => setPreviewFocused(true)}
+                onBlur={() => setPreviewFocused(false)}
                 accessibilityLabel={t('ppvPreview.seconds', { defaultValue: 'Free preview (seconds)' })}
                 accessibilityHint={t('ppvPreview.secondsHint', { defaultValue: 'Choose 1–30 seconds. Enter 0 to skip the preview.' })}
                 placeholder="0"
                 placeholderTextColor="#6F7174"
-                className="h-11 rounded-xl border border-theme-neutrals-700 bg-theme-neutrals-900 px-3 text-sm text-theme-neutrals-100"
+                className={`h-11 rounded-xl border bg-theme-neutrals-900 px-3 text-sm text-theme-neutrals-100 ${previewFocused ? "border-theme-neutrals-300" : "border-theme-neutrals-700"}`}
                 style={FIELD_TEXT}
               />
               <Text className="text-theme-neutrals-300 text-sm leading-5">

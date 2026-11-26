@@ -3692,7 +3692,7 @@ export default function UploadScreen() {
                 onChange={handleMonetizationChange}
                 canConfigurePpvPreview={canConfigurePpvPreview(
                   !!pickedVideo,
-                  isLiveMode || isStageMode || visibility !== "public" || isMature || !!contentWarning?.trim() || !!videoDestruct,
+                  isLiveMode || isStageMode || visibility !== "public" || !!authUser?.isPrivate || isMature || !!contentWarning?.trim() || !!videoDestruct,
                   monetization,
                 )}
                 postChainId={effectivePostChainId}

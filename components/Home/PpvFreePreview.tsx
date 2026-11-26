@@ -9,8 +9,8 @@ import { KitButton } from '../page/PageKit';
 export function PpvPreviewButton({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
   return (
-    <View className="absolute bottom-3 right-3">
-      <KitButton label={t('ppvPreview.watch', { defaultValue: 'Watch free preview' })} onPress={onPress} />
+    <View className="absolute bottom-3 left-3">
+      <KitButton label={t('ppvPreview.watch', { defaultValue: 'Watch free preview' })} onPress={onPress} style={{ minHeight: 44 }} />
     </View>
   );
 }
