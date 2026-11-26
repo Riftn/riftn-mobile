@@ -6,7 +6,12 @@ import { useLiveTarget } from '../../hooks/useIsUserLive';
 import { openLiveTarget } from '../../libs/openLiveTarget';
 
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
-jest.mock('react-native', () => ({ View: 'View', Text: 'Text', Pressable: 'Pressable' }));
+jest.mock('react-native', () => ({
+  View: 'View',
+  Text: 'Text',
+  Pressable: 'Pressable',
+  StyleSheet: { flatten: (style: unknown) => style },
+}));
 jest.mock('react-native-reanimated', () => ({}));
 jest.mock('react-native-svg', () => ({}));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }) }));
