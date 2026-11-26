@@ -27,9 +27,13 @@ jest.mock('../../components/Wallet/TradeSheet', () => 'TradeSheet');
 jest.mock('../../components/Wallet/ArcSendSheet', () => 'ArcSendSheet');
 jest.mock('../../components/Wallet/AppTokenSheets', () => ({ AppTokenSendSheet: 'AppTokenSendSheet', AppTokenHistorySheet: 'AppTokenHistorySheet' }));
 const mockAppTokens = { enabled: false };
+const mockPreview = jest.fn((open: boolean) => ({
+  data: open ? { balance: '10', fanSiteCredit: '4', credits: [] } : undefined,
+}));
 jest.mock('../../hooks/useAppTokens', () => ({
   useAppTokensEnabled: () => mockAppTokens.enabled,
   useAppTokens: () => ({ data: mockAppTokens.enabled ? { symbol: 'DHB', balance: '1500', entries: [] } : undefined }),
+  useAppTokenPreview: (open: boolean) => mockPreview(open),
 }));
 jest.mock('../../components/common/AddressInputTools', () => 'AddressInputTools');
 jest.mock('../../config/web3.constants', () => ({ NETWORK_URLS: {} }));
@@ -93,5 +97,17 @@ it('shows legacy holdings as a read-only row alongside the app balance', () => {
   expect(label).toBeDefined();
   expect(label.parent?.parent?.props.onPress).toBeUndefined();
   expect(tree.root.findAll(node => node.type === 'Pressable' && node.props.accessibilityLabel === 'tokens, 1,500')).toHaveLength(1);
+  act(() => tree.unmount());
+});
+
+it('loads the off-chain preview on expansion without opening a transfer', () => {
+  mockAppTokens.enabled = true;
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(<WalletOverview onBuy={jest.fn()} onStake={jest.fn()} />); });
+  expect(mockPreview).toHaveBeenLastCalledWith(false);
+  press(tree, 'appTokens.previewTitle');
+  expect(mockPreview).toHaveBeenLastCalledWith(true);
+  expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === '4 RIFT')).toHaveLength(1);
+  expect(tree.root.findByType('AppTokenSendSheet' as any).props.open).toBe(false);
   act(() => tree.unmount());
 });

@@ -29,6 +29,7 @@ import { FIELD_TEXT } from '../../theme/inputs';
 import TradeSheet from './TradeSheet';
 import ArcSendSheet from './ArcSendSheet';
 import { AppTokenHistorySheet, AppTokenSendSheet } from './AppTokenSheets';
+import { AppTokenPreview } from './AppTokenPreview';
 import { useAppTokens, useAppTokensEnabled } from '../../hooks/useAppTokens';
 import AddressInputTools from '../common/AddressInputTools';
 import { tokenLabel } from '../../libs/token-label';
@@ -165,6 +166,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
             <Action label={t('wallet.trade')} icon="ChartNoAxesColumn" onPress={() => setTrade(true)} />
           </>}
         </View>
+        {showAppTokens && <AppTokenPreview key={user?.walletAddress || user?.address} />}
         <View style={s.search}>
           <Icon name="Search" size={18} color="#999" />
           <TextInput accessibilityLabel={t('wallet.searchTokens')} placeholder={t('wallet.searchTokens')} placeholderTextColor="#999" value={search} onChangeText={setSearch} autoCapitalize="none" autoCorrect={false} style={[s.searchInput, FIELD_TEXT]} />
