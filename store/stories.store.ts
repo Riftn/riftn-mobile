@@ -4,6 +4,7 @@
  * the background (its tile on the shelf fills as it uploads).
  */
 import { proxy, ref } from "valtio";
+import { visualActivity } from "../libs/visualActivity";
 import type { ShelfEntry } from "../services/stories.service";
 
 export interface PendingMoment {
@@ -30,11 +31,13 @@ interface StoriesState {
 export const storiesState = proxy<StoriesState>({ viewer: null, creator: null, pending: null });
 
 export function openStoryViewer(entries: ShelfEntry[], index: number, standalone = false, { openComments = false } = {}) {
+  visualActivity.setStoryViewerOpen(true);
   storiesState.viewer = ref({ entries, index, standalone, openComments });
 }
 
 export function closeStoryViewer() {
   storiesState.viewer = null;
+  visualActivity.setStoryViewerOpen(false);
 }
 
 export function openStoryCreator(remixSource?: StoryRemixSource) {
@@ -43,7 +46,7 @@ export function openStoryCreator(remixSource?: StoryRemixSource) {
 
 /** "Share to Moment": the creator opens on one of your own posts. */
 export function openPostMoment(postTokenId: number) {
-  storiesState.viewer = null;
+  closeStoryViewer();
   storiesState.creator = { postTokenId };
 }
 

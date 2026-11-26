@@ -6,7 +6,7 @@
  * length. Like and reply (a reply is a DM); owners see views and likes and who
  * watched, and can delete. Dark in every theme.
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -41,6 +41,11 @@ import { useWebSocketApi } from "../../context/WebSocketContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config/links";
 import { formatCount } from "../../libs/format-count";
+import { releaseAudioFocus, requestAudioFocus } from "../../libs/audioFocus";
+import { revokeAllFeedVideo } from "../../libs/feedVideoFocus";
+import { getPictureInPicturePlayer } from "../../libs/pictureInPicture";
+import { stopActivePreview } from "../../libs/previewRegistry";
+import { visualActivity } from "../../libs/visualActivity";
 import { toastError, toastSuccess } from "../../libs/toast";
 import { muteUser } from "../../services/mute.service";
 import { followUser, unfollowUser } from "../../services/user.service";
@@ -181,7 +186,8 @@ export default function StoryViewer({
   const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
   const postPeek = item?.postTokenId != null && postPeekId === item.id;
-  const paused = held || postPeek || typing || sending || sheet !== null || openingOriginal || !loaded;
+  const appForeground = useSyncExternalStore(visualActivity.subscribe, visualActivity.isAppForeground, () => true);
+  const paused = !appForeground || held || postPeek || typing || sending || sheet !== null || openingOriginal || !loaded;
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
 
@@ -273,6 +279,23 @@ export default function StoryViewer({
   // Song beside the picture.
   const songUri = item?.song?.audioUrl ? item.song.audioUrl.split("#")[0] : null;
   const song = useAudioPlayer(songUri ? { uri: songUri } : null);
+  const stopStoryMedia = useRef(() => {});
+  stopStoryMedia.current = () => {
+    try { if (videoUri) player.pause(); } catch {}
+    try { if (songUri) song.pause(); } catch {}
+  };
+  useLayoutEffect(() => {
+    revokeAllFeedVideo();
+    stopActivePreview();
+    try { getPictureInPicturePlayer()?.pause(); } catch {}
+    const stop = () => stopStoryMedia.current();
+    requestAudioFocus(stop);
+    return () => {
+      stop();
+      releaseAudioFocus(stop);
+    };
+  }, []);
+
   useEffect(() => {
     if (!songUri) return;
     try {
