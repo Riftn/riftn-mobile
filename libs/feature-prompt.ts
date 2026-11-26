@@ -1,5 +1,13 @@
 export const FEATURE_PROMPT_MAX_LENGTH = 10_000;
 
+/** Scroll just enough to expose the input frame above the keyboard. */
+export function featureInputScrollOffset(current: number, viewport: number, y: number, height: number) {
+  const clearance = 8;
+  const top = Math.max(0, y - clearance);
+  const bottom = y + Math.min(height, Math.max(0, viewport - 2 * clearance)) + clearance;
+  return Math.max(0, Math.min(top, Math.max(current, bottom - viewport)));
+}
+
 /** Let explicit board commands reach the assistant even when they mention media generation. */
 export function isRequestBoardCommand(text: string): boolean {
   return /\b(?:add|post|submit|file|create|log|raise|draft)\s+(?:(?:a|an|this|my|the)\s+)?(?:new\s+)?(?:(?:feature|bug|improvement)\s+)?(?:request|bug report)\b/i.test(text)
