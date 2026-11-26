@@ -10,8 +10,8 @@ interface CallButtonProps {
 
 const CallButton: React.FC<CallButtonProps> = ({ recipientAddress }) => {
   const { t } = useTranslation();
-  const { startCall, isCallActive, isConnecting } = useCall();
-  const disabled = isCallActive || isConnecting;
+  const { startCall, currentCall } = useCall();
+  const disabled = !!currentCall;
 
   return (
     <View style={styles.row}>
