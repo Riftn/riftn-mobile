@@ -150,6 +150,8 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
   const completionPreference = useQuery({
     queryKey: ['liked-request-completion', completionWallet],
     enabled: allow && isFocused && !!completionWallet,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
     queryFn: async () => {
       const { data, error } = await withWalletHeader(
         supabase.rpc('get_liked_request_completion_preference'), completionWallet,
