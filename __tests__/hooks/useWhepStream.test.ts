@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react-native';
 import { useWhepStream } from '../../hooks/useWhepStream';
 import { subscribeToWhep, type SubscribeOptions, type WhepSubscription } from '../../libs/whep';
+import { isRealPicture } from '../../libs/whep-memory';
 
 jest.mock('../../libs/live-ingest', () => ({
   whepEndpointFor: ({ playbackId }: { playbackId: string }) => `https://live.example/${playbackId}/whep`,
@@ -67,5 +68,29 @@ it('keeps the fallback for the failed broadcast and still tries WebRTC for the n
   act(() => hook.rerender({ playbackId: 'next' }));
   await act(async () => {});
   expect(hook.result.current.stream).toBe(next.stream);
+  hook.unmount();
+});
+
+it('keeps the fallback warm until this attempt renders a picture', async () => {
+  const first = fakeSession();
+  const next = fakeSession();
+  subscribe.mockResolvedValueOnce(first).mockResolvedValueOnce(next);
+  jest.mocked(isRealPicture).mockImplementation(({ width, height }) => width > 0 && height > 0);
+  const hook = renderHook(
+    ({ playbackId }: { playbackId: string }) => useWhepStream({ enabled: true, stream: { playbackId } }),
+    { initialProps: { playbackId: 'first-picture' } },
+  );
+  await act(async () => {});
+  expect(hook.result.current).toMatchObject({ stream: first.stream, hasPicture: false });
+  const onFirstPicture = hook.result.current.onPicture;
+  act(() => onFirstPicture({ width: 0, height: 0 }));
+  expect(hook.result.current.hasPicture).toBe(false);
+  act(() => onFirstPicture({ width: 640, height: 360 }));
+  expect(hook.result.current.hasPicture).toBe(true);
+
+  act(() => hook.rerender({ playbackId: 'second-picture' }));
+  await act(async () => {});
+  act(() => onFirstPicture({ width: 640, height: 360 }));
+  expect(hook.result.current).toMatchObject({ stream: next.stream, hasPicture: false });
   hook.unmount();
 });

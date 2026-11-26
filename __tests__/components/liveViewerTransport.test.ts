@@ -5,12 +5,8 @@ const root = join(__dirname, '..', '..');
 const readSource = (...path: string[]) => readFileSync(join(root, ...path), 'utf8');
 
 /**
- * The self-hosted ingest remuxes rather than transcodes, so its HLS ladder
- * carries the Opus audio the broadcaster published. Android decodes that;
- * Apple does not, at any layer — which makes WebRTC the only way an iPhone can
- * play a self-hosted broadcast at all, on any surface. These pin the two
- * properties that keep that safe: the session is gated like the URL is, and a
- * failure lands back on HLS rather than on a black screen.
+ * The iPhone room can use WebRTC or the AAC HLS ladder. Both playback
+ * paths check access to the stream.
  */
 describe('live viewer transport', () => {
   it('opens a WebRTC session only for a stream this viewer may watch', () => {
@@ -71,12 +67,13 @@ describe('live viewer transport handover', () => {
     expect(core).toMatch(/useEffect\(\(\) => \{\s+if \(autoplay && sourceUrl && !visualActivity\.isCallBusy\(\) && canStartVideo\(player\)\) \{\s+recovery\.start\(\)/);
   });
 
-  it('holds the ladder back while an attempt is in flight', () => {
+  it('preloads the shared iOS ladder without displaying it during a WebRTC attempt', () => {
     const player = readSource('components', 'VideoPlayer', 'LiveStreamPlayer.tsx');
     const hook = readSource('hooks', 'useWhepStream.ts');
 
-    // Starting HLS underneath a WebRTC attempt means the picture begins and
-    // then restarts a second later when the session arrives.
+    expect(player).toContain('isSharedLivePlayerPlaying(iosLiveUrl)');
+    expect(player).toContain('&& !keepSharedHls');
+    expect(player).toContain('(whepLive.pending || (whepLive.stream && !whepLive.hasPicture)) ? iosLiveUrl : null');
     expect(player).toContain('whepLive.pending && !isPausedEffective ? (');
     expect(player).toContain('suppressLoadingFeedback={isPausedEffective}');
     expect(hook).toContain('pending: !!endpoint && !media && !failed');

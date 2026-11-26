@@ -73,14 +73,12 @@ interface Result {
   /**
    * An attempt is in flight and has neither arrived nor given up.
    *
-   * Callers hold the fallback back while this is true. Starting HLS in the
-   * meantime works, but it means the viewer watches the picture begin and then
-   * restart a second later when WebRTC arrives — and on the surface this
-   * matters most, WebRTC opens faster than a ladder can buffer its first
-   * segments anyway. False whenever there is nothing to wait for: a Livepeer
-   * stream, a replay, or a gated one.
+   * Callers can preload HLS while this is true without playing it. False
+   * whenever there is no WebRTC route, or its native view can mount.
    */
   pending: boolean;
+  /** The native renderer has shown a picture for this attempt. */
+  hasPicture: boolean;
   /** WebRTC owns the live picture, but the viewer is away. */
   suspended: boolean;
   /** Report the picture size the WebRTC surface rendered. */
@@ -114,6 +112,7 @@ export function useWhepStream({ enabled, focused = true, stream, muted = false, 
   const endpoint = enabled && !silentBefore ? whepEndpointFor(stream) : null;
   const attempt = useMemo(() => ({ endpoint, playbackId }), [endpoint, playbackId, focused, foreground.resumes]);
   const [result, setResult] = useState<{ attempt: typeof attempt; media: MediaStream | null } | null>(null);
+  const [pictureAttempt, setPictureAttempt] = useState<typeof attempt | null>(null);
   const failed = result?.attempt === attempt && result.media === null;
   const media = focused && foreground.active && result?.attempt === attempt ? result.media : null;
   const pictureRef = useRef<{ attempt: typeof attempt; mark: () => void } | null>(null);
@@ -135,6 +134,7 @@ export function useWhepStream({ enabled, focused = true, stream, muted = false, 
       pictured = true;
       clearTimeout(timer);
       forgetWhepSilent(playbackId);
+      setPictureAttempt(attempt);
     };
     pictureRef.current = { attempt, mark };
 
@@ -273,6 +273,7 @@ export function useWhepStream({ enabled, focused = true, stream, muted = false, 
     stream: media,
     failed: failed || silentBefore,
     pending: !!endpoint && !media && !failed && !suspended,
+    hasPicture: !!media && pictureAttempt === attempt,
     suspended,
     onPicture,
   };
