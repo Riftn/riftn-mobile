@@ -1,3 +1,4 @@
+import { stageRoomLabel } from '../i18n/stage-room-copy';
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { newStageChannelName } from "../libs/stage-radio-show";
 import { Platform, PermissionsAndroid } from "react-native";
@@ -54,12 +55,14 @@ const RECORDING_OBJECT = `recording.${RECORDING_EXT}`;
 const SPACE_COLUMNS =
   "id,host_wallet_address,host_username,host_avatar,title,description,status,channel_name," +
   "listener_count,speaker_count,started_at,ended_at,created_at,recording_url,scheduled_at," +
-  "cover_image_url,short_id";
+  "cover_image_url,short_id,entry_locked,topic";
 
 /** Trailing debounce on list refreshes driven by realtime status changes. */
 const SPACES_REFRESH_DEBOUNCE_MS = 2000;
 
 export interface AudioSpace {
+  entry_locked?: boolean;
+  topic?: string | null;
   id: string;
   host_wallet_address: string;
   host_username?: string | null;
@@ -631,10 +634,10 @@ export function useStages(): UseStagesReturn {
 
   // ── Join / leave stage channel ─────────────────────────────────────────────
 
-  const joinStageChannel = useCallback(async (space: AudioSpace, role: SpaceRole): Promise<boolean> => {
+  const joinStageChannel = useCallback(async (space: AudioSpace, role: SpaceRole, guest = false): Promise<boolean> => {
     const channelName = space.channel_name;
     const agoraRole = role === "listener" ? "subscriber" : "publisher";
-    const tokenData = await fetchAgoraToken(channelName, agoraRole, 0, userAddressRef.current);
+    const tokenData = await fetchAgoraToken(channelName, agoraRole, 0, guest ? null : userAddressRef.current);
     if (!tokenData) return false;
 
     try {
@@ -1397,9 +1400,6 @@ export function useStages(): UseStagesReturn {
     roomSwitchInFlightRef.current = true;
     setIsLoading(true);
     try {
-      const vacated = await vacateCurrentRoom(spaceId);
-      if (vacated === "same") return true;
-      if (!vacated) return false;
       const { data, error } = await supabase
         .from("audio_spaces")
         .select("*")
@@ -1408,6 +1408,20 @@ export function useStages(): UseStagesReturn {
       if (error || !data) throw error || new Error("Space not found");
       const space = data as AudioSpace;
       if (space.status !== "live") return false;
+      if (space.entry_locked) {
+        const { data: entry, error: entryError } = await signed(
+          supabase.rpc("request_stage_entry", { p_space_id: spaceId }),
+        );
+        if (entryError) throw entryError;
+        if (entry !== "allowed") {
+          toastInfo(stageRoomLabel(t, entry === 'pending' ? 'entryPending' : 'entryUnavailable'));
+          return false;
+        }
+      }
+
+      const vacated = await vacateCurrentRoom(spaceId);
+      if (vacated === "same") return true;
+      if (!vacated) return false;
 
       // Work out what this wallet comes back AS before writing anything. The
       // upsert below collides on (space_id, wallet_address), so joining with a
@@ -1430,7 +1444,7 @@ export function useStages(): UseStagesReturn {
           ? "speaker"
           : "listener";
 
-      await signed(
+      const { error: seatError } = await signed(
         supabase.from("space_participants").upsert({
           space_id: spaceId,
           wallet_address: userAddress,
@@ -1442,6 +1456,7 @@ export function useStages(): UseStagesReturn {
         }, { onConflict: "space_id,wallet_address" }),
       );
 
+      if (seatError) throw seatError;
       await recountSpace(spaceId);
 
       const success = await joinStageChannel(space, rejoiningRole);
@@ -1473,10 +1488,7 @@ export function useStages(): UseStagesReturn {
 
   joinSpaceRef.current = joinSpace;
 
-  // Matches dehubweb's guestListen(): a signed-out visitor on an invite link
-  // can hear the room without an account. joinStageChannel/fetchAgoraToken
-  // already only attach auth headers for the publisher role, so a subscriber
-  // request here needs no wallet at all -- nothing server-side to change.
+  // Signed-out visitors can listen to open rooms without taking a seat.
   const guestListenSpace = useCallback(async (spaceId: string): Promise<boolean> => {
     if (roomSwitchInFlightRef.current) return false;
     const current = currentSpaceRef.current;
@@ -1487,7 +1499,6 @@ export function useStages(): UseStagesReturn {
     roomSwitchInFlightRef.current = true;
     setIsLoading(true);
     try {
-      if (current) await leaveSpaceRef.current();
       const { data, error } = await supabase
         .from("audio_spaces")
         .select("*")
@@ -1497,7 +1508,12 @@ export function useStages(): UseStagesReturn {
       const space = data as AudioSpace;
       if (space.status !== "live") return false;
 
-      const success = await joinStageChannel(space, "listener");
+      if (space.entry_locked) {
+        if (!userAddressRef.current) toastInfo(stageRoomLabel(t, 'entrySignIn'));
+        return false;
+      }
+      if (current) await leaveSpaceRef.current();
+      const success = await joinStageChannel(space, "listener", true);
       if (!success) return false;
 
       setCurrentSpace(space);
