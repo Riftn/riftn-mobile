@@ -34,7 +34,6 @@ const ShareRow: React.FC<ShareRowProps> = memo(
       accessibilityRole="button"
       accessibilityState={{ disabled: !!loading, busy: !!loading }}
       activeOpacity={0.7}
-      accessibilityRole="button"
       className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
     >
       <View className="w-5 h-5 items-center justify-center mr-3">
