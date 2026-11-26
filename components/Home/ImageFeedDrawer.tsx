@@ -20,6 +20,7 @@ import {
   type ViewToken,
 } from "react-native";
 import { useBackPress } from "../../hooks/useBackPress";
+import { useSwipeBackAction } from "../../hooks/useSwipeBack";
 import Animated, {
   Easing,
   runOnJS,
@@ -227,10 +228,7 @@ const ImageFeedDrawer = forwardRef<ImageFeedDrawerHandle, ImageFeedDrawerProps>(
   // showed an empty black feed until it was restarted.
   const closing = useSharedValue(false);
   const close = useCallback(() => {
-    if (closingRef.current) {
-      onClose();
-      return;
-    }
+    if (closingRef.current) return;
     closingRef.current = true;
     closing.value = true;
     sheetY.value = withTiming(SCREEN_HEIGHT, CLOSE_TIMING, () => {
@@ -245,6 +243,7 @@ const ImageFeedDrawer = forwardRef<ImageFeedDrawerHandle, ImageFeedDrawerProps>(
 
   // Back closes the sheet instead of unwinding the whole screen behind it.
   useBackPress(close);
+  useSwipeBackAction(close, fullscreen);
 
   const sheetStyle = useAnimatedStyle(() => {
     const headerOffset = headerSV ? headerSV.value : 0;

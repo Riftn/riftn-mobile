@@ -20,7 +20,7 @@ import { navigationRef } from "../../App";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { closeProfileSheetForLink, emitProfileDeepLink } from "../../libs/deeplink.events";
 import { createVideoPlayer } from "expo-video";
-import { getShortsFeed } from "../../services/feed.unified.service";
+import { getShortsFeed, getUnifiedFeed } from "../../services/feed.unified.service";
 
 const FLAG_KEY = "dehub.perfTour";
 const RESULT_KEY = "dehub.perfTour.result";
@@ -585,15 +585,21 @@ async function runTouch(): Promise<void> {
   await touchOn("1-swipe-leaderboard", ScreenNames.Leaderboard, "swipe");
   await touchOn("2-swipe-requests", ScreenNames.FeatureRequests, "swipe");
   await touchOn("3-swipe-search", ScreenNames.Search, "swipe");
+  const photos = await getUnifiedFeed({ postType: "feed-images", page: 1, limit: 20 });
+  const photo = photos.result?.find((item) => (item.imageUrls?.length ?? 0) <= 1);
+  if (!photo) throw new Error("Could not load a single-photo post for the Back check");
+  await touchOn("4-swipe-profile-photos", ScreenNames.ImageFeed, "swipe", () => {
+    nav.navigate(ScreenNames.ImageFeed, { initialItems: [photo], initialIndex: 0 });
+  });
   if (signedIn) {
     nav.navigate(ScreenNames.Notifications);
     await sleep(2500);
     if (nav.getCurrentRoute()?.name === ScreenNames.Notifications) nav.goBack();
     await sleep(1800);
-    await touchOn("4-swipe-leaderboard-after-bell", ScreenNames.Leaderboard, "swipe");
+    await touchOn("5-swipe-leaderboard-after-bell", ScreenNames.Leaderboard, "swipe");
   }
   // Back's arrow sits at the left of the top pill.
-  await touchOn("5-tap-back-leaderboard", ScreenNames.Leaderboard, "tap:27:87");
+  await touchOn("6-tap-back-leaderboard", ScreenNames.Leaderboard, "tap:27:87");
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
