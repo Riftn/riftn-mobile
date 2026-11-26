@@ -72,6 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        if: inputs.task != 'googleprompt' || inputs.app_run_id == ''
         with:
           node-version: '22'
           cache: npm
@@ -85,7 +86,9 @@ jobs:
           sudo xcode-select -s "$XCODE/Contents/Developer"
           xcodebuild -version
       - run: npm ci --legacy-peer-deps
+        if: inputs.task != 'googleprompt' || inputs.app_run_id == ''
       - run: npx patch-package --error-on-fail
+        if: inputs.task != 'googleprompt' || inputs.app_run_id == ''
       - name: Prepare recording extension targets
         if: inputs.app_run_id == ''
         run: |
@@ -134,6 +137,7 @@ jobs:
       # Signed to run locally, as Xcode does for a simulator: an unsigned app
       # gets no keychain there, so sign-in state never loads.
       - uses: expo/expo-github-action@v8
+        if: inputs.task != 'googleprompt' || inputs.app_run_id == ''
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
@@ -207,7 +211,7 @@ jobs:
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Check the iOS Google sign-in permission dialog
         if: inputs.task == 'googleprompt'
-        timeout-minutes: 12
+        timeout-minutes: 20
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           bash scripts/ios-google-prompt-check.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check

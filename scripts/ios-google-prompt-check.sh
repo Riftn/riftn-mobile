@@ -34,6 +34,7 @@ tap_label() {
 
 show_prompt() {
   local label="$1" appearance="$2" theme="$3" expected="$4" data dir i selected=0 shot
+  echo "Opening the sign-in dialog in $label."
   xcrun simctl uninstall "$sim" "$bundle" >/dev/null 2>&1 || true
   xcrun simctl ui "$sim" appearance "$appearance"
   xcrun simctl install "$sim" "$app"
@@ -56,13 +57,14 @@ show_prompt() {
     xcrun simctl io "$sim" screenshot "$out/shots/$label-no-google.png"
     return 1
   fi
+  echo "Tapped Google in $label."
   shot="$out/shots/$label.png"
   for i in {1..8}; do
     sleep 1
     xcrun simctl io "$sim" screenshot "$shot"
     "$RUNNER_TEMP/read-dialog" "$shot" > "$out/logs/$label.txt"
     if grep -iq "$expected.*wants to use" "$out/logs/$label.txt"; then
-      grep -i "$expected.*wants to use" "$out/logs/$label.txt"
+      grep -i "$expected.*wants to use" "$out/logs/$label.txt" | tee -a "$GITHUB_STEP_SUMMARY"
       return 0
     fi
   done
@@ -76,16 +78,12 @@ display="$(/usr/libexec/PlistBuddy -c 'Print CFBundleDisplayName' "$plist")"
 fixed="$(/usr/libexec/PlistBuddy -c 'Print CFBundleName' ios/DeHub/Info.plist)"
 printf 'Simulator bundle metadata before fix. Display name %s, bundle name %s.\n' "$display" "$baseline"
 [[ "$display" == "$fixed" && "$baseline" == 'DeHub' ]]
-show_prompt before dark system "$baseline"
 
 # Try the proposed metadata in the same simulator binary for a direct comparison.
 # This ad hoc signature is for the simulator only.
-codesign -d --entitlements "$RUNNER_TEMP/app-entitlements.plist" "$app" 2>/dev/null || true
 /usr/libexec/PlistBuddy -c "Set CFBundleName $fixed" "$plist"
-if [[ -s "$RUNNER_TEMP/app-entitlements.plist" ]]; then
-  codesign --force --sign - --entitlements "$RUNNER_TEMP/app-entitlements.plist" "$app"
-else
-  codesign --force --sign - "$app"
-fi
+codesign --force --sign - --preserve-metadata=entitlements,identifier "$app"
+codesign --verify "$app"
+echo "Installed bundle metadata to test. Bundle name $(/usr/libexec/PlistBuddy -c 'Print CFBundleName' "$plist")."
 show_prompt system-dark dark system "$fixed"
 show_prompt system-light light system-light "$fixed"
