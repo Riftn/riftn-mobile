@@ -2707,6 +2707,15 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           canRepost={isPublicPost}
           onCopyLink={handleCopyLink}
           onSendToDm={isSignedIn && isPublicPost ? () => setShowShareToDm(true) : undefined}
+          onShareToPublicChat={isLive && (isCurrentlyLive || replayUrl)
+            && /^[1-9]\d*$/.test(String(tokenId))
+            && !videoNeedsAccess({
+              visibility: edits.visibility ?? item.visibility ?? stream?.visibility,
+              streamInfo,
+              plansDetails: (item as any).plansDetails ?? stream?.plansDetails,
+            })
+            ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(tokenId) }))
+            : undefined}
           onShareAsImage={handleSharePress}
           embedTokenId={isPublicPost ? tokenId : undefined}
         />

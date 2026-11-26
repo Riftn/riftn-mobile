@@ -93,6 +93,7 @@ import { toggleRepost } from "../../services/repost.service";
 import { applyEngagement, isFailedResponse, revertEngagement } from "../../libs/engagementCache";
 import { usePostLinkCopyCount, useTrackPostLinkCopy } from "../../libs/link-copy-count";
 import { ShareLinks } from "../../navigation/linking.config";
+import { videoNeedsAccess } from "../../libs/video-access";
 import LiveWhosHereSheet from "../LiveViewer/LiveWhosHereSheet";
 import LiveRotateButton from "../LiveViewer/LiveRotateButton";
 import LiveClearedChat from "../LiveViewer/LiveClearedChat";
@@ -1461,6 +1462,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, [sharePostId, handleNativeShare]);
 
   const viewerAddress = (user?.walletAddress || user?.address || "").toLowerCase();
+  const canShareToPublicChat = sharePublic && (isLiveEffective || !!replayUrl)
+    && !videoNeedsAccess(sharePost) && !videoNeedsAccess(streamEntity ?? {}) && !videoNeedsAccess(nftProp ?? {});
   const shareIsOwn = !!viewerAddress && String(sharePost?.minter || "").toLowerCase() === viewerAddress;
   const { data: linkCopyCount = 0 } = usePostLinkCopyCount(sharePostId);
   const trackLinkCopy = useTrackPostLinkCopy();
@@ -2759,6 +2762,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           canRepost={sharePublic}
           onCopyLink={handleCopyLink}
           onSendToDm={sharePublic ? () => requireAuth(() => setShowShareToDm(true)) : undefined}
+          onShareToPublicChat={canShareToPublicChat && sharePostId > 0
+            ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(sharePostId) }))
+            : undefined}
           onShareLink={() => { void handleNativeShare(); }}
           embedTokenId={sharePublic ? sharePostId : undefined}
         />
