@@ -14,6 +14,7 @@
  * The category words sit above this in SearchScreen, and the week's trending
  * posts follow below it.
  */
+import { LiveDot } from "../common/LiveDot";
 import React, { memo, useCallback, useMemo, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -279,6 +280,7 @@ function ExploreCleanList({
                 <Text className="text-theme-neutrals-500" style={row.sub} numberOfLines={1}>{item.title}</Text>
               </View>
               <View style={styles.livePill}>
+                <LiveDot size={5} />
                 <Text style={styles.livePillText}>{t("stages.live", { defaultValue: "LIVE" })}</Text>
               </View>
             </Pressable>
@@ -333,7 +335,7 @@ const styles = StyleSheet.create({
   recentText: { fontSize: 15 },
   more: { paddingVertical: 6 },
   moreText: { fontSize: 13, fontWeight: "500" },
-  livePill: { backgroundColor: "#EF4444", borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
+  livePill: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(0,0,0,0.8)", borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2 },
   livePillText: { color: "#FFFFFF", fontSize: 10, fontWeight: "700" },
   tokenGrid: { flexDirection: "row", flexWrap: "wrap", columnGap: 16 },
   token: { width: "47%", flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 10 },

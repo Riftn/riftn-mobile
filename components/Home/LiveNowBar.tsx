@@ -10,6 +10,7 @@
  * @module components/Home/LiveNowBar
  */
 
+import { LiveDot } from "../common/LiveDot";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
@@ -204,7 +205,10 @@ export function LiveCount({ item }: { item: LiveNowItem }) {
   const { t } = useTranslation();
   return (
     <View style={styles.live}>
-      <Text style={styles.liveText}>{t("stages.live")}</Text>
+      <View style={styles.live}>
+        <LiveDot />
+        <Text style={styles.liveText}>{t("stages.live")}</Text>
+      </View>
       {item.count ? (
         <Text style={styles.count} numberOfLines={1}>
           {t(item.kind === "stage" ? "liveViewer.hereCount" : "liveViewer.watchingCount", { formatted: item.count })}
@@ -423,7 +427,7 @@ export function LiveNowSheet({ items, onOpen }: { items: LiveNowItem[]; onOpen: 
   return (
     <View style={styles.sheet}>
       <View style={styles.sheetHead}>
-        <View style={styles.liveDot} />
+        <LiveDot size={8} />
         <Text style={styles.sheetTitle}>{t("stages.liveNow")}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
@@ -584,14 +588,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
   },
-  liveDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#EF4444",
-  },
   liveText: {
-    color: "#F87171",
+    color: "#fff",
     fontSize: 10,
     fontWeight: "600",
     textTransform: "uppercase",

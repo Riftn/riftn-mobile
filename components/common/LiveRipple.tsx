@@ -14,8 +14,7 @@ import Animated, {
   type SharedValue,
 } from "react-native-reanimated";
 
-/** The red every LIVE badge and dot in the app uses. */
-export const LIVE_RED = "#EF4444";
+import { LIVE_RED } from "./LiveDot";
 
 const DURATION = 2200;
 const STAGGER = 1100;

@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import React from "react";
 import { View, Text } from "react-native";
@@ -13,7 +14,7 @@ interface BadgeProps {
 // Maps status to tailwind background + text label
 const STATUS_STYLES: Record<string, { container: string; label: string }> = {
   OFFLINE: { container: "bg-gray-500", get label() { return _translateCopy("copy.5c3ce8d496e2", { defaultValue: "OFFLINE" }); } },
-  LIVE: { container: "bg-white/20 border border-white/30", get label() { return _translateCopy("copy.35e0d0360a0a", { defaultValue: "LIVE" }); } },
+  LIVE: { container: "bg-black/80 border border-white/30", get label() { return _translateCopy("copy.35e0d0360a0a", { defaultValue: "LIVE" }); } },
   ENDED: { container: "bg-gray-600", get label() { return _translateCopy("copy.0adb88e2f237", { defaultValue: "ENDED" }); } },
   SCHEDULED: { container: "bg-yellow-500", get label() { return _translateCopy("copy.afde82a73cab", { defaultValue: "SCHEDULED" }); } },
 };
@@ -26,19 +27,19 @@ const StatusBadge: React.FC<BadgeProps> = ({ status, className }) => {
   
   const isLive = key === "LIVE";
   
-  // Always drawn over a video or its poster: white on glass in every theme.
+  // The media overlay keeps the same contrast in both System tones.
   return (
     <View
-      className={`dark-surface absolute left-2 top-2 rounded-full px-2 py-0.5 flex-row items-center ${
+      className={`dark-surface absolute left-2 top-2 rounded-full px-2 py-0.5 flex-row items-center ${isLive ? "gap-1.5" : "gap-1"} ${
         style.container
       } ${className || ""}`}
     >
       {isLive ? (
-        <View className="w-2 h-2 rounded-full bg-white mr-1.5" />
+        <LiveDot />
       ) : (
-        <Ionicons name="radio-outline" size={10} color="white" style={{ marginRight: 4 }} />
+        <Ionicons name="radio-outline" size={10} color="white" />
       )}
-      <Text className="text-white text-[10px] font-semibold uppercase tracking-wide">
+      <Text className={`text-white ${isLive ? "text-[11px]" : "text-[10px]"} font-semibold uppercase tracking-wide`}>
         {style.label}
       </Text>
     </View>
