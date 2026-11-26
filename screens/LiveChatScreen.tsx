@@ -737,10 +737,10 @@ const LiveChatScreen: React.FC = () => {
         setEditingMessage(null);
         return true;
       }
-        if (account && !attachment && !audioUrl && !replyTo && isCatchUpCommand(content)) {
-          requestRecap({ text: content });
-          return true;
-        }
+      if (account && !isBanned && !attachment && !audioUrl && !replyTo && isCatchUpCommand(content)) {
+        requestRecap({ text: content });
+        return true;
+      }
       // Writing while reading an older stretch: the new line belongs at the
       // end of the room, so go there first.
       if (hasNewer) await goToLatest();
@@ -775,7 +775,7 @@ const LiveChatScreen: React.FC = () => {
       setTimeout(() => scrollToBottom(true), 300);
       return true;
     },
-    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest, t, account, requestRecap]
+    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest, t, account, isBanned, requestRecap]
   );
 
   const handleGifPicked = useCallback(
