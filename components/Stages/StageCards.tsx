@@ -1,3 +1,4 @@
+import { stageRoomLabel, stageTopicLabel, stageHeadcount } from '../../i18n/stage-room-copy';
 /**
  * Stage cards — one shape per state, shared by every stage surface
  * ================================================================
@@ -230,7 +231,7 @@ export const LiveStageCard: React.FC<{
   const { isMinimal } = useAppTheme();
   const heads = Math.max(1, (space.speaker_count || 1) + (space.listener_count || 0));
   const isRadio = isRadioShow(space);
-  const action = isCurrent ? t("stages.returnToStage") : t("stages.join");
+  const action = isCurrent ? stageRoomLabel(t, 'returnToStage') : stageRoomLabel(t, 'join');
   const { data: participants = [] } = useQuery({
     queryKey: ["stage-list-faces", space.id, space.speaker_count, space.listener_count],
     enabled: heads > 1,
@@ -296,10 +297,12 @@ export const LiveStageCard: React.FC<{
         <View style={[styles.liveChip, isRadio && styles.radioChip]}>
           <View style={[styles.liveDot, isRadio && styles.radioDot]} />
           <Text style={[styles.liveChipText, isRadio && styles.radioText]}>
-            {isRadio ? t("stages.liveRadio") : t("stages.live")}
+            {isRadio ? stageRoomLabel(t, 'liveRadio') : t("stages.live")}
           </Text>
         </View>
-        <View style={styles.countRow} accessible accessibilityLabel={t("stages.stageHeadcount", { count: heads })}>
+        {space.entry_locked && <Text style={[styles.stageFlag, styles.stageLocked]}>{stageRoomLabel(t, 'entryLocked')}</Text>}
+        {!!space.topic && <Text style={styles.stageFlag}>{stageTopicLabel(t, space.topic)}</Text>}
+        <View style={styles.countRow} accessible accessibilityLabel={stageHeadcount(t, heads)}>
           <Icon name="Users" size={13} color="rgba(255,255,255,0.65)" />
           <Text style={styles.countText}>{formatCount(heads)}</Text>
         </View>
@@ -660,6 +663,9 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
   },
   radioText: { color: "#7DD3FC" },
+  stageFlag: { fontSize: 11, fontWeight: "600", color: "#D4D4D8", backgroundColor: "rgba(255,255,255,0.10)",
+    paddingHorizontal: 5, paddingVertical: 2, borderRadius: 4 },
+  stageLocked: { color: "#FDE68A", backgroundColor: "rgba(245,158,11,0.15)" },
   countRow: {
     flexDirection: "row",
     alignItems: "center",

@@ -6270,15 +6270,6 @@
     "filedOn": "فُتحت في {{date}}"
   },
   "stages": {
-    "returnToStage": "عودة",
-    "liveRadio": "راديو مباشر",
-    "stageHeadcount_zero": "{{count}} مشارك",
-    "stageHeadcount_one": "{{count}} مشارك",
-    "stageHeadcount_two": "{{count}} مشاركان",
-    "stageHeadcount_few": "{{count}} مشاركين",
-    "stageHeadcount_many": "{{count}} مشاركًا",
-    "stageHeadcount_other": "{{count}} مشارك",
-    "join": "انضمام",
     "radioShow": {
       "toggle": "برنامج إذاعي",
       "hint": "الموسيقى أولًا: شغّل أغانيك أو قائمة تشغيل وتحدث متى شئت. ينضم المستمعون في أي وقت، ويظهر البرنامج في صف الراديو في استكشاف.",

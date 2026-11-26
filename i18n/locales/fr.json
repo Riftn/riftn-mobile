@@ -6247,11 +6247,6 @@
     "filedOn": "Ouvert le {{date}}"
   },
   "stages": {
-    "returnToStage": "Revenir",
-    "liveRadio": "Radio en direct",
-    "stageHeadcount_one": "{{count}} participant",
-    "stageHeadcount_other": "{{count}} participants",
-    "join": "Rejoindre",
     "radioShow": {
       "toggle": "Émission de radio",
       "hint": "La musique d'abord : passe tes morceaux ou une playlist, parle quand tu veux. Les auditeurs arrivent à tout moment, et l'émission apparaît dans la rangée Radio d'Explorer.",
