@@ -106,6 +106,7 @@ export enum ScreenNames {
   Okey = 'Okey',
   SillyCoin = 'SillyCoin',
   Gratitude = 'Gratitude',
+  Spend = 'Spend',
   Chestard = 'Chestard',
   BinaryMetal = 'BinaryMetal',
   Apps = 'Apps',

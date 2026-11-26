@@ -117,6 +117,7 @@ const LINK_GAMES = [
   { screen: ScreenNames.Chestard, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
   { screen: ScreenNames.BinaryMetal, creator: COCHRANIZ3R, icon: "Music", title: "binaryMetal.title", body: "binaryMetal.cardBlurb", tint: "hsla(0, 0%, 14%, 1)" },
   { screen: ScreenNames.Gratitude, creator: COCHRANIZ3R, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
+  { screen: ScreenNames.Spend, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.spend.title", body: "games.spend.cardBlurb", tint: "hsla(143, 55%, 21%, 1)" },
 ] as const;
 
 // Linked games use their lowercase screen name as the listing slug. Binary Metal

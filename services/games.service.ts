@@ -8,6 +8,7 @@
  * tap. Nothing here moves money.
  */
 import { apiClient } from '../libs/api.client';
+import type { SpendAction, SpendCreate, SpendGame, SpendLobby } from '../libs/spend';
 
 function unwrap<T>(response: any): T {
   if (response && response.status === false) throw new Error(response.error || response.message || 'Request failed');
@@ -26,6 +27,14 @@ export const getArcadeListings = (signedIn: boolean) =>
 
 export const setArcadeListing = (slug: string, hidden: boolean) =>
   post<{ slug: string; hidden: boolean }>(`/games/arcade-listings/${encodeURIComponent(slug)}`, { hidden });
+
+const SPEND_API = '/games/spend';
+const spendApiPath = (id: string) => SPEND_API + '/' + encodeURIComponent(id);
+export const spendList = () => get<SpendLobby>(SPEND_API);
+export const spendGet = (id: string, signedIn: boolean) => get<{ game: SpendGame }>(spendApiPath(id), signedIn);
+export const spendCreate = (body: SpendCreate) => post<{ game: SpendGame }>(SPEND_API, body);
+export const spendAction = (id: string, action: SpendAction) =>
+  post<{ game: SpendGame }>(spendApiPath(id) + '/' + action.name, 'body' in action ? action.body : {});
 
 export interface GamePlayer {
   address: string;
