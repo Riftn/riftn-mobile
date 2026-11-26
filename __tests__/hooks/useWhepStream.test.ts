@@ -56,7 +56,7 @@ it('keeps the fallback for the failed broadcast and still tries WebRTC for the n
   const next = fakeSession();
   subscribe.mockResolvedValueOnce(first).mockResolvedValueOnce(next);
   const hook = renderHook(
-    ({ playbackId }) => useWhepStream({ enabled: true, stream: { playbackId } }),
+    ({ playbackId }: { playbackId: string }) => useWhepStream({ enabled: true, stream: { playbackId } }),
     { initialProps: { playbackId: 'first' } },
   );
   await act(async () => {});
