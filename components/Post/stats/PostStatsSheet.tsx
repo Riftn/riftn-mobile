@@ -10,6 +10,7 @@
 import React from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { formatPostDate } from "../../../i18n/post-timestamp";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import GlassModal from "../../ui/GlassModal";
@@ -28,7 +29,7 @@ export function usePostStats(tokenId: string | number | null | undefined, enable
 }
 
 export default function PostStatsSheet({ visible, onClose, tokenId }: { visible: boolean; onClose: () => void; tokenId: string | number }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation<any>();
   const { data, isLoading, isError } = usePostStats(tokenId, visible);
 
@@ -76,7 +77,7 @@ export default function PostStatsSheet({ visible, onClose, tokenId }: { visible:
                 <Text style={s.muted}>{t("postStats.first48")}</Text>
                 {peakAt && total[peakIdx] > 0 ? (
                   <Text style={[s.muted, s.strong]}>
-                    {t("postStats.peak", { time: peakAt.toLocaleString(undefined, { weekday: "short", hour: "numeric" }), n: fmt(total[peakIdx]) })}
+                    {t("postStats.peak", { time: formatPostDate(peakAt, i18n.language, { weekday: "short", hour: "numeric" }), n: fmt(total[peakIdx]) })}
                   </Text>
                 ) : null}
               </View>
