@@ -9,7 +9,7 @@
  * second "Not now". Same spot and shape as the Getting Started card, and it
  * stays away while that one is up so the two never stack.
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -17,8 +17,9 @@ import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useAuthState } from "../../context/AuthContext";
 import { useOnboarding } from "../../context/OnboardingChecklistContext";
+import { useActiveScreenEffect } from "../../hooks/useScreenActivity";
 import { TAB_BAR_CONTENT_INSET } from "../../navigation/tabBarLayout";
-import { dismissReviewCard, openStoreReviewPage, shouldShowReviewCard } from "../../libs/review-prompt";
+import { dismissReviewCard, noteHomeVisitDay, openStoreReviewPage, shouldShowReviewCard } from "../../libs/review-prompt";
 
 // Let Home settle (feed, stories, any launch sheet) before anything slides in.
 const SHOW_AFTER_MS = 6000;
@@ -31,12 +32,15 @@ const ReviewPromptCard: React.FC = () => {
   const onboardingUp = !!onboarding && (onboarding.loading || onboarding.shouldOffer || (onboarding.active && !!onboarding.progress));
   const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    if (!isSignedIn || onboardingUp) return;
+  useActiveScreenEffect(() => {
+    if (!isSignedIn) return;
+    const visit = noteHomeVisitDay();
+    if (onboardingUp) return;
+
     let cancelled = false;
     const timer = setTimeout(() => {
-      void shouldShowReviewCard().then((show) => {
-        if (!cancelled && show) setVisible(true);
+      void visit.then((days) => shouldShowReviewCard(days)).then((show) => {
+        if (!cancelled) setVisible(show);
       });
     }, SHOW_AFTER_MS);
     return () => {
@@ -45,7 +49,7 @@ const ReviewPromptCard: React.FC = () => {
     };
   }, [isSignedIn, onboardingUp]);
 
-  if (!visible || onboardingUp) return null;
+  if (!visible || !isSignedIn || onboardingUp) return null;
 
   const storeName = Platform.OS === "ios" ? t("reviewCard.appStore", "App Store") : t("reviewCard.googlePlay", "Google Play");
 
