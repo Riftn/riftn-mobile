@@ -3,7 +3,7 @@
     "scheme": "dehub",
     "name": "Riftn",
     "slug": "dehubmobile",
-    "version": "1.20.3",
+    "version": "1.20.4",
     "orientation": "portrait",
     "icon": "./assets/AppIcons/playstore.png",
     "userInterfaceStyle": "dark",
@@ -36,6 +36,15 @@
         "webcredentials:riftn.com"
       ],
       "infoPlist": {
+        "CFBundleDocumentTypes": [
+          {
+            "CFBundleTypeName": "Video",
+            "CFBundleTypeRole": "Viewer",
+            "LSHandlerRank": "Alternate",
+            "LSItemContentTypes": ["public.movie", "public.video"]
+          }
+        ],
+        "LSSupportsOpeningDocumentsInPlace": true,
         "UIBackgroundModes": ["audio", "voip"],
         "RTCAppGroupIdentifier": "group.io.dehub.mobile.screen-capture",
         "RTCScreenSharingExtension": "io.dehub.mobile.screen-capture-upload",

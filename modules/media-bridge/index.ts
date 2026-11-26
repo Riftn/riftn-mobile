@@ -7,6 +7,8 @@
  * safe on older installs.
  */
 export type VolumeKeyDirection = "up" | "down";
+type SharedVideo = { kind: "video"; id: string; uri: string; fileName: string; mimeType?: string } | { kind: "error" };
+type NativeSubscription = { remove: () => void };
 
 type Bridge = {
   liveScreenShare?: boolean;
@@ -17,7 +19,10 @@ type Bridge = {
   liveBroadcastStatus?: (id: string) => Record<string, unknown> | null;
   stopLiveBroadcast?: (id: string) => void;
   memoryFootprintMB?: () => number | null;
-  addListener: (event: "onVolumeKey", fn: (e: { direction?: string }) => void) => { remove: () => void };
+  takeSharedVideo?: () => SharedVideo | null;
+  discardSharedVideo?: (id: string) => void;
+  addListener(event: "onVolumeKey", fn: (e: { direction?: string }) => void): NativeSubscription;
+  addListener(event: "onSharedVideo", fn: () => void): NativeSubscription;
 };
 
 let cached: Bridge | null | undefined;
@@ -32,6 +37,20 @@ function bridge(): Bridge | null {
     cached = null;
   }
   return cached;
+}
+
+export function takeSharedVideo(): SharedVideo | null {
+  return bridge()?.takeSharedVideo?.() ?? null;
+}
+
+export function discardSharedVideo(id: string): void {
+  bridge()?.discardSharedVideo?.(id);
+}
+
+export function addSharedVideoListener(listener: () => void): NativeSubscription | undefined {
+  const native = bridge();
+  if (typeof native?.takeSharedVideo !== "function") return undefined;
+  return native.addListener("onSharedVideo", listener);
 }
 
 export function addVolumeKeyListener(fn: (direction: VolumeKeyDirection) => void): () => void {
