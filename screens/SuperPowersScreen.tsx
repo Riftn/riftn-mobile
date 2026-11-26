@@ -27,6 +27,8 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useBadgeTierLabel } from "../i18n/badge-tier-label";
+import { localizeSuperPower } from "../i18n/superpower-copy";
 import Icon from "../components/ui/Icon";
 import ScreenHeader from "../components/ScreenHeader";
 import { KitButton, PageEmpty, PageSection, ThemeIcon } from "../components/page/PageKit";
@@ -61,6 +63,7 @@ function formatMinutes(total: number): string {
 
 export default function SuperPowersScreen() {
   const { t, i18n } = useTranslation();
+  const badgeLabel = useBadgeTierLabel();
   const {
     data: status,
     isLoading: loadingStatus,
@@ -74,7 +77,8 @@ export default function SuperPowersScreen() {
   // Prefer the personal copy so the screen lights up without a second render.
   const powers = [...(status?.powers ?? ladder?.powers ?? [])]
     .filter(power => String(power.key) !== "golden_hour")
-    .sort((a, b) => Number(b.key === "team_up") - Number(a.key === "team_up"));
+    .sort((a, b) => Number(b.key === "team_up") - Number(a.key === "team_up"))
+    .map(power => localizeSuperPower(power, i18n?.language));
 
   const refillsOn = useMemo(() => {
     const iso = status?.cycleEndsAt ?? ladder?.cycleEndsAt;
@@ -157,7 +161,7 @@ export default function SuperPowersScreen() {
                 {badgeImage(status.tier) ? (
                   <Image source={badgeImage(status.tier)} style={{ width: orbitSize * 0.2, height: orbitSize * 0.2 }} resizeMode="contain" />
                 ) : null}
-                <Text style={styles.coreTier} numberOfLines={1}>{status.tier}</Text>
+                <Text style={styles.coreTier} numberOfLines={1}>{badgeLabel(status.tier)}</Text>
                 <Text style={styles.coreBig} numberOfLines={1} adjustsFontSizeToFit>
                   {status.boostsLeft}
                 </Text>
@@ -183,6 +187,7 @@ export default function SuperPowersScreen() {
           const canViewHistory = !isTeamUp && !!status?.tier;
           const showAction = DIGITAL_PURCHASES_ENABLED && (isTeamUp || usable);
           const unlockBadge = badgeImage(power.tier);
+          const unlockTier = power.tier ? badgeLabel(power.tier) : "";
           const allowance =
             power.key === "signal_flare" || power.key === "harpoon"
               ? (status?.signalsLeft ?? status?.boostsLeft)
@@ -203,7 +208,7 @@ export default function SuperPowersScreen() {
                     ) : (
                       <>
                         <Icon name={unlocked ? "Check" : "Lock"} size={11} color={unlocked ? "#D4D4D8" : "#71717A"} />
-                        <Text style={styles.detailTagText}>{`${t("superpowers.unlocksAt")} ${power.tier}`}</Text>
+                        <Text style={styles.detailTagText}>{`${t("superpowers.unlocksAt")} ${unlockTier}`}</Text>
                         {unlockBadge ? <Image source={unlockBadge} style={styles.detailBadge} resizeMode="contain" /> : null}
                       </>
                     )}
@@ -279,7 +284,7 @@ export default function SuperPowersScreen() {
               return (
                 <View key={tier.name} style={[styles.rung, mine && styles.rungMine]}>
                   {badge ? <Image source={badge} style={[styles.rungBadge, above && styles.rungBadgeOff]} resizeMode="contain" /> : null}
-                  <Text style={[styles.rungName, mine && styles.rungTextMine]} numberOfLines={1}>{tier.name}</Text>
+                  <Text style={[styles.rungName, mine && styles.rungTextMine]} numberOfLines={2}>{badgeLabel(tier.name)}</Text>
                   <Text style={[styles.rungTotal, mine && styles.rungTextMine]}>
                     {formatMinutes(tier.boostsPerCycle * tier.minutesPerBoost)}
                   </Text>
