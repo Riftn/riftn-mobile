@@ -17109,7 +17109,22 @@
     "paste": "Vložte svoj kľúč {{name}}",
     "getKey": "Získať kľúč {{name}}",
     "showLess": "Zobraziť iba moje kľúče",
-    "addAnother": "Pridať ďalšieho poskytovateľa"
+    "addAnother": "Pridať ďalšieho poskytovateľa",
+    "providerDescriptions": {
+      "openai": "Builder (modely GPT)",
+      "fal": "Nástroje na obrázky, video, 3D a fotografie",
+      "kie": "Obrázky a video",
+      "replicate": "Obrázky a video",
+      "xai": "Čet a obrázky s Grokom",
+      "elevenlabs": "Hlas, dabing, hudba a zvukové efekty",
+      "gemini": "Preklad, pomoc s písaním a súhrny",
+      "venice": "Čet s asistentom",
+      "perplexity": "Vyhľadávanie na webe s asistentom",
+      "deepgram": "Prepisy a živé titulky",
+      "openrouter": "Stovky četových a textových modelov s jedným kľúčom",
+      "groq": "Rýchly čet a text",
+      "mistral": "Čet a text"
+    }
   },
   "postBg": {
     "addMedia": "Pridať obrázok, GIF alebo video",

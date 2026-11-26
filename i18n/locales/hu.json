@@ -16958,7 +16958,22 @@
     "paste": "Illeszd be a(z) {{name}} kulcsodat",
     "getKey": "{{name}} kulcs beszerzése",
     "showLess": "Csak a saját kulcsaim megjelenítése",
-    "addAnother": "Másik szolgáltató hozzáadása"
+    "addAnother": "Másik szolgáltató hozzáadása",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-modellek)",
+      "fal": "Kép-, videó-, 3D- és fotóeszközök",
+      "kie": "Képek és videók",
+      "replicate": "Képek és videók",
+      "xai": "Csevegés és képek a Grokkal",
+      "elevenlabs": "Hang, szinkron, zene és hangeffektek",
+      "gemini": "Fordítás, írássegéd és összefoglalók",
+      "venice": "Csevegés az asszisztenssel",
+      "perplexity": "Webes keresés az asszisztenssel",
+      "deepgram": "Átiratok és élő feliratok",
+      "openrouter": "Több száz csevegő- és szövegmodell egyetlen kulccsal",
+      "groq": "Gyors csevegés és szöveg",
+      "mistral": "Csevegés és szöveg"
+    }
   },
   "postBg": {
     "addMedia": "Kép, GIF vagy videó hozzáadása",

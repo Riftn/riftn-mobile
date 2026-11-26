@@ -17,7 +17,7 @@ import { toastError } from "../../libs/toast";
  * right corner opens a row of choices above the controls. Off, blur, four
  * scenes and your own photo. The pick is remembered for the next call.
  */
-export const CallFxButton: React.FC<{ open: boolean; active: boolean; onToggle: () => void }> = ({ open, active, onToggle }) => {
+export const CallFxButton: React.FC<{ open: boolean; active: boolean; onToggle: () => void; besideMessage?: boolean }> = ({ open, active, onToggle, besideMessage }) => {
   const { palette } = useStage();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ export const CallFxButton: React.FC<{ open: boolean; active: boolean; onToggle: 
       accessibilityLabel={t("calls.background", "Background")}
       accessibilityState={{ expanded: open }}
       hitSlop={8}
-      style={[styles.fx, { top: insets.top + 12 }]}
+      style={[styles.fx, { top: insets.top + 12, right: besideMessage ? 68 : 16 }]}
     >
       <Fill color={solid ? palette.fg : palette.dock} line={palette.line} />
       <View><Icon name={open ? "X" : "Sparkles"} size={20} color={solid ? palette.onFg : palette.fg} /></View>

@@ -45,6 +45,21 @@ it('waits for a signed session and preserves attribution when signing is unavail
   expect(supabase.rpc).toHaveBeenCalledWith('attribute_affiliate_referral', { p_code: 'PARENT', p_sub_id: 'crew' });
 });
 
+it('credits the first live sharer only for a signup created after opening the link', async () => {
+  const arrival = Date.now();
+  await captureAffiliateUrl('https://riftn.com/app/post/1?live_ref=SHARER&sub=private');
+  await captureAffiliateUrl('https://riftn.com/r/OTHER?sub=campaign');
+  expect(JSON.parse(stored.get('dehub-affiliate-first-touch')!)).not.toHaveProperty('code');
+  const wallet = '0x6666666666666666666666666666666666666666';
+  await attributePendingReferral(wallet);
+  await attributePendingReferral(wallet, new Date(arrival - 1000).toISOString());
+  expect(supabase.rpc).not.toHaveBeenCalled();
+  await attributePendingReferral(wallet, new Date(arrival + 1000).toISOString());
+  await attributePendingReferral(wallet, new Date(arrival + 1000).toISOString());
+  expect(supabase.rpc).toHaveBeenCalledTimes(1);
+  expect(supabase.rpc).toHaveBeenCalledWith('attribute_affiliate_referral', { p_code: 'SHARER', p_sub_id: null });
+});
+
 describe('Play install referrer', () => {
   const originalOS = Platform.OS;
   beforeEach(() => { Object.defineProperty(Platform, 'OS', { configurable: true, value: 'android' }); });

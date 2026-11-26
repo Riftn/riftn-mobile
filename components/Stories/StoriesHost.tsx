@@ -41,9 +41,10 @@ export default function StoriesHost() {
         <StoryCreator onClose={closeStoryCreator} remixSource={creator.remixSource} postTokenId={creator.postTokenId} />
       ) : viewer ? (
         <StoryViewer
-          key={`${viewer.entries[viewer.index]?.items[0]?.id}-${viewer.standalone}`}
+          key={`${viewer.entries[viewer.index]?.items[0]?.id}-${viewer.standalone}-${viewer.openComments}`}
           entries={viewer.entries as ShelfEntry[]}
           index={viewer.index}
+          openComments={viewer.openComments}
           onOpenProfile={openProfile}
           onClose={closeStoryViewer}
         />

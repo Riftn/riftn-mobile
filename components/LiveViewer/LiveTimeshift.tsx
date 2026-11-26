@@ -4,6 +4,7 @@
  * beside it, and the timeline along the floor of the screen. Each polls the
  * player itself twice a second, so the viewer screen never re-renders for it.
  */
+import { LiveDot } from "../common/LiveDot";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
@@ -60,13 +61,14 @@ export const LiveTimeshiftTag = memo(function LiveTimeshiftTag({ timeshift }: { 
         >
           {/* Fill on an inner View: Pressable fills get repainted by the tone pass. */}
           <View style={[styles.tag, styles.tagBehind]}>
-            <View style={styles.dot} />
+            <LiveDot size={5} />
             <Text style={[styles.tagText, styles.tagTextBehind]}>{t("live.statusLive")}</Text>
             <Text style={styles.behindText}>{formatBehind(snap.behind)}</Text>
           </View>
         </Pressable>
       ) : (
         <View style={styles.tag}>
+          <LiveDot size={5} />
           <Text style={styles.tagText}>{t("live.statusLive")}</Text>
         </View>
       )}
@@ -112,19 +114,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    backgroundColor: "#EF4444",
+    backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 5,
     paddingHorizontal: 5,
     paddingVertical: 1.5,
   },
   tagBehind: {
     backgroundColor: "#fff",
-  },
-  dot: {
-    width: 5,
-    height: 5,
-    borderRadius: 2.5,
-    backgroundColor: "#EF4444",
   },
   tagText: {
     color: "#fff",

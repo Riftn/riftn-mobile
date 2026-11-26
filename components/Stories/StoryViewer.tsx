@@ -30,7 +30,7 @@ import { useAudioPlayer } from "expo-audio";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { type InfiniteData, type UseInfiniteQueryResult, useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
@@ -54,7 +54,6 @@ import {
   reportStory,
   type ShelfEntry,
   type StoryItem,
-  type StoryViewer as Viewer,
 } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
@@ -94,11 +93,13 @@ type Sheet = null | "more" | "viewers" | "comments" | "report" | "delete" | "sha
 export default function StoryViewer({
   entries,
   index: firstIndex,
+  openComments = false,
   onOpenProfile,
   onClose,
 }: {
   entries: ShelfEntry[];
   index: number;
+  openComments?: boolean;
   onOpenProfile: (address: string) => void;
   onClose: () => void;
 }) {
@@ -117,6 +118,9 @@ export default function StoryViewer({
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
   const snapshot: StoryItem | undefined = entry?.items[itemIdx];
+  // An archived thread was opened under its owner's session.
+  const archivedThread = openComments && snapshot && (snapshot.expired || Date.parse(snapshot.expiresAt) <= Date.now());
+  const archiveOwnerChanged = archivedThread && entry?.author.address.toLowerCase() !== me;
   const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except' || snapshot?.audience === 'close_friends';
   const delivery = useQuery({
     queryKey: ['private-story-playback', snapshot?.id, me],
@@ -129,14 +133,15 @@ export default function StoryViewer({
     retry: false,
   });
   const item = useMemo(() => {
+    if (archiveOwnerChanged) return undefined;
     if (!customAudience) return snapshot;
     if (!snapshot || !me || !delivery.isSuccess) return undefined;
     const { mediaUrl, posterUrl, overlayUrl } = delivery.data.item;
     return { ...snapshot, mediaUrl, posterUrl, overlayUrl };
-  }, [snapshot, customAudience, me, delivery.data, delivery.isSuccess]);
+  }, [snapshot, customAudience, archiveOwnerChanged, me, delivery.data, delivery.isSuccess]);
   useEffect(() => {
-    if (customAudience && (!me || delivery.isError)) onClose();
-  }, [customAudience, me, delivery.isError, onClose]);
+    if (archiveOwnerChanged || (customAudience && (!me || delivery.isError))) onClose();
+  }, [archiveOwnerChanged, customAudience, me, delivery.isError, onClose]);
   const own = !!entry && (entry.own || entry.author.address.toLowerCase() === me);
 
   const [progress, setProgress] = useState(0);
@@ -148,7 +153,7 @@ export default function StoryViewer({
   // the Moment so there is time to press it.
   const [postPeekId, setPostPeekId] = useState<string | null>(null);
   const [typing, setTyping] = useState(false);
-  const [sheet, setSheet] = useState<Sheet>(null);
+  const [sheet, setSheet] = useState<Sheet>(openComments ? "comments" : null);
   const [muted, setMuted] = useState(false);
   const [reply, setReply] = useState("");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
@@ -157,6 +162,19 @@ export default function StoryViewer({
   const [replyTo, setReplyTo] = useState<"everyone" | "author">("everyone");
   const [bursts, setBursts] = useState<number[]>([]);
   const [sending, setSending] = useState(false);
+  const audience = useInfiniteQuery({
+    queryKey: ["moment-viewers", item?.id, me],
+    queryFn: ({ pageParam }) => getStoryViewers(item!.id, pageParam),
+    enabled: !!item && own && !!me && sheet === "viewers",
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: page => page.next ?? undefined,
+    refetchInterval: () => item && Date.parse(item.expiresAt) > Date.now() ? 10_000 : false,
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+    gcTime: 0,
+  });
+  const viewCount = audience.data?.pages[0]?.viewCount ?? item?.viewCount ?? 0;
+  const viewsLabel = t("stories.viewsCount", { defaultValue: "{{formatted}} views", formatted: formatCount(viewCount) });
   const room = useMomentComments(item?.id, !!me, !!item && (item.commentCount ?? 1) > 0);
   const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
@@ -596,7 +614,7 @@ export default function StoryViewer({
           {own ? (
             <Pressable style={styles.pill} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
               <ShadowedIcon name="Eye" size={14} />
-              <Text style={styles.pillText}>{t("stories.watchedCount", { n: formatCount(item.viewCount ?? 0), defaultValue: "{{n}} watched" })}</Text>
+              <Text style={styles.pillText}>{viewsLabel}</Text>
               {(item.likeCount ?? 0) > 0 ? (
                 <>
                   <MomentHeart size={12} filled />
@@ -669,7 +687,7 @@ export default function StoryViewer({
               <TouchableOpacity style={styles.field} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
                 <ChromeFill glass radius={12} />
                 <Icon name="Eye" size={18} color="#fff" />
-                <Text style={styles.statText}>{t("stories.watchedCount", { n: formatCount(item.viewCount ?? 0), defaultValue: "{{n}} watched" })}</Text>
+                <Text style={styles.statText}>{viewsLabel}</Text>
                 {(item.likeCount ?? 0) > 0 ? (
                   <>
                     <MomentHeart size={15} filled />
@@ -755,7 +773,8 @@ export default function StoryViewer({
         {sheet && sheet !== "share-dm" && sheet !== "comments" ? (
           <ViewerSheet
             kind={sheet}
-            item={item}
+            audience={audience}
+            viewsLabel={viewsLabel}
             own={own}
             onClose={() => setSheet(null)}
             onPick={setSheet}
@@ -817,7 +836,8 @@ const REPORT_REASONS = [
 
 function ViewerSheet({
   kind,
-  item,
+  audience,
+  viewsLabel,
   own,
   onClose,
   onPick,
@@ -834,7 +854,8 @@ function ViewerSheet({
   bottom,
 }: {
   kind: Exclude<Sheet, null | "share-dm">;
-  item: StoryItem;
+  audience: UseInfiniteQueryResult<InfiniteData<Awaited<ReturnType<typeof getStoryViewers>>>>;
+  viewsLabel: string;
   own: boolean;
   onClose: () => void;
   onPick: (s: Sheet) => void;
@@ -851,21 +872,7 @@ function ViewerSheet({
   bottom: number;
 }) {
   const { t } = useTranslation();
-  const [viewers, setViewers] = useState<Viewer[] | null>(null);
-  // The totals come with the list, so the header always matches the rows
-  // (the counts on the moment itself were read when the shelf loaded).
-  const [totals, setTotals] = useState<{ viewers: number; views: number } | null>(null);
-  useEffect(() => {
-    if (kind !== "viewers") return;
-    getStoryViewers(item.id)
-      .then((r) => {
-        setViewers(r.viewers);
-        setTotals({ viewers: r.viewCount ?? r.viewers.length, views: Math.max(r.playCount ?? 0, r.viewCount ?? 0) });
-      })
-      .catch(() => setViewers([]));
-  }, [kind, item.id]);
-  const uniqueViewers = totals?.viewers ?? item.viewCount ?? 0;
-  const totalViews = Math.max(totals?.views ?? 0, uniqueViewers);
+  const viewers = audience.data?.pages.flatMap(page => page.viewers) ?? [];
 
   return (
     <View style={styles.sheetBack}>
@@ -915,16 +922,14 @@ function ViewerSheet({
             ))}
           </>
         ) : null}
-        {kind === "viewers" ? (
+        {kind === "viewers" && own ? (
           <>
-            <Text style={styles.sheetTitle}>
-              {t("stories.viewersCount", { defaultValue: "{{formatted}} viewers", formatted: formatCount(uniqueViewers) })}
-              {" · "}
-              {t("stories.viewsCount", { defaultValue: "{{formatted}} views", formatted: formatCount(totalViews) })}
-            </Text>
-            {viewers === null ? (
-              <ActivityIndicator color="#fff" style={{ marginVertical: 20 }} />
-            ) : viewers.length === 0 ? (
+            <Text style={styles.sheetTitle} accessibilityRole="header" accessibilityLiveRegion="polite">{viewsLabel}</Text>
+            {audience.isPending ? (
+              <ActivityIndicator color="#fff" style={{ marginVertical: 20 }} accessibilityLabel={t("common.loading", { defaultValue: "Loading" })} />
+            ) : !audience.data ? (
+              <SheetRow label={t("common.tryAgain", { defaultValue: "Try again" })} onPress={() => void audience.refetch()} disabled={audience.isFetching} />
+            ) : viewers.length === 0 && !audience.hasNextPage ? (
               <Text style={styles.empty}>{t("stories.noViewsYet", { defaultValue: "No one has watched yet." })}</Text>
             ) : (
               <ScrollView style={{ maxHeight: 360 }}>
@@ -934,14 +939,17 @@ function ViewerSheet({
                     <Text style={styles.viewerName} numberOfLines={1}>
                       {nameOf(v)}
                     </Text>
-                    {(v.plays ?? 1) > 1 ? (
-                      <Text style={styles.viewerPlays} accessibilityLabel={t("stories.watchedTimes", { defaultValue: "Watched {{formatted}} times", formatted: formatCount(v.plays ?? 1) })}>
-                        {t("stories.playsShort", { defaultValue: "{{formatted}}×", formatted: formatCount(v.plays ?? 1) })}
-                      </Text>
-                    ) : null}
                     {v.liked ? <Icon name="Heart" size={16} color="#FF5C78" fill="#FF5C78" /> : null}
                   </TouchableOpacity>
                 ))}
+                {audience.hasNextPage ? (
+                  <SheetRow
+                    label={t("common.loadMore", { defaultValue: "Load more" })}
+                    onPress={() => void audience.fetchNextPage({ cancelRefetch: false })}
+                    disabled={audience.isFetching}
+                    loading={audience.isFetchingNextPage}
+                  />
+                ) : null}
               </ScrollView>
             )}
           </>
@@ -951,11 +959,12 @@ function ViewerSheet({
   );
 }
 
-function SheetRow({ icon, label, onPress, danger }: { icon?: React.ComponentProps<typeof Icon>["name"]; label: string; onPress: () => void; danger?: boolean }) {
+function SheetRow({ icon, label, onPress, danger, disabled, loading }: { icon?: React.ComponentProps<typeof Icon>["name"]; label: string; onPress: () => void; danger?: boolean; disabled?: boolean; loading?: boolean }) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.sheetRow} accessibilityRole="button">
+    <TouchableOpacity onPress={onPress} disabled={disabled} style={[styles.sheetRow, disabled && styles.sheetRowDisabled]} accessibilityRole="button" accessibilityState={{ disabled, busy: loading }}>
       {icon ? <Icon name={icon} size={18} color={danger ? "#FF5C78" : "#fff"} /> : null}
       <Text style={[styles.sheetRowText, danger && { color: "#FF5C78" }]}>{label}</Text>
+      {loading ? <ActivityIndicator color="#fff" size="small" /> : null}
     </TouchableOpacity>
   );
 }
@@ -1076,5 +1085,5 @@ const styles = StyleSheet.create({
   empty: { color: "rgba(255,255,255,0.65)", paddingHorizontal: 8, paddingVertical: 16 },
   viewerRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingHorizontal: 8 },
   viewerName: { flex: 1, minWidth: 0, overflow: "hidden", color: "#fff", fontSize: 14 },
-  viewerPlays: { color: "hsla(0, 0%, 100%, 0.65)", fontSize: 13, fontWeight: "600" },
+  sheetRowDisabled: { opacity: 0.65 },
 });

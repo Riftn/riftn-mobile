@@ -1,23 +1,12 @@
 import { pollHasEnded, pollVotePercent, pollOptionWins } from '../../libs/pollResults';
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import type { TFunction } from "i18next";
+import { formatPostDate, parsePostTimestamp } from "../../i18n/post-timestamp";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { usePoll, useVoteOnPoll, useRemovePollVote, useClosePoll } from "../../hooks/usePolls";
 import { useUser } from "../../context/AuthContext";
 import { usePollTranslation } from "../../hooks/usePollTranslation";
-
-function formatRelativeTime(iso: string, t: TFunction): string {
-  const diffMs = new Date(iso).getTime() - Date.now();
-  const abs = Math.abs(diffMs);
-  const mins = Math.floor(abs / 60000);
-  const hrs = Math.floor(mins / 60);
-  const days = Math.floor(hrs / 24);
-  const short = mins < 60 ? `${mins}m` : hrs < 24 ? `${hrs}h` : `${days}d`;
-  if (mins < 1) return t("dm.justNow");
-  return diffMs < 0 ? t("dm.timeAgo", { time: short }) : short;
-}
 
 interface PollCardProps {
   tokenId: number;
@@ -33,7 +22,7 @@ const PollCard: React.FC<PollCardProps> = (props) => {
 };
 
 const PollCardForViewer: React.FC<PollCardProps & { myAddress: string }> = ({ tokenId, pollOwnerAddress, autoTranslate = true, myAddress }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { poll, loading, refetch } = usePoll(tokenId);
   const { vote, loading: voting } = useVoteOnPoll();
   const { removeVote, loading: removing } = useRemovePollVote();
@@ -126,11 +115,12 @@ const PollCardForViewer: React.FC<PollCardProps & { myAddress: string }> = ({ to
     }).catch(() => {});
   };
 
-  const endedByTime = !!poll.expiresAt && new Date(poll.expiresAt).getTime() <= Date.now();
-  const expiresLabel = poll.expiresAt
-    ? isOpen
-      ? t("dm.pollEnds", { time: formatRelativeTime(poll.expiresAt, t) })
-      : t("dm.pollEnded", { time: formatRelativeTime(poll.expiresAt, t) })
+  const expiresAt = parsePostTimestamp(poll.expiresAt);
+  const endedByTime = expiresAt != null && expiresAt.getTime() <= Date.now();
+  const expiresLabel = expiresAt
+    ? t(isOpen ? "dm.pollEnds" : "dm.pollEnded", {
+        time: formatPostDate(expiresAt, i18n.language, { dateStyle: "medium", timeStyle: "short" }),
+      })
     : null;
 
   return (

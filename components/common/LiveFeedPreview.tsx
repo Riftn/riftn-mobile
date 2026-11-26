@@ -10,7 +10,7 @@
  * this app runs ExoPlayer out of memory.
  */
 
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { useFeedPlaybackAllowed, useCallInProgress, visualActivity } from "../../libs/visualActivity";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { useEvent } from "expo";
@@ -21,6 +21,7 @@ import { DeHubLoader } from "../DeHubLoader";
 import SmartImage from "./SmartImage";
 import Icon from "../ui/Icon";
 import { sharedLivePlayerHolders, useSharedLivePlayer } from "../../libs/sharedLivePlayer";
+import { liveMiniOwnsPlayer, subscribeLiveMini } from "../../libs/live-mini";
 import { useSettledAutoplay } from "../../hooks/useSettledAutoplay";
 import { useStreamPresence } from '../../hooks/useStreamPresence';
 import { useLivePaused } from '../../hooks/useLivePaused';
@@ -77,12 +78,13 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
   // Shared with the live viewer: opening the post takes this same player
   // over, so the stream carries on instead of reconnecting from a spinner.
   const player = useSharedLivePlayer(url)!;
+  const inMini = useSyncExternalStore(subscribeLiveMini, () => liveMiniOwnsPlayer(url));
   const focused = useScreenFocused();
   const playbackAllowed = useFeedPlaybackAllowed();
   const callInProgress = useCallInProgress();
   useEffect(() => {
     const sync = () => {
-      if (visualActivity.isCallBusy() || (!visualActivity.isFeedPlaybackAllowed() && sharedLivePlayerHolders(url) <= 1)) {
+      if (visualActivity.isCallBusy() || (!visualActivity.isFeedPlaybackAllowed() && !liveMiniOwnsPlayer(url) && sharedLivePlayerHolders(url) <= 1)) {
         try { player.pause(); } catch {}
       }
     };
@@ -92,8 +94,8 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
   }, [player, playbackAllowed, callInProgress, url]);
   const { status } = useEvent(player, 'statusChange', { status: player.status });
   const { isPlaying } = useEvent(player, "playingChange", { isPlaying: player.playing });
-  useStreamPresence(isOwner ? undefined : streamId, focused && playbackAllowed && isPlaying && firstFrame && status !== 'error', onViewerCount);
-  const loading = !broadcastPaused && status !== 'error' && (!firstFrame || status === 'loading');
+  useStreamPresence(isOwner ? undefined : streamId, !inMini && focused && playbackAllowed && isPlaying && firstFrame && status !== 'error', onViewerCount);
+  const loading = !inMini && !broadcastPaused && status !== 'error' && (!firstFrame || status === 'loading');
   useEffect(() => {
     setWaitingTooLong(false);
     if (!loading) return;
@@ -105,7 +107,7 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
   // which has the full controls.
 
   useEffect(() => {
-    if (!playbackAllowed) return;
+    if (!playbackAllowed || inMini) return;
     if (!focused) {
       // Another screen is on top. If it is the live viewer it now owns this
       // player and must be left alone; if nothing else holds it, stop it
@@ -113,7 +115,7 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
       // viewer resolving its stream details before it claims the player;
       // pausing under it would leave it resuming behind the live edge.
       const timer = setTimeout(() => {
-        if (sharedLivePlayerHolders(url) <= 1) {
+        if (!liveMiniOwnsPlayer(url) && sharedLivePlayerHolders(url) <= 1) {
           try { player.pause(); } catch {}
         }
       }, 5000);
@@ -130,7 +132,7 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
       // The player is released with the view; a play() on a torn-down one
       // throws rather than returning, and there is nothing to recover.
     }
-  }, [player, focused, url, playbackAllowed]);
+  }, [player, focused, url, playbackAllowed, inMini]);
 
   return (
     <View style={StyleSheet.absoluteFill}>
@@ -140,7 +142,7 @@ function LivePlayer({ url, onPress, streamId, streamStatus, isOwner, onViewerCou
           Untouchable: on Android the native player view kept the touch, so a
           tap on the moving picture never reached the card and only the frame
           around it opened the live. The tap layer below sits over it. */}
-      {focused && <VideoView
+      {focused && !inMini && <VideoView
       style={StyleSheet.absoluteFill}
       player={player}
       pointerEvents="none"

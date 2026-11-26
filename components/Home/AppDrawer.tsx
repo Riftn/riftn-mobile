@@ -152,7 +152,7 @@ const NAV_ITEMS: DrawerItem[] = [
   { icon: "Vault", labelKey: "nav.staking", screen: ScreenNames.Dpay, params: { initialTab: "stake" }, requiresAuth: true, storefrontHidden: true },
   // Powers unlocked by holding DHB: hidden in the App Store build, where
   // crypto may not unlock features (guideline 3.1.1).
-  { icon: "Zap", labelKey: "nav.superpowers", screen: ScreenNames.SuperPowers, storefrontHidden: true },
+  { icon: "Zap", labelKey: "nav.superpowers", screen: ScreenNames.SuperPowers },
   // Emoji, sticker and GIF packs — creating one is a badge perk, so it sits with
   // the other things staking buys. Browsing and adding packs is open to all.
   { icon: "Smile", labelKey: "creatorPacks.title", screen: ScreenNames.Packs },

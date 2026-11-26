@@ -162,6 +162,7 @@ import { createLogger } from "../libs/logger";
 import { useDmPin } from "../hooks/useDmPin";
 import { useCallActions } from "../context/CallContext";
 import { useDmHeadRecovery } from "../hooks/useDmHeadRecovery";
+import { dismissReadMessageNotifications } from "../services/push/push.service";
 import { clearPendingChatLink, copyChatMessageLink, peekPendingChatLink, toastNotInLinkedChat, useLinkedMessage } from "../libs/chatMessageLink";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
@@ -1208,6 +1209,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   const recoverHead = useCallback(async (isCurrent: () => boolean) => {
     if (!currentConvId || !address) return;
+    // Keep alerts that arrive while the conversation is loading.
+    const readThrough = Date.now();
     setInitialLoading(true);
     try {
       const resp = await getMessages(currentConvId, { address, limit: PAGE_SIZE });
@@ -1216,7 +1219,12 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       if (!isCurrent()) return;
       if (normalized.length) dmActions.upsertMessages(currentConvId, normalized);
       if (msgs.length < PAGE_SIZE) setHasMore(false);
-      if (userId) dmActions.markAllRead(currentConvId, userId);
+      if (userId) {
+        dmActions.markAllRead(currentConvId, userId);
+        if (Array.isArray(resp?.messages)) {
+          void dismissReadMessageNotifications(currentConvId, address, readThrough, isCurrent);
+        }
+      }
     } catch (e) {
       log.error("recover message head", e);
     } finally {

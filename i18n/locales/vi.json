@@ -17075,7 +17075,22 @@
     "paste": "Dán khóa {{name}} của bạn",
     "getKey": "Lấy khóa {{name}}",
     "showLess": "Chỉ hiện khóa của tôi",
-    "addAnother": "Thêm nhà cung cấp khác"
+    "addAnother": "Thêm nhà cung cấp khác",
+    "providerDescriptions": {
+      "openai": "Builder (mô hình GPT)",
+      "fal": "Công cụ hình ảnh, video, 3D và ảnh chụp",
+      "kie": "Hình ảnh và video",
+      "replicate": "Hình ảnh và video",
+      "xai": "Trò chuyện và tạo ảnh với Grok",
+      "elevenlabs": "Giọng nói, lồng tiếng, âm nhạc và hiệu ứng âm thanh",
+      "gemini": "Dịch thuật, hỗ trợ viết và tóm tắt",
+      "venice": "Trò chuyện với trợ lý",
+      "perplexity": "Tìm kiếm trên web bằng trợ lý",
+      "deepgram": "Bản chép lời và phụ đề trực tiếp",
+      "openrouter": "Hàng trăm mô hình trò chuyện và văn bản với một khóa",
+      "groq": "Trò chuyện và tạo văn bản nhanh",
+      "mistral": "Trò chuyện và tạo văn bản"
+    }
   },
   "postBg": {
     "addMedia": "Thêm ảnh, GIF hoặc video",

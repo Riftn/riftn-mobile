@@ -80,6 +80,7 @@ import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assi
 import AssistantActionCard from "../Assistant/AssistantActionCard";
 import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import { stripBold } from "../../libs/bold-markup";
+import { isDmCallNotice, localizeDmCallPreview } from "../../libs/callNote";
 
 /**
  * A line of yours that did not go out: it stays where it was sent, with
@@ -379,7 +380,8 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     opacity: highlightOpacity.value,
   }));
 
-  const isCallMsg = message.msgType === "msg" && /^[📞📹📵]/u.test(message.content || "");
+  const isCallMsg = (!message.msgType || message.msgType === "msg") &&
+    !message.undecryptable && isDmCallNotice(message.content);
 
   const REPLY_THRESHOLD = 60;
   const translateX = useSharedValue(0);
@@ -1106,7 +1108,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       }`}
                       numberOfLines={2}
                     >
-                      {stripBold(message.replyTo.content) || ""}
+                      {localizeDmCallPreview(message.replyTo, t) ?? stripBold(message.replyTo.content)}
                     </Text>
                   )}
                 </View>

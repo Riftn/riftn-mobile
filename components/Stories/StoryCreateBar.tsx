@@ -126,29 +126,6 @@ export default function StoryCreateBar({ onActivityOptions }: { onActivityOption
   );
 }
 
-/** First tile of the row while Moments or lives are up: a centred + that opens the same sheet. */
-export function StoryCreateTile({ height, children, onActivityOptions }: { height: number; children: React.ReactNode; onActivityOptions?: () => void }) {
-  const { t } = useTranslation();
-  const { openMenu, elements } = useCreateFlows();
-  const label = t("stories.ask.create", { defaultValue: "Create" });
-  return (
-    <>
-      <TouchableOpacity
-        style={[styles.tile, { height }]}
-        activeOpacity={0.85}
-        onPress={openMenu}
-        onLongPress={onActivityOptions}
-        accessibilityRole="button"
-        accessibilityLabel={label}
-        testID="story-create-tile"
-      >
-        {children}
-      </TouchableOpacity>
-      {elements}
-    </>
-  );
-}
-
 function CreateSheet({ visible, onClose, onDismiss, onPick }: {
   visible: boolean;
   onClose: () => void;
@@ -225,7 +202,6 @@ const styles = StyleSheet.create({
   promptText: { fontSize: 15, fontWeight: "500" },
   iconBtn: { width: 40, height: 40, borderRadius: 10, alignItems: "center", justifyContent: "center" },
   key: { width: 30, height: 30, borderRadius: 8, alignItems: "center", justifyContent: "center" },
-  tile: { minWidth: 44, alignItems: "center", justifyContent: "center" },
   sheet: {
     position: "absolute",
     left: 0,

@@ -28,6 +28,7 @@ export enum ScreenNames {
   Chat = 'Chat',
   LiveProducer = 'LiveProducer',
   LiveViewer = 'LiveViewer',
+  LiveAttendeeProfile = 'LiveAttendeeProfile',
   AccountSettings = 'AccountSettings',
   LiveStudio = 'LiveStudio',
   YourVideos = 'YourVideos',

@@ -14,11 +14,13 @@ import React, { useMemo, useState } from "react";
 import { View, Text, ScrollView, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import { formatPostDate, parsePostTimestamp } from "../i18n/post-timestamp";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Icon, { type IconName } from "../components/ui/Icon";
 import ScreenHeader from "../components/ScreenHeader";
 import Avatar from "../components/common/Avatar";
 import EditPostModal from "../components/common/EditPostModal";
+import { PostStyledText } from "../components/common/PostTextFormatting";
 import BuyFractionSheet from "../components/Fractions/BuyFractionSheet";
 import SellFractionsSheet, { type SellTarget } from "../components/Fractions/SellFractionsSheet";
 import MakeOfferSheet, { type OfferTarget } from "../components/Fractions/MakeOfferSheet";
@@ -97,7 +99,7 @@ const Stat: React.FC<{ icon: IconName; value: React.ReactNode; label: string; wi
 );
 
 export default function PostInfoScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const tokenId = String(route.params?.tokenId ?? route.params?.postId ?? "");
@@ -271,7 +273,7 @@ export default function PostInfoScreen() {
   const creatorName = post.minterDisplayName || post.mintername || shortAddress(minter);
   const isLive = post.postType === "live" || post.isLive !== undefined;
   const txUrl = post.mintTxHash ? getTransactionLink(chainId, post.mintTxHash) : null;
-  const created = post.createdAt ? new Date(post.createdAt) : null;
+  const created = parsePostTimestamp(post.createdAt);
   const floor = listings[0];
 
   return (
@@ -314,8 +316,8 @@ export default function PostInfoScreen() {
               {created && (
                 <View style={styles.divider}>
                   <Text style={styles.label}>{t("postInfo.mintedOn")}</Text>
-                  <Text style={styles.value}>{created.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</Text>
-                  <Text style={styles.muted}>{created.toLocaleTimeString()}</Text>
+                  <Text style={styles.value}>{formatPostDate(created, i18n.language, { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</Text>
+                  <Text style={styles.muted}>{formatPostDate(created, i18n.language, { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZoneName: "short" })}</Text>
                 </View>
               )}
               {!!post.mintTxHash && (
@@ -548,7 +550,7 @@ export default function PostInfoScreen() {
         {!!(post.name || post.description) && (
           <Section title={t("postInfo.content")}>
             {!!post.name && <Text style={styles.value}>{post.name}</Text>}
-            {!!post.description && <Text style={styles.muted}>{post.description}</Text>}
+            {!!post.description && <Text style={styles.muted}><PostStyledText text={post.description} /></Text>}
             {!!tokenId && <PostEditHistoryLine tokenId={tokenId} />}
           </Section>
         )}

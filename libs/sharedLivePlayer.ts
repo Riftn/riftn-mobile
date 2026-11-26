@@ -18,7 +18,7 @@
 
 import { useEffect, useMemo } from "react";
 import { Platform } from "react-native";
-import { createVideoPlayer, type VideoPlayer } from "expo-video";
+import { createVideoPlayer, type VideoPlayer, type VideoSource } from "expo-video";
 import {
   EVENT_LIVE_BUFFER_OPTIONS,
   EVENT_TARGET_OFFSET_FROM_LIVE_SEC,
@@ -230,10 +230,10 @@ function scheduleRelease(url: string, entry: Entry) {
   }, RELEASE_GRACE_MS);
 }
 
-function entryFor(url: string): Entry {
+function entryFor(url: string, source?: VideoSource): Entry {
   let entry = entries.get(url);
   if (!entry) {
-    const player = createVideoPlayer(url);
+    const player = createVideoPlayer(source ?? url);
     player.loop = false;
     player.muted = true;
     shareAudioWhenSilent(player);
@@ -253,19 +253,19 @@ export function hasSharedLivePlayer(url: string | null | undefined): boolean {
 }
 
 /** The shared player for a live URL, or null when there is no URL. */
-export function useSharedLivePlayer(url: string | null | undefined): VideoPlayer | null {
-  const player = useMemo(() => (url ? entryFor(url).player : null), [url]);
+export function useSharedLivePlayer(url: string | null | undefined, source?: VideoSource): VideoPlayer | null {
+  const player = useMemo(() => (url ? entryFor(url, source).player : null), [url, source]);
 
   useEffect(() => {
     if (!url) return;
-    const entry = entryFor(url);
+    const entry = entryFor(url, source);
     entry.refs += 1;
     clearTimeout(entry.timer);
     return () => {
       entry.refs -= 1;
       if (entry.refs <= 0) scheduleRelease(url, entry);
     };
-  }, [url]);
+  }, [url, source]);
 
   return player;
 }

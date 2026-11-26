@@ -32,6 +32,7 @@ import { isPrivatePhoto } from "../../libs/dm-destruct";
 import OpenedMarker from "./OpenedMarker";
 import { canTranslateDm, getDmTranslation, toggleDmTranslation, translateOwnDm } from "../../libs/dm-translation-store";
 import { stripBold } from "../../libs/bold-markup";
+import { localizeDmCallPreview } from "../../libs/callNote";
 
 
 export interface MessageLayout {
@@ -269,7 +270,7 @@ const FloatingMessage: React.FC<{
                 }`}
                 numberOfLines={2}
               >
-                {stripBold(message.replyTo.content) ||
+                {(localizeDmCallPreview(message.replyTo, t) ?? stripBold(message.replyTo.content)) ||
                   (message.replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
               </Text>
             </View>

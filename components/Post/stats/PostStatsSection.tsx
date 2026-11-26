@@ -7,6 +7,7 @@ import { tokenLabel } from '../../../libs/token-label';
 import React from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { formatPostDate } from "../../../i18n/post-timestamp";
 import { useQuery } from "@tanstack/react-query";
 import Avatar from "../../common/Avatar";
 import { getAvatarUrl } from "../../../libs/misc";
@@ -45,7 +46,7 @@ function WatchRow({ label, w }: { label: string; w: PostWatchSummary | null }) {
 }
 
 export default function PostStatsSection({ tokenId }: { tokenId: string | number }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, isLoading, isError } = usePostStats(tokenId);
   const best = useQuery({ queryKey: ["post-stats-best-times"], queryFn: getBestTimes, staleTime: 10 * 60_000, retry: false });
 
@@ -86,7 +87,7 @@ export default function PostStatsSection({ tokenId }: { tokenId: string | number
 
       <StatsCard
         title={t("postStats.first48")}
-        aside={total[peakIdx] > 0 ? t("postStats.peak", { time: peakAt.toLocaleString(undefined, { weekday: "short", hour: "numeric" }), n: fmt(total[peakIdx]) }) : undefined}
+        aside={total[peakIdx] > 0 ? t("postStats.peak", { time: formatPostDate(peakAt, i18n.language, { weekday: "short", hour: "numeric" }), n: fmt(total[peakIdx]) }) : undefined}
       >
         <AreaChart series={[hourly.signedIn, hourly.signedOut]} height={96} />
         <ChartLegend items={[{ label: t("postStats.members") }, { label: t("postStats.visitors"), faint: true }]} />

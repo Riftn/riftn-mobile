@@ -18418,7 +18418,22 @@
     "cancel": "İptal",
     "getKey": "{{name}} anahtarı al",
     "showLess": "Sadece anahtarlarımı göster",
-    "addAnother": "Başka sağlayıcı ekle"
+    "addAnother": "Başka sağlayıcı ekle",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modelleri)",
+      "fal": "Görsel, video, 3D ve fotoğraf araçları",
+      "kie": "Görseller ve videolar",
+      "replicate": "Görseller ve videolar",
+      "xai": "Grok ile sohbet ve görsel oluşturma",
+      "elevenlabs": "Ses, dublaj, müzik ve ses efektleri",
+      "gemini": "Çeviri, yazma yardımı ve özetler",
+      "venice": "Asistanla sohbet",
+      "perplexity": "Asistanla web araması",
+      "deepgram": "Konuşma dökümleri ve canlı altyazılar",
+      "openrouter": "Tek anahtarla yüzlerce sohbet ve metin modeli",
+      "groq": "Hızlı sohbet ve metin",
+      "mistral": "Sohbet ve metin"
+    }
   },
   "postBg": {
     "scope": "Uygula",

@@ -21,7 +21,7 @@ import {
   Platform,
   Share,
 } from "react-native";
-import { shareWithRef } from "../../libs/shareRef";
+import { shareWithRef, withLiveShareRef } from "../../libs/shareRef";
 import { reportPostEvent } from "../../services/post-stats.service";
 import { useTranslation } from "react-i18next";
 import Icon, { type IconName } from "../ui/Icon";
@@ -81,6 +81,8 @@ export interface PostOptionsMenuProps {
   isOwner: boolean;
   /** The post itself, so pinning it can show it on the profile at once. */
   post?: any;
+  /** For a live post, whether its share link is public. */
+  liveSharePublic?: boolean;
   /**
    * The post's mint status. 'signed' means it was published off-chain and can
    * still be minted; anything else (or absent) hides the Mint post row, so a
@@ -422,6 +424,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   tokenId,
   isOwner,
   post,
+  liveSharePublic,
   canReplaceVideo = false,
   postStatus,
   postChainId,
@@ -793,16 +796,17 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
     if (tokenId == null) return;
     // An article shares as its readable title link.
     const articleSlug = typeof post?.articleSlug === "string" ? post.articleSlug : "";
-    const url = `${WEBSITE_LINK || ""}/app/post/${articleSlug || tokenId}`;
+    const link = `${WEBSITE_LINK || ""}/app/post/${articleSlug || tokenId}`;
+    const url = liveSharePublic === undefined ? link : withLiveShareRef(link, liveSharePublic);
     try {
       const result = await shareWithRef({
         message: t("copy.7cbcbe364e76", { defaultValue: "Check out this post {{value1}}", value1: url }),
         url,
-      }, undefined, "post");
+      }, undefined, liveSharePublic === undefined ? "post" : "live");
       if (result.action === Share.sharedAction) reportPostEvent(tokenId, "share");
     } catch {}
     onClose();
-  }, [tokenId, post?.articleSlug, onClose, t]);
+  }, [tokenId, post?.articleSlug, liveSharePublic, onClose, t]);
 
   const followLabel = isFollowRequestPending
     ? t("postOptions.cancelRequest")

@@ -3,7 +3,7 @@
     "scheme": "dehub",
     "name": "Riftn",
     "slug": "dehubmobile",
-    "version": "1.20.2",
+    "version": "1.20.3",
     "orientation": "portrait",
     "icon": "./assets/AppIcons/playstore.png",
     "userInterfaceStyle": "dark",

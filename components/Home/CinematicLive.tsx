@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import SkeletonBlock from '../Feed/SkeletonBlock';
 /**
  * CinematicLive — the Live tab on phones in the System theme
@@ -41,7 +42,7 @@ import { DeHubRefreshControl, DeHubRefreshMark } from "../Feed/DeHubRefreshContr
 import { useHorizontalScrollGuard } from "../../context/PagerGestureContext";
 import { getLiveVideos, type LiveStreamEntity } from "../../services/live.service";
 import { getTVChannelsByCountry, type TVChannel } from "../../services/liveTv.service";
-import { isStreamLive } from "../../libs/live-status";
+import { isStreamLive, sortLiveThenReplays } from "../../libs/live-status";
 import { liveThumbnailFor } from "../../libs/live-ingest";
 import { buildCdnPath, getAvatarUrl } from "../../libs/misc";
 import { LIVE_GAMES, streamMatchesGame, type LiveGame } from "../../libs/live-games";
@@ -77,6 +78,7 @@ interface Stream {
   viewers: string;
   thumbnail: string;
   isLive: boolean;
+  isPaused: boolean;
   /** An ended broadcast with a ready recording to watch back. */
   hasReplay: boolean;
 }
@@ -101,6 +103,7 @@ function toStream(row: LiveStreamEntity, index: number, fallbackGame: string): S
     viewers: watching == null ? "" : compactCount(watching),
     thumbnail,
     isLive: isStreamLive(row),
+    isPaused: row.status?.toUpperCase() === "PAUSED",
     hasReplay: (row as any).recording?.status === "ready" && !!(row as any).recording?.url,
   };
 }
@@ -121,10 +124,11 @@ const Avatar: React.FC<{ src?: string; name: string; style: any }> = ({ src, nam
   );
 };
 
-const LiveBadge: React.FC<{ style?: any; small?: boolean }> = ({ style, small }) => {
+const LiveBadge: React.FC<{ style?: any; small?: boolean; paused?: boolean }> = ({ style, small, paused }) => {
   const { t } = useTranslation();
   return (
     <View style={[styles.liveBadge, style]}>
+      {!paused && <LiveDot size={5} />}
       <Text style={[styles.liveBadgeText, small && { fontSize: 9 }]}>{t("tv.live")}</Text>
     </View>
   );
@@ -206,7 +210,7 @@ const StreamTile: React.FC<{ stream: Stream; width: number; onPress: () => void 
           </>
         )}
         {stream.isLive ? (
-          <LiveBadge style={styles.tileLive} />
+          <LiveBadge paused={stream.isPaused} style={styles.tileLive} />
         ) : stream.hasReplay ? (
           <View style={[styles.liveBadge, styles.replayBadge, styles.tileLive]}>
             <Text style={styles.liveBadgeText}>{t("stageCover.replay")}</Text>
@@ -310,15 +314,7 @@ const CinematicLive: React.FC<CinematicLiveProps> = ({
       : Array.isArray((data as any)?.result)
         ? (data as any).result
         : [];
-    // On air first (newest start), then replays (newest end): the list also
-    // carries recent recordings, and start time alone put a replay above a
-    // stream that has been live for longer.
-    const onAir = (row: LiveStreamEntity) => (isStreamLive(row) ? 0 : 1);
-    const at = (row: LiveStreamEntity) =>
-      Date.parse((onAir(row) === 0 ? row.startedAt : (row as any).endedAt || row.startedAt) || row.createdAt || "") || 0;
-    return [...rows]
-      .sort((a, b) => onAir(a) - onAir(b) || at(b) - at(a))
-      .map((row, i) => toStream(row, i, fallbackGame));
+    return sortLiveThenReplays(rows).map((row, i) => toStream(row, i, fallbackGame));
   }, [data, fallbackGame]);
 
   // One ring per creator who is on air right now.
@@ -392,7 +388,7 @@ const CinematicLive: React.FC<CinematicLiveProps> = ({
                   style={styles.creatorRing}
                 >
                   <Avatar src={s.avatar} name={s.streamer} style={styles.creatorAvatar} />
-                  <LiveBadge small style={styles.creatorLive} />
+                  <LiveBadge small paused={s.isPaused} style={styles.creatorLive} />
                 </LinearGradient>
                 <Text style={styles.creatorName} numberOfLines={1}>
                   {s.streamer}
@@ -517,7 +513,7 @@ const styles = StyleSheet.create({
   listContent: { paddingBottom: TAB_BAR_CONTENT_INSET + 64 },
   avatarFallback: { backgroundColor: "#3F3F46", alignItems: "center", justifyContent: "center" },
   avatarInitial: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
-  liveBadge: { backgroundColor: "#EF4444", borderRadius: 5, paddingHorizontal: 6, paddingVertical: 1 },
+  liveBadge: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(0,0,0,0.8)", borderRadius: 5, paddingHorizontal: 6, paddingVertical: 1 },
   liveBadgeText: { color: "#FFFFFF", fontSize: 10, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase" },
   sectionTitle: {
     flexDirection: "row",

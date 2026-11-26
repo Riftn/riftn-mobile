@@ -20,9 +20,10 @@
  * bars or two sounds are never up at once.
  */
 
+import { LiveDot } from "../common/LiveDot";
 import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ActivityIndicator, AppState, Pressable, StyleSheet, Text, View } from "react-native";
-import { isPictureInPictureSupported, useVideoPlayer, VideoView, type VideoSource } from "expo-video";
+import { isPictureInPictureSupported, VideoView, type VideoPlayer, type VideoSource } from "expo-video";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, {
   Easing,
@@ -49,11 +50,9 @@ import { GLASS_PLAYBACK_CONTROL } from "../../theme/skins";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { requestAudioFocus, releaseAudioFocus } from "../../libs/audioFocus";
 import { configureForBackgroundPlayback, releaseBackgroundPlayback } from "../../libs/audioSession";
-import { useCallInProgress } from "../../libs/visualActivity";
+import { useCallInProgress, visualActivity } from "../../libs/visualActivity";
 import { acquireStreamViewer } from "../../libs/stream-presence";
-import { shareAudioWhenSilent } from "../../libs/videoAudioMixing";
-import { LIVE_BUFFER_OPTIONS } from "../../libs/videoBuffering";
-import { settleBehindLiveOnStall } from "../../libs/sharedLivePlayer";
+import { useSharedLivePlayer } from "../../libs/sharedLivePlayer";
 import { isPictureInPicturePlayer, setPictureInPicturePlayer } from "../../libs/pictureInPicture";
 import { closeInAppVideoMini } from "../../libs/in-app-video-mini";
 import { toastInfo } from "../../libs/toast";
@@ -62,6 +61,7 @@ import {
   getLiveMini,
   getLiveMiniVersion,
   setLiveMiniMode,
+  setLiveMiniPlayer,
   setLiveMiniSeat,
   subscribeLiveMini,
   type LiveMini,
@@ -87,7 +87,7 @@ export default function LiveMiniPlayerHost() {
     if (previousOwner.current !== owner) closeLiveMini();
     previousOwner.current = owner;
   }, [owner]);
-  return entry ? <LiveMiniSession key={entry.streamId} entry={entry} /> : null;
+  return entry ? <LiveMiniSession key={`${entry.streamId}:${entry.url}`} entry={entry} /> : null;
 }
 
 function LiveMiniSession({ entry }: { entry: LiveMini }) {
@@ -96,41 +96,45 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
   const inCall = useCallInProgress();
   const { emitAuthed, isCoreConnected, coreConnected, connectionEpoch } = useWebSocket();
 
-  // Built once per live: the title and host ride along for the lock screen.
+  // A recovery reload carries the lock screen metadata. The handoff itself
+  // keeps the buffered player intact.
   const source = useMemo<VideoSource>(() => ({
     uri: entry.url,
     metadata: { title: entry.title, artist: entry.host, artwork: entry.avatar },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [entry.url]);
-  const player = useVideoPlayer(source, (p) => {
-    p.loop = false;
-    p.bufferOptions = LIVE_BUFFER_OPTIONS;
-    p.muted = false;
-    p.staysActiveInBackground = true;
-    p.showNowPlayingNotification = true;
-    shareAudioWhenSilent(p);
-    p.play();
-  });
-  const [playing, setPlaying] = useState(true);
-  const [ready, setReady] = useState(false);
+  const player = useSharedLivePlayer(entry.url, source)!;
+  const [playing, setPlaying] = useState(() => player.playing);
+  const [ready, setReady] = useState(() => player.status === "readyToPlay");
   const [aspect, setAspect] = useState(9 / 16);
+  const wantsPlayback = useRef(true);
 
   // One sound at a time: another player starting closes this one.
   useEffect(() => {
+    setLiveMiniPlayer(entry.url, player);
     closeInAppVideoMini();
     requestAudioFocus(closeLiveMini);
     void configureForBackgroundPlayback().catch(() => {});
+    try {
+      player.muted = !!entry.muted;
+      player.staysActiveInBackground = true;
+      player.showNowPlayingNotification = true;
+      if (!player.playing && !visualActivity.isCallBusy()) player.play();
+    } catch {}
     return () => {
       releaseAudioFocus(closeLiveMini);
       void releaseBackgroundPlayback().catch(() => {});
     };
-  }, []);
-
-  useEffect(() => settleBehindLiveOnStall(player, entry.url), [player, entry.url]);
+    // These are the incoming playback settings for this URL.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entry.url, player]);
 
   // A call takes the sound; the live waits paused until you play it again.
   useEffect(() => {
-    if (inCall) { try { player.pause(); } catch {} }
+    if (inCall) {
+      wantsPlayback.current = false;
+      try { player.pause(); } catch {}
+    }
   }, [inCall, player]);
 
   // The audience seat: the one the viewer handed over, then a fresh one per
@@ -156,7 +160,9 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
   useEffect(() => {
     let stallTimer: ReturnType<typeof setTimeout> | null = null;
     let cancelled = false;
+    const canPlay = () => !cancelled && wantsPlayback.current && !visualActivity.isCallBusy();
     const check = async () => {
+      if (!canPlay()) return;
       try {
         const res = await fetch(entry.url, { method: "GET" });
         if (cancelled) return;
@@ -166,20 +172,31 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
           return;
         }
       } catch {}
-      if (cancelled) return;
+      if (!canPlay()) return;
       try { player.replace(source); player.play(); } catch {}
+    };
+    const recover = (delay: number) => {
+      if (stallTimer) clearTimeout(stallTimer);
+      stallTimer = setTimeout(() => {
+        if (!canPlay()) return;
+        if (player.status === "readyToPlay" && !player.playing) {
+          try { player.play(); } catch {}
+        } else void check();
+      }, delay);
     };
     setPlaying(player.playing);
     setReady(player.status === "readyToPlay");
-    if (player.status === "loading" || player.status === "error") {
-      stallTimer = setTimeout(check, player.status === "error" ? 3000 : STALL_CHECK_MS);
-    }
+    if (!player.playing) recover(player.status === "readyToPlay" || player.status === "error" ? 3000 : STALL_CHECK_MS);
     const subs = [
-      player.addListener("playingChange", ({ isPlaying }) => setPlaying(isPlaying)),
+      player.addListener("playingChange", ({ isPlaying }) => {
+        setPlaying(isPlaying);
+        if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
+        if (!isPlaying && canPlay()) recover(3000);
+      }),
       player.addListener("statusChange", ({ status }) => {
         if (status === "readyToPlay") setReady(true);
         if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
-        if (status === "loading" || status === "error") stallTimer = setTimeout(check, status === "error" ? 3000 : STALL_CHECK_MS);
+        if (!player.playing && canPlay()) recover(status === "loading" ? STALL_CHECK_MS : 3000);
       }),
       player.addListener("videoTrackChange", ({ videoTrack }) => {
         const size = videoTrack?.size;
@@ -195,7 +212,13 @@ function LiveMiniSession({ entry }: { entry: LiveMini }) {
 
   const togglePlay = useCallback(() => {
     try {
-      if (player.playing) { player.pause(); return; }
+      if (player.playing) {
+        wantsPlayback.current = false;
+        player.pause();
+        return;
+      }
+      if (visualActivity.isCallBusy()) return;
+      wantsPlayback.current = true;
       requestAudioFocus(closeLiveMini);
       // A live picks up at the live edge again, not where it was paused.
       player.replace(source);
@@ -224,7 +247,7 @@ type Props = {
 };
 
 function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onRestore }: Props & {
-  player: ReturnType<typeof useVideoPlayer>;
+  player: VideoPlayer;
   ready: boolean;
   aspect: number;
 }) {
@@ -376,7 +399,7 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
               <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.6)"]} style={styles.bottomShade} />
 
               <View style={styles.liveTag} pointerEvents="none">
-                <View style={styles.liveDot} />
+                <LiveDot />
                 <Text style={styles.liveText}>{t("live.liveBadge")}</Text>
               </View>
               <Pressable onPress={() => leave(closeLiveMini)} hitSlop={6} style={[styles.control, styles.close]}
@@ -440,7 +463,7 @@ function ListenBar({ entry, playing, onTogglePlay, onRestore }: Props) {
         <View style={styles.barText}>
           <Text style={styles.barTitle} numberOfLines={1}>{entry.title}</Text>
           <View style={styles.barSubRow}>
-            <View style={styles.barDot} />
+            <LiveDot />
             <Text style={styles.barSub} numberOfLines={1}>
               {`${t("live.liveBadge")}  ·  ${entry.host}`}
             </Text>
@@ -485,12 +508,11 @@ const styles = StyleSheet.create({
     height: 20,
     paddingHorizontal: 6,
     borderRadius: 6,
-    backgroundColor: "#EF4444",
+    backgroundColor: "rgba(0,0,0,0.8)",
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
   },
-  liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: "#FFFFFF" },
   liveText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800", letterSpacing: 0.4 },
   control: {
     width: 32,
@@ -541,7 +563,6 @@ const styles = StyleSheet.create({
   barText: { flex: 1, minWidth: 0 },
   barTitle: { color: "#FFFFFF", fontSize: 13, fontWeight: "600" },
   barSubRow: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 2 },
-  barDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "#EF4444" },
   barSub: { flexShrink: 1, color: "rgba(255,255,255,0.5)", fontSize: 11 },
   barBtn: {
     width: 34,

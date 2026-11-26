@@ -16942,7 +16942,22 @@
     "paste": "粘贴你个 {{name}} 密钥",
     "getKey": "获取 {{name}} 密钥",
     "showLess": "只显示我个密钥",
-    "addAnother": "添加其他服务商"
+    "addAnother": "添加其他服务商",
+    "providerDescriptions": {
+      "openai": "Builder（GPT 模型）",
+      "fal": "图像、视频、3D 搭仔相片工具",
+      "kie": "图像搭仔视频",
+      "replicate": "图像搭仔视频",
+      "xai": "用 Grok 搭讪搭仔做图",
+      "elevenlabs": "语音、配音、音乐搭仔音效",
+      "gemini": "翻译、帮侬写文章搭仔做摘要",
+      "venice": "搭助手搭讪",
+      "perplexity": "用助手勒浪网上寻",
+      "deepgram": "语音转文字搭仔实时字幕",
+      "openrouter": "一把密钥用几百种搭讪搭仔文本模型",
+      "groq": "快搭讪搭仔生成文字",
+      "mistral": "搭讪搭仔生成文字"
+    }
   },
   "postBg": {
     "addMedia": "添加图片、GIF 或视频",

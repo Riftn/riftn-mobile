@@ -312,6 +312,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Auth provider props
 interface AuthProviderProps {
   children: React.ReactNode;
+  hasInternet?: boolean | null;
 }
 
 /** How the account that takes over after a log out is named in the toast. */
@@ -321,7 +322,7 @@ function switchedName(user: User | null): string | null {
   return user.displayName || null;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children, hasInternet }) => {
   const { t: _copy } = _useCopy();
   const log = useMemo(() => createLogger("AuthContext"), []);
   const [user, setUser] = useState<User | null>(null);
@@ -336,14 +337,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
   const [needsUsername, setNeedsUsername] = useState(false);
   const referralWallet = isSignedIn && !needsUsername ? user?.walletAddress || user?.address || null : null;
+  const referralAccountCreatedAt = user?.username ? user.createdAt : undefined;
   useEffect(() => {
     let cancelled = false;
     let stop: (() => void) | undefined;
     void import('../libs/affiliate-attribution').then(({ watchAffiliateAttribution }) => {
-      if (!cancelled) stop = watchAffiliateAttribution(referralWallet);
+      if (!cancelled) stop = watchAffiliateAttribution(referralWallet, referralAccountCreatedAt);
     }).catch(() => undefined);
     return () => { cancelled = true; stop?.(); };
-  }, [referralWallet]);
+  }, [referralWallet, referralAccountCreatedAt]);
   const analyticsWalletRef = useRef<string | null>(null);
   useEffect(() => {
     if (analyticsWalletRef.current && analyticsWalletRef.current !== referralWallet) resetAnalytics();
@@ -567,6 +569,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Boot hydration
   useAuthBoot<User>({
+    hasInternet,
     getAuthUser,
     getAuthToken,
     hasSeenAuth: hasSeenAuthOutsideSetup,

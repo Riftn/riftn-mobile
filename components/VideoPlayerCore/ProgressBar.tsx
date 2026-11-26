@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useMemo } from 'react';
 import { View, Text, Pressable } from 'react-native';
@@ -84,19 +85,19 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     <View className="px-1">
       {/* Time Labels */}
       <View className="flex-row justify-between items-center mb-2">
-        <Text
-          className="text-white text-xs font-medium"
-          accessibilityLabel={_copy("copy.3f817964c0a8", { defaultValue: "Current position: {{value1}}", value1: formattedPosition })}
-        >
-          {liveMode ? (
-            <View className="flex-row items-center">
-              <View className="w-2 h-2 rounded-full bg-white mr-1.5" />
-              <Text className="text-white text-xs font-semibold">{_copy("copy.35e0d0360a0a", { defaultValue: "LIVE" })}</Text>
-            </View>
-          ) : (
-            formattedPosition
-          )}
-        </Text>
+        {liveMode ? (
+          <View className="flex-row items-center gap-1.5">
+            <LiveDot />
+            <Text className="text-white text-xs font-semibold">{_copy("copy.35e0d0360a0a", { defaultValue: "LIVE" })}</Text>
+          </View>
+        ) : (
+          <Text
+            className="text-white text-xs font-medium"
+            accessibilityLabel={_copy("copy.3f817964c0a8", { defaultValue: "Current position: {{value1}}", value1: formattedPosition })}
+          >
+            {formattedPosition}
+          </Text>
+        )}
         <Text
           className="text-white/70 text-xs font-medium"
           accessibilityLabel={t('player.durationLabel', { time: formattedDuration })}

@@ -6,22 +6,25 @@ import { toastError } from './toast';
 const MOMENT_ID = /^[a-f0-9]{24}$/i;
 
 /**
- * Open one moment by id over whatever screen is showing (notification rows and
- * push taps for story likes and mentions). Says so when it has gone.
+ * Open a moment from a notification. Its author can open an archived thread
+ * through the same authenticated story endpoint used for a live thread.
  */
-export async function openMomentById(id: unknown, me?: string | null): Promise<boolean> {
+export async function openMomentById(id: unknown, me?: string | null, { openComments = false } = {}): Promise<boolean> {
   if (typeof id !== 'string' || !MOMENT_ID.test(id)) return false;
   try {
     const { author, item } = await getStory(id, !!me);
-    if (!author || item.expired || item.status !== 'ready' || Date.parse(item.expiresAt) <= Date.now()) throw new Error('gone');
+    if (!author || item.status !== 'ready') throw new Error('gone');
+    const own = !!me && author.address.toLowerCase() === me.toLowerCase();
+    const expired = item.expired || Date.parse(item.expiresAt) <= Date.now();
+    if (expired && !(openComments && own)) throw new Error('gone');
     openStoryViewer([{
       author,
-      own: !!me && author.address.toLowerCase() === me.toLowerCase(),
+      own,
       following: false,
       seen: item.viewed,
       latestAt: item.createdAt,
       items: [item],
-    }], 0, true);
+    }], 0, true, { openComments });
     return true;
   } catch {
     toastError(i18n.t('stories.originalUnavailable', { defaultValue: 'The original moment is no longer available.' }));

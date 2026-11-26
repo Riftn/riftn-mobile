@@ -16973,7 +16973,22 @@
     "paste": "{{name}} llaveykita k'askachiy",
     "getKey": "{{name}} llaveta hapiy",
     "showLess": "Llaveykunallata rikuchiy",
-    "addAnother": "Huk quqta yapay"
+    "addAnother": "Huk quqta yapay",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modelokuna)",
+      "fal": "Siq'i, video, 3D hinaspa fotopaq llamk'anakuna",
+      "kie": "Siq'ikuna hinaspa video",
+      "replicate": "Siq'ikuna hinaspa video",
+      "xai": "Grok nisqawan rimanakuy hinaspa siq'ikuna",
+      "elevenlabs": "Kunka, kunkata tikray, taki hinaspa uyarinapaq efectokuna",
+      "gemini": "T'ikray, qillqaypi yanapay hinaspa pisichasqa willaykuna",
+      "venice": "Yanapaqwan rimanakuy",
+      "perplexity": "Yanapaqwan web nisqapi maskay",
+      "deepgram": "Rimasqata qillqay hinaspa kikin pachapi subtítulo",
+      "openrouter": "Huk kichanawan pachak pachak rimaypa qillqaypa modelonkuna",
+      "groq": "Utqay rimanakuy hinaspa qillqa",
+      "mistral": "Rimanakuy hinaspa qillqa"
+    }
   },
   "postBg": {
     "addMedia": "Siq'iyta, GIF-ta utaq videota yapay",

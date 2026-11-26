@@ -6,7 +6,7 @@ import { useDraftState } from '../../hooks/useDraftState';
  */
 import { normalizeCategoryName } from "../../libs/strings.util";
 import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { PostFormatControls } from "./PostTextFormatting";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import GlassModal from "../ui/GlassModal";
 import { useSpareLine } from "../../hooks/useSpareLine";
@@ -168,6 +169,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
     return () => { cancelled = true; };
   }, [visible, initialArticleBody]);
   const descriptionMax = initialArticleBody !== undefined ? ARTICLE_SUMMARY_MAX : tierTextMax;
+  const descriptionRef = useRef<TextInput>(null);
+  const descriptionSelection = useRef({ start: 0, end: 0 });
   const titleMentions = useMentions(title, setTitle);
   const descMentions = useMentions(description, setDescription);
   const [selectedCategories, setSelectedCategories] =
@@ -625,9 +628,13 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               {t("work.fields.description")}
             </Text>
             <TextInput
+              ref={descriptionRef}
               value={description}
               onChangeText={(t) => descMentions.handleChangeText(t.slice(0, descriptionMax))}
-              onSelectionChange={descMentions.handleSelectionChange}
+              onSelectionChange={event => {
+                descriptionSelection.current = event.nativeEvent.selection;
+                descMentions.handleSelectionChange(event);
+              }}
               maxLength={descriptionMax}
               placeholder={t("editPost.descPlaceholder")}
               placeholderTextColor="#8B8D90"
@@ -640,6 +647,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               onContentSizeChange={descSpareLine.onContentSizeChange}
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[80px] mb-1"
             />
+            <PostFormatControls value={description} inputRef={descriptionRef} selectionRef={descriptionSelection}
+              maxLength={descriptionMax} onChangeText={setDescription} />
             <MentionSuggestions
               visible={descMentions.showSuggestions}
               suggestions={descMentions.suggestions}

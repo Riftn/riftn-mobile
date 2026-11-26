@@ -16999,7 +16999,22 @@
     "paste": "{{name}}キーを貼り付け",
     "getKey": "{{name}}キーを取得",
     "showLess": "自分のキーのみを表示",
-    "addAnother": "別のプロバイダーを追加"
+    "addAnother": "別のプロバイダーを追加",
+    "providerDescriptions": {
+      "openai": "Builder（GPTモデル）",
+      "fal": "画像・動画・3D・写真用ツール",
+      "kie": "画像と動画",
+      "replicate": "画像と動画",
+      "xai": "Grokでチャットと画像生成",
+      "elevenlabs": "音声・吹き替え・音楽・効果音",
+      "gemini": "翻訳・文章作成支援・要約",
+      "venice": "アシスタントとチャット",
+      "perplexity": "アシスタントによるウェブ検索",
+      "deepgram": "文字起こしとライブ字幕",
+      "openrouter": "1つのキーで数百種類のチャット・テキストモデルを利用",
+      "groq": "高速チャットとテキスト生成",
+      "mistral": "チャットとテキスト生成"
+    }
   },
   "postBg": {
     "addMedia": "画像・GIF・動画を追加",
