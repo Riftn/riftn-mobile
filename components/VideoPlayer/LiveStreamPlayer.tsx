@@ -55,7 +55,7 @@ import { SettingsOptionModal } from "../Settings/SettingsPrimitives";
 import { addStreamModerator, banFromStreams, getStreamBot, timeOutInStream } from "../../services/livechat.service";
 import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
-import { swipeRooms } from "../../libs/live-swipe-rooms";
+import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -125,6 +125,7 @@ const LIVE_DRAG_RELEASE = 6;
 const LIVE_HIDE_SWIPE = 40;
 
 type LiveStreamPlayerProps = {
+  startWithControlsHidden?: boolean;
   // Minimal inputs; additional params may be forwarded from route
   tokenId?: string | number;
   streamId?: string;
@@ -1709,15 +1710,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const toggleReplay = useCallback(() => toggleReplayRef.current?.(), []);
 
   /**
-   * A live can't be paused, so the screen itself is the clear button: tap the
-   * open picture, or swipe down over the lower half as the shorts viewer does,
-   * and every button, the chat and the pills fade away. Only a small rotate
-   * button stays in the corner, to flip between portrait and landscape. A tap
-   * or a swipe up brings everything back (in portrait, where the chrome is
-   * laid out). Replaces the old chevron "immersive" mode.
+   * Tapping the open picture clears or restores the controls. With no other
+   * room to browse, a swipe on the picture can also clear or restore them.
    */
-  const [chromeHidden, setChromeHidden] = useState(false);
-  const chromeOpacity = useSharedValue(1);
+  const [chromeHidden, setChromeHidden] = useState(props.startWithControlsHidden === true);
+  const chromeOpacity = useSharedValue(chromeHidden ? 0 : 1);
   useEffect(() => {
     chromeOpacity.value = withTiming(chromeHidden ? 0 : 1, { duration: 220 });
   }, [chromeHidden, chromeOpacity]);
@@ -1759,9 +1756,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }),
     [hideStart, clearOrCloseKeys],
   );
-  // Only the upper, unobstructed picture switches broadcasts. Chat owns its
-  // scroll gestures, and a downward swipe below the picture still clears it.
-  const browseLive = ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
+  const browseLive = isSignedIn && ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
   const { data: broadcasts } = useQuery({
     ...liveStreamsQuery,
     enabled: browseLive,
@@ -1773,40 +1768,51 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     [broadcasts, blocksVersion],
   );
   const roomIndex = rooms.findIndex((room) => room.streamId === streamId);
-  const canSwitch = browseLive && rooms.length > 1 && roomIndex >= 0;
+  const [landscape, setLandscape] = useState(false);
+  const coverPortrait = !landscape && isLiveEffective && !isEndedEffective &&
+    videoSize.width > 0 && videoSize.height > videoSize.width;
+  const canSwitch = browseLive && !landscape && rooms.length > 1 && roomIndex >= 0;
+  useEffect(() => {
+    // The native modal's own downward drag otherwise competes with Previous.
+    navigation.setOptions({ gestureEnabled: !canSwitch });
+  }, [canSwitch, navigation]);
   const switching = useRef(false);
   const switchRoom = useCallback((direction: 1 | -1) => {
-    if (!canSwitch || switching.current || !navigation.isFocused()) return;
+    if (!canSwitch || switching.current || !navigation.isFocused() || Keyboard.isVisible()) return;
     const index = (roomIndex + direction + rooms.length) % rooms.length;
     switching.current = true;
-    navigation.replace(ScreenNames.LiveViewer, rooms[index]);
-  }, [canSwitch, navigation, roomIndex, rooms]);
+    navigation.replace(ScreenNames.LiveViewer, {
+      ...rooms[index],
+      startWithControlsHidden: chromeHidden,
+    });
+  }, [canSwitch, chromeHidden, navigation, roomIndex, rooms]);
 
-  const makeClearTap = useCallback(() => Gesture.Tap().maxDistance(10)
+  const onPictureTap = useCallback(() => {
+    if (chromeHidden) setChromeHidden(false);
+    else clearOrCloseKeys();
+  }, [chromeHidden, clearOrCloseKeys]);
+  const makePictureTap = useCallback(() => Gesture.Tap().maxDistance(10)
     .onEnd((_e, success) => {
       "worklet";
-      if (success) runOnJS(clearOrCloseKeys)();
-    }), [clearOrCloseKeys]);
+      if (success) runOnJS(onPictureTap)();
+    }), [onPictureTap]);
   const pictureGesture = useMemo(() => {
-    const tap = makeClearTap();
+    const tap = makePictureTap();
     if (!canSwitch) return tap;
     const pan = Gesture.Pan().maxPointers(1)
       .activeOffsetY([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
       .failOffsetX([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
       .onEnd((e, success) => {
         "worklet";
-        const distance = Math.abs(e.translationY);
-        if (success && distance > LIVE_HIDE_SWIPE && distance > Math.abs(e.translationX)) {
-          runOnJS(switchRoom)(e.translationY < 0 ? 1 : -1);
-        }
+        const direction = liveSwipeDirection(e.translationX, e.translationY);
+        if (success && direction) runOnJS(switchRoom)(direction);
       });
     return Gesture.Race(pan, tap);
-  }, [canSwitch, makeClearTap, switchRoom]);
-  const hideGesture = useMemo(() => Gesture.Race(hidePan, makeClearTap()), [hidePan, makeClearTap]);
+  }, [canSwitch, makePictureTap, switchRoom]);
+  const hideGesture = useMemo(() => Gesture.Race(hidePan, makePictureTap()), [hidePan, makePictureTap]);
 
   // Rotate, only while cleared. The binary already ships expo-screen-orientation
   // (the old immersive mode used it); a failed lock just leaves the layout as is.
-  const [landscape, setLandscape] = useState(false);
   useEffect(() => {
     const lock = landscape
       ? ScreenOrientation.OrientationLock.LANDSCAPE
@@ -2310,6 +2316,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
              whatever renders it, so this swaps in without touching any of it. */
           <LiveWebRtcView
             stream={whepLive.stream}
+            objectFit={coverPortrait ? "cover" : "contain"}
             onVideoSize={(size) => { whepLive.onPicture(size); onVideoSize(size); }}
           />
         ) : whepLive.pending && !isPausedEffective ? (
@@ -2356,6 +2363,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             fullscreen
             hideTopControls
             muted={isMuted}
+            pictureFit={coverPortrait ? "cover" : "contain"}
             onVideoSize={onVideoSize}
           />
         ) : (
@@ -2379,23 +2387,24 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           <LiveTimeshiftBar timeshift={timeshift} />
         ) : null}
 
-        {/* Clear the chrome: tap the open picture anywhere, or swipe down
-            over the lower half. These sit under the chrome and over the
-            picture, so the chat and buttons above keep their own touches. */}
+        {/* The picture takes room swipes wherever chat and controls leave it
+            exposed. The lower clear gesture is only needed in a single room. */}
         {!chromeHidden && (
           <>
             <GestureDetector gesture={pictureGesture}>
               <View
                 collapsable={false}
-                style={{ position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
+                style={canSwitch ? StyleSheet.absoluteFill : { position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
               />
             </GestureDetector>
-            <GestureDetector gesture={hideGesture}>
-              <View
-                collapsable={false}
-                style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: "45%" }}
-              />
-            </GestureDetector>
+            {!canSwitch && (
+              <GestureDetector gesture={hideGesture}>
+                <View
+                  collapsable={false}
+                  style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: "45%" }}
+                />
+              </GestureDetector>
+            )}
           </>
         )}
 
@@ -2608,11 +2617,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           </View>
         </Animated.View>
 
-        {/* Cleared: only the stream and the rotate button. A tap, or a swipe
-            up, brings it all back. */}
+        {/* Keep browsing in portrait with the controls cleared. */}
         {chromeHidden && (
           <>
-            <GestureDetector gesture={restoreGesture}>
+            <GestureDetector gesture={canSwitch ? pictureGesture : restoreGesture}>
               <View collapsable={false} style={StyleSheet.absoluteFill} testID="live-cleared" />
             </GestureDetector>
             <LiveClearedChat
@@ -2637,6 +2645,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             streamId={streamId}
             overlay={streamOverlay}
             videoSize={videoSize}
+            cover={coverPortrait}
             initialViewers={liveViewers ?? 0}
             chatMessages={liveChat.messages}
             showChatOverlay={showChatOverlay}

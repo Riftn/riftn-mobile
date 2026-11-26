@@ -33,6 +33,7 @@ interface Props {
   overlay: PublicOverlay;
   /** The picture's own size, as the player reports it. Zero until the first frame. */
   videoSize: { width: number; height: number };
+  cover?: boolean;
   initialViewers: number;
   /** The creator's address, for widgets that read the creator's own data (points). */
   creator?: string | null;
@@ -62,7 +63,7 @@ function chatLines(messages: LiveChatMessageData[] | undefined): OverlayChatLine
   return lines.slice(-12);
 }
 
-export default function LiveOverlayLayer({ streamId, overlay, videoSize, initialViewers, chatMessages, creator, showChatOverlay = true }: Props) {
+export default function LiveOverlayLayer({ streamId, overlay, videoSize, cover = false, initialViewers, chatMessages, creator, showChatOverlay = true }: Props) {
   const { on } = useWebSocket();
   const queryClient = useQueryClient();
   const bus = useMemo(() => createOverlayEventBus(), []);
@@ -123,7 +124,7 @@ export default function LiveOverlayLayer({ streamId, overlay, videoSize, initial
   const hasChatBox = visible.some((w) => w.kind === "chat_box");
   const chat = useMemo(() => (hasChatBox ? chatLines(chatMessages) : []), [hasChatBox, chatMessages]);
 
-  const picture = containedPicture(frame.width, frame.height, videoSize.width, videoSize.height);
+  const picture = containedPicture(frame.width, frame.height, videoSize.width, videoSize.height, cover);
   const portrait = isPortraitPicture(videoSize.width, videoSize.height);
 
   return (

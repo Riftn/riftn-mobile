@@ -2,7 +2,7 @@ jest.mock("../../libs/live-ingest", () => ({ hlsUrlFor: (r: any) => r.playbackId
 jest.mock("../../libs/misc", () => ({}));
 
 import type { LiveStreamEntity } from "../../services/live.service";
-import { swipeRooms } from "../../libs/live-swipe-rooms";
+import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 
 const row = (id: number, extra = {}) => ({
   _id: String(id).padStart(24, "0"), status: "LIVE", playbackId: "public",
@@ -27,4 +27,11 @@ it("skips unavailable, gated, blocked and malformed rows before choosing neighbo
     { isPrivate: true }, { visibility: "unlisted" }, { _id: "12" },
   ];
   expect(swipeRooms(excluded.map((extra, i) => row(i, extra)), a => a === "blocked")).toEqual([]);
+});
+
+it("pages up and down and rejects short or horizontal drags", () => {
+  expect(liveSwipeDirection(-8, -52)).toBe(1);
+  expect(liveSwipeDirection(8, 52)).toBe(-1);
+  expect(liveSwipeDirection(0, 40)).toBeNull();
+  expect(liveSwipeDirection(84, -52)).toBeNull();
 });

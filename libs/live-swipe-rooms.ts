@@ -20,10 +20,19 @@ export function swipeRooms(rows: LiveStreamEntity[], blocked: (address?: string)
       }
     }
     if (info != null && (typeof info !== "object" || Array.isArray(info))) continue;
-    if (!isVerticalFeedLive({ ...row, streamInfo: info }) || row.plansDetails?.length || row.isPrivate || row.isUnlisted ||
-        (row.visibility && row.visibility !== "public") || info?.subscriberPlans?.length) continue;
+    if (!isVerticalFeedLive({ ...row, streamInfo: info }) ||
+        row.isPPV || row.isLockContent || row.plansDetails?.length ||
+        row.isPrivate || row.isUnlisted || (row.visibility && row.visibility !== "public") ||
+        info?.isPPV || info?.isLocked || info?.plans?.length || info?.plansDetails?.length ||
+        info?.subscriberPlans?.length) continue;
     seen.add(id);
     rooms.push({ streamId: id, tokenId: row.tokenId, isLive: true });
   }
   return rooms;
+}
+
+export function liveSwipeDirection(dx: number, dy: number): 1 | -1 | null {
+  "worklet";
+  const distance = Math.abs(dy);
+  return distance > 40 && distance > Math.abs(dx) ? (dy < 0 ? 1 : -1) : null;
 }

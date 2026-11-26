@@ -85,6 +85,7 @@ export type AppStackParamList = {
     streamKey?: string;
   } | undefined;
   [ScreenNames.LiveViewer]: {
+    startWithControlsHidden?: boolean;
     streamId?: string;
     playbackId?: string;
     hostUsername?: string;
