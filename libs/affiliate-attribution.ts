@@ -19,16 +19,22 @@ async function readTouch(): Promise<(ReferralTouch & { expiresAt: number }) | nu
   try {
     const touch = JSON.parse(raw);
     if (typeof touch.code !== 'string' || !/^[A-Z0-9_-]{3,40}$/.test(touch.code) || !(touch.expiresAt > Date.now())) return null;
-    return { code: touch.code, subId: normalizeSubReferral(touch.subId), expiresAt: touch.expiresAt };
+    return {
+      code: touch.code,
+      subId: normalizeSubReferral(touch.subId),
+      expiresAt: touch.expiresAt,
+      liveShare: touch.liveShare === true ? true : undefined,
+    };
   } catch { return null; }
 }
 
 export function captureAffiliateUrl(url: string): Promise<void> {
   const touch = referralFromUrl(url);
   if (!touch) return Promise.resolve();
+  const expiresAt = Date.now() + TTL;
   const next = writes.catch(() => undefined).then(async () => {
     if (await readTouch()) return;
-    await AsyncStorage.setItem(KEY, JSON.stringify({ ...touch, expiresAt: Date.now() + TTL }));
+    await AsyncStorage.setItem(KEY, JSON.stringify({ ...touch, expiresAt }));
   });
   writes = next;
   return next;
@@ -47,10 +53,11 @@ export async function captureInstallReferrer(): Promise<void> {
   if (referrer) await captureAffiliateUrl(`https://riftn.com/?${referrer.replace(/^[?&]+/, '')}`);
 }
 
-export async function attributePendingReferral(wallet: string): Promise<void> {
+export async function attributePendingReferral(wallet: string, accountCreatedAt?: string): Promise<void> {
   await writes.catch(() => undefined);
   const touch = await readTouch();
   if (!touch) return;
+  if (touch.liveShare && !(Date.parse(accountCreatedAt ?? '') > touch.expiresAt - TTL)) return;
   const key = `${wallet.toLowerCase()}:${touch.code}:${touch.subId ?? ''}`;
   if (attributed.has(key)) return;
   if (!await ensureWalletSession(wallet)) throw new Error('Sign in to attribute a referral');
@@ -62,11 +69,11 @@ export async function attributePendingReferral(wallet: string): Promise<void> {
 }
 
 /** Capture while signed out; attribution waits until the account is ready. */
-export function watchAffiliateAttribution(wallet: string | null): () => void {
+export function watchAffiliateAttribution(wallet: string | null, accountCreatedAt?: string): () => void {
   let active = true;
   const handle = async (url?: string | null) => {
     if (url) await captureAffiliateUrl(url);
-    if (active && wallet) await attributePendingReferral(wallet);
+    if (active && wallet) await attributePendingReferral(wallet, accountCreatedAt);
   };
   const subscription = Linking.addEventListener('url', ({ url }) => { void handle(url).catch(() => undefined); });
   void captureInstallReferrer().catch(() => undefined)

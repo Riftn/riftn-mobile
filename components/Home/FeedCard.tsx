@@ -118,6 +118,7 @@ import { isPostHiddenByStorefront } from "../../libs/storefront-content";
 import { useFeedSuperpowers } from "../../context/FeedSuperpowersContext";
 import ShareSheet from "./ShareSheet";
 import RepostShareSheet from "./RepostShareSheet";
+import { withLiveShareRef } from "../../libs/shareRef";
 import { PostStageActions, PostStageChrome, PostStageCreator } from "./PostStage";
 import { clearPostStage, patchPostStage } from "../../libs/postStage";
 import { followUser, unfollowUser } from "../../services/user.service";
@@ -1444,8 +1445,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   const handleSharePress = useCallback(() => {
     if (tokenId == null) return;
-    sharePostAsImage(Number(tokenId), shareUrl, localTitle || undefined, item.postType).catch(() => {});
-  }, [tokenId, shareUrl, localTitle, item.postType]);
+    const url = isLive ? withLiveShareRef(shareUrl, isPublicPost) : shareUrl;
+    sharePostAsImage(Number(tokenId), url, localTitle || undefined, isLive ? "live" : item.postType).catch(() => {});
+  }, [tokenId, shareUrl, localTitle, item.postType, isLive, isPublicPost]);
 
   const handleTipPress = useCallback(() => {
     if (!minterAddress) return;
@@ -1514,11 +1516,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   const handleCopyLink = useCallback(() => {
     if (tokenId == null) return;
-    copyToClipboard(shareUrl);
+    copyToClipboard(isLive ? withLiveShareRef(shareUrl, isPublicPost) : shareUrl);
     toastSuccess(t("feedCard.linkCopied"));
     // A copy is a share: it counts once per actor per post, next to reposts.
     trackLinkCopy(tokenId, userAddress, linkCopyCount);
-  }, [tokenId, shareUrl, trackLinkCopy, userAddress, linkCopyCount]);
+  }, [tokenId, shareUrl, trackLinkCopy, userAddress, linkCopyCount, isLive, isPublicPost]);
 
   const handleUndoRepost = useCallback(() => {
     if (tokenId == null) return;
@@ -2594,6 +2596,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           tokenId={tokenId}
           isOwner={!!isOwnerPost}
           post={item}
+          liveSharePublic={isLive ? isPublicPost : undefined}
           canReplaceVideo={
             !!isOwnerPost && !isLive && (contentType === "video" || contentType === "short")
           }
@@ -3004,6 +3007,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             canRepost={isPublicPost}
             onCopyLink={handleCopyLink}
             shareUrl={shareUrl}
+            liveShare={isLive}
             tokenId={tokenId ?? undefined}
             shareText={localTitle || undefined}
             quoteCount={stageQuotes}

@@ -11,6 +11,7 @@ import {
   setShareRefCode,
   shareContentWithRef,
   shareWithRef,
+  withLiveShareRef,
   withShareRef,
   withShareRefText,
 } from '../../libs/shareRef';
@@ -49,6 +50,18 @@ describe('withShareRef', () => {
   });
 });
 
+it('preserves signup-only attribution when sharing a public live link', async () => {
+  const url = 'https://riftn.com/app/post/1?c=2#chat';
+  expect(withLiveShareRef(url, false)).toBe(url);
+  const tagged = withLiveShareRef(url, true);
+  expect(tagged).toBe('https://riftn.com/app/post/1?c=2&live_ref=ABC123#chat');
+  expect(withShareRef(tagged)).toBe(tagged);
+  await shareWithRef({ message: tagged }, undefined, 'live');
+  expect(share).toHaveBeenCalledWith({ message: tagged });
+  await shareWithRef({ message: url }, undefined, 'live');
+  expect(share).toHaveBeenLastCalledWith({ message: url });
+});
+
 it('tags every link inside a message without swallowing trailing punctuation', () => {
   expect(withShareRefText('Look https://dehub.io/app/post/1. And https://dehub.io/@mal!'))
     .toBe('Look https://dehub.io/app/post/1?ref=ABC123. And https://dehub.io/@mal?ref=ABC123!');
@@ -77,6 +90,8 @@ it('never tags shares in the App Store build', () => {
   try {
     setShareRefCode('maldoteth');
     expect(getShareRefCode()).toBeNull();
+    const url = 'https://riftn.com/app/post/1';
+    expect(withLiveShareRef(url, true)).toBe(url);
   } finally {
     mockAppStoreBuild = false;
   }
