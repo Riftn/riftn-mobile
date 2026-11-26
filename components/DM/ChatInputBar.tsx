@@ -168,6 +168,7 @@ interface ChatInputBarProps {
 
 
 const TYPING_IDLE_MS = 5000;
+const TYPING_HEARTBEAT_MS = 2000;
 
 /* Composer metrics. The TextInput's own box is zeroed, Android font padding
  * included, or the text rides high in the field. */
@@ -273,7 +274,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // drafts the send just invalidated. Switching the feature off is a
   // separate thing, and lives in the smartReplies preference.
   const [trayDismissed, setTrayDismissed] = useState(false);
-  const typingRef = useRef(false);
+  const lastTypingPulse = useRef<number | null>(null);
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const smartRepliesEnabled = useAppPrefs().smartReplies;
@@ -377,36 +378,43 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   }, [editingMessage, setEditText]);
 
 
-  const emitTyping = useCallback(
-    (isTyping: boolean) => {
-      if (typingRef.current === isTyping) return;
-      typingRef.current = isTyping;
-      onTypingChange?.(isTyping);
-    },
-    [onTypingChange],
-  );
+  const stopTyping = useCallback(() => {
+    if (typingTimer.current) clearTimeout(typingTimer.current);
+    if (lastTypingPulse.current === null) return;
+    lastTypingPulse.current = null;
+    onTypingChange?.(false);
+  }, [onTypingChange]);
 
   const handleTextChange = useCallback(
     (val: string) => {
       if (val.length > DM_TEXT_MAX_LENGTH) return;
       setText(val);
-      emitTyping(true);
+      if (!onTypingChange || editingMessage || !val.trim()) {
+        stopTyping();
+        return;
+      }
+      const now = Date.now();
+      if (lastTypingPulse.current === null || now - lastTypingPulse.current >= TYPING_HEARTBEAT_MS) {
+        lastTypingPulse.current = now;
+        onTypingChange(true);
+      }
       if (typingTimer.current) clearTimeout(typingTimer.current);
-      typingTimer.current = setTimeout(() => emitTyping(false), TYPING_IDLE_MS);
+      typingTimer.current = setTimeout(stopTyping, TYPING_IDLE_MS);
     },
-    [emitTyping, setText],
+    [editingMessage, onTypingChange, setText, stopTyping],
   );
 
   const mentions = useMentions(text, handleTextChange);
 
-  // Cleanup typing timer on unmount
-  useEffect(
-    () => () => {
-      if (typingTimer.current) clearTimeout(typingTimer.current);
-      if (typingRef.current) emitTyping(false);
-    },
-    [emitTyping],
-  );
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (state) => {
+      if (state !== "active") stopTyping();
+    });
+    return () => {
+      sub.remove();
+      stopTyping();
+    };
+  }, [stopTyping]);
 
 
   const sendInFlight = useRef(false);
@@ -426,6 +434,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     } else {
       sendInFlight.current = true;
     }
+    stopTyping();
     try {
     haptic.tap();
 
@@ -500,12 +509,11 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       return;
     }
     if (editingMessage) setEditText.complete(text, "");
-    emitTyping(false);
     } finally {
       if (plain) plainTaken.current = null;
       else sendInFlight.current = false;
     }
-  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendPhotos, onSendGif, emitTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText, replyTo]);
+  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendPhotos, onSendGif, stopTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText, replyTo]);
 
 
   /** Picked photos/videos join the edit screen, which opens on the newest. */
@@ -1156,7 +1164,10 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                   onChangeText={mentions.handleChangeText}
                   onSelectionChange={mentions.handleSelectionChange}
                   onFocus={() => { setComposerFocused(true); setTrayOpen(false); refreshClipImage(); }}
-                  onBlur={() => setComposerFocused(false)}
+                  onBlur={() => {
+                    setComposerFocused(false);
+                    stopTyping();
+                  }}
                   placeholder={placeholder}
                   placeholderTextColor="#8B8D90"
                   multiline

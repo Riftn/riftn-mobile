@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 import { GenericHandler } from "./events";
 import { createLogger } from "../../libs/logger";
 import { LivestreamEvents } from "../enums/livestream.enum";
+import { DMSocketEvent } from "../enums/dm-socket-events.enum";
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 
 const WS_APP_VERSION = Constants.expoConfig?.version ?? "1.0.0";
@@ -439,6 +440,8 @@ export class WebSocketClient {
       this.connect();
       throw new Error(_translateCopy("copy.d2de8a1bb283", { defaultValue: "Not connected to chat. Check your connection and try again." }));
     }
+    // Typing describes the current draft. Queuing it would replay stale activity.
+    if ((event === DMSocketEvent.Typing || event === DMSocketEvent.StopTyping) && !this.socket?.connected) return;
     // Queue if not connected yet
     if (!this.socket || !this.socket.connected) {
       this.queuedEmits.push({ event, payload, ack });
