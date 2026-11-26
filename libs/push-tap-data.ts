@@ -6,8 +6,8 @@ type TapData = { type: string; [key: string]: unknown };
  * The payload a tap carries. Normally `content.data`; if that ever comes back
  * empty (a push the system drew itself while the app was closed), the same
  * object is still on the trigger: the FCM message's `body` string on Android,
- * the APNs payload's `body` on iPhone. A tap with no type is ignored, and the
- * app simply opens on Home.
+ * the APNs payload's `body` on iPhone. Android's presented-notification API
+ * can also return the OS extras as `content.data`, with the payload in `body`.
  */
 export function readNotificationData(notification: Notifications.Notification | undefined): TapData | null {
   if (!notification) return null;
@@ -19,6 +19,7 @@ export function readNotificationData(notification: Notifications.Notification | 
     trigger?.remoteMessage?.data,
     trigger?.payload?.body,
     trigger?.payload,
+    content?.body,
   ];
   for (const candidate of candidates) {
     let value = candidate;
