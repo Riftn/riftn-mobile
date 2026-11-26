@@ -1,6 +1,7 @@
 import {
   clearPushTokenCache,
   getDefaultNotificationPreferences,
+  getNotificationPermissionStatus,
   mergePreferences,
   registerPushTokenWithBackend,
   unregisterCurrentDeviceToken,
@@ -11,6 +12,8 @@ import {
 // carry it or the import throws before any test runs.
 jest.mock('expo-notifications', () => ({
   setNotificationHandler: jest.fn(),
+  getPermissionsAsync: jest.fn(),
+  IosAuthorizationStatus: { DENIED: 1, PROVISIONAL: 3 },
   AndroidImportance: { DEFAULT: 3, HIGH: 4, MAX: 5 },
   AndroidNotificationVisibility: { PUBLIC: 1 },
 }));
@@ -28,6 +31,7 @@ jest.mock('../../modules/call-screen', () => ({
   callScreenSupported: () => true,
 }));
 import { Platform } from 'react-native';
+import * as Notifications from 'expo-notifications';
 import { getVoipToken } from '../../modules/call-screen';
 import { apiClient } from '../../libs/api.client';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
@@ -120,6 +124,19 @@ describe('services/push.service notification preferences', () => {
       expect((merged.inApp as any).somethingNew).toBe(false);
       expect(merged.inApp.likes).toBe(true);
     });
+  });
+});
+
+describe('notification OS permission', () => {
+  it.each([
+    [Notifications.IosAuthorizationStatus.PROVISIONAL, true],
+    [Notifications.IosAuthorizationStatus.DENIED, false],
+  ])('honors iOS permission %s when the coarse state is denied', async (status, granted) => {
+    (Notifications.getPermissionsAsync as jest.Mock).mockResolvedValue({
+      status: 'denied', canAskAgain: false, ios: { status },
+    });
+
+    expect(await getNotificationPermissionStatus()).toMatchObject({ granted });
   });
 });
 

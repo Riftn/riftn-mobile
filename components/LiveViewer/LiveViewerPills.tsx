@@ -9,6 +9,7 @@
  * Monochrome, like the rest of the chrome: state is carried by the dot's
  * opacity and the word, never by a hue.
  */
+import { LiveDot } from "../common/LiveDot";
 import React, { memo, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -111,7 +112,8 @@ const LiveViewerPills: React.FC<Props> = ({
         {isLive && !isEnded ? (
           <Pill>
             {liveTag && !isPaused ? liveTag : (
-              <View style={styles.liveTag}>
+              <View style={[styles.liveTag, isPaused && styles.pausedTag]}>
+                {!isPaused && <LiveDot size={5} />}
                 <Text style={styles.liveText}>{isPaused ? t("ads.statuses.paused") : t("live.statusLive")}</Text>
               </View>
             )}
@@ -212,11 +214,15 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   liveTag: {
-    backgroundColor: "#EF4444",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 5,
     paddingHorizontal: 5,
     paddingVertical: 1.5,
   },
+  pausedTag: { backgroundColor: "#EF4444" },
   liveText: {
     color: "#fff",
     fontSize: 9.5,

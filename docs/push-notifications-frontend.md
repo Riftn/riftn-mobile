@@ -82,7 +82,7 @@ enum PushNotificationAction {
 
 In-app notifications are stored in MongoDB and accessed via REST API. They provide persistent notification history and support aggregation, categories, and read/unread state.
 
-> **Note:** Direct messages (`new_message`) do **not** create in-app notifications. DMs are handled entirely through the DM UI and push notifications. The `messages` category exists in the enum but will not appear in the in-app notification feed.
+> Direct-message alerts (`new_message`) in the inbox contain the sender and a chat link. Message text stays out of the retained inbox entry. Delivery follows push settings, and marking the inbox entry read keeps it in history.
 
 ### Notification Object Schema
 

@@ -62,7 +62,7 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../../libs/viewers.util";
 import { likeLiveStream } from "../../services/live.service";
 import { getAvatarUrl, shareProfile } from "../../libs/misc";
-import { WEBSITE_LINK } from "../../config";
+import { withLiveShareRef } from "../../libs/shareRef";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
 import { StreamChatRewards } from "../LiveViewer/StreamChatRewards";
@@ -1416,11 +1416,15 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if (post && postReactions.myReaction !== post) postReactions.react(post);
   }, [postReactions, requireAuth, handleSendReaction, launchReaction, liveReactionWeight]);
 
+  const sharePost = postReactions.post as Record<string, any>;
+  const shareVisibility = sharePost?.visibility ?? streamEntity?.visibility;
+  const sharePublic = !shareVisibility || shareVisibility === "public";
+
   // The phone's own share sheet, now the "Share link" row of the drawer below.
   const handleNativeShare = useCallback(async () => {
     const postId = streamEntity?.tokenId ?? tokenId ?? streamId;
-    const url = postId != null ? `${WEBSITE_LINK}/app/post/${postId}` : null;
-    if (!url) return;
+    if (postId == null) return;
+    const url = withLiveShareRef(ShareLinks.post(postId), sharePublic);
     // The same words the link preview uses (riftn-web server/live-share-copy.js):
     // a stream on air invites people to watch it live, a finished one with a
     // recording points at the replay.
@@ -1433,7 +1437,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       ? `${intro}\n${url}`
       : t("copy.f6f435c8cbc6", { defaultValue: "Check out this stream {{value1}}", value1: url });
     await shareProfile(url, message, "live");
-  }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle]);
+  }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle, sharePublic]);
 
   // Share opens the post's share drawer, as on a feed card: repost to your
   // profile, quote, send it in a message, copy the link, or the phone's own
@@ -1452,8 +1456,6 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, [sharePostId, handleNativeShare]);
 
   const viewerAddress = (user?.walletAddress || user?.address || "").toLowerCase();
-  const sharePost = postReactions.post as Record<string, any>;
-  const sharePublic = !sharePost?.visibility || sharePost.visibility === "public";
   const canShareToPublicChat = sharePublic && (isLiveEffective || !!replayUrl)
     && !videoNeedsAccess(sharePost) && !videoNeedsAccess(streamEntity ?? {}) && !videoNeedsAccess(nftProp ?? {});
   const shareIsOwn = !!viewerAddress && String(sharePost?.minter || "").toLowerCase() === viewerAddress;
@@ -1502,11 +1504,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
   const handleCopyLink = useCallback(() => {
     if (sharePostId == null) return;
-    copyToClipboard(ShareLinks.post(String(sharePostId)));
+    copyToClipboard(withLiveShareRef(ShareLinks.post(sharePostId), sharePublic));
     toastSuccess(t("postOptions.linkCopied"));
     // A copy is a share: it counts once per actor per post, next to reposts.
     trackLinkCopy(sharePostId, viewerAddress, linkCopyCount);
-  }, [sharePostId, t, trackLinkCopy, viewerAddress, linkCopyCount]);
+  }, [sharePostId, sharePublic, t, trackLinkCopy, viewerAddress, linkCopyCount]);
 
   // Sound. A stream is opened on purpose, so it starts audible whether or not
   // the user has silenced the feed. The player used to seed itself from the
@@ -2684,6 +2686,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           tokenId={(streamEntity?.tokenId as any) || (tokenId as any)}
           isOwner={ownerStatus === "owner" || (streamEntity as any)?.isOwner === true}
           isHidden={!!(streamEntity as any)?.isHidden}
+          liveSharePublic={sharePublic}
           creatorDisplayName={
             (creator?.displayName || creator?.username || "") as string
           }

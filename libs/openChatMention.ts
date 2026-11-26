@@ -1,5 +1,6 @@
 import { ScreenNames } from "../navigation/ScreenNames";
 import { isStreamLive } from "./live-status";
+import { canLinkMessage, setPendingChatLink } from "./chatMessageLink";
 
 type Navigate = (screen: any, params?: any) => void;
 
@@ -16,15 +17,17 @@ const isStreamId = (id: unknown): id is string =>
  */
 export function openChatMention(
   navigate: Navigate,
-  target: { mentionContext?: unknown; tokenId?: number | string | null },
+  target: { mentionContext?: unknown; tokenId?: number | string | null; chatMessageId?: string },
 ): boolean {
   if (target.mentionContext === "public_chat") {
+    if (canLinkMessage(target.chatMessageId)) setPendingChatLink({ kind: "public" }, target.chatMessageId);
     navigate(ScreenNames.LiveChat);
     return true;
   }
   if (target.mentionContext !== "live_chat" || target.tokenId == null) return false;
 
   const tokenId = Number(target.tokenId);
+  if (canLinkMessage(target.chatMessageId)) setPendingChatLink({ kind: "stream", tokenId }, target.chatMessageId);
   // Required lazily so this module stays light under tests.
   const { getNFT } = require("../services/nft.service");
   getNFT(tokenId)

@@ -1,7 +1,7 @@
 export const normalizeSubReferral = (value: unknown): string | null =>
   typeof value === 'string' && /^[A-Za-z0-9_.-]{1,64}$/.test(value.trim()) ? value.trim() : null;
 
-export type ReferralTouch = { code: string; subId: string | null };
+export type ReferralTouch = { code: string; subId: string | null; liveShare?: true };
 
 export function referralFromUrl(raw: string): ReferralTouch | null {
   try {
@@ -9,8 +9,9 @@ export function referralFromUrl(raw: string): ReferralTouch | null {
     if (!['https:', 'http:', 'dehub:'].includes(url.protocol)) return null;
     if (url.protocol !== 'dehub:' && !['riftn.com', 'www.riftn.com', 'dehub.io', 'www.dehub.io', 'legacy.dehub.io'].includes(url.hostname.toLowerCase())) return null;
     const path = url.protocol === 'dehub:' ? '/' + url.hostname + url.pathname : url.pathname;
-    const code = (path.match(/^\/r\/([^/]+)/)?.[1] || url.searchParams.get('ref') || url.searchParams.get('aff') || '').trim().toUpperCase();
+    const regular = path.match(/^\/r\/([^/]+)/)?.[1] || url.searchParams.get('ref') || url.searchParams.get('aff');
+    const code = (regular || url.searchParams.get('live_ref') || '').trim().toUpperCase();
     if (!/^[A-Z0-9_-]{3,40}$/.test(code)) return null;
-    return { code, subId: normalizeSubReferral(url.searchParams.get('sub')) };
+    return regular ? { code, subId: normalizeSubReferral(url.searchParams.get('sub')) } : { code, subId: null, liveShare: true };
   } catch { return null; }
 }
