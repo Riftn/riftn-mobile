@@ -44,8 +44,8 @@ describe("profile sheet clears the nav pill", () => {
     expect(sheet).not.toContain("backToTopBottom");
   });
 
-  it("pads the end of the image list and both grid layouts past the pill", () => {
-    expect(grid.match(/paddingBottom: TAB_BAR_CONTENT_INSET/g)).toHaveLength(3);
+  it("pads the end of both image list and grid renderers past the pill", () => {
+    expect(grid.match(/paddingBottom: TAB_BAR_CONTENT_INSET/g)).toHaveLength(2);
   });
 });
 
