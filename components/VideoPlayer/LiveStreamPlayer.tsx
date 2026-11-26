@@ -78,7 +78,7 @@ import LiveViewerStatusOverlay from "../LiveViewer/LiveViewerStatusOverlay";
 import LiveEventBanner from "../LiveViewer/LiveEventBanner";
 import type { EventBannerData } from "../LiveViewer/LiveEventBanner";
 import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
-import { markBigEventLive } from "../../libs/sharedLivePlayer";
+import { isSharedLivePlayerPlaying, markBigEventLive, useSharedLivePlayer } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
 import { closeLiveMini, closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
@@ -1570,6 +1570,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const timeshiftOnRef = useRef(false);
   timeshiftOnRef.current = isLiveEffective && !isEndedEffective && !isPlayingReplay && !isPausedEffective && !!isPlayable;
 
+  const iosLiveUrl = Platform.OS === "ios" && isSignedIn && isLiveEffective && !isEndedEffective
+    && !isPlayingReplay ? effectiveVideoUrl : null;
+  // Take over a running feed player for the room. Decide when the source
+  // arrives so a later change in the preview cannot switch transports.
+  const keepSharedHls = useMemo(() => isSharedLivePlayerPlaying(iosLiveUrl), [iosLiveUrl]);
   const whepLive = useWhepStream({
     // Android plays this same HLS ladder in the home card. Prefer that proven
     // path here too: an attached WHEP track can negotiate without rendering a
@@ -1577,12 +1582,17 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // A big event skips it on every platform: one WebRTC session per viewer
     // is the cost that mode exists to avoid.
     enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted
-      && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
+      && !keepSharedHls && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
     focused: viewerFocused,
     stream: { playbackId, provider: streamEntity?.provider },
     muted: isMuted,
     paused: isPausedEffective,
   });
+  // Give AVPlayer a head start on the AAC ladder, without starting playback.
+  // VideoArea acquires this same player if WebRTC gives up. If WebRTC shows a
+  // frame, release the standby.
+  useSharedLivePlayer(!isPausedEffective
+    && (whepLive.pending || (whepLive.stream && !whepLive.hasPicture)) ? iosLiveUrl : null);
 
   /*
    * Minimise: the live keeps playing in a small window (or the listen bar)
@@ -2351,11 +2361,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             onVideoSize={(size) => { whepLive.onPicture(size); onVideoSize(size); }}
           />
         ) : whepLive.pending && !isPausedEffective ? (
-          /* An attempt is in flight. The ladder waits rather than starting
-             underneath it: on a working network WebRTC arrives before HLS has
-             buffered its first segments, and starting both means the viewer
-             watches the stream begin and then restart. Bounded by the hook's
-             own start timeout, after which this is false and HLS takes over. */
+          /* The shared HLS player is loading while WebRTC tries. Only the
+             winning transport plays, so the picture cannot start over. */
           <View className="flex-1 dark-surface bg-black items-center justify-center" pointerEvents="none">
             <DeHubLoader size={40} />
           </View>

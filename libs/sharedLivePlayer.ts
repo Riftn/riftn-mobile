@@ -252,6 +252,16 @@ export function hasSharedLivePlayer(url: string | null | undefined): boolean {
   return !!url && entries.has(url);
 }
 
+/** Whether the feed or mini-player already got this live moving. */
+export function isSharedLivePlayerPlaying(url: string | null | undefined): boolean {
+  const player = url ? entries.get(url)?.player : null;
+  try {
+    return !!player && player.playing && player.currentTime > 0;
+  } catch {
+    return false;
+  }
+}
+
 /** The shared player for a live URL, or null when there is no URL. */
 export function useSharedLivePlayer(url: string | null | undefined, source?: VideoSource): VideoPlayer | null {
   const player = useMemo(() => (url ? entryFor(url, source).player : null), [url, source]);
