@@ -94,6 +94,7 @@ export interface NotificationData {
   deepLink?: string;
   /** Address of the account the push was sent to. */
   recipient?: string;
+  notificationId?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
@@ -276,6 +277,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   // Store pending navigation to execute after auth completes
   const pendingNavigationRef = useRef<NotificationData | null>(null);
   const wasSignedInRef = useRef(false);
+  const latestTapRef = useRef(0);
   // Track if cold-start notification has been checked
   const coldStartCheckedRef = useRef(false);
   // Track the last processed notification identifier to avoid double-handling
@@ -333,17 +335,24 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
 
   // Opening a push means its bell row was seen: mark the matching rows read
   // and recount, so the red bell badge doesn't stay lit on Home afterwards.
-  const markTappedReadRef = useRef<(data: NotificationData) => void>(() => {});
-  markTappedReadRef.current = (data: NotificationData) => {
+  const markTappedReadRef = useRef<(data: NotificationData, address: string) => void>(() => {});
+  markTappedReadRef.current = (data, address) => {
+    const stillOnAccount = () => isFullySignedInRef.current && userAddressRef.current?.toLowerCase() === address;
     setTimeout(() => {
+      if (!stillOnAccount()) return;
       void (async () => {
         try {
-          const rows = extractNotificationItems(await getNotifications({ limit: 100 })) as Array<{ _id?: string; id?: string; read?: boolean }>;
-          const hits = notificationsMatchingTap(rows, data as any);
-          await Promise.all(hits.map((row) => {
-            const id = String(row._id ?? row.id ?? '');
-            return id ? markNotificationAsRead(id).catch(() => null) : null;
-          }));
+          if (data.notificationId && /^[a-f0-9]{24}$/i.test(data.notificationId)) {
+            await markNotificationAsRead(data.notificationId);
+          } else if (data.type !== NotificationType.NEW_MESSAGE) {
+            const rows = extractNotificationItems(await getNotifications({ limit: 100 })) as Array<{ _id?: string; id?: string; read?: boolean }>;
+            if (!stillOnAccount()) return;
+            const hits = notificationsMatchingTap(rows, data);
+            await Promise.all(hits.map((row) => {
+              const id = String(row._id ?? row.id ?? '');
+              return id ? markNotificationAsRead(id).catch(() => null) : null;
+            }));
+          }
         } catch (error) {
           logger.warn('Could not mark tapped notification read', error as any);
         }
@@ -351,8 +360,10 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // local +1 from a push that arrived while the app was open, and the
         // count itself may not have changed (Requests / stage / community
         // pushes are not in the API list), which the dedupe below would skip.
-        lastUnreadCountRef.current = null;
-        void refreshUnreadCount();
+        if (stillOnAccount()) {
+          lastUnreadCountRef.current = null;
+          void refreshUnreadCount();
+        }
       })();
     }, 1500);
   };
@@ -383,34 +394,36 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       storage.set(LAST_HANDLED_RESPONSE_KEY, responseId);
     }
 
-    // Guard: If user isn't fully signed in, store for later
-    if (!isFullySignedIn) {
+    const tap = ++latestTapRef.current;
+    // Hold the latest tap until the account is ready.
+    if (!isFullySignedIn || !userAddressRef.current) {
       logger.debug('User not authenticated, storing pending navigation', { type: data.type });
       pendingNavigationRef.current = data;
       return;
     }
 
+    const current = userAddressRef.current?.toLowerCase();
+    const recipient = typeof data.recipient === 'string' ? data.recipient.toLowerCase() : '';
+    const owner = recipient || current;
     const route = () => whenNavigatorReady(() => {
+      if (tap !== latestTapRef.current || !isFullySignedInRef.current || !owner || userAddressRef.current?.toLowerCase() !== owner) return;
       routeNotificationTapRef.current?.(data, !!opts?.coldStart);
-      markTappedReadRef.current(data);
+      markTappedReadRef.current(data, owner);
     });
 
-    // A push sent to another account saved on this phone opens as that
-    // account: switch first, then open the tap once the switch has settled.
-    const recipient = typeof data.recipient === 'string' ? data.recipient.toLowerCase() : '';
-    const current = (userAddressRef.current || '').toLowerCase();
-    if (recipient && current && recipient !== current) {
+    // A push to another saved account is routed only after that account
+    // becomes active. A removed profile has no session to open the alert.
+    if (recipient && recipient !== current) {
       void (async () => {
         try {
           const profile = (await listProfiles()).find((p) => (p.address || '').toLowerCase() === recipient && !!p.session);
-          if (profile && (await switchToProfileRef.current(profile.id))) {
+          if (profile && tap === latestTapRef.current && (await switchToProfileRef.current(profile.id))) {
             setTimeout(route, 600);
             return;
           }
         } catch (error) {
           logger.warn('Could not switch to the notified account', error as any);
         }
-        route();
       })();
       return;
     }
@@ -739,10 +752,15 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
    */
   const confirmLanding = (type: string, sentTo: NavigateArgs | null, coldStart: boolean) => {
     const expected = expectedScreen(sentTo);
+    const tap = latestTapRef.current;
+    const address = userAddressRef.current;
     let retried = false;
+    let confirmed = false;
     const landed = () => appNavigationRef()?.getCurrentRoute?.()?.name as string | undefined;
     const putRight = () => {
-      if (coldStart && expected && sentTo && landed() !== expected) {
+      if (tap !== latestTapRef.current || address !== userAddressRef.current) return;
+      if (landed() === expected) confirmed = true;
+      if (coldStart && !confirmed && expected && sentTo) {
         retried = true;
         try {
           (navigationLatestRef.current.navigate as any)(...sentTo);
@@ -841,6 +859,13 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const registerPushTokenRef = useRef(registerPushToken);
   registerPushTokenRef.current = registerPushToken;
 
+  const retryPushRegistration = useCallback(() => {
+    if (!isFullySignedInRef.current || hasRegisteredRef.current || !softAskHandledRef.current) return;
+    void getNotificationPermissionStatus()
+      .then(({ granted }) => { if (granted) void registerPushTokenRef.current(); })
+      .catch(() => {});
+  }, []);
+
   const handleSoftAskAllow = useCallback(() => {
     setSoftAskVisible(false);
     storage.delete(SOFT_ASK_DECLINED_AT_KEY);
@@ -861,7 +886,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Checked before the soft-ask branch below: that branch returns early on
     // the very transition this replay exists for (first sign-in of the run),
     // so a push tapped while signed out was never followed.
-    if (isFullySignedIn && pendingNavigationRef.current) {
+    if (isFullySignedIn && userAddress && pendingNavigationRef.current) {
       const pendingData = pendingNavigationRef.current;
       pendingNavigationRef.current = null;
       // Small delay to ensure navigation is ready
@@ -869,8 +894,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       // restored and the app stack is only now replacing the sign-in screens,
       // which can put Home back over the chat. Treat it as a cold start so the
       // landing is checked and the navigate repeated.
+      const tap = latestTapRef.current;
       setTimeout(() => {
-        handleNotificationNavigation(pendingData, undefined, { coldStart: true });
+        if (tap === latestTapRef.current) handleNotificationNavigation(pendingData, undefined, { coldStart: true });
       }, 500);
     }
 
@@ -893,6 +919,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
 
     // Reset registration flag when user signs out
     if (!isFullySignedIn) {
+      if (wasSignedIn) latestTapRef.current += 1;
       hasRegisteredRef.current = false;
       isRegisteringRef.current = false;
       pushTokenRef.current = null;
@@ -972,15 +999,16 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // Foreground pushes do not trigger auth enrichment, so update the
         // in-app badge immediately. The periodic/server refresh below remains
         // authoritative and corrects aggregation or duplicate delivery.
-        if (isFullySignedIn) {
+        const data = readTapData(notification);
+        const recipient = typeof data?.recipient === 'string' ? data.recipient.toLowerCase() : '';
+        if (isFullySignedIn && (!recipient || recipient === userAddressRef.current?.toLowerCase())) {
           // The badge now differs from the last count written, so the next
           // refresh must write again even if the server number is the same.
           lastUnreadCountRef.current = null;
           void patchUser((current) => ({
             notificationCount: incrementUnreadCount(current.notificationCount),
           }));
-          const type = (notification.request.content.data as Partial<NotificationData> | undefined)?.type;
-          void noteNotificationMoment(type);
+          void noteNotificationMoment(data?.type);
         }
         // Notification will be shown by the OS based on setNotificationHandler config
       }
@@ -1063,7 +1091,10 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         wasOffline = true;
       } else if (wasOffline && isConnected === true && isInternetReachable === true) {
         wasOffline = false;
-        if (AppState.currentState === 'active') void refreshUnreadCount();
+        if (AppState.currentState === 'active') {
+          void refreshUnreadCount();
+          retryPushRegistration();
+        }
       }
     });
     if (AppState.currentState === 'active') start();
@@ -1076,7 +1107,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       stopNetwork();
       sub.remove();
     };
-  }, [isFullySignedIn, refreshUnreadCount]);
+  }, [isFullySignedIn, refreshUnreadCount, retryPushRegistration]);
 
   useEffect(() => {
     const handleAppStateChange = (nextState: AppStateStatus) => {
@@ -1087,11 +1118,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         clearBadge();
         // A registration that failed earlier (offline at launch) tries again
         // here. Only when permission is already granted: no prompt on resume.
-        if (!hasRegisteredRef.current && softAskHandledRef.current) {
-          void getNotificationPermissionStatus()
-            .then(({ granted }) => { if (granted) void registerPushTokenRef.current(); })
-            .catch(() => {});
-        }
+        retryPushRegistration();
       }
       appStateRef.current = nextState;
     };
@@ -1100,7 +1127,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     clearBadge();
     const subscription = AppState.addEventListener('change', handleAppStateChange);
     return () => subscription.remove();
-  }, [refreshUnreadCount]);
+  }, [refreshUnreadCount, retryPushRegistration]);
 
   return (
     <>
