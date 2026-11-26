@@ -6,6 +6,8 @@ import StoryViewer from '../../components/Stories/StoryViewer';
 import StoryComments from '../../components/Stories/StoryComments';
 import { sendStoryReply } from '../../components/Stories/story-reply';
 import { deleteStory, type ShelfEntry, type StoryItem } from '../../services/stories.service';
+import { hasAudioFocus, requestAudioFocus } from '../../libs/audioFocus';
+import { requestFeedVideoFocus } from '../../libs/feedVideoFocus';
 
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
@@ -64,6 +66,20 @@ function mount(durations: number[], author = 'owner') {
 
 beforeEach(() => { jest.useFakeTimers(); jest.clearAllMocks(); });
 afterEach(() => jest.useRealTimers());
+
+it('pauses both muted feed video and audible background media even for a photo Moment', () => {
+  const stopFeed = jest.fn();
+  const stopAudio = jest.fn();
+  requestFeedVideoFocus(stopFeed);
+  requestAudioFocus(stopAudio);
+
+  const { dispose } = mount([30_000]);
+  expect(stopFeed).toHaveBeenCalledTimes(1);
+  expect(stopAudio).toHaveBeenCalledTimes(1);
+  expect(hasAudioFocus()).toBe(true);
+  dispose();
+  expect(hasAudioFocus()).toBe(false);
+});
 
 it('waits for the photo to load and honours its selected duration while the menu pauses it', () => {
   const { viewer, onClose, load, dispose } = mount([37_000]);

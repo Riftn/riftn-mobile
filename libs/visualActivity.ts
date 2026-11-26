@@ -6,6 +6,7 @@ export function createVisualActivity() {
   let focused = true;
   let callBusy = false;
   let callCovered = false;
+  let storyViewerOpen = false;
   let settled = true;
   let timer: ReturnType<typeof setTimeout> | null = null;
   const listeners = new Set<() => void>();
@@ -25,9 +26,15 @@ export function createVisualActivity() {
     isForeground: () => foreground && focused,
     isAppForeground: () => foreground,
     isCallBusy: () => callBusy,
+    isStoryViewerOpen: () => storyViewerOpen,
     // Native sheets move Android window focus without hiding their owning feed.
     isFeedSurfaceActive: () => foreground && !callBusy,
-    isFeedPlaybackAllowed: () => foreground && focused && settled && !callBusy,
+    isFeedPlaybackAllowed: () => foreground && focused && settled && !callBusy && !storyViewerOpen,
+    setStoryViewerOpen: (next: boolean) => {
+      if (storyViewerOpen === next) return;
+      storyViewerOpen = next;
+      notify();
+    },
     setForeground: (next: boolean) => { if (foreground !== next) { foreground = next; settle(); } },
     setFocused: (next: boolean) => { if (focused !== next) { focused = next; settle(); } },
     setCall: (busy: boolean, covered: boolean) => {
