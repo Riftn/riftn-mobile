@@ -1,3 +1,5 @@
+import { newStageChannelName } from '../../libs/stage-radio-show';
+import { FunctionsHttpError } from '@supabase/supabase-js';
 import { stageRoomLabel, stageTopicLabel } from '../../i18n/stage-room-copy';
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -26,6 +28,20 @@ export default function StageEntryControls({ spaceId, wallet }: { spaceId: strin
       return data;
     },
   });
+  const entryGate = useQuery({
+    queryKey: ['stage-entry-gate'],
+    enabled: expanded,
+    staleTime: 60_000,
+    queryFn: async () => {
+      // A recognised Stage channel must exist before the new token gate issues a token.
+      const { error } = await supabase.functions.invoke('agora-token', {
+        body: { channelName: newStageChannelName(), role: 'subscriber' },
+      });
+      if (!(error instanceof FunctionsHttpError) || error.context.status !== 404) return false;
+      const result = await error.context.json();
+      return result?.error === 'Stage not found.';
+    },
+  });
   const pending = useQuery({
     queryKey: requestsKey,
     enabled: expanded && lock.data?.entry_locked === true,
@@ -47,6 +63,7 @@ export default function StageEntryControls({ spaceId, wallet }: { spaceId: strin
   });
   const toggle = useMutation({
     mutationFn: async (patch: { entry_locked?: boolean; title?: string; topic?: StageTopic | null }) => {
+      if (patch.entry_locked === true && entryGate.data !== true) throw new Error('Stage entry gate is unavailable');
       const { data, error } = await withWalletHeader(supabase.from("audio_spaces").update(patch)
         .eq("id", spaceId).eq("status", "live").select("entry_locked, title, topic").maybeSingle(), wallet);
       if (error || !data) throw error ?? new Error("Stage is no longer live");
@@ -102,11 +119,15 @@ export default function StageEntryControls({ spaceId, wallet }: { spaceId: strin
                   );
                 })}
               </View>
-              <Text style={styles.text}>{stageRoomLabel(t, 'entryHelp')}</Text>
-              <TouchableOpacity accessibilityRole="button" disabled={toggle.isPending} onPress={() => toggle.mutate({ entry_locked: !lock.data?.entry_locked })}
-                accessibilityState={{ disabled: toggle.isPending }} style={styles.button}>
-                <Text style={styles.text}>{lock.data.entry_locked ? stageRoomLabel(t, 'unlockEntry') : stageRoomLabel(t, 'lockEntry')}</Text>
-              </TouchableOpacity>
+              {(entryGate.data === true || lock.data.entry_locked) && (
+                <>
+                  <Text style={styles.text}>{stageRoomLabel(t, 'entryHelp')}</Text>
+                  <TouchableOpacity accessibilityRole="button" disabled={toggle.isPending} onPress={() => toggle.mutate({ entry_locked: !lock.data?.entry_locked })}
+                    accessibilityState={{ disabled: toggle.isPending }} style={styles.button}>
+                    <Text style={styles.text}>{lock.data.entry_locked ? stageRoomLabel(t, 'unlockEntry') : stageRoomLabel(t, 'lockEntry')}</Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </>
           )}
           {lock.data?.entry_locked === true && (
