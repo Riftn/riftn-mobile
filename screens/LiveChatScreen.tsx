@@ -38,12 +38,10 @@ import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import PublicChatHeaderMenu from "../components/LiveChat/PublicChatHeaderMenu";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
-import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 import type { TranslateToggle } from "../components/ui/TranslateButton";
 import type { MessageLayout } from "../components/LiveChat/LiveChatContextMenu";
 import PinnedMessagesBar from "../components/LiveChat/PinnedMessagesBar";
 import { useKeyboardRide } from "../hooks/useKeyboardRide";
-import GifPicker from "../components/DM/GifPicker";
 import WhenOpened from "../components/ui/WhenOpened";
 import { useLiveChat } from "../hooks/useLiveChat";
 import { useUser } from "../context/AuthContext";
@@ -1483,19 +1481,23 @@ const LiveChatScreen: React.FC = () => {
       </View>
 
       <WhenOpened open={showGifPicker}>
-        {() => (
-          <GifPicker
-            visible={showGifPicker}
-            onClose={() => setShowGifPicker(false)}
-            onPick={handleGifPicked}
-          />
-        )}
+        {() => {
+          const GifPicker = require("../components/DM/GifPicker").default as typeof import("../components/DM/GifPicker").default;
+          return (
+            <GifPicker
+              visible={showGifPicker}
+              onClose={() => setShowGifPicker(false)}
+              onPick={handleGifPicked}
+            />
+          );
+        }}
       </WhenOpened>
 
       <WhenOpened open={!!reactorsFor}>
-        {() => (
-          <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
-        )}
+        {() => {
+          const CommentLikersSheet = require("../components/Comments/CommentLikersSheet").default as typeof import("../components/Comments/CommentLikersSheet").default;
+          return <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />;
+        }}
       </WhenOpened>
 
       <WhenOpened open={contextMenuVisible}>
