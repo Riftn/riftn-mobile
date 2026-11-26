@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { isTokenExpired } from "../libs/auth.utils";
 import { tokenRefreshManager } from "../libs/token-refresh";
 import { markLaunchPhase } from "../libs/launchTiming";
 
+const BOOT_REFRESH_RETRY_MS = 30_000;
+
 type BootDeps<User> = {
+  hasInternet?: boolean | null;
   getAuthUser: <T>() => Promise<T | null>;
   getAuthToken: () => Promise<string | null>;
   hasSeenAuth: () => Promise<boolean>;
@@ -19,6 +22,7 @@ type BootDeps<User> = {
 };
 
 export function useAuthBoot<User>({
+  hasInternet,
   getAuthUser,
   getAuthToken,
   hasSeenAuth,
@@ -32,7 +36,65 @@ export function useAuthBoot<User>({
   refreshCachedProfile,
   log,
 }: BootDeps<User>) {
+  const connection = useRef({ hasInternet, reconnects: 0 });
+  const retryBootRefresh = useRef<(() => void) | null>(null);
+
   useEffect(() => {
+    const reconnected = connection.current.hasInternet === false && hasInternet === true;
+    if (hasInternet != null) connection.current.hasInternet = hasInternet;
+    if (reconnected) {
+      connection.current.reconnects++;
+      const retry = retryBootRefresh.current;
+      if (retry) retry();
+      else void tokenRefreshManager.ensureFreshToken().catch(error => log.warn('auth:reconnect:failed', error));
+    }
+  }, [hasInternet, log]);
+
+  useEffect(() => {
+    let active = true;
+    let refreshing = false;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const refreshCachedSession = async (userData: User, token: string): Promise<void> => {
+      if (!active || refreshing) return;
+      clearTimeout(retryTimer);
+      refreshing = true;
+      const reconnects = connection.current.reconnects;
+      const retry = () => {
+        void refreshCachedSession(userData, token).catch(error => log.warn('boot:refresh-failed', error));
+      };
+      try {
+        if (await getAuthToken() !== token || !active) {
+          retryBootRefresh.current = null;
+          return;
+        }
+        retryBootRefresh.current = retry;
+        if (connection.current.hasInternet === false) return;
+
+        markLaunchPhase('authRefreshStarted');
+        const newToken = await tokenRefreshManager.attemptRefresh();
+        const storedToken = await getAuthToken();
+        if (!active) return;
+        if (newToken && storedToken === newToken) {
+          retryBootRefresh.current = null;
+          setUser(userData);
+          setIsSignedIn(true);
+          ensureProvider().catch(error => log.warn('boot:ensureProvider:failed', error));
+        } else if (storedToken !== token) {
+          // Logout, revocation or a different account took over during refresh.
+          retryBootRefresh.current = null;
+        }
+      } finally {
+        refreshing = false;
+        if (active && retryBootRefresh.current === retry && connection.current.hasInternet !== false) {
+          // Recovery can arrive during a request, or NetInfo may see no link
+          // change at all when the API is slow or unavailable.
+          if (connection.current.reconnects !== reconnects) retry();
+          else retryTimer = setTimeout(retry, BOOT_REFRESH_RETRY_MS);
+        }
+      }
+    };
+
     const loadAuthState = async () => {
       markLaunchPhase('authStarted');
       try {
@@ -72,28 +134,7 @@ export function useAuthBoot<User>({
         if (userData && token) {
           // Validate token expiration before restoring session
           if (isTokenExpired(token)) {
-            markLaunchPhase('authRefreshStarted');
-            log.warn?.("boot:token-expired", "Stored token is expired, attempting refresh");
-            // Try to refresh the token before giving up
-            const newToken = await tokenRefreshManager.attemptRefresh();
-            if (newToken && await getAuthToken() === newToken) {
-              log.info?.("boot:token-refreshed", "Token refreshed successfully");
-              setUser(userData);
-              setIsSignedIn(true);
-              ensureProvider().catch((e) => {
-                log.warn("boot:ensureProvider:failed", e);
-              });
-            } else {
-              // tokenRefreshManager.attemptRefresh() already cleared stored
-              // credentials if (and only if) the backend definitively
-              // rejected the refresh token. If it didn't -- a network error
-              // or a 5xx -- the refresh token in storage is still probably
-              // good, so don't destroy it here just because this one boot
-              // couldn't confirm it. The user sits signed-out for this
-              // session and gets a real retry next launch instead of a
-              // forced full re-login over a flaky connection.
-              log.warn?.("boot:refresh-failed", "Token refresh failed, staying signed out for this session");
-            }
+            await refreshCachedSession(userData, token);
           } else {
             // Token is valid, restore session
             setUser(userData);
@@ -113,6 +154,11 @@ export function useAuthBoot<User>({
       }
     };
     loadAuthState();
+    return () => {
+      active = false;
+      clearTimeout(retryTimer);
+      retryBootRefresh.current = null;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Only run once on mount - all functions are stable refs
 }

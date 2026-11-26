@@ -265,7 +265,7 @@ export default function App() {
           <SafeAreaProvider initialMetrics={initialSafeAreaMetrics} className="flex-1 select-none">
             <ThemeVarsLayer>
             <MaintenanceGate>
-            <AuthProvider>
+            <AuthProvider hasInternet={hasInternet}>
               <FeedSuperpowersProvider>
               <WebSocketProvider>
                 {/* Someone going live (or ending) shows on every live surface at once. */}
