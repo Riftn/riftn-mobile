@@ -130,7 +130,7 @@ export const CallStage: React.FC<{
               <Pressable
                 onPress={onMessage}
                 accessibilityRole="button"
-                accessibilityLabel={t("messages.message")}
+                accessibilityLabel={t("dm.openChat")}
                 style={({ pressed }) => [styles.corner, { right: 16, top: insets.top + 12 }, pressed && styles.pressed]}
               >
                 <Fill color={live ? palette.dock : palette.glass} line={palette.line} />
