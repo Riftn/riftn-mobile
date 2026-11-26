@@ -269,6 +269,10 @@ export async function registerForPushNotifications(): Promise<string | null> {
   }
 }
 
+function allowsNotificationDelivery(settings: Notifications.NotificationPermissionsStatus): boolean {
+  return settings.status === 'granted' || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
+}
+
 /**
  * Internal function that does the actual registration work.
  */
@@ -282,17 +286,13 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
 
   try {
     // Check existing permissions
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-
-    // Request permission if not already granted
-    if (existingStatus !== 'granted') {
+    let permission = await Notifications.getPermissionsAsync();
+    if (!allowsNotificationDelivery(permission)) {
       logger.info('Requesting push notification permissions...');
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
+      permission = await Notifications.requestPermissionsAsync();
     }
 
-    if (finalStatus !== 'granted') {
+    if (!allowsNotificationDelivery(permission)) {
       logger.warn('Push notification permission denied');
       setRegistrationState('denied');
       return null;
@@ -795,8 +795,7 @@ export async function arePushNotificationsEnabled(): Promise<boolean> {
   if (!Device.isDevice) return false;
   
   try {
-    const { status } = await Notifications.getPermissionsAsync();
-    return status === 'granted';
+    return allowsNotificationDelivery(await Notifications.getPermissionsAsync());
   } catch {
     return false;
   }
@@ -811,11 +810,11 @@ export async function getNotificationPermissionStatus(): Promise<{
   status: Notifications.PermissionStatus;
 }> {
   try {
-    const { status, canAskAgain } = await Notifications.getPermissionsAsync();
+    const settings = await Notifications.getPermissionsAsync();
     return {
-      granted: status === 'granted',
-      canAskAgain: canAskAgain ?? false,
-      status,
+      granted: allowsNotificationDelivery(settings),
+      canAskAgain: settings.canAskAgain ?? false,
+      status: settings.status,
     };
   } catch {
     return {
