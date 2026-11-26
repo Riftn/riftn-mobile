@@ -16993,7 +16993,22 @@
     "paste": "{{name}} 키 붙여넣기",
     "getKey": "{{name}} 키 받기",
     "showLess": "내 키만 보기",
-    "addAnother": "다른 제공업체 추가"
+    "addAnother": "다른 제공업체 추가",
+    "providerDescriptions": {
+      "openai": "Builder(GPT 모델)",
+      "fal": "이미지, 동영상, 3D 및 사진 도구",
+      "kie": "이미지 및 동영상",
+      "replicate": "이미지 및 동영상",
+      "xai": "Grok 채팅 및 이미지",
+      "elevenlabs": "음성, 더빙, 음악 및 음향 효과",
+      "gemini": "번역, 글쓰기 지원 및 요약",
+      "venice": "어시스턴트와 채팅",
+      "perplexity": "어시스턴트로 웹 검색",
+      "deepgram": "자막용 전사 및 실시간 자막",
+      "openrouter": "키 하나로 수백 가지 채팅 및 텍스트 모델 사용",
+      "groq": "빠른 채팅 및 텍스트 생성",
+      "mistral": "채팅 및 텍스트 생성"
+    }
   },
   "postBg": {
     "addMedia": "사진, GIF 또는 동영상 추가",

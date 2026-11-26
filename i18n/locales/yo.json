@@ -16943,7 +16943,22 @@
     "paste": "Lẹ kọ́kọ́rọ́ {{name}} rẹ",
     "getKey": "Gba kọ́kọ́rọ́ {{name}}",
     "showLess": "Fi àwọn kọ́kọ́rọ́ mi nìkan hàn",
-    "addAnother": "Fi olùpèsè mìíràn kún un"
+    "addAnother": "Fi olùpèsè mìíràn kún un",
+    "providerDescriptions": {
+      "openai": "Builder (àwọn àwòṣe GPT)",
+      "fal": "Irinṣẹ́ fún àwòrán, fídíò, 3D àti fọ́tò",
+      "kie": "Àwọn àwòrán àti fídíò",
+      "replicate": "Àwọn àwòrán àti fídíò",
+      "xai": "Ìjíròrò àti àwòrán pẹ̀lú Grok",
+      "elevenlabs": "Ohùn, fífi ohùn míì rọ́pò, orin àti àwọn ipa ìró",
+      "gemini": "Ìtumọ̀, ìrànlọ́wọ́ ní kíkọ àti àkótán",
+      "venice": "Bá olùrànlọ́wọ́ sọ̀rọ̀",
+      "perplexity": "Wá lórí wẹ́ẹ̀bù pẹ̀lú olùrànlọ́wọ́",
+      "deepgram": "Àkọsílẹ̀ ọ̀rọ̀ àti àkọlé ìtànsán tààrà",
+      "openrouter": "Ọgọ́rọ̀ọ̀rún àwòṣe ìjíròrò àti ọ̀rọ̀ pẹ̀lú kọ́kọ́rọ́ kan",
+      "groq": "Ìjíròrò àti ọ̀rọ̀ yíyára",
+      "mistral": "Ìjíròrò àti ọ̀rọ̀"
+    }
   },
   "postBg": {
     "addMedia": "Ṣàfikún àwòrán, GIF tàbí fídíò",

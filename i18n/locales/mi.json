@@ -16942,7 +16942,22 @@
     "paste": "Whakapiri tō kī {{name}}",
     "getKey": "Tiki kī {{name}}",
     "showLess": "Whakaatu aku kī anake",
-    "addAnother": "Tāpiri kaiwhakarato anō"
+    "addAnother": "Tāpiri kaiwhakarato anō",
+    "providerDescriptions": {
+      "openai": "Builder (ngā tauira GPT)",
+      "fal": "Ngā taputapu atahanga, ataata, 3D me te whakaahua",
+      "kie": "Ngā atahanga me ngā ataata",
+      "replicate": "Ngā atahanga me ngā ataata",
+      "xai": "Kōrerorero me ngā atahanga mā Grok",
+      "elevenlabs": "Reo, whakakapi reo, puoro me ngā pānga oro",
+      "gemini": "Whakamāori, āwhina tuhituhi me ngā whakarāpopototanga",
+      "venice": "Kōrerorero ki te kaiāwhina",
+      "perplexity": "Rapu tukutuku mā te kaiāwhina",
+      "deepgram": "Ngā tuhinga kōrero me ngā taitararoto ora",
+      "openrouter": "E hia rau ngā tauira kōrerorero me te tuhinga mā te kī kotahi",
+      "groq": "Kōrerorero me te tuhinga tere",
+      "mistral": "Kōrerorero me te tuhinga"
+    }
   },
   "postBg": {
     "addMedia": "Tāpirihia he pikitia, he GIF, he ataata rānei",

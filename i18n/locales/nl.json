@@ -17820,7 +17820,22 @@
     "cancel": "Annuleren",
     "getKey": "Een {{name}}-sleutel halen",
     "showLess": "Alleen mijn sleutels tonen",
-    "addAnother": "Andere aanbieder toevoegen"
+    "addAnother": "Andere aanbieder toevoegen",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-modellen)",
+      "fal": "Tools voor afbeeldingen, video, 3D en foto’s",
+      "kie": "Afbeeldingen en video",
+      "replicate": "Afbeeldingen en video",
+      "xai": "Chatten en afbeeldingen maken met Grok",
+      "elevenlabs": "Stem, nasynchronisatie, muziek en geluidseffecten",
+      "gemini": "Vertalen, schrijfhulp en samenvattingen",
+      "venice": "Chatten met de assistent",
+      "perplexity": "Zoeken op internet met de assistent",
+      "deepgram": "Transcripties en live ondertiteling",
+      "openrouter": "Honderden chat- en tekstmodellen met één sleutel",
+      "groq": "Snelle chat en tekst",
+      "mistral": "Chat en tekst"
+    }
   },
   "postBg": {
     "scope": "Toepassen op",

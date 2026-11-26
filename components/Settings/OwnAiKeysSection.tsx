@@ -116,8 +116,10 @@ export default function OwnAiKeysSection() {
                   {row.label}
                   {row.saved ? <Text className="text-theme-neutrals-500 text-xs">{`  ••••${row.saved.last4}`}</Text> : null}
                 </Text>
-                <Text numberOfLines={1} className="text-theme-neutrals-500 text-xs mt-0.5">
-                  {row.saved ? statusLabel(row.saved.status) : row.powers}
+                <Text className="mt-0.5 text-[13px] leading-[18px] text-theme-neutrals-400">
+                  {row.saved
+                    ? statusLabel(row.saved.status)
+                    : t(`ownKeys.providerDescriptions.${row.id}`, { defaultValue: row.powers })}
                 </Text>
               </View>
               <View className="flex-row items-center" style={{ gap: 8 }}>

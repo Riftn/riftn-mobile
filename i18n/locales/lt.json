@@ -16942,7 +16942,22 @@
     "paste": "Įklijuokite savo {{name}} raktą",
     "getKey": "Gauti {{name}} raktą",
     "showLess": "Rodyti tik mano raktus",
-    "addAnother": "Pridėti kitą teikėją"
+    "addAnother": "Pridėti kitą teikėją",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modeliai)",
+      "fal": "Vaizdų, vaizdo įrašų, 3D ir nuotraukų įrankiai",
+      "kie": "Vaizdai ir vaizdo įrašai",
+      "replicate": "Vaizdai ir vaizdo įrašai",
+      "xai": "Pokalbiai ir vaizdai su „Grok“",
+      "elevenlabs": "Balsas, dubliavimas, muzika ir garso efektai",
+      "gemini": "Vertimas, pagalba rašant ir santraukos",
+      "venice": "Pokalbiai su asistentu",
+      "perplexity": "Paieška internete su asistentu",
+      "deepgram": "Transkripcijos ir tiesioginiai subtitrai",
+      "openrouter": "Šimtai pokalbių ir teksto modelių su vienu raktu",
+      "groq": "Spartūs pokalbiai ir tekstas",
+      "mistral": "Pokalbiai ir tekstas"
+    }
   },
   "postBg": {
     "addMedia": "Pridėti nuotrauką, GIF ar vaizdo įrašą",

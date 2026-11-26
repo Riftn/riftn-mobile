@@ -16950,7 +16950,22 @@
     "paste": "{{name}} açarınızı yapışdırın",
     "getKey": "{{name}} açarı əldə et",
     "showLess": "Yalnız mənim açarlarımı göstər",
-    "addAnother": "Başqa provayder əlavə et"
+    "addAnother": "Başqa provayder əlavə et",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modelləri)",
+      "fal": "Şəkil, video, 3D və foto alətləri",
+      "kie": "Şəkillər və video",
+      "replicate": "Şəkillər və video",
+      "xai": "Grok ilə söhbət və şəkillər",
+      "elevenlabs": "Səs, dublyaj, musiqi və səs effektləri",
+      "gemini": "Tərcümə, yazı köməyi və xülasələr",
+      "venice": "Köməkçi ilə söhbət",
+      "perplexity": "Köməkçi ilə veb axtarışı",
+      "deepgram": "Transkriptlər və canlı subtitrlər",
+      "openrouter": "Bir açarla yüzlərlə söhbət və mətn modeli",
+      "groq": "Sürətli söhbət və mətn",
+      "mistral": "Söhbət və mətn"
+    }
   },
   "postBg": {
     "addMedia": "Şəkil, GIF və ya video əlavə et",

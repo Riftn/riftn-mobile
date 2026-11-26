@@ -16946,7 +16946,22 @@
     "paste": "Liƙa maɓallinka na {{name}}",
     "getKey": "Samu maɓallin {{name}}",
     "showLess": "Nuna maɓallaina kawai",
-    "addAnother": "Ƙara wani mai samarwa"
+    "addAnother": "Ƙara wani mai samarwa",
+    "providerDescriptions": {
+      "openai": "Builder (samfuran GPT)",
+      "fal": "Kayan aikin hotuna, bidiyo, 3D da ɗaukar hoto",
+      "kie": "Hotuna da bidiyo",
+      "replicate": "Hotuna da bidiyo",
+      "xai": "Hira da hotuna tare da Grok",
+      "elevenlabs": "Murya, sauya muryar fim, kiɗa da tasirin sauti",
+      "gemini": "Fassara, taimakon rubutu da taƙaitawa",
+      "venice": "Hira da mataimaki",
+      "perplexity": "Binciken yanar gizo da mataimaki",
+      "deepgram": "Rubutun magana da taken kai tsaye",
+      "openrouter": "Ɗaruruwan samfuran hira da rubutu da maɓalli ɗaya",
+      "groq": "Hira da rubutu cikin sauri",
+      "mistral": "Hira da rubutu"
+    }
   },
   "postBg": {
     "addMedia": "Ƙara hoto, GIF ko bidiyo",

@@ -16950,7 +16950,22 @@
     "paste": "Kleebi oma {{name}} võti",
     "getKey": "Hangi {{name}} võti",
     "showLess": "Näita ainult minu võtmeid",
-    "addAnother": "Lisa teine teenusepakkuja"
+    "addAnother": "Lisa teine teenusepakkuja",
+    "providerDescriptions": {
+      "openai": "Builder (GPT mudelid)",
+      "fal": "Pildi-, video-, 3D- ja fototööriistad",
+      "kie": "Pildid ja video",
+      "replicate": "Pildid ja video",
+      "xai": "Vestlus ja pildid Grokiga",
+      "elevenlabs": "Hääl, dublaaž, muusika ja heliefektid",
+      "gemini": "Tõlkimine, kirjutamisabi ja kokkuvõtted",
+      "venice": "Vestlus abilisega",
+      "perplexity": "Veebiotsing abilisega",
+      "deepgram": "Transkriptsioonid ja reaalajas subtiitrid",
+      "openrouter": "Sajad vestlus- ja tekstimudelid ühe võtmega",
+      "groq": "Kiire vestlus ja tekst",
+      "mistral": "Vestlus ja tekst"
+    }
   },
   "postBg": {
     "addMedia": "Lisa pilt, GIF või video",

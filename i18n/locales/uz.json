@@ -16997,7 +16997,22 @@
     "paste": "{{name}} kalitingizni joylashtiring",
     "getKey": "{{name}} kalitini olish",
     "showLess": "Faqat mening kalitlarimni ko'rsatish",
-    "addAnother": "Boshqa provayder qo'shish"
+    "addAnother": "Boshqa provayder qo'shish",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modellari)",
+      "fal": "Rasm, video, 3D va foto vositalari",
+      "kie": "Rasmlar va video",
+      "replicate": "Rasmlar va video",
+      "xai": "Grok bilan chat va rasmlar",
+      "elevenlabs": "Ovoz, dublyaj, musiqa va ovoz effektlari",
+      "gemini": "Tarjima, yozishda yordam va xulosalar",
+      "venice": "Yordamchi bilan chat",
+      "perplexity": "Yordamchi bilan vebda qidirish",
+      "deepgram": "Transkriptlar va jonli subtitrlar",
+      "openrouter": "Bitta kalit bilan yuzlab chat va matn modellari",
+      "groq": "Tezkor chat va matn",
+      "mistral": "Chat va matn"
+    }
   },
   "postBg": {
     "addMedia": "Rasm, GIF yoki video qo‘shish",

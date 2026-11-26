@@ -16950,7 +16950,22 @@
     "paste": "Zalijepite svoj {{name}} ključ",
     "getKey": "Nabavite {{name}} ključ",
     "showLess": "Prikaži samo moje ključeve",
-    "addAnother": "Dodaj drugog pružatelja"
+    "addAnother": "Dodaj drugog pružatelja",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modeli)",
+      "fal": "Alati za slike, video, 3D i fotografije",
+      "kie": "Slike i video",
+      "replicate": "Slike i video",
+      "xai": "Razgovor i slike uz Grok",
+      "elevenlabs": "Glas, sinkronizacija, glazba i zvučni efekti",
+      "gemini": "Prijevod, pomoć pri pisanju i sažeci",
+      "venice": "Razgovor s asistentom",
+      "perplexity": "Pretraživanje weba uz asistenta",
+      "deepgram": "Transkripti i titlovi uživo",
+      "openrouter": "Stotine modela za razgovor i tekst s jednim ključem",
+      "groq": "Brzi razgovor i tekst",
+      "mistral": "Razgovor i tekst"
+    }
   },
   "postBg": {
     "addMedia": "Dodaj sliku, GIF ili video",

@@ -16942,7 +16942,22 @@
     "paste": "መፍትሕ {{name}} ኻ ለጥፍ",
     "getKey": "መፍትሕ {{name}} ርኸብ",
     "showLess": "መፍትሕታተይ ጥራይ ኣርኢ",
-    "addAnother": "ካልእ ኣቕራቢ ወስኽ"
+    "addAnother": "ካልእ ኣቕራቢ ወስኽ",
+    "providerDescriptions": {
+      "openai": "Builder (ሞዴላት GPT)",
+      "fal": "ናውቲ ምስሊ፣ ቪድዮ፣ 3D እና ፎቶ",
+      "kie": "ምስልታትን ቪድዮን",
+      "replicate": "ምስልታትን ቪድዮን",
+      "xai": "ምስ Grok ዕላልን ምስልታትን",
+      "elevenlabs": "ድምጺ፣ ምትካእ ድምጺ፣ ሙዚቃን ናይ ድምጺ ጽልዋታትን",
+      "gemini": "ትርጉም፣ ናይ ምጽሓፍ ሓገዝን ጽማቝን",
+      "venice": "ምስ ሓጋዚ ዕላል",
+      "perplexity": "ብሓጋዚ ኣብ ወብ ምድላይ",
+      "deepgram": "ናይ ዘረባ ጽሑፍን ቀጥታዊ ንኡስ ኣርእስትን",
+      "openrouter": "ብሓደ መፍትሕ ኣማኢት ናይ ዕላልን ጽሑፍን ሞዴላት",
+      "groq": "ቅልጡፍ ዕላልን ጽሑፍን",
+      "mistral": "ዕላልን ጽሑፍን"
+    }
   },
   "postBg": {
     "addMedia": "ስእሊ፣ GIF ወይ ቪድዮ ወስኽ",

@@ -16973,7 +16973,22 @@
     "paste": "Namathisela ukhiye wakho we-{{name}}",
     "getKey": "Thola ukhiye we-{{name}}",
     "showLess": "Bonisa okhiye bami kuphela",
-    "addAnother": "Engeza omunye umhlinzeki"
+    "addAnother": "Engeza omunye umhlinzeki",
+    "providerDescriptions": {
+      "openai": "Builder (amamodeli e-GPT)",
+      "fal": "Amathuluzi ezithombe, amavidiyo, i-3D nezithombe zekhamera",
+      "kie": "Izithombe namavidiyo",
+      "replicate": "Izithombe namavidiyo",
+      "xai": "Ukuxoxa nezithombe nge-Grok",
+      "elevenlabs": "Izwi, ukufaka elinye izwi, umculo nemisindo ekhethekile",
+      "gemini": "Ukuhumusha, usizo lokubhala nezifinyezo",
+      "venice": "Xoxa nomsizi",
+      "perplexity": "Sesha iwebhu ngomsizi",
+      "deepgram": "Ukubhalwa kwenkulumo namagama-ncazo abukhoma",
+      "openrouter": "Amamodeli ezingxoxo nombhalo angamakhulu ngokhiye owodwa",
+      "groq": "Ingxoxo nombhalo osheshayo",
+      "mistral": "Ingxoxo nombhalo"
+    }
   },
   "postBg": {
     "addMedia": "Engeza isithombe, i-GIF noma ividiyo",
