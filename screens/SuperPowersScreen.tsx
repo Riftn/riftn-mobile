@@ -295,8 +295,7 @@ export default function SuperPowersScreen() {
         </PageSection>
       </ScrollView>
 
-      {/* The App Store view is read-only. The status API combines token-linked
-          and granted badge allowances, so it cannot authorize iOS boost or Team Up actions. */}
+      {/* Spending and Team Up depend on the effective badge tier, which can be token-linked. */}
       {DIGITAL_PURCHASES_ENABLED ? (
         <>
           <BuyDhbSheet visible={buyOpen} onClose={() => setBuyOpen(false)} onDelivered={() => void refetchStatus()} />
@@ -377,11 +376,12 @@ export default function SuperPowersScreen() {
                         </Text>
                       ) : null}
                     </View>
-                    {DIGITAL_PURCHASES_ENABLED && booking.status === "active" && !notificationPower ? (
+                    {booking.status === "active" && !notificationPower ? (
                       <Pressable
                         onPress={() => handleCancel(booking.id)}
                         disabled={cancelBoost.isPending}
                         hitSlop={8}
+                        accessibilityRole="button"
                       >
                         <Text style={styles.cancel}>{t("common.cancel")}</Text>
                       </Pressable>
