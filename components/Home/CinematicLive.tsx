@@ -41,7 +41,7 @@ import { DeHubRefreshControl, DeHubRefreshMark } from "../Feed/DeHubRefreshContr
 import { useHorizontalScrollGuard } from "../../context/PagerGestureContext";
 import { getLiveVideos, type LiveStreamEntity } from "../../services/live.service";
 import { getTVChannelsByCountry, type TVChannel } from "../../services/liveTv.service";
-import { isStreamLive } from "../../libs/live-status";
+import { isStreamLive, sortLiveThenReplays } from "../../libs/live-status";
 import { liveThumbnailFor } from "../../libs/live-ingest";
 import { buildCdnPath, getAvatarUrl } from "../../libs/misc";
 import { LIVE_GAMES, streamMatchesGame, type LiveGame } from "../../libs/live-games";
@@ -310,15 +310,7 @@ const CinematicLive: React.FC<CinematicLiveProps> = ({
       : Array.isArray((data as any)?.result)
         ? (data as any).result
         : [];
-    // On air first (newest start), then replays (newest end): the list also
-    // carries recent recordings, and start time alone put a replay above a
-    // stream that has been live for longer.
-    const onAir = (row: LiveStreamEntity) => (isStreamLive(row) ? 0 : 1);
-    const at = (row: LiveStreamEntity) =>
-      Date.parse((onAir(row) === 0 ? row.startedAt : (row as any).endedAt || row.startedAt) || row.createdAt || "") || 0;
-    return [...rows]
-      .sort((a, b) => onAir(a) - onAir(b) || at(b) - at(a))
-      .map((row, i) => toStream(row, i, fallbackGame));
+    return sortLiveThenReplays(rows).map((row, i) => toStream(row, i, fallbackGame));
   }, [data, fallbackGame]);
 
   // One ring per creator who is on air right now.

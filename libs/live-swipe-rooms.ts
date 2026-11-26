@@ -1,4 +1,5 @@
 import { isVerticalFeedLive } from "./live-shorts";
+import { sortLiveThenReplays } from "./live-status";
 import type { LiveStreamEntity } from "../services/live.service";
 
 /** Public room destinations in the same order as the Live list. The next
@@ -6,7 +7,7 @@ import type { LiveStreamEntity } from "../services/live.service";
 export function swipeRooms(rows: LiveStreamEntity[], blocked: (address?: string) => boolean) {
   const seen = new Set<string>();
   const rooms: { streamId: string; tokenId?: number; isLive: true }[] = [];
-  for (const row of rows) {
+  for (const row of sortLiveThenReplays(rows.filter(Boolean))) {
     const id = row?._id ?? row?.streamId;
     if (typeof id !== "string" || !/^[a-f0-9]{24}$/i.test(id) || seen.has(id)) continue;
     if (blocked(row.address) || blocked(row.account?.address)) continue;

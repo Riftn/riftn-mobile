@@ -10,9 +10,9 @@ const row = (id: number, extra = {}) => ({
 } as LiveStreamEntity);
 
 it("keeps public rooms in order and gives the next player only its own route identifiers", () => {
-  const first = row(1, { streamKey: "ignored" });
-  const second = row(2, { streamInfo: "{}" });
-  expect(swipeRooms([first, first, second], () => false)).toEqual([
+  const first = row(1, { streamKey: "ignored", startedAt: "2026-11-25T19:02:00Z" });
+  const second = row(2, { streamInfo: "{}", startedAt: "2026-11-25T19:01:00Z" });
+  expect(swipeRooms([second, first, first], () => false)).toEqual([
     { streamId: first._id, tokenId: 1, isLive: true },
     { streamId: second._id, tokenId: 2, isLive: true },
   ]);

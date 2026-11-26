@@ -1,7 +1,9 @@
 interface StreamState {
   status?: string;
   isActive?: boolean;
+  startedAt?: string;
   endedAt?: string;
+  createdAt?: string;
   settings?: { status?: string };
   recording?: { status?: string };
 }
@@ -19,6 +21,14 @@ export function isStreamLive(stream: unknown, fallback = false): boolean {
   if (['LIVE', 'ACTIVE', 'PAUSED'].includes(status ?? '')) return true;
   if (['SCHEDULED', 'OFFLINE'].includes(status ?? '') || value?.isActive === false) return false;
   return value?.isActive === true || fallback;
+}
+
+/** On-air broadcasts by newest start, followed by the latest replays. */
+export function sortLiveThenReplays<T extends StreamState>(rows: T[]): T[] {
+  const onAir = (row: T) => (isStreamLive(row) ? 0 : 1);
+  const at = (row: T) =>
+    Date.parse((onAir(row) === 0 ? row.startedAt : row.endedAt || row.startedAt) || row.createdAt || "") || 0;
+  return [...rows].sort((a, b) => onAir(a) - onAir(b) || at(b) - at(a));
 }
 
 /**
