@@ -392,6 +392,10 @@ export async function markNotificationAsRead(notificationId: string) {
   }
 }
 
+export function clearAllNotifications(wallet: string, through: number) {
+  return apiClient.post<{ clearedThrough: string }>('/notification/clear-all', { wallet, through }, { isAuthRequired: true });
+}
+
 /**
  * Mark all notifications as read.
  * @param category - Optional: Only mark notifications in this category as read

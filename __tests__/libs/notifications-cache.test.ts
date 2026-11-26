@@ -6,6 +6,7 @@ import { fetchCustomNotifications } from '../../libs/custom-notifications';
 import {
   __resetNotificationsCache,
   applyMarkedAllRead,
+  invalidateNotificationSnapshot,
   markAllReadSettled,
   mergeFirstPage,
   noteMarkedAllRead,
@@ -46,6 +47,19 @@ it('shares one warm-up fetch between callers and stores what it got', async () =
   // Fresh snapshot: a second warm-up right after is skipped.
   await prefetchNotifications('0xabc');
   expect(getNotifications).toHaveBeenCalledTimes(1);
+});
+
+it('cannot restore a cleared snapshot from a warm-up already in flight', async () => {
+  let finish!: (value: unknown) => void;
+  (getNotifications as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  (fetchCustomNotifications as jest.Mock).mockResolvedValue([]);
+  writeNotificationSnapshot('0xabc', [row('old', '2026-01-01')], []);
+  const warming = prefetchNotifications('0xabc', { force: true });
+  await Promise.resolve();
+  invalidateNotificationSnapshot('0xABC');
+  finish({ result: [row('old', '2026-01-01')] });
+  expect(await warming).toBeNull();
+  expect(readNotificationSnapshot('0xabc')).toBeNull();
 });
 
 describe('mark all as read', () => {
