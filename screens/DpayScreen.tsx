@@ -1,6 +1,8 @@
 import { translateCopy as _translateCopy } from '../i18n/copy';
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
+import { APP_TOKENS_QUERY_KEY } from "../hooks/useAppTokens";
 import { useRoute, type RouteProp } from "@react-navigation/native";
 import { useAuthState } from "../context/AuthContext";
 import { useGateToHome } from "../hooks/useGateToHome";
@@ -180,10 +182,18 @@ const DpayScreen: React.FC = () => {
     { catchUp: true },
   );
 
+  const queryClient = useQueryClient();
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
     try {
+      if (activeTab === "stake") {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["app-tokens-config"] }),
+          queryClient.invalidateQueries({ queryKey: [APP_TOKENS_QUERY_KEY] }),
+        ]);
+        return;
+      }
       const [supplyRes, totalRes] = await Promise.all([
         getSupply().catch(() => null),
         getSuccessTotal().catch(() => null),
@@ -197,7 +207,7 @@ const DpayScreen: React.FC = () => {
     } finally {
       setRefreshing(false);
     }
-  }, [requestPrice]);
+  }, [activeTab, queryClient, requestPrice]);
 
   if (activeTab === "wallet") {
     return <WalletOverview onBuy={() => setActiveTab("buy")} onStake={() => setActiveTab("stake")} />;

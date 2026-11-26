@@ -84,6 +84,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   // The App Store wallet can show the balance without offering app-token sends.
   const showAppTokens = appTokensOn || (!DIGITAL_PURCHASES_ENABLED && appTokens?.symbol === 'RIFT');
   const appDhb = Number(appTokens?.balance ?? 0);
+  const appPosition = appDhb + Number(appTokens?.staked ?? 0);
   const appTokenLabel = appTokens?.symbol === 'RIFT' ? '$RIFT' : tokenLabel();
   const [appSend, setAppSend] = useState(false);
   const [appHistory, setAppHistory] = useState(false);
@@ -100,12 +101,12 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   const groups = useMemo(() => groupWalletTokens(wallet.tokens), [wallet.tokens]);
   const query = search.trim().toLowerCase();
   const visible = groups.filter(item => !(appTokensOn && item.symbol === 'DHB') && `${item.symbol} ${item.name} ${tokenLabel(item.symbol)}`.toLowerCase().includes(query) && (item.amount > 0 || item.unknown || item.tokens.some(token => token.isCustom)));
-  const position = appTokensOn ? appDhb : dhbPosition(user, groups.find(item => item.symbol === 'DHB')?.amount || 0);
+  const position = appTokensOn ? appPosition : dhbPosition(user, groups.find(item => item.symbol === 'DHB')?.amount || 0);
   const rows = dhbBreakdown(user).rows;
   const staked = rows.reduce((sum, row) => sum + row.staked, 0);
   const usd = wallet.tokens.reduce(
     (sum, token) => (appTokensOn && token.symbol === 'DHB' ? sum : sum + Number(token.balance || 0) * (wallet.prices[token.symbol] || 0)),
-    (appTokensOn ? appDhb : staked) * (wallet.prices.DHB || 0),
+    (appTokensOn ? appPosition : staked) * (wallet.prices.DHB || 0),
   );
   const receiveAddress = receiveNetwork === 'solana' && wallet.solanaAddress ? wallet.solanaAddress : wallet.address;
   const funded = wallet.tokens.filter(token => Number(token.balance) > 0);

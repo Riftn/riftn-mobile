@@ -4860,6 +4860,18 @@
     "dhb_staked_on_chain": "{{amount}} jetons mis en jeu sur {{chain}}."
   },
   "staking": {
+    "appStake": "Staker",
+    "appUnstake": "Retirer",
+    "availableTokens": "Jetons disponibles",
+    "stakedTokens": "Jetons stakés",
+    "legacyDhb": "Ancien staking DHB",
+    "inAppDescription": "Stakez depuis votre portefeuille Riftn. Vous pouvez retirer vos jetons à tout moment pour les rendre à nouveau disponibles.",
+    "pendingAppStake": "Réessayez cette demande pour confirmer le résultat.",
+    "retryAction": "Réessayer : {{action}}",
+    "retryBalance": "Recharger les soldes",
+    "retryConfig": "Recharger le staking",
+    "configError": "Impossible de charger le staking.",
+    "signInToStake": "Connectez-vous pour staker",
     "foundNewDeposits": "{{count}} nouveaux dépôts trouvés sur la chaîne",
     "pendingRetired": "Ce dépôt n’est plus en attente sur le réseau. Le suivi a été effacé ; vérifiez l’activité de votre portefeuille avant de déposer à nouveau.",
     "title": "Staking",
@@ -17182,6 +17194,9 @@
     "followFailed": "Impossible de suivre. Réessaie."
   },
   "appTokens": {
+    "kindStaked": "Staké",
+    "kindUnstaked": "Retiré",
+    "stakedBalance": "{{amount}} stakés",
     "title": "jetons dans Riftn",
     "rowHint": "Solde dans l’app",
     "explainer": "Vos jetons vivent désormais dans Riftn. Vous êtes parti de ce que vous déteniez et aviez en staking onchain au lancement. Envoyer, donner un pourboire et dépenser les déplace instantanément, sans frais et sans rien onchain. Les soldes passeront au nouveau token lors de l’airdrop.",
