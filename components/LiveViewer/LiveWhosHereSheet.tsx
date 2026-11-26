@@ -56,7 +56,12 @@ const Row: React.FC<{
       accessibilityRole="button"
       accessibilityLabel={audienceName(account)}
       accessibilityState={{ disabled: !identifier }}
-      style={({ pressed }) => [styles.row, divider && styles.rowDivider, (pressed || !identifier) && styles.dimmedRow]}
+      style={({ pressed }) => [
+        styles.row,
+        divider && styles.rowDivider,
+        pressed && styles.pressedRow,
+        !identifier && styles.disabledRow,
+      ]}
     >
       <Avatar uri={getAvatarUrl(account.avatarImageUrl) || undefined} size={large ? 36 : 32} name={audienceName(account)} />
       <View style={styles.rowText}>
@@ -225,7 +230,8 @@ const styles = StyleSheet.create({
   flat: { paddingHorizontal: 16, paddingVertical: 10, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: "rgba(255,255,255,0.16)" },
   label: { color: MUTED, fontSize: 11, fontWeight: "800", letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 4 },
   row: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 7 },
-  dimmedRow: { opacity: 0.6 },
+  pressedRow: { backgroundColor: LINE },
+  disabledRow: { opacity: 0.6 },
   rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: LINE },
   rowText: { flex: 1, minWidth: 0 },
   name: { color: TEXT, fontSize: 14, fontWeight: "700" },
