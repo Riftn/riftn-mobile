@@ -2659,6 +2659,8 @@
     "transferDhb": "Transférer des tokens"
   },
   "wallet": {
+    "legacyDhb": "Ancien DHB",
+    "legacyDhbHoldings": "Avoirs sur la blockchain",
     "connectUnavailable": "Connecter un portefeuille n'est pas disponible dans cette version — restaurez avec votre phrase de récupération.",
     "connectedWrongWallet": "Ce portefeuille est {{connected}}, pas {{address}}. Rien n'a été modifié.",
     "restoreWrongWallet": "Cela ouvre un autre portefeuille, pas {{address}}. Rien n'a été modifié.",

@@ -2847,6 +2847,8 @@
     "transferDhb": "Tokens overmaken"
   },
   "wallet": {
+    "legacyDhb": "Oude DHB",
+    "legacyDhbHoldings": "Bezittingen on-chain",
     "connectUnavailable": "Wallet verbinden is niet beschikbaar in deze versie — herstel met je herstelzin.",
     "connectedWrongWallet": "Die wallet is {{connected}}, niet {{address}}. Er is niets gewijzigd.",
     "restoreWrongWallet": "Dat opent een andere wallet, niet {{address}}. Er is niets gewijzigd.",

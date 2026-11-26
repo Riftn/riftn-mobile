@@ -2528,6 +2528,8 @@
     "tryAgain": "Try Again"
   },
   "wallet": {
+    "legacyDhb": "Legacy DHB",
+    "legacyDhbHoldings": "On-chain holdings",
     "showBalance": "Show balance",
     "hideBalance": "Hide balance",
     "connectUnavailable": "Connect Wallet isn't available in this build — restore with your recovery phrase instead.",
