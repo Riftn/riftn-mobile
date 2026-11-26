@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, I18nManager, Keyboard, Platform, StyleSheet, View, type GestureResponderEvent } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, type GestureType } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { completesSwipeBack, pageSwipeAllowed, SWIPE_BACK_EDGE, SWIPE_BACK_PAGE_DISTANCE } from '../../libs/swipe-back';
 import { SwipeBackActions, SwipeBackEdgeOwner, SwipeBackPan, type BackAction, type ClaimEdgeSwipe, type RegisterBackAction } from '../../hooks/useSwipeBack';
+import { PagerGestureProvider } from '../../context/PagerGestureContext';
 
 export default function SwipeBackBoundary({ children, onBack, enabled = true, isFocused, allowIOS = false, protectSideways = false }: {
   children: React.ReactNode;
@@ -65,6 +66,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
   const fromEdge = useSharedValue(true);
   const multi = useSharedValue(false);
   const page = useRef<View>(null);
+  const pagerRef = useRef<GestureType | undefined>(undefined);
   const markTouch = useCallback((event: GestureResponderEvent) => {
     pageOk.value = active && pageSwipeAllowed(event.target, page.current);
   }, [active, pageOk]);
@@ -81,6 +83,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
     ],
   }));
   const gesture = useMemo(() => Gesture.Pan()
+    .withRef(pagerRef)
     .enabled(active)
     // Decided by hand: a drag claims back only once it is clearly sideways,
     // so lists still scroll and inner swipes (pagers, reply swipes, pinch)
@@ -136,7 +139,9 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
     <SwipeBackEdgeOwner.Provider value={claimEdge}>
       <GestureDetector gesture={gesture}>
         <View ref={page} style={{ flex: 1 }} collapsable={false} onTouchStart={markTouch}>
-          <SwipeBackPan.Provider value={active ? gesture : null}>{children}</SwipeBackPan.Provider>
+          <SwipeBackPan.Provider value={active ? gesture : null}>
+            {protectSideways ? <PagerGestureProvider gestureRef={pagerRef}>{children}</PagerGestureProvider> : children}
+          </SwipeBackPan.Provider>
           <Animated.View pointerEvents="none" style={[styles.cue, I18nManager.isRTL ? { right: 0 } : { left: 0 }, cueStyle]}>
             <Ionicons name="arrow-back" size={20} color="#fff" style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined} />
           </Animated.View>

@@ -6,6 +6,7 @@ jest.mock('react-native', () => ({ View: 'View', Platform: { OS: 'android' }, I1
 jest.mock('react-native-reanimated', () => ({ __esModule: true, default: { View: 'Animated.View' }, useSharedValue: (value: unknown) => jest.requireActual('react').useRef({ value }).current, useAnimatedStyle: () => ({}), withTiming: (value: number) => value, runOnJS: (fn: (...args: unknown[]) => unknown) => fn }));
 jest.mock('@expo/vector-icons/Ionicons', () => 'Ionicons');
 const mockGesture = {
+  withRef: jest.fn().mockReturnThis(),
   enabled: jest.fn().mockReturnThis(), hitSlop: jest.fn().mockReturnThis(), activeOffsetX: jest.fn().mockReturnThis(),
   failOffsetY: jest.fn().mockReturnThis(), maxPointers: jest.fn().mockReturnThis(), runOnJS: jest.fn().mockReturnThis(),
   onBegin: jest.fn().mockReturnThis(), onTouchesDown: jest.fn().mockReturnThis(),
