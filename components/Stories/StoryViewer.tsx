@@ -37,6 +37,7 @@ import Avatar from "../common/Avatar";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
+import { useWebSocketApi } from "../../context/WebSocketContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config/links";
 import { formatCount } from "../../libs/format-count";
@@ -44,8 +45,6 @@ import { toastError, toastSuccess } from "../../libs/toast";
 import { muteUser } from "../../services/mute.service";
 import { followUser, unfollowUser } from "../../services/user.service";
 import {
-  addStoryComment,
-  checkStoryReply,
   deleteStory,
   getStory,
   getStoryViewers,
@@ -58,6 +57,7 @@ import {
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 import StoryComments from "./StoryComments";
+import { sendStoryReply } from "./story-reply";
 import MomentCaption from "./MomentCaption";
 import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
 import { FloatHearts, StoryRoomChat, TEXT_SHADOW, useMomentComments } from "./StoryRoom";
@@ -106,6 +106,7 @@ export default function StoryViewer({
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
+  const ws = useWebSocketApi();
   const queryClient = useQueryClient();
   const user = useUser();
   const { requireAuth } = useAuthActions();
@@ -159,9 +160,10 @@ export default function StoryViewer({
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [openingOriginal, setOpeningOriginal] = useState(false);
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
-  const [replyTo, setReplyTo] = useState<"everyone" | "author">("everyone");
   const [bursts, setBursts] = useState<number[]>([]);
   const [sending, setSending] = useState(false);
+  const sendingReply = useRef(false);
+  const replyInput = useRef<TextInput>(null);
   const audience = useInfiniteQuery({
     queryKey: ["moment-viewers", item?.id, me],
     queryFn: ({ pageParam }) => getStoryViewers(item!.id, pageParam),
@@ -179,7 +181,7 @@ export default function StoryViewer({
   const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
   const postPeek = item?.postTokenId != null && postPeekId === item.id;
-  const paused = held || postPeek || typing || sheet !== null || openingOriginal || !loaded;
+  const paused = held || postPeek || typing || sending || sheet !== null || openingOriginal || !loaded;
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
 
@@ -214,7 +216,7 @@ export default function StoryViewer({
     elapsed.current = 0;
     setProgress(0);
     setReply("");
-    setReplyTo("everyone");
+    setTyping(false);
     setOpeningOriginal(false);
     return () => { originalRequest.current = null; };
   }, [snapshot?.id]);
@@ -411,37 +413,26 @@ export default function StoryViewer({
 
   const sendReply = async () => {
     const text = reply.trim();
-    if (!text || sending) return;
-    if (replyTo === "everyone") {
-      setSending(true);
-      try {
-        const row = await addStoryComment(item.id, text);
-        queryClient.setQueryData(["moment-room-comments", item.id, !!me], (old: { comments: (typeof row)[] } | undefined) =>
-          old ? { ...old, comments: [row, ...old.comments] } : { commentCount: 1, allowComments: true, comments: [row], next: null });
-        void queryClient.invalidateQueries({ queryKey: ["moment-room-comments", item.id] });
-        setList((l) => l.map((e, i) => (i === authorIdx ? { ...e, items: e.items.map((it) => (it.id === item.id ? { ...it, commentCount: (it.commentCount ?? 0) + 1 } : it)) } : e)));
-        setReply("");
-      } catch (e: any) {
-        toastError(e?.message || t("stories.commentFailed", { defaultValue: "Your comment didn't go up. Try again." }));
-      } finally {
-        setSending(false);
-      }
-      return;
-    }
+    if (!item.allowReplies || own || !me || !text || sendingReply.current) return;
+    sendingReply.current = true;
+    setSending(true);
+    const input = replyInput.current;
     try {
-      const res = await checkStoryReply(item.id);
-      const label = t("stories.repliedTo", { defaultValue: "Replied to your moment" });
-      const link = `${WEBSITE_LINK}/moment/${item.id}?reply=1`;
-      setReply("");
-      onClose();
-      navigation.navigate(ScreenNames.Chat as never, {
-        targetAddress: res.to || entry.author.address,
-        title: nameOf(entry.author),
-        targetUser: { address: entry.author.address, username: entry.author.username, displayName: entry.author.displayName, avatarImageUrl: entry.author.avatarImageUrl },
-        autoSendText: `${label}: ${text}\n${link}`,
-      } as never);
-    } catch (e: any) {
-      toastError(e?.message || t("stories.replyFailed", { defaultValue: "Couldn't send your reply." }));
+      const outcome = await sendStoryReply(item.id, text, t("stories.repliedTo", { defaultValue: "Replied to your moment" }), me, ws);
+      if (outcome === "paid-chat") {
+        toastError(t("stories.paidChat", { defaultValue: "This person charges for messages. Open the chat to send it." }));
+      } else {
+        toastSuccess(t("stories.replySent", { defaultValue: "Reply sent" }));
+        if (replyInput.current === input) {
+          setReply("");
+          input?.blur();
+        }
+      }
+    } catch (error) {
+      toastError(error instanceof Error ? error.message : t("stories.replyFailed", { defaultValue: "Couldn't send your reply." }));
+    } finally {
+      sendingReply.current = false;
+      setSending(false);
     }
   };
 
@@ -698,25 +689,28 @@ export default function StoryViewer({
             ) : !me ? (
               <TouchableOpacity style={styles.field} onPress={() => requireAuth(() => {})}>
                 <ChromeFill glass radius={12} />
-                <Text style={styles.replyPlaceholder}>{t("stories.signInToSay", { defaultValue: "Sign in to say something" })}</Text>
+                <Text style={styles.replyPlaceholder}>{t("stories.signInToReply", { defaultValue: "Sign in to reply" })}</Text>
               </TouchableOpacity>
             ) : item.allowReplies ? (
-              <View style={styles.field}>
+              <View style={[styles.field, typing && styles.replyFocused]}>
                 <ChromeFill glass radius={12} />
                 <TextInput
+                  key={item.id}
+                  ref={replyInput}
                   value={reply}
+                  editable={!sending}
                   onChangeText={setReply}
                   onFocus={() => setTyping(true)}
                   onBlur={() => setTyping(false)}
-                  placeholder={replyTo === "everyone"
-                    ? t("stories.saySomething", { defaultValue: "Say something…" })
-                    : t("stories.replyTo", { defaultValue: "Reply to {{name}}", name: nameOf(entry.author) })}
+                  placeholder={t("stories.privateReply", { defaultValue: "Send a private reply…" })}
+                  accessibilityLabel={t("stories.sendPrivateReply", { defaultValue: "Send a private reply" })}
                   placeholderTextColor="rgba(255,255,255,0.7)"
                   style={styles.replyInput}
                   keyboardAppearance="dark"
                   returnKeyType="send"
+                  submitBehavior="submit"
                   onSubmitEditing={() => void sendReply()}
-                  maxLength={replyTo === "everyone" ? 300 : 500}
+                  maxLength={500}
                 />
               </View>
             ) : (
@@ -740,8 +734,18 @@ export default function StoryViewer({
                 </View>
               ) : null}
             </Pressable>
-            {!own && me && item.allowReplies && reply.trim() ? (
-              <Pressable onPress={() => void sendReply()} disabled={sending} style={styles.key} accessibilityRole="button" accessibilityLabel={t("tip.send", { defaultValue: "Send" })}>
+            {!own && me && item.allowReplies && (typing || reply || sending) ? (
+              <Pressable
+                onPress={() => void sendReply()}
+                disabled={sending || !reply.trim()}
+                style={({ pressed }) => [
+                  styles.key,
+                  sending ? styles.sendPending : !reply.trim() ? styles.sendDisabled : pressed && styles.sendPressed,
+                ]}
+                accessibilityRole="button"
+                accessibilityLabel={t("stories.sendPrivateReply", { defaultValue: "Send a private reply" })}
+                accessibilityState={{ disabled: sending || !reply.trim(), busy: sending }}
+              >
                 <View pointerEvents="none" style={[styles.sendFill, { backgroundColor: accent }]} />
                 <View pointerEvents="none">{sending ? <ActivityIndicator color="#0b0b0c" /> : <Icon name="Send" size={20} color="#0b0b0c" />}</View>
               </Pressable>
@@ -761,6 +765,7 @@ export default function StoryViewer({
         )}
         {sheet === "comments" && (
           <StoryComments
+            key={item.id}
             item={item}
             signedIn={!!me}
             bottom={insets.bottom}
@@ -1044,6 +1049,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.28)",
   },
+  sendDisabled: { opacity: 0.45 },
+  sendPending: { opacity: 0.85 },
+  sendPressed: { transform: [{ scale: 0.97 }] },
   sendFill: { ...StyleSheet.absoluteFillObject, borderRadius: 11 },
   captionWrap: { marginRight: 60, marginBottom: 10, alignItems: "flex-start" },
   original: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 11, paddingVertical: 7, borderRadius: 18, marginBottom: 6 },
@@ -1054,6 +1062,7 @@ const styles = StyleSheet.create({
   replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   // Fills the field so the text and placeholder sit centred on iPhone too.
   replyInput: { flex: 1, alignSelf: "stretch", height: "100%", color: "#fff", fontSize: 15, paddingTop: 0, paddingBottom: 0, textAlignVertical: "center", includeFontPadding: false },
+  replyFocused: { borderColor: "rgba(255,255,255,0.9)" },
   replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
   countBadge: {
     position: "absolute",
