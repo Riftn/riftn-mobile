@@ -1147,6 +1147,7 @@
     "postCount_other": "{{count}} posts"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "Notify me when a liked request is completed.",
     "arrivalLook": {"title": "After you sign in", "desc": "What plays while your account loads, before your picture lands on the page. On this device.", "trace": "Trace", "tune": "Tune in", "rift": "Rift", "deck": "Deck", "glass": "Glass drop"},
     "loginLook": {"title":"Sign-in screen","desc":"How the Riftn logo and slogan move on the sign-in screen on this device.","tube":"Tube TV","vhs":"VHS tape","led":"LED wall","holo":"Hologram", "neon": "Neon glow", "3d": "3D", "flat": "Flat"},
     "chatDeleteChoice": "When you delete a message",

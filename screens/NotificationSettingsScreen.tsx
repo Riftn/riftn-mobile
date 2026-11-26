@@ -1,7 +1,8 @@
 import { appLocale } from '../libs/date.util';
 import React, { useState, useEffect, useCallback, useMemo, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ScreenNames } from '../navigation/ScreenNames';
 import {
   AppState,
@@ -25,6 +26,8 @@ import { setShowMessagesCount, setShowNotificationCount, useShowMessagesCount, u
 import { useUser, useAuthState, useAuthActions } from '../context/AuthContext';
 import { syncEmailLinkStatus } from '../services/email-link.service';
 import { getAccountProfile } from '../services/user.service';
+import { supabase } from '../services/supabase';
+import { withWalletHeader } from '../libs/supabase-wallet-client';
 import {
   smsNotificationsService,
   type SmsNotificationStatus,
@@ -140,6 +143,38 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
   const allow = isSignedIn && !needsUsername;
   useGateToHome(allow);
   const { t } = useTranslation();
+  const isFocused = useIsFocused();
+  const queryClient = useQueryClient();
+  const completionWallet = userAddress.toLowerCase();
+  const completionLabel = t('settings.notifyLikedRequestCompletion');
+  const completionPreference = useQuery({
+    queryKey: ['liked-request-completion', completionWallet],
+    enabled: allow && isFocused && !!completionWallet,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    queryFn: async () => {
+      const { data, error } = await withWalletHeader(
+        supabase.rpc('get_liked_request_completion_preference'), completionWallet,
+      );
+      if (error) throw error;
+      return data as boolean;
+    },
+  });
+  const updateCompletionPreference = useMutation({
+    mutationFn: async ({ wallet, enabled }: { wallet: string; enabled: boolean }) => {
+      const { data, error } = await withWalletHeader(
+        supabase.rpc('set_liked_request_completion_preference', { p_enabled: enabled }), wallet,
+      );
+      if (error) throw error;
+      return data as boolean;
+    },
+    onSuccess: async (enabled, { wallet }) => {
+      const queryKey = ['liked-request-completion', wallet];
+      await queryClient.cancelQueries({ queryKey });
+      queryClient.setQueryData(queryKey, enabled);
+    },
+    onError: () => toastError(null, t('settings.failedUpdateProfile')),
+  });
 
   const NOTIFICATION_TYPES: NotificationTypeConfig[] = useMemo(() => [
     { key: 'likes', label: t('settings.likes'), description: t('settings.notifLikesDesc'), icon: 'Heart', iconColor: '#9ca3af', category: 'engagement' },
@@ -594,6 +629,23 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
                     />
                   </React.Fragment>
                 ))}
+                {category.key === 'engagement' && (
+                  <SettingsAnchor id="notify-liked-request-completion">
+                    <Divider />
+                    <View className="px-4 py-3 flex-row items-center">
+                      <View className="mr-3 w-8 h-8 rounded-lg bg-theme-neutrals-700/50 items-center justify-center">
+                        <Icon name="CircleCheck" size={16} color="#9ca3af" />
+                      </View>
+                      <Text className="flex-1 pr-3 text-sm font-medium text-white">{completionLabel}</Text>
+                      <CustomSwitch
+                        value={completionPreference.data === true}
+                        onValueChange={enabled => updateCompletionPreference.mutate({ wallet: completionWallet, enabled })}
+                        disabled={typeof completionPreference.data !== 'boolean' || updateCompletionPreference.isPending}
+                        accessibilityLabel={completionLabel}
+                      />
+                    </View>
+                  </SettingsAnchor>
+                )}
                 {category.key === 'social' && (
                   <SettingsAnchor id="private-message-push-only">
                     <Divider />
