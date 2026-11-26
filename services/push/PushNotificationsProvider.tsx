@@ -92,6 +92,7 @@ export interface NotificationData {
   type: NotificationType;
   category: NotificationCategory;
   deepLink?: string;
+  storyId?: string;
   /** Address of the account the push was sent to. */
   recipient?: string;
   notificationId?: string;
@@ -492,11 +493,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       }
 
       switch (type) {
-        // A like or mention on a moment opens the moment over whatever is showing.
+        // A Moment comment opens the thread over whatever is showing.
         case NotificationType.STORY_LIKE:
         case NotificationType.STORY_MENTION:
         case NotificationType.STORY_COMMENT:
-          void openMomentById((data as { storyId?: unknown }).storyId, userAddress).then((opened) => {
+          void openMomentById(data.storyId, userAddress, { openComments: type === NotificationType.STORY_COMMENT }).then((opened) => {
             if (!opened) navigation.navigate(ScreenNames.Notifications);
           });
           break;
