@@ -355,7 +355,7 @@ export default function UploadScreen() {
   // Comic: a photo post shown as collector cards, each page with a caption.
   const [comicMode, setComicMode] = useState(false);
   const [paintingOpen, setPaintingOpen] = useState(false);
-  const [freeImagesOpen, setFreeImagesOpen] = useState(false);
+  const [freeImagesTarget, setFreeImagesTarget] = useState<"post" | "article-cover" | null>(null);
   /** The comic's border preset; null is the theme's own foil. */
   const [comicBorder, setComicBorder] = useState<ComicBorder | null>(null);
   const imageLimit = (comicMode ? getComicImageLimitForBadge : getPostImageLimitForBadge)(
@@ -489,15 +489,16 @@ export default function UploadScreen() {
   }, [articleUploads, articleSelection.end, setArticleBody, t]);
   const [articleImageUri, setArticleImageUri] = useState<string | null>(null);
   const [socialImageUri, setSocialImageUri] = useState<string | null>(null);
+  const setArticleCover = useCallback((uri: string | null) => {
+    setArticleImageUri(uri);
+    setSocialImageUri(uri);
+  }, []);
   const pickArticleImage = useCallback(async () => {
     await runWithPermissions(["photos"], async () => {
       const uri = await openCroppedImagePicker({ width: 1200, height: 630, quality: 0.9, forceJpg: true });
-      if (uri) {
-        setArticleImageUri(uri);
-        setSocialImageUri(uri);
-      }
+      if (uri) setArticleCover(uri);
     });
-  }, []);
+  }, [setArticleCover]);
   const articleShareImageUri = socialImageUri || articleImageUri;
 
   // Same preference web keeps in localStorage under `post_show_title`.
@@ -2473,9 +2474,13 @@ export default function UploadScreen() {
 
   /** A free library photo joins the post like a picked one; the credit goes under the text. */
   const handleFreeImagePick = useCallback((image: FreeImagePick, credit: string | null) => {
+    if (freeImagesTarget === "article-cover") {
+      setArticleCover(image.uri);
+      return;
+    }
     void adoptImageAssets([{ ...image, type: "image", assetId: null } as unknown as PickedAsset]);
     if (credit) setBodyText((prev) => (prev.includes(credit) ? prev : prev ? `${prev}\n\n${credit}` : credit));
-  }, [adoptImageAssets, setBodyText]);
+  }, [adoptImageAssets, freeImagesTarget, setArticleCover, setBodyText]);
 
   const handleStudioDone = useCallback((results: StudioResult[]) => {
     setImageEdit(null);
@@ -3318,7 +3323,8 @@ export default function UploadScreen() {
                 summaryMax={DESCRIPTION_MAX}
                 coverUri={articleShareImageUri}
                 onPickCover={pickArticleImage}
-                onRemoveCover={() => { setArticleImageUri(null); setSocialImageUri(null); }}
+                onOpenFreeImages={() => setFreeImagesTarget("article-cover")}
+                onRemoveCover={() => setArticleCover(null)}
                 onAddImages={addArticleImages}
                 uploadingImages={articleUploads}
               />
@@ -4245,7 +4251,7 @@ export default function UploadScreen() {
               )}
               {!isLiveMode && !isStageMode && !articleMode && !pickedVideo && !pickedAudio && pickedImages.length < imageLimit && (
                 <TouchableOpacity
-                  onPress={() => { setShowPostOptions(false); setFreeImagesOpen(true); }}
+                  onPress={() => { setShowPostOptions(false); setFreeImagesTarget("post"); }}
                   accessibilityRole="button"
                   className="flex-row items-center px-4 py-3 rounded-xl"
                   style={{ backgroundColor: "transparent" }}
@@ -4732,7 +4738,13 @@ export default function UploadScreen() {
           </DmVideoStudio>
         );
       })()}
-      <FreeImagesSheet visible={freeImagesOpen} onClose={() => setFreeImagesOpen(false)} initialQuery={bodyText} onPick={handleFreeImagePick} />
+      <FreeImagesSheet
+        visible={freeImagesTarget !== null}
+        onClose={() => setFreeImagesTarget(null)}
+        initialQuery={freeImagesTarget === "post" ? bodyText : undefined}
+        forArticleCover={freeImagesTarget === "article-cover"}
+        onPick={handleFreeImagePick}
+      />
       {PaintingStudio && paintingOpen && (
         <PaintingStudio onClose={() => setPaintingOpen(false)} onDone={handlePaintingDone} />
       )}
