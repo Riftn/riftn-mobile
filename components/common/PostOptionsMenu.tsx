@@ -53,6 +53,7 @@ import { markNotInterested } from "../../libs/not-interested-store";
  */
 const mutedFromMenu = new Set<string>();
 const blockedFromMenu = new Map<string, boolean>();
+const followActionsInFlight = new Set<string>();
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { toastSuccess, toastError, toastInfo } from "../../libs";
 import { WEBSITE_LINK } from "../../config";
@@ -589,7 +590,6 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   }, [onClose]);
 
   // Loading states
-  const [followLoading, setFollowLoading] = useState(false);
   const [visibilityLoading, setVisibilityLoading] = useState(false);
 
   // Comic or carousel: same pages, only the layout flag changes. The card
@@ -613,12 +613,17 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   const [blockLoading, setBlockLoading] = useState(false);
 
   const handleFollowToggle = useCallback(() => {
-    requireAuth?.(async () => {
+    if (!requireAuth) return;
+    // Release the modal backdrop while sign-in and the follow request run.
+    onClose();
+    requireAuth(async () => {
       const viewer = (user?.walletAddress || user?.address || "").toLowerCase();
       const target = (creatorIdentifier || "").toLowerCase();
       if (!viewer || !target) return;
 
-      setFollowLoading(true);
+      const key = `${viewer}:${target}`;
+      if (followActionsInFlight.has(key)) return;
+      followActionsInFlight.add(key);
       try {
         if (isFollowing || isFollowRequestPending) {
           await unfollowUser(viewer, target);
@@ -642,8 +647,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
         console.error("[PostOptionsMenu] follow toggle error", e);
         toastError(t("postOptions.followUpdateFailed"));
       } finally {
-        setFollowLoading(false);
-        onClose();
+        followActionsInFlight.delete(key);
       }
     });
   }, [
@@ -1074,7 +1078,6 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             <OptionRow
               icon={followIcon}
               label={followLabel}
-              loading={followLoading}
               onPress={handleFollowToggle}
             />
           )}
