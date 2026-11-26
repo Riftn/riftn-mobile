@@ -1,5 +1,3 @@
-import { storage as draftStorage } from '../../libs/storage';
-import { __resetDraftCacheForTests } from '../../libs/draft-cache';
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react-native';
 import { Keyboard } from 'react-native';
@@ -216,7 +214,21 @@ it('leaves Home and the feed tabs off the resting menu but finds Home by search'
   expect(mockDispatch).toHaveBeenCalledWith({ type: 'NAVIGATE', payload: { name: 'App', params: { screen: 'Root', params: { screen: 'Home', params: undefined }, pop: true } } });
 });
 
-beforeEach(() => { draftStorage.delete('dehub-drafts-v1'); __resetDraftCacheForTests(); });
+it('clears the filter and dismisses the keyboard while keeping the menu open', () => {
+  const close = jest.fn();
+  const view = render(<AppDrawer visible onClose={close} />);
+  const field = () => view.getByLabelText('sidebar.searchMenu');
+  fireEvent.changeText(field(), 'wallet');
+  fireEvent.press(view.getByLabelText('sidebar.clearSearch'));
+  expect(field().props.value).toBe('');
+  expect(Keyboard.dismiss).toHaveBeenCalledTimes(1);
+  expect(close).not.toHaveBeenCalled();
+
+  fireEvent.changeText(field(), 'wallet');
+  view.rerender(<AppDrawer visible={false} onClose={close} />);
+  view.rerender(<AppDrawer visible onClose={close} />);
+  expect(field().props.value).toBe('');
+});
 
 describe('tabs layout (the default)', () => {
   beforeEach(() => { mockMenuLayout = 'tabs'; });

@@ -1,6 +1,4 @@
-import { useDraftState } from '../../hooks/useDraftState';
 /** The key useSurfaceDraft gave this field on the App screen, so a saved query survives the switch. */
-const MENU_QUERY_DRAFT = `field:${JSON.stringify(["components/Home/AppDrawer.tsx:menuQuery", JSON.stringify(["App", []])])}`;
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from '../../hooks/useSearchFieldMaterial';
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import React, { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
@@ -551,10 +549,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const androidGlass = Platform.OS === "android";
   const hud = themeName === "war";
   const square = !!skin?.square || appTheme.isMinimal;
-  // A fixed draft key, not useSurfaceDraft: that reads the route context, and
-  // this menu sits in the App screen, whose route object changes with every
-  // nested navigation. The menu re-rendered on every tab switch and push.
-  const [menuQuery, setMenuQuery] = useDraftState(MENU_QUERY_DRAFT, "");
+  const [menuQuery, setMenuQuery] = useState("");
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [showSignOutOptions, setShowSignOutOptions] = useState(false);
   const signOutLocked = useRef(false);
@@ -787,16 +782,17 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // Never reopen the sheet mid-filter, and always on the first group.
   useEffect(() => {
     if (!visible) {
-      setMenuQuery.initialize("");
+      setMenuQuery("");
       setSearchOpen(false);
       setMenuTab(0);
       setOpenFolder(null);
     }
-  }, [visible, setMenuQuery]);
+  }, [visible]);
   const closeSearch = useCallback(() => {
-    setMenuQuery.complete(menuQuery, "");
+    Keyboard.dismiss();
+    setMenuQuery("");
     setSearchOpen(false);
-  }, [menuQuery, setMenuQuery]);
+  }, []);
   // Tabs: the groups sit side by side and a sideways drag moves them under the
   // finger; tabPos is the group on show, fractional mid-drag, and the tab
   // pill reads it too.
@@ -869,9 +865,9 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const runFullSearch = useCallback(() => {
     const query = menuQuery.trim();
     if (!query) return;
-    setMenuQuery.complete(menuQuery, "");
+    setMenuQuery("");
     navigate(ScreenNames.Explore, { q: query, ts: Date.now() }, true);
-  }, [menuQuery, navigate, setMenuQuery]);
+  }, [menuQuery, navigate]);
 
   const handleItemPress = useCallback(
     (item: DrawerItem) => {
@@ -1212,63 +1208,64 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
               </View>
             )}
 
-            {/* Menu search. Filters the tiles below; anything that is not a
-                page is one tap away via the hand-off, which runs the query on
-                the Explore tab. */}
-            {tabsHeader && !searchOpen && !menuQuery ? (
-              <View style={styles.tabsRow}>
-                <TouchableOpacity
-                  accessibilityRole="button"
-                  accessibilityLabel={t("sidebar.searchMenu")}
-                  onPress={() => setSearchOpen(true)}
-                  activeOpacity={0.7}
-                  style={[styles.searchButton, square && styles.square, searchField.surface]}
-                >
-                  <Icon name="Search" size={18} color="#D4D4D8" />
-                </TouchableOpacity>
-                <MenuTabs
-                  tabRefs={tabRefs}
-                  labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
-                  pos={tabPos}
-                  onChange={setMenuTab}
-                  square={square}
-                  surface={searchField.surface}
-                />
-              </View>
-            ) : (
-            <View style={[styles.searchWrap, square && styles.square, searchField.surface]}>
-              <Icon name="Search" size={16} color="#808089" />
-              <TextInput
-                ref={searchRef}
-                editable={visible}
-                value={menuQuery}
-                onChangeText={setMenuQuery}
-                placeholder={t("sidebar.searchMenu")}
-                placeholderTextColor="#808089"
-                style={[styles.searchInput, SEARCH_INPUT_CLEAR]}
-                onFocus={onSearchFocus}
-                onBlur={searchField.onBlur}
-                returnKeyType="search"
-                onSubmitEditing={runFullSearch}
-                autoCorrect={false}
-                autoCapitalize="none"
-                accessibilityLabel={t("sidebar.searchMenu")}
-                autoFocus={tabsHeader && searchOpen}
-              />
-              {(menuQuery.length > 0 || (tabsHeader && searchOpen)) && (
-                <TouchableOpacity
-                  onPress={closeSearch}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("sidebar.clearSearch")}
-                >
-                  <Icon name="X" size={15} color="#A1A1AA" />
-                </TouchableOpacity>
-              )}
-            </View>
-            )}
           </View>
         </GestureDetector>
+
+        {/* Keep native input selection and taps outside the sheet's drag gesture. */}
+        {tabsHeader && !searchOpen && !menuQuery ? (
+          <View style={styles.tabsRow}>
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={t("sidebar.searchMenu")}
+              onPress={() => setSearchOpen(true)}
+              activeOpacity={0.7}
+              style={[styles.searchButton, square && styles.square, searchField.surface]}
+            >
+              <Icon name="Search" size={18} color="#D4D4D8" />
+            </TouchableOpacity>
+            <MenuTabs
+              tabRefs={tabRefs}
+              labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
+              pos={tabPos}
+              onChange={setMenuTab}
+              square={square}
+              surface={searchField.surface}
+            />
+          </View>
+        ) : (
+          <View style={[styles.searchWrap, square && styles.square, searchField.surface]}>
+            <Icon name="Search" size={16} color="#808089" />
+            <TextInput
+              ref={searchRef}
+              editable={visible}
+              value={menuQuery}
+              onChangeText={setMenuQuery}
+              placeholder={t("sidebar.searchMenu")}
+              placeholderTextColor="#808089"
+              style={[styles.searchInput, SEARCH_INPUT_CLEAR]}
+              cursorColor={appTheme.colors.foreground}
+              selectionColor={Platform.OS === "ios" ? appTheme.colors.foreground : undefined}
+              onFocus={onSearchFocus}
+              onBlur={searchField.onBlur}
+              returnKeyType="search"
+              onSubmitEditing={runFullSearch}
+              autoCorrect={false}
+              autoCapitalize="none"
+              accessibilityLabel={t("sidebar.searchMenu")}
+              autoFocus={tabsHeader && searchOpen}
+            />
+            {(menuQuery.length > 0 || (tabsHeader && searchOpen)) && (
+              <TouchableOpacity
+                onPress={closeSearch}
+                accessibilityRole="button"
+                accessibilityLabel={t("sidebar.clearSearch")}
+                style={styles.searchClose}
+              >
+                <Icon name="X" size={15} color="#A1A1AA" />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
 
         <Animated.ScrollView
           ref={menuReorder.scrollRef}
@@ -1625,6 +1622,14 @@ const styles = StyleSheet.create({
     // Android's TextInput carries its own vertical padding, which pushes the
     // text off-centre inside a fixed-height row.
     paddingVertical: 0,
+  },
+  searchClose: {
+    width: 42,
+    height: 42,
+    marginLeft: -9,
+    marginRight: -12,
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabsRow: {
     flexDirection: "row",
