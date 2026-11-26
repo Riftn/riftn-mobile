@@ -1,4 +1,5 @@
 import { LiveDot } from "../common/LiveDot";
+import { isStreamLive } from "../../libs/live-status";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
@@ -56,7 +57,9 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
   // The HLS ladder when the post has one; VideoPreview retires it for the MP4
   // if it will not play.
   const playbackUrl = useHlsFallback(() => getPlaybackUrl({ tokenId, hlsUrl: nft.hlsUrl }));
-  const status: string | undefined = (nft as any).status;
+  const stream = nft.stream ?? nft;
+  const status: string | undefined = stream.status;
+  const isBroadcastActive = isStreamLive(stream, !!streamInfo?.isLive) && status?.toUpperCase() !== "PAUSED";
   const isLive = !!(nft as any).streamKey || !!streamInfo?.isLive;
   const duration = nft.videoDuration
     ? secondsToHMMSS(nft.videoDuration)
@@ -324,9 +327,9 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
             </Text>
           </View>
           {/* The App Store build shows no price, reward or holding chip (config/storefront). */}
-          {(isLive || isSubGated || (DIGITAL_PURCHASES_ENABLED && (isPayPerView || isLocked || isBounty))) && (
+          {(isBroadcastActive || isSubGated || (DIGITAL_PURCHASES_ENABLED && (isPayPerView || isLocked || isBounty))) && (
             <View className="flex-row flex-wrap items-center mt-1 gap-1">
-              {isLive && (
+              {isBroadcastActive && (
                 <View className={`flex-row items-center gap-1 ${chipClass}`}>
                   <LiveDot />
                   <Text className={chipTextClass}>{_copy("copy.35e0d0360a0a", { defaultValue: "LIVE" })}</Text>

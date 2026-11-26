@@ -78,6 +78,7 @@ interface Stream {
   viewers: string;
   thumbnail: string;
   isLive: boolean;
+  isPaused: boolean;
   /** An ended broadcast with a ready recording to watch back. */
   hasReplay: boolean;
 }
@@ -102,6 +103,7 @@ function toStream(row: LiveStreamEntity, index: number, fallbackGame: string): S
     viewers: watching == null ? "" : compactCount(watching),
     thumbnail,
     isLive: isStreamLive(row),
+    isPaused: row.status?.toUpperCase() === "PAUSED",
     hasReplay: (row as any).recording?.status === "ready" && !!(row as any).recording?.url,
   };
 }
@@ -122,11 +124,11 @@ const Avatar: React.FC<{ src?: string; name: string; style: any }> = ({ src, nam
   );
 };
 
-const LiveBadge: React.FC<{ style?: any; small?: boolean }> = ({ style, small }) => {
+const LiveBadge: React.FC<{ style?: any; small?: boolean; paused?: boolean }> = ({ style, small, paused }) => {
   const { t } = useTranslation();
   return (
     <View style={[styles.liveBadge, style]}>
-      <LiveDot size={5} />
+      {!paused && <LiveDot size={5} />}
       <Text style={[styles.liveBadgeText, small && { fontSize: 9 }]}>{t("tv.live")}</Text>
     </View>
   );
@@ -208,7 +210,7 @@ const StreamTile: React.FC<{ stream: Stream; width: number; onPress: () => void 
           </>
         )}
         {stream.isLive ? (
-          <LiveBadge style={styles.tileLive} />
+          <LiveBadge paused={stream.isPaused} style={styles.tileLive} />
         ) : stream.hasReplay ? (
           <View style={[styles.liveBadge, styles.replayBadge, styles.tileLive]}>
             <Text style={styles.liveBadgeText}>{t("stageCover.replay")}</Text>
@@ -394,7 +396,7 @@ const CinematicLive: React.FC<CinematicLiveProps> = ({
                   style={styles.creatorRing}
                 >
                   <Avatar src={s.avatar} name={s.streamer} style={styles.creatorAvatar} />
-                  <LiveBadge small style={styles.creatorLive} />
+                  <LiveBadge small paused={s.isPaused} style={styles.creatorLive} />
                 </LinearGradient>
                 <Text style={styles.creatorName} numberOfLines={1}>
                   {s.streamer}
