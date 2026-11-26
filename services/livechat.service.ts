@@ -199,6 +199,37 @@ export async function getLiveChatMessages(params?: {
   );
 }
 
+export const LIVE_CHAT_PAGE_SIZE = 20;
+const PUBLIC_HISTORY_PRELOAD_MS = 5_000;
+let publicHistoryPreload: {
+  viewer: string;
+  at: number;
+  promise: Promise<LiveChatMessagesResponse | null>;
+} | undefined;
+
+// Start the public read during the inbox tap. Only that viewer's opening
+// global-room read may use it. Refreshes and scrollback keep their own reads.
+export function preloadPublicLiveChatHistory(viewer: string) {
+  if (publicHistoryPreload?.viewer === viewer && Date.now() - publicHistoryPreload.at < PUBLIC_HISTORY_PRELOAD_MS) return;
+  publicHistoryPreload = {
+    viewer,
+    at: Date.now(),
+    promise: getLiveChatMessages({ limit: LIVE_CHAT_PAGE_SIZE }).catch(() => null),
+  };
+}
+
+export async function loadInitialLiveChatMessages(roomId: string | undefined, viewer: string) {
+  const warm = publicHistoryPreload;
+  if (!roomId && warm?.viewer === viewer) {
+    publicHistoryPreload = undefined;
+    if (Date.now() - warm.at < PUBLIC_HISTORY_PRELOAD_MS) {
+      const result = await warm.promise;
+      if (result) return result;
+    }
+  }
+  return getLiveChatMessages({ limit: LIVE_CHAT_PAGE_SIZE, roomId });
+}
+
 /**
  * Search a room's whole history on the server: by text, by the person who
  * wrote it, or both. Newest first; `before` reads the next page.

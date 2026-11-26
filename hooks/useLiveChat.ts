@@ -19,7 +19,7 @@ import type {
   SendMessagePayload,
   LiveChatRoomJoinedPayload,
 } from "../services/livechat.service";
-import { getLiveChatMessages, getLiveChatOnlineCount } from "../services/livechat.service";
+import { getLiveChatMessages, getLiveChatOnlineCount, LIVE_CHAT_PAGE_SIZE as CHAT_PAGE_SIZE, loadInitialLiveChatMessages } from "../services/livechat.service";
 import { normalizeMsg } from "../libs/livechat-normalize";
 import { readRecentChat, writeRecentChat } from "../libs/livechat-cache";
 
@@ -74,7 +74,6 @@ const EVENTS = {
  * The chat opens on the newest 20 lines and reads 20 further back each time
  * the reader nears the top, until the start of the room.
  */
-const CHAT_PAGE_SIZE = 20;
 /** Lines read around a message opened from search. */
 const CHAT_AROUND_SIZE = 40;
 
@@ -212,7 +211,7 @@ export const useLiveChat = (
     // waits behind the socket handshake and the token read, which on a phone
     // network is several round trips; this one is one. Whichever lands first
     // paints, and the join always has the last word.
-    getLiveChatMessages({ limit: CHAT_PAGE_SIZE, roomId })
+    loadInitialLiveChatMessages(roomId, myAddressRef.current)
       .then((res) => {
         if (cancelled || joinedRef.current || hasNewerRef.current || !res?.messages?.length) return;
         setMessages(res.messages.map(normalizeMsg).reverse());
