@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from '../components/ui/Icon';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import { colors } from '../theme/colors';
-import { detectLanguage, isLanguageReady, startupLanguage } from '../i18n';
+import { isLanguageReady, readPreferredLanguage } from '../i18n';
 import { offlineConnectionCopy } from '../i18n/offline-connection-copy';
 
 interface NoInternetScreenProps {
@@ -18,8 +18,9 @@ export default function NoInternetScreen({ onRetry }: NoInternetScreenProps) {
   const [initialLanguage, setInitialLanguage] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);
   useEffect(() => {
+    if (isLanguageReady()) return;
     let active = true;
-    void startupLanguage.catch(detectLanguage).then(language => {
+    void readPreferredLanguage().then(language => {
       if (active) setInitialLanguage(language);
     });
     return () => { active = false; };

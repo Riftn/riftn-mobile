@@ -13,8 +13,7 @@ jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ i18n: { language: 'en' } }) }));
 jest.mock('../../i18n', () => ({
   isLanguageReady: () => false,
-  detectLanguage: () => 'en',
-  startupLanguage: Promise.resolve('tr'),
+  readPreferredLanguage: async () => 'tr',
 }));
 jest.mock('../../components/ui/ThemePanel', () => 'ThemePanel');
 jest.mock('../../components/ui/Icon', () => 'Icon');
