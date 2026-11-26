@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from 'react-native';
-import { Image } from 'expo-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -73,13 +72,11 @@ function ArchiveItems({ address, canSeeMature }: { address: string; canSeeMature
   return (
     <ScrollView horizontal contentContainerStyle={{ alignItems: 'center', gap: 8, paddingVertical: 6 }}>
       {items.map(item => {
-        const cover = item.posterUrl || (item.type === 'photo' ? item.mediaUrl : null);
         const date = new Date(item.createdAt).toLocaleDateString(i18n.language?.replace('_', '-'));
         return (
-          <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={item.caption ? `${date} · ${item.caption}` : date}
+          <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={date}
             onPress={() => void open(item.id)} className="h-28 w-20 items-center justify-center overflow-hidden rounded-xl bg-zinc-800">
-            {cover ? <Image source={{ uri: cover }} recyclingKey={item.id} style={{ width: '100%', height: '100%' }} contentFit="cover" />
-              : <Ionicons name="film-outline" size={22} color="white" />}
+            <Ionicons name="film-outline" size={22} color="white" />
             <Text className="absolute inset-x-0 bottom-0 bg-black/70 px-1 py-1 text-center text-xs text-white">{date}</Text>
           </Pressable>
         );
