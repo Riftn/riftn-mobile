@@ -178,6 +178,7 @@ export interface NotificationItem {
   bountyType?: 'viewer' | 'commentor';
   // Metadata with deep link and external URLs
   metadata?: {
+    game?: string;
     conversationId?: string;
     deepLink?: string;
     articleUrl?: string;

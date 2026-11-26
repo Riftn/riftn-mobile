@@ -389,6 +389,7 @@ const isNotificationClickable = (notification: NotificationItem): boolean => {
   // Bounty rows carry job_number in customReferenceId, which is enough to open
   // the bounty — the uuid the detail screen wants is looked up on tap.
   const typeStr = notification.type as string;
+  if (typeStr === 'game_turn') return notification.metadata?.game === 'sillycoin';
   if (['work_application', 'work_submission', 'work_application_reply'].includes(typeStr)) {
     return !!(notification as CustomNotificationItem).customReferenceId;
   }
@@ -1464,6 +1465,9 @@ const NotificationScreen = () => {
 
     // Navigate based on notification type
     switch (type as string) {
+      case 'game_turn':
+        leaveTo(ScreenNames.SillyCoin);
+        break;
       case 'trench_price_alert':
         leaveTo(ScreenNames.ArcadeGame as never, {slug:'trenchstar',symbol:(notification as CustomNotificationItem).customReferenceTitle || 'BTC'} as never);
         break;
