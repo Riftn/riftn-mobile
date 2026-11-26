@@ -1261,6 +1261,7 @@
     "postCount_other": "{{count}} publicaciones"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "Avísame cuando se complete una solicitud que me gustó.",
     "arrivalLook": {
       "title": "Al iniciar sesión",
       "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.",

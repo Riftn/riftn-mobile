@@ -1261,6 +1261,7 @@
     "postCount_other": "{{count}} berichten"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "Laat het me weten wanneer een verzoek dat ik leuk vond is afgerond.",
     "arrivalLook": {
       "title": "Na het inloggen",
       "desc": "Wat je ziet terwijl je account laadt, voordat je foto op de pagina landt. Op dit apparaat.",

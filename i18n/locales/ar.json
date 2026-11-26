@@ -1261,6 +1261,7 @@
     "postCount_other": "{{count}} منشورات"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "أعلمني عند اكتمال طلب أعجبني.",
     "arrivalLook": {
       "title": "بعد تسجيل الدخول",
       "desc": "ما يظهر أثناء تحميل حسابك، قبل أن تصل صورتك إلى الصفحة. على هذا الجهاز.",

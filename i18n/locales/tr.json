@@ -2111,6 +2111,7 @@
     "postCount_other": "{{count}} gönderi"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "Beğendiğim bir istek tamamlandığında bana bildir.",
     "arrivalLook": {
       "title": "Giriş yaptıktan sonra",
       "desc": "Hesabın yüklenirken, fotoğrafın sayfaya inmeden önce oynayan animasyon. Bu cihazda.",

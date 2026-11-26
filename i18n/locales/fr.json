@@ -1261,6 +1261,7 @@
     "postCount_other": "{{count}} publications"
   },
   "settings": {
+    "notifyLikedRequestCompletion": "Me prévenir lorsqu’une demande que j’ai aimée est terminée.",
     "arrivalLook": {
       "title": "Après la connexion",
       "desc": "Ce qui s'affiche pendant le chargement de ton compte, avant que ta photo arrive sur la page. Sur cet appareil.",
