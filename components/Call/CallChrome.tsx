@@ -10,7 +10,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { KeepDarkScope } from "../../libs/jsx/tone";
 import { useTranslation } from "react-i18next";
 import CallRings from "./CallRings";
-import { stagePalette, type StagePalette } from "./callStage";
+import { stagePalette, withAlpha, type StagePalette } from "./callStage";
 import type { PeerIdentity } from "./usePeerIdentity";
 import type { AppThemeName } from "../../theme/colors";
 
@@ -163,8 +163,9 @@ export const CallIdentity: React.FC<{
   const size = direct ? Math.max(96, Math.min(180, Math.round(height * 0.23), Math.round(width * 0.48))) : AVATAR;
   const corner = theme === "minimal" ? 0 : theme === "hacker" ? 4 : Math.round(size * 0.26);
   const detailColor = direct ? palette.fg : palette.muted;
+  const headingOffset = direct && height >= 680 ? Math.round(height * 0.12) : 68;
   return (
-    <View style={[styles.identity, { paddingTop: insets.top + 68 }]}>
+    <View style={[styles.identity, { paddingTop: insets.top + headingOffset }]}>
       <View style={styles.kindRow}>
         <Icon name={kindIcon} size={13} color={detailColor} />
         <Text style={[styles.kindLabel, { color: detailColor }]} numberOfLines={1}>{kindLabel}</Text>
@@ -179,7 +180,7 @@ export const CallIdentity: React.FC<{
           radius={corner}
           name={peer.name.replace(/^@/, "")}
           borderWidth={direct ? 1 : 0}
-          borderColor={palette.line}
+          borderColor={withAlpha(palette.fg, 0.36)}
         />
       </View>
       {children}
@@ -303,11 +304,13 @@ export const CallPill: React.FC<{
 };
 
 /** The bottom of the stage: the dock or the pills, clear of the home bar. */
-export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void; overVideo?: boolean }> = ({ children, onHeight, overVideo }) => {
+export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void; overVideo?: boolean; ringing?: boolean }> = ({ children, onHeight, overVideo, ringing }) => {
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  const bottomSpace = ringing && height >= 680 ? Math.round(height * 0.08) : 22;
   return (
     <View
-      style={[styles.foot, { paddingBottom: Math.max(22, insets.bottom + 10) }]}
+      style={[styles.foot, { paddingBottom: Math.max(bottomSpace, insets.bottom + 10) }]}
       onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
     >
       {overVideo ? (

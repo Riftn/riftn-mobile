@@ -34,7 +34,7 @@ const IncomingCallModal: React.FC<{ peer: PeerIdentity }> = ({ peer }) => {
         ringing
         direct
       />
-      <CallFoot>
+      <CallFoot ringing>
         <CallRow ringing>
           <CallControl large direct icon="PhoneOff" label={t("calls.decline")} onPress={rejectCall} />
           <CallControl large direct icon={isVideo ? "Video" : "Phone"} label={t("calls.accept")} onPress={acceptCall} primary />
