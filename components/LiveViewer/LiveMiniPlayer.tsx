@@ -20,6 +20,7 @@
  * bars or two sounds are never up at once.
  */
 
+import { LiveDot } from "../common/LiveDot";
 import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ActivityIndicator, AppState, Pressable, StyleSheet, Text, View } from "react-native";
 import { isPictureInPictureSupported, useVideoPlayer, VideoView, type VideoSource } from "expo-video";
@@ -376,7 +377,7 @@ function CornerWindow({ entry, player, playing, ready, aspect, onTogglePlay, onR
               <LinearGradient pointerEvents="none" colors={["transparent", "rgba(0,0,0,0.6)"]} style={styles.bottomShade} />
 
               <View style={styles.liveTag} pointerEvents="none">
-                <View style={styles.liveDot} />
+                <LiveDot />
                 <Text style={styles.liveText}>{t("live.liveBadge")}</Text>
               </View>
               <Pressable onPress={() => leave(closeLiveMini)} hitSlop={6} style={[styles.control, styles.close]}
@@ -440,7 +441,7 @@ function ListenBar({ entry, playing, onTogglePlay, onRestore }: Props) {
         <View style={styles.barText}>
           <Text style={styles.barTitle} numberOfLines={1}>{entry.title}</Text>
           <View style={styles.barSubRow}>
-            <View style={styles.barDot} />
+            <LiveDot />
             <Text style={styles.barSub} numberOfLines={1}>
               {`${t("live.liveBadge")}  ·  ${entry.host}`}
             </Text>
@@ -485,12 +486,11 @@ const styles = StyleSheet.create({
     height: 20,
     paddingHorizontal: 6,
     borderRadius: 6,
-    backgroundColor: "#EF4444",
+    backgroundColor: "rgba(0,0,0,0.8)",
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
   },
-  liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: "#FFFFFF" },
   liveText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800", letterSpacing: 0.4 },
   control: {
     width: 32,
@@ -541,7 +541,6 @@ const styles = StyleSheet.create({
   barText: { flex: 1, minWidth: 0 },
   barTitle: { color: "#FFFFFF", fontSize: 13, fontWeight: "600" },
   barSubRow: { flexDirection: "row", alignItems: "center", gap: 6, marginTop: 2 },
-  barDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "#EF4444" },
   barSub: { flexShrink: 1, color: "rgba(255,255,255,0.5)", fontSize: 11 },
   barBtn: {
     width: 34,

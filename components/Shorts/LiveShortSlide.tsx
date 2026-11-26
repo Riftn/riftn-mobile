@@ -3,6 +3,7 @@
  * The stream plays muted, cropped upright, while the slide is on screen; a tap
  * (or the Join pill) opens the full live room with chat, gifts and sound.
  */
+import { LiveDot } from "../common/LiveDot";
 import React, { memo, useCallback } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -40,6 +41,7 @@ function LiveShortSlide({ slide, isActive, height }: Props) {
 
       <View pointerEvents="none" style={styles.badges}>
         <View style={styles.liveBadge}>
+          <LiveDot />
           <Text style={styles.liveText}>{t("liveShorts.live", { defaultValue: "LIVE" })}</Text>
         </View>
         {slide.viewers != null ? (
@@ -71,7 +73,7 @@ const styles = StyleSheet.create({
   topShade: { position: "absolute", top: 0, left: 0, right: 0, height: 160 },
   bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 260 },
   badges: { position: "absolute", left: 16, top: 104, flexDirection: "row", alignItems: "center", gap: 8 },
-  liveBadge: { backgroundColor: "#dc2626", borderRadius: 6, paddingHorizontal: 6, paddingVertical: 4 },
+  liveBadge: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(0,0,0,0.8)", borderRadius: 6, paddingHorizontal: 6, paddingVertical: 4 },
   liveText: { color: "#fff", fontSize: 12, fontWeight: "800", letterSpacing: 0.5 },
   viewers: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(0,0,0,0.45)", borderRadius: 6, borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.15)", paddingHorizontal: 8, paddingVertical: 4 },
   viewersText: { color: "#fff", fontSize: 12 },

@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
@@ -326,7 +327,8 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
           {(isLive || isSubGated || (DIGITAL_PURCHASES_ENABLED && (isPayPerView || isLocked || isBounty))) && (
             <View className="flex-row flex-wrap items-center mt-1 gap-1">
               {isLive && (
-                <View className={chipClass}>
+                <View className={`flex-row items-center gap-1 ${chipClass}`}>
+                  <LiveDot />
                   <Text className={chipTextClass}>{_copy("copy.35e0d0360a0a", { defaultValue: "LIVE" })}</Text>
                 </View>
               )}

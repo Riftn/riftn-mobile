@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import SkeletonBlock from '../Feed/SkeletonBlock';
 /**
  * CinematicLive — the Live tab on phones in the System theme
@@ -125,6 +126,7 @@ const LiveBadge: React.FC<{ style?: any; small?: boolean }> = ({ style, small })
   const { t } = useTranslation();
   return (
     <View style={[styles.liveBadge, style]}>
+      <LiveDot size={5} />
       <Text style={[styles.liveBadgeText, small && { fontSize: 9 }]}>{t("tv.live")}</Text>
     </View>
   );
@@ -517,7 +519,7 @@ const styles = StyleSheet.create({
   listContent: { paddingBottom: TAB_BAR_CONTENT_INSET + 64 },
   avatarFallback: { backgroundColor: "#3F3F46", alignItems: "center", justifyContent: "center" },
   avatarInitial: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
-  liveBadge: { backgroundColor: "#EF4444", borderRadius: 5, paddingHorizontal: 6, paddingVertical: 1 },
+  liveBadge: { flexDirection: "row", alignItems: "center", gap: 4, backgroundColor: "rgba(0,0,0,0.8)", borderRadius: 5, paddingHorizontal: 6, paddingVertical: 1 },
   liveBadgeText: { color: "#FFFFFF", fontSize: 10, fontWeight: "700", letterSpacing: 0.5, textTransform: "uppercase" },
   sectionTitle: {
     flexDirection: "row",

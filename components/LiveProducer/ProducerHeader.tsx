@@ -1,3 +1,4 @@
+import { LIVE_RED } from "../common/LiveDot";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
@@ -127,12 +128,7 @@ const ProducerHeader: React.FC<ProducerHeaderProps> = ({
     ? t("live.statusReady")
     : "";
 
-  /**
-   * Monochrome, like the viewer's own status chip: live is a solid white dot
-   * that pulses, every other state is the same dot dimmed. The design system
-   * keeps hue off these surfaces entirely.
-   */
-  const dotColor = isLive ? "#fff" : "rgba(255,255,255,0.4)";
+  const dotColor = isLive ? LIVE_RED : "rgba(255,255,255,0.4)";
 
   return (
     <View
