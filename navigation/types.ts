@@ -232,6 +232,7 @@ export type AppStackParamList = {
     soundtrackUrl?: string;
   };
   [ScreenNames.ShortsViewer]: {
+    initialItemKey?: string;
     initialIndex?: number;
     initialItems?: import('../services/feed.unified.service').UnifiedFeedItem[];
     feedParams?: Record<string, any>;

@@ -300,10 +300,9 @@ const ShortsGrid: React.FC<ShortsGridProps> = ({
   viewerData.current = { shapeItems, mergedParams, shuffleSeed };
   const handleItemPress = useCallback((key: string) => {
     const current = viewerData.current;
-    const index = current.shapeItems.findIndex((it) => itemKey(it) === key);
-    if (index < 0) return;
+    if (!current.shapeItems.some((it) => itemKey(it) === key)) return;
     navigation.navigate(ScreenNames.ShortsViewer, {
-      initialIndex: index,
+      initialItemKey: key,
       initialItems: current.shapeItems,
       feedParams: { ...current.mergedParams, shuffleSeed: current.shuffleSeed },
     });
