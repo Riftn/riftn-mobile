@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import AppDrawer, { HomeShortcuts } from '../../components/Home/AppDrawer';
 import { toggleHomeShortcut, writeNavOrder } from '../../libs/navOrder';
+import { storage } from '../../libs/storage';
 
 const mockDispatch = jest.fn();
 let mockSignedIn = true;
@@ -174,6 +175,25 @@ it('hides the balance chip when the wallet holds no DHB', () => {
   mockBalance = 0;
   const view = render(<AppDrawer visible onClose={jest.fn()} />);
   expect(view.queryByLabelText('nav.wallet 0')).toBeNull();
+});
+
+it('masks the balance from the eye without opening the wallet and remembers the choice', () => {
+  const close = jest.fn();
+  const view = render(<AppDrawer visible onClose={close} />);
+  fireEvent.press(view.getByLabelText('wallet.hideBalance'));
+
+  expect(view.getByText('••••')).toBeTruthy();
+  expect(view.queryByLabelText('nav.wallet 500')).toBeNull();
+  expect(mockDispatch).not.toHaveBeenCalled();
+  expect(close).not.toHaveBeenCalled();
+  expect(storage.getBoolean('riftn.hideBalance')).toBe(true);
+
+  view.rerender(<AppDrawer visible={false} onClose={close} />);
+  view.rerender(<AppDrawer visible onClose={close} />);
+  expect(view.getByText('••••')).toBeTruthy();
+  fireEvent.press(view.getByLabelText('wallet.showBalance'));
+  expect(view.getByLabelText('nav.wallet 500')).toBeTruthy();
+  expect(storage.getBoolean('riftn.hideBalance')).toBe(false);
 });
 
 it('shows the spendable ledger amount in the wallet chip even with legacy holdings', () => {
