@@ -62,7 +62,10 @@ function trimPersistedClient(client: PersistedClient): PersistedClient {
     ...client,
     clientState: {
       ...client.clientState,
-      queries: client.clientState.queries.filter((q) => !holdsMapOrSet(q.state?.data)).map((q) => {
+      queries: client.clientState.queries.filter((q) =>
+        // The Moment audience is owner-only and should stay in memory.
+        q.queryKey[0] !== "moment-viewers" && !holdsMapOrSet(q.state?.data)
+      ).map((q) => {
         const data = q.state?.data as InfiniteData | undefined;
         if (
           data &&
