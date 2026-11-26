@@ -164,7 +164,8 @@ const LiveChatScreen: React.FC = () => {
     void getNFT(pendingShareId).then(({ result: post }) => {
       if (cancelled) return;
       if (String(post?.tokenId) !== pendingShareId || post.isDeleted || post.isHidden
-        || post.plans?.length || videoNeedsAccess(post)) {
+        || (post.visibility && post.visibility !== "public")
+        || post.plans?.length || post.plansDetails?.length || videoNeedsAccess(post)) {
         unavailable();
         return;
       }
