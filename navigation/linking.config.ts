@@ -329,6 +329,7 @@ export const DeepLinkPaths = {
   ARCADE_OKEY: 'arcade/okey',
   ARCADE_SILLYCOIN: 'arcade/sillycoin',
   ARCADE_GRATITUDE: 'arcade/gratitude',
+  ARCADE_SPEND: 'arcade/spend',
   ARCADE_CHESTARD: 'arcade/chestard',
   MUSIC_BINARY_METAL: 'music/binary-metal',
   // Mini apps. The dev runner before the player, which would otherwise read
@@ -570,6 +571,10 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
 
           [ScreenNames.Gratitude]: {
             path: DeepLinkPaths.ARCADE_GRATITUDE,
+            parse: { game: (game: string) => game },
+          },
+          [ScreenNames.Spend]: {
+            path: DeepLinkPaths.ARCADE_SPEND,
             parse: { game: (game: string) => game },
           },
 

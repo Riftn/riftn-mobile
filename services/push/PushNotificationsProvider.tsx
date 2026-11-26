@@ -131,7 +131,7 @@ export interface NotificationData {
   // Quote post reference
   quoteTokenId?: number;
   // Games with friends (game_turn)
-  game?: 'chess' | 'okey' | 'sillycoin' | 'gratitude';
+  game?: 'chess' | 'okey' | 'sillycoin' | 'gratitude' | 'spend';
   gameId?: string;
 }
 
@@ -684,7 +684,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           const gameId = typeof data.gameId === 'string' && data.gameId
             ? data.gameId
             : link.match(/[?&](?:game|table)=([^&#]+)/)?.[1];
-          if (data.game === 'gratitude' || link.includes('/arcade/gratitude')) {
+          if (data.game === 'spend' || link.includes('/arcade/spend')) {
+            navigation.navigate(ScreenNames.Spend, gameId ? { game: gameId } : undefined);
+          } else if (data.game === 'gratitude' || link.includes('/arcade/gratitude')) {
             navigation.navigate(ScreenNames.Gratitude, gameId ? { game: gameId } : undefined);
           } else if (data.game === 'okey' || link.includes('/arcade/okey')) {
             navigation.navigate(ScreenNames.Okey, gameId ? { table: gameId } : undefined);

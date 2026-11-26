@@ -371,6 +371,10 @@ function AppNavigatorContent() {
           name={ScreenNames.Gratitude}
           getComponent={() => deferredScreen('../screens/GratitudeScreen#default', () => require("../screens/GratitudeScreen").default)}
         />
+        <Stack.Screen
+          name={ScreenNames.Spend}
+          getComponent={() => deferredScreen('../screens/SpendScreen#default', () => require("../screens/SpendScreen").default)}
+        />
         {/* The mini app store and player. The player is its own entry, like the
             arcade's, so the WebView is torn down on the way out. MiniAppDev is
             the same screen in developer mode. */}
