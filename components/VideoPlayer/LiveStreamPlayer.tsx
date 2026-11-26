@@ -79,7 +79,7 @@ import type { EventBannerData } from "../LiveViewer/LiveEventBanner";
 import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
-import { closeLiveMini, closeOtherLiveMini, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
+import { closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
 import { LiveTimeshiftBar, LiveTimeshiftTag } from "../LiveViewer/LiveTimeshift";
 import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveTimeshift, type TimeshiftSnap } from "../../libs/liveTimeshift";
@@ -172,6 +172,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     minter: minterProp,
     createdAt: createdAtProp,
   } = props;
+  const [restoredFromMini] = useState(() => {
+    const mini = getLiveMini();
+    return mini && mini.streamId === streamIdProp ? mini : null;
+  });
   const user = useUser();
   const { t } = useCopy();
   const { isSignedIn } = useAuthState();
@@ -1088,19 +1092,18 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // Opening a live closes any other one you minimised; the same live takes its
   // seat back from the mini player, so the count never dips.
   useEffect(() => {
-    closeOtherLiveMini(streamIdProp ?? null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
     if (!streamId) return;
+    closeOtherLiveMini(streamId);
+    if (!effectiveVideoUrl && streamLoading) return;
+    if (getLiveMini()?.mode === "away") return;
     const seat = takeLiveMiniSeat(streamId);
     if (seat) {
       const previous = releasePresenceRef.current;
       releasePresenceRef.current = seat;
       previous?.();
     }
-    closeLiveMini();
-  }, [streamId]);
+    handBackLiveMiniPlayer(streamId, effectiveVideoUrl);
+  }, [streamId, effectiveVideoUrl, streamLoading]);
 
   // Emit LeaveStream on unmount — guarded by didLeaveRef so it only fires once.
   useEffect(() => {
@@ -1513,7 +1516,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // feed's shared mute cache, and with its own top row hidden behind
   // `hideTopControls` and no mute button in the header, a viewer who had
   // ever muted a feed card got a silent stream and nothing to press.
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(() => !!restoredFromMini?.muted);
 
   // Muting the stream mutes the tip readings with it. They are spoken by the
   // phone's speech engine, so the player's own volume does not reach them; a
@@ -1564,7 +1567,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // frame, leaving the viewer black while the feed keeps playing.
     // A big event skips it on every platform: one WebRTC session per viewer
     // is the cost that mode exists to avoid.
-    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted && !bigEvent,
+    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted
+      && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
     stream: { playbackId, provider: streamEntity?.provider },
     muted: isMuted || awayHandoff,
     paused: isPausedEffective,
@@ -1588,6 +1592,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       avatar: getAvatarUrl(creator?.avatarImageUrl) || undefined,
       params: { streamId, tokenId: (streamEntity?.tokenId as any) ?? tokenId, isLive: true },
       mode: "video",
+      muted: isMuted,
       countsAsViewer: !!isSignedIn && ownerStatus === "viewer",
     };
   };
