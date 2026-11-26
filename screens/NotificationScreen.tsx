@@ -1681,7 +1681,7 @@ const NotificationScreen = () => {
         void openMomentById(
           metadata?.storyId,
           (user as { walletAddress?: string } | null)?.walletAddress || user?.address,
-          { openComments: type === NotificationType.STORY_COMMENT },
+          { openComments: (type as string) === NotificationType.STORY_COMMENT },
         );
         break;
 
