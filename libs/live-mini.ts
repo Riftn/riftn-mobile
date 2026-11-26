@@ -10,6 +10,8 @@
  * never shows the creator a leave and a join.
  */
 
+import type { VideoPlayer } from 'expo-video';
+
 export type LiveMiniMode = 'video' | 'listen' | 'away';
 
 export interface LiveMini {
@@ -22,6 +24,7 @@ export interface LiveMini {
   /** What opens the full viewer again. */
   params: Record<string, any>;
   mode: LiveMiniMode;
+  muted?: boolean;
   /** Go straight to the phone's floating window once the picture is up. */
   float: boolean;
   /** The audience seat handed over by the viewer, if any. */
@@ -31,11 +34,13 @@ export interface LiveMini {
 }
 
 let current: LiveMini | null = null;
+let player: VideoPlayer | null = null;
 let version = 0;
 const listeners = new Set<() => void>();
 const notify = () => { version++; listeners.forEach(listener => listener()); };
 
 export const getLiveMini = () => current;
+export const liveMiniOwnsPlayer = (url: string | null | undefined) => !!url && current?.url === url;
 export const getLiveMiniVersion = () => version;
 export const subscribeLiveMini = (listener: () => void) => {
   listeners.add(listener);
@@ -43,7 +48,7 @@ export const subscribeLiveMini = (listener: () => void) => {
 };
 
 export function openLiveMini(next: Omit<LiveMini, 'float' | 'release'> & { float?: boolean; release?: (() => void) | null }): void {
-  if (current && current.streamId !== next.streamId) closeLiveMini();
+  if (current && (current.streamId !== next.streamId || current.url !== next.url)) closeLiveMini();
   if (current) {
     // Same live again (the viewer went away a second time): keep the seat.
     const keep = current.release;
@@ -59,6 +64,10 @@ export function setLiveMiniMode(mode: LiveMiniMode, float = false): void {
   if (!current || (current.mode === mode && current.float === float)) return;
   current = { ...current, mode, float };
   notify();
+}
+
+export function setLiveMiniPlayer(url: string, next: VideoPlayer): void {
+  if (liveMiniOwnsPlayer(url)) player = next;
 }
 
 /** Hands the audience seat back to a viewer that is taking over again. */
@@ -77,12 +86,26 @@ export function setLiveMiniSeat(streamId: string, seat: (() => void) | null): vo
   if (old && old !== seat) { try { old(); } catch {} }
 }
 
-export function closeLiveMini(): void {
+function finishLiveMini(handBack: boolean): void {
   if (!current) return;
   const closing = current;
   current = null;
+  if (!handBack) {
+    try { player?.pause(); } catch {}
+    try { if (player) player.muted = true; } catch {}
+  }
+  player = null;
   try { closing.release?.(); } catch {}
   notify();
+}
+
+export function closeLiveMini(): void {
+  finishLiveMini(false);
+}
+
+/** The full viewer of this live is taking over the same decoder. */
+export function handBackLiveMiniPlayer(streamId: string, url: string | null): void {
+  finishLiveMini(current?.streamId === streamId && current.url === url);
 }
 
 /** Closes it unless it is this stream (a viewer for the same live hands over itself). */
