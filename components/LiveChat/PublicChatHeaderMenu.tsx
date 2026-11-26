@@ -26,7 +26,7 @@ function Row({ icon, label, onPress, color, disabled }: { icon: IconName; label:
 }
 
 /** `canCall`: signed in and not banned (the call rows hide otherwise). */
-export default function PublicChatHeaderMenu({ onInfo, canCall }: { onInfo: () => void; canCall: boolean }) {
+export default function PublicChatHeaderMenu({ onInfo, canCall, onCatchUp }: { onInfo: () => void; canCall: boolean; onCatchUp?: () => void }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { colors } = useAppTheme();
@@ -58,6 +58,12 @@ export default function PublicChatHeaderMenu({ onInfo, canCall }: { onInfo: () =
                 {line}
               </>
             ) : null}
+            {onCatchUp && (
+              <>
+                <Row color={colors.foreground} icon="History" label={t("communities.catchUp.button", "Catch me up")} onPress={() => { close(); onCatchUp(); }} />
+                {line}
+              </>
+            )}
             <Row color={colors.foreground} icon="Info" label={t("screens.chatInfo", { defaultValue: "Chat info" })} onPress={() => { close(); onInfo(); }} />
           </Pressable>
         </Pressable>
