@@ -485,7 +485,7 @@ function PersonTile({ entry, onOpen, onMenu }: { entry: ShelfEntry; onOpen: () =
   const { t } = useTranslation();
   const name = nameOf(entry.author);
   return (
-    <PortraitButton label={name} hint={entry.seen ? t("stories.watchedLabel", { defaultValue: "Watched" }) : undefined}
+    <PortraitButton label={name} hint={entry.seen ? t("stories.watchedCount", { n: formatCount(entry.items.length) }) : undefined}
       onPress={onOpen} onMenu={onMenu}>
       <PortraitPhoto avatar={avatarOf(entry.author, 192)} name={name} seen={entry.seen} closeFriends={entry.closeFriends} />
       <PortraitCaption>

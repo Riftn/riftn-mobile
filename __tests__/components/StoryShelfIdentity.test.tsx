@@ -31,7 +31,12 @@ jest.mock('react-native-reanimated', () => ({
   useSharedValue: (value: number) => ({ value }), useAnimatedStyle: (style: () => unknown) => style(),
   withTiming: (value: number) => value,
 }));
-jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue || key }) }));
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, options?: { defaultValue?: string; n?: string }) => key === 'stories.watchedCount'
+      ? `${options?.n} watched` : options?.defaultValue || key,
+  }),
+}));
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
 jest.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({}), useQuery: () => ({ data: { askedHosts: 'host', liveHosts: ['host'], shelf: [{
   author: { address: 'creator', username: 'the_handle', displayName: 'River Song', avatarImageUrl: 'https://riftn.com/avatar.jpg' }, seen: mockSeen,
@@ -91,7 +96,7 @@ it('keeps separate Live, Story, and Create controls', () => {
   const avatar = storyTile.findByProps({ uri: 'https://riftn.com/avatar.jpg' });
   expect(createTile.props.style[0]).toEqual(storyTile.props.style[0]);
   expect(avatar.props.name).toBe('River Song');
-  expect(storyTile.findAllByProps({ source: { uri: 'opening.jpg' } })).toHaveLength(0);
+  expect(storyTile.findAll(node => node.props.source?.uri === 'opening.jpg')).toHaveLength(0);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
 });
@@ -175,7 +180,7 @@ it('fades a watched portrait and exposes its watched state', () => {
   try {
     act(() => { tree = create(<StoryShelf />); });
     const button = tree.root.findByProps({ accessibilityRole: 'button', accessibilityLabel: 'River Song' });
-    expect(button.props.accessibilityHint).toBe('Watched');
+    expect(button.props.accessibilityHint).toBe('1 watched');
     const media = button.findAll(node => String(node.type) === 'AnimatedView')[0];
     expect(media.props.style).toContainEqual({ opacity: 0.48 });
   } finally {
