@@ -30,7 +30,7 @@ jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, op
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
 jest.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({}), useQuery: () => ({ data: { askedHosts: 'host', liveHosts: ['host'], shelf: [{
   author: { address: 'creator', username: 'the_handle', displayName: 'River Song' },
-  items: [{ id: 'opening', status: 'ready', type: 'photo', mediaUrl: 'opening.jpg', createdAt: new Date().toISOString() }],
+  items: [{ id: 'opening', status: 'ready', type: 'photo', mediaUrl: 'opening.jpg', posterUrl: 'poster.jpg', createdAt: new Date().toISOString() }],
 }] } }) }));
 jest.mock('../../hooks/useStoriesEnabled', () => ({ useStoriesEnabled: () => ({ storiesEnabled: true }) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (run: () => void) => run() }) }));
@@ -67,7 +67,7 @@ it('names each pill and respects badge visibility', () => {
   mockAccount.hideBadgeAndBalance = false;
 });
 
-it('keeps separate Live, Story, and Create controls', () => {
+it('hides the Moment cover and keeps separate Live, Story, and Create controls', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const tap = (label: string) => {
@@ -76,8 +76,12 @@ it('keeps separate Live, Story, and Create controls', () => {
   };
   tap('Trail watch, stages.live');
   expect(mockOpenLive).toHaveBeenCalledWith(mockLive);
+  const storyMedia = tree.root.findAll(node => ['opening.jpg', 'poster.jpg'].includes(node.props.source?.uri));
+  expect(storyMedia).toHaveLength(0);
   tap('River Song');
-  expect(mockOpenStory).toHaveBeenCalledWith(expect.any(Array), 0);
+  expect(mockOpenStory).toHaveBeenCalledWith([
+    expect.objectContaining({ items: [expect.objectContaining({ id: 'opening', mediaUrl: 'opening.jpg' })] }),
+  ], 0);
   const createTile = tree.root.findByType(StoryCreateTile);
   const plus = createTile.findByProps({ name: 'Plus' });
   const storyAvatar = tree.root.findByProps({ name: 'River Song', size: 36 });
