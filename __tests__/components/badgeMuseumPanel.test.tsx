@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import MilestoneChips, { BadgeMuseumPanel } from '../../components/Profile/BadgeMuseum';
+import { BadgeMuseumPanel } from '../../components/Profile/BadgeMuseum';
 import { badgeMuseumIsShown } from '../../hooks/useMilestones';
 
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
@@ -83,7 +83,4 @@ it('shows nothing on the profile while off, the owner included', () => {
   mockData = museum({ hidden: true });
   const panel = render(<BadgeMuseumPanel address="0xabc" />);
   expect(panel.toJSON()).toBeNull();
-  panel.unmount();
-  const chips = render(<MilestoneChips address="0xabc" own />);
-  expect(chips.toJSON()).toBeNull();
 });
