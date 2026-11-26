@@ -33,6 +33,7 @@ import { NoteFaceRing, NoteTag } from "./NotesSheet";
 import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { NoteEntry } from "../../services/notes.service";
 import { stripBold } from "../../libs/bold-markup";
+import { localizeDmCallPreview } from "../../libs/callNote";
 
 interface ConversationItemProps {
   conversation: DmConversation;
@@ -186,7 +187,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         previewIcon: null,
       };
     }
-    const text = stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ") || "";
+    const text = localizeDmCallPreview(last, t) ?? stripBold(previewLinks(last.content ?? "")).replace(/\n/g, " ");
     return {
       previewText: withPrefix(text),
       previewIcon: null,
