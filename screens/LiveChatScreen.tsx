@@ -26,7 +26,7 @@ import { DeHubLoader } from "../components/DeHubLoader";
 import Icon from "../components/ui/Icon";
 import GroupCallButtons from "../components/Call/GroupCallButtons";
 import { PUBLIC_CHAT_CALL_ID } from "../libs/groupCall";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import MessageSurface from "../components/DM/MessageSurface";
 import ScreenHeader from "../components/ScreenHeader";
 import ConfirmModal from "../components/common/ConfirmModal";
@@ -64,6 +64,8 @@ import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
+import type { AppStackParamList } from "../navigation/types";
+import { ShareLinks } from "../navigation/linking.config";
 import { setPublicChatOpen } from "../libs/public-chat-alerts";
 import { hideLineForMe, useHiddenLines } from "../libs/public-chat-hidden";
 import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
@@ -137,6 +139,14 @@ const LiveChatScreen: React.FC = () => {
   const account = user?.walletAddress || user?.address || "";
   const { showUserProfile } = useUserProfileSheet();
   const navigation = useNavigation<any>();
+  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.LiveChat>>();
+  const sharedTokenId = route.params?.sharedLiveTokenId;
+  const sharedLiveUrl = account && typeof sharedTokenId === "string" && /^[1-9]\d*$/.test(sharedTokenId)
+    ? ShareLinks.post(sharedTokenId)
+    : undefined;
+  const clearSharedLive = useCallback(() => {
+    navigation.setParams({ sharedLiveTokenId: undefined });
+  }, [navigation]);
   // The composer rides the keys frame by frame (hooks/useKeyboardRide) and
   // the list rides with it, so the newest lines go up with the keyboard
   // instead of disappearing under it.
@@ -1411,6 +1421,8 @@ const LiveChatScreen: React.FC = () => {
 
           <LiveChatInput
             onSend={handleSend}
+            incomingLink={sharedLiveUrl}
+            onIncomingLinkApplied={clearSharedLive}
             replyingTo={replyingTo}
             onCancelReply={handleCancelReply}
             editingMessage={editingMessage}

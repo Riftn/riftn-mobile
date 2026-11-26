@@ -191,7 +191,7 @@ export type AppStackParamList = {
     repostCount?: number;
     quoteCount?: number;
   };
-  [ScreenNames.LiveChat]: undefined;
+  [ScreenNames.LiveChat]: { sharedLiveTokenId?: string } | undefined;
   [ScreenNames.LiveChatInfo]: {
     room?: import('../services/livechat.service').LiveChatRoom;
     isModerator?: boolean;

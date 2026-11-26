@@ -32,12 +32,36 @@ jest.mock("../../libs/toast", () => ({}));
 
 function composer(onSend: jest.Mock, attachmentBusy = false) {
   let tree!: ReactTestRenderer;
-  act(() => { tree = create(<LiveChatInput onSend={onSend} canSend isBanned={false}
+  const renderInput = (incomingLink?: string, onIncomingLinkApplied?: () => void) => (
+    <LiveChatInput onSend={onSend} canSend isBanned={false}
     onTyping={() => {}} onCancelReply={() => {}} onCancelEdit={() => {}}
-    replyingTo={null} editingMessage={null} attachmentBusy={attachmentBusy} />); });
+    replyingTo={null} editingMessage={null} attachmentBusy={attachmentBusy}
+    incomingLink={incomingLink} onIncomingLinkApplied={onIncomingLinkApplied} />
+  );
+  act(() => { tree = create(renderInput()); });
   const input = () => tree.root.findByType("TextInput" as any);
-  return { tree, input };
+  return { tree, input, renderInput };
 }
+
+it("adds a shared live link to the draft once and waits for Send", async () => {
+  const onSend = jest.fn().mockResolvedValue(true);
+  const consumed = jest.fn();
+  const url = "https://riftn.com/app/post/42";
+  const { tree, input, renderInput } = composer(onSend);
+  act(() => input().props.onChangeText("Watch this"));
+  act(() => tree.update(renderInput(url, consumed)));
+  expect(consumed).toHaveBeenCalledTimes(1);
+  expect(input().props.value).toBe(`Watch this\n${url}`);
+  expect(onSend).not.toHaveBeenCalled();
+  act(() => tree.update(renderInput()));
+  act(() => tree.update(renderInput(url, consumed)));
+  expect(input().props.value).toBe(`Watch this\n${url}`);
+  act(() => tree.update(renderInput()));
+  await act(async () => { await input().props.onSubmitEditing(); });
+  expect(onSend).toHaveBeenCalledTimes(1);
+  expect(onSend).toHaveBeenCalledWith(`Watch this\n${url}`, undefined);
+  act(() => tree.unmount());
+});
 
 it("submits from the iOS keyboard and preserves the draft on a failed send", async () => {
   const onSend = jest.fn().mockResolvedValue(false);

@@ -30,6 +30,8 @@ const ShareRow: React.FC<ShareRowProps> = memo(
     <TouchableOpacity
       onPress={onPress}
       disabled={loading}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!loading, busy: !!loading }}
       activeOpacity={0.7}
       className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
     >
@@ -42,7 +44,7 @@ const ShareRow: React.FC<ShareRowProps> = memo(
           <Text style={{ color, fontSize: 13, fontWeight: "800" }}>{glyph}</Text>
         )}
       </View>
-      <Text style={{ color }} className="text-[15px] font-medium">
+      <Text className="flex-shrink text-[15px] font-medium text-theme-neutrals-100">
         {label}
       </Text>
     </TouchableOpacity>
@@ -63,6 +65,8 @@ interface ShareSheetProps {
   onCopyLink: () => void;
   /** Send in a message — only shown when a DM share is possible. */
   onSendToDm?: () => void;
+  /** Opens the Public Chat composer with a public stream's link. */
+  onShareToPublicChat?: () => void;
   /** Share as image — only shown when supported for this post. */
   onShareAsImage?: () => void | Promise<void>;
   /** The post to offer embed code for; omit to leave the row out. */
@@ -82,6 +86,7 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
   canRepost = true,
   onCopyLink,
   onSendToDm,
+  onShareToPublicChat,
   onShareAsImage,
   embedTokenId,
   onShareLink,
@@ -116,7 +121,7 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
         <View className="w-10 h-1 rounded-full bg-white/20" />
       </View>
 
-      <Text className="text-white/90 font-semibold text-base px-5 pt-2 pb-1">
+      <Text className="text-theme-neutrals-100 font-semibold text-base px-5 pt-2 pb-1">
         {t("postOptions.share")}
       </Text>
 
@@ -170,6 +175,16 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
             onPress={() => {
               onClose();
               setTimeout(() => onSendToDm(), 300);
+            }}
+          />
+        )}
+        {!!onShareToPublicChat && (
+          <ShareRow
+            icon="MessagesSquare"
+            label={t("publicChat.title")}
+            onPress={() => {
+              onClose();
+              setTimeout(onShareToPublicChat, 300);
             }}
           />
         )}
