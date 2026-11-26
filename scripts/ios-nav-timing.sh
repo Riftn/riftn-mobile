@@ -305,6 +305,10 @@ run() {
               python3 -c 'import sys, time; print(sys.argv[1], int(time.time()*1000))' "$find_name" >> "$OUT/nav/$name.taps"
               idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed"
             fi ;;
+          swipe:4-swipe-profile-photos)
+            # Start inside the first, single-photo card. A later card can be a
+            # gallery and must be free to use the same horizontal motion.
+            idb ui swipe --udid "$UDID" --duration 1.2 24 120 310 120 >/dev/null 2>&1 || echo "$name: photo swipe failed" ;;
           *)
             python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
             idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
