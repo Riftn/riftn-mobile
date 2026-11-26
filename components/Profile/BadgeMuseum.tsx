@@ -12,8 +12,6 @@
  * profile shows nothing museum-related to anyone, the owner included
  * (`customs.badgeMuseumVisibility`, enforced by the server).
  *
- * - `MilestoneChips` sits in the chip row beside the name: the three rarest
- *   earned badges. Tapping one opens the museum.
  * - `BadgeMuseumPanel` sits under the follower counts: the three rarest
  *   earned medals on a small podium, and "See all".
  * - `BadgeMuseumSheet` is the museum: the podium, then every other badge as a
@@ -254,70 +252,6 @@ export const MedalPodium: FC<{ medals: Milestone[]; sizes: [number, number]; lab
   );
 };
 
-/** Same look as EarlySupporterChip, fill on the inner View for the tone pass. */
-const Chip: FC<{ icon: IconName; label: string; a11y: string; onPress: () => void }> = ({ icon, label, a11y, onPress }) => (
-  <TouchableOpacity
-    activeOpacity={0.7}
-    accessibilityRole="button"
-    accessibilityLabel={a11y}
-    hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
-    onPress={onPress}
-  >
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 4,
-        height: 16,
-        paddingHorizontal: 6,
-        borderRadius: 6,
-        borderWidth: 1,
-        borderColor: "rgba(255,255,255,0.15)",
-        backgroundColor: "rgba(255,255,255,0.10)",
-      }}
-    >
-      <Icon name={icon} size={10} color="#FFFFFF" />
-      <Text style={{ color: "#FFFFFF", fontSize: 10, lineHeight: 12, fontWeight: "600" }}>{label}</Text>
-    </View>
-  </TouchableOpacity>
-);
-
-interface MilestoneChipsProps {
-  /** Wallet of the person whose profile is on screen. */
-  address?: string | null;
-  /** True on your own profile: shows the museum chip before anything is earned. */
-  own?: boolean;
-}
-
-const MilestoneChips: FC<MilestoneChipsProps> = ({ address, own }) => {
-  const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
-  const { data } = useMilestones(address);
-
-  // Off (the default): nothing by the name, for anyone.
-  if (!data || data.hidden) return null;
-  const top = data.top
-    .map((id) => data.milestones.find((m) => m.id === id))
-    .filter((m): m is Milestone => !!m);
-  if (!top.length && !own) return null;
-
-  const openLabel = t("badgeMuseum.open");
-
-  return (
-    <>
-      {top.length ? (
-        top.map((m) => {
-          const name = nameFor(t, m);
-          return <Chip key={m.id} icon={iconFor(m.id)} label={name} a11y={`${name}. ${openLabel}`} onPress={() => setOpen(true)} />;
-        })
-      ) : (
-        <Chip icon="Landmark" label={t("badgeMuseum.title")} a11y={openLabel} onPress={() => setOpen(true)} />
-      )}
-      {open && <BadgeMuseumSheet address={address} onClose={() => setOpen(false)} />}
-    </>
-  );
-};
-
 export const BadgeMuseumSheet: FC<{ address?: string | null; onClose: () => void }> = ({ address, onClose }) => {
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
@@ -456,5 +390,3 @@ export const BadgeMuseumPanel: FC<BadgeMuseumPanelProps> = ({ address }) => {
     </View>
   );
 };
-
-export default React.memo(MilestoneChips);
