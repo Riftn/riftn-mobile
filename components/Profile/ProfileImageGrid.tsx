@@ -28,10 +28,10 @@ interface ProfileImageGridProps {
   ListHeaderComponent?: React.ReactElement | null;
 }
 
-const ImageTile = memo(function ImageTile({ post, width, height, radius, placeholder, onPress }: {
+const ImageTile = memo(function ImageTile({ post, width, aspectRatio, radius, placeholder, onPress }: {
   post: ImagePost;
   width: number;
-  height: number;
+  aspectRatio: number;
   radius: number;
   placeholder: string;
   onPress?: () => void;
@@ -46,7 +46,7 @@ const ImageTile = memo(function ImageTile({ post, width, height, radius, placeho
       accessibilityLabel={post.mediaDescriptions?.[0] || post.description || t("profileImage.view")}
       disabled={!onPress}
       onPress={onPress}
-      style={{ width, height, borderRadius: radius, overflow: "hidden", backgroundColor: placeholder }}
+      style={{ width, aspectRatio, borderRadius: radius, overflow: "hidden", backgroundColor: placeholder }}
     >
       <Image
         source={uri || undefined}
@@ -103,7 +103,7 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
               key={imageKey(post, index)}
               post={post}
               width={row.height * row.tracks[column]}
-              height={row.height}
+              aspectRatio={row.tracks[column]}
               placeholder={colors.card}
               radius={radius}
               onPress={onImagePress ? () => onImagePress(index) : undefined}
