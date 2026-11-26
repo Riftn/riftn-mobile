@@ -8,10 +8,10 @@ import { useCall } from "../../context/CallContext";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot } from "./CallChrome";
 import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
-import { usePeerIdentity } from "./usePeerIdentity";
+import type { PeerIdentity } from "./usePeerIdentity";
 import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
 
-const VideoCallModal: React.FC = () => {
+const VideoCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = ({ peer, onMessage }) => {
   const {
     isCallActive,
     currentCall,
@@ -24,7 +24,6 @@ const VideoCallModal: React.FC = () => {
     remoteCanvas,
     remoteVideoEpoch,
     remoteUid,
-    peerAddress,
     isMinimized,
     setMinimized,
     endCall,
@@ -39,7 +38,6 @@ const VideoCallModal: React.FC = () => {
 
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const peer = usePeerIdentity(peerAddress);
 
   const isVideoCall = currentCall?.call_type === "video";
   const isVisible = (isCallActive || isConnecting) && isVideoCall && !!currentCall;
@@ -56,16 +54,22 @@ const VideoCallModal: React.FC = () => {
     ? t("calls.calling")
     : isConnecting
       ? t("calls.connecting")
-      : <CallDuration fallback={t("calls.connected")} />;
-  const footClearance = footHeight ? footHeight + 12 : Math.max(22, insets.bottom + 10) + 132;
+      : <CallDuration fallback="00:00" />;
+  const footClearance = footHeight ? footHeight + 8 : Math.max(22, insets.bottom + 10) + 176;
 
   return (
-    <CallStage peer={peer} live={live} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
+    <CallStage
+      peer={peer}
+      live={live}
+      onRequestClose={() => setMinimized(true)}
+      onCorner={() => setMinimized(true)}
+      onMessage={isCallActive ? onMessage : undefined}
+    >
       {live ? (
         <>
           <RtcSurfaceView key={`remote-${remoteUid}-${remoteVideoEpoch}`} style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
           {/* Name and timer ride over the other person's video once it is up. */}
-          <View style={[styles.top, { paddingTop: insets.top + 14 }]} pointerEvents="none">
+          <View style={[styles.top, { paddingTop: insets.top + 64 }]} pointerEvents="none">
             <View style={styles.chip}>
               <Text style={styles.chipName} numberOfLines={1}>{peer.name}</Text>
               <Text style={styles.chipTime}>{status}</Text>
@@ -75,7 +79,7 @@ const VideoCallModal: React.FC = () => {
         </>
       ) : (
         // Nobody on the far side yet: show who is being called, not an empty camera.
-        <CallIdentity kindIcon="Video" kindLabel={t("calls.videoCall")} peer={peer} status={status} ringing={isRinging} />
+        <CallIdentity kindIcon="Video" kindLabel={t("calls.videoCall")} peer={peer} status={status} ringing={isRinging} direct />
       )}
 
       {/* Own camera. Always mounted so the preview can attach before the call state settles. */}
@@ -96,10 +100,10 @@ const VideoCallModal: React.FC = () => {
       </View>
 
       {callBackgroundSupported ? (
-        <CallFxButton open={fxOpen} active={callBackground !== "none"} onToggle={() => setFxOpen(open => !open)} />
+        <CallFxButton open={fxOpen} active={callBackground !== "none"} onToggle={() => setFxOpen(open => !open)} besideMessage={isCallActive} />
       ) : null}
 
-      <CallFoot onHeight={setFootHeight}>
+      <CallFoot onHeight={setFootHeight} overVideo={live}>
         {isCallActive ? <CallCaptionsOverlay /> : null}
         {callBackgroundSupported && fxOpen ? (
           <CallBackgroundPanel value={callBackground} onPick={setCallBackground} onClose={() => setFxOpen(false)} />
@@ -111,6 +115,7 @@ const VideoCallModal: React.FC = () => {
             label={t("calls.speaker")}
             onPress={toggleSpeaker}
             active={isSpeakerOn}
+            direct
             compact
           />
           <CallControl
@@ -118,6 +123,7 @@ const VideoCallModal: React.FC = () => {
             label={isMuted ? t("calls.unmute") : t("calls.mute")}
             onPress={toggleMute}
             active={isMuted}
+            direct
             compact
           />
           <CallControl
@@ -125,17 +131,19 @@ const VideoCallModal: React.FC = () => {
             label={t("calls.camera")}
             onPress={toggleCamera}
             active={isCameraOff}
+            direct
             compact
           />
-          <CallControl icon="RefreshCw" label={t("calls.flip")} onPress={switchCamera} compact />
-          <CallControl
-            icon="PhoneOff"
-            label={isCallActive ? t("calls.end") : t("common.cancel")}
-            onPress={endCall}
-            primary
-            compact
-          />
+          <CallControl icon="RefreshCw" label={t("calls.flip")} onPress={switchCamera} compact direct />
         </CallDock>
+        <CallControl
+          icon="PhoneOff"
+          label={isCallActive ? t("calls.end") : t("common.cancel")}
+          onPress={endCall}
+          primary
+          direct
+          large
+        />
       </CallFoot>
     </CallStage>
   );

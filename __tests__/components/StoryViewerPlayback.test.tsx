@@ -3,7 +3,11 @@ import { act, fireEvent, render } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Image } from 'expo-image';
 import StoryViewer from '../../components/Stories/StoryViewer';
+import StoryComments from '../../components/Stories/StoryComments';
+import { sendStoryReply } from '../../components/Stories/story-reply';
 import { deleteStory, type ShelfEntry, type StoryItem } from '../../services/stories.service';
+import { hasAudioFocus, requestAudioFocus } from '../../libs/audioFocus';
+import { requestFeedVideoFocus } from '../../libs/feedVideoFocus';
 
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
@@ -24,6 +28,8 @@ jest.mock('expo-audio', () => ({ useAudioPlayer: () => ({}) }));
 jest.mock('react-native-safe-area-context', () => ({ useSafeAreaInsets: () => ({ top: 40, bottom: 30 }) }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key }) }));
 jest.mock('@react-navigation/native', () => ({ useNavigation: () => ({}) }));
+jest.mock('../../context/WebSocketContext', () => ({ useWebSocketApi: () => ({}) }));
+jest.mock('../../components/Stories/story-reply', () => ({ sendStoryReply: jest.fn() }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (fn: () => void) => fn() }) }));
 jest.mock('../../context/ThemeContext', () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children, useAppTheme: () => ({ theme: 'system', colors: { accent: '#fff' } }) }));
 jest.mock('../../components/Stories/StoryRoom', () => ({ StoryRoomChat: () => null, FloatHearts: () => null, ReplyTo: () => null, TEXT_SHADOW: {}, useMomentComments: () => ({ data: undefined }) }));
@@ -32,24 +38,24 @@ jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/common/Avatar', () => 'Avatar');
 jest.mock('../../components/DM/ShareToDmSheet', () => () => null);
 jest.mock('../../components/Stories/MomentIcons', () => ({ MomentHeart: 'MomentHeart', MomentComment: 'MomentComment', MomentShare: 'MomentShare' }));
-jest.mock('../../components/Stories/StoryComments', () => () => null);
+jest.mock('../../components/Stories/StoryComments', () => jest.fn(() => null));
 jest.mock('../../components/Stories/MomentCaption', () => () => null);
 jest.mock('../../libs/toast', () => ({ toastError: jest.fn(), toastSuccess: jest.fn() }));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => null }));
 jest.mock('../../services/stories.service', () => ({ deleteStory: jest.fn(async () => ({ ok: true })) }));
 jest.mock('../../store/stories.store', () => ({}));
 
-function mount(durations: number[]) {
+function mount(durations: number[], author = 'owner') {
   const items: StoryItem[] = durations.map((durationMs, index) => ({
     id: `moment-${index}`, type: 'photo', durationMs, mediaUrl: `https://example.com/${index}.jpg`,
     mentions: [], audience: 'everyone', createdAt: new Date().toISOString(), viewed: false,
-    address: 'owner', status: 'ready', posterUrl: null, overlayUrl: null, width: 1080, height: 1920,
+    address: author, status: 'ready', posterUrl: null, overlayUrl: null, width: 1080, height: 1920,
     muted: false, caption: null, song: null, allowReplies: true, liked: false,
     expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
   }));
   const entries: ShelfEntry[] = [{
-    author: { address: 'owner', username: 'owner', displayName: null, avatarImageUrl: null },
-    own: true, following: false, seen: false, latestAt: items[0].createdAt, items,
+    author: { address: author, username: author, displayName: null, avatarImageUrl: null },
+    own: author === 'owner', following: false, seen: false, latestAt: items[0].createdAt, items,
   }];
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const onClose = jest.fn();
@@ -60,6 +66,20 @@ function mount(durations: number[]) {
 
 beforeEach(() => { jest.useFakeTimers(); jest.clearAllMocks(); });
 afterEach(() => jest.useRealTimers());
+
+it('pauses both muted feed video and audible background media even for a photo Moment', () => {
+  const stopFeed = jest.fn();
+  const stopAudio = jest.fn();
+  requestFeedVideoFocus(stopFeed);
+  requestAudioFocus(stopAudio);
+
+  const { dispose } = mount([30_000]);
+  expect(stopFeed).toHaveBeenCalledTimes(1);
+  expect(stopAudio).toHaveBeenCalledTimes(1);
+  expect(hasAudioFocus()).toBe(true);
+  dispose();
+  expect(hasAudioFocus()).toBe(false);
+});
 
 it('waits for the photo to load and honours its selected duration while the menu pauses it', () => {
   const { viewer, onClose, load, dispose } = mount([37_000]);
@@ -92,5 +112,26 @@ it('gives the next photo its full duration after the current photo is deleted', 
   expect(onClose).not.toHaveBeenCalled();
   act(() => jest.advanceTimersByTime(50));
   expect(onClose).toHaveBeenCalledTimes(1);
+  dispose();
+});
+
+
+it('sends the composer draft privately and opens public comments separately', async () => {
+  const { viewer, dispose } = mount([30_000], 'author');
+  let finish: (outcome: 'sent') => void = () => {};
+  jest.mocked(sendStoryReply).mockReturnValueOnce(new Promise(resolve => { finish = resolve; }));
+  const field = viewer.getByPlaceholderText('Send a private reply…');
+  fireEvent.changeText(field, 'Private');
+  fireEvent(field, 'submitEditing');
+  fireEvent(field, 'submitEditing');
+  expect(sendStoryReply).toHaveBeenCalledTimes(1);
+  expect(sendStoryReply).toHaveBeenCalledWith('moment-0', 'Private', expect.any(String), 'owner', expect.any(Object));
+  expect(StoryComments).not.toHaveBeenCalled();
+
+  await act(async () => { finish('sent'); });
+  expect(viewer.getByPlaceholderText('Send a private reply…').props.value).toBe('');
+  fireEvent.press(viewer.getByLabelText('Comments'));
+  expect(StoryComments).toHaveBeenCalled();
+  expect(sendStoryReply).toHaveBeenCalledTimes(1);
   dispose();
 });

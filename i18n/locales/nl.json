@@ -117,7 +117,7 @@
     "humor": "Humor",
     "life": "Leven"
   },
-  "stories": {"activity": {"creatorBlocked":"Maker geblokkeerd","creatorMuted":"Maker gedempt","hideBar":"Activiteitenbalk verbergen","hideLive":"Livestream verbergen","hideStory":"Moment verbergen","join":"Deelnemen","liveHidden":"Livestream verborgen","options":"Activiteitsopties","showBar":"Activiteitenbalk tonen","storyHidden":"Moment verborgen","watchLive":"Livestream bekijken","watchStory":"Moment bekijken"}, "you": "Jij", "spot": {"views": "{{n}} weergaven", "listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"},
+  "stories": {"paidChat": "Deze persoon vraagt een vergoeding voor berichten. Open de chat om je antwoord te sturen.", "privateReply": "Stuur een privéantwoord…", "replySent": "Antwoord verzonden", "sendPrivateReply": "Een privéantwoord sturen", "activity": {"creatorBlocked":"Maker geblokkeerd","creatorMuted":"Maker gedempt","hideBar":"Activiteitenbalk verbergen","hideLive":"Livestream verbergen","hideStory":"Moment verbergen","join":"Deelnemen","liveHidden":"Livestream verborgen","options":"Activiteitsopties","showBar":"Activiteitenbalk tonen","storyHidden":"Moment verborgen","watchLive":"Livestream bekijken","watchStory":"Moment bekijken"}, "you": "Jij", "spot": {"views": "{{n}} weergaven", "listening": "{{n}} luisteren", "moments": "{{n}} Momenten", "oneMoment": "1 Moment", "watching": "{{n}} kijken"}, "ask": {"prompt": "Wat is er vandaag?", "promptNamed": "Wat is er vandaag, {{name}}?", "create": "Maken", "moment": "Moment", "momentHint": "Foto of video voor 24 uur", "post": "Bericht", "postHint": "Tekst, foto's of video in je feed", "live": "Live", "liveHint": "Ga nu live met video", "stage": "Podium", "stageHint": "Praat live met stemmen", "status": "Status", "statusHint": "Een korte notitie die je volgers zien"},
     "comments": "Reacties",
     "commentFailed": "Je reactie is niet geplaatst. Probeer het opnieuw.",
     "noCommentsYet": "Nog geen reacties. Zeg iets dat iedereen kan zien.",
@@ -2847,6 +2847,8 @@
     "transferDhb": "Tokens overmaken"
   },
   "wallet": {
+    "legacyDhb": "Oude DHB",
+    "legacyDhbHoldings": "Bezittingen on-chain",
     "connectUnavailable": "Wallet verbinden is niet beschikbaar in deze versie — herstel met je herstelzin.",
     "connectedWrongWallet": "Die wallet is {{connected}}, niet {{address}}. Er is niets gewijzigd.",
     "restoreWrongWallet": "Dat opent een andere wallet, niet {{address}}. Er is niets gewijzigd.",
@@ -17441,6 +17443,11 @@
     "followFailed": "Volgen mislukt. Probeer het opnieuw."
   },
   "appTokens": {
+    "reviewTransfer": "Overdracht controleren",
+    "transferComplete": "Overdracht voltooid",
+    "balanceAfterSend": "Na verzenden: {{amount}} {{symbol}}",
+    "addNote": "Notitie toevoegen",
+    "minimumTransfer": "De minimale overdracht is 1 RIFT.",
     "kindStaked": "Gestaket",
     "kindUnstaked": "Opgenomen",
     "stakedBalance": "{{amount}} gestaket",
@@ -17820,7 +17827,22 @@
     "cancel": "Annuleren",
     "getKey": "Een {{name}}-sleutel halen",
     "showLess": "Alleen mijn sleutels tonen",
-    "addAnother": "Andere aanbieder toevoegen"
+    "addAnother": "Andere aanbieder toevoegen",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-modellen)",
+      "fal": "Tools voor afbeeldingen, video, 3D en foto’s",
+      "kie": "Afbeeldingen en video",
+      "replicate": "Afbeeldingen en video",
+      "xai": "Chatten en afbeeldingen maken met Grok",
+      "elevenlabs": "Stem, nasynchronisatie, muziek en geluidseffecten",
+      "gemini": "Vertalen, schrijfhulp en samenvattingen",
+      "venice": "Chatten met de assistent",
+      "perplexity": "Zoeken op internet met de assistent",
+      "deepgram": "Transcripties en live ondertiteling",
+      "openrouter": "Honderden chat- en tekstmodellen met één sleutel",
+      "groq": "Snelle chat en tekst",
+      "mistral": "Chat en tekst"
+    }
   },
   "postBg": {
     "scope": "Toepassen op",
@@ -19087,5 +19109,6 @@
     "postSnapshot": "Momentopname plaatsen",
     "shareLink": "Link delen",
     "snapshotFailed": "Momentopname mislukt. Probeer opnieuw."
-  }
+  },
+  "ppvPreview": {"watch": "Gratis voorvertoning bekijken", "title": "Gratis videovoorvertoning", "unavailable": "Voorvertoning niet beschikbaar", "retry": "Opnieuw proberen", "loading": "Voorvertoning laden…", "seconds": "Gratis voorvertoning (seconden)", "secondsHint": "Kies 1 tot 30 seconden. Voer 0 in om de voorvertoning over te slaan."}
 }

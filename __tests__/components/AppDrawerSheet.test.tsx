@@ -97,6 +97,10 @@ jest.mock('../../context/AuthContext', () => ({
   useAuthActions: () => ({ signOut: jest.fn() }),
   useUser: () => null,
 }));
+jest.mock('../../hooks/useAppTokens', () => ({
+  useAppTokensConfig: () => ({ data: undefined }),
+  useAppTokens: () => ({ data: undefined }),
+}));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => '', getBadgeUrlFor: () => undefined, getBadgeHoverOpticalStyle: () => ({}) }));
 jest.mock('../../libs', () => ({ toastError: jest.fn(), toastInfo: jest.fn() }));
 jest.mock('../../libs/links.utils', () => ({ openInApp: jest.fn() }));

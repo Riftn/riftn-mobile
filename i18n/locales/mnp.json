@@ -16990,7 +16990,22 @@
     "paste": "粘贴你的 {{name}} 密钥",
     "getKey": "获取 {{name}} 密钥",
     "showLess": "只显示我的密钥",
-    "addAnother": "添加其他服务商"
+    "addAnother": "添加其他服务商",
+    "providerDescriptions": {
+      "openai": "Builder（GPT 模型）",
+      "fal": "图像、视频、3D 搭相片工具",
+      "kie": "图像搭视频",
+      "replicate": "图像搭视频",
+      "xai": "用 Grok 讲话搭做图",
+      "elevenlabs": "语音、配音、音乐搭音效",
+      "gemini": "翻译、帮写搭摘要",
+      "venice": "搭助手聊天",
+      "perplexity": "用助手上网寻",
+      "deepgram": "语音转文字搭实时字幕",
+      "openrouter": "一把密钥使几百种聊天搭文本模型",
+      "groq": "快速聊天搭生成文字",
+      "mistral": "聊天搭生成文字"
+    }
   },
   "postBg": {
     "addMedia": "添加图片、GIF 或视频",

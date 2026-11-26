@@ -21,7 +21,7 @@
  * Media URIs may also become stale if the underlying files are cleaned up by
  * the OS, but text, categories, and monetisation settings will always survive.
  */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation as _useCopy } from 'react-i18next';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { supabase } from "../services/supabase";
@@ -92,6 +92,7 @@ export interface Draft {
 
 
 const STORAGE_PREFIX = "@dhb_drafts";
+const draftListeners = new Set<(key: string, drafts: Draft[]) => void>();
 
 function draftsKey(address?: string): string {
   if (address) return `${STORAGE_PREFIX}:${address.toLowerCase()}`;
@@ -114,13 +115,16 @@ const readDrafts = async (address?: string): Promise<Draft[]> => {
 };
 
 const writeDrafts = async (drafts: Draft[], address?: string): Promise<boolean> => {
+  const key = draftsKey(address);
   try {
-    await AsyncStorage.setItem(draftsKey(address), JSON.stringify(drafts));
-    return true;
+    await AsyncStorage.setItem(key, JSON.stringify(drafts));
   } catch (e) {
     console.error("[useDrafts] write error:", e);
     return false;
   }
+  // The composer stays mounted behind Drafts and needs the same saved list.
+  draftListeners.forEach(listener => listener(key, drafts));
+  return true;
 };
 
 
@@ -272,34 +276,45 @@ export function useDrafts(address?: string) {
   const { t: _copy } = _useCopy();
   const [drafts, setDrafts] = useState<Draft[]>([]);
   const [loading, setLoading] = useState(true);
+  const revision = useRef(0);
 
   // Load drafts on mount or when address changes. Local first so the list
   // paints immediately, then the server pass folds in anything new.
   useEffect(() => {
-    let mounted = true;
+    const key = draftsKey(address);
+    const onWrite = (changedKey: string, latest: Draft[]) => {
+      if (changedKey !== key) return;
+      revision.current += 1;
+      setDrafts(latest);
+      setLoading(false);
+    };
+    draftListeners.add(onWrite);
+    const start = revision.current;
     (async () => {
       const data = await readDrafts(address);
-      if (mounted) {
-        setDrafts(data);
-        setLoading(false);
-      }
+      if (revision.current !== start) return;
+      setDrafts(data);
+      setLoading(false);
       const merged = await mergeRemote(data, address);
-      if (mounted && merged.length !== data.length) {
+      if (revision.current === start && merged !== data) {
         setDrafts(merged);
         await writeDrafts(merged, address);
       }
     })();
     return () => {
-      mounted = false;
+      draftListeners.delete(onWrite);
+      revision.current += 1;
     };
   }, [address]);
 
   /** Reload drafts from storage and the server (useful after navigating back) */
   const reload = useCallback(async () => {
+    const start = revision.current;
     const data = await readDrafts(address);
     const merged = await mergeRemote(data, address);
+    if (revision.current !== start) return;
     setDrafts(merged);
-    if (merged.length !== data.length) await writeDrafts(merged, address);
+    if (merged !== data) await writeDrafts(merged, address);
   }, [address]);
 
   /** Save a new draft and return its id */

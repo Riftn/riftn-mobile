@@ -5,19 +5,20 @@
  * sheet, which consolidates Send-in-DM, Repost/Undo, Quote, Copy Link and
  * Share-as-Image (replacing the old inline repost button + RepostPopover).
  */
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator, Platform } from "react-native";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { toastSuccess } from "../../libs/toast";
 import { postEmbedCode } from "../../libs/embed-code";
+import { MomentAdd } from "../Stories/MomentIcons";
 
 interface ShareRowProps {
   /** An Icon, or `glyph` for a mark the bundled set has no icon for. */
-  icon?: IconName;
+  icon?: IconName | "moment-add";
   glyph?: string;
   label: string;
   color?: string;
@@ -30,19 +31,23 @@ const ShareRow: React.FC<ShareRowProps> = memo(
     <TouchableOpacity
       onPress={onPress}
       disabled={loading}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!loading, busy: !!loading }}
       activeOpacity={0.7}
       className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
     >
       <View className="w-5 h-5 items-center justify-center mr-3">
         {loading ? (
           <ActivityIndicator size="small" color={color} />
+        ) : icon === "moment-add" ? (
+          <MomentAdd size={20} color={color} />
         ) : icon ? (
           <Icon name={icon} size={20} color={color} strokeWidth={1.9} />
         ) : (
           <Text style={{ color, fontSize: 13, fontWeight: "800" }}>{glyph}</Text>
         )}
       </View>
-      <Text style={{ color }} className="text-[15px] font-medium">
+      <Text className="flex-shrink text-[15px] font-medium text-theme-neutrals-100">
         {label}
       </Text>
     </TouchableOpacity>
@@ -63,8 +68,11 @@ interface ShareSheetProps {
   onCopyLink: () => void;
   /** Send in a message — only shown when a DM share is possible. */
   onSendToDm?: () => void;
+  /** Opens the Public Chat composer with a public stream's link. */
+  onShareToPublicChat?: () => void;
   /** Share as image — only shown when supported for this post. */
   onShareAsImage?: () => void | Promise<void>;
+  onShareToMoment?: () => void;
   /** The post to offer embed code for; omit to leave the row out. */
   embedTokenId?: string | number;
   /** The phone's own share sheet, as a "Share link" row; omit to leave it out. */
@@ -82,12 +90,30 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
   canRepost = true,
   onCopyLink,
   onSendToDm,
+  onShareToPublicChat,
   onShareAsImage,
+  onShareToMoment,
   embedTokenId,
   onShareLink,
 }) => {
   const { t } = useTranslation();
   const [sharingImage, setSharingImage] = useState(false);
+  const [closingForMoment, setClosingForMoment] = useState(false);
+  const pendingMoment = useRef<(() => void) | null>(null);
+  const dismissalTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (dismissalTimer.current) clearTimeout(dismissalTimer.current);
+  }, []);
+
+  const openMomentAfterDismissal = () => {
+    const open = pendingMoment.current;
+    if (!open) return;
+    pendingMoment.current = null;
+    setClosingForMoment(false);
+    onClose();
+    open();
+  };
 
   const handleShareAsImage = async () => {
     if (!onShareAsImage || sharingImage) return;
@@ -104,8 +130,9 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
 
   return (
     <GlassModal
-      visible={visible}
+      visible={visible && !closingForMoment}
       onClose={onClose}
+      onDismiss={openMomentAfterDismissal}
       presentation="bottom"
       scrollable
       maxHeight="70%"
@@ -116,7 +143,7 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
         <View className="w-10 h-1 rounded-full bg-white/20" />
       </View>
 
-      <Text className="text-white/90 font-semibold text-base px-5 pt-2 pb-1">
+      <Text className="text-theme-neutrals-100 font-semibold text-base px-5 pt-2 pb-1">
         {t("postOptions.share")}
       </Text>
 
@@ -163,6 +190,20 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
             onPress={handleShareAsImage}
           />
         )}
+        {!!onShareToMoment && (
+          <ShareRow
+            icon="moment-add"
+            label={t("stories.shareToMoment", "Share to Moment")}
+            onPress={() => {
+              if (pendingMoment.current) return;
+              pendingMoment.current = onShareToMoment;
+              setClosingForMoment(true);
+              // iOS reports the native modal dismissal. Android only needs
+              // to let the sheet's exit animation finish.
+              if (Platform.OS !== "ios") dismissalTimer.current = setTimeout(openMomentAfterDismissal, 300);
+            }}
+          />
+        )}
         {!!onSendToDm && (
           <ShareRow
             icon="Send"
@@ -170,6 +211,16 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
             onPress={() => {
               onClose();
               setTimeout(() => onSendToDm(), 300);
+            }}
+          />
+        )}
+        {!!onShareToPublicChat && (
+          <ShareRow
+            icon="MessagesSquare"
+            label={t("publicChat.title")}
+            onPress={() => {
+              onClose();
+              setTimeout(onShareToPublicChat, 300);
             }}
           />
         )}

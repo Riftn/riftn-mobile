@@ -83,7 +83,7 @@ import { loadHueState } from "./libs/audioHueState";
 import { useNavigationPersistence } from "./hooks/useNavigationPersistence";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { I18nextProvider } from "react-i18next";
-import i18n from "./i18n";
+import i18n, { isLanguageReady, languageReady, refreshActiveLanguage } from "./i18n";
 import { useAppLifecycle } from "./hooks/useAppLifecycle";
 import { checkForOtaUpdate } from "./libs/otaUpdates";
 import { createLogger } from "./libs/logger";
@@ -157,6 +157,15 @@ const iconFontLoad = loadIconFont();
 export default function App() {
   useEffect(startQueryCachePersistence, []);
   const { hasInternet, checkConnection } = useNetworkStatus();
+  const [languageSettled, setLanguageSettled] = useState(isLanguageReady);
+  useEffect(() => {
+    let mounted = true;
+    void languageReady.then(() => { if (mounted) setLanguageSettled(true); });
+    return () => { mounted = false; };
+  }, []);
+  useEffect(() => {
+    if (languageSettled && hasInternet === true) refreshActiveLanguage();
+  }, [hasInternet, languageSettled]);
 
   // Manrope is the app's global typeface. These are bundled TTFs, not a network fetch, so the wait is negligible —
   // and `fontError` is treated as "done" so a font failure degrades to the
@@ -241,7 +250,7 @@ export default function App() {
   // serialised ahead of it.
   // Reachability is advisory. A stalled native probe must not prevent cached
   // content and navigation from opening; confirmed offline still shows below.
-  const staged = fontsSettled && iconFontSettled;
+  const staged = fontsSettled && iconFontSettled && languageSettled;
 
   return (
     <AppThemeProvider>
@@ -265,7 +274,7 @@ export default function App() {
           <SafeAreaProvider initialMetrics={initialSafeAreaMetrics} className="flex-1 select-none">
             <ThemeVarsLayer>
             <MaintenanceGate>
-            <AuthProvider>
+            <AuthProvider hasInternet={hasInternet}>
               <FeedSuperpowersProvider>
               <WebSocketProvider>
                 {/* Someone going live (or ending) shows on every live surface at once. */}
@@ -345,7 +354,7 @@ export default function App() {
                 it lasts and gets out of the way the moment it is over.
                 Strictly `false`, never falsy: `null` is "NetInfo has not
                 answered yet", and the preloader is covering that window. */}
-            {hasInternet === false && (
+            {languageSettled && hasInternet === false && (
               <View style={StyleSheet.absoluteFill} pointerEvents="auto">
                 <NoInternetScreen onRetry={checkConnection} />
               </View>

@@ -7,6 +7,7 @@ import { holdDarkRoom } from "../libs/darkRoomOpen";
 import { setNavigationBarDarkIcons } from "../modules/system-bars";
 
 type RouteParams = {
+  startWithControlsHidden?: boolean;
   tokenId?: string | number;
   streamKey?: string;
   streamId?: string;

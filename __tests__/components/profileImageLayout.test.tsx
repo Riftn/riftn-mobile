@@ -36,7 +36,7 @@ jest.mock('../../libs/profileFeedOrigin', () => ({
 }));
 jest.mock('../../components/Home/FeedCard', () => 'FeedCard');
 jest.mock('../../components/ui/Icon', () => 'Icon');
-jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isMinimal: false }) }));
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ theme: 'system', isMinimal: false, colors: { card: '#18181b' } }) }));
 jest.mock('../../hooks/useCinematicPhone', () => ({ useCinematicPhone: () => false }));
 jest.mock('../../navigation/tabBarLayout', () => ({ TAB_BAR_CONTENT_INSET: 80 }));
 jest.mock('../../libs/misc', () => ({}));
@@ -51,11 +51,14 @@ it('restores the owner’s choice when Images reopens and scopes it to the reade
     </ProfileViewModeContext.Provider>;
   }
   let page!: ReactTestRenderer;
-  const listData = () => page.root.findAll(node => String(node.type) === 'FlatList')[0].props.data;
+  const imageList = () => page.root.findAll(node => String(node.type) === 'FlatList')[0];
+  const listData = () => imageList().props.data;
   act(() => { page = create(<Profile reader="owner" />); });
   expect(listData()).toHaveLength(2);
+  expect(imageList().props.contentContainerStyle).toMatchObject({ paddingBottom: 80 });
   act(() => page.root.findByType('button').props.onClick());
   expect(listData()).toBe(images);
+  expect(imageList().props.contentContainerStyle).toMatchObject({ paddingBottom: 80 });
   expect(mockStorage.size).toBe(1);
   act(() => page.update(<Profile reader="owner" videos />));
   const videoList = () => page.root.findAll(node => String(node.type) === 'VideoList')[0];

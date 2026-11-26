@@ -16940,7 +16940,22 @@
     "paste": "Enganxa la teva clau de {{name}}",
     "getKey": "Obtén una clau de {{name}}",
     "showLess": "Mostra només les meves claus",
-    "addAnother": "Afegeix un altre proveïdor"
+    "addAnother": "Afegeix un altre proveïdor",
+    "providerDescriptions": {
+      "openai": "Builder (models GPT)",
+      "fal": "Eines d’imatge, vídeo, 3D i fotografia",
+      "kie": "Imatges i vídeo",
+      "replicate": "Imatges i vídeo",
+      "xai": "Xat i imatges amb Grok",
+      "elevenlabs": "Veu, doblatge, música i efectes de so",
+      "gemini": "Traducció, ajuda per escriure i resums",
+      "venice": "Xat amb l’assistent",
+      "perplexity": "Cerca web amb l’assistent",
+      "deepgram": "Transcripcions i subtítols en directe",
+      "openrouter": "Centenars de models de xat i text amb una sola clau",
+      "groq": "Xat i text ràpids",
+      "mistral": "Xat i text"
+    }
   },
   "postBg": {
     "addMedia": "Afegeix una imatge, un GIF o un vídeo",

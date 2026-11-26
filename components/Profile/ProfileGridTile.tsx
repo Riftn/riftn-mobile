@@ -1,3 +1,4 @@
+import { LiveDot } from "../common/LiveDot";
 import React, { memo, useCallback, useMemo, useRef } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
@@ -30,7 +31,7 @@ import { GRIP_ROOM, GridGrip, useGridDrag } from "./GridDrag";
  * a look you can read at a glance. A video shows its length and views, a song
  * is a square cover over its own blur with a waveform, a text post is a poster
  * of its own words, an article shows its cover and title, a live stream wears a
- * solid red LIVE chip. Anything that isn't a plain photo carries one small
+ * LIVE chip with a red dot. Anything that isn't a plain photo carries one small
  * glass badge in the same top-right spot saying what it is. Same tiles as the
  * web profile on phones (ProfileMixedGrid).
  */
@@ -280,8 +281,8 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
         {!!cover && <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" recyclingKey={id} transition={0} />}
         <View style={[StyleSheet.absoluteFill, styles.shade]} pointerEvents="none" />
         {isLive ? (
-          <View style={[styles.chip, { backgroundColor: LIVE_RED }]}>
-            <View style={styles.liveDot} />
+          <View style={[styles.chip, styles.liveChip]}>
+            <LiveDot size={5} />
             <Text style={[styles.chipText, { color: "#FFFFFF", letterSpacing: 0.5 }]}>{t("live.liveBadge", "LIVE")}</Text>
           </View>
         ) : (
@@ -362,9 +363,9 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 5,
   },
+  liveChip: { backgroundColor: "rgba(0,0,0,0.8)" },
   inlineChip: { height: 18 },
   chipText: { fontSize: 9.5, fontWeight: "800" },
-  liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: "#FFFFFF" },
   liveRing: { borderWidth: 1.5, borderColor: LIVE_RED, borderRadius: 3 },
   dur: { position: "absolute", left: 6, bottom: 6, paddingHorizontal: 5, paddingVertical: 1, borderRadius: 5, backgroundColor: "rgba(0,0,0,0.5)" },
   durText: { color: "#FFFFFF", fontSize: 10, fontWeight: "700", fontVariant: ["tabular-nums"] },

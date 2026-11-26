@@ -17059,7 +17059,22 @@
     "paste": "Wklej swój klucz {{name}}",
     "getKey": "Uzyskaj klucz {{name}}",
     "showLess": "Pokaż tylko moje klucze",
-    "addAnother": "Dodaj innego dostawcę"
+    "addAnother": "Dodaj innego dostawcę",
+    "providerDescriptions": {
+      "openai": "Builder (modele GPT)",
+      "fal": "Narzędzia do obrazów, wideo, 3D i zdjęć",
+      "kie": "Obrazy i wideo",
+      "replicate": "Obrazy i wideo",
+      "xai": "Czat i obrazy z Grok",
+      "elevenlabs": "Głos, dubbing, muzyka i efekty dźwiękowe",
+      "gemini": "Tłumaczenie, pomoc w pisaniu i streszczenia",
+      "venice": "Czat z asystentem",
+      "perplexity": "Wyszukiwanie w sieci z asystentem",
+      "deepgram": "Transkrypcje i napisy na żywo",
+      "openrouter": "Setki modeli czatu i tekstu z jednym kluczem",
+      "groq": "Szybki czat i tekst",
+      "mistral": "Czat i tekst"
+    }
   },
   "postBg": {
     "addMedia": "Dodaj obraz, GIF lub film",

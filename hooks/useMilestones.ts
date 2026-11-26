@@ -49,7 +49,7 @@ export function earnedByRarity(milestones: Milestone[]): Milestone[] {
   return milestones.filter((m) => m.earned).sort((a, b) => b.rarity - a.rarity);
 }
 
-export function useMilestones(address?: string | null) {
+export function useMilestones(address?: string | null, { refreshOnMount = false } = {}) {
   return useQuery({
     queryKey: ["profile-milestones", address?.toLowerCase()],
     queryFn: async (): Promise<Milestones | null> => {
@@ -65,6 +65,7 @@ export function useMilestones(address?: string | null) {
       }
     },
     enabled: !!address,
+    refetchOnMount: refreshOnMount ? 'always' : true,
     staleTime: 5 * 60_000,
     gcTime: 30 * 60_000,
     retry: 1,

@@ -36,6 +36,7 @@ import {
 import { VideoView, useVideoPlayer, VideoPlayer } from 'expo-video';
 import { FULLSCREEN_BUFFER_OPTIONS, LIVE_BUFFER_OPTIONS } from "../../libs/videoBuffering";
 import { useSharedLivePlayer } from '../../libs/sharedLivePlayer';
+import { liveMiniOwnsPlayer } from '../../libs/live-mini';
 import type { LiveControl } from '../../libs/liveTimeshift';
 import { useCallInProgress, visualActivity } from '../../libs/visualActivity';
 import { getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from '../../libs/video-preferences';
@@ -99,6 +100,7 @@ interface VideoPlayerCoreProps {
   hideTopControls?: boolean;
   /** Use the full parent surface for live viewing, including portrait video. */
   fillContainer?: boolean;
+  pictureFit?: "cover" | "contain";
   /**
    * Fires once the source reports its picture size. The live viewer uses it
    * to decide whether "fullscreen" should also turn the phone sideways.
@@ -146,6 +148,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   togglePlayRef,
   hideTopControls = false,
   fillContainer = false,
+  pictureFit = "contain",
   onVideoSize,
   tokenId,
   title,
@@ -353,10 +356,12 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     if (isPictureInPicturePlayer(player) && !visualActivity.isCallBusy()) return;
     setPlayRequested(false);
     recovery.stop();
-    try { player.pause(); } catch {}
+    if (!liveMode || !liveMiniOwnsPlayer(sourceUrl) || visualActivity.isCallBusy()) {
+      try { player.pause(); } catch {}
+    }
     releaseAudioFocus(stopPlayback);
     releaseFeedVideoFocus(stopPlayback);
-  }, [player, recovery]);
+  }, [player, recovery, liveMode, sourceUrl]);
 
   useEffect(() => () => stopPlayback(), [stopPlayback]);
   const callInProgress = useCallInProgress();
@@ -421,7 +426,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   useEffect(() => {
     const subscriptions = [
       player.addListener('playingChange', ({ isPlaying: playing }) => {
-        if (!isMountedRef.current) return;
+        if (!isMountedRef.current || (liveMode && liveMiniOwnsPlayer(sourceUrl))) return;
         if (playing && (visualActivity.isCallBusy() || !canStartVideo(player))) { stopPlayback(); return; }
         setIsPlaying(playing);
         onPlayStateChange?.(playing);
@@ -493,7 +498,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     return () => {
       subscriptions.forEach((sub) => sub.remove());
     };
-  }, [player, onPlayStateChange, onReady, onProgress, onVideoSize, isReady, duration, onError, maybeSkipSegment, stopPlayback, recovery, liveMode]);
+  }, [player, onPlayStateChange, onReady, onProgress, onVideoSize, isReady, duration, onError, maybeSkipSegment, stopPlayback, recovery, liveMode, sourceUrl]);
 
   // Handle navigation events to stop playback when leaving screen
   // Guard with isInPiPRef — returning from PiP also triggers beforeRemove
@@ -505,6 +510,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
         return;
       }
       recovery.stop();
+      if (liveMode && liveMiniOwnsPlayer(sourceUrl)) return;
       try {
         player.pause();
         player.muted = true;
@@ -512,7 +518,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     });
 
     return unsubscribe;
-  }, [navigation, player, recovery]);
+  }, [navigation, player, recovery, liveMode, sourceUrl]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('blur', () => {
@@ -814,7 +820,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
       clearHideTimer();
 
       // The root PiP host can outlive this viewer.
-      if (!isPictureInPicturePlayer(player)) {
+      if (!isPictureInPicturePlayer(player) && !(liveMode && liveMiniOwnsPlayer(sourceUrl))) {
         try {
           player.pause();
           player.muted = true;
@@ -828,7 +834,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
 
       StatusBar.setHidden(false);
     };
-  }, [showAndScheduleHide, clearHideTimer, player]);
+  }, [showAndScheduleHide, clearHideTimer, player, liveMode, sourceUrl]);
 
   // Configure audio to play even if device is on silent (iOS), and to keep
   // playing once the app is backgrounded.
@@ -936,7 +942,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
           onFirstFrameRender={() => { setFirstFrameSource(sourceUrl); recovery.progress(); }}
           focusable={false}
           style={styles.video}
-          contentFit="contain"
+          contentFit={pictureFit}
           nativeControls={false}
           // Was gated on `fullscreen` for the same non-reason as the audio
           // session above: wanting the video to follow you out of the app has

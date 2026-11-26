@@ -16979,7 +16979,22 @@
     "paste": "Vložte svůj klíč {{name}}",
     "getKey": "Získat klíč {{name}}",
     "showLess": "Zobrazit jen moje klíče",
-    "addAnother": "Přidat dalšího poskytovatele"
+    "addAnother": "Přidat dalšího poskytovatele",
+    "providerDescriptions": {
+      "openai": "Builder (modely GPT)",
+      "fal": "Nástroje pro obrázky, video, 3D a fotografie",
+      "kie": "Obrázky a video",
+      "replicate": "Obrázky a video",
+      "xai": "Chat a obrázky s Grokem",
+      "elevenlabs": "Hlas, dabing, hudba a zvukové efekty",
+      "gemini": "Překlad, pomoc s psaním a shrnutí",
+      "venice": "Chat s asistentem",
+      "perplexity": "Vyhledávání na webu s asistentem",
+      "deepgram": "Přepisy a živé titulky",
+      "openrouter": "Stovky chatovacích a textových modelů s jedním klíčem",
+      "groq": "Rychlý chat a text",
+      "mistral": "Chat a text"
+    }
   },
   "postBg": {
     "addMedia": "Přidat obrázek, GIF nebo video",

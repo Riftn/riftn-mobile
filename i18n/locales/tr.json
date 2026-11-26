@@ -972,7 +972,7 @@
     "humor": "Mizah",
     "life": "Hayat"
   },
-  "stories": {"activity": {"creatorBlocked":"İçerik üreticisi engellendi","creatorMuted":"İçerik üreticisi sessize alındı","hideBar":"Etkinlik çubuğunu gizle","hideLive":"Canlı yayını gizle","hideStory":"Anı gizle","join":"Katıl","liveHidden":"Canlı yayın gizlendi","options":"Etkinlik seçenekleri","showBar":"Etkinlik çubuğunu göster","storyHidden":"An gizlendi","watchLive":"Canlı yayını izle","watchStory":"Anı izle"}, "you": "Sen", "spot": {"views": "{{n}} görüntülenme", "listening": "{{n}} dinliyor", "moments": "{{n}} An", "oneMoment": "1 An", "watching": "{{n}} izliyor"}, "ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"},
+  "stories": {"paidChat": "Bu kişi mesajlar için ücret alıyor. Yanıtını göndermek için sohbeti aç.", "privateReply": "Özel bir yanıt gönder…", "replySent": "Yanıt gönderildi", "sendPrivateReply": "Özel bir yanıt gönder", "activity": {"creatorBlocked":"İçerik üreticisi engellendi","creatorMuted":"İçerik üreticisi sessize alındı","hideBar":"Etkinlik çubuğunu gizle","hideLive":"Canlı yayını gizle","hideStory":"Anı gizle","join":"Katıl","liveHidden":"Canlı yayın gizlendi","options":"Etkinlik seçenekleri","showBar":"Etkinlik çubuğunu göster","storyHidden":"An gizlendi","watchLive":"Canlı yayını izle","watchStory":"Anı izle"}, "you": "Sen", "spot": {"views": "{{n}} görüntülenme", "listening": "{{n}} dinliyor", "moments": "{{n}} An", "oneMoment": "1 An", "watching": "{{n}} izliyor"}, "ask": {"prompt": "Bugün neler var?", "promptNamed": "Bugün neler var, {{name}}?", "create": "Oluştur", "moment": "An", "momentHint": "24 saatlik fotoğraf veya video", "post": "Gönderi", "postHint": "Akışında yazı, fotoğraf veya video", "live": "Canlı", "liveHint": "Şimdi görüntülü canlı yayın başlat", "stage": "Sahne", "stageHint": "Sesli canlı sohbet et", "status": "Durum", "statusHint": "Takipçilerinin gördüğü kısa bir not"},
     "comments": "Yorumlar",
     "commentFailed": "Yorumun gönderilemedi. Tekrar dene.",
     "noCommentsYet": "Henüz yorum yok. Herkesin görebileceği bir şey yaz.",
@@ -3509,6 +3509,8 @@
     "transferDhb": "Token transferi"
   },
   "wallet": {
+    "legacyDhb": "Eski DHB",
+    "legacyDhbHoldings": "Zincir üstü varlıklar",
     "connectUnavailable": "Cüzdan bağlama bu sürümde kullanılamıyor — bunun yerine kurtarma ifadenle geri yükle.",
     "connectedWrongWallet": "O cüzdan {{connected}}, {{address}} değil. Hiçbir şey değiştirilmedi.",
     "restoreWrongWallet": "Bu, {{address}} değil, başka bir cüzdanı açıyor. Hiçbir şey değiştirilmedi.",
@@ -18039,6 +18041,11 @@
     "followFailed": "Takip edilemedi. Tekrar dene."
   },
   "appTokens": {
+    "reviewTransfer": "Transferi incele",
+    "transferComplete": "Transfer tamamlandı",
+    "balanceAfterSend": "Gönderimden sonra: {{amount}} {{symbol}}",
+    "addNote": "Not ekle",
+    "minimumTransfer": "En az 1 RIFT transfer edebilirsin.",
     "kindStaked": "Stake edildi",
     "kindUnstaked": "Stake çözüldü",
     "stakedBalance": "{{amount}} stake edildi",
@@ -18418,7 +18425,22 @@
     "cancel": "İptal",
     "getKey": "{{name}} anahtarı al",
     "showLess": "Sadece anahtarlarımı göster",
-    "addAnother": "Başka sağlayıcı ekle"
+    "addAnother": "Başka sağlayıcı ekle",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modelleri)",
+      "fal": "Görsel, video, 3D ve fotoğraf araçları",
+      "kie": "Görseller ve videolar",
+      "replicate": "Görseller ve videolar",
+      "xai": "Grok ile sohbet ve görsel oluşturma",
+      "elevenlabs": "Ses, dublaj, müzik ve ses efektleri",
+      "gemini": "Çeviri, yazma yardımı ve özetler",
+      "venice": "Asistanla sohbet",
+      "perplexity": "Asistanla web araması",
+      "deepgram": "Konuşma dökümleri ve canlı altyazılar",
+      "openrouter": "Tek anahtarla yüzlerce sohbet ve metin modeli",
+      "groq": "Hızlı sohbet ve metin",
+      "mistral": "Sohbet ve metin"
+    }
   },
   "postBg": {
     "scope": "Uygula",
@@ -19684,5 +19706,6 @@
     "postSnapshot": "Ekran görüntüsü paylaş",
     "shareLink": "Bağlantıyı paylaş",
     "snapshotFailed": "Ekran görüntüsü alınamadı. Tekrar dene."
-  }
+  },
+  "ppvPreview": {"watch": "Ücretsiz ön izlemeyi izle", "title": "Ücretsiz video ön izlemesi", "unavailable": "Ön izleme kullanılamıyor", "retry": "Tekrar dene", "loading": "Ön izleme yükleniyor…", "seconds": "Ücretsiz ön izleme (saniye)", "secondsHint": "1–30 saniye seçin. Ön izlemeyi atlamak için 0 girin."}
 }

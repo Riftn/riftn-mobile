@@ -1,16 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Dimensions, I18nManager, Keyboard, Platform, StyleSheet, View, type GestureResponderEvent } from 'react-native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, type GestureType } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { completesSwipeBack, pageSwipeAllowed, SWIPE_BACK_EDGE, SWIPE_BACK_PAGE_DISTANCE } from '../../libs/swipe-back';
 import { SwipeBackActions, SwipeBackEdgeOwner, SwipeBackPan, type BackAction, type ClaimEdgeSwipe, type RegisterBackAction } from '../../hooks/useSwipeBack';
+import { PagerGestureProvider } from '../../context/PagerGestureContext';
 
-export default function SwipeBackBoundary({ children, onBack, enabled = true, isFocused }: {
+export default function SwipeBackBoundary({ children, onBack, enabled = true, isFocused, allowIOS = false, protectSideways = false }: {
   children: React.ReactNode;
   onBack?: BackAction;
   enabled?: boolean;
   isFocused?: () => boolean;
+  /** For surfaces that own their dismissal and have no native-stack swipe. */
+  allowIOS?: boolean;
+  /** Reserve horizontal galleries and controls even near the edge. */
+  protectSideways?: boolean;
 }) {
   const actions = useRef(new Map<symbol, BackAction>());
   const [hasAction, setHasAction] = useState(false);
@@ -50,9 +55,9 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
   }, [onBack, isFocused]);
   const direction = I18nManager.isRTL ? -1 : 1;
   const screenWidth = Dimensions.get('window').width;
-  const active = enabled && edgeOwners === 0 && (hasAction || !!onBack) && Platform.OS !== 'ios';
-  // Where the finger went down: the edge strip always goes back; further in,
-  // only plain page does (not a sideways list, a text field or a slider).
+  const active = enabled && edgeOwners === 0 && (hasAction || !!onBack) && (Platform.OS !== 'ios' || allowIOS);
+  // Where the finger went down: ordinary pages give the edge to Back; the
+  // photo drawer reserves sideways lists, text fields and sliders there too.
   // Read on the UI thread, where the claim has to be made: a gesture's state
   // can only be set from a worklet.
   const pageOk = useSharedValue(false);
@@ -61,6 +66,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
   const fromEdge = useSharedValue(true);
   const multi = useSharedValue(false);
   const page = useRef<View>(null);
+  const pagerRef = useRef<GestureType | undefined>(undefined);
   const markTouch = useCallback((event: GestureResponderEvent) => {
     pageOk.value = active && pageSwipeAllowed(event.target, page.current);
   }, [active, pageOk]);
@@ -77,6 +83,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
     ],
   }));
   const gesture = useMemo(() => Gesture.Pan()
+    .withRef(pagerRef)
     .enabled(active)
     // Decided by hand: a drag claims back only once it is clearly sideways,
     // so lists still scroll and inner swipes (pagers, reply swipes, pinch)
@@ -103,7 +110,7 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
       if (dx < -14) { state.fail(); return; }
       const claim = fromEdge.value ? 14 : 24;
       if (dx > claim && dx > dy * 2) {
-        if (!fromEdge.value && !pageOk.value) { state.fail(); return; }
+        if ((!fromEdge.value || protectSideways) && !pageOk.value) { state.fail(); return; }
         state.activate();
       }
     })
@@ -118,21 +125,23 @@ export default function SwipeBackBoundary({ children, onBack, enabled = true, is
       cueX.value = Math.min(1, Math.max(0, (event.translationX * direction) / need));
       cueY.value = Math.max(20, event.y - 22);
     })
-    .onEnd((event) => {
+    .onEnd((event, success) => {
       'worklet';
       const need = fromEdge.value ? 64 : SWIPE_BACK_PAGE_DISTANCE;
-      if (!multi.value && completesSwipeBack(event.translationX * direction, event.translationY, event.velocityX * direction, need)) runOnJS(back)();
+      if (success && !multi.value && completesSwipeBack(event.translationX * direction, event.translationY, event.velocityX * direction, need)) runOnJS(back)();
     })
     .onFinalize(() => {
       'worklet';
       cueShown.value = withTiming(0, { duration: 160 });
       cueX.value = withTiming(0, { duration: 160 });
-    }), [active, direction, screenWidth, back, pageOk, startX, startY, fromEdge, multi, cueX, cueY, cueShown]);
+    }), [active, direction, screenWidth, back, pageOk, startX, startY, fromEdge, multi, cueX, cueY, cueShown, protectSideways]);
   return <SwipeBackActions.Provider value={register}>
     <SwipeBackEdgeOwner.Provider value={claimEdge}>
       <GestureDetector gesture={gesture}>
         <View ref={page} style={{ flex: 1 }} collapsable={false} onTouchStart={markTouch}>
-          <SwipeBackPan.Provider value={active ? gesture : null}>{children}</SwipeBackPan.Provider>
+          <SwipeBackPan.Provider value={active ? gesture : null}>
+            {protectSideways ? <PagerGestureProvider gestureRef={pagerRef}>{children}</PagerGestureProvider> : children}
+          </SwipeBackPan.Provider>
           <Animated.View pointerEvents="none" style={[styles.cue, I18nManager.isRTL ? { right: 0 } : { left: 0 }, cueStyle]}>
             <Ionicons name="arrow-back" size={20} color="#fff" style={I18nManager.isRTL ? { transform: [{ scaleX: -1 }] } : undefined} />
           </Animated.View>

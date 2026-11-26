@@ -14,6 +14,7 @@ import i18n from 'i18next';
 import { listenForReplies, registerMessageReplyCategory } from './message-reply';
 import { setCategoryInTurn } from './category-queue';
 import { showMessageBanner } from '../../libs/message-banner';
+import { readNotificationData } from '../../libs/push-tap-data';
 
 const logger = createLogger('PushService');
 
@@ -128,6 +129,10 @@ export interface NotificationData {
   [key: string]: unknown;
 }
 
+function conversationIdFromDmLink(deepLink: unknown): string | undefined {
+  return typeof deepLink === 'string' ? deepLink.match(/\/dm\/([^/?#]+)/)?.[1] : undefined;
+}
+
 // Configure default behavior when notification is received in foreground
 Notifications.setNotificationHandler({
   handleNotification: async (notification) => {
@@ -137,8 +142,7 @@ Notifications.setNotificationHandler({
     const isCall = data.type === 'incoming_call';
     // A message for the chat already open on screen: the reader is in it, the
     // line lands in the thread, so no banner and no sound.
-    const conversationId = data.conversationId
-      ?? (typeof data.deepLink === 'string' ? data.deepLink.match(/\/dm\/([^/?#]+)/)?.[1] : undefined);
+    const conversationId = data.conversationId ?? conversationIdFromDmLink(data.deepLink);
     const inOpenChat = data.type === 'new_message'
       && AppState.currentState === 'active'
       && isConversationOpen(conversationId);
@@ -269,6 +273,10 @@ export async function registerForPushNotifications(): Promise<string | null> {
   }
 }
 
+function allowsNotificationDelivery(settings: Notifications.NotificationPermissionsStatus): boolean {
+  return settings.status === 'granted' || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
+}
+
 /**
  * Internal function that does the actual registration work.
  */
@@ -282,17 +290,13 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
 
   try {
     // Check existing permissions
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-
-    // Request permission if not already granted
-    if (existingStatus !== 'granted') {
+    let permission = await Notifications.getPermissionsAsync();
+    if (!allowsNotificationDelivery(permission)) {
       logger.info('Requesting push notification permissions...');
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
+      permission = await Notifications.requestPermissionsAsync();
     }
 
-    if (finalStatus !== 'granted') {
+    if (!allowsNotificationDelivery(permission)) {
       logger.warn('Push notification permission denied');
       setRegistrationState('denied');
       return null;
@@ -763,6 +767,34 @@ export async function getPresentedNotifications(): Promise<Notifications.Notific
   }
 }
 
+/** Dismiss the current account's delivered message alerts through this read. */
+export async function dismissReadMessageNotifications(
+  conversationId: string,
+  recipient: string,
+  readThrough: number,
+  isCurrent: () => boolean,
+): Promise<void> {
+  const account = recipient.toLowerCase();
+  const presented = await getPresentedNotifications();
+  if (!isCurrent()) return;
+
+  // Expo exposes UNNotification dates in seconds and Android dates in milliseconds.
+  const dateScale = Platform.OS === 'ios' ? 1_000 : 1;
+  const matching = presented.filter(notification => {
+    const deliveredAt = notification.date * dateScale;
+    if (!(deliveredAt > 0 && deliveredAt <= readThrough)) return false;
+    const data = readNotificationData(notification);
+    // Two accounts on one phone can be participants in the same conversation.
+    // An alert without a recipient cannot safely be attributed to either one.
+    if (data?.type !== 'new_message' || typeof data.recipient !== 'string' || data.recipient.toLowerCase() !== account) {
+      return false;
+    }
+    const id = typeof data.conversationId === 'string' ? data.conversationId : conversationIdFromDmLink(data.deepLink);
+    return id === conversationId;
+  });
+  await Promise.all(matching.map(notification => dismissNotification(notification.request.identifier)));
+}
+
 /**
  * Schedule a local notification immediately (useful for testing).
  */
@@ -795,8 +827,7 @@ export async function arePushNotificationsEnabled(): Promise<boolean> {
   if (!Device.isDevice) return false;
   
   try {
-    const { status } = await Notifications.getPermissionsAsync();
-    return status === 'granted';
+    return allowsNotificationDelivery(await Notifications.getPermissionsAsync());
   } catch {
     return false;
   }
@@ -811,11 +842,11 @@ export async function getNotificationPermissionStatus(): Promise<{
   status: Notifications.PermissionStatus;
 }> {
   try {
-    const { status, canAskAgain } = await Notifications.getPermissionsAsync();
+    const settings = await Notifications.getPermissionsAsync();
     return {
-      granted: status === 'granted',
-      canAskAgain: canAskAgain ?? false,
-      status,
+      granted: allowsNotificationDelivery(settings),
+      canAskAgain: settings.canAskAgain ?? false,
+      status: settings.status,
     };
   } catch {
     return {

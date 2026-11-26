@@ -117,7 +117,7 @@
     "humor": "Humor",
     "life": "Vida"
   },
-  "stories": {"activity": {"creatorBlocked":"Creador bloqueado","creatorMuted":"Creador silenciado","hideBar":"Ocultar barra de actividad","hideLive":"Ocultar directo","hideStory":"Ocultar Momento","join":"Unirse","liveHidden":"Directo oculto","options":"Opciones de actividad","showBar":"Mostrar barra de actividad","storyHidden":"Momento oculto","watchLive":"Ver directo","watchStory":"Ver Momento"}, "you": "Tú", "spot": {"views": "{{n}} vistas", "listening": "{{n}} escuchando", "moments": "{{n}} Momentos", "oneMoment": "1 Momento", "watching": "{{n}} viendo"}, "ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"},
+  "stories": {"paidChat": "Esta persona cobra por los mensajes. Abre el chat para enviar tu respuesta.", "privateReply": "Envía una respuesta privada…", "replySent": "Respuesta enviada", "sendPrivateReply": "Enviar una respuesta privada", "activity": {"creatorBlocked":"Creador bloqueado","creatorMuted":"Creador silenciado","hideBar":"Ocultar barra de actividad","hideLive":"Ocultar directo","hideStory":"Ocultar Momento","join":"Unirse","liveHidden":"Directo oculto","options":"Opciones de actividad","showBar":"Mostrar barra de actividad","storyHidden":"Momento oculto","watchLive":"Ver directo","watchStory":"Ver Momento"}, "you": "Tú", "spot": {"views": "{{n}} vistas", "listening": "{{n}} escuchando", "moments": "{{n}} Momentos", "oneMoment": "1 Momento", "watching": "{{n}} viendo"}, "ask": {"prompt": "¿Qué hay hoy?", "promptNamed": "¿Qué hay hoy, {{name}}?", "create": "Crear", "moment": "Momento", "momentHint": "Foto o video durante 24 horas", "post": "Publicación", "postHint": "Texto, fotos o video en tu feed", "live": "En vivo", "liveHint": "Transmite video en vivo ahora", "stage": "Escenario", "stageHint": "Habla en vivo con voces", "status": "Estado", "statusHint": "Una nota breve que ven tus seguidores"},
     "comments": "Comentarios",
     "commentFailed": "Tu comentario no se publicó. Inténtalo de nuevo.",
     "noCommentsYet": "Aún no hay comentarios. Di algo que todos puedan ver.",
@@ -2659,6 +2659,8 @@
     "transferDhb": "Transferir tokens"
   },
   "wallet": {
+    "legacyDhb": "DHB anterior",
+    "legacyDhbHoldings": "Saldos en cadena",
     "connectUnavailable": "Conectar billetera no está disponible en esta versión — restaura con tu frase de recuperación.",
     "connectedWrongWallet": "Esa billetera es {{connected}}, no {{address}}. No se cambió nada.",
     "restoreWrongWallet": "Eso abre otra billetera, no {{address}}. No se cambió nada.",
@@ -17190,6 +17192,11 @@
     "followFailed": "No se pudo seguir. Inténtalo de nuevo."
   },
   "appTokens": {
+    "reviewTransfer": "Revisar transferencia",
+    "transferComplete": "Transferencia completada",
+    "balanceAfterSend": "Después del envío: {{amount}} {{symbol}}",
+    "addNote": "Añadir una nota",
+    "minimumTransfer": "La transferencia mínima es de 1 RIFT.",
     "kindStaked": "Depositado",
     "kindUnstaked": "Retirado",
     "stakedBalance": "{{amount}} depositados",
@@ -17569,7 +17576,22 @@
     "cancel": "Cancelar",
     "getKey": "Obtener una clave de {{name}}",
     "showLess": "Mostrar solo mis claves",
-    "addAnother": "Añadir otro proveedor"
+    "addAnother": "Añadir otro proveedor",
+    "providerDescriptions": {
+      "openai": "Builder (modelos GPT)",
+      "fal": "Herramientas de imagen, vídeo, 3D y fotografía",
+      "kie": "Imágenes y vídeo",
+      "replicate": "Imágenes y vídeo",
+      "xai": "Chat e imágenes con Grok",
+      "elevenlabs": "Voz, doblaje, música y efectos de sonido",
+      "gemini": "Traducción, ayuda con la escritura y resúmenes",
+      "venice": "Chat con el asistente",
+      "perplexity": "Búsqueda web con el asistente",
+      "deepgram": "Transcripciones y subtítulos en directo",
+      "openrouter": "Cientos de modelos de chat y texto con una sola clave",
+      "groq": "Chat y texto rápidos",
+      "mistral": "Chat y texto"
+    }
   },
   "postBg": {
     "scope": "Aplicar a",
@@ -18835,5 +18857,6 @@
     "postSnapshot": "Publicar una captura",
     "shareLink": "Compartir enlace",
     "snapshotFailed": "No se pudo hacer la captura. Inténtalo de nuevo."
-  }
+  },
+  "ppvPreview": {"watch": "Ver vista previa gratis", "title": "Vista previa gratuita del vídeo", "unavailable": "Vista previa no disponible", "retry": "Volver a intentar", "loading": "Cargando vista previa…", "seconds": "Vista previa gratuita (segundos)", "secondsHint": "Elige entre 1 y 30 segundos. Introduce 0 para omitir la vista previa."}
 }

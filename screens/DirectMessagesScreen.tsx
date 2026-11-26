@@ -45,6 +45,7 @@ import DMSettingsMenu from "../components/DM/DMSettingsMenu";
 import ConversationItem from "../components/DM/ConversationItem";
 import ConversationContextMenu from "../components/DM/ConversationContextMenu";
 import { useUser, useAuthState, type User } from "../context/AuthContext";
+import { preloadPublicLiveChatHistory } from "../services/livechat.service";
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import { truncateAddress } from "../libs/strings.util";
 import { toastInfo, toastSuccess, toastError } from "../libs/toast";
@@ -668,8 +669,9 @@ const DirectMessagesInner: React.FC = () => {
 
   const handleOpenLiveChat = useCallback(() => {
     seeReactions(PUBLIC_CHAT_PREF_ID);
+    if (isSignedIn && myAddress) preloadPublicLiveChatHistory(myAddress);
     navigation.navigate(ScreenNames.LiveChat as any);
-  }, [navigation, seeReactions]);
+  }, [isSignedIn, myAddress, navigation, seeReactions]);
 
 
   const renderItem = useCallback(

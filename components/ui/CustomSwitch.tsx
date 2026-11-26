@@ -13,6 +13,7 @@ type CustomSwitchProps = {
   value: boolean;
   onValueChange: (val: boolean) => void;
   disabled?: boolean;
+  busy?: boolean;
   /** What the switch controls. Without it a screen reader says only "switch, on". */
   accessibilityLabel?: string;
 };
@@ -27,6 +28,7 @@ const CustomSwitch: React.FC<CustomSwitchProps> = ({
   value,
   onValueChange,
   disabled = false,
+  busy,
   accessibilityLabel,
 }) => {
   // Animated styles bypass the JSX colour pass, so use the resolved palette.
@@ -66,7 +68,7 @@ const CustomSwitch: React.FC<CustomSwitchProps> = ({
       hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
       accessibilityRole="switch"
       accessibilityLabel={accessibilityLabel}
-      accessibilityState={{ checked: value, disabled }}
+      accessibilityState={{ checked: value, disabled, busy }}
       style={disabled ? { opacity: isSystem ? 0.65 : 0.5 } : undefined}
     >
       {/* The resting colours and position are drawn plainly too. On iPhone an

@@ -2,6 +2,7 @@ import { tokenLabel } from '../../libs/token-label';
 import { useIsNotInterested } from "../../libs/not-interested-store";
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useClockLabel } from "../../libs/minuteClock";
+import { formatArticlePostDate, formatPostAge, formatPostDate, parsePostTimestamp } from "../../i18n/post-timestamp";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../../context/VideoDownloadContext";
@@ -10,6 +11,8 @@ import { SessionExpiredError } from "../../libs/api.client";
 import { createLogger } from "../../libs/logger";
 import { useIsWatchedVideo } from "../../hooks/useWatchedVideos";
 import { isStreamLive } from '../../libs/live-status';
+import { canShareToMoment } from '../Stories/post-moment';
+import { openPostMoment } from '../../store/stories.store';
 import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens, formatSubscriberUsd } from "../../libs/content-gate";
 import { DhbCoin } from "../common/DhbCoin";
 import { isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../../libs/video-access";
@@ -118,6 +121,7 @@ import { isPostHiddenByStorefront } from "../../libs/storefront-content";
 import { useFeedSuperpowers } from "../../context/FeedSuperpowersContext";
 import ShareSheet from "./ShareSheet";
 import RepostShareSheet from "./RepostShareSheet";
+import { withLiveShareRef } from "../../libs/shareRef";
 import { PostStageActions, PostStageChrome, PostStageCreator } from "./PostStage";
 import { clearPostStage, patchPostStage } from "../../libs/postStage";
 import { followUser, unfollowUser } from "../../services/user.service";
@@ -283,22 +287,6 @@ export function resolveContentType(item: UnifiedFeedItem): PostContentType {
   return "image";
 }
 
-function formatShortTimeAgo(dateStr?: string, nowMs = Date.now()): string {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  const diffMs = nowMs - d.getTime();
-  const mins = Math.floor(diffMs / 60000);
-  if (mins < 60) return `${mins || 1}m`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h`;
-  const days = Math.floor(hrs / 24);
-  if (days < 7) return `${days}d`;
-  if (days < 30) return `${Math.floor(days / 7)}w`;
-  const months = Math.floor(days / 30);
-  if (months < 12) return `${months}mo`;
-  return `${Math.floor(days / 365)}y`;
-}
-
 interface FeedCardProps {
   item: UnifiedFeedItem;
   /** Dedicated post navigation, rendered beside the player's volume control. */
@@ -308,6 +296,7 @@ interface FeedCardProps {
   onCategorySelect?: (category: string) => void;
   fullContent?: boolean;
   disablePress?: boolean;
+  postPage?: boolean;
   /** Held press on the card (450 ms): own profile text posts open the background picker. */
   onHold?: () => void;
   /**
@@ -374,9 +363,18 @@ const META_PILL = {
   borderRadius: 999, backgroundColor: "rgba(255,255,255,0.08)",
 } as const;
 /** The "5m" label, kept moving by the shared clock (see libs/minuteClock). */
-function TimeAgoText({ createdAt, style }: { createdAt: string; style: any }) {
-  const label = useClockLabel((nowMs) => formatShortTimeAgo(createdAt, nowMs));
-  return <Text style={style}>{label}</Text>;
+function PostTime({ createdAt, color }: { createdAt: string; color: string }) {
+  const { t, i18n } = useCopy();
+  const date = useMemo(() => parsePostTimestamp(createdAt), [createdAt]);
+  const label = useClockLabel((nowMs) => formatPostAge(date, i18n.language, t, nowMs));
+  if (!date) return null;
+  const exactTimestamp = formatPostDate(date, i18n.language, { dateStyle: "medium", timeStyle: "short" });
+  return (
+    <>
+      <Icon name="TimeAgo" size={13} color={color} />
+      <Text style={[META_LABEL, { color }]} accessibilityLabel={exactTimestamp}>{label}</Text>
+    </>
+  );
 }
 
 /**
@@ -400,12 +398,7 @@ function PostMetaItems({ createdAt, icon, count, visibility, boosted, onStatsPre
   const label = [META_LABEL, { color: iconColor }];
   return (
     <>
-      {createdAt ? (
-        <>
-          <Icon name="TimeAgo" size={13} color={iconColor} />
-          <TimeAgoText createdAt={createdAt} style={label} />
-        </>
-      ) : null}
+      {createdAt ? <PostTime createdAt={createdAt} color={iconColor} /> : null}
       {boosted ? (
         <Text
           style={[META_TEXT, { fontSize: 11, letterSpacing: 0.9, textTransform: "uppercase", color: isLight ? "hsla(240,6%,10%,0.85)" : "hsla(0,0%,100%,0.85)" }]}
@@ -491,6 +484,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   onCategorySelect,
   fullContent = false,
   disablePress = false,
+  postPage = false,
   onHold,
   menuHost,
   onCommentPress: onCommentPressProp,
@@ -1095,13 +1089,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const sound = attachedSoundFrom(soundtrack);
     requireAuth?.(() => navigation.navigate(ScreenNames.Upload as never, { sound } as never));
   }, [soundtrack, requireAuth, navigation]);
-  // The App Store build has no SuperPowers page (config/storefront): the
-  // label stays, the link goes.
-  const openSuperPowers = DIGITAL_PURCHASES_ENABLED ? goToSuperPowers : undefined;
   const handleShowReactionInfo = useCallback(() => setShowReactionInfo(true), [setShowReactionInfo]);
-  // Relative time moves by the minute at most; recomputing it on every render
-  // parsed the date each time.
-  const timeAgo = useMemo(() => formatShortTimeAgo(createdAt), [createdAt]);
+  const postDate = useMemo(() => parsePostTimestamp(createdAt), [createdAt]);
+  const timeAgo = useMemo(() => formatPostAge(postDate, i18n.language, t), [postDate, i18n.language, t]);
   const warmPost = useCallback(() => {
     if (disablePress || isLive || isVideo || tokenId == null) return;
     seedPostDetail(tokenId, item);
@@ -1444,8 +1434,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   const handleSharePress = useCallback(() => {
     if (tokenId == null) return;
-    sharePostAsImage(Number(tokenId), shareUrl, localTitle || undefined, item.postType).catch(() => {});
-  }, [tokenId, shareUrl, localTitle, item.postType]);
+    const url = isLive ? withLiveShareRef(shareUrl, isPublicPost) : shareUrl;
+    sharePostAsImage(Number(tokenId), url, localTitle || undefined, isLive ? "live" : item.postType).catch(() => {});
+  }, [tokenId, shareUrl, localTitle, item.postType, isLive, isPublicPost]);
 
   const handleTipPress = useCallback(() => {
     if (!minterAddress) return;
@@ -1514,11 +1505,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   const handleCopyLink = useCallback(() => {
     if (tokenId == null) return;
-    copyToClipboard(shareUrl);
+    copyToClipboard(isLive ? withLiveShareRef(shareUrl, isPublicPost) : shareUrl);
     toastSuccess(t("feedCard.linkCopied"));
     // A copy is a share: it counts once per actor per post, next to reposts.
     trackLinkCopy(tokenId, userAddress, linkCopyCount);
-  }, [tokenId, shareUrl, trackLinkCopy, userAddress, linkCopyCount]);
+  }, [tokenId, shareUrl, trackLinkCopy, userAddress, linkCopyCount, isLive, isPublicPost]);
 
   const handleUndoRepost = useCallback(() => {
     if (tokenId == null) return;
@@ -2147,6 +2138,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       downloadTitle={localTitle || "video"}
       isContentGated={isActuallyGated}
       isPPVLocked={isActuallyLockedPPV}
+      ppvPreviewReady={DIGITAL_PURCHASES_ENABLED && item.ppvPreview?.ready === true}
       isHoldingsLocked={isActuallyLockedHoldings}
       isBountyLocked={false}
       isSubLocked={isActuallySubGated}
@@ -2594,6 +2586,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           tokenId={tokenId}
           isOwner={!!isOwnerPost}
           post={item}
+          liveSharePublic={isLive ? isPublicPost : undefined}
           canReplaceVideo={
             !!isOwnerPost && !isLive && (contentType === "video" || contentType === "short")
           }
@@ -2719,7 +2712,19 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           canRepost={isPublicPost}
           onCopyLink={handleCopyLink}
           onSendToDm={isSignedIn && isPublicPost ? () => setShowShareToDm(true) : undefined}
+          onShareToPublicChat={isLive && (isCurrentlyLive || replayUrl)
+            && /^[1-9]\d*$/.test(String(tokenId))
+            && !videoNeedsAccess({
+              visibility: edits.visibility ?? item.visibility ?? stream?.visibility,
+              streamInfo,
+              plansDetails: (item as any).plansDetails ?? stream?.plansDetails,
+            })
+            ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(tokenId) }))
+            : undefined}
           onShareAsImage={handleSharePress}
+          onShareToMoment={isLive && isPublicPost && canShareToMoment(item) && /^\d+$/.test(String(tokenId))
+            ? () => requireAuth(() => openPostMoment(Number(tokenId)))
+            : undefined}
           embedTokenId={isPublicPost ? tokenId : undefined}
         />
       )}
@@ -2796,9 +2801,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           <View style={{ flexDirection: 'row', gap: SCREEN_WIDTH < 768 ? 16 : 24, alignItems: 'stretch' }}>
             <View style={{ flex: 1, minWidth: 0 }}>
               <FeedCardHeader
+                postPage={postPage}
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
-                onBoostedPress={openSuperPowers}
+                onBoostedPress={goToSuperPowers}
                 avatarUrl={avatar} displayName={displayName} username={username} address={minterAddress}
                 badgeImage={badgeImg} onUserPress={handleUserPress} onMenuPress={handleOpenOptions}
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
@@ -2893,7 +2899,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   label={t("articles.label")}
                   title={(isTranslated ? translatedTexts.title : localTitle) || undefined}
                   coverUri={item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], FETCH_WIDTH)[0] : undefined}
-                  meta={[createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ")}
+                  meta={[postDate ? formatArticlePostDate(postDate, i18n.language) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ")}
                   hero
                 />
               </View>
@@ -3004,6 +3010,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             canRepost={isPublicPost}
             onCopyLink={handleCopyLink}
             shareUrl={shareUrl}
+            liveShare={isLive}
             tokenId={tokenId ?? undefined}
             shareText={localTitle || undefined}
             quoteCount={stageQuotes}
@@ -3059,9 +3066,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const photoHeader = cinematicMedia && !chipOverMedia ? (
       <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: firstImageHeaderBelow ? 10 : leadInset }}>
               <FeedCardHeader
+                postPage={postPage}
                 coAuthors={coAuthorState.users}
                 boosted={isBoosted}
-                onBoostedPress={openSuperPowers}
+                onBoostedPress={goToSuperPowers}
                 avatarUrl={avatar}
                 displayName={displayName}
                 username={username}
@@ -3178,9 +3186,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         ) : (
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: leadInset }}>
             <FeedCardHeader
+              postPage={postPage}
                 coAuthors={coAuthorState.users}
               boosted={isBoosted}
-              onBoostedPress={openSuperPowers}
+              onBoostedPress={goToSuperPowers}
               avatarUrl={avatar}
               displayName={displayName}
               username={username}
@@ -3415,9 +3424,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           card is ~100 native views, each one paid for at mount mid-fling. */}
       {!retainFeedNav && postVideo && matureGate.isGated && <PostStageChrome overMedia={false} />}
       {!desk && <FeedCardHeader
+        postPage={postPage}
                 coAuthors={coAuthorState.users}
         boosted={isBoosted}
-        onBoostedPress={openSuperPowers}
+        onBoostedPress={goToSuperPowers}
         avatarUrl={avatar}
         displayName={displayName}
         username={username}
@@ -3491,7 +3501,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             label={fullContent ? t("articles.label") : `${t("articles.label")} · ${t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })}`}
             title={(isTranslated ? translatedTexts.title : localTitle) || undefined}
             coverUri={item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], FETCH_WIDTH)[0] : undefined}
-            meta={fullContent ? [createdAt ? new Date(createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ") : undefined}
+            meta={fullContent ? [postDate ? formatArticlePostDate(postDate, i18n.language) : null, t("articles.minRead", { count: articleReadingMinutes(localArticleBody) })].filter(Boolean).join(" · ") : undefined}
             hero={fullContent}
           />
         </View>

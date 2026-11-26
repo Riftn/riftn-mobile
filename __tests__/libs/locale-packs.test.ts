@@ -43,7 +43,10 @@ it('loads a committed language source when the CDN has not published its version
   expect(await loadLanguage('fr')).toBe(true);
   expect(i18n.getResource('fr', 'translation', 'common.sourceProbe')).toBe('Bonjour');
   const requests = fetchSource.mock.calls.map(([url]) => url);
-  expect(requests.filter(url => url.includes('/locale-packs/'))).toHaveLength(6);
+  // The full source already supplies the background groups after core falls back.
+  expect(requests.filter(url => url.includes('/locale-packs/'))).toEqual([
+    expect.stringMatching(/\/fr\/core\.json$/),
+  ]);
   expect(requests.filter(url => /raw\.githubusercontent\.com\/Riftn\/riftn-mobile\/[a-f0-9]{40}\/i18n\/locales\/fr.json$/.test(url))).toHaveLength(1);
 });
 

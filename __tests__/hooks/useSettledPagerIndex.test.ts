@@ -5,6 +5,26 @@ describe('shorts landing after interrupted momentum', () => {
   beforeEach(() => jest.useFakeTimers());
   afterEach(() => jest.useRealTimers());
 
+  it('keeps the tapped page through native startup events and then follows the first swipe', () => {
+    const commit = jest.fn();
+    const { result } = renderHook(() => useSettledPagerIndex(commit, 800, 10));
+    act(() => {
+      result.current.observe(2400);
+      result.current.settleNative(1600);
+      result.current.candidate(2);
+      jest.advanceTimersByTime(200);
+    });
+    expect(commit).not.toHaveBeenCalled();
+
+    act(() => {
+      result.current.begin();
+      result.current.endDrag(3100);
+      result.current.momentum();
+      result.current.settleNative(3200);
+    });
+    expect(commit.mock.calls).toEqual([[4]]);
+  });
+
   it('ignores passing candidates until momentum lands on the final page', () => {
     const commit = jest.fn();
     const { result } = renderHook(() => useSettledPagerIndex(commit, 800, 10));

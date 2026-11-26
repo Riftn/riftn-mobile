@@ -174,6 +174,27 @@ describe('hooks/useDrafts', () => {
     expect(mockEqSpy).toHaveBeenCalledWith('id', 'row-1');
   });
 
+  it('clears the mounted composer count when Drafts deletes the last draft', async () => {
+    const otherAddress = '0xDef0000000000000000000000000000000000002';
+    const otherKey = `@dhb_drafts:${otherAddress.toLowerCase()}`;
+    mockStore[KEY] = JSON.stringify([{ ...newDraft('last draft'), id: 'a', createdAt: 1 }]);
+    mockStore[otherKey] = JSON.stringify([{ ...newDraft('other account'), id: 'b', createdAt: 1 }]);
+    const composer = renderHook(() => useDrafts(ADDRESS));
+    const draftScreen = renderHook(() => useDrafts(ADDRESS.toLowerCase()));
+    const otherAccount = renderHook(() => useDrafts(otherAddress));
+    await waitFor(() => {
+      expect(composer.result.current.drafts).toHaveLength(1);
+      expect(draftScreen.result.current.drafts).toHaveLength(1);
+      expect(otherAccount.result.current.drafts).toHaveLength(1);
+    });
+
+    await act(async () => draftScreen.result.current.deleteDraft('a'));
+
+    expect(composer.result.current.drafts).toHaveLength(0);
+    expect(draftScreen.result.current.drafts).toHaveLength(0);
+    expect(otherAccount.result.current.drafts[0].id).toBe('b');
+  });
+
   it('keeps the edited copy when the reopened draft is deleted right after saving it', async () => {
     mockStore[KEY] = JSON.stringify([{ ...newDraft('original'), id: 'draft_old', createdAt: 1, remoteId: 'row-old' }]);
     const { result } = renderHook(() => useDrafts(ADDRESS));

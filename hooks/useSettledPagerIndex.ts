@@ -11,6 +11,7 @@ const LANDED_SPEED = 0.0015;
 
 /** Keep player creation out of a pager's drag and momentum frames. */
 export function useSettledPagerIndex(commit: (index: number) => void, height: number, count: number) {
+  const hasPaged = useRef(false);
   const moving = useRef(false);
   const dragging = useRef(false);
   const latestOffset = useRef(0);
@@ -26,6 +27,7 @@ export function useSettledPagerIndex(commit: (index: number) => void, height: nu
   useEffect(() => cancel, [cancel]);
 
   const settle = useCallback((offset: number) => {
+    hasPaged.current = true;
     cancel();
     moving.current = false;
     dragging.current = false;
@@ -34,6 +36,13 @@ export function useSettledPagerIndex(commit: (index: number) => void, height: nu
       commit(Math.max(0, Math.min(count - 1, Math.round(offset / height))));
     }
   }, [cancel]);
+
+  // iOS emits momentum-end for the initial, non-animated scroll as well.
+  const settleNative = useCallback((offset: number) => {
+    if (!hasPaged.current) return false;
+    settle(offset);
+    return true;
+  }, [settle]);
 
   const observe = useCallback((offset: number) => {
     latestOffset.current = offset;
@@ -57,18 +66,21 @@ export function useSettledPagerIndex(commit: (index: number) => void, height: nu
   }, [cancel, settle]);
 
   const begin = useCallback(() => {
+    hasPaged.current = true;
     cancel();
     lastSample.current = null;
     moving.current = true;
     dragging.current = true;
   }, [cancel]);
   const momentum = useCallback(() => {
+    if (!hasPaged.current) return;
     cancel();
     lastSample.current = null;
     moving.current = true;
     dragging.current = false;
   }, [cancel]);
   const endDrag = useCallback((offset: number) => {
+    if (!hasPaged.current) return;
     cancel();
     latestOffset.current = offset;
     dragging.current = false;
@@ -77,10 +89,10 @@ export function useSettledPagerIndex(commit: (index: number) => void, height: nu
     timer.current = setTimeout(() => settle(latestOffset.current), 160);
   }, [cancel, settle]);
   const candidate = useCallback((index: number) => {
-    if (!moving.current && index >= 0 && index < config.current.count) {
+    if (hasPaged.current && !moving.current && index >= 0 && index < config.current.count) {
       config.current.commit(index);
     }
   }, []);
 
-  return { begin, momentum, endDrag, settle, candidate, observe };
+  return { begin, momentum, endDrag, settle, settleNative, candidate, observe, hasPaged };
 }

@@ -16967,7 +16967,22 @@
     "paste": "貼上你嘅 {{name}} 金鑰",
     "getKey": "攞一個 {{name}} 金鑰",
     "showLess": "只顯示我嘅金鑰",
-    "addAnother": "加另一個供應商"
+    "addAnother": "加另一個供應商",
+    "providerDescriptions": {
+      "openai": "Builder（GPT 模型）",
+      "fal": "圖像、影片、3D 同相片工具",
+      "kie": "圖像同影片",
+      "replicate": "圖像同影片",
+      "xai": "用 Grok 傾偈同整圖",
+      "elevenlabs": "語音、配音、音樂同音效",
+      "gemini": "翻譯、寫作輔助同摘要",
+      "venice": "同助理傾偈",
+      "perplexity": "用助理喺網上搜尋",
+      "deepgram": "逐字稿同即時字幕",
+      "openrouter": "一條金鑰就用到幾百款傾偈同文字模型",
+      "groq": "快速傾偈同生成文字",
+      "mistral": "傾偈同生成文字"
+    }
   },
   "postBg": {
     "addMedia": "加圖片、GIF 或者影片",

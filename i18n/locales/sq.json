@@ -16942,7 +16942,22 @@
     "paste": "Ngjit çelësin tënd {{name}}",
     "getKey": "Merr një çelës {{name}}",
     "showLess": "Shfaq vetëm çelësat e mi",
-    "addAnother": "Shto një ofrues tjetër"
+    "addAnother": "Shto një ofrues tjetër",
+    "providerDescriptions": {
+      "openai": "Builder (modelet GPT)",
+      "fal": "Mjete për imazhe, video, 3D dhe fotografi",
+      "kie": "Imazhe dhe video",
+      "replicate": "Imazhe dhe video",
+      "xai": "Biseda dhe imazhe me Grok",
+      "elevenlabs": "Zë, dublim, muzikë dhe efekte zanore",
+      "gemini": "Përkthim, ndihmë për shkrim dhe përmbledhje",
+      "venice": "Bisedë me asistentin",
+      "perplexity": "Kërkim në ueb me asistentin",
+      "deepgram": "Transkripte dhe titra në kohë reale",
+      "openrouter": "Qindra modele bisede dhe teksti me një çelës",
+      "groq": "Bisedë dhe tekst i shpejtë",
+      "mistral": "Bisedë dhe tekst"
+    }
   },
   "postBg": {
     "addMedia": "Shto një foto, GIF ose video",

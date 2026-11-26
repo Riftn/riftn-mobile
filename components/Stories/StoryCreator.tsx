@@ -69,7 +69,7 @@ const SHARE_COLORS: Partial<Record<string, { from: string; to: string; ink: stri
 const MAX_MENTIONS = 10;
 
 /** `postTokenId`: shared from one of your posts. A video one plays from the CDN and the server cuts it. */
-type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number; postTokenId?: number };
+type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number; postTokenId?: number; caption?: string };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
 const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
@@ -149,7 +149,7 @@ export default function StoryCreator({ onClose, remixSource, postTokenId }: { on
           <Editor picked={picked} onBack={() => (picked.postTokenId != null ? onClose() : setPicked(null))} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} customPhotoDuration={!!storyCapabilities?.supportsPhotoDuration} />
         ) : postTokenId != null ? (
           <View style={[styles.root, { alignItems: "center", justifyContent: "center" }]}>
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#fff" accessibilityRole="progressbar" accessibilityLabel={t("common.loading", { defaultValue: "Loading" })} />
             <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.darkGlass, { position: "absolute", top: insets.top + 8, left: 12 }]} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
               <Icon name="X" size={20} color="#fff" />
             </TouchableOpacity>
@@ -435,7 +435,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       let mimeType = picked.mimeType;
       const fromPostVideo = picked.kind === "video" && picked.postTokenId != null;
       let overlayUri: string | null = null;
-      let caption: string | undefined;
+      let caption = picked.caption;
       if (compose) {
         if (picked.kind === "photo") {
           uri = await compose.composePhoto(picked.uri, visible, look, backdrop);
@@ -444,7 +444,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           overlayUri = await compose.composeOverlay(visible);
         }
       } else if (words) {
-        caption = words.slice(0, 300);
+        caption = [picked.caption, words].filter(Boolean).join("\n").slice(0, 300);
       }
       shareMoment(
         {

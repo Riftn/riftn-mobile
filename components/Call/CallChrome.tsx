@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef } from "react";
-import { Animated, Easing, Modal, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Animated, Easing, Modal, Pressable, StatusBar, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -10,7 +10,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { KeepDarkScope } from "../../libs/jsx/tone";
 import { useTranslation } from "react-i18next";
 import CallRings from "./CallRings";
-import { stagePalette, type StagePalette } from "./callStage";
+import { stagePalette, withAlpha, type StagePalette } from "./callStage";
 import type { PeerIdentity } from "./usePeerIdentity";
 import type { AppThemeName } from "../../theme/colors";
 
@@ -63,7 +63,7 @@ const OVER_VIDEO: Partial<StagePalette> = {
   muted: "rgba(255,255,255,0.82)",
   glassStrong: "rgba(255,255,255,0.22)",
   line: "rgba(255,255,255,0.2)",
-  dock: "rgba(18,18,22,0.55)",
+  dock: "rgba(18,18,22,0.78)",
 };
 
 export const CallStage: React.FC<{
@@ -73,10 +73,11 @@ export const CallStage: React.FC<{
   onCorner?: () => void;
   cornerIcon?: IconName;
   cornerLabel?: string;
+  onMessage?: () => void;
   /** Live video fills the stage, so the blurred picture steps aside. */
   live?: boolean;
   children: React.ReactNode;
-}> = ({ peer, onRequestClose, onCorner, cornerIcon = "ChevronDown", cornerLabel, live, children }) => {
+}> = ({ peer, onRequestClose, onCorner, cornerIcon = "ChevronDown", cornerLabel, onMessage, live, children }) => {
   const { themeChoice, accent } = useAppTheme();
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
@@ -119,10 +120,21 @@ export const CallStage: React.FC<{
                 accessibilityRole="button"
                 accessibilityLabel={cornerLabel ?? t("calls.minimize")}
                 hitSlop={8}
-                style={[styles.corner, { top: insets.top + 12 }]}
+                style={({ pressed }) => [styles.corner, { left: 16, top: insets.top + 12 }, pressed && styles.pressed]}
               >
                 <Fill color={live ? palette.dock : palette.glass} line={palette.line} />
                 <View><Icon name={cornerIcon} size={20} color={palette.fg} /></View>
+              </Pressable>
+            ) : null}
+            {onMessage ? (
+              <Pressable
+                onPress={onMessage}
+                accessibilityRole="button"
+                accessibilityLabel={t("dm.openChat")}
+                style={({ pressed }) => [styles.corner, { right: 16, top: insets.top + 12 }, pressed && styles.pressed]}
+              >
+                <Fill color={live ? palette.dock : palette.glass} line={palette.line} />
+                <View><Icon name="MessageCircle" size={20} color={palette.fg} /></View>
               </Pressable>
             ) : null}
           </View>
@@ -142,22 +154,34 @@ export const CallIdentity: React.FC<{
   status: React.ReactNode;
   /** Waiting on an answer, either way round: the theme's ringing effect plays. */
   ringing?: boolean;
+  direct?: boolean;
   children?: React.ReactNode;
-}> = ({ kindLabel, kindIcon, peer, status, ringing, children }) => {
+}> = ({ kindLabel, kindIcon, peer, status, ringing, direct, children }) => {
   const { palette, theme } = useStage();
   const insets = useSafeAreaInsets();
-  const corner = theme === "minimal" ? 0 : theme === "hacker" ? 4 : Math.round(AVATAR * 0.26);
+  const { height, width } = useWindowDimensions();
+  const size = direct ? Math.max(96, Math.min(180, Math.round(height * 0.23), Math.round(width * 0.48))) : AVATAR;
+  const corner = theme === "minimal" ? 0 : theme === "hacker" ? 4 : Math.round(size * 0.26);
+  const detailColor = direct ? palette.fg : palette.muted;
+  const headingOffset = direct && height >= 680 ? Math.round(height * 0.12) : 68;
   return (
-    <View style={[styles.identity, { paddingTop: insets.top + 68 }]}>
+    <View style={[styles.identity, { paddingTop: insets.top + headingOffset }]}>
       <View style={styles.kindRow}>
-        <Icon name={kindIcon} size={13} color={palette.muted} />
-        <Text style={[styles.kindLabel, { color: palette.muted }]} numberOfLines={1}>{kindLabel}</Text>
+        <Icon name={kindIcon} size={13} color={detailColor} />
+        <Text style={[styles.kindLabel, { color: detailColor }]} numberOfLines={1}>{kindLabel}</Text>
       </View>
       <Text style={[styles.name, { color: palette.fg }]} numberOfLines={1}>{peer.name}</Text>
-      <Text style={[styles.status, { color: palette.muted }]} numberOfLines={1}>{status}</Text>
-      <View style={styles.avatarBox}>
-        {ringing ? <CallRings theme={theme} size={AVATAR} radius={corner} palette={palette} /> : null}
-        <Avatar uri={peer.avatarUrl} size={AVATAR} radius={corner} name={peer.name} />
+      <Text style={[styles.status, { color: detailColor }]} numberOfLines={1}>{status}</Text>
+      <View style={{ width: size, height: size, marginTop: direct ? (height < 620 ? 12 : 24) : 48 }}>
+        {ringing ? <CallRings theme={theme} size={size} radius={corner} palette={palette} /> : null}
+        <Avatar
+          uri={peer.avatarUrl}
+          size={size}
+          radius={corner}
+          name={peer.name.replace(/^@/, "")}
+          borderWidth={direct ? 1 : 0}
+          borderColor={withAlpha(palette.fg, 0.36)}
+        />
       </View>
       {children}
     </View>
@@ -204,11 +228,13 @@ export const CallControl: React.FC<{
   primary?: boolean;
   compact?: boolean;
   disabled?: boolean;
+  direct?: boolean;
+  large?: boolean;
   /** Can't be turned on right now, but still tappable so it can say why. */
   dimmed?: boolean;
-}> = ({ icon, label, onPress, active, primary, compact, disabled, dimmed }) => {
+}> = ({ icon, label, onPress, active, primary, compact, disabled, direct, large, dimmed }) => {
   const { palette } = useStage();
-  const size = compact ? 52 : 60;
+  const size = large ? 66 : compact ? 52 : 60;
   const solid = (primary || active) && !dimmed;
   return (
     <View style={[styles.controlSlot, { width: size + 8, opacity: disabled ? 0.4 : dimmed ? 0.6 : 1 }]}>
@@ -224,10 +250,15 @@ export const CallControl: React.FC<{
           pressed && styles.pressed,
         ]}
       >
-        <Fill color={solid ? palette.fg : palette.glassStrong} />
+        <Fill color={solid ? palette.fg : palette.glassStrong} line={direct && !solid ? palette.line : undefined} />
         <View><Icon name={icon} size={compact ? 21 : 24} color={solid ? palette.onFg : palette.fg} /></View>
       </Pressable>
-      <Text style={[styles.controlLabel, { color: palette.muted }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+      <Text
+        style={[styles.controlLabel, { color: direct ? palette.fg : palette.muted, fontSize: direct ? 13 : 12 }]}
+        numberOfLines={direct ? 2 : 1}
+        adjustsFontSizeToFit={!direct}
+        minimumFontScale={0.8}
+      >
         {label}
       </Text>
     </View>
@@ -273,19 +304,26 @@ export const CallPill: React.FC<{
 };
 
 /** The bottom of the stage: the dock or the pills, clear of the home bar. */
-export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void }> = ({ children, onHeight }) => {
+export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void; overVideo?: boolean; ringing?: boolean }> = ({ children, onHeight, overVideo, ringing }) => {
   const insets = useSafeAreaInsets();
+  const { height } = useWindowDimensions();
+  const bottomSpace = ringing && height >= 680 ? Math.round(height * 0.08) : 22;
   return (
     <View
-      style={[styles.foot, { paddingBottom: Math.max(22, insets.bottom + 10) }]}
+      style={[styles.foot, { paddingBottom: Math.max(bottomSpace, insets.bottom + 10) }]}
       onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
     >
+      {overVideo ? (
+        <LinearGradient colors={["transparent", "rgba(0,0,0,0.84)"]} style={StyleSheet.absoluteFill} pointerEvents="none" />
+      ) : null}
       {children}
     </View>
   );
 };
 
-export const CallRow: React.FC<{ children: React.ReactNode }> = ({ children }) => <View style={styles.row}>{children}</View>;
+export const CallRow: React.FC<{ children: React.ReactNode; ringing?: boolean }> = ({ children, ringing }) => (
+  <View style={[styles.row, ringing && styles.ringingRow]}>{children}</View>
+);
 
 const styles = StyleSheet.create({
   stage: {
@@ -302,9 +340,8 @@ const styles = StyleSheet.create({
   },
   corner: {
     position: "absolute",
-    left: 16,
-    width: 40,
-    height: 40,
+    width: 44,
+    height: 44,
     borderRadius: radius.full,
     alignItems: "center",
     justifyContent: "center",
@@ -335,11 +372,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontVariant: ["tabular-nums"],
   },
-  avatarBox: {
-    marginTop: 48,
-    width: AVATAR,
-    height: AVATAR,
-  },
   wave: {
     flexDirection: "row",
     alignItems: "center",
@@ -360,6 +392,7 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 380,
   },
+  ringingRow: { gap: 56 },
   dock: {
     flexDirection: "row",
     alignItems: "flex-start",

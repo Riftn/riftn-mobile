@@ -1,4 +1,5 @@
-import { closeLiveMini, closeOtherLiveMini, getLiveMini, openLiveMini, setLiveMiniMode, setLiveMiniSeat, takeLiveMiniSeat } from '../../libs/live-mini';
+import type { VideoPlayer } from 'expo-video';
+import { closeLiveMini, closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, liveMiniOwnsPlayer, openLiveMini, setLiveMiniMode, setLiveMiniPlayer, setLiveMiniSeat, takeLiveMiniSeat } from '../../libs/live-mini';
 
 const base = { url: 'https://x/a.m3u8', title: 'Live', host: '@a', params: {}, mode: 'video' as const, countsAsViewer: true };
 
@@ -49,5 +50,25 @@ describe('live mini', () => {
     expect(getLiveMini()?.mode).toBe('listen');
     setLiveMiniMode('video', true);
     expect(getLiveMini()?.float).toBe(true);
+  });
+
+  it('hands the decoder back to the same live without pausing or muting it', () => {
+    const player = { pause: jest.fn(), muted: false };
+    openLiveMini({ ...base, streamId: 's1' });
+    expect(liveMiniOwnsPlayer(base.url)).toBe(true);
+    setLiveMiniPlayer(base.url, player as unknown as VideoPlayer);
+    handBackLiveMiniPlayer('s1', base.url);
+    expect(liveMiniOwnsPlayer(base.url)).toBe(false);
+    expect(player.pause).not.toHaveBeenCalled();
+    expect(player.muted).toBe(false);
+  });
+
+  it('stops the decoder when the viewer dismisses the mini', () => {
+    const player = { pause: jest.fn(), muted: false };
+    openLiveMini({ ...base, streamId: 's1' });
+    setLiveMiniPlayer(base.url, player as unknown as VideoPlayer);
+    closeLiveMini();
+    expect(player.pause).toHaveBeenCalledTimes(1);
+    expect(player.muted).toBe(true);
   });
 });

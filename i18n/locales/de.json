@@ -17005,7 +17005,22 @@
     "paste": "Füge deinen {{name}}-Schlüssel ein",
     "getKey": "{{name}}-Schlüssel holen",
     "showLess": "Nur meine Schlüssel anzeigen",
-    "addAnother": "Weiteren Anbieter hinzufügen"
+    "addAnother": "Weiteren Anbieter hinzufügen",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-Modelle)",
+      "fal": "Werkzeuge für Bilder, Videos, 3D und Fotos",
+      "kie": "Bilder und Videos",
+      "replicate": "Bilder und Videos",
+      "xai": "Chat und Bilder mit Grok",
+      "elevenlabs": "Stimme, Synchronisation, Musik und Soundeffekte",
+      "gemini": "Übersetzung, Schreibhilfe und Zusammenfassungen",
+      "venice": "Chat mit dem Assistenten",
+      "perplexity": "Websuche mit dem Assistenten",
+      "deepgram": "Transkripte und Live-Untertitel",
+      "openrouter": "Hunderte Chat- und Textmodelle mit einem Schlüssel",
+      "groq": "Schneller Chat und Text",
+      "mistral": "Chat und Text"
+    }
   },
   "postBg": {
     "scope": "Anwenden auf",

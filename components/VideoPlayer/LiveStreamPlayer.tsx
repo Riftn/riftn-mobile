@@ -55,14 +55,15 @@ import { SettingsOptionModal } from "../Settings/SettingsPrimitives";
 import { addStreamModerator, banFromStreams, getStreamBot, timeOutInStream } from "../../services/livechat.service";
 import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
-import { swipeRooms } from "../../libs/live-swipe-rooms";
+import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../../libs/viewers.util";
 import { likeLiveStream } from "../../services/live.service";
 import { getAvatarUrl, shareProfile } from "../../libs/misc";
-import { WEBSITE_LINK } from "../../config";
+import { withLiveShareRef } from "../../libs/shareRef";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
 import { StreamChatRewards } from "../LiveViewer/StreamChatRewards";
@@ -79,19 +80,22 @@ import type { EventBannerData } from "../LiveViewer/LiveEventBanner";
 import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
-import { closeLiveMini, closeOtherLiveMini, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
+import { closeLiveMini, closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
 import { LiveTimeshiftBar, LiveTimeshiftTag } from "../LiveViewer/LiveTimeshift";
 import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveTimeshift, type TimeshiftSnap } from "../../libs/liveTimeshift";
 import { DeHubLoader } from "../DeHubLoader";
 import { extractReplayUrl } from "../../libs/live-replay";
 import PostOptionsMenu from "../common/PostOptionsMenu";
+import { canShareToMoment } from "../Stories/post-moment";
+import { openPostMoment } from "../../store/stories.store";
 import ShareSheet from "../Home/ShareSheet";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { toggleRepost } from "../../services/repost.service";
 import { applyEngagement, isFailedResponse, revertEngagement } from "../../libs/engagementCache";
 import { usePostLinkCopyCount, useTrackPostLinkCopy } from "../../libs/link-copy-count";
 import { ShareLinks } from "../../navigation/linking.config";
+import { videoNeedsAccess } from "../../libs/video-access";
 import LiveWhosHereSheet from "../LiveViewer/LiveWhosHereSheet";
 import LiveRotateButton from "../LiveViewer/LiveRotateButton";
 import LiveClearedChat from "../LiveViewer/LiveClearedChat";
@@ -125,6 +129,7 @@ const LIVE_DRAG_RELEASE = 6;
 const LIVE_HIDE_SWIPE = 40;
 
 type LiveStreamPlayerProps = {
+  startWithControlsHidden?: boolean;
   // Minimal inputs; additional params may be forwarded from route
   tokenId?: string | number;
   streamId?: string;
@@ -171,6 +176,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     minter: minterProp,
     createdAt: createdAtProp,
   } = props;
+  const [restoredFromMini] = useState(() => {
+    const mini = getLiveMini();
+    return mini && mini.streamId === streamIdProp ? mini : null;
+  });
   const user = useUser();
   const { t } = useCopy();
   const { isSignedIn } = useAuthState();
@@ -188,6 +197,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     connectionEpoch,
   } = useWebSocket();
   const navigation = useNavigation<any>();
+  const { showUserProfile } = useUserProfileSheet();
 
   // Refs for cleanup closures — always read latest values, never stale
   const streamIdRef = useRef<string | null>(null);
@@ -1087,19 +1097,18 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // Opening a live closes any other one you minimised; the same live takes its
   // seat back from the mini player, so the count never dips.
   useEffect(() => {
-    closeOtherLiveMini(streamIdProp ?? null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
     if (!streamId) return;
+    closeOtherLiveMini(streamId);
+    if (!effectiveVideoUrl && streamLoading) return;
+    if (getLiveMini()?.mode === "away") return;
     const seat = takeLiveMiniSeat(streamId);
     if (seat) {
       const previous = releasePresenceRef.current;
       releasePresenceRef.current = seat;
       previous?.();
     }
-    closeLiveMini();
-  }, [streamId]);
+    handBackLiveMiniPlayer(streamId, effectiveVideoUrl);
+  }, [streamId, effectiveVideoUrl, streamLoading]);
 
   // Emit LeaveStream on unmount — guarded by didLeaveRef so it only fires once.
   useEffect(() => {
@@ -1155,9 +1164,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   useEffect(() => {
     const onAppStateChange = (state: string) => {
       const sid = streamIdRef.current;
-      if (!sid) return;
+      if (!sid || !navigation.isFocused()) return;
       if (state === "active") {
-        setAwayHandoff(false);
+        const mini = getLiveMini();
+        if (mini?.streamId === sid && mini.mode === "away") closeLiveMini();
         try {
           maybeJoinRoomRef.current(sid);
           maybeJoinStreamRef.current(sid);
@@ -1170,7 +1180,6 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         if (mini && !isMutedRef.current) {
           if (state === "background" && Platform.OS === "ios" && whepOnRef.current) {
             openLiveMini({ ...mini, mode: "away", release: null });
-            setAwayHandoff(true);
           }
           return;
         }
@@ -1415,11 +1424,15 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if (post && postReactions.myReaction !== post) postReactions.react(post);
   }, [postReactions, requireAuth, handleSendReaction, launchReaction, liveReactionWeight]);
 
+  const sharePost = postReactions.post as Record<string, any>;
+  const shareVisibility = sharePost?.visibility ?? streamEntity?.visibility;
+  const sharePublic = !shareVisibility || shareVisibility === "public";
+
   // The phone's own share sheet, now the "Share link" row of the drawer below.
   const handleNativeShare = useCallback(async () => {
     const postId = streamEntity?.tokenId ?? tokenId ?? streamId;
-    const url = postId != null ? `${WEBSITE_LINK}/app/post/${postId}` : null;
-    if (!url) return;
+    if (postId == null) return;
+    const url = withLiveShareRef(ShareLinks.post(postId), sharePublic);
     // The same words the link preview uses (riftn-web server/live-share-copy.js):
     // a stream on air invites people to watch it live, a finished one with a
     // recording points at the replay.
@@ -1432,7 +1445,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       ? `${intro}\n${url}`
       : t("copy.f6f435c8cbc6", { defaultValue: "Check out this stream {{value1}}", value1: url });
     await shareProfile(url, message, "live");
-  }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle]);
+  }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle, sharePublic]);
 
   // Share opens the post's share drawer, as on a feed card: repost to your
   // profile, quote, send it in a message, copy the link, or the phone's own
@@ -1451,8 +1464,12 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, [sharePostId, handleNativeShare]);
 
   const viewerAddress = (user?.walletAddress || user?.address || "").toLowerCase();
-  const sharePost = postReactions.post as Record<string, any>;
-  const sharePublic = !sharePost?.visibility || sharePost.visibility === "public";
+  const canShareToPublicChat = sharePublic && (isLiveEffective || !!replayUrl)
+    && !videoNeedsAccess(sharePost) && !videoNeedsAccess(streamEntity ?? {}) && !videoNeedsAccess(nftProp ?? {});
+  const streamMoment = canShareToPublicChat && sharePostId !== null && sharePostId > 0 && Number.isSafeInteger(sharePostId) && isFree
+    && canShareToMoment({ ...sharePost, postType: "live", stream: streamEntity })
+    ? () => requireAuth(() => openPostMoment(sharePostId))
+    : undefined;
   const shareIsOwn = !!viewerAddress && String(sharePost?.minter || "").toLowerCase() === viewerAddress;
   const { data: linkCopyCount = 0 } = usePostLinkCopyCount(sharePostId);
   const trackLinkCopy = useTrackPostLinkCopy();
@@ -1499,18 +1516,18 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
   const handleCopyLink = useCallback(() => {
     if (sharePostId == null) return;
-    copyToClipboard(ShareLinks.post(String(sharePostId)));
+    copyToClipboard(withLiveShareRef(ShareLinks.post(sharePostId), sharePublic));
     toastSuccess(t("postOptions.linkCopied"));
     // A copy is a share: it counts once per actor per post, next to reposts.
     trackLinkCopy(sharePostId, viewerAddress, linkCopyCount);
-  }, [sharePostId, t, trackLinkCopy, viewerAddress, linkCopyCount]);
+  }, [sharePostId, sharePublic, t, trackLinkCopy, viewerAddress, linkCopyCount]);
 
   // Sound. A stream is opened on purpose, so it starts audible whether or not
   // the user has silenced the feed. The player used to seed itself from the
   // feed's shared mute cache, and with its own top row hidden behind
   // `hideTopControls` and no mute button in the header, a viewer who had
   // ever muted a feed card got a silent stream and nothing to press.
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(() => !!restoredFromMini?.muted);
 
   // Muting the stream mutes the tip readings with it. They are spoken by the
   // phone's speech engine, so the player's own volume does not reach them; a
@@ -1536,9 +1553,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
    * transport. Any failure — no route, a hostile network, a stream that is not
    * really on air — falls straight back to the HLS ladder.
    */
-  // Leaving the app on iPhone hands the sound to the mini player (WebRTC can
-  // neither float nor keep going in the background); this one goes quiet.
-  const [awayHandoff, setAwayHandoff] = useState(false);
+  const viewerFocused = useIsFocused();
   /*
    * Pause, rewind and back-to-live. The server keeps the last few minutes of
    * every live, which the HLS player can move about in. WebRTC (iPhone) keeps
@@ -1561,9 +1576,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // frame, leaving the viewer black while the feed keeps playing.
     // A big event skips it on every platform: one WebRTC session per viewer
     // is the cost that mode exists to avoid.
-    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted && !bigEvent,
+    enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted
+      && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
+    focused: viewerFocused,
     stream: { playbackId, provider: streamEntity?.provider },
-    muted: isMuted || awayHandoff,
+    muted: isMuted,
     paused: isPausedEffective,
   });
 
@@ -1585,6 +1602,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       avatar: getAvatarUrl(creator?.avatarImageUrl) || undefined,
       params: { streamId, tokenId: (streamEntity?.tokenId as any) ?? tokenId, isLive: true },
       mode: "video",
+      muted: isMuted,
       countsAsViewer: !!isSignedIn && ownerStatus === "viewer",
     };
   };
@@ -1592,17 +1610,31 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   buildMiniRef.current = buildMini;
   const isMutedRef = useRef(isMuted);
   isMutedRef.current = isMuted;
-  const minimise = useCallback((float: boolean) => {
+  const handOffToMini = useCallback((float: boolean) => {
     const mini = buildMiniRef.current();
-    if (!mini) return;
+    if (!mini) return false;
     const seat = releasePresenceRef.current;
     releasePresenceRef.current = null;
     didLeaveRef.current = true;
     joinStreamSentKeyRef.current = null;
     openLiveMini({ ...mini, float, release: seat });
+    return true;
+  }, []);
+  const minimise = useCallback((float: boolean) => {
+    if (!handOffToMini(float)) return;
     if (navigation.canGoBack()) navigation.goBack();
     else navigation.navigate(ScreenNames.App);
-  }, [navigation]);
+  }, [navigation, handOffToMini]);
+  const openAudienceProfile = useCallback((identifier: string) => {
+    if (!navigation.isFocused()) return;
+    if (handOffToMini(false)) {
+      // A profile in the navigation stack shares the mini-player's window.
+      // Replace the full viewer so it releases its playback and keeps the seat.
+      navigation.replace(ScreenNames.LiveAttendeeProfile, { identifier });
+    } else {
+      showUserProfile(identifier);
+    }
+  }, [navigation, handOffToMini, showUserProfile]);
   const minimiseLive = useCallback(() => minimise(false), [minimise]);
   const floatLive = useCallback(() => minimise(true), [minimise]);
   whepOnRef.current = !!whepLive.stream;
@@ -1709,15 +1741,11 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const toggleReplay = useCallback(() => toggleReplayRef.current?.(), []);
 
   /**
-   * A live can't be paused, so the screen itself is the clear button: tap the
-   * open picture, or swipe down over the lower half as the shorts viewer does,
-   * and every button, the chat and the pills fade away. Only a small rotate
-   * button stays in the corner, to flip between portrait and landscape. A tap
-   * or a swipe up brings everything back (in portrait, where the chrome is
-   * laid out). Replaces the old chevron "immersive" mode.
+   * Tapping the open picture clears or restores the controls. With no other
+   * room to browse, a swipe on the picture can also clear or restore them.
    */
-  const [chromeHidden, setChromeHidden] = useState(false);
-  const chromeOpacity = useSharedValue(1);
+  const [chromeHidden, setChromeHidden] = useState(props.startWithControlsHidden === true);
+  const chromeOpacity = useSharedValue(chromeHidden ? 0 : 1);
   useEffect(() => {
     chromeOpacity.value = withTiming(chromeHidden ? 0 : 1, { duration: 220 });
   }, [chromeHidden, chromeOpacity]);
@@ -1759,9 +1787,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }),
     [hideStart, clearOrCloseKeys],
   );
-  // Only the upper, unobstructed picture switches broadcasts. Chat owns its
-  // scroll gestures, and a downward swipe below the picture still clears it.
-  const browseLive = ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
+  const browseLive = isSignedIn && ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
   const { data: broadcasts } = useQuery({
     ...liveStreamsQuery,
     enabled: browseLive,
@@ -1773,40 +1799,51 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     [broadcasts, blocksVersion],
   );
   const roomIndex = rooms.findIndex((room) => room.streamId === streamId);
-  const canSwitch = browseLive && rooms.length > 1 && roomIndex >= 0;
+  const [landscape, setLandscape] = useState(false);
+  const coverPortrait = !landscape && isLiveEffective && !isEndedEffective &&
+    videoSize.width > 0 && videoSize.height > videoSize.width;
+  const canSwitch = browseLive && !landscape && rooms.length > 1 && roomIndex >= 0;
+  useEffect(() => {
+    // The native modal's own downward drag otherwise competes with Previous.
+    navigation.setOptions({ gestureEnabled: !canSwitch });
+  }, [canSwitch, navigation]);
   const switching = useRef(false);
   const switchRoom = useCallback((direction: 1 | -1) => {
-    if (!canSwitch || switching.current || !navigation.isFocused()) return;
+    if (!canSwitch || switching.current || !navigation.isFocused() || Keyboard.isVisible()) return;
     const index = (roomIndex + direction + rooms.length) % rooms.length;
     switching.current = true;
-    navigation.replace(ScreenNames.LiveViewer, rooms[index]);
-  }, [canSwitch, navigation, roomIndex, rooms]);
+    navigation.replace(ScreenNames.LiveViewer, {
+      ...rooms[index],
+      startWithControlsHidden: chromeHidden,
+    });
+  }, [canSwitch, chromeHidden, navigation, roomIndex, rooms]);
 
-  const makeClearTap = useCallback(() => Gesture.Tap().maxDistance(10)
+  const onPictureTap = useCallback(() => {
+    if (chromeHidden) setChromeHidden(false);
+    else clearOrCloseKeys();
+  }, [chromeHidden, clearOrCloseKeys]);
+  const makePictureTap = useCallback(() => Gesture.Tap().maxDistance(10)
     .onEnd((_e, success) => {
       "worklet";
-      if (success) runOnJS(clearOrCloseKeys)();
-    }), [clearOrCloseKeys]);
+      if (success) runOnJS(onPictureTap)();
+    }), [onPictureTap]);
   const pictureGesture = useMemo(() => {
-    const tap = makeClearTap();
+    const tap = makePictureTap();
     if (!canSwitch) return tap;
     const pan = Gesture.Pan().maxPointers(1)
       .activeOffsetY([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
       .failOffsetX([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
       .onEnd((e, success) => {
         "worklet";
-        const distance = Math.abs(e.translationY);
-        if (success && distance > LIVE_HIDE_SWIPE && distance > Math.abs(e.translationX)) {
-          runOnJS(switchRoom)(e.translationY < 0 ? 1 : -1);
-        }
+        const direction = liveSwipeDirection(e.translationX, e.translationY);
+        if (success && direction) runOnJS(switchRoom)(direction);
       });
     return Gesture.Race(pan, tap);
-  }, [canSwitch, makeClearTap, switchRoom]);
-  const hideGesture = useMemo(() => Gesture.Race(hidePan, makeClearTap()), [hidePan, makeClearTap]);
+  }, [canSwitch, makePictureTap, switchRoom]);
+  const hideGesture = useMemo(() => Gesture.Race(hidePan, makePictureTap()), [hidePan, makePictureTap]);
 
   // Rotate, only while cleared. The binary already ships expo-screen-orientation
   // (the old immersive mode used it); a failed lock just leaves the layout as is.
-  const [landscape, setLandscape] = useState(false);
   useEffect(() => {
     const lock = landscape
       ? ScreenOrientation.OrientationLock.LANDSCAPE
@@ -2310,6 +2347,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
              whatever renders it, so this swaps in without touching any of it. */
           <LiveWebRtcView
             stream={whepLive.stream}
+            objectFit={coverPortrait ? "cover" : "contain"}
             onVideoSize={(size) => { whepLive.onPicture(size); onVideoSize(size); }}
           />
         ) : whepLive.pending && !isPausedEffective ? (
@@ -2321,7 +2359,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           <View className="flex-1 dark-surface bg-black items-center justify-center" pointerEvents="none">
             <DeHubLoader size={40} />
           </View>
-        ) : (isLiveEffective || isEndedEffective) && effectiveVideoUrl ? (
+        ) : whepLive.suspended ? null : (isLiveEffective || isEndedEffective) && effectiveVideoUrl ? (
           <VideoArea
             isTranscoding={false}
             isLockedOrPPV={!!isLockedOrPPV}
@@ -2356,6 +2394,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             fullscreen
             hideTopControls
             muted={isMuted}
+            pictureFit={coverPortrait ? "cover" : "contain"}
             onVideoSize={onVideoSize}
           />
         ) : (
@@ -2379,23 +2418,24 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           <LiveTimeshiftBar timeshift={timeshift} />
         ) : null}
 
-        {/* Clear the chrome: tap the open picture anywhere, or swipe down
-            over the lower half. These sit under the chrome and over the
-            picture, so the chat and buttons above keep their own touches. */}
+        {/* The picture takes room swipes wherever chat and controls leave it
+            exposed. The lower clear gesture is only needed in a single room. */}
         {!chromeHidden && (
           <>
             <GestureDetector gesture={pictureGesture}>
               <View
                 collapsable={false}
-                style={{ position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
+                style={canSwitch ? StyleSheet.absoluteFill : { position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
               />
             </GestureDetector>
-            <GestureDetector gesture={hideGesture}>
-              <View
-                collapsable={false}
-                style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: "45%" }}
-              />
-            </GestureDetector>
+            {!canSwitch && (
+              <GestureDetector gesture={hideGesture}>
+                <View
+                  collapsable={false}
+                  style={{ position: "absolute", left: 0, right: 0, bottom: 0, top: "45%" }}
+                />
+              </GestureDetector>
+            )}
           </>
         )}
 
@@ -2608,11 +2648,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           </View>
         </Animated.View>
 
-        {/* Cleared: only the stream and the rotate button. A tap, or a swipe
-            up, brings it all back. */}
+        {/* Keep browsing in portrait with the controls cleared. */}
         {chromeHidden && (
           <>
-            <GestureDetector gesture={restoreGesture}>
+            <GestureDetector gesture={canSwitch ? pictureGesture : restoreGesture}>
               <View collapsable={false} style={StyleSheet.absoluteFill} testID="live-cleared" />
             </GestureDetector>
             <LiveClearedChat
@@ -2637,6 +2676,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             streamId={streamId}
             overlay={streamOverlay}
             videoSize={videoSize}
+            cover={coverPortrait}
             initialViewers={liveViewers ?? 0}
             chatMessages={liveChat.messages}
             showChatOverlay={showChatOverlay}
@@ -2670,6 +2710,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       <LiveWhosHereSheet
         visible={audienceOpen}
         onClose={() => setAudienceOpen(false)}
+        onOpenProfile={openAudienceProfile}
         audience={audience}
         loading={audienceLoading}
       />
@@ -2681,6 +2722,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           tokenId={(streamEntity?.tokenId as any) || (tokenId as any)}
           isOwner={ownerStatus === "owner" || (streamEntity as any)?.isOwner === true}
           isHidden={!!(streamEntity as any)?.isHidden}
+          liveSharePublic={sharePublic}
           creatorDisplayName={
             (creator?.displayName || creator?.username || "") as string
           }
@@ -2725,6 +2767,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           canRepost={sharePublic}
           onCopyLink={handleCopyLink}
           onSendToDm={sharePublic ? () => requireAuth(() => setShowShareToDm(true)) : undefined}
+          onShareToPublicChat={canShareToPublicChat && sharePostId > 0
+            ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(sharePostId) }))
+            : undefined}
+          onShareToMoment={streamMoment}
           onShareLink={() => { void handleNativeShare(); }}
           embedTokenId={sharePublic ? sharePostId : undefined}
         />

@@ -96,6 +96,6 @@ export const useNetworkStatus = () => {
     isConnected,
     isInternetReachable,
     checkConnection,
-    hasInternet: isConnected && (isInternetReachable !== false),
+    hasInternet: isInternetReachable === false ? false : isConnected,
   };
 };

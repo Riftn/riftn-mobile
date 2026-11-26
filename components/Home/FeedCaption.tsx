@@ -15,6 +15,8 @@ import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { stripSoundtrackTag } from "../../libs/parseSoundtrack";
 import { openCategoryFeed } from "../../libs/openCategoryFeed";
 import { expandEmojiTokens } from "../common/EmojiText";
+import { postRunStyle } from "../common/PostTextFormatting";
+import { postTextRuns } from "../../libs/post-text-format";
 import { LINK_EMOJI } from "../common/LinkEmoji";
 import { getActiveTheme, LIGHT_INK } from "../../theme/colors";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -237,11 +239,16 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
   // Strip soundtrack tag from description before display. Windows line breaks
   // (\r\n, from text pasted on a PC) become plain ones; nothing else changes.
   const cleanDescription = useMemo(() => stripSoundtrackTag(description).replace(/\r\n?/g, "\n"), [description]);
-  const displayTitle = title?.trim() && cleanDescription.trim().startsWith(title.trim()) ? "" : title;
+  const descriptionRuns = useMemo(() => postTextRuns(cleanDescription), [cleanDescription]);
+  const plainDescription = descriptionRuns.map(run => run.text).join("");
+  const displayTitle = title?.trim() && plainDescription.trim().startsWith(title.trim()) ? "" : title;
 
   // Parse links in title & description
   const titleSegments = useMemo(() => parseTextToSegments(displayTitle || ""), [displayTitle]);
-  const descSegments = useMemo(() => parseTextToSegments(cleanDescription), [cleanDescription]);
+  const descRuns = useMemo(() => descriptionRuns.map(run => ({
+    styles: run.styles,
+    segments: parseTextToSegments(run.text),
+  })), [descriptionRuns]);
 
   // System Light drew the title and hashtags' class colour near-white on
   // white while the description beside them was ink; an explicit ink holds.
@@ -315,7 +322,13 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
 
   // Build the caption text
   const hasTitle = !!displayTitle?.trim();
-  const hasDescription = !!cleanDescription?.trim();
+  const renderDescription = (fontSize: number) => descRuns.map((run, index) => {
+    const content = renderSegments(run.segments, "d-" + index, fontSize);
+    return run.styles.length
+      ? <Text key={index} style={postRunStyle(run.styles)}>{content}</Text>
+      : <React.Fragment key={index}>{content}</React.Fragment>;
+  });
+  const hasDescription = !!plainDescription.trim();
   const hasCategories = showCategories && categories && categories.length > 0;
   // War sets captions as readouts: monospace, tracked out (web war-theme.css).
   const mono = getThemeSkin(getActiveTheme())?.mono ? MONO_TEXT : null;
@@ -333,7 +346,7 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
             <Text style={{ fontWeight: "600" }}>{renderSegments(titleSegments, "t", 15)}</Text>
           )}
           {hasTitle && hasDescription ? " " : null}
-          {hasDescription && renderSegments(descSegments, "d", 15)}
+          {hasDescription && renderDescription(15)}
         </Text>
         {canExpand && (
           <Text style={MEDIA_MORE} onPress={toggleExpanded} suppressHighlighting>
@@ -381,7 +394,7 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
                 className={large ? "text-theme-neutrals-100 mt-1" : "text-theme-neutrals-300 mt-1"}
                 style={[large ? LARGE_TEXT : { fontSize: 15.75, lineHeight: 23.1 }, mono]}
               >
-                {renderSegments(descSegments, "d", large ? 19 : 15.75)}
+                {renderDescription(large ? 19 : 15.75)}
               </Text>
             </ScrollView>
           ) : (
@@ -392,7 +405,7 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
             ellipsizeMode="tail"
             onTextLayout={handleTextLayout}
           >
-            {renderSegments(descSegments, "d", large ? 19 : 15.75)}
+            {renderDescription(large ? 19 : 15.75)}
           </Text>
           )}
           {showSeeMore && !fullContent && (

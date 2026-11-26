@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { addVolumeKeyListener } from "../modules/media-bridge";
 import { setMutedState } from "./videoMutedState";
 import { getVolume, setVolume } from "./video-preferences";
+import { visualActivity } from "./visualActivity";
 
 /**
  * Pressing the phone's volume-up key unmutes the video on screen, the way
@@ -17,6 +18,8 @@ const handlers = new Set<() => void>();
 let unsubscribe: (() => void) | null = null;
 
 function onVolumeUp() {
+  // Let the system change output volume without unmuting an obscured video.
+  if (visualActivity.isStoryViewerOpen()) return;
   console.log("[volume-keys] volume up");
   setMutedState(false);
   // A video's own level dragged to the bottom is a mute too (the speaker

@@ -16937,7 +16937,22 @@
     "paste": "Mifteya xwe ya {{name}} bixe vir",
     "getKey": "Mifteyeke {{name}} bistîne",
     "showLess": "Tenê mifteyên min nîşan bide",
-    "addAnother": "Pêşkêşkerekî din zêde bike"
+    "addAnother": "Pêşkêşkerekî din zêde bike",
+    "providerDescriptions": {
+      "openai": "Builder (modelên GPT)",
+      "fal": "Amûrên wêne, vîdyo, 3D û fotografê",
+      "kie": "Wêne û vîdyo",
+      "replicate": "Wêne û vîdyo",
+      "xai": "Gotûbêj û wêne bi Grok",
+      "elevenlabs": "Deng, dublaj, muzîk û bandorên dengî",
+      "gemini": "Werger, alîkariya nivîsandinê û kurte",
+      "venice": "Gotûbêj bi alîkar re",
+      "perplexity": "Lêgerîna malperan bi alîkar",
+      "deepgram": "Nivîsandina axaftinê û binnivîsên zindî",
+      "openrouter": "Bi yek kilîtê sedan modelên gotûbêj û nivîsê",
+      "groq": "Gotûbêj û nivîsa bilez",
+      "mistral": "Gotûbêj û nivîs"
+    }
   },
   "postBg": {
     "addMedia": "Wêne, GIF an vîdyoyek zêde bike",

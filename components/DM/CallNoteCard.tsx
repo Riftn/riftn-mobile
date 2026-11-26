@@ -3,7 +3,8 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { useCall } from "../../context/CallContext";
-import { describeCallNote } from "../../libs/callNote";
+import { useAppTheme } from "../../context/ThemeContext";
+import { describeCallNote, endedCallLabel } from "../../libs/callNote";
 
 /**
  * A call in the thread: what happened, how long it ran, and a button that
@@ -19,6 +20,7 @@ const CallNoteCard: React.FC<{
 }> = ({ content, time, isMine, peerAddress }) => {
   const { t } = useTranslation();
   const { startCall, currentCall } = useCall();
+  const { pageColors: colors, isMinimal } = useAppTheme();
   const note = describeCallNote(content);
   const kind = note.video ? t("calls.videoCallShort") : t("calls.voiceCallShort");
   const icon = note.video ? "Video" : "Phone";
@@ -26,14 +28,14 @@ const CallNoteCard: React.FC<{
   if (note.kind === "started") {
     return (
       <View style={styles.quiet}>
-        <Icon name={icon} size={12} color="#8E8E96" />
-        <Text style={styles.quietText}>{kind} · {time}</Text>
+        <Icon name={icon} size={12} color={colors.mutedForeground} />
+        <Text style={[styles.quietText, { color: colors.mutedForeground }]}>{kind} · {time}</Text>
       </View>
     );
   }
 
   const title = note.kind === "ended"
-    ? kind
+    ? endedCallLabel(t)
     : note.kind === "declined"
       ? t("calls.declined")
       : isMine ? t("calls.noAnswer") : t("calls.missed");
@@ -41,16 +43,18 @@ const CallNoteCard: React.FC<{
   // A call someone else missed or one that simply ended does not need shouting about.
   const quietButton = note.kind === "ended" || isMine;
   const busy = !!currentCall;
+  const buttonBackground = quietButton ? colors.muted : colors.accent;
+  const buttonForeground = quietButton ? colors.cardForeground : colors.accentForeground;
 
   return (
     <View style={styles.wrap}>
-      <View style={styles.card}>
-        <View style={styles.icon}>
-          <Icon name={note.kind === "ended" ? icon : "PhoneOff"} size={16} color="#F4F4F5" />
+      <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }, isMinimal && styles.square]}>
+        <View style={[styles.icon, { backgroundColor: colors.muted }, isMinimal && styles.square]}>
+          <Icon name={note.kind === "ended" ? icon : "PhoneOff"} size={16} color={colors.cardForeground} />
         </View>
         <View style={styles.text}>
-          <Text style={styles.title} numberOfLines={1}>{title}</Text>
-          <Text style={styles.sub} numberOfLines={1}>{sub}</Text>
+          <Text style={[styles.title, { color: colors.cardForeground }]}>{title}</Text>
+          <Text style={[styles.sub, { color: colors.mutedForeground }]}>{sub}</Text>
         </View>
         {peerAddress ? (
           <Pressable
@@ -60,9 +64,14 @@ const CallNoteCard: React.FC<{
             accessibilityLabel={t("calls.callBack")}
             accessibilityState={{ disabled: busy }}
             hitSlop={6}
-            style={({ pressed }) => [styles.go, quietButton && styles.goQuiet, (busy || pressed) && styles.goDim]}
+            style={({ pressed }) => [
+              styles.go,
+              { backgroundColor: buttonBackground },
+              isMinimal && styles.square,
+              busy ? styles.goDisabled : pressed && styles.goPressed,
+            ]}
           >
-            <Text style={[styles.goText, quietButton && styles.goTextQuiet]} numberOfLines={1}>{t("calls.callBack")}</Text>
+            <Text style={[styles.goText, { color: buttonForeground }]}>{t("calls.callBack")}</Text>
           </Pressable>
         ) : null}
       </View>
@@ -79,7 +88,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   quietText: {
-    color: "#8E8E96",
     fontSize: 12,
     fontVariant: ["tabular-nums"],
   },
@@ -99,8 +107,6 @@ const styles = StyleSheet.create({
     paddingRight: 9,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.12)",
-    backgroundColor: "rgba(255,255,255,0.06)",
   },
   icon: {
     width: 36,
@@ -108,42 +114,43 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(255,255,255,0.10)",
   },
   text: {
     flex: 1,
   },
   title: {
-    color: "#F4F4F5",
     fontSize: 14,
+    lineHeight: 18,
     fontWeight: "700",
   },
   sub: {
-    color: "#A1A1AA",
     fontSize: 12,
+    lineHeight: 16,
     fontVariant: ["tabular-nums"],
   },
   go: {
-    height: 32,
+    minHeight: 36,
+    maxWidth: "45%",
     paddingHorizontal: 12,
-    borderRadius: 11,
+    paddingVertical: 4,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F4F4F5",
   },
-  goQuiet: {
-    backgroundColor: "rgba(255,255,255,0.12)",
-  },
-  goDim: {
+  goDisabled: {
     opacity: 0.5,
   },
-  goText: {
-    color: "#0A0A0C",
-    fontSize: 12.5,
-    fontWeight: "700",
+  goPressed: {
+    opacity: 0.85,
   },
-  goTextQuiet: {
-    color: "#F4F4F5",
+  goText: {
+    fontSize: 13,
+    lineHeight: 17,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  square: {
+    borderRadius: 0,
   },
 });
 

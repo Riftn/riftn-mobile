@@ -16997,7 +16997,22 @@
     "paste": "Incolla la tua chiave {{name}}",
     "getKey": "Ottieni una chiave {{name}}",
     "showLess": "Mostra solo le mie chiavi",
-    "addAnother": "Aggiungi un altro provider"
+    "addAnother": "Aggiungi un altro provider",
+    "providerDescriptions": {
+      "openai": "Builder (modelli GPT)",
+      "fal": "Strumenti per immagini, video, 3D e foto",
+      "kie": "Immagini e video",
+      "replicate": "Immagini e video",
+      "xai": "Chat e immagini con Grok",
+      "elevenlabs": "Voce, doppiaggio, musica ed effetti sonori",
+      "gemini": "Traduzione, assistenza alla scrittura e riassunti",
+      "venice": "Chat con l’assistente",
+      "perplexity": "Ricerca sul web con l’assistente",
+      "deepgram": "Trascrizioni e sottotitoli in tempo reale",
+      "openrouter": "Centinaia di modelli per chat e testo con una sola chiave",
+      "groq": "Chat e testo veloci",
+      "mistral": "Chat e testo"
+    }
   },
   "postBg": {
     "addMedia": "Aggiungi un'immagine, una GIF o un video",

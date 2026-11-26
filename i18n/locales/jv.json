@@ -16950,7 +16950,22 @@
     "paste": "Tempel kunci {{name}}-mu",
     "getKey": "Njupuk kunci {{name}}",
     "showLess": "Tampilake kunciku wae",
-    "addAnother": "Tambah panyedhiya liyane"
+    "addAnother": "Tambah panyedhiya liyane",
+    "providerDescriptions": {
+      "openai": "Builder (modhèl GPT)",
+      "fal": "Piranti gambar, video, 3D, lan foto",
+      "kie": "Gambar lan video",
+      "replicate": "Gambar lan video",
+      "xai": "Ngobrol lan nggawé gambar nganggo Grok",
+      "elevenlabs": "Swara, sulih swara, musik, lan efek swara",
+      "gemini": "Terjemahan, pitulungan nulis, lan ringkesan",
+      "venice": "Ngobrol karo asisten",
+      "perplexity": "Nggolèki ing web nganggo asisten",
+      "deepgram": "Transkrip lan katrangan langsung",
+      "openrouter": "Atusan modhèl obrolan lan teks nganggo siji kunci",
+      "groq": "Obrolan lan teks sing cepet",
+      "mistral": "Obrolan lan teks"
+    }
   },
   "postBg": {
     "addMedia": "Tambah gambar, GIF, utawa video",

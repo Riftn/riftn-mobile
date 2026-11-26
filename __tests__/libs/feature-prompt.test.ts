@@ -1,4 +1,16 @@
-import { featurePromptFields, isRequestBoardCommand } from '../../libs/feature-prompt';
+import { featureInputScrollOffset, featurePromptFields, isRequestBoardCommand } from '../../libs/feature-prompt';
+
+describe('Build input visibility', () => {
+  it.each([
+    [0, 250, 48, 112, 0],
+    [0, 135, 48, 112, 33],
+    [400, 250, 48, 112, 40],
+    [0, 100, 48, 112, 40],
+  ])('reveals the input frame from offset %i with a %i-point viewport', (offset, viewport, y, height, expected) => {
+    expect(featureInputScrollOffset(offset, viewport, y, height)).toBe(expected);
+    expect(featureInputScrollOffset(expected, viewport, y, height)).toBe(expected);
+  });
+});
 
 describe('prompt request compatibility', () => {
   it('posts without a separate title and preserves the entire prompt', () => {

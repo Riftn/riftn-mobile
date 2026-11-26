@@ -1,5 +1,3 @@
-import { storage as draftStorage } from '../../libs/storage';
-import { __resetDraftCacheForTests } from '../../libs/draft-cache';
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react-native';
 import { Keyboard } from 'react-native';
@@ -82,6 +80,11 @@ jest.mock('../../context/AuthContext', () => ({
   useAuthActions: () => ({ signOut: jest.fn(), requireAuth: mockRequireAuth }),
   useUser: () => mockSignedIn ? { username: 'member', address: mockWallet, followers: 3, followings: 2, ownBadgeBalance: mockBalance } : null,
 }));
+const mockLedger = { enabled: false, balance: '0' };
+jest.mock('../../hooks/useAppTokens', () => ({
+  useAppTokensConfig: () => ({ data: { enabled: mockLedger.enabled } }),
+  useAppTokens: () => ({ data: { balance: mockLedger.balance } }),
+}));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => '', getBadgeUrlFor: () => undefined, getBadgeHoverOpticalStyle: () => ({}) }));
 jest.mock('../../libs', () => ({ toastError: jest.fn(), toastInfo: jest.fn() }));
 jest.mock('../../libs/links.utils', () => ({ openInApp: (url: string) => mockOpenLink(url) }));
@@ -102,15 +105,15 @@ const destinations = [
   ['nav.connectAi', 'Connect'],
 ] as const;
 
-beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; mockMenuLayout = 'sections'; });
+beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; mockMenuLayout = 'sections'; mockLedger.enabled = false; mockLedger.balance = '0'; });
 
-it.each(['nav.superpowers', 'nav.governance', 'nav.tv', 'nav.converter'])('leaves %s out of the App Store build', (label) => {
+it.each(['nav.governance', 'nav.tv', 'nav.converter'])('leaves %s out of the App Store build', (label) => {
   mockDigitalPurchasesEnabled = false;
   const view = render(<AppDrawer visible onClose={jest.fn()} />);
   expect(view.queryByLabelText(label)).toBeNull();
 });
 
-it.each([['nav.arcade', 'Arcade'], ['nav.guide', 'Guide']])(
+it.each([['nav.arcade', 'Arcade'], ['nav.guide', 'Guide'], ['nav.superpowers', 'SuperPowers']])(
   'keeps %s accessible with no token balance and iOS purchases disabled', (label, screen) => {
     mockDigitalPurchasesEnabled = false;
     mockBalance = 0;
@@ -173,6 +176,14 @@ it('hides the balance chip when the wallet holds no DHB', () => {
   expect(view.queryByLabelText('nav.wallet 0')).toBeNull();
 });
 
+it('shows the spendable ledger amount in the wallet chip even with legacy holdings', () => {
+  mockBalance = 3_550_000;
+  mockLedger.enabled = true;
+  const view = render(<AppDrawer visible onClose={jest.fn()} />);
+  expect(view.getByLabelText('nav.wallet 0')).toBeTruthy();
+  expect(view.queryByText('3.6M')).toBeNull();
+});
+
 it('opens the sign-in sheet and hides protected entries when signed out', () => {
   mockSignedIn = false;
   const view = render(<AppDrawer visible onClose={jest.fn()} />);
@@ -203,7 +214,21 @@ it('leaves Home and the feed tabs off the resting menu but finds Home by search'
   expect(mockDispatch).toHaveBeenCalledWith({ type: 'NAVIGATE', payload: { name: 'App', params: { screen: 'Root', params: { screen: 'Home', params: undefined }, pop: true } } });
 });
 
-beforeEach(() => { draftStorage.delete('dehub-drafts-v1'); __resetDraftCacheForTests(); });
+it('clears the filter and dismisses the keyboard while keeping the menu open', () => {
+  const close = jest.fn();
+  const view = render(<AppDrawer visible onClose={close} />);
+  const field = () => view.getByLabelText('sidebar.searchMenu');
+  fireEvent.changeText(field(), 'wallet');
+  fireEvent.press(view.getByLabelText('sidebar.clearSearch'));
+  expect(field().props.value).toBe('');
+  expect(Keyboard.dismiss).toHaveBeenCalledTimes(1);
+  expect(close).not.toHaveBeenCalled();
+
+  fireEvent.changeText(field(), 'wallet');
+  view.rerender(<AppDrawer visible={false} onClose={close} />);
+  view.rerender(<AppDrawer visible onClose={close} />);
+  expect(field().props.value).toBe('');
+});
 
 describe('tabs layout (the default)', () => {
   beforeEach(() => { mockMenuLayout = 'tabs'; });

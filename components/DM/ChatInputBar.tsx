@@ -68,6 +68,7 @@ import { optionalSkia } from "../../libs/skia";
 import type { StudioResult } from "../Upload/PhotoStudio";
 import type { StudioEdits } from "../Upload/studioPaint";
 import { stripBold } from "../../libs/bold-markup";
+import { localizeDmCallPreview } from "../../libs/callNote";
 
 // The post composer's photo editor (crop, looks, adjust, draw, text). Skia,
 // so only on builds that carry it.
@@ -855,7 +856,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 className="text-[13px] text-theme-neutrals-400 mt-0.5"
                 numberOfLines={1}
               >
-                {stripBold(replyTo.content) || (replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
+                {(localizeDmCallPreview(replyTo, t) ?? stripBold(replyTo.content)) ||
+                  (replyTo.msgType === "voice" ? t("dm.voiceNoteEmoji") : t("dm.mediaEmoji"))}
               </Text>
             </View>
             <TouchableOpacity onPress={handleCancelReply} hitSlop={8}>

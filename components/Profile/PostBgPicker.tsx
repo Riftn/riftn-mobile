@@ -28,6 +28,7 @@ import {
   postBgById,
   postBgFromStored,
   postBgStored,
+  postBgPhotoStored,
   postBgImageUrl,
   postBgIsVideo,
   postBgPaletteIndex,
@@ -93,12 +94,6 @@ const SWATCHES = [
   "#04122a", "#0a3871", "#1f6feb", "#2ea8ff", "#4fd1ff", "#9fd0ff",
   "#1a0b2b", "#5b2a8c", "#7b61ff", "#b25bff", "#ff6fb5", "#ffc2dc",
 ];
-/** The CDN key inside a postbgs picture URL, to reuse it on one post. */
-function photoKeyOf(url: string | null): string | null {
-  const m = url ? /(postbgs\/[a-z0-9-]+\.(?:jpg|webp|mp4))(?:[?#].*)?$/i.exec(url) : null;
-  return m ? m[1] : null;
-}
-
 const TILE = 56;
 const GAP = 10;
 const STEP = TILE + GAP;
@@ -127,7 +122,8 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
   const [scope, setScope] = useState<Scope>(postId ? "post" : "all");
   const startBg = postId ? postOwn : profileCurrent;
   const current = scope === "post" ? postOwn : profileCurrent;
-  const savedPhoto = startBg?.kind === "photo" ? startBg.image ?? null : postBgImageUrl(user?.customs?.[POST_BG_IMAGE_KEY]);
+  const profilePhoto = profileCurrent?.kind === "photo" ? profileCurrent.image : postBgImageUrl(user?.customs?.[POST_BG_IMAGE_KEY]);
+  const savedPhoto = current?.kind === "photo" ? current.image ?? profilePhoto : profilePhoto;
   const [sel, setSel] = useState<string | null>(startBg?.id ?? null);
   const [colorsById, setColorsById] = useState<Record<string, PostBgPalette>>(startBg?.colors && startBg.palettes.length ? { [startBg.id]: startBg.colors } : {});
   const [customOpen, setCustomOpen] = useState(!!startBg?.custom);
@@ -135,13 +131,27 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
   const [photo, setPhoto] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const listRef = useRef<FlatList<PostBg | null>>(null);
-  const startIndex = Math.max(0, ORDER.findIndex((b) => (b?.id ?? null) === (startBg?.id ?? null)));
+  const [startIndex] = useState(() => Math.max(0, ORDER.findIndex((b) => (b?.id ?? null) === (startBg?.id ?? null))));
   const photoSrc = photo ?? savedPhoto;
 
   useEffect(() => {
     const id = setTimeout(() => listRef.current?.scrollToOffset({ offset: startIndex * STEP, animated: false }), 0);
     return () => clearTimeout(id);
   }, [startIndex]);
+
+  const changeScope = (nextScope: Scope) => {
+    if (nextScope === scope || saving) return;
+    const next = nextScope === "post" ? postOwn : profileCurrent;
+    const nextId = next?.id ?? null;
+    setScope(nextScope);
+    setSel(nextId);
+    setColorsById(next?.colors && next.palettes.length ? { [next.id]: next.colors } : {});
+    setCustomOpen(!!next?.custom);
+    setWell(0);
+    setPhoto(null);
+    const index = Math.max(0, ORDER.findIndex((b) => (b?.id ?? null) === nextId));
+    listRef.current?.scrollToOffset({ offset: index * STEP, animated: false });
+  };
 
   const choosePhoto = async () => {
     try {
@@ -150,6 +160,7 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
       if (picked.video && picked.size > MAX_VIDEO_MB * 1024 * 1024) { toastError(null, t("postBg.videoSize", { n: MAX_VIDEO_MB })); return; }
       setPhoto(picked.uri);
       setSel(POST_BG_PHOTO_ID);
+      listRef.current?.scrollToOffset({ offset: STEP, animated: false });
     } catch { /* closed the picker */ }
   };
 
@@ -201,10 +212,13 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
           ? (postBgIsVideo(photo) ? createRNVideoFile(photo, "postbg") : createRNImageFile(photo, "postbg"))
           : null;
         // A picture already on the profile (or this post) is reused by its key.
-        const keptKey = sel === POST_BG_PHOTO_ID && !upload ? photoKeyOf(photoSrc) : null;
         const stored = sel === POST_BG_PHOTO_ID
-          ? (upload ? POST_BG_PHOTO_ID : keptKey ? `${POST_BG_PHOTO_ID}||${keptKey}` : "")
+          ? (upload ? POST_BG_PHOTO_ID : postBgPhotoStored(photoSrc))
           : postBgStored(sel, colors);
+        if (stored === null) {
+          toastError(null, t("postBg.saveFailed", "Couldn't save your background. Try again."));
+          return;
+        }
         const saved = await setPostBackground(postId, stored, upload ?? undefined);
         setPostBgForPost(postId, saved ? postBgFromStored(saved) ?? picked : null);
         closePostBgPicker();
@@ -227,7 +241,7 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
       // All posts: drop every post's own backdrop so they all follow this one.
       // (Only when chosen from a held post: the header just sets the profile's.)
       if (postId) {
-        await setPostBackground("all", "").catch((e) => logger.warn("Clearing post backgrounds failed", e));
+        await setPostBackground("all", "");
         if (address) clearAllPostBgs(address);
       }
       patchUser({ customs: merged as Record<string, string> } as any).catch(() => {});
@@ -264,7 +278,7 @@ function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBg
         {postId && (
           <View style={styles.chips} accessibilityRole="radiogroup" accessibilityLabel={t("postBg.scope")}>
             {(["post", "all"] as const).map((s) => (
-              <Pressable key={s} onPress={() => setScope(s)} style={[styles.chip, scope === s && styles.chipOn]} accessibilityRole="radio" accessibilityState={{ checked: scope === s }}>
+              <Pressable key={s} onPress={() => changeScope(s)} disabled={saving} style={[styles.chip, scope === s && styles.chipOn]} accessibilityRole="radio" accessibilityState={{ checked: scope === s }}>
                 <Text style={styles.chipText}>{s === "post" ? t("postBg.thisPost") : t("postBg.allPosts")}</Text>
               </Pressable>
             ))}

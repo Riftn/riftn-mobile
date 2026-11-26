@@ -85,6 +85,7 @@ export type AppStackParamList = {
     streamKey?: string;
   } | undefined;
   [ScreenNames.LiveViewer]: {
+    startWithControlsHidden?: boolean;
     streamId?: string;
     playbackId?: string;
     hostUsername?: string;
@@ -96,6 +97,7 @@ export type AppStackParamList = {
     nft?: any;
     accessInfo?: any;
   };
+  [ScreenNames.LiveAttendeeProfile]: { identifier: string };
   [ScreenNames.Leaderboard]: undefined;
   [ScreenNames.Notifications]: { filtered?: boolean } | undefined;
   [ScreenNames.NotificationSettings]: undefined;
@@ -191,7 +193,7 @@ export type AppStackParamList = {
     repostCount?: number;
     quoteCount?: number;
   };
-  [ScreenNames.LiveChat]: undefined;
+  [ScreenNames.LiveChat]: { sharedLiveTokenId?: string } | undefined;
   [ScreenNames.LiveChatInfo]: {
     room?: import('../services/livechat.service').LiveChatRoom;
     isModerator?: boolean;
@@ -230,6 +232,7 @@ export type AppStackParamList = {
     soundtrackUrl?: string;
   };
   [ScreenNames.ShortsViewer]: {
+    initialItemKey?: string;
     initialIndex?: number;
     initialItems?: import('../services/feed.unified.service').UnifiedFeedItem[];
     feedParams?: Record<string, any>;

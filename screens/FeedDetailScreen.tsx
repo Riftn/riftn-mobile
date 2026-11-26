@@ -1712,6 +1712,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
           {onBackdrop(
             <FeedCard
               item={item}
+              postPage
               fullContent
               disablePress
               prioritizeMedia
@@ -1723,6 +1724,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
       ) : item && immersive ? (
         <FeedCard
           item={item}
+          postPage
           onBack={handlePostBack}
           retainFeedNav
           fullContent
@@ -1737,6 +1739,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         onBackdrop(
           <FeedCard
             item={item}
+            postPage
             fullContent
             disablePress
             prioritizeMedia

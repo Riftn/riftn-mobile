@@ -21,7 +21,7 @@ import {
   Platform,
   Share,
 } from "react-native";
-import { shareWithRef } from "../../libs/shareRef";
+import { shareWithRef, withLiveShareRef } from "../../libs/shareRef";
 import { reportPostEvent } from "../../services/post-stats.service";
 import { useTranslation } from "react-i18next";
 import Icon, { type IconName } from "../ui/Icon";
@@ -53,6 +53,7 @@ import { markNotInterested } from "../../libs/not-interested-store";
  */
 const mutedFromMenu = new Set<string>();
 const blockedFromMenu = new Map<string, boolean>();
+const followActionsInFlight = new Set<string>();
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { toastSuccess, toastError, toastInfo } from "../../libs";
 import { WEBSITE_LINK } from "../../config";
@@ -81,6 +82,8 @@ export interface PostOptionsMenuProps {
   isOwner: boolean;
   /** The post itself, so pinning it can show it on the profile at once. */
   post?: any;
+  /** For a live post, whether its share link is public. */
+  liveSharePublic?: boolean;
   /**
    * The post's mint status. 'signed' means it was published off-chain and can
    * still be minted; anything else (or absent) hides the Mint post row, so a
@@ -422,6 +425,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   tokenId,
   isOwner,
   post,
+  liveSharePublic,
   canReplaceVideo = false,
   postStatus,
   postChainId,
@@ -586,7 +590,6 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   }, [onClose]);
 
   // Loading states
-  const [followLoading, setFollowLoading] = useState(false);
   const [visibilityLoading, setVisibilityLoading] = useState(false);
 
   // Comic or carousel: same pages, only the layout flag changes. The card
@@ -610,12 +613,17 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   const [blockLoading, setBlockLoading] = useState(false);
 
   const handleFollowToggle = useCallback(() => {
-    requireAuth?.(async () => {
+    if (!requireAuth) return;
+    // Release the modal backdrop while sign-in and the follow request run.
+    onClose();
+    requireAuth(async () => {
       const viewer = (user?.walletAddress || user?.address || "").toLowerCase();
       const target = (creatorIdentifier || "").toLowerCase();
       if (!viewer || !target) return;
 
-      setFollowLoading(true);
+      const key = `${viewer}:${target}`;
+      if (followActionsInFlight.has(key)) return;
+      followActionsInFlight.add(key);
       try {
         if (isFollowing || isFollowRequestPending) {
           await unfollowUser(viewer, target);
@@ -639,8 +647,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
         console.error("[PostOptionsMenu] follow toggle error", e);
         toastError(t("postOptions.followUpdateFailed"));
       } finally {
-        setFollowLoading(false);
-        onClose();
+        followActionsInFlight.delete(key);
       }
     });
   }, [
@@ -793,16 +800,17 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
     if (tokenId == null) return;
     // An article shares as its readable title link.
     const articleSlug = typeof post?.articleSlug === "string" ? post.articleSlug : "";
-    const url = `${WEBSITE_LINK || ""}/app/post/${articleSlug || tokenId}`;
+    const link = `${WEBSITE_LINK || ""}/app/post/${articleSlug || tokenId}`;
+    const url = liveSharePublic === undefined ? link : withLiveShareRef(link, liveSharePublic);
     try {
       const result = await shareWithRef({
         message: t("copy.7cbcbe364e76", { defaultValue: "Check out this post {{value1}}", value1: url }),
         url,
-      }, undefined, "post");
+      }, undefined, liveSharePublic === undefined ? "post" : "live");
       if (result.action === Share.sharedAction) reportPostEvent(tokenId, "share");
     } catch {}
     onClose();
-  }, [tokenId, post?.articleSlug, onClose, t]);
+  }, [tokenId, post?.articleSlug, liveSharePublic, onClose, t]);
 
   const followLabel = isFollowRequestPending
     ? t("postOptions.cancelRequest")
@@ -1070,7 +1078,6 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             <OptionRow
               icon={followIcon}
               label={followLabel}
-              loading={followLoading}
               onPress={handleFollowToggle}
             />
           )}

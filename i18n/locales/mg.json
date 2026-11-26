@@ -17041,7 +17041,22 @@
     "paste": "Apetaho ny lakile {{name}}-nao",
     "getKey": "Makà lakile {{name}}",
     "showLess": "Asehoy ny lakileko ihany",
-    "addAnother": "Ampio mpamatsy hafa"
+    "addAnother": "Ampio mpamatsy hafa",
+    "providerDescriptions": {
+      "openai": "Builder (maodely GPT)",
+      "fal": "Fitaovana ho an’ny sary, lahatsary, 3D sy sary nalaina",
+      "kie": "Sary sy lahatsary",
+      "replicate": "Sary sy lahatsary",
+      "xai": "Resaka sy sary amin’i Grok",
+      "elevenlabs": "Feo, fanoloana feo, mozika sy vokatry ny feo",
+      "gemini": "Fandikana, fanampiana amin’ny fanoratana sy famintinana",
+      "venice": "Miresaka amin’ny mpanampy",
+      "perplexity": "Mikaroka amin’ny tranonkala amin’ny mpanampy",
+      "deepgram": "Fandikana feo ho soratra sy dikanteny mivantana",
+      "openrouter": "Maodely resaka sy lahatsoratra an-jatony amin’ny lakile iray",
+      "groq": "Resaka sy lahatsoratra haingana",
+      "mistral": "Resaka sy lahatsoratra"
+    }
   },
   "postBg": {
     "addMedia": "Ampio sary, GIF na horonan-tsary",

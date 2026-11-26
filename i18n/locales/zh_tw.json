@@ -16993,7 +16993,22 @@
     "paste": "貼上您的 {{name}} 金鑰",
     "getKey": "獲取 {{name}} 金鑰",
     "showLess": "僅顯示我的金鑰",
-    "addAnother": "新增其他提供商"
+    "addAnother": "新增其他提供商",
+    "providerDescriptions": {
+      "openai": "Builder（GPT 模型）",
+      "fal": "圖像、影片、3D 和相片工具",
+      "kie": "圖像和影片",
+      "replicate": "圖像和影片",
+      "xai": "Grok 聊天與圖像",
+      "elevenlabs": "語音、配音、音樂和音效",
+      "gemini": "翻譯、寫作輔助和摘要",
+      "venice": "與助理聊天",
+      "perplexity": "透過助理搜尋網頁",
+      "deepgram": "逐字稿和即時字幕",
+      "openrouter": "只需一把金鑰即可使用數百種聊天和文字模型",
+      "groq": "快速聊天和文字生成",
+      "mistral": "聊天和文字生成"
+    }
   },
   "postBg": {
     "addMedia": "新增圖片、GIF 或影片",

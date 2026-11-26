@@ -258,6 +258,11 @@ function AppNavigatorContent() {
       />
 
       <Stack.Group>
+        <Stack.Screen
+          name={ScreenNames.LiveAttendeeProfile}
+          getComponent={() => deferredScreen('../screens/LiveAttendeeProfileScreen#default', () => require('../screens/LiveAttendeeProfileScreen').default)}
+          options={{ gestureEnabled: false }}
+        />
         <Stack.Screen name={ScreenNames.CreatorGallery} getComponent={() => deferredScreen('../screens/CreatorGalleryScreen#default', () => require('../screens/CreatorGalleryScreen').default)} />
         <Stack.Screen name={ScreenNames.Creator} getComponent={() => deferredScreen('../screens/CreatorScreen#default', () => require('../screens/CreatorScreen').default)} />
         <Stack.Screen name={ScreenNames.Maboroshi} getComponent={() => storefrontRoute(deferredScreen('../screens/MaboroshiScreen#default', () => require('../screens/MaboroshiScreen').default), "/creator/maboroshi")} />
@@ -465,7 +470,7 @@ function AppNavigatorContent() {
             holding crypto may not unlock features (config/storefront). */}
         <Stack.Screen
           name={ScreenNames.SuperPowers}
-          getComponent={() => storefrontRoute(deferredScreen('../screens/SuperPowersScreen#default', () => require("../screens/SuperPowersScreen").default), "/app/superpowers")}
+          getComponent={() => deferredScreen('../screens/SuperPowersScreen#default', () => require("../screens/SuperPowersScreen").default)}
         />
         {/* Public: browsing is open, voting/submitting prompts sign-in. */}
         <Stack.Screen
@@ -658,6 +663,8 @@ function AppNavigatorContent() {
             presentation: 'transparentModal',
             contentStyle: { backgroundColor: 'transparent' },
             animation: 'none',
+            gestureEnabled: false,
+            fullScreenGestureEnabled: false,
           }}
         />
         <Stack.Screen

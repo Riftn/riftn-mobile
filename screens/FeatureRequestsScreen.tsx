@@ -3,6 +3,7 @@ import RequestComments from '../components/FeatureRequests/RequestComments';
 import { openMessageReport } from '../components/common/MessageReportHost';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
+import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from '../hooks/useSearchFieldMaterial';
 /**
  * FeatureRequestsScreen
  * =====================
@@ -39,10 +40,12 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  KeyboardAvoidingView,
   Platform,
   Linking,
   useWindowDimensions,
   Dimensions,
+  type LayoutChangeEvent,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { shareWithRef } from "../libs/shareRef";
@@ -65,10 +68,11 @@ import { useComposeTranslate, languageLabel } from "../hooks/useComposeTranslate
 import LanguageSelectModal from "../components/Settings/LanguageSelectModal";
 import type { DraftSetter } from "../hooks/useDraftState";
 import { localFileSize } from "../libs/storage-upload";
-import { featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
+import { featureInputScrollOffset, featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
 import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
+import { FIELD_TEXT } from "../theme/inputs";
 import { getAvatarUrl } from "../libs/misc";
 import { formatCompactNumber } from "../libs";
 import { useUser, useAuthState } from "../context/AuthContext";
@@ -86,6 +90,8 @@ import {
 } from "../theme/minimal";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { useCanGoBack } from "../hooks/useCanGoBack";
+import { useSelfLiftingComposer } from "../hooks/useComposerKeyboard";
+import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
 import { useTranslation } from "react-i18next";
 import { useTranslation as useAutoTranslate } from "../hooks/useTranslation";
 import TranslateButton from "../components/ui/TranslateButton";
@@ -709,9 +715,10 @@ function TranslateRequestField({ text, setText, limit, disabled }: {
 const PromptComposer: React.FC<{
   focusRequest: number;
   bugReportFocus: number;
+  onInputFocus: () => void;
   onSubmit: (v: { title: string; description: string; category: FeatureCategory; attachments: FeatureAttachment[] }) => Promise<unknown>;
   submitting: boolean;
-}> = ({ focusRequest, bugReportFocus, onSubmit, submitting }) => {
+}> = ({ focusRequest, bugReportFocus, onInputFocus, onSubmit, submitting }) => {
   const { t } = useTranslation();
   const { skin, isMinimal } = useAppTheme();
   const [title, setTitle] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:title", "");
@@ -790,6 +797,7 @@ const PromptComposer: React.FC<{
         accessibilityLabel={t("features.promptLabel", "Your prompt")}
         placeholder={t("features.promptPlaceholder", "Describe an idea, improvement, or bug…")}
         placeholderTextColor="#808089" multiline maxLength={DESC_MAX} editable={!submitting}
+        onFocus={onInputFocus} scrollEnabled
         style={[styles.input, styles.promptInput]} textAlignVertical="top" />
       <TranslateRequestField text={description} setText={setDescription} limit={DESC_MAX} disabled={submitting} />
       {attachments.length > 0 && <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" style={styles.promptPreviews}>
@@ -856,7 +864,7 @@ const PromptComposer: React.FC<{
       </Pressable>
       <Collapsible open={detailsOpen}>
         <Text style={styles.fieldLabel}>{t("features.titleLabel")}</Text>
-        <TextInput value={title} onChangeText={setTitle} maxLength={TITLE_MAX} editable={!submitting} style={styles.input} />
+        <TextInput value={title} onChangeText={setTitle} onFocus={onInputFocus} maxLength={TITLE_MAX} editable={!submitting} style={styles.input} />
         <TranslateRequestField text={title} setText={setTitle} limit={TITLE_MAX} disabled={submitting} />
         <Text style={styles.fieldLabel}>{t("features.categoryLabel")}</Text>
         <View style={styles.catWrap}>{CATEGORY_KEYS.map(key => <Pressable key={key} onPress={() => setCategory(key)} disabled={submitting}
@@ -864,7 +872,7 @@ const PromptComposer: React.FC<{
           <Text style={[styles.sheetChipText, category === key && styles.sheetChipTextActive]}>{category === key ? "✓ " : ""}{t(CATEGORY_I18N[key])}</Text>
         </Pressable>)}</View>
         <Text style={styles.fieldLabel}>{t("features.promptDevice", "Device & OS (for bugs)")}</Text>
-        <TextInput value={device} onChangeText={setDevice} maxLength={DEVICE_MAX} editable={!submitting} style={styles.input} />
+        <TextInput value={device} onChangeText={setDevice} onFocus={onInputFocus} maxLength={DEVICE_MAX} editable={!submitting} style={styles.input} />
       </Collapsible>
     </ThemePanel>
   );
@@ -905,13 +913,40 @@ function FeatureRequestsBoard() {
     if (next !== "requests") setCategory((current) => (current === NOT_FEASIBLE ? "all" : current));
   }, []);
   const [search, setSearch] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:search", "");
+  const searchField = useSearchFieldMaterial();
+  const searchLabel = t("features.promptSearch", "Search prompts…");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [composerFocus, setComposerFocus] = useState(0);
   const [bugReportFocus, setBugReportFocus] = useState(0);
   const listRef = React.useRef<FlatList<FeatureRequest>>(null);
+  const listContentRef = React.useRef<View>(null!);
+  const listViewportHeight = React.useRef(0);
+  const keyboardOffset = useKeyboardOffset();
+  const isIOS = Platform.OS === "ios";
+  useSelfLiftingComposer(listContentRef);
   // The list is still at the top when a notification opens it, so the row's
   // place on screen is its offset: scroll until it sits a third of the way down.
   const scrollOffsetRef = React.useRef(0);
+
+  // iOS's automatic keyboard inset scrolls the list to the selection's text
+  // coordinates. For a long prompt those may be far below its visible box.
+  // Reveal the input frame once, then let the input scroll its own caret.
+  const revealListInput = useCallback(() => {
+    if (!isIOS || listViewportHeight.current <= 0) return;
+    const input = TextInput.State.currentlyFocusedInput();
+    const content = listContentRef.current;
+    if (!input || !content) return;
+    input.measureLayout(content, (_x, y, _width, height) => {
+      if (!height || TextInput.State.currentlyFocusedInput() !== input) return;
+      const current = scrollOffsetRef.current;
+      const offset = featureInputScrollOffset(current, listViewportHeight.current, y, height);
+      if (Math.abs(offset - current) > 1) listRef.current?.scrollToOffset({ offset, animated: false });
+    }, () => {});
+  }, [isIOS]);
+  const onListLayout = useCallback((event: LayoutChangeEvent) => {
+    listViewportHeight.current = event.nativeEvent.layout.height;
+    revealListInput();
+  }, [revealListInput]);
   const scrollToFocusedComment = React.useCallback((windowY: number, height: number) => {
     const target = scrollOffsetRef.current + windowY - Dimensions.get("window").height * 0.35 + height / 2;
     if (target > 0) listRef.current?.scrollToOffset({ offset: target, animated: true });
@@ -1019,14 +1054,15 @@ function FeatureRequestsBoard() {
 
   const activeList = showNotFeasible ? notFeasible
     : tab === "shipped" ? shipped : tab === "shipping" ? inProgress : requests;
-  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError: showListError } = activeList;
+  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError } = activeList;
+  const showListError = tab === "shipped" ? shipped.isLoadingError : isError;
 
   const openSheet = useCallback(() => {
     changeTab("requests");
     setCategory((current) => (current === NOT_FEASIBLE ? "all" : current));
-    listRef.current?.scrollToOffset({ offset: 0, animated: true });
+    listRef.current?.scrollToOffset({ offset: 0, animated: !isIOS });
     setComposerFocus(value => value + 1);
-  }, [changeTab]);
+  }, [changeTab, isIOS]);
 
   const composeRequest = route.params?.composeRequest;
   React.useEffect(() => {
@@ -1136,19 +1172,27 @@ function FeatureRequestsBoard() {
 
         {/* Search */}
         <View style={styles.searchRow}>
-          <View style={styles.searchWrap}>
-            <Icon name="Search" size={16} color="#808089" />
+          <View style={[styles.searchWrap, searchField.surface]}>
+            <Icon name="Search" size={16} color="#A1A1AA" />
             <TextInput
               value={search}
               onChangeText={setSearch}
-              placeholder={t("features.promptSearch", "Search prompts…")}
-              placeholderTextColor="#808089"
-              style={styles.searchInput}
+              accessibilityLabel={searchLabel}
+              placeholder={searchLabel}
+              placeholderTextColor="#A1A1AA"
+              style={[styles.searchInput, FIELD_TEXT, SEARCH_INPUT_CLEAR]}
               returnKeyType="search"
+              onFocus={searchField.onFocus}
+              onBlur={searchField.onBlur}
             />
             {search.length > 0 && (
-              <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
-                <Icon name="X" size={15} color="#808089" />
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t("sidebar.clearSearch")}
+                onPress={() => setSearch.complete(search, "")}
+                hitSlop={8}
+              >
+                <Icon name="X" size={15} color="#A1A1AA" />
               </Pressable>
             )}
           </View>
@@ -1294,11 +1338,13 @@ function FeatureRequestsBoard() {
       </View>
 
       {/* Content */}
+      <KeyboardAvoidingView style={styles.root} enabled={isIOS} behavior="padding" keyboardVerticalOffset={keyboardOffset}>
         <FlatList
           ref={listRef}
+          innerViewRef={listContentRef}
+          onLayout={onListLayout}
           onScroll={(e) => { scrollOffsetRef.current = e.nativeEvent.contentOffset.y; }}
-          scrollEventThrottle={64}
-          automaticallyAdjustKeyboardInsets
+          scrollEventThrottle={16}
           keyboardDismissMode="on-drag"
           data={loading || showListError ? [] : items}
           keyExtractor={keyExtractor}
@@ -1312,7 +1358,7 @@ function FeatureRequestsBoard() {
           }}
           ListHeaderComponent={<>
             <View style={tab !== "requests" || showNotFeasible ? { display: "none" } : undefined}>
-              <PromptComposer focusRequest={composerFocus} bugReportFocus={bugReportFocus} submitting={submitMutation.isPending} onSubmit={async v => {
+              <PromptComposer focusRequest={composerFocus} bugReportFocus={bugReportFocus} onInputFocus={revealListInput} submitting={submitMutation.isPending} onSubmit={async v => {
                 const result = await submitMutation.mutateAsync(v);
                 setCategory("all"); setSearch.complete(search, ""); setSort("newest");
                 return result;
@@ -1356,6 +1402,7 @@ function FeatureRequestsBoard() {
             </ThemePanel>
           }
         />
+      </KeyboardAvoidingView>
       <DeHubRefreshMark refreshing={refreshing} />
     </View>
   );
@@ -1374,7 +1421,7 @@ const styles = StyleSheet.create({
   promptPanel: { padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(255,255,255,0.12)", backgroundColor: "#18181B", marginBottom: 12 },
   promptHeading: { color: "#FAFAFA", fontSize: 18, fontWeight: "700", marginBottom: 4 },
   promptHint: { color: "#A1A1AA", fontSize: 12, lineHeight: 18 },
-  promptInput: { minHeight: 112, maxHeight: 240, marginTop: 12, fontSize: 15, lineHeight: 22 },
+  promptInput: { height: 112, marginTop: 12, fontSize: 15, lineHeight: 22 },
   promptPreviews: { flexGrow: 0, marginTop: 12 },
   promptAttachment: { width: 112, marginRight: 8 },
   promptThumbnail: { height: 80, borderRadius: 10, overflow: "hidden" },
@@ -1428,7 +1475,7 @@ const styles = StyleSheet.create({
   pageSubtitle: { color: "#808089", fontSize: 13, marginTop: 2 },
   headerAddBtn: { flexShrink: 0 },
 
-  // Search — 40pt, zinc-800 on a zinc-700 hairline.
+  // Search — 40pt with shared inset focus treatment.
   searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
   mineFilter: { maxWidth: "48%", height: 40, borderColor: "#3F3F46" },
   searchWrap: {
@@ -1440,11 +1487,8 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 12,
     borderRadius: 12,
-    backgroundColor: "#27272A",
-    borderWidth: 1,
-    borderColor: "#3F3F46",
   },
-  searchInput: { flex: 1, minWidth: 0, color: "#FFFFFF", fontSize: 14, padding: 0 },
+  searchInput: { flex: 1, alignSelf: "stretch", minWidth: 0, color: "#FFFFFF", fontSize: 14, paddingHorizontal: 0 },
 
   // Tab strip — 48pt outer, three 40pt tabs.
   tabStrip: {

@@ -58,6 +58,8 @@ const INPUT_TEXT = {
 
 interface LiveChatInputProps {
   onSend: (content: string, replyTo?: string, audioUrl?: string, audioDuration?: number) => Promise<boolean>;
+  incomingLink?: string;
+  onIncomingLinkApplied?: () => void;
   replyingTo: LiveChatMessageData | null;
   onCancelReply: () => void;
   editingMessage: LiveChatMessageData | null;
@@ -79,6 +81,8 @@ interface LiveChatInputProps {
 
 const LiveChatInput: React.FC<LiveChatInputProps> = ({
   onSend,
+  incomingLink,
+  onIncomingLinkApplied,
   replyingTo,
   onCancelReply,
   editingMessage,
@@ -101,6 +105,13 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
   const composerIconColor = '#A1A1AA';
   const composerActiveColor = '#F4F4F5';
   const [text, setText] = useDraftState(editingMessage ? `public:edit:${editingMessage._id}` : "public:composer", editingMessage?.content ?? "");
+  useEffect(() => {
+    if (!incomingLink || editingMessage) return;
+    setText(previous => previous.split(/\s+/).includes(incomingLink)
+      ? previous
+      : previous.trim() ? `${previous.trimEnd()}\n${incomingLink}` : incomingLink);
+    onIncomingLinkApplied?.();
+  }, [editingMessage, incomingLink, onIncomingLinkApplied, setText]);
   const [attachOpen, setAttachOpen] = useState(false);
   const [emojiSheetOpen, setEmojiSheetOpen] = useState(false);
   const mentions = useMentions(text, setText);

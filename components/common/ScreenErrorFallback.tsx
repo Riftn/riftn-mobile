@@ -162,9 +162,13 @@ export function withScreenBoundary({ route, navigation, options, children }: Scr
   const guarded = [ScreenNames.MediaEditor, ScreenNames.VideoRemix, ScreenNames.Upload, ScreenNames.UploadTab, ScreenNames.LiveProducer].includes(route.name);
   const state = navigation.getState();
   const canPop = state.type === 'stack' && state.index > 0;
+  // The photo drawer owns its exit, and the profile tab has no stack gesture.
+  const photoSurface = route.name === ScreenNames.ImageFeed || route.name === ScreenNames.ProfileTab;
   return <SwipeBackBoundary
     isFocused={() => navigation.isFocused()}
     onBack={!guarded && canPop ? () => navigation.goBack() : undefined}
+    allowIOS={photoSurface}
+    protectSideways={photoSurface}
   >{Platform.OS === "ios" && !Platform.isPad && IOS_SHEETS.has((options as any)?.presentation)
     ? <SheetFrame><ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary></SheetFrame>
     : <ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary>}</SwipeBackBoundary>;

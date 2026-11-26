@@ -24,16 +24,20 @@ export const getShareRefCode = (): string | null => ownCode;
  * (first touch wins on both). Other hosts, /r/ invite links and links that
  * already carry a ref are returned untouched.
  */
-export function withShareRef(url: string, code: string | null = ownCode): string {
+export function withShareRef(url: string, code: string | null = ownCode, parameter: 'ref' | 'live_ref' = 'ref'): string {
   if (!url || !code) return url;
   const match = url.match(/^https?:\/\/(?:www\.)?(?:dehub\.io|riftn\.com)(\/[^?#]*)?(\?[^#]*)?(#.*)?$/i);
   if (!match) return url;
   const [, path = "", query = "", hash = ""] = match;
   if (/^\/r\//i.test(path)) return url;
-  if (/[?&](ref|aff)=/i.test(query)) return url;
+  if (/[?&](ref|aff|live_ref)=/i.test(query)) return url;
   const base = url.slice(0, url.length - query.length - hash.length);
-  const tagged = `${query ? `${query}&` : "?"}ref=${encodeURIComponent(code)}`;
+  const tagged = `${query ? `${query}&` : "?"}${parameter}=${encodeURIComponent(code)}`;
   return `${base}${tagged}${hash}`;
+}
+
+export function withLiveShareRef(url: string, isPublic: boolean): string {
+  return isPublic && !IS_APP_STORE_BUILD ? withShareRef(url, ownCode, 'live_ref') : url;
 }
 
 /** Tag every dehub.io link inside free text, leaving trailing punctuation outside the URL. */
@@ -61,13 +65,17 @@ export async function shareWithRef(
   options?: ShareOptions,
   kind = "link",
 ): ReturnType<typeof Share.share> {
-  const tagged = shareContentWithRef(content);
+  // Live callers have already tagged their public post URL. Keep private live
+  // links plain, and don't apply the ordinary sign-in referral to live shares.
+  const tagged = kind === 'live' ? content : shareContentWithRef(content);
   const result = await (options ? Share.share(tagged, options) : Share.share(tagged));
   if (result.action === Share.sharedAction) {
     track("share", {
       kind,
       channel: result.activityType || (Platform.OS === "android" ? "android_chooser" : "unknown"),
-      has_ref: !!ownCode,
+      has_ref: kind === 'live'
+        ? /[?&]live_ref=/.test(`${tagged.message ?? ''} ${tagged.url ?? ''}`)
+        : !!ownCode,
     });
   }
   return result;

@@ -26,7 +26,7 @@ import { DeHubLoader } from "../components/DeHubLoader";
 import Icon from "../components/ui/Icon";
 import GroupCallButtons from "../components/Call/GroupCallButtons";
 import { PUBLIC_CHAT_CALL_ID } from "../libs/groupCall";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import MessageSurface from "../components/DM/MessageSurface";
 import ScreenHeader from "../components/ScreenHeader";
 import ConfirmModal from "../components/common/ConfirmModal";
@@ -38,12 +38,10 @@ import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import PublicChatHeaderMenu from "../components/LiveChat/PublicChatHeaderMenu";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
-import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 import type { TranslateToggle } from "../components/ui/TranslateButton";
 import type { MessageLayout } from "../components/LiveChat/LiveChatContextMenu";
 import PinnedMessagesBar from "../components/LiveChat/PinnedMessagesBar";
 import { useKeyboardRide } from "../hooks/useKeyboardRide";
-import GifPicker from "../components/DM/GifPicker";
 import WhenOpened from "../components/ui/WhenOpened";
 import { useLiveChat } from "../hooks/useLiveChat";
 import { useUser } from "../context/AuthContext";
@@ -64,6 +62,10 @@ import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
+import type { AppStackParamList } from "../navigation/types";
+import { ShareLinks } from "../navigation/linking.config";
+import { getNFT } from "../services/nft.service";
+import { videoNeedsAccess } from "../libs/video-access";
 import { setPublicChatOpen } from "../libs/public-chat-alerts";
 import { hideLineForMe, useHiddenLines } from "../libs/public-chat-hidden";
 import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
@@ -137,6 +139,38 @@ const LiveChatScreen: React.FC = () => {
   const account = user?.walletAddress || user?.address || "";
   const { showUserProfile } = useUserProfileSheet();
   const navigation = useNavigation<any>();
+  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.LiveChat>>();
+  const sharedTokenId = route.params?.sharedLiveTokenId;
+  const pendingShareId = account && typeof sharedTokenId === "string" && /^[1-9]\d*$/.test(sharedTokenId)
+    ? sharedTokenId : undefined;
+  const [confirmedShare, setConfirmedShare] = useState<{ tokenId: string; account: string } | null>(null);
+  const sharedLiveUrl = confirmedShare && pendingShareId === confirmedShare.tokenId && confirmedShare.account === account
+    ? ShareLinks.post(confirmedShare.tokenId)
+    : undefined;
+  const clearSharedLive = useCallback(() => {
+    setConfirmedShare(null);
+    navigation.setParams({ sharedLiveTokenId: undefined });
+  }, [navigation]);
+  useFocusEffect(useCallback(() => {
+    if (!pendingShareId) return;
+    let cancelled = false;
+    const unavailable = () => {
+      if (cancelled) return;
+      toastError(t("profile.replyThread.postUnavailable"));
+      clearSharedLive();
+    };
+    void getNFT(pendingShareId).then(({ result: post }) => {
+      if (cancelled) return;
+      if (String(post?.tokenId) !== pendingShareId || post.isDeleted || post.isHidden
+        || (post.visibility && post.visibility !== "public")
+        || post.plans?.length || post.plansDetails?.length || videoNeedsAccess(post)) {
+        unavailable();
+        return;
+      }
+      setConfirmedShare({ tokenId: pendingShareId, account });
+    }, unavailable);
+    return () => { cancelled = true; };
+  }, [account, clearSharedLive, pendingShareId, t]));
   // The composer rides the keys frame by frame (hooks/useKeyboardRide) and
   // the list rides with it, so the newest lines go up with the keyboard
   // instead of disappearing under it.
@@ -255,7 +289,7 @@ const LiveChatScreen: React.FC = () => {
   const layoutHeightRef = useRef(0);
   const scrollOffsetRef = useRef(0);
   const hasInitialScrolledRef = useRef(false);
-  const initialRevealTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const initialRevealFrame = useRef<number | null>(null);
   const [initialScrollDone, setInitialScrollDone] = useState(false);
 
   const myAddress = useMemo(
@@ -292,7 +326,9 @@ const LiveChatScreen: React.FC = () => {
 
   // Content measurement owns following the tail. A second delayed animated
   // scroll here used to race it when cached and server history both arrived.
-  useEffect(() => () => clearTimeout(initialRevealTimer.current), []);
+  useEffect(() => () => {
+    if (initialRevealFrame.current !== null) cancelAnimationFrame(initialRevealFrame.current);
+  }, []);
 
   const handleContentSizeChange = useCallback((_w: number, h: number) => {
     contentHeightRef.current = h;
@@ -305,6 +341,10 @@ const LiveChatScreen: React.FC = () => {
     // ── Phase 1: initial setup (list hidden via opacity 0) ──
     if (!hasInitialScrolledRef.current) {
       if (messagesRef.current.length === 0 || layoutHeightRef.current === 0) return;
+      if (initialRevealFrame.current !== null) {
+        cancelAnimationFrame(initialRevealFrame.current);
+        initialRevealFrame.current = null;
+      }
 
       // History that fits on one screen is already "at the bottom". Content
       // size only reports again when it changes, so returning here left the
@@ -318,14 +358,18 @@ const LiveChatScreen: React.FC = () => {
 
       flatListRef.current?.scrollToOffset({ offset: h - layoutHeightRef.current, animated: false });
 
-      clearTimeout(initialRevealTimer.current);
-      initialRevealTimer.current = setTimeout(() => {
-        hasInitialScrolledRef.current = true;
-        const finalOffset = contentHeightRef.current - layoutHeightRef.current;
-        flatListRef.current?.scrollToOffset({ offset: finalOffset, animated: false });
-        scrollOffsetRef.current = finalOffset;
-        setInitialScrollDone(true);
-      }, 250);
+      // Give the list a frame to apply the offset, then reveal after the final
+      // measured size has stayed stable for a frame.
+      initialRevealFrame.current = requestAnimationFrame(() => {
+        initialRevealFrame.current = requestAnimationFrame(() => {
+          initialRevealFrame.current = null;
+          hasInitialScrolledRef.current = true;
+          const finalOffset = Math.max(0, contentHeightRef.current - layoutHeightRef.current);
+          flatListRef.current?.scrollToOffset({ offset: finalOffset, animated: false });
+          scrollOffsetRef.current = finalOffset;
+          setInitialScrollDone(true);
+        });
+      });
       return;
     }
 
@@ -1055,15 +1099,16 @@ const LiveChatScreen: React.FC = () => {
     setPendingFocus(target._id);
   }, [search.results, searchText, jumpToMessage, t]);
 
-  // A copied message link to the public chat: open the room on that line
-  // and light it up. The app reads the main room only.
-  useLinkedMessage("public", messages.length > 0, async (id) => {
+  const focusMessage = useCallback(async (id: string) => {
     isAtBottomRef.current = false;
     setAtBottom(false);
     const found = await jumpToMessage(id);
     if (found) setPendingFocus(id);
-    return !!found;
-  });
+    return found;
+  }, [jumpToMessage]);
+
+  // The app opens copied links to messages in the main room.
+  useLinkedMessage("public", messages.length > 0, focusMessage);
   const handleContextCopyLink = useCallback((msg: LiveChatMessageData) => {
     copyChatMessageLink({ kind: "public" }, msg._id);
   }, []);
@@ -1092,10 +1137,12 @@ const LiveChatScreen: React.FC = () => {
   );
 
   const handleReplyPress = useCallback(
-    (messageId: string) => {
-      highlightAndScroll(messageId);
+    async (messageId: string) => {
+      if (hiddenLines.has(messageId) || !(await focusMessage(messageId))) {
+        toastError(t("chatSearch.gone", { defaultValue: "That message is no longer here" }));
+      }
     },
-    [highlightAndScroll],
+    [hiddenLines, focusMessage, t],
   );
 
   const replyingId = replyingTo?._id;
@@ -1403,6 +1450,11 @@ const LiveChatScreen: React.FC = () => {
           {/* Same as the DM composer and web: plain page colour with the
               hairline on top, no rounded frosted box. */}
           <MessageSurface material={false} />
+          {pendingShareId && !sharedLiveUrl && (
+            <Text accessibilityLiveRegion="polite" className="px-4 py-2 text-sm text-theme-neutrals-400">
+              {t("common.loading")}
+            </Text>
+          )}
           {typingText && (
             <View className="px-4 py-1.5 border-b border-white/5">
               <Text className="text-white/60 text-xs italic">{typingText}</Text>
@@ -1411,6 +1463,8 @@ const LiveChatScreen: React.FC = () => {
 
           <LiveChatInput
             onSend={handleSend}
+            incomingLink={sharedLiveUrl}
+            onIncomingLinkApplied={clearSharedLive}
             replyingTo={replyingTo}
             onCancelReply={handleCancelReply}
             editingMessage={editingMessage}
@@ -1430,19 +1484,23 @@ const LiveChatScreen: React.FC = () => {
       </View>
 
       <WhenOpened open={showGifPicker}>
-        {() => (
-          <GifPicker
-            visible={showGifPicker}
-            onClose={() => setShowGifPicker(false)}
-            onPick={handleGifPicked}
-          />
-        )}
+        {() => {
+          const GifPicker = require("../components/DM/GifPicker").default as typeof import("../components/DM/GifPicker").default;
+          return (
+            <GifPicker
+              visible={showGifPicker}
+              onClose={() => setShowGifPicker(false)}
+              onPick={handleGifPicked}
+            />
+          );
+        }}
       </WhenOpened>
 
       <WhenOpened open={!!reactorsFor}>
-        {() => (
-          <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
-        )}
+        {() => {
+          const CommentLikersSheet = require("../components/Comments/CommentLikersSheet").default as typeof import("../components/Comments/CommentLikersSheet").default;
+          return <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />;
+        }}
       </WhenOpened>
 
       <WhenOpened open={contextMenuVisible}>

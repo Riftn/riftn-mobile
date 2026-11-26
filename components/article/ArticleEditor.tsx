@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import SmartImage from '../common/SmartImage';
 import MarkdownText from '../ui/MarkdownText';
 import Icon, { type IconName } from '../ui/Icon';
+import PrimaryButton from '../ui/PrimaryButton';
 import ArticleFigure from './ArticleFigure';
 import {
   ARTICLE_BODY_MAX, ARTICLE_BODY_MIN, ARTICLE_CAPTION_MAX, ARTICLE_IMAGE_MAX, ARTICLE_RAW_MAX, articleImages, articleReadingMinutes,
@@ -29,6 +30,7 @@ interface ArticleEditorProps {
   summaryMax: number;
   coverUri: string | null;
   onPickCover: () => void;
+  onOpenFreeImages: () => void;
   onRemoveCover: () => void;
   /** Opens the photo picker for pictures inside the article. */
   onAddImages: () => void;
@@ -88,6 +90,7 @@ export default function ArticleEditor(p: ArticleEditorProps) {
           <Text style={{ color: look.ink3, fontSize: 12, textAlign: 'center' }}>{t('articles.coverHint')}</Text>
         </Pressable>
       )}
+      <PrimaryButton title={t('freeImages.title')} icon="Image" onPress={p.onOpenFreeImages} style={s.freeImages} hitSlop={2} />
 
       <TextInput
         value={p.title}
@@ -231,6 +234,7 @@ const s = StyleSheet.create({
   darkPill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 12, paddingVertical: 7, backgroundColor: 'rgba(0,0,0,0.6)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.22)' },
   darkPillText: { color: '#fff', fontSize: 12, fontWeight: '600' },
   drop: { aspectRatio: 3, borderWidth: 1.5, borderStyle: 'dashed', alignItems: 'center', justifyContent: 'center', gap: 4, paddingHorizontal: 16 },
+  freeImages: { alignSelf: 'flex-start', maxWidth: '100%' },
   title: { fontSize: 28, lineHeight: 34, fontWeight: '700', padding: 0 },
   toolbar: { flexDirection: 'row', alignItems: 'center', borderWidth: 1, paddingHorizontal: 4, paddingVertical: 2 },
   tool: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },

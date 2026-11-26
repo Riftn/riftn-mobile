@@ -92,6 +92,7 @@ import { CONTENT_WARNING_MAX } from "../components/Home/ContentWarningGate";
 import CommunityDrawer from "../components/Upload/CommunityDrawer";
 import { getUserCommunities } from "../services/communities.service";
 import type { Community } from "../types/community";
+import { canConfigurePpvPreview } from "../libs/ppv-preview";
 import MonetizationPanel from "../components/Upload/MonetizationPanel";
 import type { MonetizationState } from "../components/Upload/MonetizationPanel";
 import CustomSwitch from "../components/ui/CustomSwitch";
@@ -162,6 +163,7 @@ import { TranslatedDraftNote } from "../components/Upload/TranslatedDraftNote";
 import { rememberTranslateLang, translateDraft, translateLanguageName } from "../libs/post-translate";
 import { ensureAiConsent } from "../libs/ai-consent";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
+import { PostFormatControls } from "../components/common/PostTextFormatting";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
 import { uploadLocalFileToBucket, fileExtension, contentTypeForExtension } from "../libs/storage-upload";
@@ -353,7 +355,7 @@ export default function UploadScreen() {
   // Comic: a photo post shown as collector cards, each page with a caption.
   const [comicMode, setComicMode] = useState(false);
   const [paintingOpen, setPaintingOpen] = useState(false);
-  const [freeImagesOpen, setFreeImagesOpen] = useState(false);
+  const [freeImagesTarget, setFreeImagesTarget] = useState<"post" | "article-cover" | null>(null);
   /** The comic's border preset; null is the theme's own foil. */
   const [comicBorder, setComicBorder] = useState<ComicBorder | null>(null);
   const imageLimit = (comicMode ? getComicImageLimitForBadge : getPostImageLimitForBadge)(
@@ -487,15 +489,16 @@ export default function UploadScreen() {
   }, [articleUploads, articleSelection.end, setArticleBody, t]);
   const [articleImageUri, setArticleImageUri] = useState<string | null>(null);
   const [socialImageUri, setSocialImageUri] = useState<string | null>(null);
+  const setArticleCover = useCallback((uri: string | null) => {
+    setArticleImageUri(uri);
+    setSocialImageUri(uri);
+  }, []);
   const pickArticleImage = useCallback(async () => {
     await runWithPermissions(["photos"], async () => {
       const uri = await openCroppedImagePicker({ width: 1200, height: 630, quality: 0.9, forceJpg: true });
-      if (uri) {
-        setArticleImageUri(uri);
-        setSocialImageUri(uri);
-      }
+      if (uri) setArticleCover(uri);
     });
-  }, []);
+  }, [setArticleCover]);
   const articleShareImageUri = socialImageUri || articleImageUri;
 
   // Same preference web keeps in localStorage under `post_show_title`.
@@ -2471,9 +2474,13 @@ export default function UploadScreen() {
 
   /** A free library photo joins the post like a picked one; the credit goes under the text. */
   const handleFreeImagePick = useCallback((image: FreeImagePick, credit: string | null) => {
+    if (freeImagesTarget === "article-cover") {
+      setArticleCover(image.uri);
+      return;
+    }
     void adoptImageAssets([{ ...image, type: "image", assetId: null } as unknown as PickedAsset]);
     if (credit) setBodyText((prev) => (prev.includes(credit) ? prev : prev ? `${prev}\n\n${credit}` : credit));
-  }, [adoptImageAssets, setBodyText]);
+  }, [adoptImageAssets, freeImagesTarget, setArticleCover, setBodyText]);
 
   const handleStudioDone = useCallback((results: StudioResult[]) => {
     setImageEdit(null);
@@ -2796,6 +2803,281 @@ export default function UploadScreen() {
     );
   }
 
+  // An iOS article and its settings share one scroll view, with the toolbar
+  // still docked below it. The shorter composers keep their own options pane.
+  const articleOptionsInline = Platform.OS === "ios" && articleMode;
+  const postOptions = sheet.extrasReady ? (
+    <View>
+      {/* Mint sits in the list rather than in a card of its own, as
+          web's first PostAccessToggles row. Off by default, so a first
+          post needs no wallet at all. */}
+      {!isQuoteMode && DIGITAL_PURCHASES_ENABLED && (
+        <View className="flex-row items-center justify-between py-3">
+          <View className="flex-row items-center flex-1 mr-3">
+            <Icon name="Coins" size={18} color="#fff" />
+            <Text className="text-white text-sm ml-3">{t("upload.mintPost")}</Text>
+            {/* Web can afford a separate span for each of these; a phone
+                row cannot, so they share one line when both apply. */}
+            {mintRequired || (effectiveShouldMint && mintFeeLabel) ? (
+              <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
+                ({[mintRequired ? _copy("copy.811ec3714ad8", { defaultValue: "required for bounty" }) : null, effectiveShouldMint ? mintFeeLabel : null]
+                  .filter(Boolean)
+                  .join(" · ")})
+              </Text>
+            ) : null}
+          </View>
+          <CustomSwitch
+            value={effectiveShouldMint}
+            onValueChange={handleSetShouldMint}
+            disabled={mintRequired}
+          />
+        </View>
+      )}
+      {!isQuoteMode && DIGITAL_PURCHASES_ENABLED && effectiveShouldMint && (
+        <MintHomeAllowance style={{ marginLeft: 30, marginTop: -6, marginBottom: 4 }} />
+      )}
+
+      {/* Title is forced on for video/audio/live, toggleable for the
+          rest — same rule as web's PostAccessToggles. Non-video
+          quotes can't carry a title, so the switch hides there. */}
+      {!isQuoteMode && !isLiveMode && !hasVideoOrAudio && (
+        <View className="flex-row items-center justify-between py-3">
+          <View className="flex-row items-center">
+            <Icon name="Type" size={18} color="#fff" />
+            <Text className="text-white text-sm ml-3">{t("features.titleLabel")}</Text>
+          </View>
+          <CustomSwitch
+            value={showTitle}
+            onValueChange={handleToggleTitle}
+          />
+        </View>
+      )}
+
+      <View className="py-3">
+        {plainCategories.length > 0 && (
+          <View className="flex-row flex-wrap gap-2 mb-2">
+            {plainCategories.map((c) => (
+              <View
+                key={c}
+                className="flex-row items-center px-2 py-1 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700"
+              >
+                <Text className="text-white text-xs">{c.charAt(0).toUpperCase() + c.slice(1)}</Text>
+                <TouchableOpacity
+                  onPress={() => removeCategory(c)}
+                  className="ml-1"
+                >
+                  <Icon name="CircleX" size={14} color="#6F7174" />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {categories.length < CATEGORIES_MAX && (
+          <TouchableOpacity
+            onPress={openCategoryDrawer}
+            activeOpacity={0.7}
+            className="flex-row items-center"
+          >
+            <Icon name="Tag" size={18} color="#fff" />
+            <Text className="text-white text-sm ml-3">{t("upload.addCategories")}</Text>
+          </TouchableOpacity>
+        )}
+
+      </View>
+
+      {/* Community — only for the ones this account belongs to, the
+          same condition web puts on its Community switch. Filing a
+          post means carrying the slug as a category. */}
+      {userCommunities.length > 0 && (
+        <View className="py-3">
+          <View className="flex-row items-center justify-between">
+            <TouchableOpacity
+              onPress={() => setCommunityOpen(true)}
+              activeOpacity={0.7}
+              className="flex-row items-center flex-1"
+            >
+              <Icon name="Users" size={18} color="#fff" />
+              <Text className="text-white text-sm ml-3">{t("upload.community")}</Text>
+            </TouchableOpacity>
+            <CustomSwitch
+              value={!!selectedCommunity}
+              onValueChange={(v) =>
+                v ? setCommunityOpen(true) : handleClearCommunity()
+              }
+            />
+          </View>
+          {selectedCommunity && (
+            <View className="flex-row flex-wrap gap-2 mt-2">
+              <View className="flex-row items-center px-2 py-1 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700">
+                <Icon name="Users" size={12} color="#6F7174" />
+                <Text className="text-white text-xs ml-1">
+                  {selectedCommunity.name}
+                </Text>
+                <TouchableOpacity onPress={handleClearCommunity} className="ml-1">
+                  <Icon name="CircleX" size={14} color="#6F7174" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </View>
+      )}
+
+      {/* Made for kids — directly under Category and Community, as on
+          web, because that is what it behaves like: in Kids Mode the
+          category chips are derived from the categories kids posts
+          actually carry, so this is what puts a post behind any of them.
+
+          Far from the Mature switch at the bottom, and that distance is
+          the point. Mature is last because a mis-tap there cost a
+          creator the public feed; this one has the same problem
+          pointing the other way, so it confirms before it arms.
+          Turning it back off is free. */}
+      <TouchableOpacity
+        onPress={() => (isForKids ? setIsForKids(false) : setForKidsConfirmOpen(true))}
+        activeOpacity={0.7}
+        className="flex-row items-center justify-between py-3"
+      >
+        <View className="flex-row items-center flex-1 mr-3">
+          <Icon name="Baby" size={18} color="#fff" />
+          <Text className="text-white text-sm ml-3">{t("upload.madeForKids")}</Text>
+          {isForKids ? (
+            <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
+              ({t("upload.madeForKidsHint")})
+            </Text>
+          ) : null}
+        </View>
+        <CustomSwitch
+          value={isForKids}
+          onValueChange={(v) => (v ? setForKidsConfirmOpen(true) : setIsForKids(false))}
+        />
+      </TouchableOpacity>
+
+      {!isQuoteMode && !articleMode && DIGITAL_PURCHASES_ENABLED && (
+        <MonetizationPanel
+          draftScope={draftScope}
+          state={monetization}
+          onChange={handleMonetizationChange}
+          canConfigurePpvPreview={canConfigurePpvPreview(
+            !!pickedVideo,
+            isLiveMode || isStageMode || visibility !== "public" || !!authUser?.isPrivate || isMature || !!contentWarning?.trim() || !!videoDestruct,
+            monetization,
+          )}
+          postChainId={effectivePostChainId}
+          onCreatePlan={() => setShowPlanForm(true)}
+        />
+      )}
+
+      {/* Shop — the creator's affiliate / shop link board. Tapping the
+          row anywhere opens the editor, including when it is already
+          on, so "add another link" is one tap rather than off-then-on. */}
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => setShopSheetVisible(true)}
+        className="flex-row items-center justify-between py-3"
+      >
+        <View className="flex-row items-center flex-1 mr-3">
+          <Icon name="ShoppingBag" size={18} color="#fff" />
+          <Text className="text-white text-sm ml-3">{t("upload.shop")}</Text>
+          {shopRows ? (
+            <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
+              ({shopRows}{_copy("copy.a4282e4b2298", { defaultValue: " of " })}{shopAllowance.allowance})
+            </Text>
+          ) : null}
+        </View>
+        <CustomSwitch
+          value={shopRows > 0}
+          /* Turning it on opens the editor rather than writing an
+             empty board — a switch that goes green and does nothing
+             reads as a bug. Off clears the board; there is no flag to
+             park it behind, and a post carrying an invisible board is
+             worse than picking three things again. */
+          onValueChange={(next: boolean) => {
+            if (next) {
+              setShopSheetVisible(true);
+              return;
+            }
+            setShopLinks([]);
+            setShopListingIds([]);
+          }}
+        />
+      </TouchableOpacity>
+
+      {/* Mature content — the creator's own declaration. Marking it
+          keeps the post off the public feeds; it still reaches
+          followers, the profile and anyone with the link.
+
+          Last row, as on web. It is the only switch here that costs a
+          creator reach on a post they believe is fine, so it sits past
+          the options they came to set rather than second, under the
+          thumb, where a stray tap goes unnoticed. */}
+      {/* Who may see / quote / reply. Each is one row with a switch:
+          off is the open default, on shows the narrower choices as
+          buttons underneath. Same as web's ChoiceRow. */}
+      {!isLiveMode && !isQuoteMode && (
+        <ChoiceRow
+          icon="Eye"
+          label={t("postVisibility.label")}
+          value={visibility}
+          offValue="public"
+          offLabel={t("postVisibility.public")}
+          options={[
+            { value: "followers", label: t("postVisibility.followers") },
+            { value: "direct", label: t("postVisibility.direct") },
+            // Only the author can read it. Same words as the quote setting's "Only me".
+            { value: "self", label: t("quotePolicy.nobody") },
+          ]}
+          onChange={setVisibility}
+          hint={visibility === "direct" ? t("postVisibility.directHint") : undefined}
+        />
+      )}
+
+      {!isLiveMode && visibility === "public" && (
+        <ChoiceRow
+          icon="Quote"
+          label={t("quotePolicy.label")}
+          value={quotePolicy}
+          offValue="public"
+          offLabel={t("quotePolicy.public")}
+          options={[
+            { value: "followers", label: t("quotePolicy.followers") },
+            { value: "nobody", label: t("quotePolicy.nobody") },
+          ]}
+          onChange={setQuotePolicy}
+        />
+      )}
+
+      {!isLiveMode && (
+        <ChoiceRow
+          icon="Reply"
+          label={t("replyPolicy.label")}
+          value={replyPolicy}
+          offValue="public"
+          offLabel={t("replyPolicy.public")}
+          options={[
+            { value: "followers", label: t("replyPolicy.followers") },
+            { value: "following", label: t("replyPolicy.following") },
+            { value: "mentioned", label: t("replyPolicy.mentioned") },
+          ]}
+          onChange={setReplyPolicy}
+        />
+      )}
+
+      {MATURE_CONTENT_ENABLED && (
+        <View className="flex-row items-center justify-between py-3">
+          <View className="flex-row items-center flex-1 mr-3">
+            <Icon name="EyeOff" size={18} color="#fff" />
+            <Text className="text-white text-sm ml-3">{t("upload.matureContent")}</Text>
+            {isMature ? (
+              <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>{_copy("copy.214371ade41e", { defaultValue: "(not shown on the public feed)" })}</Text>
+            ) : null}
+          </View>
+          <CustomSwitch value={isMature} onValueChange={setIsMature} />
+        </View>
+      )}
+    </View>
+  ) : <View style={{ height: 172 }} />;
+
   const composer = (
     <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
@@ -2839,7 +3121,7 @@ export default function UploadScreen() {
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="interactive"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 16 }}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={articleOptionsInline}
         onScroll={sheet.onScroll}
         scrollEventThrottle={16}
       >
@@ -3021,6 +3303,8 @@ export default function UploadScreen() {
               autoFocus
               scrollEnabled={false}
             /></GestureDetector>}
+            {!articleMode && <PostFormatControls value={bodyText} inputRef={bodyInputRef}
+              selectionRef={bodySelectionRef} maxLength={DESCRIPTION_MAX} onChangeText={setBodyText} />}
             {articleMode && (
               <ArticleEditor
                 look={articleUi}
@@ -3039,7 +3323,8 @@ export default function UploadScreen() {
                 summaryMax={DESCRIPTION_MAX}
                 coverUri={articleShareImageUri}
                 onPickCover={pickArticleImage}
-                onRemoveCover={() => { setArticleImageUri(null); setSocialImageUri(null); }}
+                onOpenFreeImages={() => setFreeImagesTarget("article-cover")}
+                onRemoveCover={() => setArticleCover(null)}
                 onAddImages={addArticleImages}
                 uploadingImages={articleUploads}
               />
@@ -3488,6 +3773,14 @@ export default function UploadScreen() {
           </View>
         </View>
         </Pressable>
+        {articleOptionsInline && (
+          <View
+            className="mt-4 px-4 pt-2"
+            style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: articleUi.line }}
+          >
+            {postOptions}
+          </View>
+        )}
       </GestureScrollView>
       </GestureDetector>
       {/* Character count sits under the scrolling editor, not inside it, so it
@@ -3518,289 +3811,19 @@ export default function UploadScreen() {
           {formatCharCount(bodyText.length)}/{formatCharCount(DESCRIPTION_MAX)}
         </Text>
       </View>}
-      {/* Options scroll in their own short box, as on web: the tabs and the
-          editor stay put while the switches scroll underneath them. */}
-      <View className="border-t border-white/10">
-        <ScrollView
-          style={{ maxHeight: writing ? 72 : 180 }}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 4 }}
-          nestedScrollEnabled
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          {/* One list of post options, in web's order: Mint, Title, Category,
-              Community, the access/monetization switches, then mature content
-              last of all. Every switch applies to every post type, as it does
-              on web — a text or image post can be gated or sold just like a
-              video. Rendered whatever the draft holds, so the options are on
-              screen from first open. */}
-          {/* Filled in once the sheet is up (see useComposerSheet); the box keeps its height meanwhile. */}
-          {!sheet.extrasReady ? <View style={{ height: 172 }} /> : <View>
-            {/* Mint sits in the list rather than in a card of its own, as
-                web's first PostAccessToggles row. Off by default, so a first
-                post needs no wallet at all. */}
-            {!isQuoteMode && DIGITAL_PURCHASES_ENABLED && (
-              <View className="flex-row items-center justify-between py-3">
-                <View className="flex-row items-center flex-1 mr-3">
-                  <Icon name="Coins" size={18} color="#fff" />
-                  <Text className="text-white text-sm ml-3">{t("upload.mintPost")}</Text>
-                  {/* Web can afford a separate span for each of these; a phone
-                      row cannot, so they share one line when both apply. */}
-                  {mintRequired || (effectiveShouldMint && mintFeeLabel) ? (
-                    <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
-                      ({[mintRequired ? _copy("copy.811ec3714ad8", { defaultValue: "required for bounty" }) : null, effectiveShouldMint ? mintFeeLabel : null]
-                        .filter(Boolean)
-                        .join(" · ")})
-                    </Text>
-                  ) : null}
-                </View>
-                <CustomSwitch
-                  value={effectiveShouldMint}
-                  onValueChange={handleSetShouldMint}
-                  disabled={mintRequired}
-                />
-              </View>
-            )}
-            {!isQuoteMode && DIGITAL_PURCHASES_ENABLED && effectiveShouldMint && (
-              <MintHomeAllowance style={{ marginLeft: 30, marginTop: -6, marginBottom: 4 }} />
-            )}
-
-            {/* Title is forced on for video/audio/live, toggleable for the
-                rest — same rule as web's PostAccessToggles. Non-video
-                quotes can't carry a title, so the switch hides there. */}
-            {!isQuoteMode && !isLiveMode && !hasVideoOrAudio && (
-              <View className="flex-row items-center justify-between py-3">
-                <View className="flex-row items-center">
-                  <Icon name="Type" size={18} color="#fff" />
-                  <Text className="text-white text-sm ml-3">{t("features.titleLabel")}</Text>
-                </View>
-                <CustomSwitch
-                  value={showTitle}
-                  onValueChange={handleToggleTitle}
-                />
-              </View>
-            )}
-
-            <View className="py-3">
-              {plainCategories.length > 0 && (
-                <View className="flex-row flex-wrap gap-2 mb-2">
-                  {plainCategories.map((c) => (
-                    <View
-                      key={c}
-                      className="flex-row items-center px-2 py-1 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700"
-                    >
-                      <Text className="text-white text-xs">{c.charAt(0).toUpperCase() + c.slice(1)}</Text>
-                      <TouchableOpacity
-                        onPress={() => removeCategory(c)}
-                        className="ml-1"
-                      >
-                        <Icon name="CircleX" size={14} color="#6F7174" />
-                      </TouchableOpacity>
-                    </View>
-                  ))}
-                </View>
-              )}
-
-              {categories.length < CATEGORIES_MAX && (
-                <TouchableOpacity
-                  onPress={openCategoryDrawer}
-                  activeOpacity={0.7}
-                  className="flex-row items-center"
-                >
-                  <Icon name="Tag" size={18} color="#fff" />
-                  <Text className="text-white text-sm ml-3">{t("upload.addCategories")}</Text>
-                </TouchableOpacity>
-              )}
-
-            </View>
-
-            {/* Community — only for the ones this account belongs to, the
-                same condition web puts on its Community switch. Filing a
-                post means carrying the slug as a category. */}
-            {userCommunities.length > 0 && (
-              <View className="py-3">
-                <View className="flex-row items-center justify-between">
-                  <TouchableOpacity
-                    onPress={() => setCommunityOpen(true)}
-                    activeOpacity={0.7}
-                    className="flex-row items-center flex-1"
-                  >
-                    <Icon name="Users" size={18} color="#fff" />
-                    <Text className="text-white text-sm ml-3">{t("upload.community")}</Text>
-                  </TouchableOpacity>
-                  <CustomSwitch
-                    value={!!selectedCommunity}
-                    onValueChange={(v) =>
-                      v ? setCommunityOpen(true) : handleClearCommunity()
-                    }
-                  />
-                </View>
-                {selectedCommunity && (
-                  <View className="flex-row flex-wrap gap-2 mt-2">
-                    <View className="flex-row items-center px-2 py-1 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700">
-                      <Icon name="Users" size={12} color="#6F7174" />
-                      <Text className="text-white text-xs ml-1">
-                        {selectedCommunity.name}
-                      </Text>
-                      <TouchableOpacity onPress={handleClearCommunity} className="ml-1">
-                        <Icon name="CircleX" size={14} color="#6F7174" />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-              </View>
-            )}
-
-            {/* Made for kids — directly under Category and Community, as on
-                web, because that is what it behaves like: in Kids Mode the
-                category chips are derived from the categories kids posts
-                actually carry, so this is what puts a post behind any of them.
-
-                Far from the Mature switch at the bottom, and that distance is
-                the point. Mature is last because a mis-tap there cost a
-                creator the public feed; this one has the same problem
-                pointing the other way, so it confirms before it arms.
-                Turning it back off is free. */}
-            <TouchableOpacity
-              onPress={() => (isForKids ? setIsForKids(false) : setForKidsConfirmOpen(true))}
-              activeOpacity={0.7}
-              className="flex-row items-center justify-between py-3"
-            >
-              <View className="flex-row items-center flex-1 mr-3">
-                <Icon name="Baby" size={18} color="#fff" />
-                <Text className="text-white text-sm ml-3">{t("upload.madeForKids")}</Text>
-                {isForKids ? (
-                  <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
-                    ({t("upload.madeForKidsHint")})
-                  </Text>
-                ) : null}
-              </View>
-              <CustomSwitch
-                value={isForKids}
-                onValueChange={(v) => (v ? setForKidsConfirmOpen(true) : setIsForKids(false))}
-              />
-            </TouchableOpacity>
-
-            {!isQuoteMode && !articleMode && DIGITAL_PURCHASES_ENABLED && (
-              <MonetizationPanel
-                draftScope={draftScope}
-                state={monetization}
-                onChange={handleMonetizationChange}
-                postChainId={effectivePostChainId}
-                onCreatePlan={() => setShowPlanForm(true)}
-              />
-            )}
-
-            {/* Shop — the creator's affiliate / shop link board. Tapping the
-                row anywhere opens the editor, including when it is already
-                on, so "add another link" is one tap rather than off-then-on. */}
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setShopSheetVisible(true)}
-                className="flex-row items-center justify-between py-3"
-              >
-                <View className="flex-row items-center flex-1 mr-3">
-                  <Icon name="ShoppingBag" size={18} color="#fff" />
-                  <Text className="text-white text-sm ml-3">{t("upload.shop")}</Text>
-                  {shopRows ? (
-                    <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>
-                      ({shopRows}{_copy("copy.a4282e4b2298", { defaultValue: " of " })}{shopAllowance.allowance})
-                    </Text>
-                  ) : null}
-                </View>
-                <CustomSwitch
-                  value={shopRows > 0}
-                  /* Turning it on opens the editor rather than writing an
-                     empty board — a switch that goes green and does nothing
-                     reads as a bug. Off clears the board; there is no flag to
-                     park it behind, and a post carrying an invisible board is
-                     worse than picking three things again. */
-                  onValueChange={(next: boolean) => {
-                    if (next) {
-                      setShopSheetVisible(true);
-                      return;
-                    }
-                    setShopLinks([]);
-                    setShopListingIds([]);
-                  }}
-                />
-              </TouchableOpacity>
-
-            {/* Mature content — the creator's own declaration. Marking it
-                keeps the post off the public feeds; it still reaches
-                followers, the profile and anyone with the link.
-
-                Last row, as on web. It is the only switch here that costs a
-                creator reach on a post they believe is fine, so it sits past
-                the options they came to set rather than second, under the
-                thumb, where a stray tap goes unnoticed. */}
-              {/* Who may see / quote / reply. Each is one row with a switch:
-                  off is the open default, on shows the narrower choices as
-                  buttons underneath. Same as web's ChoiceRow. */}
-              {!isLiveMode && !isQuoteMode && (
-                <ChoiceRow
-                  icon="Eye"
-                  label={t("postVisibility.label")}
-                  value={visibility}
-                  offValue="public"
-                  offLabel={t("postVisibility.public")}
-                  options={[
-                    { value: "followers", label: t("postVisibility.followers") },
-                    { value: "direct", label: t("postVisibility.direct") },
-                    // Only the author can read it. Same words as the quote setting's "Only me".
-                    { value: "self", label: t("quotePolicy.nobody") },
-                  ]}
-                  onChange={setVisibility}
-                  hint={visibility === "direct" ? t("postVisibility.directHint") : undefined}
-                />
-              )}
-
-              {!isLiveMode && visibility === "public" && (
-                <ChoiceRow
-                  icon="Quote"
-                  label={t("quotePolicy.label")}
-                  value={quotePolicy}
-                  offValue="public"
-                  offLabel={t("quotePolicy.public")}
-                  options={[
-                    { value: "followers", label: t("quotePolicy.followers") },
-                    { value: "nobody", label: t("quotePolicy.nobody") },
-                  ]}
-                  onChange={setQuotePolicy}
-                />
-              )}
-
-              {!isLiveMode && (
-                <ChoiceRow
-                  icon="Reply"
-                  label={t("replyPolicy.label")}
-                  value={replyPolicy}
-                  offValue="public"
-                  offLabel={t("replyPolicy.public")}
-                  options={[
-                    { value: "followers", label: t("replyPolicy.followers") },
-                    { value: "following", label: t("replyPolicy.following") },
-                    { value: "mentioned", label: t("replyPolicy.mentioned") },
-                  ]}
-                  onChange={setReplyPolicy}
-                />
-              )}
-
-              {MATURE_CONTENT_ENABLED && (
-              <View className="flex-row items-center justify-between py-3">
-                <View className="flex-row items-center flex-1 mr-3">
-                  <Icon name="EyeOff" size={18} color="#fff" />
-                  <Text className="text-white text-sm ml-3">{t("upload.matureContent")}</Text>
-                  {isMature ? (
-                    <Text className="text-theme-neutrals-500 text-xs ml-2 flex-1" numberOfLines={1}>{_copy("copy.214371ade41e", { defaultValue: "(not shown on the public feed)" })}</Text>
-                  ) : null}
-                </View>
-                <CustomSwitch value={isMature} onValueChange={setIsMature} />
-              </View>
-              )}
-          </View>}
-        </ScrollView>
-      </View>
+      {!articleOptionsInline && (
+        <View className="border-t border-white/10">
+          <ScrollView
+            style={{ maxHeight: writing ? 72 : 180 }}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 4 }}
+            nestedScrollEnabled
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {postOptions}
+          </ScrollView>
+        </View>
+      )}
 
       {isLiveMode && (
         <Animated.View style={liveSettingsAnimStyle}>
@@ -4228,7 +4251,7 @@ export default function UploadScreen() {
               )}
               {!isLiveMode && !isStageMode && !articleMode && !pickedVideo && !pickedAudio && pickedImages.length < imageLimit && (
                 <TouchableOpacity
-                  onPress={() => { setShowPostOptions(false); setFreeImagesOpen(true); }}
+                  onPress={() => { setShowPostOptions(false); setFreeImagesTarget("post"); }}
                   accessibilityRole="button"
                   className="flex-row items-center px-4 py-3 rounded-xl"
                   style={{ backgroundColor: "transparent" }}
@@ -4715,7 +4738,13 @@ export default function UploadScreen() {
           </DmVideoStudio>
         );
       })()}
-      <FreeImagesSheet visible={freeImagesOpen} onClose={() => setFreeImagesOpen(false)} initialQuery={bodyText} onPick={handleFreeImagePick} />
+      <FreeImagesSheet
+        visible={freeImagesTarget !== null}
+        onClose={() => setFreeImagesTarget(null)}
+        initialQuery={freeImagesTarget === "post" ? bodyText : undefined}
+        forArticleCover={freeImagesTarget === "article-cover"}
+        onPick={handleFreeImagePick}
+      />
       {PaintingStudio && paintingOpen && (
         <PaintingStudio onClose={() => setPaintingOpen(false)} onDone={handlePaintingDone} />
       )}
