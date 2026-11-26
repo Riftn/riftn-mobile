@@ -291,7 +291,7 @@ const LiveChatScreen: React.FC = () => {
   const layoutHeightRef = useRef(0);
   const scrollOffsetRef = useRef(0);
   const hasInitialScrolledRef = useRef(false);
-  const initialRevealTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const initialRevealFrame = useRef<number | null>(null);
   const [initialScrollDone, setInitialScrollDone] = useState(false);
 
   const myAddress = useMemo(
@@ -328,7 +328,9 @@ const LiveChatScreen: React.FC = () => {
 
   // Content measurement owns following the tail. A second delayed animated
   // scroll here used to race it when cached and server history both arrived.
-  useEffect(() => () => clearTimeout(initialRevealTimer.current), []);
+  useEffect(() => () => {
+    if (initialRevealFrame.current !== null) cancelAnimationFrame(initialRevealFrame.current);
+  }, []);
 
   const handleContentSizeChange = useCallback((_w: number, h: number) => {
     contentHeightRef.current = h;
@@ -341,6 +343,10 @@ const LiveChatScreen: React.FC = () => {
     // ── Phase 1: initial setup (list hidden via opacity 0) ──
     if (!hasInitialScrolledRef.current) {
       if (messagesRef.current.length === 0 || layoutHeightRef.current === 0) return;
+      if (initialRevealFrame.current !== null) {
+        cancelAnimationFrame(initialRevealFrame.current);
+        initialRevealFrame.current = null;
+      }
 
       // History that fits on one screen is already "at the bottom". Content
       // size only reports again when it changes, so returning here left the
@@ -354,14 +360,18 @@ const LiveChatScreen: React.FC = () => {
 
       flatListRef.current?.scrollToOffset({ offset: h - layoutHeightRef.current, animated: false });
 
-      clearTimeout(initialRevealTimer.current);
-      initialRevealTimer.current = setTimeout(() => {
-        hasInitialScrolledRef.current = true;
-        const finalOffset = contentHeightRef.current - layoutHeightRef.current;
-        flatListRef.current?.scrollToOffset({ offset: finalOffset, animated: false });
-        scrollOffsetRef.current = finalOffset;
-        setInitialScrollDone(true);
-      }, 250);
+      // Give the list a frame to apply the offset, then reveal after the final
+      // measured size has stayed stable for a frame.
+      initialRevealFrame.current = requestAnimationFrame(() => {
+        initialRevealFrame.current = requestAnimationFrame(() => {
+          initialRevealFrame.current = null;
+          hasInitialScrolledRef.current = true;
+          const finalOffset = Math.max(0, contentHeightRef.current - layoutHeightRef.current);
+          flatListRef.current?.scrollToOffset({ offset: finalOffset, animated: false });
+          scrollOffsetRef.current = finalOffset;
+          setInitialScrollDone(true);
+        });
+      });
       return;
     }
 
