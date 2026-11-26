@@ -9,7 +9,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import type { MediaStream } from 'react-native-webrtc';
 import { whepEndpointFor, type LiveStreamRef } from '../libs/live-ingest';
 import type { WhepSubscription } from '../libs/whep';
@@ -52,6 +52,8 @@ const WHEP_FROZEN_CHECK_MS = 1000;
 interface Options {
   /** False while the stream is not live, is gated, or is playing a replay. */
   enabled: boolean;
+  /** False while another screen covers the viewer. */
+  focused?: boolean;
   /** Identifies the broadcast; only a self-hosted one has a WHEP endpoint. */
   stream: LiveStreamRef | null | undefined;
   /** The viewer's sound switch, applied to the remote audio track. */
@@ -79,62 +81,83 @@ interface Result {
    * stream, a replay, or a gated one.
    */
   pending: boolean;
+  /** WebRTC owns the live picture, but the viewer is away. */
+  suspended: boolean;
   /** Report the picture size the WebRTC surface rendered. */
   onPicture: (size: { width: number; height: number }) => void;
 }
 
-export function useWhepStream({ enabled, stream, muted = false, paused = false }: Options): Result {
+export function useWhepStream({ enabled, focused = true, stream, muted = false, paused = false }: Options): Result {
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
-  const [attached, setAttached] = useState<{ endpoint: string; stream: MediaStream } | null>(null);
-  const [failedEndpoint, setFailedEndpoint] = useState<string | null>(null);
-
-  const playbackId = stream?.playbackId ?? null;
-  // Checked once per stream: a stream that just went silent here starts on
-  // HLS, and so does every stream on a network that just dropped WebRTC.
-  const silentBefore = useMemo(() => whepRecentlySilent(playbackId) || webRtcRecentlyBlocked(), [playbackId]);
-  const requestedEndpoint = enabled && !silentBefore ? whepEndpointFor(stream) : null;
-  const failed = requestedEndpoint != null && failedEndpoint === requestedEndpoint;
-  const endpoint = failed ? null : requestedEndpoint;
-  const media = attached?.endpoint === endpoint ? attached.stream : null;
-  const pictureRef = useRef<() => void>(() => undefined);
-  const onPicture = useCallback((size: { width: number; height: number }) => {
-    if (isRealPicture(size)) pictureRef.current();
+  const [foreground, setForeground] = useState(() => ({
+    active: Platform.OS !== 'ios' || AppState.currentState !== 'background',
+    resumes: 0,
+  }));
+  useEffect(() => {
+    if (Platform.OS !== 'ios') return;
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'background') {
+        setForeground((current) => current.active ? { ...current, active: false } : current);
+      } else if (state === 'active') {
+        setForeground((current) => current.active ? current : { active: true, resumes: current.resumes + 1 });
+      }
+    });
+    return () => subscription.remove();
   }, []);
 
-  useEffect(() => {
-    if (!endpoint) return;
+  const playbackId = stream?.playbackId ?? null;
+  const silentBefore = useMemo(
+    () => whepRecentlySilent(playbackId) || webRtcRecentlyBlocked(),
+    [playbackId, focused, foreground.resumes],
+  );
+  const endpoint = enabled && !silentBefore ? whepEndpointFor(stream) : null;
+  const attempt = useMemo(() => ({ endpoint, playbackId }), [endpoint, playbackId, focused, foreground.resumes]);
+  const [result, setResult] = useState<{ attempt: typeof attempt; media: MediaStream | null } | null>(null);
+  const failed = result?.attempt === attempt && result.media === null;
+  const media = focused && foreground.active && result?.attempt === attempt ? result.media : null;
+  const pictureRef = useRef<{ attempt: typeof attempt; mark: () => void } | null>(null);
+  const onPicture = useCallback((size: { width: number; height: number }) => {
+    if (pictureRef.current?.attempt === attempt && isRealPicture(size)) pictureRef.current.mark();
+  }, [attempt]);
 
+  useEffect(() => {
+    const { endpoint, playbackId } = attempt;
+    if (!endpoint || !focused || !foreground.active) return;
+
+    const controller = new AbortController();
     let cancelled = false;
     let session: WhepSubscription | undefined;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let pictured = false;
-    pictureRef.current = () => {
+    const mark = () => {
       if (pictured || cancelled) return;
       pictured = true;
       clearTimeout(timer);
       forgetWhepSilent(playbackId);
     };
+    pictureRef.current = { attempt, mark };
 
     let watchdog: ReturnType<typeof setInterval> | undefined;
     let reconnectingSince = 0;
     let connected = false;
     let connectTimer: ReturnType<typeof setTimeout> | undefined;
 
-    const giveUp = (reason: string) => {
+    const stopAttempt = () => {
       if (cancelled) return;
-      // A late answer or state event can arrive before React cleans up the
-      // effect. The attempt ends here so it cannot replace the HLS picture.
       cancelled = true;
       clearTimeout(timer);
       clearInterval(watchdog);
       clearTimeout(connectTimer);
+      controller.abort();
       void session?.stop();
-      session = undefined;
-      setAttached(null);
-      // Latched: one attempt per stream. Without it a flapping connection
-      // would trade the picture back and forth with the HLS player.
-      setFailedEndpoint(endpoint);
+    };
+
+    const giveUp = (reason: string) => {
+      if (cancelled) return;
+      stopAttempt();
+      // Latch HLS for this visit so the picture cannot flap between transports.
+      setResult({ attempt, media: null });
       if (pictured) {
         require('../libs/errorReporter').reportError('LiveStreamPlayer', ['WebRTC playback fell back to HLS'], {
           level: 'info',
@@ -149,6 +172,7 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
         if (cancelled) return;
         const opened = await subscribeToWhep({
           endpoint,
+          signal: controller.signal,
           onStateChange: (state) => {
             if (cancelled) return;
             if (state === 'playing') {
@@ -166,7 +190,7 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
           return;
         }
         session = opened;
-        setAttached({ endpoint, stream: opened.stream });
+        setResult({ attempt, media: opened.stream });
         watchForFreeze(opened);
         if (!connected) {
           connectTimer = setTimeout(() => {
@@ -230,15 +254,10 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
     void start();
 
     return () => {
-      cancelled = true;
-      clearTimeout(timer);
-      clearTimeout(connectTimer);
-      clearInterval(watchdog);
-      pictureRef.current = () => undefined;
-      setAttached(null);
-      void session?.stop();
+      pictureRef.current = null;
+      stopAttempt();
     };
-  }, [endpoint, playbackId]);
+  }, [attempt, focused, foreground.active]);
 
   // The sound switch belongs to the track, not to a player: there is no
   // element in between to mute. Applied on every change, and on first attach.
@@ -249,7 +268,14 @@ export function useWhepStream({ enabled, stream, muted = false, paused = false }
     }
   }, [media, muted]);
 
-  return { stream: media, failed: failed || silentBefore, pending: !!endpoint && !media && !failed, onPicture };
+  const suspended = !!endpoint && !failed && (!focused || !foreground.active);
+  return {
+    stream: media,
+    failed: failed || silentBefore,
+    pending: !!endpoint && !media && !failed && !suspended,
+    suspended,
+    onPicture,
+  };
 }
 
 export default useWhepStream;

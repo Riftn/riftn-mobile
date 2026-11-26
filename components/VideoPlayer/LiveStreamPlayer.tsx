@@ -57,7 +57,7 @@ import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
 import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../../libs/viewers.util";
@@ -80,7 +80,7 @@ import type { EventBannerData } from "../LiveViewer/LiveEventBanner";
 import { hlsUrlFor, isBigEvent } from "../../libs/live-ingest";
 import { markBigEventLive } from "../../libs/sharedLivePlayer";
 import { useWhepStream } from "../../hooks/useWhepStream";
-import { closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
+import { closeLiveMini, closeOtherLiveMini, getLiveMini, handBackLiveMiniPlayer, openLiveMini, takeLiveMiniSeat, type LiveMini } from "../../libs/live-mini";
 import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
 import { LiveTimeshiftBar, LiveTimeshiftTag } from "../LiveViewer/LiveTimeshift";
 import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveTimeshift, type TimeshiftSnap } from "../../libs/liveTimeshift";
@@ -1162,9 +1162,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   useEffect(() => {
     const onAppStateChange = (state: string) => {
       const sid = streamIdRef.current;
-      if (!sid) return;
+      if (!sid || !navigation.isFocused()) return;
       if (state === "active") {
-        setAwayHandoff(false);
+        const mini = getLiveMini();
+        if (mini?.streamId === sid && mini.mode === "away") closeLiveMini();
         try {
           maybeJoinRoomRef.current(sid);
           maybeJoinStreamRef.current(sid);
@@ -1177,7 +1178,6 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         if (mini && !isMutedRef.current) {
           if (state === "background" && Platform.OS === "ios" && whepOnRef.current) {
             openLiveMini({ ...mini, mode: "away", release: null });
-            setAwayHandoff(true);
           }
           return;
         }
@@ -1547,9 +1547,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
    * transport. Any failure — no route, a hostile network, a stream that is not
    * really on air — falls straight back to the HLS ladder.
    */
-  // Leaving the app on iPhone hands the sound to the mini player (WebRTC can
-  // neither float nor keep going in the background); this one goes quiet.
-  const [awayHandoff, setAwayHandoff] = useState(false);
+  const viewerFocused = useIsFocused();
   /*
    * Pause, rewind and back-to-live. The server keeps the last few minutes of
    * every live, which the HLS player can move about in. WebRTC (iPhone) keeps
@@ -1574,8 +1572,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     // is the cost that mode exists to avoid.
     enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !timeshifted
       && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
+    focused: viewerFocused,
     stream: { playbackId, provider: streamEntity?.provider },
-    muted: isMuted || awayHandoff,
+    muted: isMuted,
     paused: isPausedEffective,
   });
 
@@ -2354,7 +2353,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           <View className="flex-1 dark-surface bg-black items-center justify-center" pointerEvents="none">
             <DeHubLoader size={40} />
           </View>
-        ) : (isLiveEffective || isEndedEffective) && effectiveVideoUrl ? (
+        ) : whepLive.suspended ? null : (isLiveEffective || isEndedEffective) && effectiveVideoUrl ? (
           <VideoArea
             isTranscoding={false}
             isLockedOrPPV={!!isLockedOrPPV}
