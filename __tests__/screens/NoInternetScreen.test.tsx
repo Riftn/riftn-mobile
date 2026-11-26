@@ -5,10 +5,14 @@ import bundledCopy from '../../i18n/offline-connection-copy.json';
 import NoInternetScreen from '../../screens/NoInternetScreen';
 
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
-jest.mock('react-native', () => ({
-  View: 'View', Text: 'Text', ScrollView: 'ScrollView', TouchableOpacity: 'TouchableOpacity',
-  StyleSheet: { flatten: (style: unknown) => style },
-}));
+jest.mock('react-native', () => {
+  const React = jest.requireActual('react');
+  return {
+    View: 'View', Text: 'Text', ScrollView: 'ScrollView', ActivityIndicator: 'ActivityIndicator',
+    TouchableOpacity: (props: object) => React.createElement('TouchableOpacity', { accessible: true, ...props }),
+    StyleSheet: { create: (styles: unknown) => styles, flatten: (style: unknown) => style },
+  };
+});
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ i18n: { language: 'en' } }) }));
 jest.mock('../../i18n', () => ({
@@ -17,13 +21,8 @@ jest.mock('../../i18n', () => ({
 }));
 jest.mock('../../components/ui/ThemePanel', () => 'ThemePanel');
 jest.mock('../../components/ui/Icon', () => 'Icon');
-jest.mock('../../components/ui/PrimaryButton', () => ({ title, onPress, loading }: { title: string; onPress: () => void; loading: boolean }) => {
-  const React = jest.requireActual('react');
-  return React.createElement('TouchableOpacity', {
-    onPress, disabled: loading, accessibilityLabel: title, accessibilityRole: 'button',
-    accessibilityState: { busy: loading, disabled: loading },
-  });
-});
+jest.mock('../../components/ui/AccentButtonGradient', () => 'AccentButtonGradient');
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ skin: null }) }));
 
 it('includes complete offline copy for every published locale', () => {
   expect(Object.keys(bundledCopy).sort()).toEqual([...manifest.languages].sort());
