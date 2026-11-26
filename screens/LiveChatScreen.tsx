@@ -36,6 +36,8 @@ import { LiveChatLens } from "../components/LiveChat/LiveChatLens";
 import { formatCount } from "../libs/format-count";
 import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import PublicChatHeaderMenu from "../components/LiveChat/PublicChatHeaderMenu";
+import CatchUpSheet, { runCatchUp } from "../components/Communities/CatchUpSheet";
+import { isCatchUpCommand, type CatchUpPeriod } from "../libs/community-recap";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
@@ -231,6 +233,11 @@ const LiveChatScreen: React.FC = () => {
   const [replyingTo, setReplyingTo] = useDraftState<LiveChatMessageData | null>("public:reply", null);
   const [showReactionPicker, setShowReactionPicker] = useState<string | null>(null);
   const [showGifPicker, setShowGifPicker] = useState(false);
+  const [showCatchUp, setShowCatchUp] = useState(false);
+  const requestRecap = useCallback((choice: { period: CatchUpPeriod } | { text: string }) => {
+    if (!account) return;
+    void runCatchUp({ communityId: "global", walletAddress: account, t, lang: i18n.language, navigation, ...choice });
+  }, [account, i18n.language, navigation, t]);
   /**
    * A picture chosen from the library. `url` appears once it has uploaded —
    * the send is held until then, so a failed upload costs the picture and not
@@ -732,6 +739,10 @@ const LiveChatScreen: React.FC = () => {
         setEditingMessage(null);
         return true;
       }
+        if (account && !attachment && !audioUrl && !replyTo && isCatchUpCommand(content)) {
+          requestRecap({ text: content });
+          return true;
+        }
       // Writing while reading an older stretch: the new line belongs at the
       // end of the room, so go there first.
       if (hasNewer) await goToLatest();
@@ -766,7 +777,7 @@ const LiveChatScreen: React.FC = () => {
       setTimeout(() => scrollToBottom(true), 300);
       return true;
     },
-    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest, t]
+    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest, t, account, requestRecap]
   );
 
   const handleGifPicked = useCallback(
@@ -1248,7 +1259,8 @@ const LiveChatScreen: React.FC = () => {
             +. "24 online" sits under the title (2026-11-24). */}
         <TouchableOpacity onPress={() => openSearch()} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
         <ChatTextSizeButton />
-        <PublicChatHeaderMenu onInfo={handleInfoPress} canCall={!!account && !isBanned} />
+        <PublicChatHeaderMenu onInfo={handleInfoPress} canCall={!!account && !isBanned}
+          onCatchUp={account && !isBanned ? () => setShowCatchUp(true) : undefined} />
       </View>
     ),
     [handleInfoPress, t, openSearch, account, isBanned]
@@ -1547,6 +1559,11 @@ const LiveChatScreen: React.FC = () => {
       ) : null}
 
       <DeleteMessageSheet request={deleteRequest} onClose={() => setDeleteRequest(null)} />
+      <WhenOpened open={showCatchUp}>
+        {() => (
+          <CatchUpSheet visible={showCatchUp} onClose={() => setShowCatchUp(false)} onPick={period => requestRecap({ period })} />
+        )}
+      </WhenOpened>
       <WhenOpened open={confirmModal.visible}>
         {() => (
           <ConfirmModal
