@@ -3,6 +3,7 @@ import RequestComments from '../components/FeatureRequests/RequestComments';
 import { openMessageReport } from '../components/common/MessageReportHost';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
+import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from '../hooks/useSearchFieldMaterial';
 /**
  * FeatureRequestsScreen
  * =====================
@@ -71,6 +72,7 @@ import { featureInputScrollOffset, featurePromptFields, FEATURE_PROMPT_MAX_LENGT
 import { optionalSkia } from "../libs/skia";
 import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
+import { FIELD_TEXT } from "../theme/inputs";
 import { getAvatarUrl } from "../libs/misc";
 import { formatCompactNumber } from "../libs";
 import { useUser, useAuthState } from "../context/AuthContext";
@@ -911,6 +913,8 @@ function FeatureRequestsBoard() {
     if (next !== "requests") setCategory((current) => (current === NOT_FEASIBLE ? "all" : current));
   }, []);
   const [search, setSearch] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:search", "");
+  const searchField = useSearchFieldMaterial();
+  const searchLabel = t("features.promptSearch", "Search prompts…");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [composerFocus, setComposerFocus] = useState(0);
   const [bugReportFocus, setBugReportFocus] = useState(0);
@@ -1168,19 +1172,27 @@ function FeatureRequestsBoard() {
 
         {/* Search */}
         <View style={styles.searchRow}>
-          <View style={styles.searchWrap}>
-            <Icon name="Search" size={16} color="#808089" />
+          <View style={[styles.searchWrap, searchField.surface]}>
+            <Icon name="Search" size={16} color="#A1A1AA" />
             <TextInput
               value={search}
               onChangeText={setSearch}
-              placeholder={t("features.promptSearch", "Search prompts…")}
-              placeholderTextColor="#808089"
-              style={styles.searchInput}
+              accessibilityLabel={searchLabel}
+              placeholder={searchLabel}
+              placeholderTextColor="#A1A1AA"
+              style={[styles.searchInput, FIELD_TEXT, SEARCH_INPUT_CLEAR]}
               returnKeyType="search"
+              onFocus={searchField.onFocus}
+              onBlur={searchField.onBlur}
             />
             {search.length > 0 && (
-              <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
-                <Icon name="X" size={15} color="#808089" />
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t("sidebar.clearSearch")}
+                onPress={() => setSearch.complete(search, "")}
+                hitSlop={8}
+              >
+                <Icon name="X" size={15} color="#A1A1AA" />
               </Pressable>
             )}
           </View>
@@ -1463,7 +1475,7 @@ const styles = StyleSheet.create({
   pageSubtitle: { color: "#808089", fontSize: 13, marginTop: 2 },
   headerAddBtn: { flexShrink: 0 },
 
-  // Search — 40pt, zinc-800 on a zinc-700 hairline.
+  // Search — 40pt with shared inset focus treatment.
   searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
   mineFilter: { maxWidth: "48%", height: 40, borderColor: "#3F3F46" },
   searchWrap: {
@@ -1475,11 +1487,8 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 12,
     borderRadius: 12,
-    backgroundColor: "#27272A",
-    borderWidth: 1,
-    borderColor: "#3F3F46",
   },
-  searchInput: { flex: 1, minWidth: 0, color: "#FFFFFF", fontSize: 14, padding: 0 },
+  searchInput: { flex: 1, alignSelf: "stretch", minWidth: 0, color: "#FFFFFF", fontSize: 14, paddingHorizontal: 0 },
 
   // Tab strip — 48pt outer, three 40pt tabs.
   tabStrip: {
