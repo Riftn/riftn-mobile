@@ -11,6 +11,8 @@ import { SessionExpiredError } from "../../libs/api.client";
 import { createLogger } from "../../libs/logger";
 import { useIsWatchedVideo } from "../../hooks/useWatchedVideos";
 import { isStreamLive } from '../../libs/live-status';
+import { canShareToMoment } from '../Stories/post-moment';
+import { openPostMoment } from '../../store/stories.store';
 import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens, formatSubscriberUsd } from "../../libs/content-gate";
 import { DhbCoin } from "../common/DhbCoin";
 import { isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../../libs/video-access";
@@ -2719,6 +2721,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(tokenId) }))
             : undefined}
           onShareAsImage={handleSharePress}
+          onShareToMoment={isLive && isPublicPost && canShareToMoment(item) && /^\d+$/.test(String(tokenId))
+            ? () => requireAuth(() => openPostMoment(Number(tokenId)))
+            : undefined}
           embedTokenId={isPublicPost ? tokenId : undefined}
         />
       )}

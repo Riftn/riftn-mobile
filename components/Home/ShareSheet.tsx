@@ -5,19 +5,20 @@
  * sheet, which consolidates Send-in-DM, Repost/Undo, Quote, Copy Link and
  * Share-as-Image (replacing the old inline repost button + RepostPopover).
  */
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator, Platform } from "react-native";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { toastSuccess } from "../../libs/toast";
 import { postEmbedCode } from "../../libs/embed-code";
+import { MomentAdd } from "../Stories/MomentIcons";
 
 interface ShareRowProps {
   /** An Icon, or `glyph` for a mark the bundled set has no icon for. */
-  icon?: IconName;
+  icon?: IconName | "moment-add";
   glyph?: string;
   label: string;
   color?: string;
@@ -33,11 +34,14 @@ const ShareRow: React.FC<ShareRowProps> = memo(
       accessibilityRole="button"
       accessibilityState={{ disabled: !!loading, busy: !!loading }}
       activeOpacity={0.7}
+      accessibilityRole="button"
       className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
     >
       <View className="w-5 h-5 items-center justify-center mr-3">
         {loading ? (
           <ActivityIndicator size="small" color={color} />
+        ) : icon === "moment-add" ? (
+          <MomentAdd size={20} color={color} />
         ) : icon ? (
           <Icon name={icon} size={20} color={color} strokeWidth={1.9} />
         ) : (
@@ -69,6 +73,7 @@ interface ShareSheetProps {
   onShareToPublicChat?: () => void;
   /** Share as image — only shown when supported for this post. */
   onShareAsImage?: () => void | Promise<void>;
+  onShareToMoment?: () => void;
   /** The post to offer embed code for; omit to leave the row out. */
   embedTokenId?: string | number;
   /** The phone's own share sheet, as a "Share link" row; omit to leave it out. */
@@ -88,11 +93,28 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
   onSendToDm,
   onShareToPublicChat,
   onShareAsImage,
+  onShareToMoment,
   embedTokenId,
   onShareLink,
 }) => {
   const { t } = useTranslation();
   const [sharingImage, setSharingImage] = useState(false);
+  const [closingForMoment, setClosingForMoment] = useState(false);
+  const pendingMoment = useRef<(() => void) | null>(null);
+  const dismissalTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => {
+    if (dismissalTimer.current) clearTimeout(dismissalTimer.current);
+  }, []);
+
+  const openMomentAfterDismissal = () => {
+    const open = pendingMoment.current;
+    if (!open) return;
+    pendingMoment.current = null;
+    setClosingForMoment(false);
+    onClose();
+    open();
+  };
 
   const handleShareAsImage = async () => {
     if (!onShareAsImage || sharingImage) return;
@@ -109,8 +131,9 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
 
   return (
     <GlassModal
-      visible={visible}
+      visible={visible && !closingForMoment}
       onClose={onClose}
+      onDismiss={openMomentAfterDismissal}
       presentation="bottom"
       scrollable
       maxHeight="70%"
@@ -166,6 +189,20 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
             label={sharingImage ? t("feedCard.capturing") : t("feedCard.shareAsImage")}
             loading={sharingImage}
             onPress={handleShareAsImage}
+          />
+        )}
+        {!!onShareToMoment && (
+          <ShareRow
+            icon="moment-add"
+            label={t("stories.shareToMoment", "Share to Moment")}
+            onPress={() => {
+              if (pendingMoment.current) return;
+              pendingMoment.current = onShareToMoment;
+              setClosingForMoment(true);
+              // iOS reports the native modal dismissal. Android only needs
+              // to let the sheet's exit animation finish.
+              if (Platform.OS !== "ios") dismissalTimer.current = setTimeout(openMomentAfterDismissal, 300);
+            }}
           />
         )}
         {!!onSendToDm && (

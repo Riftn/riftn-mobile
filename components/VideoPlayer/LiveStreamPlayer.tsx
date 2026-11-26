@@ -87,6 +87,8 @@ import { behindForRatio, behindFromOffset, snapFor, type LiveControl, type LiveT
 import { DeHubLoader } from "../DeHubLoader";
 import { extractReplayUrl } from "../../libs/live-replay";
 import PostOptionsMenu from "../common/PostOptionsMenu";
+import { canShareToMoment } from "../Stories/post-moment";
+import { openPostMoment } from "../../store/stories.store";
 import ShareSheet from "../Home/ShareSheet";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { toggleRepost } from "../../services/repost.service";
@@ -1464,6 +1466,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const viewerAddress = (user?.walletAddress || user?.address || "").toLowerCase();
   const canShareToPublicChat = sharePublic && (isLiveEffective || !!replayUrl)
     && !videoNeedsAccess(sharePost) && !videoNeedsAccess(streamEntity ?? {}) && !videoNeedsAccess(nftProp ?? {});
+  const streamMoment = canShareToPublicChat && sharePostId !== null && sharePostId > 0 && Number.isSafeInteger(sharePostId) && isFree
+    && canShareToMoment({ ...sharePost, postType: "live", stream: streamEntity })
+    ? () => requireAuth(() => openPostMoment(sharePostId))
+    : undefined;
   const shareIsOwn = !!viewerAddress && String(sharePost?.minter || "").toLowerCase() === viewerAddress;
   const { data: linkCopyCount = 0 } = usePostLinkCopyCount(sharePostId);
   const trackLinkCopy = useTrackPostLinkCopy();
@@ -2764,6 +2770,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           onShareToPublicChat={canShareToPublicChat && sharePostId > 0
             ? () => requireAuth(() => navigation.navigate(ScreenNames.LiveChat, { sharedLiveTokenId: String(sharePostId) }))
             : undefined}
+          onShareToMoment={streamMoment}
           onShareLink={() => { void handleNativeShare(); }}
           embedTokenId={sharePublic ? sharePostId : undefined}
         />
