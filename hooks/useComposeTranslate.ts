@@ -30,7 +30,7 @@ export function languageLabel(code: string): string {
  * chosen language before it is sent. Uses the composer default until the user picks another
  * (long press, or "Translate to…" in the + sheet); the pick is remembered.
  */
-export function useComposeTranslate(text: string, setText: (v: string) => void, defaultLang = "en") {
+export function useComposeTranslate(text: string, setText: (v: string) => void, defaultLang = "en", purpose?: 'chat') {
   const { t } = useTranslation();
   const [savedLang, setLang] = useState(target);
   const lang = savedLang ?? defaultLang;
@@ -56,7 +56,7 @@ export function useComposeTranslate(text: string, setText: (v: string) => void, 
       haptic.tap();
       setBusy(true);
       try {
-        const res = await translateText(draft, code, "auto", { isChat: true });
+        const res = await translateText(draft, code, "auto", purpose === 'chat' ? { isChat: true } : { isPublic: false });
         if (res.sameLanguage || !res.translatedText || res.translatedText.trim() === draft) {
           // Already in that language: say which, so the tap visibly did something.
           toastInfo(`${t("common.translate")} · ${languageLabel(code)} ✓`);
@@ -69,7 +69,7 @@ export function useComposeTranslate(text: string, setText: (v: string) => void, 
         setBusy(false);
       }
     },
-    [text, busy, setText, t, defaultLang],
+    [text, busy, setText, t, defaultLang, purpose],
   );
 
   const choose = useCallback(

@@ -17,7 +17,7 @@ describe('Send in their language', () => {
   it('sends the line in their language and keeps what was typed', async () => {
     mockTranslate.mockResolvedValue({ translatedText: 'How are you?', sameLanguage: false });
     await expect(translateOutgoing('c1', ' Nasılsın? ')).resolves.toEqual({ content: 'How are you?', original: 'Nasılsın?', lang: 'en' });
-    expect(mockTranslate).toHaveBeenCalledWith('Nasılsın?', 'en', 'auto', { isPublic: false });
+    expect(mockTranslate).toHaveBeenCalledWith('Nasılsın?', 'en', 'auto', { isChat: true });
   });
 
   it('is off unless turned on, and never in an encrypted chat', async () => {

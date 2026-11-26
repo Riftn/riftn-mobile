@@ -119,7 +119,7 @@ describe('Translate on your own line', () => {
   it('goes into your language and flips back without another call', async () => {
     mockTranslate.mockResolvedValue({ translatedText: 'See you tomorrow', sourceLang: 'tr', sameLanguage: false });
     await translateOwnDm('o1', 'Yarın görüşürüz');
-    expect(mockTranslate).toHaveBeenCalledWith('Yarın görüşürüz', 'en', 'auto', { isChat: true });
+    expect(mockTranslate).toHaveBeenCalledWith('Yarın görüşürüz', 'en', 'auto', { isChat: true, manualChat: true });
     expect(getDmTranslation('o1')).toEqual({ status: 'shown', text: 'See you tomorrow' });
     await translateOwnDm('o1', 'Yarın görüşürüz');
     expect(getDmTranslation('o1')?.status).toBe('hidden');
@@ -132,7 +132,7 @@ describe('Translate on your own line', () => {
       .mockResolvedValueOnce({ translatedText: 'see you tomorrow', sourceLang: 'en', sameLanguage: true })
       .mockResolvedValueOnce({ translatedText: 'Yarın görüşürüz', sourceLang: 'en', sameLanguage: false });
     await translateOwnDm('o2', 'see you tomorrow');
-    expect(mockTranslate).toHaveBeenLastCalledWith('see you tomorrow', 'tr', 'auto', { isPublic: false });
+    expect(mockTranslate).toHaveBeenLastCalledWith('see you tomorrow', 'tr', 'auto', { isChat: true, manualChat: true });
     expect(getDmTranslation('o2')).toEqual({ status: 'shown', text: 'Yarın görüşürüz' });
   });
 

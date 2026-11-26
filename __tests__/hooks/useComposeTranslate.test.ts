@@ -18,12 +18,21 @@ it('translates a request draft privately into the preferred language, and rememb
   (translateText as jest.Mock).mockResolvedValue({ translatedText: 'Hola' });
   const { result } = renderHook(() => useComposeTranslate('Hello', update, 'es'));
   await act(async () => { await result.current.translate(); });
-  expect(translateText).toHaveBeenCalledWith('Hello', 'es', 'auto', { isChat: true });
+  expect(translateText).toHaveBeenCalledWith('Hello', 'es', 'auto', { isPublic: false });
   expect(update).toHaveBeenCalledWith('Hola');
   await act(async () => { result.current.choose('fr'); });
   expect(result.current.lang).toBe('fr');
   expect(AsyncStorage.setItem).toHaveBeenCalledWith('riftn.chat.translateTo', 'fr');
   expect(translateText).toHaveBeenLastCalledWith('Hello', 'fr', 'auto', { isPublic: false });
+});
+
+it('uses conversational translation for a chat draft', async () => {
+  const update = jest.fn();
+  (translateText as jest.Mock).mockResolvedValue({ translatedText: 'Hola' });
+  const { result } = renderHook(() => useComposeTranslate('Hello', update, undefined, 'chat'));
+  await act(async () => { await result.current.translate('es'); });
+  expect(translateText).toHaveBeenLastCalledWith('Hello', 'es', 'auto', { isChat: true });
+  expect(update).toHaveBeenCalledWith('Hola');
 });
 
 it('leaves the draft alone when translation fails', async () => {
