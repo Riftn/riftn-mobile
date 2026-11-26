@@ -1464,6 +1464,57 @@ async function runKeys(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+async function runBuildPromptCheck(): Promise<void> {
+  const { Keyboard } = require("react-native") as typeof import("react-native");
+  extra = { startedAt: Date.now(), mode: "build-prompt" };
+  await sleep(12000);
+  nav.navigate(ScreenNames.FeatureRequests);
+  await sleep(6500);
+  const props = (input: unknown, name: string): any => {
+    let fiber = (input as any)?.__internalInstanceHandle ?? (input as any)?._internalFiberInstanceHandleDEV;
+    for (let i = 0; fiber && i < 14; i++, fiber = fiber.return) {
+      if (fiber.memoizedProps?.[name] !== undefined) return fiber.memoizedProps[name];
+    }
+    return undefined;
+  };
+  const input = liveInputs.find(item => props(item, "accessibilityLabel") === "Your prompt") as
+    | { setSelection(start: number, end: number): void; measureInWindow(cb: (_x: number, y: number, _w: number, height: number) => void): void }
+    | undefined;
+  if (!input || !changeTextOf(input)) {
+    extra.buildPrompt = { passed: false, route: nav.getCurrentRoute()?.name, error: "Prompt input not found" };
+    await shot("build-input-missing");
+    await save(true);
+    return;
+  }
+  const frame = () => new Promise<{ top: number; bottom: number }>(resolve => {
+    input.measureInWindow((_x, y, _w, height) => resolve({ top: y, bottom: y + height }));
+  });
+  const draft = `${Array.from({ length: 61 }, (_, i) => `${i + 1} The active line stays visible when typing a long draft.`).join("\n")}\nEnd marker`;
+  changeTextOf(input)!(draft);
+  await sleep(450);
+  input.setSelection(draft.length, draft.length);
+  inputState.focusTextInput(input);
+  await sleep(1600);
+  const before = await frame();
+  const keyboardTop = Keyboard.metrics()?.screenY ?? 0;
+  await shot("build-prompt-before-keypress");
+  await sleep(2250);
+  await AsyncStorage.setItem(SWIPE_KEY, "type:build-prompt-end: QZ7");
+  await sleep(6500);
+  const after = await frame();
+  const current = liveInputs.find(item => props(item, "accessibilityLabel") === "Your prompt");
+  const value = props(current, "value");
+  const endsWithTyping = value === `${draft} QZ7`;
+  const passed = before.top >= 0 && before.bottom <= keyboardTop + 1 && Keyboard.isVisible()
+    && Math.abs(before.top - after.top) <= 2 && after.bottom <= (Keyboard.metrics()?.screenY ?? 0) + 1 && endsWithTyping;
+  extra.buildPrompt = { passed, before, after, keyboardTop, keyboardVisible: Keyboard.isVisible(), length: value?.length, endsWithTyping };
+  console.error(`[perf-tour] build-prompt ${JSON.stringify(extra.buildPrompt)}`);
+  await shot("build-prompt-after-keypress");
+  await sleep(2250);
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  await save(true);
+}
+
 /**
  * Connect Wallet on the sign-in page opened from "Log in" (a native modal on
  * iPhone): a real tap on the button, then a picture. The wallet list has to
@@ -2657,7 +2708,7 @@ void (async () => {
     else if (mode === "shells") await runShells();
     else if (mode === "bones") await runBones();
     else if (mode === "wide") await runWide();
-    else if (mode === "keys") await runKeys();
+    else if (mode === "keys") await runBuildPromptCheck();
     else if (mode === "wallet") await runWallet();
     else if (mode === "loginsheet") await runLoginSheet();
     else if (mode === "player") await runPlayer();

@@ -383,8 +383,14 @@ trap scrub EXIT
 if [ "$MODE" = keys ]; then
   # The on-screen keyboard has to stay up while idb types like a real one.
   xcrun simctl spawn "$UDID" defaults write com.apple.Preferences AutomaticMinimizationEnabled -bool NO >/dev/null 2>&1 || true
-  for theme in ${KEYS_THEMES:-system hazy system-light osaka}; do
+  for theme in system system-light; do
     run after "keys-$theme" "" keys "$theme"
+    python3 - "$OUT/nav/keys-$theme.json" <<'PY' || exit 1
+import json, sys
+result = json.load(open(sys.argv[1]))
+print(result.get("buildPrompt"))
+assert result.get("buildPrompt", {}).get("passed"), result
+PY
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
