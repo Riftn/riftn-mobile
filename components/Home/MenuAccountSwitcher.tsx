@@ -5,14 +5,14 @@
  * device, your own last, and a chevron. Tapping it lists every saved account
  * so you can jump between them without leaving the menu for Settings.
  *
- * Switching itself lives in AuthContext (switchToProfile) and libs/profiles;
- * this only reads the registry and hands over an id. No keys pass through it.
+ * Switching and removal use AuthContext and the saved profile registry.
  */
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Icon from '../ui/Icon';
 import Avatar from '../common/Avatar';
+import RemoveSavedProfileButton from '../common/RemoveSavedProfileButton';
 import SavedProfileName from '../common/SavedProfileName';
 import GlassModal from '../ui/GlassModal';
 import { useAuthActions } from '../../context/AuthContext';
@@ -47,6 +47,8 @@ export default function MenuAccountSwitcher({
   const [profiles, setProfiles] = useState<StoredProfile[]>([]);
   const [open, setOpen] = useState(false);
   const [switchingId, setSwitchingId] = useState<string | null>(null);
+  const [removing, setRemoving] = useState(false);
+  const busy = !!switchingId || removing;
   const { switchToProfile, openAddProfile } = useAuthActions();
 
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function MenuAccountSwitcher({
 
   const close = useCallback(() => setOpen(false), []);
   const switchTo = useCallback(async (id: string) => {
-    if (switchingId) return;
+    if (busy) return;
     setSwitchingId(id);
     try {
       setOpen(false);
@@ -78,7 +80,7 @@ export default function MenuAccountSwitcher({
     } finally {
       setSwitchingId(null);
     }
-  }, [switchingId, switchToProfile, onPicked]);
+  }, [busy, switchToProfile, onPicked]);
   const addProfile = useCallback(() => {
     setOpen(false);
     onPicked();
@@ -135,44 +137,48 @@ export default function MenuAccountSwitcher({
             const isActive = profile === me;
             const label = profile.name || profile.username || undefined;
             return (
-              <TouchableOpacity
-                key={profile.id}
-                accessibilityRole="button"
-                accessibilityState={{ selected: isActive }}
-                onPress={() => { if (!isActive) void switchTo(profile.id); }}
-                disabled={!!switchingId}
-                activeOpacity={0.7}
-                style={styles.row}
-              >
-                <Avatar
-                  uri={profile.avatarUrl ? getAvatarUrl(profile.avatarUrl) : isActive ? avatarUrl : undefined}
-                  size={40}
-                  radius={square ? 6 : 20}
-                  name={label}
-                />
-                <View style={styles.rowText}>
-                  <SavedProfileName profile={profile} style={styles.rowName} />
-                  {(profile.username || (!profile.session && !isActive)) && (
-                    <Text style={styles.rowSub} numberOfLines={1}>
-                      {[
-                        profile.username && `@${profile.username}`,
-                        !profile.session && !isActive && t('settings.profileSignedOut'),
-                      ].filter(Boolean).join(' · ')}
-                    </Text>
-                  )}
-                </View>
-                {switchingId === profile.id ? (
-                  <ActivityIndicator size="small" color="#A1A1AA" />
-                ) : isActive ? (
-                  <Icon name="Check" size={18} color="#FFFFFF" />
-                ) : null}
-              </TouchableOpacity>
+              <View key={profile.id} style={styles.accountRow}>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: isActive }}
+                  onPress={() => { if (!isActive) void switchTo(profile.id); }}
+                  disabled={isActive || busy}
+                  activeOpacity={0.7}
+                  style={[styles.row, styles.accountButton]}
+                >
+                  <Avatar
+                    uri={profile.avatarUrl ? getAvatarUrl(profile.avatarUrl) : isActive ? avatarUrl : undefined}
+                    size={40}
+                    radius={square ? 6 : 20}
+                    name={label}
+                  />
+                  <View style={styles.rowText}>
+                    <SavedProfileName profile={profile} style={styles.rowName} />
+                    {(profile.username || (!profile.session && !isActive)) && (
+                      <Text style={styles.rowSub} numberOfLines={1}>
+                        {[
+                          profile.username && `@${profile.username}`,
+                          !profile.session && !isActive && t('settings.profileSignedOut'),
+                        ].filter(Boolean).join(' · ')}
+                      </Text>
+                    )}
+                  </View>
+                  {switchingId === profile.id ? (
+                    <ActivityIndicator size="small" color="#A1A1AA" />
+                  ) : isActive ? (
+                    <Icon name="Check" size={18} color="#FFFFFF" />
+                  ) : null}
+                </TouchableOpacity>
+                {!!active && !isActive && (
+                  <RemoveSavedProfileButton profile={profile} disabled={busy} onRemovingChange={setRemoving} />
+                )}
+              </View>
             );
           })}
           <TouchableOpacity
             accessibilityRole="button"
             onPress={addProfile}
-            disabled={!!switchingId}
+            disabled={busy}
             activeOpacity={0.7}
             style={styles.row}
           >
@@ -239,6 +245,13 @@ const styles = StyleSheet.create({
     minHeight: 60,
     paddingHorizontal: 8,
     borderRadius: 12,
+  },
+  accountRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  accountButton: {
+    flex: 1,
   },
   rowText: {
     flex: 1,
