@@ -48,12 +48,12 @@ describe("live audience profile navigation", () => {
     const open = jest.fn();
     const view = render(<LiveWhosHereSheet visible onClose={close} onOpenProfile={open} audience={audience} loading={false} />);
 
-    fireEvent.press(view.getByRole("button", { name: "Attendee" }));
-    fireEvent.press(view.getByRole("button", { name: "Wallet only" }));
+    fireEvent.press(view.getByLabelText("Attendee"));
+    fireEvent.press(view.getByLabelText("Wallet only"));
     expect(close).toHaveBeenCalledTimes(1);
     expect(open).not.toHaveBeenCalled();
 
-    fireEvent.press(view.getByRole("button", { name: "Dismissed" }));
+    fireEvent.press(view.getByLabelText("Dismissed"));
     act(() => jest.runOnlyPendingTimers());
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledWith("attendee");
@@ -63,7 +63,7 @@ describe("live audience profile navigation", () => {
     const open = jest.fn();
     const view = render(<LiveWhosHereSheet visible onClose={jest.fn()} onOpenProfile={open} audience={audience} loading={false} />);
 
-    fireEvent.press(view.getByRole("button", { name: "Wallet only" }));
+    fireEvent.press(view.getByLabelText("Wallet only"));
     view.unmount();
     act(() => jest.runOnlyPendingTimers());
     expect(open).not.toHaveBeenCalled();
