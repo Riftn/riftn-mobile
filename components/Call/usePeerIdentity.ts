@@ -20,25 +20,22 @@ function shorten(address: string): string {
  * the request is in flight and if it fails.
  */
 export function usePeerIdentity(peerAddress: string): PeerIdentity {
-  const [identity, setIdentity] = useState<PeerIdentity>({
-    name: shorten(peerAddress),
-    avatarUrl: null,
-  });
+  const address = peerAddress.toLowerCase();
+  const [identity, setIdentity] = useState<(PeerIdentity & { address: string }) | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    setIdentity({ name: shorten(peerAddress), avatarUrl: null });
-    if (!peerAddress) return;
+    if (!address) return;
 
-    getAccountSummaries([peerAddress])
+    getAccountSummaries([address])
       .then((summaries) => {
         if (cancelled) return;
-        const summary = summaries[0];
+        const summary = summaries.find((account) => account.address.toLowerCase() === address);
         if (!summary) return;
         const name = summary.username
           ? `@${summary.username}`
-          : summary.displayName || shorten(peerAddress);
-        setIdentity({ name, avatarUrl: summary.avatarImageUrl ?? null });
+          : summary.displayName || shorten(address);
+        setIdentity({ address, name, avatarUrl: summary.avatarImageUrl || null });
       })
       .catch(() => {
         /* the shortened address is a fine answer */
@@ -47,9 +44,9 @@ export function usePeerIdentity(peerAddress: string): PeerIdentity {
     return () => {
       cancelled = true;
     };
-  }, [peerAddress]);
+  }, [address]);
 
-  return identity;
+  return identity?.address === address ? identity : { name: shorten(peerAddress), avatarUrl: null };
 }
 
 export default usePeerIdentity;
