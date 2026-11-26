@@ -295,6 +295,12 @@ export const LiveStageCard: React.FC<{
         <Text style={styles.title} numberOfLines={2}>
           {space.title}
         </Text>
+        {!!(space.entry_locked || space.topic) && (
+          <View style={styles.stageFlags}>
+            {space.entry_locked && <Text style={[styles.stageFlag, styles.stageLocked]}>{t("stages.entryLocked")}</Text>}
+            {!!space.topic && <Text style={styles.stageFlag}>{t(`stages.topics.${space.topic}`)}</Text>}
+          </View>
+        )}
         {!!space.description && (
           <Text style={styles.description} numberOfLines={2}>
             {space.description}
@@ -608,6 +614,10 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     letterSpacing: 0.6,
   },
+  stageFlags: { flexDirection: "row", flexWrap: "wrap", gap: 5 },
+  stageFlag: { fontSize: 11, fontWeight: "600", color: "#D4D4D8", backgroundColor: "rgba(255,255,255,0.10)",
+    paddingHorizontal: 5, paddingVertical: 2, borderRadius: 4 },
+  stageLocked: { color: "#FDE68A", backgroundColor: "rgba(245,158,11,0.15)" },
   countRow: {
     flexDirection: "row",
     alignItems: "center",

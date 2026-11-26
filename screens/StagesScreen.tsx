@@ -32,6 +32,7 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -58,6 +59,7 @@ import { myStagesKeys, useMyStages } from "../hooks/useMyStages";
 import { sameWallet, type AudioSpace } from "../hooks/useStages";
 import { getStagePlaybackState, stopStageRecording } from "../libs/stage-playback";
 import { theme } from "../theme";
+import { matchesStageSearch, STAGE_TOPICS, type StageTopic } from "../libs/stage-topics";
 import { useAppTheme } from "../context/ThemeContext";
 import { MINIMAL_INSET } from "../theme/minimal";
 
@@ -91,13 +93,13 @@ type Row =
       kind: "empty";
       icon: IconName;
       title: string;
-      hint: string;
+      hint?: string;
       ctaLabel?: string;
       onCta?: () => void;
     };
 
 export default function StagesScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const appTheme = useAppTheme() as ReturnType<typeof useAppTheme> & { accent?: unknown };
   const { isMinimal } = appTheme;
   const flatPage = useFlatPage();
@@ -132,6 +134,8 @@ export default function StagesScreen() {
 
   const { stages: myStages, isLoading: isLoadingMine, hasAny: isAStageHost } = useMyStages();
 
+  const [roomFilter, setRoomFilter] = useState<StageTopic | null>(null);
+  const [roomSearch, setRoomSearch] = useState("");
   const [activeTab, setActiveTab] = useState<StagesTab>("live");
   const [refreshing, setRefreshing] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -396,8 +400,20 @@ export default function StagesScreen() {
       currentSpace && !liveSpaces.some((s) => s.id === currentSpace.id) ? currentSpace : null;
     const out: Row[] = [];
     if (resume) out.push(liveRow(resume, true));
-    out.push(...liveSpaces.map((s) => liveRow(s, currentSpace?.id === s.id)));
+    const visible = liveSpaces.filter((space) =>
+      (!roomFilter || space.topic === roomFilter) &&
+      matchesStageSearch(space, roomSearch, i18n.language)
+    );
+    out.push(...visible.map((s) => liveRow(s, currentSpace?.id === s.id)));
     if (out.length > 0) return out;
+    if (liveSpaces.length > 0) {
+      return [{
+        key: "empty-filtered",
+        kind: "empty",
+        icon: "Radio",
+        title: t("stages.noMatchingRooms"),
+      }];
+    }
 
     // Nothing live is the common case, so don't dead-end here: offer the create
     // CTA and then fall back to recordings, which are always worth listening to.
@@ -425,6 +441,7 @@ export default function StagesScreen() {
     activeTab,
     chooseTab,
     currentSpace,
+    i18n.language,
     isLoadingMine,
     liveRow,
     liveSpaces,
@@ -432,6 +449,8 @@ export default function StagesScreen() {
     openModal,
     pastSpaces,
     recordedRow,
+    roomFilter,
+    roomSearch,
     scheduledRow,
     scheduledSpaces,
     t,
@@ -577,6 +596,22 @@ export default function StagesScreen() {
           data={rows}
           keyExtractor={(row) => row.key}
           renderItem={renderItem}
+          keyboardShouldPersistTaps="handled"
+          ListHeaderComponent={activeTab === "live" && liveSpaces.length > 0 ? (
+            <View style={styles.filters}>
+              <TextInput value={roomSearch} onChangeText={setRoomSearch} placeholder={t("stages.searchRooms")}
+                placeholderTextColor="#A1A1AA" accessibilityLabel={t("stages.searchRooms")} style={styles.filterInput} />
+              <View style={styles.topicFilters}>
+                {([null, ...STAGE_TOPICS] as const).map((topic) => (
+                  <TouchableOpacity key={topic ?? "all"} onPress={() => setRoomFilter(topic)}
+                    accessibilityRole="button" accessibilityState={{ selected: roomFilter === topic }}
+                    style={[styles.topicFilter, roomFilter === topic && styles.selectedTopic]}>
+                    <Text style={styles.topicLabel}>{topic ? t(`stages.topics.${topic}`) : t("stages.topicAll")}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          ) : undefined}
           // No side inset: the page kit frames each stage (a card with its own
           // margin on the canvas themes, a full-width row on System/minimal).
           contentContainerStyle={{
@@ -614,6 +649,12 @@ export default function StagesScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  filters: { gap: 8, marginHorizontal: 12, marginBottom: 8 },
+  filterInput: { borderWidth: 1, borderColor: "rgba(255,255,255,0.15)", borderRadius: 10, color: "#fff", padding: 10 },
+  topicFilters: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  topicFilter: { borderColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderRadius: 8, padding: 7 },
+  selectedTopic: { backgroundColor: "rgba(139,92,246,0.35)" },
+  topicLabel: { color: "#fff", fontSize: 12, fontWeight: "600" },
   createBtn: {
     width: 36,
     height: 36,

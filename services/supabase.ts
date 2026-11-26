@@ -54,12 +54,9 @@ export function walletScopedClient(walletAddress: string): SupabaseClient {
  * Fetch an Agora RTC token from the Supabase edge function.
  * Reuses the same `agora-token` edge function as the web app.
  *
- * A subscriber token stays anonymous — that is what lets a listener (and, on
- * web, a signed-out visitor on an invite link) hear a room with nothing but the
- * publishable key. A publisher token is gated on the caller holding a
- * host/speaker seat in that stage, so identify ourselves whenever we ask to
- * speak. The wallet header is only a cross-check; the function takes the
- * address off the verified token.
+ * Open Stage guests request subscriber tokens without identity. Signed-in
+ * listeners send their session so Agora can check approval for locked rooms.
+ * Publishers still need an authorized room role.
  */
 export async function fetchAgoraToken(
   channelName: string,
@@ -68,7 +65,7 @@ export async function fetchAgoraToken(
   walletAddress?: string | null,
 ): Promise<{ token: string; appId: string; uid: number }> {
   const headers: Record<string, string> = {};
-  if (role === "publisher") {
+  if (role === "publisher" || walletAddress) {
     const authToken = await getAuthToken();
     if (authToken) {
       headers["x-dehub-token"] = authToken;
