@@ -15,11 +15,13 @@ import type {
   DmMediaUrl,
 } from "./dm.types";
 import { DM_VIDEO_MAX_SIZE } from "./dm.types";
+import { randomUUID } from "expo-crypto";
 import * as FileSystem from "expo-file-system/legacy";
-import { prepareOutgoing, prepareSession } from "../../libs/dm-e2ee/keys";
-import { wantsEncryptionTo } from "../../libs/dm-e2ee/encrypt-choice";
+import { decryptMessageInPlace, prepareOutgoing, prepareSession } from "../../libs/dm-e2ee/keys";
+import { chatWantsEncryption, wantsEncryptionTo } from "../../libs/dm-e2ee/encrypt-choice";
 import { isTranslateOutOn, translateOutgoing } from "../../libs/dm-translate-out";
-import { encodeMediaDescriptor, type MediaDescriptor, type MediaKind } from "../../libs/dm-e2ee/media";
+import { encodeMediaDescriptor, MAX_ENVELOPE_CHARS, photoMediaKey, type MediaDescriptor, type MediaKind, type PhotoDescriptor } from "../../libs/dm-e2ee/media";
+import { isEncryptedContent } from "../../libs/dm-e2ee/crypto";
 import { prepareMediaDescriptor } from "../../libs/dm-e2ee/media-send";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
 import { destructFromChoice, isPrivatePhoto, isSeenOnce, type DmDestructChoice } from "../../libs/dm-destruct";
@@ -81,7 +83,11 @@ interface GifSendJob extends BaseSendJob {
   caption?: string;
 }
 
+type PhotoFile = { uri: string; mimeType?: string };
+type PhotoBatch = { id: string; files: PhotoFile[] };
+
 interface MediaSendJob extends BaseSendJob {
+  photoBatch?: PhotoBatch;
   kind: "media";
   uri: string;
   thumbnailUri?: string;
@@ -352,6 +358,7 @@ class DmSendQueue {
     lockPrice?: number;
     mediaOptions?: DmVideoOptions;
     destruct?: DmDestructChoice;
+    photoBatch?: PhotoBatch;
   }): string {
     const tempId = this.makeTempId();
     const {
@@ -374,7 +381,11 @@ class DmSendQueue {
       content: caption || "",
       msgType: effectiveMsgType,
       replyTo,
-      mediaUrls: [{
+      mediaUrls: params.photoBatch ? params.photoBatch.files.map(photo => ({
+        url: photo.uri,
+        type: "image",
+        mimeType: photo.mimeType || guessMime(photo.uri, "image/jpeg"),
+      })) : [{
         url: uri,
         type: mediaType,
         mimeType: mime,
@@ -382,7 +393,7 @@ class DmSendQueue {
       }],
       // A document has no local preview to show, so it must not seed
       // localMediaUri — the bubble would try to render the file as an image.
-      localMediaUri: effectiveMsgType === "voice" || mediaType === "file" || mediaType === "audio"
+      localMediaUri: params.photoBatch || effectiveMsgType === "voice" || mediaType === "file" || mediaType === "audio"
         ? undefined
         : (mediaType === "video" ? (thumbnailUri || uri) : uri),
       uploadStatus: "pending",
@@ -409,6 +420,7 @@ class DmSendQueue {
 
     this.enqueueSlow({
       kind: "media",
+      photoBatch: params.photoBatch,
       tempId,
       conversationId,
       userId,
@@ -432,6 +444,16 @@ class DmSendQueue {
     });
 
     return tempId;
+  }
+
+  sendPhotos(params: Omit<Parameters<DmSendQueue["sendMedia"]>[0], "uri" | "mediaType"> & { files: PhotoFile[] }): string {
+    const { files, ...rest } = params;
+    return this.sendMedia({
+      ...rest,
+      uri: files[0].uri,
+      mediaType: "image",
+      photoBatch: { id: randomUUID().replace(/-/g, ""), files },
+    });
   }
 
   sendTip(params: {
@@ -504,6 +526,21 @@ class DmSendQueue {
           isRead: false,
         }]);
       }
+      return;
+    }
+
+    if (d.photos?.length) {
+      const files: PhotoFile[] = [];
+      for (const [index, photo] of [d, ...d.photos].entries()) {
+        const entry = message.mediaUrls?.[index];
+        const url = entry?.encrypted ? encryptedMediaUrl(entry.url) : null;
+        if (!url) throw new Error("Photo not available");
+        files.push({ uri: await openEncryptedMedia({ url, descriptor: photo, messageId: photoMediaKey(message._id, index) }), mimeType: photo.mime });
+      }
+      const sentId = this.sendPhotos({
+        conversationId: targetConversationId, userId, address, files, caption: d.caption,
+      });
+      if (!(await this.waitForDelivery(sentId))) throw new Error("Could not forward photos");
       return;
     }
 
@@ -794,6 +831,11 @@ class DmSendQueue {
 
 
   private async uploadMedia(job: MediaSendJob, convId: ID, txHash?: string, tipTxHash?: string): Promise<void> {
+    if (job.photoBatch) {
+      await this.uploadPhotoBatch(job, job.photoBatch, convId, txHash, tipTxHash);
+      return;
+    }
+
     // Size check for videos only (images are pre-compressed by the picker)
     if (job.mediaType === "video") {
       try {
@@ -866,6 +908,88 @@ class DmSendQueue {
       }]);
     }
     log.debug("uploadMedia complete:", convId, serverMsg?._id);
+  }
+
+  private async uploadPhotoBatch(job: MediaSendJob, batch: PhotoBatch, convId: ID, txHash?: string, tipTxHash?: string) {
+    const peer = peerAddressForConversation(convId, job.address);
+    const encryptionWanted = await chatWantsEncryption(convId, peer);
+    const encrypted = encryptionWanted && !!peer && await prepareSession(peer);
+    if (encryptionWanted && !encrypted) throw new Error("Could not encrypt the photo batch.");
+    const caption = job.caption || "";
+    const files: Parameters<typeof uploadDmMedia>[0]["files"] = [];
+    const ciphertextUris: string[] = [];
+    const plainUris: string[] = [];
+    const descriptors: PhotoDescriptor[] = [];
+    let keepPlaintext = false;
+
+    try {
+      for (const [index, photo] of batch.files.entries()) {
+        const type = photo.mimeType || guessMime(photo.uri, "image/jpeg");
+        if (!encrypted) {
+          files.push({ uri: photo.uri, name: `photo-${index}.jpg`, type });
+          continue;
+        }
+        const prepared = await prepareMediaDescriptor({ uri: photo.uri, kind: "image", mime: type });
+        plainUris.push(prepared.plainUri);
+        const cipher = await encryptFileToCache(prepared.plainUri, prepared.fileKey);
+        ciphertextUris.push(cipher.uri);
+        const { k, mime, w, h } = prepared.descriptor;
+        descriptors.push({ k, kind: "image", mime, w, h, size: cipher.plainSize });
+        files.push({ uri: cipher.uri, name: "media.bin", type: "application/octet-stream" });
+      }
+
+      const [first, ...photos] = descriptors;
+      const descriptor: MediaDescriptor | undefined = first ? { ...first, photos, caption } : undefined;
+      const content = descriptor
+        ? (await prepareOutgoing(peer!, encodeMediaDescriptor(descriptor))).content
+        : await this.wireContent(convId, job.address, caption);
+      if (descriptor && (!isEncryptedContent(content) || content.length > MAX_ENVELOPE_CHARS)) {
+        throw new Error("Could not encrypt the photo batch.");
+      }
+      const timeout = UPLOAD_TIMEOUT_IMAGE * 3;
+      const sent = await withRetry(() => uploadDmMedia({
+        conversationId: convId,
+        senderId: job.address,
+        files,
+        batchId: batch.id,
+        timeoutMs: timeout,
+        msgType: "media",
+        content: content || undefined,
+        replyTo: job.replyTo?._id,
+        txHash,
+        tipTxHash,
+        ...(descriptor && { encryptedKind: "image" as const }),
+      }), MAX_UPLOAD_RETRIES, "photo batch upload");
+      if (!sent?._id) throw new Error("Photo batch did not return a message.");
+      const currentEnvelope = sent.content === content;
+      if (descriptor && currentEnvelope) {
+        plainUris.forEach((uri, index) => rememberLocalPlaintext(photoMediaKey(sent._id, index), uri));
+        keepPlaintext = true;
+      }
+      const opened = currentEnvelope ? {
+        ...sent, content: caption, ...(isEncryptedContent(content) && { encrypted: true }),
+        ...(descriptor && { encMedia: descriptor, undecryptable: false }),
+      } : await decryptMessageInPlace(sent, peer);
+      const ready = dmState.messagesByConversation[convId]?.find(message => message._id === sent._id && message.uploadStatus === "success");
+      if (ready) {
+        dmActions.upsertMessages(convId, [{ ...ready, _clientKey: job.tempId }]);
+        return;
+      }
+      dmActions.upsertMessages(convId, [{
+        ...opened,
+        _clientKey: job.tempId,
+        ...(opened.uploadStatus === "pending" && !opened.encMedia && !opened.mediaUrls?.length && {
+          mediaUrls: files.map(photo => ({ url: photo.uri, type: "image", mimeType: photo.type })),
+        }),
+        author: "me",
+        isRead: false,
+      }]);
+    } finally {
+      await Promise.all(ciphertextUris.map(deleteQuietly));
+      if (!keepPlaintext) {
+        await Promise.all(plainUris.map((uri, index) => uri === batch.files[index].uri ? undefined : deleteQuietly(uri)));
+      }
+    }
   }
 
   /**

@@ -1771,6 +1771,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [user, address, dmDisabled, dmReason, dmFee, currentConvId, userId, scrollToBottom, replyTo, tipAmount, planBlocks, setReplyTo, t],
   );
 
+  const onSendPhotos = useCallback(
+    async (files: ChatMediaAttachment[], caption?: string) => {
+      if (!user || dmDisabled) {
+        toastWarning(dmReason || t("copy.dae38d549299", { defaultValue: "Can't send right now" }));
+        return false;
+      }
+      if (planBlocks("image", tipAmount)) return false;
+
+      const sentId = dmSendQueue.sendPhotos({
+        conversationId: currentConvId || "temp",
+        userId: userId || "me",
+        address,
+        files,
+        caption,
+        replyTo,
+        dmFee,
+      });
+      // Retry belongs to the failed message in the thread.
+      await dmSendQueue.waitForDelivery(sentId);
+      scrollToBottom();
+      setReplyTo.complete(replyTo, null);
+      return true;
+    },
+    [user, dmDisabled, dmReason, t, planBlocks, tipAmount, currentConvId, userId, address, replyTo, dmFee, scrollToBottom, setReplyTo],
+  );
+
   const handleVoiceComplete = useCallback(
     (result: VoiceNoteResult) => {
       if (!user || dmDisabled || !result.uri) return;
@@ -2107,18 +2133,19 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       if (!list?.length) return;
       const msgType = payload?.msgType || "";
       const match = list.find((p) => {
-        if (msgType === "media") return p.msgType === "media";
+        if (msgType === "media") return p.msgType === "media" && (p.mediaUrls?.length ?? 0) < 2;
         return false;
       });
       if (match) dmActions.removeOptimistic(convId, match._tempId);
     };
     const onJob = (payload: any) => {
+      if (payload?.photoBatch) return;
       const raw = payload?.message || payload;
       const cId = resolveConvId(raw?.conversation, payload?.dmId);
       if (cId !== convId) return;
       const list = (dmState as any).optimisticByConversation?.[convId] as OptimisticMessage[] | undefined;
       if (!list?.length) return;
-      const match = list.find((p) => p.msgType === "media");
+      const match = list.find((p) => p.msgType === "media" && (p.mediaUrls?.length ?? 0) < 2);
       if (match) dmActions.removeOptimistic(convId, match._tempId);
     };
     const u1 = ws.on(DMSocketEvent.SendMessage, onServerMsg);
@@ -2708,6 +2735,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 scheduledCount={scheduled.items.length}
                 onSendText={onSendText}
                 onSendMedia={onSendMedia}
+                onSendPhotos={tipAmount > 0 || (dmFee?.required && !dmFee.hasFreeAccess) ? undefined : onSendPhotos}
                 allowLock={DIGITAL_PURCHASES_ENABLED}
                 onSendGif={onSendGif}
                 onStartVoice={onStartVoice}

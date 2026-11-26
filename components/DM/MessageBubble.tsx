@@ -66,6 +66,7 @@ import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
 import { isPrivatePhoto, isSeenOnce, type DmDestruct } from "../../libs/dm-destruct";
 import DmTimeLeft from "./DmTimeLeft";
+import { photoMediaKey } from "../../libs/dm-e2ee/media";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
 import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm, primeDmPair } from "../../libs/dm-translation-store";
@@ -147,6 +148,7 @@ const DEFAULT_ASPECT = 4 / 3;
 interface AutoImageProps {
   uri: string;
   isGif?: boolean;
+  tileSize?: number;
   onPress?: () => void;
   onLongPress?: () => void;
 }
@@ -156,7 +158,7 @@ interface AutoImageProps {
  * constrained within maxImageWidth × MAX_IMAGE_HEIGHT.
  * Shows skeleton while loading, fallback icon on error.
  */
-const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, onPress, onLongPress }) => {
+const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, tileSize, onPress, onLongPress }) => {
   const { t } = useTranslation();
   const { width: windowWidth } = useWindowDimensions();
   const [aspect, setAspect] = useState<number>(DEFAULT_ASPECT);
@@ -186,21 +188,25 @@ const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, onPress, onLongP
   }
   displayW = Math.max(Math.round(displayW), MIN_IMAGE_WIDTH);
   displayH = Math.round(displayH);
+  if (tileSize) displayW = displayH = tileSize;
 
   if (error) {
     return (
       <TouchableOpacity
         activeOpacity={0.85}
+        className={tileSize ? "rounded-xl overflow-hidden" : undefined}
         onPress={onPress}
         onLongPress={onLongPress}
         delayLongPress={350}
+        accessibilityRole={tileSize ? "button" : undefined}
+        accessibilityLabel={tileSize ? t("dm.failedToLoad") : undefined}
       >
         <View
           className="bg-theme-neutrals-700 items-center justify-center"
           style={{ width: displayW, height: displayH }}
         >
-          <Icon name="Image" size={32} color="#555" />
-          <Text className="text-theme-neutrals-500 text-[11px] mt-1">
+          <Icon name="Image" size={32} color={tileSize ? "#B5B5B5" : "#555"} />
+          <Text className={tileSize ? "text-theme-neutrals-100 text-[13px] mt-1" : "text-theme-neutrals-500 text-[11px] mt-1"}>
             {t("dm.failedToLoad")}
           </Text>
         </View>
@@ -211,9 +217,13 @@ const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, onPress, onLongP
   return (
     <TouchableOpacity
       activeOpacity={0.85}
+      className={tileSize ? "rounded-xl overflow-hidden" : undefined}
       onPress={onPress}
       onLongPress={onLongPress}
       delayLongPress={350}
+      accessibilityRole={tileSize ? "button" : undefined}
+      accessibilityLabel={tileSize ? t("dm.photo", "Photo") : undefined}
+      accessibilityState={tileSize ? { busy: loading } : undefined}
     >
       <View style={{ width: displayW, height: displayH }}>
         {loading && (
@@ -221,7 +231,7 @@ const AutoImage: React.FC<AutoImageProps> = memo(({ uri, isGif, onPress, onLongP
             className="absolute inset-0 bg-theme-neutrals-700 items-center justify-center"
             style={{ width: displayW, height: displayH }}
           >
-            <ActivityIndicator size="small" color="#555" />
+            <ActivityIndicator size="small" color={tileSize ? "#B5B5B5" : "#555"} />
           </View>
         )}
         {/* expo-image takes no className, so the backdrop lives on a wrapper. */}
@@ -437,6 +447,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // End-to-end encrypted attachment: rendered from its descriptor, never from
   // the ciphertext URL directly.
   const encMedia = message.encMedia || null;
+  const encryptedPhotos = encMedia?.photos?.length ? [encMedia, ...encMedia.photos] : null;
   const encUrl = useMemo(() => {
     const first = message.mediaUrls?.find((mu) => typeof mu === "object" && mu.encrypted);
     return first ? first.url : null;
@@ -444,7 +455,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const encVisual = !!encMedia && (encMedia.kind === "image" || encMedia.kind === "video");
   const hasText = !!message.content?.trim() && !isGif;
   const isUploading = message.uploadStatus === "pending";
-  const isUploadFailed = message.uploadStatus === "failed";
+  const isUploadFailed = message.uploadStatus === "failed" || message.uploadStatus === "failure";
   const optimistic = message as Partial<OptimisticMessage>;
   const canDoubleTap = !isMine && !!myAddress && !!onToggleReaction
     && msgType === "msg" && hasText && !isCallMsg && !message.undecryptable
@@ -512,6 +523,16 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     return items;
   }, [message.mediaUrls, message.content, isGif, isMedia, msgType, message._id, localMediaUri, encMedia]);
 
+
+  const plainPhotoBatch = isMedia && !message.destruct && !message.lock && mediaItems.length > 1
+    && mediaItems.every(item => item.kind === "image");
+  const photoTileSize = Math.floor((Math.min(MAX_IMAGE_WIDTH, 320) - 4) / 2);
+  const photoGridStyle = {
+    width: photoTileSize * 2 + 4,
+    flexDirection: "row" as const,
+    flexWrap: "wrap" as const,
+    gap: 4,
+  };
 
   // A shared thing arrives as text containing a link to it (optionally with a
   // caption on the line above). Detect it so we can render a tappable card
@@ -1127,7 +1148,16 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {/* End-to-end encrypted attachment */}
             {!ownPrivatePhoto && encMedia && (
               <View>
-                <EncryptedMedia
+                {encryptedPhotos ? (
+                  <View style={photoGridStyle}>
+                    {encryptedPhotos.map((photo, index) => (
+                      <EncryptedMedia key={photo.k} descriptor={photo}
+                        rawUrl={message.mediaUrls?.[index]?.encrypted ? message.mediaUrls[index].url : undefined}
+                        messageId={photoMediaKey(message._id, index)} isMine={isMine}
+                        tileSize={photoTileSize} onLongPress={handleLongPress} />
+                    ))}
+                  </View>
+                ) : <EncryptedMedia
                   destruct={message.destruct}
                   descriptor={encMedia}
                   rawUrl={encUrl}
@@ -1136,7 +1166,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                   onVideoPress={handleVideoTap}
                   onLongPress={handleLongPress}
                   onCamera={cameraReply}
-                />
+                />}
                 {isUploadFailed && encVisual && (
                   <View className="absolute inset-0 items-center justify-center dark-surface bg-black/50">
                     <Icon name="CircleAlert" size={28} color="#F4F4F5" />
@@ -1162,7 +1192,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
             {/* Media (images / video / GIF) */}
             {mediaItems.length > 0 && !ownPrivatePhoto && !isVoice && !(isMedia && message.lock) && (
-              <View>
+              <View style={plainPhotoBatch ? photoGridStyle : undefined}>
                 {mediaItems.map((item, idx) =>
                   message.destruct?.mode === "open" && (item.kind === "image" || item.kind === "video") ? (
                     <DmOpenTimerMedia
@@ -1265,6 +1295,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       <AutoImage
                         uri={item.url}
                         isGif={item.kind === "gif"}
+                        tileSize={plainPhotoBatch ? photoTileSize : undefined}
                         onPress={() => handleImageTap(item.url, idx)}
                         onLongPress={handleLongPress}
                       />

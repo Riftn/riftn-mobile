@@ -192,7 +192,7 @@ export interface DmMessage {
   encMedia?: MediaDescriptor | null;
   msgType?: DmMsgType;
   mediaUrls?: DmMediaUrl[];
-  uploadStatus?: "pending" | "complete" | "failed";
+  uploadStatus?: "pending" | "success" | "failure" | "simple" | "complete" | "failed";
   failureReason?: string;
   isRead?: boolean;
   isDownloaded?: boolean;
@@ -382,6 +382,7 @@ export interface UploadDmMediaParams {
   conversationId: ID;
   senderId: string;
   files: { uri: string; name: string; type: string }[];
+  batchId?: string;
   timeoutMs?: number;
   msgType?: DmMsgType;
   voiceDuration?: number;

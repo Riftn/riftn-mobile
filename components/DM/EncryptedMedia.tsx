@@ -51,6 +51,7 @@ function useDecryptedMedia(url: string | null, d: MediaDescriptor, messageId: st
       const file = await openEncryptedMedia({
         url,
         descriptor: d,
+  tileSize,
         messageId,
         onProgress: (p) => { if (alive.current) setProgress(p); },
       });
@@ -103,6 +104,7 @@ function useDecryptedMedia(url: string | null, d: MediaDescriptor, messageId: st
 
 interface Props {
   descriptor: MediaDescriptor;
+  tileSize?: number;
   /** Raw mediaUrls entry; absent while the server is still storing the upload. */
   rawUrl?: string | null;
   messageId: string;
@@ -149,6 +151,7 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   }
   boxW = Math.max(Math.round(boxW), MIN_W);
   boxH = Math.round(boxH);
+  if (tileSize) boxW = boxH = tileSize;
 
   const openVideo = useCallback(async () => {
     const file = uri || (await start());
@@ -263,7 +266,12 @@ const EncryptedMediaComponent: React.FC<Props> = ({
   if (d.kind === "image") {
     return (
       <DmTimeLeft destruct={destruct}>
-        <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}>
+        <TouchableOpacity activeOpacity={0.85} onPress={openImage} onLongPress={onLongPress} delayLongPress={350}
+          className={tileSize ? "rounded-xl overflow-hidden" : undefined}
+          accessibilityRole={tileSize ? "button" : undefined}
+          accessibilityLabel={tileSize ? (status === "error" ? t("common.retry") : t("dm.photo", "Photo")) : undefined}
+          accessibilityState={tileSize ? { busy: status === "idle" || status === "loading" } : undefined}
+          disabled={!!tileSize && !shown && status !== "error"}>
           <View className="bg-theme-neutrals-700" style={{ width: boxW, height: boxH }}>
             {shown ? (
               <SmartImage
@@ -278,7 +286,9 @@ const EncryptedMediaComponent: React.FC<Props> = ({
             ) : (
               placeholder
             )}
-            {!shown && overlay(null)}
+            {!shown && (tileSize && status === "idle"
+              ? <View className="absolute inset-0 items-center justify-center"><ActivityIndicator size="small" color="#B5B5B5" /></View>
+              : overlay(null))}
           </View>
         </TouchableOpacity>
       </DmTimeLeft>
