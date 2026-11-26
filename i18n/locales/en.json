@@ -6056,6 +6056,11 @@
     "filedOn": "Filed {{date}}"
   },
   "stages": {
+    "returnToStage": "Return",
+    "liveRadio": "Live radio",
+    "stageHeadcount_one": "{{count}} participant",
+    "stageHeadcount_other": "{{count}} participants",
+    "join": "Join",
     "radioShow": {"toggle": "Radio show", "hint": "Music first: play your own songs or a playlist, talk when you like. Listeners drop in any time, and it shows in Explore's Radio row.", "row": "Radio", "start": "Start a show", "empty": "No radio shows on right now. Start one: go live with your mic and your own music.", "listening_one": "{{formatted}} listening", "listening_other": "{{formatted}} listening", "onAir": "On air", "soon": "Soon", "badge": "Radio", "myMusic": "My music", "myMusicHint": "Songs you upload play to everyone in the room, even with your mic off.", "addSong": "Add a song", "playFailed": "Couldn't play that song", "noSongs": "No songs yet. Add one to play it on air.", "tooBig": "Songs can be up to {{max}} MB"},
     "previewFailed": "Could not play preview on stage",
     "allStages": "All Stages",
