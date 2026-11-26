@@ -126,24 +126,28 @@ function dayStamp(now: number): string {
 
 /** Counts each local day Home is opened; returns how many days so far. */
 export async function noteHomeVisitDay(now = Date.now()): Promise<number> {
-  const seen = await readJson<{ last?: string; count?: number }>(HOME_DAYS_KEY, {});
-  const today = dayStamp(now);
-  if (seen.last === today) return seen.count ?? 0;
-  const count = (seen.count ?? 0) + 1;
-  await AsyncStorage.setItem(HOME_DAYS_KEY, JSON.stringify({ last: today, count }));
-  return count;
+  if (Platform.OS !== "ios" && Platform.OS !== "android") return 0;
+  try {
+    const seen = await readJson<{ last?: string; count?: number }>(HOME_DAYS_KEY, {});
+    const today = dayStamp(now);
+    if (seen.last === today) return seen.count ?? 0;
+    const count = (seen.count ?? 0) + 1;
+    await AsyncStorage.setItem(HOME_DAYS_KEY, JSON.stringify({ last: today, count }));
+    return count;
+  } catch (error) {
+    log.warn("Could not record Home visit", error);
+    return 0;
+  }
 }
 
-/** Records today's Home visit and says whether the review card may show. */
-export async function shouldShowReviewCard(now = Date.now()): Promise<boolean> {
+/** Checks whether a Home visit qualifies once the card can be shown. */
+export async function shouldShowReviewCard(days: number, now = Date.now()): Promise<boolean> {
+  if (days < REVIEW_CARD_DAYS) return false;
   try {
-    if (Platform.OS !== "ios" && Platform.OS !== "android") return false;
-    const days = await noteHomeVisitDay(now);
     const state = await readJson<CardState>(CARD_STATE_KEY, {});
     if (state.rated) return false;
     if ((state.dismissals ?? 0) >= REVIEW_CARD_MAX_DISMISSALS) return false;
     if (state.snoozeUntil && now < state.snoozeUntil) return false;
-    if (days < REVIEW_CARD_DAYS) return false;
     return await canPromptForReview(now);
   } catch (error) {
     log.warn("Review card check failed", error);
