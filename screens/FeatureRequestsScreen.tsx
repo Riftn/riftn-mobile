@@ -1019,7 +1019,8 @@ function FeatureRequestsBoard() {
 
   const activeList = showNotFeasible ? notFeasible
     : tab === "shipped" ? shipped : tab === "shipping" ? inProgress : requests;
-  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError: showListError } = activeList;
+  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError } = activeList;
+  const showListError = tab === "shipped" ? shipped.isLoadingError : isError;
 
   const openSheet = useCallback(() => {
     changeTab("requests");
