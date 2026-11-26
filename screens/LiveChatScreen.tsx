@@ -66,6 +66,8 @@ import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
 import type { AppStackParamList } from "../navigation/types";
 import { ShareLinks } from "../navigation/linking.config";
+import { getNFT } from "../services/nft.service";
+import { videoNeedsAccess } from "../libs/video-access";
 import { setPublicChatOpen } from "../libs/public-chat-alerts";
 import { hideLineForMe, useHiddenLines } from "../libs/public-chat-hidden";
 import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
@@ -141,12 +143,35 @@ const LiveChatScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.LiveChat>>();
   const sharedTokenId = route.params?.sharedLiveTokenId;
-  const sharedLiveUrl = account && typeof sharedTokenId === "string" && /^[1-9]\d*$/.test(sharedTokenId)
-    ? ShareLinks.post(sharedTokenId)
+  const pendingShareId = account && typeof sharedTokenId === "string" && /^[1-9]\d*$/.test(sharedTokenId)
+    ? sharedTokenId : undefined;
+  const [confirmedShare, setConfirmedShare] = useState<{ tokenId: string; account: string } | null>(null);
+  const sharedLiveUrl = confirmedShare && pendingShareId === confirmedShare.tokenId && confirmedShare.account === account
+    ? ShareLinks.post(confirmedShare.tokenId)
     : undefined;
   const clearSharedLive = useCallback(() => {
+    setConfirmedShare(null);
     navigation.setParams({ sharedLiveTokenId: undefined });
   }, [navigation]);
+  useFocusEffect(useCallback(() => {
+    if (!pendingShareId) return;
+    let cancelled = false;
+    const unavailable = () => {
+      if (cancelled) return;
+      toastError(t("profile.replyThread.postUnavailable"));
+      clearSharedLive();
+    };
+    void getNFT(pendingShareId).then(({ result: post }) => {
+      if (cancelled) return;
+      if (String(post?.tokenId) !== pendingShareId || post.isDeleted || post.isHidden
+        || post.plans?.length || videoNeedsAccess(post)) {
+        unavailable();
+        return;
+      }
+      setConfirmedShare({ tokenId: pendingShareId, account });
+    }, unavailable);
+    return () => { cancelled = true; };
+  }, [account, clearSharedLive, pendingShareId, t]));
   // The composer rides the keys frame by frame (hooks/useKeyboardRide) and
   // the list rides with it, so the newest lines go up with the keyboard
   // instead of disappearing under it.
@@ -1413,6 +1438,11 @@ const LiveChatScreen: React.FC = () => {
           {/* Same as the DM composer and web: plain page colour with the
               hairline on top, no rounded frosted box. */}
           <MessageSurface material={false} />
+          {pendingShareId && !sharedLiveUrl && (
+            <Text accessibilityLiveRegion="polite" className="px-4 py-2 text-sm text-theme-neutrals-400">
+              {t("common.loading")}
+            </Text>
+          )}
           {typingText && (
             <View className="px-4 py-1.5 border-b border-white/5">
               <Text className="text-white/60 text-xs italic">{typingText}</Text>
