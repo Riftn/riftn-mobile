@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import SmartImage from "./SmartImage";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -9,12 +8,17 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { quotedPostViewerParams } from "../../navigation/quotedPostViewerParams";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { getAvatarUrl, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getBadgeUrlFor, buildCdnPath } from "../../libs/misc";
-import { cdnImage } from "../../libs/cdnImage";
+import { cdnImage, cdnImageSource } from "../../libs/cdnImage";
+import { hintedImageRatio } from "../../libs/image-size-hints";
+import { isHoldGated, isSubscriberGated } from "../../libs/content-gate";
+import { useTokenUnlocked } from "../../libs/unlocked-tokens";
+import { formatCount } from "../../libs/format-count";
 import { truncate } from "../../libs/strings.util";
 import { getNFT, revokeQuote } from "../../services/nft.service";
 import { useAuth } from "../../context/AuthContext";
 import { toastError, toastSuccess } from "../../libs/toast";
 import FeedCardHeader from "../Home/FeedCardHeader";
+import FeedGatePreview from "../Home/FeedGatePreview";
 import AudioPostPlayer from "../Home/AudioPostPlayer";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_TAB_LINE } from "../../theme/minimal";
@@ -64,6 +68,8 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
     // Thumbnails that failed to load. The next candidate takes over, and with
     // none left the box is dropped instead of staying an empty grey slab.
     const [failedThumbs, setFailedThumbs] = useState<string[]>([]);
+    const [photoWidth, setPhotoWidth] = useState(0);
+    const [loadedPhoto, setLoadedPhoto] = useState<{ url: string; ratio: number }>();
     const isRemoved = !!props.revoked || removed;
 
     const inlinePost = props.quotedPost;
@@ -94,6 +100,7 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
 
     const quotedPost = inlinePost || fetchedPost;
     const quotedTokenId = props.quotedTokenId;
+    const tokenUnlocked = useTokenUnlocked(quotedPost?.tokenId ?? quotedPost?.id ?? quotedTokenId);
     const isAvailable = !!quotedPost && !(quotedPost as any).unavailable;
 
     const handlePress = useCallback(() => {
@@ -185,9 +192,20 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
       ? null
       : getBadgeUrlFor(minterUser || quotedPost);
     const text = quotedPost.description || quotedPost.name || quotedPost.title || "";
-    const truncatedText = text.length > 140 ? text.slice(0, 140) + "…" : text;
 
-    const isLivePost = quotedPost.postType === "live";
+    const postType = quotedPost.postType;
+    const isLivePost = postType === "live";
+    const isAudioPost = postType === "feed-audio" || postType === "audio";
+    const isVideoPost = !isAudioPost && (postType === "video" || postType === "feed-video" || quotedPost.media_type === "video" || !!quotedPost.videoUrl);
+    const imageUrls: string[] = Array.isArray(quotedPost.imageUrls) ? quotedPost.imageUrls.filter(Boolean) : [];
+    const photoPath = quotedPost.articleImageUrl || imageUrls[0];
+    const isPhoto = !isLivePost && !isAudioPost && !isVideoPost && !!(photoPath || quotedPost.imageUrl);
+    const streamInfo = quotedPost.streamInfo;
+    const isPPV = !!(quotedPost.is_ppv || streamInfo?.isPayPerView);
+    const isHoldLocked = isHoldGated(quotedPost.is_locked || streamInfo?.isLockContent, quotedPost.locked_price ?? streamInfo?.lockAmount ?? streamInfo?.lockContentAmount);
+    const canBypassGating = !!(quotedPost.isOwner || quotedPost.isUnlocked || tokenUnlocked);
+    const gated = ((isPPV || isHoldLocked) && !canBypassGating) || isSubscriberGated(quotedPost.plansDetails, canBypassGating);
+    const showPhoto = isPhoto && !gated;
 
     // A live's cover is stored at images/{tokenId}.{ext}, where web reads it.
     // The API's imageUrl names the stream's own frame under live/thumbnails/
@@ -204,79 +222,35 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
       const frame: string = quotedPost.stream?.thumbnail || (raw.startsWith("live/") ? raw : "");
       const urls = [cover, frame]
         .filter(Boolean)
-        .map((path) => cdnImage(path.startsWith("http") ? path : buildCdnPath(path)!, { width: 480 }));
+        .map((path) => cdnImage(path.startsWith("http") ? path : buildCdnPath(path)!, { width: gated ? 96 : 480 }));
       return Array.from(new Set(urls));
     };
 
-    // Thumbnail for image/video posts
-    const firstThumbnailUrl = (() => {
-      // Audio posts don't use a thumbnail — they render the AudioPostPlayer
-      if (quotedPost.postType === "feed-audio") return "";
-      if (isLivePost) return "";
-      if (quotedPost.articleImageUrl) return buildFeedImageUrls([quotedPost.articleImageUrl], 480)[0];
-      // feed-images: imageUrls are relative API paths, need getImageUrlApiSimple
-      if (quotedPost.postType === "feed-images") {
-        const urls = Array.isArray(quotedPost.imageUrls) ? quotedPost.imageUrls : [];
-        if (urls.length > 0) return getImageUrlApiSimple(urls[0]);
-      }
-      if (quotedPost.postType === "video") {
-        return getImageUrl(quotedPost.thumbnailUrl || quotedPost.imageUrl || "");
-      }
-      // Fallback for any other type
-      const imageUrls = Array.isArray(quotedPost.imageUrls)
-        ? quotedPost.imageUrls
-        : [];
-      if (imageUrls.length > 0) {
-        return getImageUrl(imageUrls[0]);
-      }
-      return getImageUrl(quotedPost.imageUrl || quotedPost.thumbnailUrl || "");
-    })();
-    const thumbnailCandidates = isLivePost ? liveThumbnails() : [firstThumbnailUrl].filter(Boolean);
-    const thumbnailUrl = thumbnailCandidates.find((url) => !failedThumbs.includes(url)) || "";
-
-    const isAudioPost = quotedPost.postType === "feed-audio" && !!quotedPost.audioUrl;
-    const hasThumbnail = !!thumbnailUrl;
+    const posterPath = quotedPost.thumbnail_url || quotedPost.thumbnailUrl;
+    const photoUrl = photoPath ? buildFeedImageUrls([photoPath])[0] : getImageUrl(quotedPost.imageUrl || "");
+    const photoSource = cdnImageSource(photoUrl);
+    const hintedRatio = hintedImageRatio(photoSource);
+    const photoRatio = hintedRatio ?? (loadedPhoto && loadedPhoto.url === photoSource ? loadedPhoto.ratio : 1);
+    const fittedPhotoWidth = hintedRatio ? Math.min(photoWidth, 420 * hintedRatio) : photoWidth;
+    const preferredPhoto = showPhoto ? cdnImage(photoSource, { width: fittedPhotoWidth, quality: 88 }) : cdnImage(photoSource, { width: 96 });
+    const legacyPhoto = showPhoto && postType === "feed-images" && imageUrls[0] && !/^https?:/i.test(imageUrls[0])
+      ? getImageUrlApiSimple(imageUrls[0]) : undefined;
+    const posterWidth = gated ? 96 : 480;
+    const posterUrl = quotedPost.thumbnail_url && !/^https?:/i.test(quotedPost.thumbnail_url)
+      ? cdnImage(buildCdnPath(quotedPost.thumbnail_url), { width: posterWidth })
+      : getImageUrl(posterPath || quotedPost.imageUrl || "", posterWidth);
+    const fallbackPosterUrl = getImageUrl(quotedPost.imageUrl || quotedPost.thumbnailUrl || "", posterWidth);
+    const thumbnailCandidates = isLivePost ? liveThumbnails() : isPhoto ? [preferredPhoto, legacyPhoto] : [posterUrl, fallbackPosterUrl];
+    const thumbnailUrl = thumbnailCandidates.find((url) => url && !failedThumbs.includes(url));
+    const waitingForPhotoWidth = showPhoto && photoWidth === 0;
 
     return (
       <TouchableOpacity
         onPress={handlePress}
         activeOpacity={0.7}
-        className={isMinimal ? MINIMAL_QUOTE_CLASS : "mt-3 rounded-xl border border-theme-neutrals-800 bg-theme-neutrals-800/20 overflow-hidden"}
+        className={isMinimal ? MINIMAL_QUOTE_CLASS : "mt-3 rounded-2xl border border-theme-neutrals-700 bg-theme-neutrals-800/30 overflow-hidden"}
         style={isMinimal ? MINIMAL_QUOTE_STYLE : skin?.material === 'glass' ? skin.card : undefined}
       >
-        {/* Audio player for audio posts */}
-        {isAudioPost && (
-          <View className={isMinimal ? "pt-1" : "px-3 pt-3"}>
-            <AudioPostPlayer
-              audioUrl={getAudioUrl(quotedPost.audioUrl)}
-              duration={quotedPost.audioDuration || 0}
-              tokenId={quotedPost.tokenId || quotedPost.id || quotedTokenId || 0}
-              title={quotedPost.name || quotedPost.title || t("audioPost.untitled")}
-              artist={displayName || t("feedCard.dehubCreator")}
-              artworkUrl={avatarUrl || undefined}
-              compact
-            />
-          </View>
-        )}
-
-        {/* Thumbnail */}
-        {!isAudioPost && hasThumbnail && (
-          <View className={isMinimal ? "w-full h-32 bg-black" : "w-full h-32 bg-theme-neutrals-800"}>
-            <SmartImage
-              source={{ uri: thumbnailUrl }}
-              recyclingKey={thumbnailUrl}
-              style={{ width: "100%", height: "100%" }}
-              contentFit="cover"
-              onError={() => setFailedThumbs((failed) => failed.includes(thumbnailUrl) ? failed : [...failed, thumbnailUrl])}
-            />
-            {(quotedPost.postType === "video" || isLivePost) && (
-              <View className="absolute bottom-2 right-2 dark-surface bg-black/60 rounded px-1.5 py-0.5">
-                <Ionicons name="play" size={12} color="#fff" />
-              </View>
-            )}
-          </View>
-        )}
-
         {/* Content */}
         {/* Minimal: the rule's pl-3 already insets the text, so only vertical padding here. */}
         <View className={isMinimal ? "pt-2 pb-1" : "p-3"}>
@@ -293,9 +267,9 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
           />
 
           {/* Text excerpt */}
-          {truncatedText.length > 0 && (
-            <Text className="text-theme-neutrals-300 text-sm leading-5" numberOfLines={3}>
-              {truncatedText}
+          {text.length > 0 && (
+            <Text className="text-theme-neutrals-100 text-base leading-6" numberOfLines={6}>
+              {text}
             </Text>
           )}
 
@@ -311,6 +285,62 @@ const QuotedPostEmbed: React.FC<QuotedPostEmbedProps> = memo(
             </TouchableOpacity>
           )}
         </View>
+
+        {isAudioPost && !!quotedPost.audioUrl && (
+          <View className={isMinimal ? "pb-1" : "px-3 pb-3"}>
+            <AudioPostPlayer
+              audioUrl={getAudioUrl(quotedPost.audioUrl)}
+              duration={quotedPost.audioDuration || 0}
+              tokenId={quotedPost.tokenId || quotedPost.id || quotedTokenId || 0}
+              title={quotedPost.name || quotedPost.title || t("audioPost.untitled")}
+              artist={displayName || t("feedCard.dehubCreator")}
+              artworkUrl={avatarUrl || undefined}
+              compact
+            />
+          </View>
+        )}
+
+        {!isAudioPost && (thumbnailUrl || gated) && (
+          <View
+            className="w-full bg-theme-neutrals-800/40"
+            style={{ aspectRatio: showPhoto ? photoRatio : 16 / 9, maxHeight: showPhoto ? 420 : 240 }}
+            onLayout={showPhoto ? ({ nativeEvent }) => setPhotoWidth(nativeEvent.layout.width) : undefined}
+          >
+            {gated ? (
+              <>
+                <FeedGatePreview uri={thumbnailUrl} priority="normal" />
+                <View className="absolute inset-0 items-center justify-center gap-1 bg-black/40 dark-surface">
+                  <Ionicons name="lock-closed" size={19} color="#fff" />
+                  <Text className="text-white text-xs font-semibold">{isPPV ? t("drawers.ppvTitle") : t("drawers.gatedTitle")}</Text>
+                </View>
+              </>
+            ) : thumbnailUrl && !waitingForPhotoWidth && (
+              <SmartImage
+                source={{ uri: thumbnailUrl }}
+                recyclingKey={thumbnailUrl}
+                style={{ width: "100%", height: "100%" }}
+                contentFit={showPhoto ? "contain" : "cover"}
+                onLoad={showPhoto && !hintedRatio ? ({ source }) => {
+                  if (source.width && source.height) setLoadedPhoto({ url: photoSource, ratio: source.width / source.height });
+                } : undefined}
+                onError={() => setFailedThumbs((failed) => failed.includes(thumbnailUrl) ? failed : [...failed, thumbnailUrl])}
+              />
+            )}
+            {!gated && (isVideoPost || isLivePost) && (
+              <View className="absolute inset-0 items-center justify-center" pointerEvents="none">
+                <View className="w-10 h-10 items-center justify-center rounded-full bg-black/60">
+                  <Ionicons name="play" size={18} color="#fff" />
+                </View>
+              </View>
+            )}
+            {showPhoto && imageUrls.length > 1 && (
+              <View className="absolute top-2 right-2 flex-row items-center gap-1 rounded-lg bg-black/60 px-2 py-1 dark-surface">
+                <Ionicons name="images-outline" size={14} color="#fff" />
+                <Text className="text-white text-xs font-medium">{formatCount(imageUrls.length)}</Text>
+              </View>
+            )}
+          </View>
+        )}
       </TouchableOpacity>
     );
   }
