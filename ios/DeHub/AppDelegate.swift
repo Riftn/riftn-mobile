@@ -1,6 +1,7 @@
 internal import Expo
 import React
 import ReactAppDependencyProvider
+import RiftnMediaBridge
 
 @main
 class AppDelegate: ExpoAppDelegate, RiftnReactNativeFactoryProvider {
@@ -41,6 +42,10 @@ class AppDelegate: ExpoAppDelegate, RiftnReactNativeFactoryProvider {
     open url: URL,
     options: [UIApplication.OpenURLOptionsKey: Any] = [:]
   ) -> Bool {
+    if url.isFileURL {
+      SharedVideoImport.receive(url)
+      return true
+    }
     return super.application(app, open: url, options: options) || RCTLinkingManager.application(app, open: url, options: options)
   }
 
@@ -117,7 +122,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       withModuleName: "main",
       in: window,
       launchOptions: Self.launchOptions(
-        url: connectionOptions.urlContexts.first?.url,
+        url: connectionOptions.urlContexts.first(where: { !$0.url.isFileURL })?.url,
         userActivity: browsingWebActivity
       )
     )
@@ -225,6 +230,10 @@ private struct SceneEventForwarder {
   private var appDelegate: ExpoAppDelegate? { UIApplication.shared.delegate as? ExpoAppDelegate }
 
   func open(url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) {
+    if url.isFileURL {
+      SharedVideoImport.receive(url)
+      return
+    }
     let application = UIApplication.shared
     let delegate = appDelegate
     notifyLinkingManagerUnlessAlreadyNotified(of: url) {

@@ -431,7 +431,9 @@ export default function UploadScreen() {
   // The main input is always the post description (1,000+ chars by badge), as on web.
   // The title is its own 140-char field: forced for video/audio, toggleable
   // for everything else via the "Title" switch in the extras section.
-  const draftScope = `post:${incomingDraft?.id ?? (incomingQuotedTokenId ? `quote:${incomingQuotedTokenId}` : "new")}`;
+  const sharedVideoId = route.params?.sharedVideoId;
+  const newPostScope = sharedVideoId ? `shared-video:${sharedVideoId}` : "new";
+  const draftScope = `post:${incomingDraft?.id ?? (incomingQuotedTokenId ? `quote:${incomingQuotedTokenId}` : newPostScope)}`;
   const [bodyText, setBodyText] = useDraftState(draftScope + ":bodyText", "");
   const bodyMentions = useMentions(bodyText, setBodyText);
   const bodyAssets = useAssetPicker(bodyText, setBodyText);

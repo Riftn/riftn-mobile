@@ -21,10 +21,14 @@ public class MediaBridgeModule: Module {
   private var storefrontUpdates: Task<Void, Never>?
   private var observation: NSKeyValueObservation?
   private var activeObserver: NSObjectProtocol?
+  private var sharedVideoObserver: NSObjectProtocol?
 
   public func definition() -> ModuleDefinition {
     Name("RiftnMediaBridge")
-    Events("onVolumeKey", "onStorefrontChange")
+    Events("onVolumeKey", "onStorefrontChange", "onSharedVideo")
+
+    Function("takeSharedVideo") { SharedVideoImport.take() }
+    Function("discardSharedVideo") { (id: String) in SharedVideoImport.discard(id) }
 
     Function("storefrontCountry") {
       SKPaymentQueue.default().storefront?.countryCode
@@ -97,6 +101,9 @@ public class MediaBridgeModule: Module {
     // Watched from the moment the module loads, not only once JS subscribes,
     // so the first press after launch is not missed.
     OnCreate {
+      self.sharedVideoObserver = NotificationCenter.default.addObserver(forName: SharedVideoImport.changed, object: nil, queue: .main) { [weak self] _ in
+        self?.sendEvent("onSharedVideo", [:])
+      }
       self.storefrontUpdates = Task { [weak self] in
         for await _ in Storefront.updates {
           if Task.isCancelled { return }
@@ -111,6 +118,7 @@ public class MediaBridgeModule: Module {
     }
 
     OnDestroy {
+      if let observer = self.sharedVideoObserver { NotificationCenter.default.removeObserver(observer) }
       self.storefrontUpdates?.cancel()
       self.stopObserving()
     }
