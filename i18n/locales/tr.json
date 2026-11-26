@@ -19704,5 +19704,6 @@
     "postSnapshot": "Ekran görüntüsü paylaş",
     "shareLink": "Bağlantıyı paylaş",
     "snapshotFailed": "Ekran görüntüsü alınamadı. Tekrar dene."
-  }
+  },
+  "ppvPreview": {"watch": "Ücretsiz ön izlemeyi izle", "title": "Ücretsiz video ön izlemesi", "unavailable": "Ön izleme kullanılamıyor", "retry": "Tekrar dene", "loading": "Ön izleme yükleniyor…", "seconds": "Ücretsiz ön izleme (saniye)", "secondsHint": "1–30 saniye seçin. Ön izlemeyi atlamak için 0 girin."}
 }

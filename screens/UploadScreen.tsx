@@ -92,6 +92,7 @@ import { CONTENT_WARNING_MAX } from "../components/Home/ContentWarningGate";
 import CommunityDrawer from "../components/Upload/CommunityDrawer";
 import { getUserCommunities } from "../services/communities.service";
 import type { Community } from "../types/community";
+import { canConfigurePpvPreview } from "../libs/ppv-preview";
 import MonetizationPanel from "../components/Upload/MonetizationPanel";
 import type { MonetizationState } from "../components/Upload/MonetizationPanel";
 import CustomSwitch from "../components/ui/CustomSwitch";
@@ -3689,6 +3690,11 @@ export default function UploadScreen() {
                 draftScope={draftScope}
                 state={monetization}
                 onChange={handleMonetizationChange}
+                canConfigurePpvPreview={canConfigurePpvPreview(
+                  !!pickedVideo,
+                  isLiveMode || isStageMode || visibility !== "public" || !!authUser?.isPrivate || isMature || !!contentWarning?.trim() || !!videoDestruct,
+                  monetization,
+                )}
                 postChainId={effectivePostChainId}
                 onCreatePlan={() => setShowPlanForm(true)}
               />
