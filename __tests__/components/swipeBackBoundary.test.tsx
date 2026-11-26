@@ -16,7 +16,7 @@ jest.mock('react-native-gesture-handler', () => ({ Gesture: { Pan: () => mockGes
 import SwipeBackBoundary from '../../components/common/SwipeBackBoundary';
 import { useOwnEdgeSwipe, useSwipeBackAction } from '../../hooks/useSwipeBack';
 function Local({ back }: { back?: () => void }) { useSwipeBackAction(back); return null; }
-const swipe = () => act(() => mockGesture.onEnd.mock.calls[mockGesture.onEnd.mock.calls.length - 1][0]({ translationX: 90, translationY: 4, velocityX: 200 }));
+const swipe = (success = true) => act(() => mockGesture.onEnd.mock.calls[mockGesture.onEnd.mock.calls.length - 1][0]({ translationX: 90, translationY: 4, velocityX: 200 }, success));
 let tree: ReactTestRenderer;
 beforeEach(() => { jest.useFakeTimers(); jest.clearAllMocks(); });
 afterEach(() => { act(() => tree?.unmount()); jest.useRealTimers(); });
@@ -33,6 +33,12 @@ test('a covered or blurred screen cannot receive a back swipe', () => {
   const pop = jest.fn();
   act(() => { tree = create(<SwipeBackBoundary onBack={pop} isFocused={() => false}><Local /></SwipeBackBoundary>); });
   swipe(); expect(pop).not.toHaveBeenCalled();
+});
+test('a cancelled pan leaves the photo drawer open', () => {
+  const close = jest.fn();
+  act(() => { tree = create(<SwipeBackBoundary onBack={close}><Local /></SwipeBackBoundary>); });
+  swipe(false);
+  expect(close).not.toHaveBeenCalled();
 });
 test('adding a second finger after activation cancels back', () => {
   const pop = jest.fn();
