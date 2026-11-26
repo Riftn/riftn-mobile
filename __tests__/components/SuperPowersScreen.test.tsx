@@ -73,9 +73,10 @@ it('shows an existing badge and usage on iOS without spending or cancelling a bo
 
 it('shows Team up in the iOS catalog without opening the team management sheet', () => {
   const view = render(<SuperPowersScreen />);
+  fireEvent.press(view.getByLabelText('Team up'));
   expect(view.getByText('Team up')).toBeTruthy();
   expect(view.getByText('storefront.unavailable')).toBeTruthy();
-  expect(view.getAllByRole('button', { name: 'Team up' })).toHaveLength(1);
+  expect(view.queryByTestId('team-up')).toBeNull();
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
 });
 
@@ -87,8 +88,8 @@ it('keeps existing boost and Team up actions available on Android', () => {
   const view = render(<SuperPowersScreen />);
   fireEvent.press(view.getByText('auth.use'));
   expect(view.getByTestId('spend-power').props.children).toBe('boost');
-  fireEvent.press(view.getByRole('button', { name: 'Team up' }));
-  fireEvent.press(view.getAllByRole('button', { name: 'Team up' })[1]);
+  fireEvent.press(view.getByLabelText('Team up'));
+  fireEvent.press(view.getAllByText('Team up').slice(-1)[0]);
   expect(view.getByTestId('team-up')).toBeTruthy();
 });
 
