@@ -73,6 +73,9 @@ import { useUserProfileSheet } from '../context/UserProfileSheetContext';
 import { usePerfProbe } from '../libs/perfTrace';
 import DeferredTextInput from "../components/ui/DeferredTextInput";
 import ExploreCleanList, { ExploreCategoryWords } from "../components/Search/ExploreCleanList";
+import { DhbListingSoon } from "../components/Home/DhbListingSoon";
+import { isDhbListingQuery } from "../libs/dhb-listing";
+import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
 import { EarnedEmpty, EarnedLine, TrendSortWords, type TrendSort } from "../components/Search/TrendingEarned";
 import { useAppTheme } from "../context/ThemeContext";
 import { SEARCH_INPUT_CLEAR } from '../hooks/useSearchFieldMaterial';
@@ -968,7 +971,8 @@ const SearchScreen: React.FC = () => {
       }
 
       // "all" or a content tab — horizontal accounts carousel + content list
-      const isEmpty = visibleContent.length === 0 && accounts.length === 0;
+      const showRift = DIGITAL_PURCHASES_ENABLED && activeTab === "all" && isDhbListingQuery(searchQuery);
+      const isEmpty = !showRift && visibleContent.length === 0 && accounts.length === 0;
 
       if (isEmpty) {
         return (
@@ -1000,7 +1004,7 @@ const SearchScreen: React.FC = () => {
           onViewableItemsChanged={onViewableItemsChanged}
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
-          ListHeaderComponent={AccountsCarousel}
+          ListHeaderComponent={showRift ? <><DhbListingSoon />{AccountsCarousel}</> : AccountsCarousel}
           ListFooterComponent={ListFooter}
           ListEmptyComponent={
             accounts.length > 0 ? (
