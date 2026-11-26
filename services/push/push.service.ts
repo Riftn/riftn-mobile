@@ -778,8 +778,11 @@ export async function dismissReadMessageNotifications(
   const presented = await getPresentedNotifications();
   if (!isCurrent()) return;
 
+  // Expo exposes UNNotification dates in seconds and Android dates in milliseconds.
+  const dateScale = Platform.OS === 'ios' ? 1_000 : 1;
   const matching = presented.filter(notification => {
-    if (!(notification.date > 0 && notification.date <= readThrough)) return false;
+    const deliveredAt = notification.date * dateScale;
+    if (!(deliveredAt > 0 && deliveredAt <= readThrough)) return false;
     const data = readNotificationData(notification);
     // Two accounts on one phone can be participants in the same conversation.
     // An alert without a recipient cannot safely be attributed to either one.
