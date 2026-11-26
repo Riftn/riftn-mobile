@@ -3,14 +3,14 @@ import ProfileScrollViewport from './ProfileScrollViewport';
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, useProfileCollapse } from './useProfileCollapse';
 import { getCoverUrl, getDefaultBanner } from '../../libs/misc';
 import ProfilePinnedBar from './ProfilePinnedBar';
-import { ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from './profilePaneScroll';
+import { ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls, type ProfilePaneScrollHandlers } from './profilePaneScroll';
 import { runOnUISync } from 'react-native-worklets';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, useWindowDimensions } from "react-native";
 import { useAuthActions } from "../../context/AuthContext";
 import { ProfilePullFrame, useProfilePullRefresh } from "./ProfilePullRefresh";
-import Animated, { runOnJS, runOnUI, useSharedValue, useAnimatedScrollHandler, useAnimatedStyle } from "react-native-reanimated";
+import Animated, { runOnJS, runOnUI, useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 
 import ProfileHeader from "./ProfileHeader";
@@ -117,11 +117,11 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     tabOffsets.value = {};
   }, [address, tabOffsets]);
   const { drive } = useTabBarScrollHide();
-  const driveProfile = useCallback((y: number) => {
+  const driveProfile = useCallback((key: string, y: number) => {
     'worklet';
+    if (key !== activeKeyShared.value) return;
     drive(y);
     profileScrollY.value = y;
-    const key = activeKeyShared.value;
     if (tabOffsets.value[key] !== y) {
       tabOffsets.modify((offsets) => {
         'worklet';
@@ -135,8 +135,6 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
       runOnJS(setStickyVisible)(stuck);
     }
   }, [drive, profileScrollY, headerHeight, tabsStuck, activeKeyShared, tabOffsets]);
-  const workletScroll = useAnimatedScrollHandler({ onScroll: (event) => driveProfile(event.contentOffset.y) });
-  const onScroll = useCallback((event: import('react-native').NativeSyntheticEvent<import('react-native').NativeScrollEvent>) => driveProfile(event.nativeEvent.contentOffset.y), [driveProfile]);
   // Sort, search and filter over this creator's own posts — all server-side,
   // and shared with the other-user profile sheet so the two never drift.
   // The creator's own order of posts. Saving in the arrange sheet flips this
@@ -295,7 +293,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     </View>
   ), [expandedHeaderStyle, headerHeight, address, collapse.onIdentityBottom, collapse.onActionsBottom, tabItems, activeKey, handleTabChange, toolbar, panel, arrangeOpen, openArrange, closeArrange, hasCustomOrder, handleOrderSaved]);
 
-  const renderScene = (key: string) => {
+  const renderScene = (key: string, { onAnimatedScroll: workletScroll, onScroll }: ProfilePaneScrollHandlers) => {
     switch (key) {
       case "home":
         return <FeedRoute address={address} listHeader={listHeader} onScroll={workletScroll} postType={homePostType} hasCustomOrder={hasCustomOrder} onOrderSaved={handleOrderSaved} {...contentQuery} />;
@@ -332,8 +330,8 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     <ProfilePullFrame pull={pull} cover={pullCover}>
     <ProfileScrollViewport {...collapse}>
       {paneKeys.map((key) => (
-        <ProfilePane key={`${address}:${key}`} active={key === activeKey} scroll={paneScroll(key)}>
-          {renderScene(key)}
+        <ProfilePane key={`${address}:${key}`} active={key === activeKey} tab={key} scroll={paneScroll(key)} onScrollY={driveProfile}>
+          {(handlers) => renderScene(key, handlers)}
         </ProfilePane>
       ))}
     </ProfileScrollViewport>

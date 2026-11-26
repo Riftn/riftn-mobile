@@ -1,6 +1,6 @@
-import React, { Activity, createContext, forwardRef, useContext, useEffect, useMemo, useRef } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import Animated from "react-native-reanimated";
+import React, { Activity, createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useRef } from "react";
+import { FlatList, ScrollView, StyleSheet, View, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
+import Animated, { runOnUI, useAnimatedScrollHandler } from "react-native-reanimated";
 
 /**
  * Keeps a profile steady when you switch tabs.
@@ -114,7 +114,26 @@ export const PaneScrollView = withPaneScroll(ScrollView as unknown as React.Comp
  * way back, which also put each list back at its old spot over the one asked
  * for here.
  */
-export function ProfilePane({ active, scroll, children }: { active: boolean; scroll: ProfilePaneScroll | null; children: React.ReactNode }) {
+export type ProfilePaneScrollHandlers = {
+  onAnimatedScroll: ReturnType<typeof useAnimatedScrollHandler>;
+  onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+};
+
+export function ProfilePane({ active, tab, scroll, onScrollY, children }: {
+  active: boolean;
+  tab: string;
+  scroll: ProfilePaneScroll | null;
+  onScrollY: (tab: string, y: number) => void;
+  children: (handlers: ProfilePaneScrollHandlers) => React.ReactNode;
+}) {
+  // Attribute events to the list that sent them. A kept tab can still emit a
+  // queued scroll event after the selection has moved to another tab.
+  const onAnimatedScroll = useAnimatedScrollHandler({
+    onScroll: (event) => onScrollY(tab, event.contentOffset.y),
+  });
+  const onScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    runOnUI(onScrollY)(tab, event.nativeEvent.contentOffset.y);
+  }, [onScrollY, tab]);
   return (
     <ProfilePaneScrollContext.Provider value={scroll}>
       <View
@@ -124,7 +143,7 @@ export function ProfilePane({ active, scroll, children }: { active: boolean; scr
         importantForAccessibility={active ? "auto" : "no-hide-descendants"}
       >
         <Activity mode={active ? "visible" : "hidden"}>
-          <View nativeID="keep-mounted" style={paneStyles.fill}>{children}</View>
+          <View nativeID="keep-mounted" style={paneStyles.fill}>{children({ onAnimatedScroll, onScroll })}</View>
         </Activity>
       </View>
     </ProfilePaneScrollContext.Provider>

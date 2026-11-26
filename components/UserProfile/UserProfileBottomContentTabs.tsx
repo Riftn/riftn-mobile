@@ -54,7 +54,7 @@ import ProfileTabBar, { type ProfileTabItem } from "../Profile/ProfileTabBar";
 import ProfileScrollViewport from "../Profile/ProfileScrollViewport";
 import ProfilePinnedBar, { type ProfilePinnedIdentity } from "../Profile/ProfilePinnedBar";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
-import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls, type ProfilePaneScrollHandlers } from "../Profile/profilePaneScroll";
 import { runOnUISync } from "react-native-worklets";
 import ProfileContentToolbar from "../Profile/ProfileContentToolbar";
 import ProfileArrangeSheet from "../Profile/ProfileArrangeSheet";
@@ -474,33 +474,33 @@ const UserProfileBottomContentTabsInner: React.FC<
   // real to forward here, so this drops the per-frame JS hop entirely rather
   // than paying it to call a function that does nothing.
   const { drive: driveTabBar } = useTabBarScrollHide();
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      if (!isFullScreenShared.value) return;
+  const driveProfile = useCallback((tab: string, y: number) => {
+    'worklet';
+    if (!isFullScreenShared.value || tab !== activeTabShared.value) return;
 
-      const y = event.contentOffset.y;
-      if (profileScrollY) profileScrollY.value = y;
-      const tab = activeTabShared.value;
-      if (tabOffsets.value[tab] !== y) {
-        tabOffsets.modify((offsets) => {
-          'worklet';
-          (offsets as Record<string, number>)[tab] = y;
-          return offsets;
-        });
-      }
-      // Bottom nav hides on scroll down and returns on scroll up, as on home.
-      driveTabBar(y);
+    if (profileScrollY) profileScrollY.value = y;
+    if (tabOffsets.value[tab] !== y) {
+      tabOffsets.modify((offsets) => {
+        'worklet';
+        (offsets as Record<string, number>)[tab] = y;
+        return offsets;
+      });
+    }
+    // Bottom nav hides on scroll down and returns on scroll up, as on home.
+    driveTabBar(y);
 
-      const threshold = headerHeightShared.value;
-      if (threshold > 0) {
-        const shouldStick = y >= threshold + PROFILE_TABS_TOP_GAP - 4;
-        if (profileTabsPinned) profileTabsPinned.value = shouldStick;
-        if (shouldStick !== stickyVisibleShared.value) {
-          stickyVisibleShared.value = shouldStick;
-          runOnJS(setStickyVisible)(shouldStick);
-        }
+    const threshold = headerHeightShared.value;
+    if (threshold > 0) {
+      const shouldStick = y >= threshold + PROFILE_TABS_TOP_GAP - 4;
+      if (profileTabsPinned) profileTabsPinned.value = shouldStick;
+      if (shouldStick !== stickyVisibleShared.value) {
+        stickyVisibleShared.value = shouldStick;
+        runOnJS(setStickyVisible)(shouldStick);
       }
-    },
+    }
+  }, [activeTabShared, driveTabBar, headerHeightShared, isFullScreenShared, profileScrollY, profileTabsPinned, stickyVisibleShared, tabOffsets]);
+  const privateProfileScroll = useAnimatedScrollHandler({
+    onScroll: (event) => driveProfile(activeTabShared.value, event.contentOffset.y),
   });
 
   // Underline indicator for tabs
@@ -665,7 +665,7 @@ const UserProfileBottomContentTabsInner: React.FC<
     return (
       <View style={isFullScreen ? { flex: 1 } : { height: listHeight }}>
         {renderScrollViewport(
-          <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+          <Animated.ScrollView onScroll={privateProfileScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
             {isFullScreen && profileHeader}
             {PrivateAccountMessage}
           </Animated.ScrollView>,
@@ -687,7 +687,7 @@ const UserProfileBottomContentTabsInner: React.FC<
   // Content for one tab. Only tabs already opened are mounted (see keptTabs),
   // and every one but the active tab sits in a hidden ProfilePane: off screen,
   // effects (players, viewability, view tracking) stopped, state kept.
-  const renderTabContent = (tab: ContentTab) => {
+  const renderTabContent = (tab: ContentTab, { onAnimatedScroll: scrollHandler }: ProfilePaneScrollHandlers) => {
     const mt = isFullScreen ? 0 : 4;
     switch (tab) {
       case "home":
@@ -867,8 +867,8 @@ const UserProfileBottomContentTabsInner: React.FC<
     >
       {!isFullScreen && TabBar}
       {renderScrollViewport(paneTabs.map((tab) => (
-        <ProfilePane key={`${address}:${tab}`} active={tab === activeTab} scroll={isFullScreen ? paneScroll(tab) : null}>
-          {renderTabContent(tab)}
+        <ProfilePane key={`${address}:${tab}`} active={tab === activeTab} tab={tab} scroll={isFullScreen ? paneScroll(tab) : null} onScrollY={driveProfile}>
+          {(handlers) => renderTabContent(tab, handlers)}
         </ProfilePane>
       )))}
 
