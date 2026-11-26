@@ -20,9 +20,10 @@ import { FrostedBackground } from "../ui/FrostedBackdrop";
 import ImageViewerModal from "../common/ImageViewerModal";
 import { ProfilePullFrame, useProfilePullRefresh } from "../Profile/ProfilePullRefresh";
 
-const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
+const UserProfilePageContent: React.FC<UserProfileBottomSheetProps & { onNavigateAway?: () => void }> = ({
   visible,
   onClose,
+  onNavigateAway = onClose,
   usernameOrAddress,
   embedded = false,
 }) => {
@@ -82,9 +83,9 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
   const pullCover = coverUrl && coverUrl !== 'default-banner' ? { uri: storageImage(coverUrl, windowWidth) } : defaultBanner;
 
   const handleEditProfile = useCallback(() => {
-    onClose();
+    onNavigateAway();
     (navigation as any).navigate(ScreenNames.EditProfile);
-  }, [onClose, navigation]);
+  }, [onNavigateAway, navigation]);
 
   const registerScrollToTop = useCallback((_handler: (() => void) | null) => {}, []);
   const handleScroll = useCallback(() => {}, []);
@@ -96,15 +97,15 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
   }, [visible]);
 
   const handleMessageWrapper = useCallback(() => {
-    handleMessage(onClose);
-  }, [handleMessage, onClose]);
+    handleMessage(onNavigateAway);
+  }, [handleMessage, onNavigateAway]);
 
   // Ask AI (profile ⋮ menu): get the profile out of the way, then the
   // Assistant opens a fresh chat and sends the ask (askId makes a repeat count).
   const handleAskAi = useCallback((prompt: string) => {
-    onClose();
+    onNavigateAway();
     (navigation as any).navigate(ScreenNames.AIChat, { initialPrompt: prompt, autoSend: true, askId: Date.now() });
-  }, [onClose, navigation]);
+  }, [onNavigateAway, navigation]);
 
   const followLists = useMemo(
     () => parseFollowLists((data as any)?.customs, data?.hideFollowers),
@@ -113,7 +114,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
   const handleStatPress = useCallback((key: string) => {
     if (!profileData?.address) return;
     const initialTab = key === "following" ? "following" : "followers";
-    onClose();
+    onNavigateAway();
     // Push, not navigate: from a follow list, navigate reuses that screen with
     // its old tab and drops it from the back stack.
     navigation.dispatch(
@@ -127,7 +128,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
         isOwnProfile: false,
       }),
     );
-  }, [navigation, profileData, data, onClose, followLists]);
+  }, [navigation, profileData, data, onNavigateAway, followLists]);
 
   const profileBar = (
     <CollapsingProfileHeader
@@ -182,7 +183,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
           onAskAi={handleAskAi}
           onShare={handleShare}
           onOpenImage={handleOpenImage}
-          onClose={onClose}
+          onClose={onNavigateAway}
           onStatPress={handleStatPress}
           onEditProfile={handleEditProfile}
           youBlocked={youBlocked}
@@ -255,7 +256,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
           onAskAi={handleAskAi}
             onShare={handleShare}
             onOpenImage={handleOpenImage}
-            onClose={onClose}
+            onClose={onNavigateAway}
             onStatPress={handleStatPress}
             onEditProfile={handleEditProfile}
             youBlocked={youBlocked}

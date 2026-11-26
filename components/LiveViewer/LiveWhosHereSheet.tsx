@@ -10,9 +10,9 @@
  * Canvas themes draw each list as a glass bento. System has no boxes (the
  * full-immersive rule): the lists sit full width between hairlines.
  */
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { formatDistance } from "date-fns";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
@@ -22,7 +22,6 @@ import { getAvatarUrl } from "../../libs/misc";
 import { truncateAddress } from "../../libs/strings.util";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useAppTheme } from "../../context/ThemeContext";
-import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import type { LiveAudience, LiveAudienceAccount } from "../../services/live.service";
 import { liveAccent } from "./liveAccent";
 
@@ -33,6 +32,7 @@ const LINE = "rgba(255,255,255,0.10)";
 interface Props {
   visible: boolean;
   onClose: () => void;
+  onOpenProfile: (identifier: string) => void;
   audience: LiveAudience | undefined;
   loading: boolean;
 }
@@ -45,41 +45,58 @@ const Row: React.FC<{
   meta: React.ReactNode;
   right?: React.ReactNode;
   large?: boolean;
-  onOpen: (a: LiveAudienceAccount) => void;
+  onOpen: (identifier: string) => void;
   divider: boolean;
-}> = ({ account, meta, right, large, onOpen, divider }) => (
-  <Pressable
-    onPress={() => onOpen(account)}
-    accessibilityRole="button"
-    accessibilityLabel={audienceName(account)}
-    style={[styles.row, divider ? styles.rowDivider : null]}
-  >
-    <Avatar uri={getAvatarUrl(account.avatarImageUrl) || undefined} size={large ? 36 : 32} name={audienceName(account)} />
-    <View style={styles.rowText}>
-      <Text style={styles.name} numberOfLines={1}>{audienceName(account)}</Text>
-      <View style={styles.metaRow}>{meta}</View>
-    </View>
-    {right}
-  </Pressable>
-);
+}> = ({ account, meta, right, large, onOpen, divider }) => {
+  const identifier = account.username?.trim().replace(/^@+/, "") || account.address?.trim();
+  return (
+    <Pressable
+      onPress={() => { if (identifier) onOpen(identifier); }}
+      disabled={!identifier}
+      accessibilityRole="button"
+      accessibilityLabel={audienceName(account)}
+      accessibilityState={{ disabled: !identifier }}
+      style={({ pressed }) => [styles.row, divider && styles.rowDivider, (pressed || !identifier) && styles.dimmedRow]}
+    >
+      <Avatar uri={getAvatarUrl(account.avatarImageUrl) || undefined} size={large ? 36 : 32} name={audienceName(account)} />
+      <View style={styles.rowText}>
+        <Text style={styles.name} numberOfLines={1}>{audienceName(account)}</Text>
+        <View style={styles.metaRow}>{meta}</View>
+      </View>
+      {right}
+    </Pressable>
+  );
+};
 
-function LiveWhosHereSheetComponent({ visible, onClose, audience, loading }: Props) {
+function LiveWhosHereSheetComponent({ visible, onClose, onOpenProfile, audience, loading }: Props) {
   const { t } = useTranslation();
   const { skin, theme, accent } = useAppTheme();
-  const { showUserProfile } = useUserProfileSheet();
   const boxed = !!skin;
   const radius = skin?.square ? 0 : 14;
   const tint = liveAccent(theme, accent);
 
-  const open = useCallback(
-    (a: LiveAudienceAccount) => {
-      const id = a.username || a.address;
-      if (!id) return;
-      onClose();
-      setTimeout(() => showUserProfile(id), 250);
-    },
-    [onClose, showUserProfile],
-  );
+  const pendingProfile = useRef<string | null>(null);
+  const dismissTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const finishDismiss = useCallback(() => {
+    if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    dismissTimer.current = null;
+    const identifier = pendingProfile.current;
+    pendingProfile.current = null;
+    if (identifier) onOpenProfile(identifier);
+  }, [onOpenProfile]);
+  useEffect(() => () => {
+    if (dismissTimer.current) clearTimeout(dismissTimer.current);
+    pendingProfile.current = null;
+  }, []);
+
+  const open = useCallback((identifier: string) => {
+    if (pendingProfile.current) return;
+    pendingProfile.current = identifier;
+    onClose();
+    // iOS reports when its native window has gone. Android slides out in JS
+    // and does not emit onDismiss, so keep the same delay as other glass sheets.
+    dismissTimer.current = setTimeout(finishDismiss, Platform.OS === "ios" ? 800 : 250);
+  }, [onClose, finishDismiss]);
 
   const section = (label: string, children: React.ReactNode) => (
     <View style={[boxed ? [styles.bento, { borderRadius: radius }] : styles.flat]}>
@@ -95,7 +112,7 @@ function LiveWhosHereSheetComponent({ visible, onClose, audience, loading }: Pro
   const here = audience?.here ?? [];
 
   return (
-    <GlassModal visible={visible} onClose={onClose} presentation="bottom" scrollable dragFromContent maxHeight="82%" blurIntensity={50}>
+    <GlassModal visible={visible} onClose={onClose} onDismiss={finishDismiss} presentation="bottom" scrollable dragFromContent maxHeight="82%" blurIntensity={50}>
       <View style={styles.grabWrap}>
         <View style={styles.grab} />
       </View>
@@ -208,6 +225,7 @@ const styles = StyleSheet.create({
   flat: { paddingHorizontal: 16, paddingVertical: 10, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: "rgba(255,255,255,0.16)" },
   label: { color: MUTED, fontSize: 11, fontWeight: "800", letterSpacing: 0.8, textTransform: "uppercase", marginBottom: 4 },
   row: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 7 },
+  dimmedRow: { opacity: 0.6 },
   rowDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: LINE },
   rowText: { flex: 1, minWidth: 0 },
   name: { color: TEXT, fontSize: 14, fontWeight: "700" },

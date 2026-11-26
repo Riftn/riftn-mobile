@@ -58,6 +58,7 @@ import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-au
 import { swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../../libs/viewers.util";
 import { likeLiveStream } from "../../services/live.service";
@@ -188,6 +189,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     connectionEpoch,
   } = useWebSocket();
   const navigation = useNavigation<any>();
+  const { showUserProfile } = useUserProfileSheet();
 
   // Refs for cleanup closures — always read latest values, never stale
   const streamIdRef = useRef<string | null>(null);
@@ -1592,17 +1594,31 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   buildMiniRef.current = buildMini;
   const isMutedRef = useRef(isMuted);
   isMutedRef.current = isMuted;
-  const minimise = useCallback((float: boolean) => {
+  const handOffToMini = useCallback((float: boolean) => {
     const mini = buildMiniRef.current();
-    if (!mini) return;
+    if (!mini) return false;
     const seat = releasePresenceRef.current;
     releasePresenceRef.current = null;
     didLeaveRef.current = true;
     joinStreamSentKeyRef.current = null;
     openLiveMini({ ...mini, float, release: seat });
+    return true;
+  }, []);
+  const minimise = useCallback((float: boolean) => {
+    if (!handOffToMini(float)) return;
     if (navigation.canGoBack()) navigation.goBack();
     else navigation.navigate(ScreenNames.App);
-  }, [navigation]);
+  }, [navigation, handOffToMini]);
+  const openAudienceProfile = useCallback((identifier: string) => {
+    if (!navigation.isFocused()) return;
+    if (handOffToMini(false)) {
+      // A profile in the navigation stack shares the mini-player's window.
+      // Replace the full viewer so it releases its playback and keeps the seat.
+      navigation.replace(ScreenNames.LiveAttendeeProfile, { identifier });
+    } else {
+      showUserProfile(identifier);
+    }
+  }, [navigation, handOffToMini, showUserProfile]);
   const minimiseLive = useCallback(() => minimise(false), [minimise]);
   const floatLive = useCallback(() => minimise(true), [minimise]);
   whepOnRef.current = !!whepLive.stream;
@@ -2670,6 +2686,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       <LiveWhosHereSheet
         visible={audienceOpen}
         onClose={() => setAudienceOpen(false)}
+        onOpenProfile={openAudienceProfile}
         audience={audience}
         loading={audienceLoading}
       />
