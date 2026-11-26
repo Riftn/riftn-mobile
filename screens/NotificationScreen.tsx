@@ -1688,7 +1688,11 @@ const NotificationScreen = () => {
           break;
         }
         // A tag in live or public chat opens that chat, not a post page.
-        if (openChatMention(navigation.navigate as any, { mentionContext: metadata?.mentionContext, tokenId })) break;
+        if (openChatMention(leaveTo, {
+          mentionContext: metadata?.mentionContext,
+          tokenId,
+          chatMessageId: metadata?.chatMessageId,
+        })) break;
         if (tokenId) navigateToFeed(tokenId, commentId, postType);
         break;
 

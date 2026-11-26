@@ -108,7 +108,9 @@ export interface NotificationData {
   currency?: string;
   bountyType?: 'viewer' | 'commentor';
   planId?: string;
-  // Community chat
+  // Chat mentions and community notifications
+  mentionContext?: string;
+  chatMessageId?: string;
   communitySlug?: string;
   // Livestream
   streamId?: string;
@@ -559,12 +561,12 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
 
         case NotificationType.MENTION:
           // Tagged in a bio: open that profile.
-          if ((data as any).mentionContext === 'bio' && (actorUsername || actorAddress)) {
+          if (data.mentionContext === 'bio' && (actorUsername || actorAddress)) {
             emitProfileDeepLink((actorUsername || actorAddress) as string);
             break;
           }
           // A tag in live or public chat opens that chat, not a post page.
-          if (openChatMention(navigation.navigate as any, { mentionContext: (data as any).mentionContext, tokenId })) break;
+          if (openChatMention(navigation.navigate as any, data)) break;
           if (tokenId) {
             navigation.navigate(ScreenNames.FeedDetail, { tokenId, commentId });
           } else {
