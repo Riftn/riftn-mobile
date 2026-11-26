@@ -34,6 +34,7 @@ import {
   getNotifications, 
   markNotificationAsRead, 
   markAllNotificationsAsRead,
+  clearAllNotifications,
   acceptFollowRequest,
   rejectFollowRequest,
   followUser,
@@ -58,6 +59,7 @@ import { formatShortAgo } from "../libs/date.util";
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import { seedUserProfileCache } from "../hooks/useUserProfileData";
 import { buildCdnPath, getAvatarUrl, getBadgeUrlFor, getShortsThumbnailUrl, getInlineBadgeOpticalStyle } from "../libs";
+import { toastSuccess } from "../libs/toast";
 import { cdnImage } from "../libs/cdnImage";
 import { addDismissedIds, getDismissedIds } from "../libs/notifications.dismissed";
 import { openInApp } from "../libs/links.utils";
@@ -72,6 +74,9 @@ import NotificationCommentCard, { notificationHasComment } from "../components/N
 import NotificationRequestCard from "../components/Notifications/NotificationRequestCard";
 import { notificationHasRequestCard } from "../libs/notification-request";
 import QuickSettingsSheet from "../components/Notifications/QuickSettingsSheet";
+import ConfirmModal from "../components/common/ConfirmModal";
+import { useOpenedOnce } from "../components/ui/WhenOpened";
+import { MOTION } from "../theme/motion";
 import NotificationSearchLine, { notificationMatches } from "../components/Notifications/NotificationSearchLine";
 import NotificationCatchUp from "../components/Notifications/NotificationCatchUp";
 import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawer";
@@ -83,6 +88,7 @@ import { getNFT } from "../services/nft.service";
 import { createLogger } from "../libs/logger";
 import {
   applyMarkedAllRead,
+  invalidateNotificationSnapshot,
   markAllReadSettled,
   mergeFirstPage,
   noteMarkedAllRead,
@@ -1233,6 +1239,19 @@ const NotificationScreen = () => {
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
   // Mounted on first use: an always-mounted sheet was built on every open.
   const [quickSettingsMounted, setQuickSettingsMounted] = useState(false);
+  const [clearConfirmation, setClearConfirmation] = useState<{ wallet: string; through: number } | null>(null);
+  const clearConfirmationVisible = !!clearConfirmation && clearConfirmation.wallet === walletAddress;
+  const clearConfirmationMounted = useOpenedOnce(clearConfirmationVisible);
+  const [clearingAll, setClearingAll] = useState(false);
+  const [clearFailed, setClearFailed] = useState(false);
+  const pendingConfirmation = useRef<{ wallet: string; through: number } | null>(null);
+  const clearTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearingRef = useRef(false);
+  const clearEpoch = useRef(0);
+
+  useEffect(() => () => {
+    if (clearTimer.current) clearTimeout(clearTimer.current);
+  }, []);
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(!cached && !cachedAll);
   // Set when a refresh fails with nothing on screen to fall back on. Until now
@@ -2113,6 +2132,7 @@ const NotificationScreen = () => {
   useEffect(() => {
     if (loading || !walletAddress) return;
     const timer = setTimeout(() => {
+      const epoch = clearEpoch.current;
       const order = orderNotificationTabKeys(TYPE_TABS.map(({ key }) => key), tabActivityCountsRef.current, 'all');
       for (const key of order.slice(0, PREFETCH_TABS)) {
         if (key === 'all' || key === selectedFilterRef.current) continue;
@@ -2124,7 +2144,7 @@ const NotificationScreen = () => {
         getNotifications({ unreadOnly: false, types, page: 1, limit: PAGE_SIZE })
           .then((res: any) => {
             // Opened meanwhile: its own fetch owns the rows now.
-            if (rowsFilterRef.current === key) return;
+            if (rowsFilterRef.current === key || walletAddressRef.current !== walletAddress || clearEpoch.current !== epoch) return;
             const api: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
             const rows = mergeFirstPage(api, customRowsRef.current);
             for (const n of rows) {
@@ -2132,7 +2152,9 @@ const NotificationScreen = () => {
             }
             tabCacheRef.current.set(key, { rows, page: 1, hasMore: api.length >= PAGE_SIZE });
           })
-          .catch(() => tabFetchedAtRef.current.delete(key));
+          .catch(() => {
+            if (walletAddressRef.current === walletAddress && clearEpoch.current === epoch) tabFetchedAtRef.current.delete(key);
+          });
       }
     }, 1500);
     return () => clearTimeout(timer);
@@ -2238,10 +2260,7 @@ const NotificationScreen = () => {
   }, [markAsReadAsync, markCachedRead]);
 
   /**
-   * Clear one row. `/notification` exposes PATCH (read) and mark-all-read and
-   * nothing else, so there is no server-side delete to call: the row is marked
-   * read — which keeps the badge honest on every device — and its id is
-   * remembered locally so a refetch cannot resurrect it here.
+   * A single-row dismissal is remembered locally and marked read on the server.
    */
   const handleClearNotification = useCallback((notification: NotificationItem) => {
     setDismissedIds((prev) => {
@@ -2274,19 +2293,62 @@ const NotificationScreen = () => {
       : group === 'week' ? t('notifications.groupThisWeek', { defaultValue: 'This week' })
       : t('notifications.groupEarlier', { defaultValue: 'Earlier' }), [t]);
 
-  // Clear all, as on web: everything read, then every row on screen dismissed
-  // for this account (the same store the per-row clear uses).
-  const handleClearAll = useCallback(() => {
-    const ids = notifications.map((n) => n._id);
-    if (!ids.length) return;
-    handleMarkAllRead();
-    setDismissedIds((prev) => new Set([...prev, ...ids]));
-    setNotifications([]);
-    setCountsSource([]);
-    addDismissedIds(walletAddress, ids).catch((e) => {
-      log.error("persist clear all failed", e);
-    });
-  }, [notifications, handleMarkAllRead, walletAddress]);
+  const showClearConfirmation = useCallback(() => {
+    const next = pendingConfirmation.current;
+    pendingConfirmation.current = null;
+    if (next?.wallet === walletAddressRef.current) {
+      setClearFailed(false);
+      setClearConfirmation(next);
+    }
+  }, []);
+
+  const requestClearAll = useCallback(() => {
+    if (!walletAddress || pendingConfirmation.current || clearingRef.current) return;
+    pendingConfirmation.current = { wallet: walletAddress, through: Date.now() };
+    setQuickSettingsOpen(false);
+    // iOS presents the confirmation when the settings modal has dismissed.
+    if (Platform.OS !== "ios") clearTimer.current = setTimeout(showClearConfirmation, MOTION.close + 30);
+  }, [showClearConfirmation, walletAddress]);
+
+  const handleClearAll = useCallback(async () => {
+    if (!clearConfirmation || clearConfirmation.wallet !== walletAddressRef.current || clearingRef.current) return;
+    clearingRef.current = true;
+    setClearingAll(true);
+    setClearFailed(false);
+    const { wallet, through } = clearConfirmation;
+    try {
+      const { clearedThrough } = await clearAllNotifications(wallet, through);
+      const cutoff = Date.parse(clearedThrough);
+      if (!Number.isFinite(cutoff)) throw new Error("Missing notification cutoff");
+      invalidateNotificationSnapshot(wallet);
+      const store = tabStoreFor(wallet);
+      store.tabs.clear();
+      store.fetchedAt.clear();
+      if (walletAddressRef.current !== wallet) return;
+
+      // Discard earlier reads and pagination offsets before loading page one.
+      clearEpoch.current++;
+      const keepNewer = (rows: NotificationItem[]) =>
+        rows.filter((row) => new Date(row.updatedAt || row.createdAt).getTime() > cutoff);
+      customRowsRef.current = keepNewer(customRowsRef.current);
+      setNotifications(keepNewer);
+      setCountsSource(keepNewer);
+      pageRef.current = 1;
+      setHasMore(false);
+      void fetchNotificationsRef.current(true);
+      setClearConfirmation(null);
+      toastSuccess(t("notifications.clearAllSuccess"));
+    } catch (error) {
+      log.error("clear notifications failed", error);
+      if (walletAddressRef.current === wallet) {
+        setClearFailed(true);
+        void fetchNotificationsRef.current(true);
+      }
+    } finally {
+      clearingRef.current = false;
+      setClearingAll(false);
+    }
+  }, [clearConfirmation, t]);
 
   // The heading over a row that starts a group. Unread rows lead with no
   // heading: anything at the top of the bell is new.
@@ -2559,11 +2621,25 @@ const NotificationScreen = () => {
       {quickSettingsMounted ? <QuickSettingsSheet
         visible={quickSettingsOpen}
         onClose={() => setQuickSettingsOpen(false)}
+        onDismiss={showClearConfirmation}
         hasUnread={hasUnread}
+        canClear={Boolean(walletAddress && !clearingAll && (notifications.length || countsSource.length))}
         onMarkAllRead={handleMarkAllRead}
-        onClearAll={handleClearAll}
+        onClearAll={requestClearAll}
         onOpenAllSettings={() => navigation.navigate(ScreenNames.NotificationSettings)}
       /> : null}
+      {clearConfirmationMounted && <ConfirmModal
+        visible={clearConfirmationVisible}
+        title={t("notifications.clearAllTitle")}
+        description={t("notifications.clearAllDescription")}
+        confirmText={t("notifications.clearAllAction")}
+        confirmKind="danger"
+        confirmIcon="Trash2"
+        loading={clearingAll}
+        error={clearFailed ? t("notifications.clearAllError") : undefined}
+        onConfirm={handleClearAll}
+        onCancel={() => { if (!clearingRef.current) setClearConfirmation(null); }}
+      />}
     </PageDrawer>
   );
 };
