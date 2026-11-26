@@ -312,6 +312,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Auth provider props
 interface AuthProviderProps {
   children: React.ReactNode;
+  hasInternet?: boolean | null;
 }
 
 /** How the account that takes over after a log out is named in the toast. */
@@ -321,7 +322,7 @@ function switchedName(user: User | null): string | null {
   return user.displayName || null;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children, hasInternet }) => {
   const { t: _copy } = _useCopy();
   const log = useMemo(() => createLogger("AuthContext"), []);
   const [user, setUser] = useState<User | null>(null);
@@ -567,6 +568,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Boot hydration
   useAuthBoot<User>({
+    hasInternet,
     getAuthUser,
     getAuthToken,
     hasSeenAuth: hasSeenAuthOutsideSetup,
