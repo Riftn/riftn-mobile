@@ -11,14 +11,14 @@ export default function RemoveSavedProfileButton({ profile, disabled, onRemoving
 }) {
   const { t } = useTranslation();
   const name = profile.username ? `@${profile.username}` : profile.name || profile.address;
-  const label = t('settings.profileRemoveNamed', 'Remove {{name}}', { name });
+  const label = t('auth.removeAccount', { name });
 
   const remove = async () => {
     onRemovingChange(true);
     try {
       await removeSavedProfile(profile.address);
     } catch {
-      Alert.alert(t('settings.profileRemoveFailed', 'Could not remove the saved account. Try again.'));
+      Alert.alert(t('common.somethingWentWrong'), t('common.tryAgain'));
     } finally {
       onRemovingChange(false);
     }
@@ -26,10 +26,10 @@ export default function RemoveSavedProfileButton({ profile, disabled, onRemoving
 
   const confirm = () => Alert.alert(
     label,
-    t('settings.profileRemoveDescription', 'This removes the saved sign-in from this device. You can add the account again by signing in.'),
+    t('settings.profilesDesc'),
     [
       { text: t('common.cancel'), style: 'cancel' },
-      { text: t('settings.profileRemoveAction', 'Remove'), style: 'destructive', onPress: () => void remove() },
+      { text: t('common.remove'), style: 'destructive', onPress: () => void remove() },
     ],
   );
 
