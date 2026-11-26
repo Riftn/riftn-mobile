@@ -949,7 +949,7 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
     });
   }, [showPendingPost]);
 
-  const shortsRotation = useHomeShortsCarousel(showShortsCarousel, feedItems.length, active);
+  const shortsRotation = useHomeShortsCarousel(showShortsCarousel, feedItems.length, active, !!data || !!queryError);
   const shortsBatches = shortsRotation.batches;
 
   // Runs once the list has laid out a change: on every content size change,
