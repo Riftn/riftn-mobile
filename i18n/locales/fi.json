@@ -16955,7 +16955,22 @@
     "paste": "Liitä {{name}}-avaimesi",
     "getKey": "Hanki {{name}}-avain",
     "showLess": "Näytä vain omat avaimeni",
-    "addAnother": "Lisää toinen palveluntarjoaja"
+    "addAnother": "Lisää toinen palveluntarjoaja",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-mallit)",
+      "fal": "Kuva-, video-, 3D- ja valokuvatyökalut",
+      "kie": "Kuvat ja videot",
+      "replicate": "Kuvat ja videot",
+      "xai": "Keskustelu ja kuvat Grokilla",
+      "elevenlabs": "Puhe, dubbaus, musiikki ja äänitehosteet",
+      "gemini": "Käännökset, kirjoitusapu ja tiivistelmät",
+      "venice": "Keskustele avustajan kanssa",
+      "perplexity": "Verkkohaku avustajan avulla",
+      "deepgram": "Litteroinnit ja reaaliaikaiset tekstitykset",
+      "openrouter": "Satoja keskustelu- ja tekstimalleja yhdellä avaimella",
+      "groq": "Nopea keskustelu ja teksti",
+      "mistral": "Keskustelu ja teksti"
+    }
   },
   "postBg": {
     "addMedia": "Lisää kuva, GIF tai video",

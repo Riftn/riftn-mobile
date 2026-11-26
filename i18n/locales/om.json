@@ -16992,7 +16992,22 @@
     "paste": "Furtuu {{name}} kee maxxansi",
     "getKey": "Furtuu {{name}} argadhu",
     "showLess": "Furtuuwwan koo qofa agarsiisi",
-    "addAnother": "Dhiyeessaa biraa dabali"
+    "addAnother": "Dhiyeessaa biraa dabali",
+    "providerDescriptions": {
+      "openai": "Builder (moodeelota GPT)",
+      "fal": "Meeshaalee fakkii, viidiyoo, 3D fi suuraa",
+      "kie": "Fakkii fi viidiyoo",
+      "replicate": "Fakkii fi viidiyoo",
+      "xai": "Grok wajjin haasawaa fi fakkii",
+      "elevenlabs": "Sagalee, sagalee bakka buusuu, muuziqaa fi taateewwan sagalee",
+      "gemini": "Hiikkaa, gargaarsa barreessuu fi cuunfaa",
+      "venice": "Gargaaraa wajjin haasa'uu",
+      "perplexity": "Gargaaraadhaan weebii barbaaduu",
+      "deepgram": "Dubbii gara barreeffamaatti jijjiiruu fi barruu kallattii",
+      "openrouter": "Furtuu tokkoon moodeelota haasawaa fi barruu dhibbaan lakkaa'aman",
+      "groq": "Haasawaa fi barruu saffisaa",
+      "mistral": "Haasawaa fi barruu"
+    }
   },
   "postBg": {
     "addMedia": "Suuraa, GIF ykn viidiyoo dabali",

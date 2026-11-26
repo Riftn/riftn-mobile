@@ -17223,7 +17223,22 @@
     "paste": "Tampal kunci {{name}} anda",
     "getKey": "Dapatkan kunci {{name}}",
     "showLess": "Tunjukkan kunci saya sahaja",
-    "addAnother": "Tambah penyedia lain"
+    "addAnother": "Tambah penyedia lain",
+    "providerDescriptions": {
+      "openai": "Builder (model GPT)",
+      "fal": "Alat imej, video, 3D dan foto",
+      "kie": "Imej dan video",
+      "replicate": "Imej dan video",
+      "xai": "Sembang dan imej dengan Grok",
+      "elevenlabs": "Suara, alih suara, muzik dan kesan bunyi",
+      "gemini": "Terjemahan, bantuan menulis dan ringkasan",
+      "venice": "Sembang dengan pembantu",
+      "perplexity": "Carian web dengan pembantu",
+      "deepgram": "Transkrip dan sari kata langsung",
+      "openrouter": "Ratusan model sembang dan teks dengan satu kunci",
+      "groq": "Sembang dan teks pantas",
+      "mistral": "Sembang dan teks"
+    }
   },
   "postBg": {
     "addMedia": "Tambah gambar, GIF atau video",

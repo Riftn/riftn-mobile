@@ -16950,7 +16950,22 @@
     "paste": "Mado igodo {{name}} gị",
     "getKey": "Nweta igodo {{name}}",
     "showLess": "Gosi naanị igodo m",
-    "addAnother": "Tinye onye na-enye ọzọ"
+    "addAnother": "Tinye onye na-enye ọzọ",
+    "providerDescriptions": {
+      "openai": "Builder (ụdị GPT)",
+      "fal": "Ngwa maka onyonyo, vidiyo, 3D na foto",
+      "kie": "Onyonyo na vidiyo",
+      "replicate": "Onyonyo na vidiyo",
+      "xai": "Mkparịta ụka na onyonyo site na Grok",
+      "elevenlabs": "Olu, itinye olu ọzọ, egwu na mmetụta ụda",
+      "gemini": "Ntụgharị asụsụ, enyemaka ide ihe na nchịkọta",
+      "venice": "Kparịta ụka na onye enyemaka",
+      "perplexity": "Jiri onye enyemaka chọọ na weebụ",
+      "deepgram": "Ndegharị okwu na ederede na-apụta ozugbo",
+      "openrouter": "Ọtụtụ narị ụdị mkparịta ụka na ederede jiri otu igodo",
+      "groq": "Mkparịta ụka na ederede ngwa ngwa",
+      "mistral": "Mkparịta ụka na ederede"
+    }
   },
   "postBg": {
     "addMedia": "Tinye foto, GIF ma ọ bụ vidiyo",

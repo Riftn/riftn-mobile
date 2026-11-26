@@ -16942,7 +16942,22 @@
     "paste": "I ka {{name}} clé coller",
     "getKey": "{{name}} clé sɔrɔ",
     "showLess": "N ka cléw dɔrɔn yira",
-    "addAnother": "Fournisseur wɛrɛ fara a kan"
+    "addAnother": "Fournisseur wɛrɛ fara a kan",
+    "providerDescriptions": {
+      "openai": "Builder (GPT misaliw)",
+      "fal": "Jaa, wideyo, 3D ani foto baarakɛminɛnw",
+      "kie": "Jaa ni wideyo",
+      "replicate": "Jaa ni wideyo",
+      "xai": "Baro ni jaa ni Grok ye",
+      "elevenlabs": "Kan, kanfalen, dɔnkili ani mankan cogoyaw",
+      "gemini": "Bamanankan na fɔli, sɛbɛnni dɛmɛ ani daɲɛ surunw",
+      "venice": "Baro ni dɛmɛbaga ye",
+      "perplexity": "Ɲinini web kan ni dɛmɛbaga ye",
+      "deepgram": "Kuma sɛbɛnni ni sɛbɛn min bɛ bɔ joona",
+      "openrouter": "Baro ni sɛbɛn misali kɛmɛ caman ni kufilin kelen ye",
+      "groq": "Baro ni sɛbɛnni joona",
+      "mistral": "Baro ni sɛbɛnni"
+    }
   },
   "postBg": {
     "addMedia": "Ja, GIF walima widewo fara a kan",

@@ -17147,7 +17147,22 @@
     "paste": "I-paste ang {{name}} key mo",
     "getKey": "Kumuha ng {{name}} key",
     "showLess": "Ipakita lang ang mga key ko",
-    "addAnother": "Magdagdag ng ibang provider"
+    "addAnother": "Magdagdag ng ibang provider",
+    "providerDescriptions": {
+      "openai": "Builder (mga modelo ng GPT)",
+      "fal": "Mga tool para sa larawan, video, 3D at litrato",
+      "kie": "Mga larawan at video",
+      "replicate": "Mga larawan at video",
+      "xai": "Chat at mga larawan gamit ang Grok",
+      "elevenlabs": "Boses, dubbing, musika at sound effects",
+      "gemini": "Pagsasalin, tulong sa pagsulat at mga buod",
+      "venice": "Chat sa assistant",
+      "perplexity": "Paghahanap sa web gamit ang assistant",
+      "deepgram": "Mga transcript at live na caption",
+      "openrouter": "Daan-daang modelo para sa chat at teksto gamit ang isang key",
+      "groq": "Mabilis na chat at teksto",
+      "mistral": "Chat at teksto"
+    }
   },
   "postBg": {
     "addMedia": "Magdagdag ng larawan, GIF, o video",

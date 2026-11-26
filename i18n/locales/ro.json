@@ -16971,7 +16971,22 @@
     "paste": "Lipește cheia {{name}}",
     "getKey": "Obține o cheie {{name}}",
     "showLess": "Arată doar cheile mele",
-    "addAnother": "Adaugă alt furnizor"
+    "addAnother": "Adaugă alt furnizor",
+    "providerDescriptions": {
+      "openai": "Builder (modele GPT)",
+      "fal": "Instrumente pentru imagini, video, 3D și fotografii",
+      "kie": "Imagini și video",
+      "replicate": "Imagini și video",
+      "xai": "Chat și imagini cu Grok",
+      "elevenlabs": "Voce, dublaj, muzică și efecte sonore",
+      "gemini": "Traducere, ajutor la scris și rezumate",
+      "venice": "Chat cu asistentul",
+      "perplexity": "Căutare pe web cu asistentul",
+      "deepgram": "Transcrieri și subtitrări în timp real",
+      "openrouter": "Sute de modele de chat și text cu o singură cheie",
+      "groq": "Chat și text rapide",
+      "mistral": "Chat și text"
+    }
   },
   "postBg": {
     "addMedia": "Adaugă o imagine, un GIF sau un videoclip",

@@ -16940,7 +16940,22 @@
     "paste": "Ku dheji furahaaga {{name}}",
     "getKey": "Hel fure {{name}}",
     "showLess": "Muuji furayaashayda oo keliya",
-    "addAnother": "Ku dar bixiye kale"
+    "addAnother": "Ku dar bixiye kale",
+    "providerDescriptions": {
+      "openai": "Builder (moodooyinka GPT)",
+      "fal": "Qalabka sawirrada, fiidiyowga, 3D iyo sawir-qaadista",
+      "kie": "Sawirro iyo fiidiyow",
+      "replicate": "Sawirro iyo fiidiyow",
+      "xai": "Sheekaysi iyo sawirro Grok",
+      "elevenlabs": "Cod, cod-beddelid, muusig iyo saamayn cod",
+      "gemini": "Turjumaad, caawimo qoraal iyo soo koobid",
+      "venice": "La sheekayso kaaliyaha",
+      "perplexity": "Kaaliyaha ku baadh webka",
+      "deepgram": "Qoraalka hadalka iyo qoraal-hoosaad toos ah",
+      "openrouter": "Boqollaal moodo oo sheekaysi iyo qoraal ah oo hal fure ku shaqeeya",
+      "groq": "Sheekaysi iyo qoraal degdeg ah",
+      "mistral": "Sheekaysi iyo qoraal"
+    }
   },
   "postBg": {
     "addMedia": "Ku dar sawir, GIF ama muuqaal",

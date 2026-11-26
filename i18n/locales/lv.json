@@ -16942,7 +16942,22 @@
     "paste": "Ielīmējiet savu {{name}} atslēgu",
     "getKey": "Iegūt {{name}} atslēgu",
     "showLess": "Rādīt tikai manas atslēgas",
-    "addAnother": "Pievienot citu pakalpojumu sniedzēju"
+    "addAnother": "Pievienot citu pakalpojumu sniedzēju",
+    "providerDescriptions": {
+      "openai": "Builder (GPT modeļi)",
+      "fal": "Attēlu, video, 3D un foto rīki",
+      "kie": "Attēli un video",
+      "replicate": "Attēli un video",
+      "xai": "Tērzēšana un attēli ar Grok",
+      "elevenlabs": "Balss, dublēšana, mūzika un skaņas efekti",
+      "gemini": "Tulkošana, rakstīšanas palīdzība un kopsavilkumi",
+      "venice": "Tērzēšana ar asistentu",
+      "perplexity": "Meklēšana tīmeklī ar asistentu",
+      "deepgram": "Transkripcijas un tiešraides subtitri",
+      "openrouter": "Simtiem tērzēšanas un teksta modeļu ar vienu atslēgu",
+      "groq": "Ātra tērzēšana un teksts",
+      "mistral": "Tērzēšana un teksts"
+    }
   },
   "postBg": {
     "addMedia": "Pievienot attēlu, GIF vai video",

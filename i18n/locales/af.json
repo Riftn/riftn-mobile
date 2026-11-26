@@ -17075,7 +17075,22 @@
     "paste": "Plak jou {{name}}-sleutel",
     "getKey": "Kry 'n {{name}}-sleutel",
     "showLess": "Wys net my sleutels",
-    "addAnother": "Voeg nog 'n verskaffer by"
+    "addAnother": "Voeg nog 'n verskaffer by",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-modelle)",
+      "fal": "Gereedskap vir beelde, video, 3D en foto’s",
+      "kie": "Beelde en video",
+      "replicate": "Beelde en video",
+      "xai": "Klets en beelde met Grok",
+      "elevenlabs": "Stem, oorklanking, musiek en klankeffekte",
+      "gemini": "Vertaling, skryfhulp en opsommings",
+      "venice": "Klets met die assistent",
+      "perplexity": "Websoektog met die assistent",
+      "deepgram": "Transkripsies en regstreekse onderskrifte",
+      "openrouter": "Honderde klets- en teksmodelle met een sleutel",
+      "groq": "Vinnige klets en teks",
+      "mistral": "Klets en teks"
+    }
   },
   "postBg": {
     "addMedia": "Voeg 'n prent, GIF of video by",

@@ -16904,7 +16904,22 @@
     "paste": "Paste your {{name}} key",
     "getKey": "Get {{name}} key",
     "showLess": "Show only my keys",
-    "addAnother": "Add another provider"
+    "addAnother": "Add another provider",
+    "providerDescriptions": {
+      "openai": "Builder (GPT models dem)",
+      "fal": "Tools for picture, video, 3D and photo",
+      "kie": "Pictures and videos",
+      "replicate": "Pictures and videos",
+      "xai": "Chat and make picture with Grok",
+      "elevenlabs": "Voice, dubbing, music and sound effects",
+      "gemini": "Translate, help to write and make summary",
+      "venice": "Chat with di assistant",
+      "perplexity": "Use di assistant search di web",
+      "deepgram": "Speech wey dem write down and live captions",
+      "openrouter": "Hundreds of chat and text models with only one key",
+      "groq": "Quick chat and text",
+      "mistral": "Chat and text"
+    }
   },
   "postBg": {
     "addMedia": "Add picture, GIF or video",

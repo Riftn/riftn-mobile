@@ -16945,7 +16945,22 @@
     "paste": "Indsæt din {{name}}-nøgle",
     "getKey": "Få en {{name}}-nøgle",
     "showLess": "Vis kun mine nøgler",
-    "addAnother": "Tilføj en anden udbyder"
+    "addAnother": "Tilføj en anden udbyder",
+    "providerDescriptions": {
+      "openai": "Builder (GPT-modeller)",
+      "fal": "Værktøjer til billeder, video, 3D og fotos",
+      "kie": "Billeder og video",
+      "replicate": "Billeder og video",
+      "xai": "Chat og billeder med Grok",
+      "elevenlabs": "Stemme, dubbing, musik og lydeffekter",
+      "gemini": "Oversættelse, skrivehjælp og resuméer",
+      "venice": "Chat med assistenten",
+      "perplexity": "Søg på nettet med assistenten",
+      "deepgram": "Transskriptioner og liveundertekster",
+      "openrouter": "Hundredvis af chat- og tekstmodeller med én nøgle",
+      "groq": "Hurtig chat og tekst",
+      "mistral": "Chat og tekst"
+    }
   },
   "postBg": {
     "addMedia": "Tilføj et billede, en GIF eller en video",
