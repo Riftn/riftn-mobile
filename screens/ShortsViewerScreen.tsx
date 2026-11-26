@@ -230,6 +230,7 @@ import { useVideoSoundtrack } from "../hooks/useVideoSoundtrack";
 import { parseSoundtrack } from "../libs/parseSoundtrack";
 import { applyVideoVolume } from "../libs/dub-mix";
 import { BoldText } from "../libs/bold-markup";
+import { PostStyledText } from "../components/common/PostTextFormatting";
 
 
 
@@ -2853,7 +2854,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                       numberOfLines={captionExpanded ? undefined : 2}
                       style={styles.captionBody}
                     >
-                      <BoldText text={shownDescription} />
+                      <PostStyledText text={shownDescription} />
                     </Text>
                   ) : null}
                   {/* Web shows the affordance on a long description; the title

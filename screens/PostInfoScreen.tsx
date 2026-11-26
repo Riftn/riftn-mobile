@@ -20,6 +20,7 @@ import Icon, { type IconName } from "../components/ui/Icon";
 import ScreenHeader from "../components/ScreenHeader";
 import Avatar from "../components/common/Avatar";
 import EditPostModal from "../components/common/EditPostModal";
+import { PostStyledText } from "../components/common/PostTextFormatting";
 import BuyFractionSheet from "../components/Fractions/BuyFractionSheet";
 import SellFractionsSheet, { type SellTarget } from "../components/Fractions/SellFractionsSheet";
 import MakeOfferSheet, { type OfferTarget } from "../components/Fractions/MakeOfferSheet";
@@ -549,7 +550,7 @@ export default function PostInfoScreen() {
         {!!(post.name || post.description) && (
           <Section title={t("postInfo.content")}>
             {!!post.name && <Text style={styles.value}>{post.name}</Text>}
-            {!!post.description && <Text style={styles.muted}>{post.description}</Text>}
+            {!!post.description && <Text style={styles.muted}><PostStyledText text={post.description} /></Text>}
             {!!tokenId && <PostEditHistoryLine tokenId={tokenId} />}
           </Section>
         )}
