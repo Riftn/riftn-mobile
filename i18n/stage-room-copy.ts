@@ -206,13 +206,11 @@ export function stageTopicLabel(t: TFunction, topic: string) {
   });
 }
 
-export function stageHeadcount(t: TFunction, count: number) {
+export function stageHeadcount(count: number) {
   const locale = stageRoomLocale();
   const copy = STAGE_ROOM_COPY[locale];
   const form = new Intl.PluralRules(locale).select(count);
   const variant = Reflect.get(copy, 'stageHeadcount_' + form);
-  return t('stageRooms.stageHeadcount', {
-    count,
-    defaultValue: typeof variant === 'string' ? variant : copy.stageHeadcount_other,
-  });
+  const template = typeof variant === 'string' ? variant : copy.stageHeadcount_other;
+  return template.replace('{{count}}', new Intl.NumberFormat(locale).format(count));
 }

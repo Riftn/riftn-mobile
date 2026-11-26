@@ -302,7 +302,7 @@ export const LiveStageCard: React.FC<{
         </View>
         {space.entry_locked && <Text style={[styles.stageFlag, styles.stageLocked]}>{stageRoomLabel(t, 'entryLocked')}</Text>}
         {!!space.topic && <Text style={styles.stageFlag}>{stageTopicLabel(t, space.topic)}</Text>}
-        <View style={styles.countRow} accessible accessibilityLabel={stageHeadcount(t, heads)}>
+        <View style={styles.countRow} accessible accessibilityLabel={stageHeadcount(heads)}>
           <Icon name="Users" size={13} color="rgba(255,255,255,0.65)" />
           <Text style={styles.countText}>{formatCount(heads)}</Text>
         </View>
