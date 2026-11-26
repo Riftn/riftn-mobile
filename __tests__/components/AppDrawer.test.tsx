@@ -82,6 +82,11 @@ jest.mock('../../context/AuthContext', () => ({
   useAuthActions: () => ({ signOut: jest.fn(), requireAuth: mockRequireAuth }),
   useUser: () => mockSignedIn ? { username: 'member', address: mockWallet, followers: 3, followings: 2, ownBadgeBalance: mockBalance } : null,
 }));
+const mockLedger = { enabled: false, balance: '0' };
+jest.mock('../../hooks/useAppTokens', () => ({
+  useAppTokensConfig: () => ({ data: { enabled: mockLedger.enabled } }),
+  useAppTokens: () => ({ data: { balance: mockLedger.balance } }),
+}));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => '', getBadgeUrlFor: () => undefined, getBadgeHoverOpticalStyle: () => ({}) }));
 jest.mock('../../libs', () => ({ toastError: jest.fn(), toastInfo: jest.fn() }));
 jest.mock('../../libs/links.utils', () => ({ openInApp: (url: string) => mockOpenLink(url) }));
@@ -102,7 +107,7 @@ const destinations = [
   ['nav.connectAi', 'Connect'],
 ] as const;
 
-beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; mockMenuLayout = 'sections'; });
+beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; mockMenuLayout = 'sections'; mockLedger.enabled = false; mockLedger.balance = '0'; });
 
 it.each(['nav.governance', 'nav.tv', 'nav.converter'])('leaves %s out of the App Store build', (label) => {
   mockDigitalPurchasesEnabled = false;
@@ -171,6 +176,14 @@ it('hides the balance chip when the wallet holds no DHB', () => {
   mockBalance = 0;
   const view = render(<AppDrawer visible onClose={jest.fn()} />);
   expect(view.queryByLabelText('nav.wallet 0')).toBeNull();
+});
+
+it('shows the spendable ledger amount in the wallet chip even with legacy holdings', () => {
+  mockBalance = 3_550_000;
+  mockLedger.enabled = true;
+  const view = render(<AppDrawer visible onClose={jest.fn()} />);
+  expect(view.getByLabelText('nav.wallet 0')).toBeTruthy();
+  expect(view.queryByText('3.6M')).toBeNull();
 });
 
 it('opens the sign-in sheet and hides protected entries when signed out', () => {

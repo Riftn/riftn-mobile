@@ -11,13 +11,13 @@ export const APP_TOKENS_QUERY_KEY = "app-tokens-me";
  * spend is an in-app currency, which there would have to be sold through
  * Apple (App Store 3.1.1), so a server switch can't turn it on.
  */
-export function useAppTokensConfig() {
+export function useAppTokensConfig(enabled = true) {
   return useQuery({
     queryKey: ["app-tokens-config"],
     queryFn: getAppTokensConfig,
     staleTime: 5 * 60_000,
     retry: false,
-    enabled: !IS_APP_STORE_BUILD,
+    enabled: enabled && !IS_APP_STORE_BUILD,
   });
 }
 
