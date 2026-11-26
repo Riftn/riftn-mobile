@@ -239,31 +239,30 @@ export default function SuperPowersScreen() {
         })() : null}
 
         {/* ── Your allowance ───────────────────────────────────────────── */}
-        <PageSection>
-        {loadingStatus ? null : status?.tier ? (
-          <BadgeProgress balance={status.badgeBalance} compact />
-        ) : statusFailed && !status ? (
-          // A failed request is not "no badge". The panel below would show a
-          // holder a zero badge balance, and offer DHB where purchases are on.
-          <PageEmpty
-            title={t("superpowers.loadFailed")}
-            action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
-          />
-        ) : (
-          // Team up is available without buying tokens or holding a badge.
-          <View style={styles.panel}>
-            {DIGITAL_PURCHASES_ENABLED ? (
-              <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
-            ) : null}
-            <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
-            {DIGITAL_PURCHASES_ENABLED && <KitButton
-              onPress={() => setBuyOpen(true)}
-              style={styles.cta}
-              label={t("superpowers.getDhb")}
-            />}
-          </View>
-        )}
-        </PageSection>
+        {loadingStatus ? null : statusFailed && !status ? (
+          <PageSection>
+            <PageEmpty
+              title={t("superpowers.loadFailed")}
+              action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
+            />
+          </PageSection>
+        ) : DIGITAL_PURCHASES_ENABLED ? (
+          <PageSection>
+            {status?.tier ? (
+              <BadgeProgress balance={status.badgeBalance} compact />
+            ) : (
+              <View style={styles.panel}>
+                <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
+                <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
+                <KitButton
+                  onPress={() => setBuyOpen(true)}
+                  style={styles.cta}
+                  label={t("superpowers.getDhb")}
+                />
+              </View>
+            )}
+          </PageSection>
+        ) : null}
 
         {/* ── The ladder ───────────────────────────────────────────────── */}
         <PageSection title={t("superpowers.whatEachTierGrants")}>
@@ -470,7 +469,7 @@ const styles = StyleSheet.create({
   detailName: { color: systemColors.foreground, fontSize: 18, fontWeight: "700" },
   detailNameOff: { color: "#D4D4D8" },
   detailTag: { flexDirection: "row", alignItems: "center", gap: 5, flexWrap: "wrap" },
-  detailTagText: { color: systemColors.mutedForeground, fontSize: 10.5, fontWeight: "600", letterSpacing: 1, textTransform: "uppercase" },
+  detailTagText: { color: systemColors.mutedForeground, fontSize: 11, fontWeight: "600", letterSpacing: 1, textTransform: "uppercase" },
   detailBadge: { width: 18, height: 18 },
   detailSummary: { color: systemColors.mutedForeground, fontSize: 13.5, lineHeight: 19 },
   detailUses: { color: systemColors.mutedForeground, fontSize: 11.5, fontVariant: ["tabular-nums"] },
