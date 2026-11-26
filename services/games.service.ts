@@ -16,6 +16,17 @@ function unwrap<T>(response: any): T {
 const get = async <T,>(path: string, auth = true) => unwrap<T>(await apiClient.get(path, { isAuthRequired: auth }));
 const post = async <T,>(path: string, body: Record<string, unknown> = {}) => unwrap<T>(await apiClient.post(path, body, { isAuthRequired: true }));
 
+export interface ArcadeListingState {
+  hidden: string[];
+  editable: string[];
+}
+
+export const getArcadeListings = (signedIn: boolean) =>
+  get<ArcadeListingState>('/games/arcade-listings', signedIn);
+
+export const setArcadeListing = (slug: string, hidden: boolean) =>
+  post<{ slug: string; hidden: boolean }>(`/games/arcade-listings/${encodeURIComponent(slug)}`, { hidden });
+
 export interface GamePlayer {
   address: string;
   username: string | null;

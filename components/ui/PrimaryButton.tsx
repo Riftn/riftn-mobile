@@ -6,6 +6,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 
 type PrimaryButtonProps = {
   title: string;
+  accessibilityLabel?: string;
   onPress?: () => void;
   disabled?: boolean;
   className?: string;
@@ -21,7 +22,7 @@ type PrimaryButtonProps = {
 
 /** Shared primary action using the active theme's existing chrome. */
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({
-  title, onPress, disabled, className, style, neutral = false, large = false, size, icon, loading = false, hitSlop,
+  title, accessibilityLabel, onPress, disabled, className, style, neutral = false, large = false, size, icon, loading = false, hitSlop,
 }) => {
   const { skin } = useAppTheme();
   const iconOnly = size === "icon";
@@ -31,7 +32,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     <TouchableOpacity
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={iconOnly || loading ? title : undefined}
+      accessibilityLabel={accessibilityLabel ?? (iconOnly || loading ? title : undefined)}
       accessibilityState={{ disabled: blocked, busy: loading }}
       disabled={blocked}
       hitSlop={hitSlop}
