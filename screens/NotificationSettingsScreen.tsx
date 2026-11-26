@@ -24,7 +24,7 @@ import CustomSwitch from '../components/ui/CustomSwitch';
 import { setShowMessagesCount, setShowNotificationCount, useShowMessagesCount, useShowNotificationCount } from '../libs/notification-count-setting';
 import { useUser, useAuthState, useAuthActions } from '../context/AuthContext';
 import { syncEmailLinkStatus } from '../services/email-link.service';
-import { getAccount } from '../services/user.service';
+import { getAccountProfile } from '../services/user.service';
 import {
   smsNotificationsService,
   type SmsNotificationStatus,
@@ -256,10 +256,10 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
   useEffect(() => {
     if (!allow || !userAddress) return;
     let active = true;
-    void getAccount(userAddress).then(response => {
-      const profile = response?.result as { notificationPreferences?: { privateMessagePushOnly?: boolean } } | undefined;
+    void getAccountProfile(userAddress).then(profile => {
+      const prefs = (profile as { notificationPreferences?: { privateMessagePushOnly?: boolean } } | undefined)?.notificationPreferences;
       if (active && profile) {
-        setPrivateMessagePreference({ address: userAddress, enabled: profile.notificationPreferences?.privateMessagePushOnly === true });
+        setPrivateMessagePreference({ address: userAddress, enabled: prefs?.privateMessagePushOnly === true });
       }
     }).catch(() => {});
     return () => { active = false; };
@@ -269,7 +269,7 @@ const NotificationSettingsScreen: React.FC<any> = ({ navigation, embedded }) => 
     setSavingPrivateMessagePreference(true);
     try {
       if (await updateNotificationPreferences({ privateMessagePushOnly: enabled })) {
-        setPrivateMessagePreference({ address: userAddress, enabled });
+        setPrivateMessagePreference(current => current?.address === userAddress ? { ...current, enabled } : current);
       } else {
         toastError(null, t('toasts.failed_to_save_settings'));
       }
