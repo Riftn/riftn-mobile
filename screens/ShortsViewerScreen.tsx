@@ -3061,12 +3061,19 @@ const ShortsViewerScreen = () => {
   const { requireAuth } = useAuthActions();
   const kidsMode = useKidsModeLock();
   const {
-    initialIndex = 0,
+    initialItemKey,
+    initialIndex: routeIndex = 0,
     initialItems = [],
     initialThumbnail,
     initialPage,
     feedParams = {},
   } = (route?.params as any) || {};
+
+  const [initialIndex] = useState(() => {
+    if (initialItemKey == null) return routeIndex;
+    const index = (initialItems as UnifiedFeedItem[]).findIndex((item) => peekKeyOf(item) === initialItemKey);
+    return index >= 0 ? index : routeIndex;
+  });
 
   // When entering from FeedCard with a single item, start at page 0
   // so the first loadMore fetches page 1 (the full first page of shorts).
@@ -3640,7 +3647,7 @@ const ShortsViewerScreen = () => {
   }, [stopPeek]);
   useEffect(() => stopPeek, [stopPeek]);
 
-  const { begin: beginPaging, momentum: momentumPaging, endDrag: endPagingDrag, settle: settlePaging, candidate: pagerCandidate, observe: observePaging } = useSettledPagerIndex(commitPage, containerHeight, items.length);
+  const { begin: beginPaging, momentum: momentumPaging, endDrag: endPagingDrag, settle: settlePaging, settleNative, candidate: pagerCandidate, observe: observePaging, hasPaged } = useSettledPagerIndex(commitPage, containerHeight, items.length);
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index != null) {
       pagerCandidate(viewableItems[0].index);
@@ -3722,11 +3729,11 @@ const ShortsViewerScreen = () => {
   useEffect(() => cancelFooterReturn, [cancelFooterReturn]);
 
   const handleScrollEnd = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const offsetY = e.nativeEvent.contentOffset.y;
+    if (!settleNative(offsetY)) return;
     cancelFooterReturn();
-    settlePaging(e.nativeEvent.contentOffset.y);
     if (!noMoreShorts || !listRef.current || items.length === 0) return;
     // Only snap back if user scrolled past the last real item (into footer)
-    const offsetY = e.nativeEvent.contentOffset.y;
     const lastItemEnd = items.length * containerHeight;
     if (offsetY < lastItemEnd) return;
 
@@ -3738,7 +3745,7 @@ const ShortsViewerScreen = () => {
         animated: true,
       });
     }, 1500);
-  }, [noMoreShorts, items.length, containerHeight, t, settlePaging, cancelFooterReturn]);
+  }, [noMoreShorts, items.length, containerHeight, settleNative, cancelFooterReturn]);
 
   /**
    * Put the pager back on a whole short once it has come to rest between two.
@@ -3750,6 +3757,7 @@ const ShortsViewerScreen = () => {
    * half of the next, with no momentum or end event to commit either.
    */
   const pagerOffsetRef = useRef(0);
+  const openingResnapHeight = useRef(0);
   const resnapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const commentsVisibleRef = useRef(commentsVisible);
   commentsVisibleRef.current = commentsVisible;
@@ -3762,6 +3770,15 @@ const ShortsViewerScreen = () => {
       const count = items.length;
       if (!(height > 0) || count === 0) return;
       const offset = pagerOffsetRef.current;
+      // During layout, keep the selected page as the source of the offset.
+      // An intermediate offset can point to an earlier short on iOS.
+      if (!hasPaged.current) {
+        const target = activeIndexRef.current * height;
+        if (!hasMeasuredViewport || Math.abs(offset - target) <= 1 || openingResnapHeight.current === height) return;
+        openingResnapHeight.current = height;
+        listRef.current?.scrollToOffset({ offset: target, animated: false });
+        return;
+      }
       // Past the last short is the footer, which handleScrollEnd returns from.
       if (offset > (count - 1) * height + 1) return;
       const index = Math.max(0, Math.min(count - 1, Math.round(offset / height)));
@@ -3769,7 +3786,7 @@ const ShortsViewerScreen = () => {
       listRef.current?.scrollToOffset({ offset: index * height, animated: true });
       settlePaging(index * height);
     }, PAGER_RESNAP_QUIET_MS);
-  }, [containerHeight, items.length, settlePaging]);
+  }, [containerHeight, items.length, hasMeasuredViewport, hasPaged, settlePaging]);
   resnapRef.current = resnapPager;
 
   // A short ended with loop off: page on to the next one, as a swipe would.
@@ -3904,6 +3921,8 @@ const ShortsViewerScreen = () => {
           scrollEnabled={!commentsVisible && !holdActive}
           horizontal={false}
           showsVerticalScrollIndicator={false}
+          automaticallyAdjustContentInsets={false}
+          contentInsetAdjustmentBehavior="never"
           initialScrollIndex={initialIndex}
           onViewableItemsChanged={onViewableItemsChanged}
           viewabilityConfig={viewabilityConfig}
@@ -3911,7 +3930,11 @@ const ShortsViewerScreen = () => {
           onEndReachedThreshold={0.5}
           onMomentumScrollEnd={handleScrollEnd}
           onScrollBeginDrag={() => { cancelFooterReturn(); pagerPhase.current = "drag"; beginPaging(); }}
-          onMomentumScrollBegin={() => { pagerPhase.current = "momentum"; momentumPaging(); }}
+          onMomentumScrollBegin={() => {
+            if (!hasPaged.current) return;
+            pagerPhase.current = "momentum";
+            momentumPaging();
+          }}
           onScrollEndDrag={(e) => endPagingDrag(e.nativeEvent.contentOffset.y)}
           onScroll={(e) => {
             const y = e.nativeEvent.contentOffset.y;
