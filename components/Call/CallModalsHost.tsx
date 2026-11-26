@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigation, type NavigationProp } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
-import type { AppStackParamList } from "../../navigation/types";
+import type { RootStackParamList } from "../../navigation/types";
 import { useCall } from "../../context/CallContext";
 import { usePeerIdentity } from "./usePeerIdentity";
 
 function DirectCallScreen() {
   const { currentCall, isIncoming, peerAddress, setMinimized } = useCall();
-  const navigation = useNavigation<NavigationProp<AppStackParamList>>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const peer = usePeerIdentity(isIncoming ? currentCall?.caller_address || peerAddress : peerAddress);
 
   if (isIncoming) {
@@ -20,7 +20,10 @@ function DirectCallScreen() {
 
   const openMessages = () => {
     setMinimized(true);
-    navigation.navigate(ScreenNames.Chat, { targetAddress: peerAddress, title: peer.name });
+    navigation.navigate(ScreenNames.App, {
+      screen: ScreenNames.Chat,
+      params: { targetAddress: peerAddress, title: peer.name },
+    });
   };
   return <Active peer={peer} onMessage={openMessages} />;
 }
