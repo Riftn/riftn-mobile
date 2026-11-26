@@ -24,17 +24,20 @@ it('offers Translate only for messages with words', () => {
   expect(canTranslateDm('Selam reis')).toBe(true);
   expect(canTranslateDm('👍🔥')).toBe(false);
   expect(canTranslateDm('https://riftn.com/p/1')).toBe(false);
+  expect(canTranslateDm('www.riftn.com @person #tag $RIFTN')).toBe(false);
 });
 
 it('translates a held message privately, then flips back to the original and again', async () => {
-  mockTranslate.mockResolvedValue({ translatedText: 'Hi boss', sourceLang: 'tr', sameLanguage: false });
+  const original = 'Selam reis\nhttps://riftn.com/x';
+  const translated = 'Hi boss\nhttps://riftn.com/x';
+  mockTranslate.mockResolvedValue({ translatedText: translated, sourceLang: 'tr', sameLanguage: false });
   const { result } = renderHook(() => useDmTranslation('m1'));
-  await act(() => toggleDmTranslation('m1', 'Selam reis https://riftn.com/x'));
-  expect(mockTranslate).toHaveBeenCalledWith('Selam reis', 'en', 'auto', { isPublic: false });
-  expect(result.current).toEqual({ status: 'shown', text: 'Hi boss' });
-  await act(() => toggleDmTranslation('m1', 'Selam reis'));
-  expect(result.current).toEqual({ status: 'hidden', text: 'Hi boss' });
-  await act(() => toggleDmTranslation('m1', 'Selam reis'));
+  await act(() => toggleDmTranslation('m1', original));
+  expect(mockTranslate).toHaveBeenCalledWith(original, 'en', 'auto', { isChat: true, manualChat: true });
+  expect(result.current).toEqual({ status: 'shown', text: translated });
+  await act(() => toggleDmTranslation('m1', original));
+  expect(result.current).toEqual({ status: 'hidden', text: translated });
+  await act(() => toggleDmTranslation('m1', original));
   expect(result.current?.status).toBe('shown');
   expect(mockTranslate).toHaveBeenCalledTimes(1);
 });
@@ -116,7 +119,7 @@ describe('Translate on your own line', () => {
   it('goes into your language and flips back without another call', async () => {
     mockTranslate.mockResolvedValue({ translatedText: 'See you tomorrow', sourceLang: 'tr', sameLanguage: false });
     await translateOwnDm('o1', 'Yarın görüşürüz');
-    expect(mockTranslate).toHaveBeenCalledWith('Yarın görüşürüz', 'en', 'auto', { isPublic: false });
+    expect(mockTranslate).toHaveBeenCalledWith('Yarın görüşürüz', 'en', 'auto', { isChat: true });
     expect(getDmTranslation('o1')).toEqual({ status: 'shown', text: 'See you tomorrow' });
     await translateOwnDm('o1', 'Yarın görüşürüz');
     expect(getDmTranslation('o1')?.status).toBe('hidden');

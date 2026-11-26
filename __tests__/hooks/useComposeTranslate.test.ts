@@ -18,7 +18,7 @@ it('translates a request draft privately into the preferred language, and rememb
   (translateText as jest.Mock).mockResolvedValue({ translatedText: 'Hola' });
   const { result } = renderHook(() => useComposeTranslate('Hello', update, 'es'));
   await act(async () => { await result.current.translate(); });
-  expect(translateText).toHaveBeenCalledWith('Hello', 'es', 'auto', { isPublic: false });
+  expect(translateText).toHaveBeenCalledWith('Hello', 'es', 'auto', { isChat: true });
   expect(update).toHaveBeenCalledWith('Hola');
   await act(async () => { result.current.choose('fr'); });
   expect(result.current.lang).toBe('fr');

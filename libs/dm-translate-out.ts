@@ -103,7 +103,7 @@ export async function translateOutgoing(conversationId: string, text: string): P
     const lang = await peerLanguage(conversationId);
     if (!lang) return null;
     const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), TIMEOUT_MS));
-    const res = await Promise.race([translateText(typed, lang, "auto", { isPublic: false }), timeout]);
+    const res = await Promise.race([translateText(typed, lang, "auto", { isChat: true }), timeout]);
     if (!res || res.sameLanguage || res.untranslated) return null;
     const out = res.translatedText?.trim() ?? "";
     if (!out || out.replace(/\s+/g, " ").toLowerCase() === typed.replace(/\s+/g, " ").toLowerCase()) return null;

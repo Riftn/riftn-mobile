@@ -56,7 +56,7 @@ export function useComposeTranslate(text: string, setText: (v: string) => void, 
       haptic.tap();
       setBusy(true);
       try {
-        const res = await translateText(draft, code, "auto", { isPublic: false });
+        const res = await translateText(draft, code, "auto", { isChat: true });
         if (res.sameLanguage || !res.translatedText || res.translatedText.trim() === draft) {
           // Already in that language: say which, so the tap visibly did something.
           toastInfo(`${t("common.translate")} · ${languageLabel(code)} ✓`);
