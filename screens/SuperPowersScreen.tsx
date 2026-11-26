@@ -49,6 +49,7 @@ import SuperPowerIcon from "../components/common/SuperPowerIcon";
 import SuperPowersOrbit, { type OrbitPower } from "../components/superpowers/SuperPowersOrbit";
 import BuyDhbSheet from "../components/Dpay/BuyDhbSheet";
 import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
+import { systemColors } from "../theme/colors";
 
 /** Total slot minutes a tier holds per cycle — the number worth comparing. */
 function formatMinutes(total: number): string {
@@ -138,7 +139,9 @@ export default function SuperPowersScreen() {
       />
 
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.intro}>{t("superpowers.intro")}</Text>
+        {DIGITAL_PURCHASES_ENABLED ? (
+          <Text style={styles.intro}>{t("superpowers.intro")}</Text>
+        ) : null}
 
         {/* ── The orbit ────────────────────────────────────────────────── */}
         <SuperPowersOrbit
@@ -177,6 +180,8 @@ export default function SuperPowersScreen() {
           const { power, unlocked } = selected;
           const isTeamUp = power.key === "team_up";
           const usable = unlocked && power.available;
+          const canViewHistory = !isTeamUp && !!status?.tier;
+          const showAction = DIGITAL_PURCHASES_ENABLED && (isTeamUp || usable);
           const unlockBadge = badgeImage(power.tier);
           const allowance =
             power.key === "signal_flare" || power.key === "harpoon"
@@ -190,7 +195,9 @@ export default function SuperPowersScreen() {
                   <Text style={[styles.detailName, !unlocked && styles.detailNameOff]}>{power.label}</Text>
                   <View style={styles.detailTag}>
                     {isTeamUp ? (
-                      <Text style={styles.detailTagText}>{t("superpowers.openToEveryone")}</Text>
+                      <Text style={styles.detailTagText}>
+                        {t(DIGITAL_PURCHASES_ENABLED ? "superpowers.openToEveryone" : "storefront.unavailable")}
+                      </Text>
                     ) : !power.available ? (
                       <Text style={styles.detailTagText}>{t("screens.comingSoon")}</Text>
                     ) : (
@@ -207,63 +214,55 @@ export default function SuperPowersScreen() {
               {!isTeamUp && usable && allowance !== undefined ? (
                 <Text style={styles.detailUses}>{t("superpowers.usesLeft", { count: allowance })}</Text>
               ) : null}
-              <View style={styles.detailActions}>
-                {!isTeamUp && status?.tier ? (
-                  <Pressable
-                    onPress={() => { setHistoryPower(power); void refetchStatus(); }}
-                    accessibilityRole="button"
-                    accessibilityHint={t("superpowers.showPastUsage", { power: power.label })}
-                    style={({ pressed }) => [styles.ghostBtn, pressed && styles.pressed]}
-                  >
-                    <Text style={styles.ghostBtnText}>{t("superpowers.pastUsage")}</Text>
-                  </Pressable>
-                ) : null}
-                {isTeamUp ? (
-                  <Pressable
-                    onPress={() => setTeamUpOpen(true)}
-                    accessibilityRole="button"
-                    style={({ pressed }) => [styles.solidBtn, pressed && styles.pressed]}
-                  >
-                    <Text style={styles.solidBtnText}>{power.label}</Text>
-                  </Pressable>
-                ) : usable ? (
-                  <Pressable
-                    onPress={() => setSpending(power)}
-                    accessibilityRole="button"
-                    style={({ pressed }) => [styles.solidBtn, pressed && styles.pressed]}
-                  >
-                    <Text style={styles.solidBtnText}>{t("auth.use")}</Text>
-                  </Pressable>
-                ) : null}
-              </View>
+              {!DIGITAL_PURCHASES_ENABLED && !isTeamUp && usable ? (
+                <Text style={styles.detailUses}>{t("storefront.unavailable")}</Text>
+              ) : null}
+              {canViewHistory || showAction ? (
+                <View style={styles.detailActions}>
+                  {canViewHistory ? (
+                    <KitButton
+                      label={t("superpowers.pastUsage")}
+                      variant="quiet"
+                      onPress={() => { setHistoryPower(power); void refetchStatus(); }}
+                    />
+                  ) : null}
+                  {showAction ? (
+                    <KitButton
+                      label={isTeamUp ? power.label : t("auth.use")}
+                      onPress={() => isTeamUp ? setTeamUpOpen(true) : setSpending(power)}
+                    />
+                  ) : null}
+                </View>
+              ) : null}
             </View>
           );
         })() : null}
 
         {/* ── Your allowance ───────────────────────────────────────────── */}
-        <PageSection>
-        {loadingStatus ? null : status?.tier ? (
-          <BadgeProgress balance={status.badgeBalance} compact />
-        ) : statusFailed && !status ? (
-          // A failed request is not "no badge". The panel below would show a
-          // holder a zero badge balance, and offer DHB where purchases are on.
-          <PageEmpty
-            title={t("superpowers.loadFailed")}
-            action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
-          />
-        ) : (
-          // Team up is available without buying tokens or holding a badge.
-          <View style={styles.panel}>
-            <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
-            <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
-            {DIGITAL_PURCHASES_ENABLED && <KitButton
-              onPress={() => setBuyOpen(true)}
-              style={styles.cta}
-              label={t("superpowers.getDhb")}
-            />}
-          </View>
-        )}
-        </PageSection>
+        {loadingStatus ? null : statusFailed && !status ? (
+          <PageSection>
+            <PageEmpty
+              title={t("superpowers.loadFailed")}
+              action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
+            />
+          </PageSection>
+        ) : DIGITAL_PURCHASES_ENABLED ? (
+          <PageSection>
+            {status?.tier ? (
+              <BadgeProgress balance={status.badgeBalance} compact />
+            ) : (
+              <View style={styles.panel}>
+                <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
+                <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
+                <KitButton
+                  onPress={() => setBuyOpen(true)}
+                  style={styles.cta}
+                  label={t("superpowers.getDhb")}
+                />
+              </View>
+            )}
+          </PageSection>
+        ) : null}
 
         {/* ── The ladder ───────────────────────────────────────────────── */}
         <PageSection title={t("superpowers.whatEachTierGrants")}>
@@ -296,18 +295,15 @@ export default function SuperPowersScreen() {
         </PageSection>
       </ScrollView>
 
-      {DIGITAL_PURCHASES_ENABLED && <BuyDhbSheet visible={buyOpen} onClose={() => setBuyOpen(false)} onDelivered={() => void refetchStatus()} />}
-
-      <SpendPowerSheet
-        power={spending}
-        address={myAddress}
-        onClose={() => setSpending(null)}
-      />
-      <TeamUpSheet
-        visible={teamUpOpen}
-        onClose={() => setTeamUpOpen(false)}
-        address={myAddress}
-      />
+      {/* The App Store view is read-only. The status API combines token-linked
+          and granted badge allowances, so it cannot authorize iOS boost or Team Up actions. */}
+      {DIGITAL_PURCHASES_ENABLED ? (
+        <>
+          <BuyDhbSheet visible={buyOpen} onClose={() => setBuyOpen(false)} onDelivered={() => void refetchStatus()} />
+          <SpendPowerSheet power={spending} address={myAddress} onClose={() => setSpending(null)} />
+          <TeamUpSheet visible={teamUpOpen} onClose={() => setTeamUpOpen(false)} address={myAddress} />
+        </>
+      ) : null}
 
       <GlassModal
         visible={!!historyPower}
@@ -381,7 +377,7 @@ export default function SuperPowersScreen() {
                         </Text>
                       ) : null}
                     </View>
-                    {booking.status === "active" && !notificationPower ? (
+                    {DIGITAL_PURCHASES_ENABLED && booking.status === "active" && !notificationPower ? (
                       <Pressable
                         onPress={() => handleCancel(booking.id)}
                         disabled={cancelBoost.isPending}
@@ -402,9 +398,9 @@ export default function SuperPowersScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#010305" },
+  root: { flex: 1, backgroundColor: systemColors.background },
   content: { paddingTop: 4, paddingBottom: 48 },
-  intro: { color: "#A1A1AA", fontSize: 13, lineHeight: 19, paddingHorizontal: 16, paddingBottom: 12 },
+  intro: { color: systemColors.mutedForeground, fontSize: 13, lineHeight: 19, paddingHorizontal: 16, paddingBottom: 12 },
   loading: { paddingVertical: 32, alignItems: "center" },
 
   panel: { gap: 12 },
@@ -412,8 +408,8 @@ const styles = StyleSheet.create({
   badge: { width: 44, height: 44 },
   tierText: { flex: 1, minWidth: 0 },
   tierName: { color: "#fff", fontSize: 15, fontWeight: "600" },
-  muted: { color: "#A1A1AA", fontSize: 12, marginTop: 2 },
-  footnote: { color: "#808089", fontSize: 12, lineHeight: 17 },
+  muted: { color: systemColors.mutedForeground, fontSize: 12, marginTop: 2 },
+  footnote: { color: systemColors.mutedForeground, fontSize: 12, lineHeight: 17 },
   body: { color: "#fff", fontSize: 13, lineHeight: 19 },
 
   cta: { alignSelf: "flex-start" },
@@ -442,7 +438,7 @@ const styles = StyleSheet.create({
   chipPicked: { borderColor: "rgba(255,255,255,0.4)", backgroundColor: "rgba(255,255,255,0.15)" },
   chipText: { color: "#A1A1AA", fontSize: 11 },
   chipTextPicked: { color: "#fff" },
-  cancel: { color: "#A1A1AA", fontSize: 12 },
+  cancel: { color: systemColors.mutedForeground, fontSize: 12 },
 
   heading: {
     color: "rgba(255,255,255,0.7)",
@@ -452,10 +448,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
-  pressed: { opacity: 0.7 },
-  coreTier: { color: "#fff", fontSize: 17, fontWeight: "800", marginTop: 4 },
-  coreBig: { color: "#fff", fontSize: 32, fontWeight: "800", letterSpacing: -1, marginTop: 2, textShadowColor: "rgba(255,255,255,0.25)", textShadowRadius: 12 },
-  coreSub: { color: "#71717A", fontSize: 10.5, textAlign: "center", marginTop: 4, lineHeight: 14 },
+  coreTier: { color: systemColors.foreground, fontSize: 17, fontWeight: "800", marginTop: 4 },
+  coreBig: { color: systemColors.foreground, fontSize: 32, fontWeight: "800", letterSpacing: -1, marginTop: 2 },
+  coreSub: { color: systemColors.mutedForeground, fontSize: 11, textAlign: "center", marginTop: 4, lineHeight: 14 },
 
   detail: {
     marginHorizontal: 16,
@@ -471,28 +466,24 @@ const styles = StyleSheet.create({
   detailTop: { flexDirection: "row", alignItems: "center", gap: 12 },
   detailIcon: { width: 52, height: 52 },
   detailText: { flex: 1, minWidth: 0, gap: 4 },
-  detailName: { color: "#fff", fontSize: 18, fontWeight: "700" },
+  detailName: { color: systemColors.foreground, fontSize: 18, fontWeight: "700" },
   detailNameOff: { color: "#D4D4D8" },
   detailTag: { flexDirection: "row", alignItems: "center", gap: 5, flexWrap: "wrap" },
-  detailTagText: { color: "#808089", fontSize: 10.5, fontWeight: "600", letterSpacing: 1, textTransform: "uppercase" },
+  detailTagText: { color: systemColors.mutedForeground, fontSize: 11, fontWeight: "600", letterSpacing: 1, textTransform: "uppercase" },
   detailBadge: { width: 18, height: 18 },
-  detailSummary: { color: "#A1A1AA", fontSize: 13.5, lineHeight: 19 },
-  detailUses: { color: "#71717A", fontSize: 11.5, fontVariant: ["tabular-nums"] },
-  detailActions: { flexDirection: "row", gap: 8, marginTop: 2 },
-  solidBtn: { flex: 1, height: 44, borderRadius: 22, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
-  solidBtnText: { color: "#000", fontSize: 14, fontWeight: "800" },
-  ghostBtn: { flex: 1, height: 44, borderRadius: 22, borderWidth: 1, borderColor: "rgba(255,255,255,0.18)", alignItems: "center", justifyContent: "center" },
-  ghostBtnText: { color: "#D4D4D8", fontSize: 13, fontWeight: "600" },
+  detailSummary: { color: systemColors.mutedForeground, fontSize: 13.5, lineHeight: 19 },
+  detailUses: { color: systemColors.mutedForeground, fontSize: 11.5, fontVariant: ["tabular-nums"] },
+  detailActions: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 2 },
 
   rail: { gap: 8, paddingRight: 4 },
   rung: { width: 78, alignItems: "center", gap: 3, paddingVertical: 10, paddingHorizontal: 6, borderRadius: 14, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
   rungMine: { borderColor: "#fff", backgroundColor: "rgba(255,255,255,0.06)" },
   rungBadge: { width: 32, height: 32 },
   rungBadgeOff: { opacity: 0.35 },
-  rungName: { color: "#A1A1AA", fontSize: 10, fontWeight: "600" },
-  rungTotal: { color: "#A1A1AA", fontSize: 12, fontVariant: ["tabular-nums"] },
-  rungTextMine: { color: "#fff" },
-  rungSplit: { color: "#52525B", fontSize: 9.5, fontVariant: ["tabular-nums"] },
+  rungName: { color: systemColors.mutedForeground, fontSize: 11, fontWeight: "600" },
+  rungTotal: { color: systemColors.mutedForeground, fontSize: 12, fontVariant: ["tabular-nums"] },
+  rungTextMine: { color: systemColors.foreground },
+  rungSplit: { color: systemColors.mutedForeground, fontSize: 11, fontVariant: ["tabular-nums"] },
   powerIcon: { width: 36, height: 36 },
   powerIconOff: { opacity: 0.6 },
   unlockTier: { flexDirection: "row", alignItems: "center", gap: 4 },
@@ -511,8 +502,8 @@ const styles = StyleSheet.create({
   },
   historyHeaderText: { flex: 1, minWidth: 0 },
   historyTitleRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  historyTitle: { color: "#fff", fontSize: 18, fontWeight: "600" },
-  historySubtitle: { color: "#71717A", fontSize: 12, marginTop: 3 },
+  historyTitle: { color: systemColors.foreground, fontSize: 18, fontWeight: "600" },
+  historySubtitle: { color: systemColors.mutedForeground, fontSize: 12, marginTop: 3 },
   historyList: { maxHeight: 440 },
   historyListContent: { gap: 8 },
   historyEmpty: {
@@ -539,11 +530,11 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   historySubject: { flex: 1, minWidth: 0 },
-  historySubjectText: { color: "#fff", fontSize: 13 },
-  historyDate: { color: "#71717A", fontSize: 10.5, marginTop: 3 },
+  historySubjectText: { color: systemColors.foreground, fontSize: 13 },
+  historyDate: { color: systemColors.mutedForeground, fontSize: 10.5, marginTop: 3 },
   historyResult: { alignItems: "flex-end" },
   historyResultText: { color: "#E4E4E7", fontSize: 12, fontWeight: "500" },
-  historyState: { color: "#71717A", fontSize: 10, marginTop: 2 },
+  historyState: { color: systemColors.mutedForeground, fontSize: 10, marginTop: 2 },
 
   table: {
     borderWidth: 1,

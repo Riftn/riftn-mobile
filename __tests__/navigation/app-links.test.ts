@@ -203,6 +203,22 @@ describe('an /app link with no screen', () => {
     }
   });
 
+  it.each([false, true])('resolves Super Powers natively on iOS (US storefront: %s)', async (us) => {
+    mockStorefront.digital = false;
+    mockStorefront.us = us;
+    try {
+      openBrowser.mockClear();
+      openURL.mockClear();
+      expect(target(resolve('/app/superpowers')).name).toBe('SuperPowers');
+      await flush();
+      expect(openBrowser).not.toHaveBeenCalled();
+      expect(openURL).not.toHaveBeenCalled();
+    } finally {
+      mockStorefront.digital = true;
+      mockStorefront.us = false;
+    }
+  });
+
   it('lands App Store wallet, buy, stake and plan links on a screen the navigator gates', async () => {
     mockStorefront.digital = false;
     try {
@@ -213,7 +229,6 @@ describe('an /app link with no screen', () => {
       expect(target(resolve('/app/wallet')).name).toBe('Dpay');
       expect(target(resolve('/buy')).params).toEqual({ initialTab: 'buy' });
       expect(target(resolve('/stake')).params).toEqual({ initialTab: 'stake' });
-      expect(target(resolve('/app/superpowers')).name).toBe('SuperPowers');
       expect(target(resolve('/premium')).name).toBe('Premium');
       expect(target(resolve('/pricing')).name).toBe('Pricing');
       expect(target(resolve('/launchpad')).name).toBe('Launchpad');
