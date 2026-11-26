@@ -18,12 +18,14 @@ async function readTouch(): Promise<(ReferralTouch & { expiresAt: number }) | nu
   if (!raw) return null;
   try {
     const touch = JSON.parse(raw);
-    if (typeof touch.code !== 'string' || !/^[A-Z0-9_-]{3,40}$/.test(touch.code) || !(touch.expiresAt > Date.now())) return null;
+    const liveShare = typeof touch.liveCode === 'string';
+    const code = liveShare ? touch.liveCode : touch.code;
+    if (typeof code !== 'string' || !/^[A-Z0-9_-]{3,40}$/.test(code) || !(touch.expiresAt > Date.now())) return null;
     return {
-      code: touch.code,
-      subId: normalizeSubReferral(touch.subId),
+      code,
+      subId: liveShare ? null : normalizeSubReferral(touch.subId),
       expiresAt: touch.expiresAt,
-      liveShare: touch.liveShare === true ? true : undefined,
+      liveShare: liveShare ? true : undefined,
     };
   } catch { return null; }
 }
@@ -32,9 +34,12 @@ export function captureAffiliateUrl(url: string): Promise<void> {
   const touch = referralFromUrl(url);
   if (!touch) return Promise.resolve();
   const expiresAt = Date.now() + TTL;
+  // Older bundles on a rolled-back OTA must not treat a live touch as a
+  // regular invite and credit a returning account.
+  const stored = touch.liveShare ? { liveCode: touch.code, expiresAt } : { ...touch, expiresAt };
   const next = writes.catch(() => undefined).then(async () => {
     if (await readTouch()) return;
-    await AsyncStorage.setItem(KEY, JSON.stringify({ ...touch, expiresAt }));
+    await AsyncStorage.setItem(KEY, JSON.stringify(stored));
   });
   writes = next;
   return next;

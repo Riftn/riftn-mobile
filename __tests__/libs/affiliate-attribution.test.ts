@@ -49,6 +49,7 @@ it('credits the first live sharer only for a signup created after opening the li
   const arrival = Date.now();
   await captureAffiliateUrl('https://riftn.com/app/post/1?live_ref=SHARER&sub=private');
   await captureAffiliateUrl('https://riftn.com/r/OTHER?sub=campaign');
+  expect(JSON.parse(stored.get('dehub-affiliate-first-touch')!)).not.toHaveProperty('code');
   const wallet = '0x6666666666666666666666666666666666666666';
   await attributePendingReferral(wallet);
   await attributePendingReferral(wallet, new Date(arrival - 1000).toISOString());
