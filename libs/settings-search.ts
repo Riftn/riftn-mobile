@@ -74,6 +74,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   // Notifications
   { tab: 'notifications', anchor: 'master-controls', label: 'Master controls', labelKey: 'settings.masterControls', keywords: 'push in-app enable disable all' },
   { tab: 'notifications', anchor: 'notify-engagement', label: 'Engagement', labelKey: 'settings.categoryEngagement', keywords: 'likes reactions comments replies' },
+  { tab: 'notifications', anchor: 'private-message-push-only', label: 'Private messages: push only', labelKey: 'settings.privateMessagePushOnly', keywords: 'direct message dm alerts inbox history' },
   { tab: 'notifications', anchor: 'notify-social', label: 'Social', labelKey: 'settings.categorySocial', keywords: 'followers mentions tagged' },
   { tab: 'notifications', anchor: 'notify-monetization', label: 'Earnings', labelKey: 'settings.categoryEarnings', keywords: 'tips subscriptions ppv sales' },
   { tab: 'notifications', anchor: 'notify-content', label: 'Content', labelKey: 'settings.categoryContent', keywords: 'livestream milestones announcements' },
