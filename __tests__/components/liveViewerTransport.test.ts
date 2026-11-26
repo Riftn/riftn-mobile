@@ -33,8 +33,8 @@ describe('live viewer transport', () => {
   it('latches failure so the picture cannot flap between transports', () => {
     const hook = readSource('hooks', 'useWhepStream.ts');
 
-    expect(hook).toContain('setFailed(true)');
-    expect(hook).toContain('enabled && !failed && !silentBefore ? whepEndpointFor(stream) : null');
+    expect(hook).toContain('setFailedEndpoint(endpoint)');
+    expect(hook).toContain('const endpoint = failed ? null : requestedEndpoint');
   });
 
   it('mutes the remote track, since there is no element to mute', () => {
@@ -87,7 +87,7 @@ describe('live viewer transport handover', () => {
 
     // pending is derived from the endpoint, which is null for anything without
     // a WHEP route — so those fall straight through to HLS.
-    expect(hook).toContain('const endpoint = enabled && !failed && !silentBefore ? whepEndpointFor(stream) : null');
+    expect(hook).toContain('const requestedEndpoint = enabled && !silentBefore ? whepEndpointFor(stream) : null');
   });
 });
 
