@@ -2659,6 +2659,8 @@
     "transferDhb": "Transferir tokens"
   },
   "wallet": {
+    "legacyDhb": "DHB anterior",
+    "legacyDhbHoldings": "Saldos en cadena",
     "connectUnavailable": "Conectar billetera no está disponible en esta versión — restaura con tu frase de recuperación.",
     "connectedWrongWallet": "Esa billetera es {{connected}}, no {{address}}. No se cambió nada.",
     "restoreWrongWallet": "Eso abre otra billetera, no {{address}}. No se cambió nada.",

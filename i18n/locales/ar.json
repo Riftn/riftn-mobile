@@ -2659,6 +2659,8 @@
     "transferDhb": "تحويل الرموز"
   },
   "wallet": {
+    "legacyDhb": "عملة DHB القديمة",
+    "legacyDhbHoldings": "الأرصدة على البلوك تشين",
     "connectUnavailable": "ربط المحفظة غير متاح في هذا الإصدار — استعدها بعبارة الاسترداد بدلاً من ذلك.",
     "connectedWrongWallet": "تلك المحفظة هي {{connected}}، وليست {{address}}. لم يتغير شيء.",
     "restoreWrongWallet": "هذا يفتح محفظة مختلفة، وليس {{address}}. لم يتغير شيء.",

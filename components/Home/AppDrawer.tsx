@@ -48,6 +48,7 @@ import { formatCompactNumber } from "../../libs/numbers.util";
 import { HIDDEN_BALANCE, setBalanceHidden, useBalanceHidden } from "../../libs/balancePrivacy";
 import { filterNavRows } from "../../libs/navSearch";
 import { useUser, useAuthState, useAuthActions } from "../../context/AuthContext";
+import { useAppTokens, useAppTokensConfig } from "../../hooks/useAppTokens";
 import { canManageAgents } from '../../libs/agent-access';
 import { useTotalUnreadMessagesCount } from "../../store/dm.store";
 import { usePublicChatUnreadCount } from "../../hooks/usePublicChatUnread";
@@ -928,8 +929,10 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const avatarUrl = user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl) : undefined;
   // Same badge as beside the name on your posts and comments.
   const badgeImg = useMemo(() => getBadgeUrlFor(user as any), [user]);
-  // The DHB the wallet actually holds; badgeBalance can include delegation.
-  const dhbBalance = Math.floor(user?.ownBadgeBalance ?? user?.badgeBalance ?? 0);
+  const { data: appTokensConfig } = useAppTokensConfig(visible);
+  const { data: appTokens } = useAppTokens(visible && appTokensConfig?.enabled === true);
+  const legacyBalance = user?.ownBadgeBalance ?? 0;
+  const walletBalance = appTokensConfig?.enabled ? Number(appTokens?.balance) : appTokensConfig ? legacyBalance : NaN;
   const balanceHidden = useBalanceHidden();
 
   const renderItem = (item: DrawerItem, big = false) => {
@@ -1155,18 +1158,18 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                     ) : handle ? <Text style={styles.headerHandle} numberOfLines={1}>{handle}</Text> : null}
                   </View>
                 </TouchableOpacity>
-                {DIGITAL_PURCHASES_ENABLED && dhbBalance > 0 && (
+                {DIGITAL_PURCHASES_ENABLED && Number.isFinite(walletBalance) && (walletBalance > 0 || legacyBalance > 0) && (
                   <View style={[styles.balanceChip, square && styles.square]}>
                     <TouchableOpacity
                       accessibilityRole="button"
-                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${dhbBalance.toLocaleString()}`}
+                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${walletBalance.toLocaleString()}`}
                       onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
                       activeOpacity={0.7}
                       style={styles.balanceMain}
                     >
                       <DhbCoin size={16} />
                       {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
-                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : dhbBalance >= 10_000 ? formatCompactNumber(dhbBalance) : dhbBalance.toLocaleString()}</Text>
+                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : walletBalance >= 10_000 ? formatCompactNumber(walletBalance) : walletBalance.toLocaleString()}</Text>
                     </TouchableOpacity>
                     {/* Eye: hide or show the number on this device (Requests 4c8cc200). */}
                     <TouchableOpacity

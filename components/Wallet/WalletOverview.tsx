@@ -77,8 +77,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   const user = useUser();
   const wallet = useWalletTokens();
   const { data: credits } = useSubscriptionCredits();
-  // App tokens: when the server switches them on, DHB is the in-app balance
-  // and Send moves app tokens only. Onchain DHB is not shown or sent here.
+  // The app-token ledger supplies the in-app balance and Send action.
   const appTokensOn = useAppTokensEnabled();
   const { data: appTokens, refetch: refreshAppTokens } = useAppTokens(appTokensOn || !DIGITAL_PURCHASES_ENABLED);
   // The App Store wallet can show the balance without offering app-token sends.
@@ -101,7 +100,10 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   const groups = useMemo(() => groupWalletTokens(wallet.tokens), [wallet.tokens]);
   const query = search.trim().toLowerCase();
   const visible = groups.filter(item => !(appTokensOn && item.symbol === 'DHB') && `${item.symbol} ${item.name} ${tokenLabel(item.symbol)}`.toLowerCase().includes(query) && (item.amount > 0 || item.unknown || item.tokens.some(token => token.isCustom)));
-  const position = appTokensOn ? appPosition : dhbPosition(user, groups.find(item => item.symbol === 'DHB')?.amount || 0);
+  const legacyDhb = dhbPosition(user, groups.find(item => item.symbol === 'DHB')?.amount || 0);
+  const position = appTokensOn ? appPosition : legacyDhb;
+  const legacyLabel = t('wallet.legacyDhb', 'Legacy DHB');
+  const showLegacyDhb = appTokensOn && legacyDhb > 0 && `dhb ${legacyLabel}`.toLowerCase().includes(query);
   const rows = dhbBreakdown(user).rows;
   const staked = rows.reduce((sum, row) => sum + row.staked, 0);
   const usd = wallet.tokens.reduce(
@@ -178,6 +180,11 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{format(appDhb)}</Text><Text style={s.muted}>{wallet.prices.DHB ? `$${(appDhb * wallet.prices.DHB).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
           {appTokensOn && <Icon name="ChevronRight" size={16} color="#999" />}
         </Pressable>}
+        {showLegacyDhb && <View style={s.tokenRow}>
+          <TokenIcon symbol="DHB" />
+          <View style={s.tokenName}><Text style={s.label}>{legacyLabel}</Text><Text numberOfLines={1} style={s.muted}>{t('wallet.legacyDhbHoldings', 'On-chain holdings')}</Text></View>
+          <Text style={s.label}>{format(legacyDhb)}</Text>
+        </View>}
         {visible.map(item => <Pressable key={item.symbol} accessibilityRole="button" accessibilityLabel={`${tokenLabel(item.symbol)}, ${item.unknown ? t('common.failedToLoad') : format(item.amount)}`} onPress={() => setGroup(item)} style={s.tokenRow}>
           <TokenIcon symbol={item.symbol} />
           <View style={s.tokenName}><Text style={s.label}>{tokenLabel(item.symbol)}</Text><Text numberOfLines={1} style={s.muted}>{[...new Set(item.tokens.filter(token => Number(token.balance) > 0 || token.isCustom).map(token => networkName(token.chainId)))].join(' · ') || item.name}</Text></View>

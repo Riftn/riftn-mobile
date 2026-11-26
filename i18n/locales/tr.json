@@ -3509,6 +3509,8 @@
     "transferDhb": "Token transferi"
   },
   "wallet": {
+    "legacyDhb": "Eski DHB",
+    "legacyDhbHoldings": "Zincir üstü varlıklar",
     "connectUnavailable": "Cüzdan bağlama bu sürümde kullanılamıyor — bunun yerine kurtarma ifadenle geri yükle.",
     "connectedWrongWallet": "O cüzdan {{connected}}, {{address}} değil. Hiçbir şey değiştirilmedi.",
     "restoreWrongWallet": "Bu, {{address}} değil, başka bir cüzdanı açıyor. Hiçbir şey değiştirilmedi.",
