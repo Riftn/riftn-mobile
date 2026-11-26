@@ -1155,33 +1155,28 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                   </View>
                 </TouchableOpacity>
                 {DIGITAL_PURCHASES_ENABLED && Number.isFinite(walletBalance) && (walletBalance > 0 || legacyBalance > 0) && (
-                  <View style={[styles.balanceChip, square && styles.square]}>
-                    <TouchableOpacity
-                      accessibilityRole="button"
-                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${walletBalance.toLocaleString()}`}
-                      onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
-                      activeOpacity={0.7}
-                      style={styles.balanceMain}
-                    >
-                      <DhbCoin size={16} />
-                      {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
-                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : walletBalance >= 10_000 ? formatCompactNumber(walletBalance) : walletBalance.toLocaleString()}</Text>
-                    </TouchableOpacity>
-                    {/* Eye: hide or show the number on this device (Requests 4c8cc200). */}
+                  <View style={styles.balanceControls}>
                     <TouchableOpacity
                       accessibilityRole="button"
                       accessibilityLabel={balanceHidden ? t("wallet.showBalance", { defaultValue: "Show balance" }) : t("wallet.hideBalance", { defaultValue: "Hide balance" })}
                       accessibilityState={{ selected: balanceHidden }}
                       onPress={() => setBalanceHidden(!balanceHidden)}
                       activeOpacity={0.6}
-                      hitSlop={{ top: 8, bottom: 8, right: 6 }}
                       style={styles.balanceEye}
                       testID="drawer-balance-eye"
                     >
-                      {/* Plain white so it follows the number's colour in every theme (System Light turns it dark); dimmed a touch (Requests 70b20f3f). */}
-                      <View style={styles.balanceEyeIcon}>
-                        <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={15} color="#FFFFFF" />
-                      </View>
+                      <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={20} color={appTheme.colors.foreground} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      accessibilityRole="button"
+                      accessibilityLabel={balanceHidden ? t("nav.wallet") : `${t("nav.wallet")} ${walletBalance.toLocaleString()}`}
+                      onPress={() => navigate(ScreenNames.Dpay, { initialTab: "wallet" })}
+                      activeOpacity={0.7}
+                      style={[styles.balanceChip, square && styles.square]}
+                    >
+                      <DhbCoin size={16} />
+                      {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
+                      <Text style={styles.balanceText}>{balanceHidden ? HIDDEN_BALANCE : walletBalance >= 10_000 ? formatCompactNumber(walletBalance) : walletBalance.toLocaleString()}</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -1570,31 +1565,28 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.10)",
   },
+  balanceControls: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    flexShrink: 0,
+  },
+  balanceEye: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   balanceChip: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 6,
     height: 34,
+    paddingHorizontal: 12,
     borderRadius: 10,
     backgroundColor: "rgba(255, 255, 255, 0.08)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.16)",
-  },
-  balanceMain: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    height: "100%",
-    paddingLeft: 12,
-    paddingRight: 6,
-  },
-  balanceEye: {
-    height: "100%",
-    justifyContent: "center",
-    paddingLeft: 2,
-    paddingRight: 10,
-  },
-  balanceEyeIcon: {
-    opacity: 0.8,
   },
   balanceText: {
     color: "#FFFFFF",
