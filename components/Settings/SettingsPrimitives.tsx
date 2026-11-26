@@ -211,8 +211,9 @@ export const SettingsToggleRow: React.FC<
     value: boolean;
     onValueChange?: (v: boolean) => void;
     comingSoon?: boolean;
+    busy?: boolean;
   }
-> = ({ value, onValueChange, comingSoon, ...rest }) => {
+> = ({ value, onValueChange, comingSoon, busy, ...rest }) => {
   const { t } = useTranslation();
   const handleChange = comingSoon
     ? () => toastInfo(t('settings.comingSoon'))
@@ -237,6 +238,7 @@ export const SettingsToggleRow: React.FC<
             onValueChange={handleChange}
             disabled={rest.disabled}
             accessibilityLabel={rest.label}
+            busy={busy}
           />
         }
       />
