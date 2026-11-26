@@ -177,7 +177,7 @@ export function useTranslation(
           entries.map(async ([key, text]) => {
             const result = await translateText(text, targetLang, source, {
               isPublic,
-              ...(isChat && !silent ? { manualChat: true } : {}),
+              ...(isChat && { isChat: true, manualChat: !silent }),
             });
             return [key, result] as const;
           }),

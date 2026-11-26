@@ -201,7 +201,7 @@ describe('hooks/useTranslation', () => {
       renderHook(() => useTranslation(LINE, undefined, 'chat', true));
       await runQueuedWork();
 
-      expect(mockTranslate).toHaveBeenCalledWith('bom dia galera', 'tr', 'auto', { isPublic: true });
+      expect(mockTranslate).toHaveBeenCalledWith('bom dia galera', 'tr', 'auto', { isPublic: true, isChat: true, manualChat: false });
     });
 
     it('translates a live chat line in a script that names itself', async () => {
@@ -209,7 +209,7 @@ describe('hooks/useTranslation', () => {
       renderHook(() => useTranslation(LINE, undefined, 'chat', true));
       await runQueuedWork();
 
-      expect(mockTranslate).toHaveBeenCalledWith('привет всем', 'tr', 'auto', { isPublic: true });
+      expect(mockTranslate).toHaveBeenCalledWith('привет всем', 'tr', 'auto', { isPublic: true, isChat: true, manualChat: false });
     });
 
     it('leaves a chat line with almost no letters alone', () => {
@@ -271,7 +271,7 @@ describe('hooks/useTranslation', () => {
       const text = 'Bom dia galera';
       const { result } = renderHook(() => useTranslation({ content: text }, undefined, 'chat', true));
       await act(async () => { result.current.handleTranslate(); });
-      expect(mockTranslate).toHaveBeenCalledWith(text, 'tr', 'auto', { isPublic: true, manualChat: true });
+      expect(mockTranslate).toHaveBeenCalledWith(text, 'tr', 'auto', { isPublic: true, isChat: true, manualChat: true });
     });
 
     it('does not claim a translation when the body came back unchanged', async () => {

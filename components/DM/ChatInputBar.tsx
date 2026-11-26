@@ -725,7 +725,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   }, [onCancelEdit, setEditText]);
 
 
-  const translator = useComposeTranslate(text, setText);
+  const translator = useComposeTranslate(text, setText, undefined, 'chat');
 
   const handleEnhance = useCallback(async () => {
     const trimmed = text.trim();
