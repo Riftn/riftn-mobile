@@ -337,14 +337,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children, hasInterne
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
   const [needsUsername, setNeedsUsername] = useState(false);
   const referralWallet = isSignedIn && !needsUsername ? user?.walletAddress || user?.address || null : null;
+  const referralAccountCreatedAt = user?.username ? user.createdAt : undefined;
   useEffect(() => {
     let cancelled = false;
     let stop: (() => void) | undefined;
     void import('../libs/affiliate-attribution').then(({ watchAffiliateAttribution }) => {
-      if (!cancelled) stop = watchAffiliateAttribution(referralWallet);
+      if (!cancelled) stop = watchAffiliateAttribution(referralWallet, referralAccountCreatedAt);
     }).catch(() => undefined);
     return () => { cancelled = true; stop?.(); };
-  }, [referralWallet]);
+  }, [referralWallet, referralAccountCreatedAt]);
   const analyticsWalletRef = useRef<string | null>(null);
   useEffect(() => {
     if (analyticsWalletRef.current && analyticsWalletRef.current !== referralWallet) resetAnalytics();

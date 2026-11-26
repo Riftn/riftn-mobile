@@ -21,16 +21,17 @@ export async function sharePostAsImage(
   tokenId: number | string,
   postUrl: string,
   caption?: string,
-  _postType?: string,
+  postType?: string,
 ): Promise<void> {
   const ogImageUrl = getTextPostShareImageUrl(tokenId);
   const localPath = `${FileSystem.cacheDirectory}dehub-post-${tokenId}.png`;
+  const kind = postType === "live" ? "live" : "post";
 
   try {
     // Android shares the link and lets its recipient load the same OG card.
     // Avoid downloading an image that this platform's share sheet never uses.
     if (Platform.OS !== "ios") {
-      await shareWithRef({ message: `${caption || _translateCopy("copy.bc1ce78b29e6", { defaultValue: "Check this out on Riftn" })}\n${postUrl}` }, undefined, "post");
+      await shareWithRef({ message: `${caption || _translateCopy("copy.bc1ce78b29e6", { defaultValue: "Check this out on Riftn" })}\n${postUrl}` }, undefined, kind);
       return;
     }
     const { status, headers } = await FileSystem.downloadAsync(ogImageUrl, localPath);
@@ -41,7 +42,7 @@ export async function sharePostAsImage(
       await shareWithRef({
         url: localPath,
         message: caption ? `${caption}\n${postUrl}` : postUrl,
-      }, undefined, "post");
+      }, undefined, kind);
     } else {
       throw new Error(`Download failed: ${status}`);
     }
@@ -53,7 +54,7 @@ export async function sharePostAsImage(
         default: { message: `${caption || _translateCopy("copy.bc1ce78b29e6", { defaultValue: "Check this out on Riftn" })}\n${postUrl}` },
       }) as any,
       undefined,
-      "post",
+      kind,
     );
   }
 }

@@ -1,7 +1,7 @@
 import React, { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, Pressable, Share, StyleSheet, Text, View } from "react-native";
-import { getShareRefCode, shareWithRef, withShareRef } from "../../libs/shareRef";
+import { getShareRefCode, shareWithRef, withLiveShareRef, withShareRef } from "../../libs/shareRef";
 import { track } from "../../libs/analytics";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
@@ -37,6 +37,7 @@ export interface RepostShareSheetProps {
   onCopyLink: () => void;
   /** The post's public link, for the share targets. */
   shareUrl: string;
+  liveShare?: boolean;
   /** The post's tokenId, for the share count (a readable link carries no number). */
   tokenId?: string | number;
   /** The post's title, carried along as the share text where a target takes one. */
@@ -91,6 +92,7 @@ function RepostShareSheetComponent({
   canRepost = true,
   onCopyLink,
   shareUrl,
+  liveShare,
   tokenId,
   shareText,
   quoteCount,
@@ -116,18 +118,20 @@ function RepostShareSheetComponent({
 
   const openTarget = useCallback((target: "x" | "telegram" | "whatsapp") => {
     onClose();
-    Linking.openURL(shareTargetUrl(target, withShareRef(shareUrl), shareText)).catch(() => {});
-    track("share", { kind: "post", channel: target, has_ref: !!getShareRefCode() });
+    const url = liveShare ? withLiveShareRef(shareUrl, canRepost) : withShareRef(shareUrl);
+    Linking.openURL(shareTargetUrl(target, url, shareText)).catch(() => {});
+    track("share", { kind: liveShare ? "live" : "post", channel: target, has_ref: liveShare ? url !== shareUrl : !!getShareRefCode() });
     reportShare();
-  }, [onClose, shareUrl, shareText, reportShare]);
+  }, [onClose, shareUrl, shareText, reportShare, liveShare, canRepost]);
 
   const nativeShare = useCallback(() => {
     later(() => {
-      shareWithRef({ message: shareText ? `${shareText}\n${shareUrl}` : shareUrl, url: shareUrl }, undefined, "post")
+      const url = liveShare ? withLiveShareRef(shareUrl, canRepost) : shareUrl;
+      shareWithRef({ message: shareText ? `${shareText}\n${url}` : url, url }, undefined, liveShare ? "live" : "post")
         .then((result) => { if (result.action === Share.sharedAction) reportShare(); })
         .catch(() => {});
     });
-  }, [later, shareUrl, shareText, reportShare]);
+  }, [later, shareUrl, shareText, reportShare, liveShare, canRepost]);
 
   return (
     <GlassModal visible={visible} onClose={onClose} presentation="bottom" scrollable maxHeight="80%" blurIntensity={50}>
