@@ -105,7 +105,8 @@ it('loads the off-chain preview on expansion without opening a transfer', () => 
   expect(mockPreview).toHaveBeenLastCalledWith(false);
   press(tree, 'appTokens.previewTitle');
   expect(mockPreview).toHaveBeenLastCalledWith(true);
-  expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === '4 RIFT')).toHaveLength(1);
+  expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === '10 RIFT')).toHaveLength(1);
+  expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === '4 RIFT')).toHaveLength(0);
   expect(tree.root.findByType('AppTokenSendSheet' as any).props.open).toBe(false);
   act(() => tree.unmount());
 });
