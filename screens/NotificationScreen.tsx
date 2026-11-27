@@ -1960,7 +1960,7 @@ const NotificationScreen = () => {
               if (!r) throw new Error("prefetch failed");
               return { result: r.api };
             })
-          : fetchPage(targetPage, isRefresh ? undefined : notificationsRef.current.at(-1));
+          : fetchPage(targetPage, isRequestsTab && !isRefresh ? notificationsRef.current.at(-1) : undefined);
         // Start independent sources together. Counts never hold the list's
         // loading state open, and neither do the custom rows: the API page
         // paints first with the last known custom rows, and the fresh ones

@@ -102,3 +102,48 @@ it('keeps loaded pages visible until their refresh is ready and continues pagina
   await refresh(false);
   expect(api).toHaveBeenLastCalledWith(expect.objectContaining({ page: 3 }));
 });
+
+it('pages Requests by the last wallet-scoped row and rebuilds the loaded window on refresh', async () => {
+  const newest = { _id: 'custom-new', createdAt: '2026-01-03' };
+  const first = { _id: 'custom-first', createdAt: '2026-01-02' };
+  const older = { _id: 'custom-older', createdAt: '2026-01-01' };
+  const rows = { current: [] as typeof first[] };
+  const features = ['feature_request_reply'];
+  const requestPage = jest.fn()
+    .mockResolvedValueOnce([first])
+    .mockResolvedValueOnce([older])
+    .mockResolvedValueOnce([newest])
+    .mockResolvedValueOnce([first]);
+  const scope = {
+    PAGE_SIZE: 1,
+    useCallback: (fn: unknown) => fn,
+    fetchGenRef: { current: 0 }, listFetchingRef: { current: false }, pageRef: { current: 1 },
+    selectedFilterRef: { current: 'features' }, walletAddressRef: { current: 'original-wallet' },
+    FILTER_TYPE_MAP: { features }, notificationsRef: rows, fetchRequestNotificationPage: requestPage,
+    apiTypesForFilter: () => undefined, getNotifications: jest.fn(), fetchCustomNotifications: jest.fn(),
+    log: { error: jest.fn() }, listedUnreadRef: { current: new Map() },
+    markAllReadSettled: () => null, applyMarkedAllRead: (_wallet: unknown, items: unknown) => items,
+    takeInflightFirstPage: jest.fn(), customRowsRef: { current: [] }, lastRefreshAtRef: { current: 0 },
+    tabFetchedAtRef: { current: new Map() }, rowsFilterRef: { current: 'all' },
+    setNotifications: (next: typeof rows.current | ((previous: typeof rows.current) => typeof rows.current)) => {
+      rows.current = typeof next === 'function' ? next(rows.current) : next;
+    },
+    setLoadError: jest.fn(), setHasMore: jest.fn(), setCountsSource: jest.fn(),
+    setRefreshing: jest.fn(), setLoading: jest.fn(), setLoadingMore: jest.fn(),
+  };
+  const refresh = runInNewContext(compiled, scope);
+  await refresh(true, { skipCounts: true });
+  await refresh(false);
+  expect(rows.current).toEqual([first, older]);
+  await refresh(true, { skipCounts: true });
+  expect(rows.current).toEqual([newest, first]);
+  expect(requestPage.mock.calls).toEqual([
+    ['original-wallet', features, 1, undefined],
+    ['original-wallet', features, 1, first],
+    ['original-wallet', features, 1, undefined],
+    ['original-wallet', features, 1, newest],
+  ]);
+  expect(scope.getNotifications).not.toHaveBeenCalled();
+  expect(scope.fetchCustomNotifications).not.toHaveBeenCalled();
+  expect(scope.takeInflightFirstPage).not.toHaveBeenCalled();
+});
