@@ -28,14 +28,13 @@ const IncomingCallModal: React.FC<{ peer: PeerIdentity }> = ({ peer }) => {
     <CallStage peer={peer} onRequestClose={ignoreBack}>
       <CallIdentity
         kindIcon={isVideo ? "Video" : "Phone"}
-        kindLabel={isVideo ? t("calls.videoCall") : t("calls.voiceCall")}
+        kindLabel={t("calls.incoming")}
         peer={peer}
-        status={t("calls.incoming")}
         ringing
         direct
       />
       <CallFoot ringing>
-        {!currentCall?.group_id ? <CallDock>
+        {!currentCall?.group_id ? <CallDock direct>
           <CallControl direct icon={isSpeakerOn ? "Volume2" : "Volume1"} label={t("calls.speaker")} onPress={toggleSpeaker} active={isSpeakerOn} />
           <CallControl direct icon={isMuted ? "MicOff" : "Mic"} label={t(isMuted ? "calls.unmute" : "calls.mute")} onPress={toggleMute} active={isMuted} />
         </CallDock> : null}

@@ -109,7 +109,7 @@ const VideoCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = 
           <CallBackgroundPanel value={callBackground} onPick={setCallBackground} onClose={() => setFxOpen(false)} />
         ) : null}
         {isCallActive ? <CallCaptionsControl variant="chip" /> : null}
-        <CallDock compact>
+        <CallDock compact direct>
           <CallControl
             icon={isSpeakerOn ? "Volume2" : "Volume1"}
             label={t("calls.speaker")}

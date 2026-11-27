@@ -151,7 +151,7 @@ export const CallIdentity: React.FC<{
   kindLabel: string;
   kindIcon: IconName;
   peer: PeerIdentity;
-  status: React.ReactNode;
+  status?: React.ReactNode;
   /** Waiting on an answer, either way round: the theme's ringing effect plays. */
   ringing?: boolean;
   direct?: boolean;
@@ -171,7 +171,9 @@ export const CallIdentity: React.FC<{
         <Text style={[styles.kindLabel, { color: detailColor }]} numberOfLines={1}>{kindLabel}</Text>
       </View>
       <Text style={[styles.name, { color: palette.fg }]} numberOfLines={1}>{peer.name}</Text>
-      <Text style={[styles.status, { color: detailColor }]} numberOfLines={1}>{status}</Text>
+      {status != null ? (
+        <Text style={[styles.status, { color: detailColor }]} numberOfLines={1}>{status}</Text>
+      ) : null}
       <View style={{ width: size, height: size, marginTop: direct ? (height < 620 ? 12 : 24) : 48 }}>
         {ringing ? <CallRings theme={theme} size={size} radius={corner} palette={palette} /> : null}
         <Avatar
@@ -267,10 +269,10 @@ export const CallControl: React.FC<{
 };
 
 /** The floating glass bar the in-call controls sit in. */
-export const CallDock: React.FC<{ children: React.ReactNode; compact?: boolean }> = ({ children, compact }) => {
+export const CallDock: React.FC<{ children: React.ReactNode; compact?: boolean; direct?: boolean }> = ({ children, compact, direct }) => {
   const { palette } = useStage();
   return (
-    <View style={[styles.dock, { gap: compact ? 6 : 14, paddingHorizontal: compact ? 12 : 18, backgroundColor: palette.dock, borderColor: palette.line }]}>
+    <View style={[styles.dock, direct && styles.directDock, { gap: compact ? 6 : 14, paddingHorizontal: compact ? 12 : 18, backgroundColor: palette.dock, borderColor: palette.line }]}>
       {children}
     </View>
   );
@@ -308,7 +310,7 @@ export const CallPill: React.FC<{
 export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void; overVideo?: boolean; ringing?: boolean }> = ({ children, onHeight, overVideo, ringing }) => {
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
-  const bottomSpace = ringing && height >= 680 ? Math.round(height * 0.08) : 22;
+  const bottomSpace = ringing && height >= 680 ? Math.round(Math.min(height * 0.2, height - 620)) : 22;
   return (
     <View
       style={[styles.foot, { paddingBottom: Math.max(bottomSpace, insets.bottom + 10) }]}
@@ -401,6 +403,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 36,
     borderWidth: 1,
+  },
+  directDock: {
+    flexWrap: "wrap",
+    maxWidth: "100%",
   },
   controlSlot: {
     alignItems: "center",
