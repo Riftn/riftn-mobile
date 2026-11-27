@@ -16,7 +16,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { PostFormatControls } from "./PostTextFormatting";
+import { PostFormatControls, usePostTextSelection } from "./PostTextFormatting";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import GlassModal from "../ui/GlassModal";
 import { useSpareLine } from "../../hooks/useSpareLine";
@@ -170,7 +170,10 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
   }, [visible, initialArticleBody]);
   const descriptionMax = initialArticleBody !== undefined ? ARTICLE_SUMMARY_MAX : tierTextMax;
   const descriptionRef = useRef<TextInput>(null);
-  const descriptionSelection = useRef({ start: 0, end: 0 });
+  const {
+    selectionRef: descriptionSelection, hasSelection: descriptionHasSelection,
+    updateSelection: updateDescriptionSelection, hideSelectionMenu: hideDescriptionSelectionMenu,
+  } = usePostTextSelection();
   const titleMentions = useMentions(title, setTitle);
   const descMentions = useMentions(description, setDescription);
   const [selectedCategories, setSelectedCategories] =
@@ -631,8 +634,9 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               ref={descriptionRef}
               value={description}
               onChangeText={(t) => descMentions.handleChangeText(t.slice(0, descriptionMax))}
+              onBlur={hideDescriptionSelectionMenu}
               onSelectionChange={event => {
-                descriptionSelection.current = event.nativeEvent.selection;
+                updateDescriptionSelection(event.nativeEvent.selection);
                 descMentions.handleSelectionChange(event);
               }}
               maxLength={descriptionMax}
@@ -648,7 +652,7 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[80px] mb-1"
             />
             <PostFormatControls value={description} inputRef={descriptionRef} selectionRef={descriptionSelection}
-              maxLength={descriptionMax} onChangeText={setDescription} />
+              hasSelection={descriptionHasSelection} maxLength={descriptionMax} onChangeText={setDescription} />
             <MentionSuggestions
               visible={descMentions.showSuggestions}
               suggestions={descMentions.suggestions}

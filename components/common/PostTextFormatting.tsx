@@ -1,4 +1,4 @@
-import React, { type ReactNode, type RefObject, useState } from "react";
+import React, { type ReactNode, type RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { Pressable, Text, View, type TextInput, type TextStyle } from "react-native";
 import { useTranslation } from "react-i18next";
 import { BoldText } from "../../libs/bold-markup";
@@ -22,22 +22,43 @@ export function PostStyledText({ text }: { text?: string | null }) {
   })}</>;
 }
 
+export function usePostTextSelection() {
+  const selectionRef = useRef<PostTextSelection>({ start: 0, end: 0 });
+  const [hasSelection, setHasSelection] = useState(false);
+  const updateSelection = useCallback((selection: PostTextSelection) => {
+    selectionRef.current = selection;
+    setHasSelection(selection.start !== selection.end);
+  }, []);
+  const hideSelectionMenu = useCallback(() => setHasSelection(false), []);
+  return {
+    selectionRef,
+    hasSelection,
+    updateSelection,
+    hideSelectionMenu,
+  };
+}
+
 interface PostFormatControlsProps {
   value: string;
   inputRef: RefObject<TextInput | null>;
   selectionRef: RefObject<PostTextSelection>;
+  hasSelection: boolean;
   maxLength: number;
   onChangeText: (text: string) => void;
 }
 
-export function PostFormatControls({ value, inputRef, selectionRef, maxLength, onChangeText }: PostFormatControlsProps) {
+export function PostFormatControls({ value, inputRef, selectionRef, hasSelection, maxLength, onChangeText }: PostFormatControlsProps) {
   const { t } = useTranslation();
   const [preview, setPreview] = useState(false);
+  const [formatOpen, setFormatOpen] = useState(false);
+  useEffect(() => {
+    if (!hasSelection) setFormatOpen(false);
+  }, [hasSelection]);
   const hasFormatting = postTextRuns(value).some(run => run.styles.length > 0);
   const buttons = [
-    { style: "b", label: t("editor.layer.bold"), letter: "B" },
-    { style: "i", label: t("editor.layer.italic"), letter: "I" },
-    { style: "u", label: t("editor.layer.underline"), letter: "U" },
+    { style: "b", label: t("editor.layer.bold") },
+    { style: "i", label: t("editor.layer.italic") },
+    { style: "u", label: t("editor.layer.underline") },
   ] as const;
   const apply = (style: PostTextStyle) => {
     const next = togglePostTextStyle(value, selectionRef.current, style, maxLength);
@@ -49,13 +70,22 @@ export function PostFormatControls({ value, inputRef, selectionRef, maxLength, o
       inputRef.current?.setNativeProps({ selection: next.selection });
     });
   };
+  if (!hasSelection && !hasFormatting) return null;
   return (
     <View>
-      <View className="flex-row items-center gap-1">
-        {buttons.map(({ style, label, letter }) => (
+      <View className="flex-row flex-wrap items-center gap-1">
+        {hasSelection && (
+          <Pressable accessibilityRole="button" accessibilityState={{ expanded: formatOpen }}
+            className="h-11 justify-center rounded-lg px-3" onPress={() => setFormatOpen(open => !open)}>
+            <Text className="text-theme-neutrals-200 text-sm">
+              {t("postComposer.formatSelection", { defaultValue: "Format selection" })}
+            </Text>
+          </Pressable>
+        )}
+        {hasSelection && formatOpen && buttons.map(({ style, label }) => (
           <Pressable key={style} accessibilityRole="button" accessibilityLabel={label}
-            className="h-11 w-10 items-center justify-center rounded-lg" onPress={() => apply(style)}>
-            <Text className="text-theme-neutrals-200 text-base" style={postRunStyle([style])}>{letter}</Text>
+            className="h-11 items-center justify-center rounded-lg px-2" onPress={() => apply(style)}>
+            <Text className="text-theme-neutrals-200 text-sm" style={postRunStyle([style])}>{label}</Text>
           </Pressable>
         ))}
         {hasFormatting && (
