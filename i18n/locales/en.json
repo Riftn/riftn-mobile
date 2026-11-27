@@ -18397,5 +18397,15 @@
     "shareLink": "Share link",
     "snapshotFailed": "Couldn’t take a snapshot. Try again."
   },
-  "ppvPreview": {"watch": "Watch free preview", "title": "Free video preview", "unavailable": "Preview unavailable", "retry": "Try again", "loading": "Loading preview…", "seconds": "Free preview (seconds)", "secondsHint": "Choose 1–30 seconds. Enter 0 to skip the preview."}
+  "ppvPreview": {"watch": "Watch free preview", "title": "Free video preview", "unavailable": "Preview unavailable", "retry": "Try again", "loading": "Loading preview…", "seconds": "Free preview (seconds)", "secondsHint": "Choose 1–30 seconds. Enter 0 to skip the preview."},
+  "liveAudience": {
+    "hereNow": "Here now",
+    "wasHere": "Was here",
+    "viewersFailed": "Could not load viewers.",
+    "noViewersSharing": "No viewers to show.",
+    "unnamedViewer": "Riftn viewer",
+    "viewers": "Viewers",
+    "presencePrivacy": "Only viewers who share their presence appear here.",
+    "pastViewers": "Past viewers"
+  }
 }

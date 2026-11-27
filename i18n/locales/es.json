@@ -18969,5 +18969,15 @@
     "shareLink": "Compartir enlace",
     "snapshotFailed": "No se pudo hacer la captura. Inténtalo de nuevo."
   },
-  "ppvPreview": {"watch": "Ver vista previa gratis", "title": "Vista previa gratuita del vídeo", "unavailable": "Vista previa no disponible", "retry": "Volver a intentar", "loading": "Cargando vista previa…", "seconds": "Vista previa gratuita (segundos)", "secondsHint": "Elige entre 1 y 30 segundos. Introduce 0 para omitir la vista previa."}
+  "ppvPreview": {"watch": "Ver vista previa gratis", "title": "Vista previa gratuita del vídeo", "unavailable": "Vista previa no disponible", "retry": "Volver a intentar", "loading": "Cargando vista previa…", "seconds": "Vista previa gratuita (segundos)", "secondsHint": "Elige entre 1 y 30 segundos. Introduce 0 para omitir la vista previa."},
+  "liveAudience": {
+    "hereNow": "Aquí ahora",
+    "wasHere": "Estuvieron aquí",
+    "viewersFailed": "No se pudo cargar la lista de espectadores.",
+    "noViewersSharing": "No hay espectadores que mostrar.",
+    "unnamedViewer": "Espectador de Riftn",
+    "viewers": "Espectadores",
+    "presencePrivacy": "Aquí solo aparecen los espectadores que comparten su presencia.",
+    "pastViewers": "Espectadores anteriores"
+  }
 }

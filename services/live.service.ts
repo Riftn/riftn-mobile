@@ -340,6 +340,25 @@ export interface LiveAudience {
   mostActive: (LiveAudienceAccount & { messages: number })[];
 }
 
+export type ViewerPeriod = "now" | "past";
+
+export interface BroadcasterViewers {
+  viewers: Array<{
+    id: string;
+    username?: string;
+    displayName?: string;
+    avatarImageUrl?: string;
+  }>;
+  nextOffset: number | null;
+}
+
+export function getBroadcasterViewers(streamId: string, period: ViewerPeriod, offset: number) {
+  return apiClient.get<BroadcasterViewers>(`/live/${encodeURIComponent(streamId)}/viewers`, {
+    isAuthRequired: true,
+    params: { period, offset },
+  });
+}
+
 export async function getStreamAudience(streamId: string): Promise<LiveAudience> {
   if (!streamId) throw new Error('streamId required');
   const res: any = await apiClient.get<any>(`/live/${encodeURIComponent(streamId)}/audience`, { isAuthRequired: false });

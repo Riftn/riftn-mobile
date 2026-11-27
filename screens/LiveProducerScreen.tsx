@@ -39,6 +39,7 @@ import ReactionOverlay from "../components/LiveProducer/ReactionOverlay";
 import LiveEventBanner from "../components/LiveViewer/LiveEventBanner";
 import type { EventBannerData } from "../components/LiveViewer/LiveEventBanner";
 import ProducerHeader from "../components/LiveProducer/ProducerHeader";
+import BroadcasterViewersSheet from "../components/LiveProducer/BroadcasterViewersSheet";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
 import ProducerFloatingChat from "../components/LiveProducer/ProducerFloatingChat";
 import ProducerBottomBar from "../components/LiveProducer/ProducerBottomBar";
@@ -120,6 +121,7 @@ const LiveProducerScreen: React.FC = () => {
   } = useWebSocket();
   // console.log("LiveProducers", { connected });
   const [showEndConfirm, setShowEndConfirm] = useState(false);
+  const [viewersOpen, setViewersOpen] = useState(false);
 
   // Legacy simulated messages removed; real chat handled inside ProducerFloatingChat
   const [startedAt, setStartedAt] = useState<number | null>(null);
@@ -1520,6 +1522,7 @@ const LiveProducerScreen: React.FC = () => {
                       : undefined
                   }
                   onRequestClose={requestClose}
+                  onShowViewers={() => setViewersOpen(true)}
                   onRequestEndConfirmation={openEndConfirm}
                 />
               ) : null}
@@ -1780,6 +1783,9 @@ const LiveProducerScreen: React.FC = () => {
             onClose={() => setLooksOpen(false)}
           />
         ) : null}
+
+        {streamId && <BroadcasterViewersSheet streamId={String(streamId)} visible={viewersOpen}
+          onClose={() => setViewersOpen(false)} live />}
 
         {/* The phone studio, only where this binary has it. */}
         {studio.supported ? (

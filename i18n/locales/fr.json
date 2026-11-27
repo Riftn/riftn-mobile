@@ -18973,5 +18973,15 @@
     "shareLink": "Partager le lien",
     "snapshotFailed": "Impossible de prendre la capture. Réessaie."
   },
-  "ppvPreview": {"watch": "Voir l’aperçu gratuit", "title": "Aperçu vidéo gratuit", "unavailable": "Aperçu indisponible", "retry": "Réessayer", "loading": "Chargement de l’aperçu…", "seconds": "Aperçu gratuit (secondes)", "secondsHint": "Choisissez entre 1 et 30 secondes. Saisissez 0 pour passer l’aperçu."}
+  "ppvPreview": {"watch": "Voir l’aperçu gratuit", "title": "Aperçu vidéo gratuit", "unavailable": "Aperçu indisponible", "retry": "Réessayer", "loading": "Chargement de l’aperçu…", "seconds": "Aperçu gratuit (secondes)", "secondsHint": "Choisissez entre 1 et 30 secondes. Saisissez 0 pour passer l’aperçu."},
+  "liveAudience": {
+    "hereNow": "Ici maintenant",
+    "wasHere": "Ont été ici",
+    "viewersFailed": "Impossible de charger la liste des spectateurs.",
+    "noViewersSharing": "Aucun spectateur à afficher.",
+    "unnamedViewer": "Spectateur de Riftn",
+    "viewers": "Spectateurs",
+    "presencePrivacy": "Seuls les spectateurs qui partagent leur présence apparaissent ici.",
+    "pastViewers": "Anciens spectateurs"
+  }
 }

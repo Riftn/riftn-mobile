@@ -45,6 +45,7 @@ interface ProducerHeaderProps {
   micMuted: boolean;
   cameraOff: boolean;
   startingHint?: string;
+  onShowViewers: () => void;
   onRequestClose: () => void;
   onRequestEndConfirmation: () => void;
 }
@@ -74,6 +75,7 @@ const ProducerHeader: React.FC<ProducerHeaderProps> = ({
   micMuted,
   cameraOff,
   startingHint,
+  onShowViewers,
   onRequestClose,
   onRequestEndConfirmation,
 }) => {
@@ -198,12 +200,14 @@ const ProducerHeader: React.FC<ProducerHeaderProps> = ({
             <Mic color="#fff" size={14} />
           )}
           {isLive ? (
-            <View className="flex-row items-center ml-1 bg-zinc-900/60 rounded-xl px-2.5 py-1">
+            <TouchableOpacity className="flex-row items-center ml-1 bg-zinc-900/60 rounded-xl px-2.5 py-1"
+              accessibilityRole="button" accessibilityLabel={t("liveAudience.viewers", "Viewers")}
+              hitSlop={8} onPress={onShowViewers}>
               <Eye color="#A6A9AC" size={12} />
               <Text className="text-white/80 text-[11px] ml-1 font-medium">
                 {formatCount(viewers)}
               </Text>
-            </View>
+            </TouchableOpacity>
           ) : null}
         </View>
       </View>
