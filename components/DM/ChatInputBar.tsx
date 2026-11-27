@@ -759,6 +759,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   const hasContent = text.trim().length > 0 || !!media || !!gifUrl || studio.length > 0;
   // Show send button when there's content OR a tip is attached (tip-only send)
   const showSendButton = hasContent || tipAmount > 0;
+  const showVoiceAction = !showSendButton && !editingMessage && !sending;
   // The tray is up in every thread whose last word belongs to the other side —
   // the only moment a suggested reply means anything. Whether the drafter found
   // something to say is still a question the tray ANSWERS, with the orb there to
@@ -815,7 +816,6 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: () => { void handlePickGallery(); } },
     { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: () => { void handlePickAnyFile(); } },
     { key: "gif", icon: "Smile", label: t("dm.trayGif", { defaultValue: "GIF & emoji" }), onPress: () => setGifPickerVisible(true) },
-    { key: "voice", icon: "Mic", label: t("dm.trayVoice", { defaultValue: "Voice note" }), onPress: onStartVoice, disabled: sending },
     ...(canAddTip && onTipPress
       ? [{ key: "tip", icon: "Gem" as const, label: t("dm.trayTip", { defaultValue: "Tip" }), onPress: onTipPress }]
       : []),
@@ -1178,53 +1178,65 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                   style={INPUT_TEXT}
                 />
               </View>
-              {(
-                showCostOnSend ? (
-                  <TouchableOpacity
-                    onPress={handleSend}
-                    disabled={!showSendButton || sending || enhancing || insufficientBalance || tipBelowFee}
-                    activeOpacity={0.7}
-                    hitSlop={2}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("dm.sendMessage")}
-                    accessibilityState={{ disabled: !showSendButton || sending || enhancing || insufficientBalance || tipBelowFee }}
-                    style={{ height: 30, marginBottom: 3, marginLeft: 6, maxWidth: 88, flexShrink: 1 }}
-                    className={`flex-row items-center justify-center rounded-full px-3 ${
-                      insufficientBalance || tipBelowFee
-                        ? "bg-theme-neutrals-700"
-                        : "bg-white/10 border border-white/20"
-                    }`}
-                  >
+              {showVoiceAction ? (
+                <TouchableOpacity
+                  onPress={onStartVoice}
+                  disabled={enhancing || insufficientBalance}
+                  style={{ opacity: enhancing || insufficientBalance ? 0.35 : 1 }}
+                  hitSlop={8}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("dm.trayVoice", { defaultValue: "Voice note" })}
+                  accessibilityState={{ disabled: enhancing || insufficientBalance }}
+                >
+                  <View className="items-center justify-center" style={[SEND_DOT, { backgroundColor: accent }]}>
+                    <Icon name="Mic" size={18} color="#0B0B0C" />
+                  </View>
+                </TouchableOpacity>
+              ) : showCostOnSend ? (
+                <TouchableOpacity
+                  onPress={handleSend}
+                  disabled={!showSendButton || sending || enhancing || insufficientBalance || tipBelowFee}
+                  activeOpacity={0.7}
+                  hitSlop={2}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("dm.sendMessage")}
+                  accessibilityState={{ disabled: !showSendButton || sending || enhancing || insufficientBalance || tipBelowFee }}
+                  style={{ height: 30, marginBottom: 3, marginLeft: 6, maxWidth: 88, flexShrink: 1 }}
+                  className={`flex-row items-center justify-center rounded-full px-3 ${
+                    insufficientBalance || tipBelowFee
+                      ? "bg-theme-neutrals-700"
+                      : "bg-white/10 border border-white/20"
+                  }`}
+                >
+                  {sending ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <>
+                      <Icon name="Send" size={14} color={insufficientBalance || tipBelowFee ? "#666" : "#fff"} />
+                      <Text className={`text-[11px] font-semibold ml-1 flex-shrink ${insufficientBalance || tipBelowFee ? "text-theme-neutrals-500" : "text-white"}`}>
+                        {totalCost} <DhbCoin />
+                      </Text>
+                    </>
+                  )}
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={handleSend}
+                  disabled={!showSendButton || sending || enhancing}
+                  style={{ opacity: showSendButton ? 1 : 0.35 }}
+                  hitSlop={8}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("dm.sendMessage")}
+                  accessibilityState={{ disabled: !showSendButton || sending || enhancing }}
+                >
+                  <View className="items-center justify-center" style={[SEND_DOT, { backgroundColor: accent }]}>
                     {sending ? (
-                      <ActivityIndicator size="small" color="#fff" />
+                      <ActivityIndicator size="small" color="#0B0B0C" />
                     ) : (
-                      <>
-                        <Icon name="Send" size={14} color={insufficientBalance || tipBelowFee ? "#666" : "#fff"} />
-                        <Text className={`text-[11px] font-semibold ml-1 flex-shrink ${insufficientBalance || tipBelowFee ? "text-theme-neutrals-500" : "text-white"}`}>
-                          {totalCost} <DhbCoin />
-                        </Text>
-                      </>
+                      <Icon name="ArrowUp" size={18} color="#0B0B0C" />
                     )}
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={handleSend}
-                    disabled={!showSendButton || sending || enhancing}
-                    style={{ opacity: showSendButton ? 1 : 0.35 }}
-                    hitSlop={8}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("dm.sendMessage")}
-                    accessibilityState={{ disabled: !showSendButton || sending || enhancing }}
-                  >
-                    <View className="items-center justify-center" style={[SEND_DOT, { backgroundColor: accent }]}>
-                      {sending ? (
-                        <ActivityIndicator size="small" color="#0B0B0C" />
-                      ) : (
-                        <Icon name="ArrowUp" size={18} color="#0B0B0C" />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                )
+                  </View>
+                </TouchableOpacity>
               )}
             </View>
           </View>
