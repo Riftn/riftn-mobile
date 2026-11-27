@@ -107,8 +107,8 @@ it.each(['Crab', null])('lets iOS users cancel an active boost with tier %s', ti
 
 it('shows Team up in the iOS catalog without opening the team management sheet', () => {
   const view = render(<SuperPowersScreen />);
-  const shortcut = view.getAllByRole('button').find(button => button.props.disabled);
-  expect(shortcut).toBeTruthy();
+  const [shortcutLabel] = view.getAllByText('Team up');
+  expect(shortcutLabel.parent?.props.disabled).toBe(true);
   expect(view.getAllByText('storefront.unavailable')).toHaveLength(2);
   expect(view.queryByTestId('team-up')).toBeNull();
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
