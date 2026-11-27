@@ -53,6 +53,7 @@ import type { ReactionType } from "../LiveProducer/ReactionOverlay";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import GifPicker from "../DM/GifPicker";
+import LiveChatEmojiButton from "../LiveChat/LiveChatEmojiButton";
 import {
   ChromeFill,
   CHROME_GAP,
@@ -70,6 +71,8 @@ const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
   { type: "LAUGH", emoji: "😂" },
   { type: "SUPPORT", emoji: "✊" },
 ];
+
+const CHAT_MAX_LENGTH = 500;
 
 /** Fast enough for applause, slow enough that one press never sends two. */
 const COOLDOWN_MS = 90;
@@ -444,7 +447,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 // Put down, a draft shows one line so the buttons fit beside it.
                 style={[styles.input, !focused && styles.inputResting]}
                 editable={!inputDisabled}
-                maxLength={500}
+                maxLength={CHAT_MAX_LENGTH}
                 // Grows to four lines so the whole message stays readable; a
                 // one-line box scrolled the start of anything longer out of view.
                 multiline
@@ -454,7 +457,16 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 onFocus={() => { setFocused(true); setReactionsOpen(false); }}
                 onBlur={() => setFocused(false)}
               />
-              {typing ? (
+              {isLive && !inputDisabled ? (
+                <LiveChatEmojiButton
+                  inputRef={inputRef}
+                  onSelect={(emoji) => {
+                    setMessage((draft) => draft.length + emoji.length <= CHAT_MAX_LENGTH ? draft + emoji : draft);
+                    mentions.reset();
+                  }}
+                />
+              ) : null}
+              {typing || canSubmit ? (
                 /* The send key comes in where the buttons fold away. */
                 <Animated.View
                   entering={reduceMotion ? undefined : ZoomIn.duration(200).easing(EASE)}
