@@ -8,7 +8,7 @@ import { withDeHubLanguage } from "../libs/localized-url";
 import { changeLiveCoStreamRequest, getLiveCoStreamAction } from "../services/live-costream";
 
 export function useLiveCoStream({
-  streamId, owner, wallet, username, enabled, onSignIn,
+  streamId, owner, wallet, username, enabled, onSignIn, setBrowserOpen,
 }: {
   streamId: string | null;
   owner?: string | null;
@@ -16,6 +16,7 @@ export function useLiveCoStream({
   username?: string | null;
   enabled: boolean;
   onSignIn: () => void;
+  setBrowserOpen: (open: boolean) => void;
 }) {
   const { t, i18n } = useTranslation();
   const inFlight = useRef(false);
@@ -45,6 +46,7 @@ export function useLiveCoStream({
     try {
       if (action.kind === "join") {
         const url = withDeHubLanguage(`https://dehub.io/app/live/join/${encodeURIComponent(action.roomId)}`, i18n.language);
+        setBrowserOpen(true);
         if (Platform.OS === "ios") await Linking.openURL(url);
         else await openBrowserAsync(url);
       } else {
@@ -52,6 +54,7 @@ export function useLiveCoStream({
         if (changed && action.kind === "ask") toastSuccess(t("liveViewer.coStreamRequested"));
       }
     } catch {
+      if (action.kind === "join") setBrowserOpen(false);
       toastError(t("liveViewer.coStreamError"));
     } finally {
       await query.refetch();
