@@ -249,19 +249,19 @@ async function signInWithOAuthProvider(
   if (result.type !== "success" || !result.url) {
     throw new Error(`${provider} sign-in was cancelled`);
   }
-  // The provider's page has closed: the caller can show its wait now, not
-  // after the session exchange below.
-  onReturned?.();
-  return sessionFromRedirect(result.url, provider);
+  return sessionFromRedirect(result.url, provider, onReturned);
 }
 
 /** Signs in with the session a provider's page sent back to the redirect. */
-async function sessionFromRedirect(url: string, provider: string): Promise<string> {
+async function sessionFromRedirect(url: string, provider: string, onReturned?: () => void): Promise<string> {
   // Supabase returns tokens in the URL fragment (#access_token=...&refresh_token=...).
   const fragment = url.split("#")[1] || url.split("?")[1] || "";
   const params = new URLSearchParams(fragment);
   const access_token = params.get("access_token");
   const refresh_token = params.get("refresh_token");
+  if (params.get("error") === "access_denied") {
+    throw new Error(`${provider} sign-in was cancelled`);
+  }
   if (!access_token || !refresh_token) {
     // Supabase sends its reason back the same way (#error_description=...),
     // e.g. when the provider refused or the account could not be saved.
@@ -270,6 +270,7 @@ async function sessionFromRedirect(url: string, provider: string): Promise<strin
     throw new Error(serverAuthText(reason, _translateCopy("copy.062a0fdcee55", { defaultValue: "Could not establish session" })));
   }
 
+  onReturned?.();
   const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
     access_token,
     refresh_token,
