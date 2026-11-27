@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { View, Text, FlatList, Pressable, TextInput, TouchableOpacity, ActivityIndicator, Keyboard, Platform, StyleSheet, Alert, Animated, useWindowDimensions, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useRoute, useNavigation, CommonActions } from "@react-navigation/native";
+import { useRoute, useNavigation, useIsFocused, CommonActions } from "@react-navigation/native";
 import PostFeedNav from "../components/Home/PostFeedNav";
 import { FEED_SIDE, FEED_TOP } from "../components/Home/feedLayout";
 import { getNFT, type Comment, likeComment, type LikeCommentResult, dislikeComment, type DislikeCommentResult, reactComment, type ReactCommentResult, postComment, editComment, deleteComment, pinComment, hideReply, postImageComment, postGifComment, postAudioComment, postMediaComment, recordCommentViews, setThreadOrder } from "../services/nft.service";
@@ -168,11 +168,32 @@ export default function FeedDetailScreen() {
   if (Platform.OS === "ios" && route.params?.overDrawer) {
     return <OverDrawerProfileOpen>{content}</OverDrawerProfileOpen>;
   }
-  return content;
+  return (
+    <>
+      {Platform.OS === "ios" && route.params?.profileAfterDrawer?.id && <OpenProfileAfterDrawer />}
+      {content}
+    </>
+  );
 }
 
-/** Matches the comments drawer: long enough for the closing modals to leave. */
-const IOS_PROFILE_AFTER_PAGE_MS = 420;
+function OpenProfileAfterDrawer() {
+  const route = useRoute<any>();
+  const navigation = useNavigation<any>();
+  const { showUserProfile } = useUserProfileSheet();
+  const focused = useIsFocused();
+  const settled = useTransitionSettled();
+  const opened = useRef(false);
+  const profile = route.params?.profileAfterDrawer;
+
+  useEffect(() => {
+    if (!focused || !settled || opened.current || !profile?.id) return;
+    opened.current = true;
+    navigation.setParams({ profileAfterDrawer: undefined });
+    showUserProfile(profile.id, profile.options);
+  }, [focused, settled, profile, navigation, showUserProfile]);
+
+  return null;
+}
 
 /**
  * A post opened from the notifications drawer on iPhone is a native modal on
@@ -187,7 +208,6 @@ const IOS_PROFILE_AFTER_PAGE_MS = 420;
 function OverDrawerProfileOpen({ children }: { children: React.ReactNode }) {
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
-  const { showUserProfile } = useUserProfileSheet();
   const leftRef = useRef(false);
   const open = useCallback((id: string, opts?: { initialHeightPct?: number; source?: string }) => {
     if (leftRef.current) return;
@@ -195,15 +215,27 @@ function OverDrawerProfileOpen({ children }: { children: React.ReactNode }) {
     Keyboard.dismiss();
     const { overDrawer: _drop, ...params } = route.params ?? {};
     navigation.dispatch((state: any) => {
-      const routes = state.routes.filter((r: any) => r.key !== route.key && r.name !== ScreenNames.Notifications);
+      const postIndex = state.routes.findIndex((entry: any) => entry.key === route.key);
+      if (postIndex !== state.index || postIndex < 0) {
+        leftRef.current = false;
+        return CommonActions.reset(state);
+      }
+      const drawerIndex = postIndex - 1;
+      const routes = state.routes.filter((_: unknown, index: number) =>
+        index !== postIndex &&
+        !(index === drawerIndex && state.routes[index]?.name === ScreenNames.Notifications),
+      );
       return CommonActions.reset({
         ...state,
-        routes: [...routes, { key: `${route.key}-page`, name: ScreenNames.FeedDetail, params }],
+        routes: [...routes, {
+          key: `${route.key}-page`,
+          name: ScreenNames.FeedDetail,
+          params: { ...params, profileAfterDrawer: { id, options: opts } },
+        }],
         index: routes.length,
       });
     });
-    setTimeout(() => showUserProfile(id, opts), IOS_PROFILE_AFTER_PAGE_MS);
-  }, [navigation, route.key, route.params, showUserProfile]);
+  }, [navigation, route.key, route.params]);
   return <ProfileOpenOverride showUserProfile={open}>{children}</ProfileOpenOverride>;
 }
 
