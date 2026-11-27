@@ -109,7 +109,9 @@ it('shows Team up in the iOS catalog without opening the team management sheet',
   const view = render(<SuperPowersScreen />);
   const [shortcutLabel] = view.getAllByText('Team up');
   expect(shortcutLabel.parent?.props.disabled).toBe(true);
-  expect(view.getAllByText('storefront.unavailable')).toHaveLength(2);
+  expect(view.getAllByText('storefront.unavailable').some(message =>
+    message.parent === shortcutLabel.parent?.parent,
+  )).toBe(true);
   expect(view.queryByTestId('team-up')).toBeNull();
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
 });
