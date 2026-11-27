@@ -82,11 +82,15 @@ it('localizes English API labels in Turkish, including the orbit and badge ladde
   expect(view.getByText('Takipçilerine bir gönderi hakkında tek bir bildirim gönder.')).toBeTruthy();
 });
 
-it('lets iOS users cancel an active boost from usage without offering a purchase or new boost', () => {
-  mockStatus = { tier: 'Crab', badgeBalance: 0, boostsLeft: 2, bookings: [
+it.each(['Crab', null])('lets iOS users cancel an active boost with tier %s', tier => {
+  mockStatus = { tier, badgeBalance: 0, boostsLeft: tier ? 2 : 0, bookings: [
     { id: 'queued', power: 'boost', status: 'active', startsAt: '2026-11-27T00:00:00Z', served: 0 },
     { id: 'completed', power: 'boost', status: 'completed', startsAt: '2026-11-26T00:00:00Z', served: 4 },
-  ], powers: [boost] };
+  ], powers: [
+    { key: 'team_up', label: 'Team up', available: true, tier: null },
+    { ...boost, unlocked: !!tier },
+    { ...boost, key: 'second_wind', label: 'Second Wind', unlocked: false },
+  ] };
   const view = render(<SuperPowersScreen />);
   expect(view.getByText('Boost a post')).toBeTruthy();
   fireEvent.press(view.getByText('superpowers.pastUsage'));
@@ -96,6 +100,9 @@ it('lets iOS users cancel an active boost from usage without offering a purchase
   expect(mockCancelBoost).toHaveBeenCalledWith('queued', expect.any(Object));
   expect(view.queryByText('auth.use')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();
+
+  fireEvent.press(view.getByLabelText('Second Wind'));
+  expect(view.queryByText('superpowers.pastUsage') !== null).toBe(!!tier);
 });
 
 it('shows Team up in the iOS catalog without opening the team management sheet', () => {
