@@ -34,7 +34,6 @@
  */
 export const USERNAME_BADGE_OVERRIDES: ReadonlyMap<string, string> = new Map([
   ["maldoteth", "Megalodon"],
-  ["mal", "Megalodon"],
   ["aaron", "Megalodon"],
   ["ma255", "Ghost Lobster"],
   ["dehubprime", "King Cobra"],
