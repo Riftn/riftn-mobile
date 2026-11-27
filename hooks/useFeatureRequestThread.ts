@@ -209,9 +209,10 @@ export function useFeatureRequestThread(featureRequestId: string | null) {
         const root = rootFor(row);
         const thread = root ? threads.get(root) : undefined;
         if (!thread) continue;
-        thread.replies.push(
-          toComment(row, byComment.get(row.id) ?? [], viewer, byAddress.get(row.wallet_address.toLowerCase())),
-        );
+        const reply = toComment(row, byComment.get(row.id) ?? [], viewer, byAddress.get(row.wallet_address.toLowerCase()));
+        // The row map keeps the real reply target. The composer expands the
+        // visible thread using the root, even when a reply is nested deeply.
+        thread.replies.push({ ...reply, parentId: thread.comment.id });
       }
       const list = [...threads.values()];
       return {

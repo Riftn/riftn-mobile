@@ -31,6 +31,14 @@ describe("openCustomPush", () => {
     expect(markCustomNotificationRead).toHaveBeenCalledWith("custom_row-1", "0xabc");
   });
 
+  it.each([
+    ["feature_request_like", undefined],
+    ["feature_request_comment_like", "liked-comment"],
+  ])("%s opens the liked request or comment", (type, referenceCommentId) => {
+    expect(openCustomPush(nav, { type, referenceId: "req-1", referenceCommentId })).toBe(true);
+    expect(nav).toHaveBeenCalledWith("FeatureRequests", { requestId: "req-1", commentId: referenceCommentId });
+  });
+
   it("governance comments and results open the proposal", () => {
     openCustomPush(nav, { type: "governance_comment_like", referenceId: "p-1", referenceCommentId: "c-9" });
     expect(nav).toHaveBeenLastCalledWith("GovernanceProposal", { proposalId: "p-1", commentId: "c-9" });
