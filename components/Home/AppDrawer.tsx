@@ -1389,7 +1389,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
 
           {!searching && menuGroups.length > 0 && (
             <TouchableOpacity accessibilityRole="button" onPress={() => setMovePickerOpen(true)} className="items-center p-3">
-              <Text style={{ color: appTheme.colors.foreground }} className="text-sm font-semibold">{t("nav.moveShortcut")}</Text>
+              <Text style={{ color: appTheme.colors.foreground }} className="text-sm font-semibold">{t("nav.shortcutPicker.title")}</Text>
             </TouchableOpacity>
           )}
           {searching && (
@@ -1447,7 +1447,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
       <GlassModal visible={visible && movePickerOpen} onClose={closeMovePicker} scrollable>
         <View className="gap-2 px-2 py-3">
           <Text accessibilityRole="header" style={{ color: appTheme.colors.foreground }} className="text-lg font-semibold">
-            {moveItem ? t("nav.moveShortcutTo", { name: t(moveItem.labelKey) }) : t("nav.moveShortcut")}
+            {moveItem ? t("nav.shortcutPicker.destination", { name: t(moveItem.labelKey) }) : t("nav.shortcutPicker.title")}
           </Text>
           {moveItem && moveItemId
             ? MENU_GROUPS.filter((group) => group.id !== moveSource?.id).map((group) => (
