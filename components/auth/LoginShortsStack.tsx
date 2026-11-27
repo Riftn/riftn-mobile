@@ -204,6 +204,7 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
               style={StyleSheet.absoluteFill}
             />
           }
+          pointerEvents="none"
           accessibilityElementsHidden
           importantForAccessibility="no-hide-descendants"
         >
