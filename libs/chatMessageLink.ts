@@ -68,15 +68,19 @@ export function chatLinkKey(target: ChatLinkTarget): string {
 /** Reads a link's chat and message out of a path and query; null for any other link. */
 export function parseChatMessageLink(pathOnly: string, queryString: string): { target: ChatLinkTarget; messageId: string } | null {
   const params = new URLSearchParams(queryString);
-  const messageId = params.get(MESSAGE_LINK_PARAM);
-  if (!messageId || !ID_RE.test(messageId)) return null;
   const segs = pathOnly.split("/").filter(Boolean);
   const rest = segs[0] === "app" ? segs.slice(1) : segs;
+  const legacyPublic = rest.length === 1 && (
+    (rest[0] === "chat" && !params.has("chat")) ||
+    (rest[0] === "messages" && params.get("chat") === "public")
+  );
+  const messageId = params.get(MESSAGE_LINK_PARAM) ?? (legacyPublic ? params.get("chatMessage") : null);
+  if (!canLinkMessage(messageId)) return null;
   let target: ChatLinkTarget | null = null;
   if (rest.length === 1 && (rest[0] === "messages" || rest[0] === "chat")) {
     const conversation = params.get("conversation");
     if (conversation && ID_RE.test(conversation)) target = { kind: "dm", conversationId: conversation };
-    else if (params.get("chat") === "public") {
+    else if (params.get("chat") === "public" || legacyPublic) {
       const room = params.get("room");
       target = { kind: "public", roomId: room && ID_RE.test(room) ? room : null };
     }

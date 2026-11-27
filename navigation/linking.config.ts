@@ -699,7 +699,10 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
     const chatLink = parseChatMessageLink(pathOnly, queryString);
     if (chatLink) {
       setPendingChatLink(chatLink.target, chatLink.messageId);
-      if (chatLink.target.kind === 'public') return getStateFromPath('/app/public-chat', options);
+      if (chatLink.target.kind === 'public') {
+        const roomId = chatLink.target.roomId ?? 'global';
+        return getStateFromPath(`/app/public-chat?roomId=${encodeURIComponent(roomId)}`, options);
+      }
       if (chatLink.target.kind === 'dm') {
         return getStateFromPath(`/app/messages/${encodeURIComponent(chatLink.target.conversationId)}`, options);
       }

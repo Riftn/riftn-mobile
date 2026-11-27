@@ -143,6 +143,7 @@ const LiveChatScreen: React.FC = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.LiveChat>>();
   const sharedTokenId = route.params?.sharedLiveTokenId;
+  const roomId = route.params?.roomId || 'global';
   const pendingShareId = account && typeof sharedTokenId === "string" && /^[1-9]\d*$/.test(sharedTokenId)
     ? sharedTokenId : undefined;
   const [confirmedShare, setConfirmedShare] = useState<{ tokenId: string; account: string } | null>(null);
@@ -226,7 +227,7 @@ const LiveChatScreen: React.FC = () => {
     backToLatest,
     reconnect,
     updateBannedList,
-  } = useLiveChat();
+  } = useLiveChat(roomId === 'global' ? undefined : roomId);
 
   const [replyingTo, setReplyingTo] = useDraftState<LiveChatMessageData | null>("public:reply", null);
   const [showReactionPicker, setShowReactionPicker] = useState<string | null>(null);
@@ -460,7 +461,7 @@ const LiveChatScreen: React.FC = () => {
   // ─── Where you left off ──────────────────────────────────────────────────
   // Signed in, Public Chat opens on the first line you haven't seen (saved on
   // the server, same spot as the website) under an "Unread messages" line.
-  const readSpot = useChatReadPosition(myAddress ? "live:global" : null);
+  const readSpot = useChatReadPosition(myAddress ? `live:${roomId}` : null);
   const openedAtRef = useRef(Date.now());
   const [unreadAnchor, setUnreadAnchor] = useState<UnreadAnchor | null>(null);
   const [readDecided, setReadDecided] = useState(false);
@@ -1118,11 +1119,10 @@ const LiveChatScreen: React.FC = () => {
     return found;
   }, [jumpToMessage]);
 
-  // The app opens copied links to messages in the main room.
-  useLinkedMessage("public", messages.length > 0, focusMessage);
+  useLinkedMessage("public", !joining && room?.roomId === roomId, focusMessage);
   const handleContextCopyLink = useCallback((msg: LiveChatMessageData) => {
-    copyChatMessageLink({ kind: "public" }, msg._id);
-  }, []);
+    copyChatMessageLink({ kind: "public", roomId }, msg._id);
+  }, [roomId]);
 
   const openOlderHit = useCallback(async () => {
     const next = activeHit + 1;

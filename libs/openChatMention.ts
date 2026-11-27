@@ -17,11 +17,14 @@ const isStreamId = (id: unknown): id is string =>
  */
 export function openChatMention(
   navigate: Navigate,
-  target: { mentionContext?: unknown; tokenId?: number | string | null; chatMessageId?: string },
+  target: { mentionContext?: unknown; tokenId?: number | string | null; chatMessageId?: string; roomId?: string; deepLink?: string },
 ): boolean {
-  if (target.mentionContext === "public_chat") {
-    if (canLinkMessage(target.chatMessageId)) setPendingChatLink({ kind: "public" }, target.chatMessageId);
-    navigate(ScreenNames.LiveChat);
+  const legacyMessage = target.deepLink?.match(/^\/chat\?chatMessage=([A-Za-z0-9_-]{1,80})$/)?.[1];
+  if (target.mentionContext === "public_chat" || (!target.mentionContext && legacyMessage)) {
+    const roomId = target.roomId && /^[A-Za-z0-9_-]{1,80}$/.test(target.roomId) ? target.roomId : "global";
+    const messageId = target.chatMessageId || legacyMessage;
+    if (canLinkMessage(messageId)) setPendingChatLink({ kind: "public", roomId }, messageId);
+    navigate(ScreenNames.LiveChat, { roomId });
     return true;
   }
   if (target.mentionContext !== "live_chat" || target.tokenId == null) return false;
