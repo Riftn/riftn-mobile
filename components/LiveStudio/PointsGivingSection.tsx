@@ -33,10 +33,10 @@ export function PointsGivingSection() {
   }, [saved.data, draft]);
 
   const save = useMutation({
-    mutationFn: (next: PointsGiving) => saveMyGiving(next),
-    onSuccess: (giving) => {
+    mutationFn: ({ giving }: { giving: PointsGiving; keepCapDraft?: boolean }) => saveMyGiving(giving),
+    onSuccess: (giving, { keepCapDraft }) => {
       qc.setQueryData(["my-points-giving"], giving);
-      setDraft(giving);
+      setDraft((current) => keepCapDraft && current ? { ...giving, dailyCap: current.dailyCap } : giving);
       toastSuccess(t("livePoints.give.studio.saved"));
     },
     onError: (err) => toastError(err, t("livePoints.studio.saveFailed")),
@@ -49,9 +49,10 @@ export function PointsGivingSection() {
     refetchInterval: 15_000,
   });
 
-  if (saved.isLoading || !draft) return <ActivityIndicator color="#a1a1aa" />;
+  if (saved.isLoading || !saved.data || !draft) return <ActivityIndicator color="#a1a1aa" />;
   const capValid = draft.dailyCap >= 1 && draft.dailyCap <= GIVING_CAP_MAX;
-  const capDirty = !!saved.data && saved.data.dailyCap !== draft.dailyCap;
+  const capDirty = saved.data.dailyCap !== draft.dailyCap;
+  const savedCap = saved.data.dailyCap;
 
   return (
     <View className="gap-3 mt-2" testID="live-studio-points-giving">
@@ -63,7 +64,7 @@ export function PointsGivingSection() {
           <Switch
             value={draft.enabled}
             disabled={save.isPending}
-            onValueChange={(enabled) => save.mutate({ ...draft, enabled })}
+            onValueChange={(enabled) => save.mutate({ giving: { enabled, dailyCap: savedCap }, keepCapDraft: capDirty })}
             accessibilityLabel={t("livePoints.give.studio.switch")}
           />
         </View>
@@ -74,6 +75,7 @@ export function PointsGivingSection() {
             <TextInput
               value={draft.dailyCap ? String(draft.dailyCap) : ""}
               onChangeText={(v) => setDraft({ ...draft, dailyCap: Math.max(0, Math.round(Number(v.replace(/\D/g, "")) || 0)) })}
+              editable={!save.isPending}
               keyboardType="number-pad"
               maxLength={6}
               accessibilityLabel={t("livePoints.give.studio.cap")}
@@ -82,7 +84,7 @@ export function PointsGivingSection() {
           </View>
           <TouchableOpacity
             disabled={!capDirty || !capValid || save.isPending}
-            onPress={() => save.mutate(draft)}
+            onPress={() => save.mutate({ giving: draft })}
             accessibilityRole="button"
             className={`px-3 py-2.5 rounded-xl bg-white ${!capDirty || !capValid || save.isPending ? "opacity-40" : ""}`}
           >
