@@ -8597,6 +8597,11 @@
     "volume": "Volumen"
   },
   "liveViewer": {
+    "coStreamAsk": "Pedir unirse",
+    "coStreamCancel": "Cancelar solicitud",
+    "coStreamJoin": "Salir en pantalla desde el navegador",
+    "coStreamRequested": "Solicitud enviada. Esperando al anfitrión.",
+    "coStreamError": "No se pudo actualizar tu solicitud ni abrir la sala de invitados.",
     "backToLive": "Volver al directo",
     "likeHint": "Mantén pulsado para más reacciones",
     "minimise": "Minimizar",

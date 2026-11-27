@@ -174,11 +174,11 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <KitButton label={t('common.retry')} variant="quiet" onPress={() => { void wallet.refresh(); }} />
         </View>}
         {wallet.loading && wallet.tokens.length === 0 ? <ActivityIndicator style={s.loading} color="#aaa" /> : null}
-        {showAppTokens && (!query || `dhb dehub rift riftn tokens ${appTokenLabel}`.toLowerCase().includes(query)) && <Pressable disabled={!appTokensOn} accessibilityRole={appTokensOn ? 'button' : 'text'} accessibilityLabel={`${appTokenLabel}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
+        {showAppTokens && (!query || `dhb dehub rift riftn tokens ${appTokenLabel}`.toLowerCase().includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`${appTokenLabel}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
           <TokenIcon symbol="DHB" />
           <View style={s.tokenName}><Text style={[s.label, { textTransform: 'capitalize' }]}>{appTokenLabel}</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{format(appDhb)}</Text><Text style={s.muted}>{wallet.prices.DHB ? `$${(appDhb * wallet.prices.DHB).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
-          {appTokensOn && <Icon name="ChevronRight" size={16} color="#999" />}
+          <Icon name="ChevronRight" size={16} color="#999" />
         </Pressable>}
         {visible.map(item => <Pressable key={item.symbol} accessibilityRole="button" accessibilityLabel={`${tokenLabel(item.symbol)}, ${item.unknown ? t('common.failedToLoad') : format(item.amount)}`} onPress={() => setGroup(item)} style={s.tokenRow}>
           <TokenIcon symbol={item.symbol} />
@@ -224,7 +224,11 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
     <TradeSheet visible={trade} onClose={() => setTrade(false)} address={wallet.address} />
     <ArcSendSheet open={!!arc} onClose={() => setArc(null)} address={wallet.address} balance={Number(arc?.balance || 0)} onSent={() => { void wallet.refresh(); }} />
     {appTokensOn && <AppTokenSendSheet open={appSend} onClose={() => setAppSend(false)} />}
-    {appTokensOn && <AppTokenHistorySheet open={appHistory} onClose={() => setAppHistory(false)} onSend={() => setAppSend(true)} />}
+    {showAppTokens && <AppTokenHistorySheet
+      open={appHistory}
+      onClose={() => setAppHistory(false)}
+      onSend={appTokensOn ? () => setAppSend(true) : undefined}
+    />}
     {importing && <ImportTokenSheet onClose={() => setImporting(false)} onImported={() => { setImporting(false); void wallet.refresh(); }} />}
   </View>;
 }

@@ -9,6 +9,8 @@ import InviteFollowers from './InviteFollowers';
 import { shareWithRef } from '../../libs/shareRef';
 import { copyToClipboard } from '../../libs';
 import { toastSuccess } from '../../libs/toast';
+import { chatEmbedCode } from '../../libs/chat-embed-code';
+import { communityKindOf } from '../../libs/community-kinds';
 import { ScreenNames } from '../../navigation/ScreenNames';
 import { ShareLinks } from '../../navigation/linking.config';
 import type { Community } from '../../types/community';
@@ -61,6 +63,11 @@ export default function CommunityShareMenu({ open, onClose, community, wallet, c
           {row('Link', t('communities.copyLink'), () => {
             copyToClipboard(url);
             toastSuccess(t('communities.linkCopied'));
+            onClose();
+          })}
+          {communityKindOf(community) !== 'community' && row('Copy', t('postOptions.copyEmbedCode'), () => {
+            copyToClipboard(chatEmbedCode(community.slug));
+            toastSuccess(t('postOptions.embedCodeCopied'));
             onClose();
           })}
           {row('Share2', t('communities.shareLink'), () => later(() => {

@@ -143,7 +143,7 @@ function SignInFlow({ navigation, isFocused, onClose }: {
 
   const { provisionalUser, isLoading: authLoading, needsUsername, isSignedIn } = useAuthState();
   const { signInWithWallet, signInWithSupabaseSession, completeUsername, signOut } = useAuthActions();
-  const { isWalletLoading, isWalletSheetOpen, isSignupBlocked, handleWalletConnect } = useWalletAuth();
+  const { isWalletLoading, isWalletSheetOpen, isSignupBlocked, handleWalletConnect } = useWalletAuth(isSignedIn);
   const isLoading = authLoading || isLocalLoading || isWalletLoading;
   const dismissible = !isLoading && !needsUsername && !isWalletSheetOpen;
   const dismiss = useCallback(() => {

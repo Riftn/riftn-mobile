@@ -57,6 +57,7 @@ import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
 import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
+import { useLiveCoStream } from "../../hooks/useLiveCoStream";
 import { useNavigation, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -201,6 +202,12 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
   // Refs for cleanup closures — always read latest values, never stale
   const streamIdRef = useRef<string | null>(null);
+  const coStreamBrowserRef = useRef(false);
+  const [coStreamBrowserOpen, setCoStreamBrowserOpen] = useState(false);
+  const setCoStreamBrowser = useCallback((open: boolean) => {
+    coStreamBrowserRef.current = open;
+    setCoStreamBrowserOpen(open);
+  }, []);
   const isSignedInRef = useRef(isSignedIn);
   useEffect(() => { isSignedInRef.current = isSignedIn; }, [isSignedIn]);
 
@@ -1166,6 +1173,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       const sid = streamIdRef.current;
       if (!sid || !navigation.isFocused()) return;
       if (state === "active") {
+        if (coStreamBrowserRef.current) setCoStreamBrowser(false);
         const mini = getLiveMini();
         if (mini?.streamId === sid && mini.mode === "away") closeLiveMini();
         try {
@@ -1177,7 +1185,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         // the player; iPhone hands the sound to the mini player), so the
         // viewer stays in the audience.
         const mini = buildMiniRef.current();
-        if (mini && !isMutedRef.current) {
+        if (mini && !isMutedRef.current && !coStreamBrowserRef.current) {
           if (state === "background" && Platform.OS === "ios" && whepOnRef.current) {
             openLiveMini({ ...mini, mode: "away", release: null });
           }
@@ -1528,14 +1536,15 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // `hideTopControls` and no mute button in the header, a viewer who had
   // ever muted a feed card got a silent stream and nothing to press.
   const [isMuted, setIsMuted] = useState(() => !!restoredFromMini?.muted);
+  const playbackMuted = isMuted || coStreamBrowserOpen;
 
   // Muting the stream mutes the tip readings with it. They are spoken by the
   // phone's speech engine, so the player's own volume does not reach them; a
   // viewer who muted a stream in a quiet room would otherwise have tip
   // messages read out loud at them.
   useEffect(() => {
-    setTipTtsEnabled(!isMuted);
-  }, [isMuted]);
+    setTipTtsEnabled(!playbackMuted);
+  }, [playbackMuted]);
   const toggleMute = useCallback(() => setIsMuted((m) => !m), []);
 
   /*
@@ -1585,7 +1594,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       && !keepSharedHls && restoredFromMini?.url !== effectiveVideoUrl && !bigEvent,
     focused: viewerFocused,
     stream: { playbackId, provider: streamEntity?.provider },
-    muted: isMuted,
+    muted: playbackMuted,
     paused: isPausedEffective,
   });
   // Give AVPlayer a head start on the AAC ladder, without starting playback.
@@ -2188,6 +2197,15 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     holdLift.value = withTiming(px, px ? HOLD_LIFT_TIMING : HOLD_SETTLE_TIMING);
   }, [holdLift]);
   const me = String(user?.walletAddress || user?.address || "").toLowerCase();
+  const coStreamAction = useLiveCoStream({
+    streamId,
+    owner: streamEntity?.address,
+    wallet: isSignedIn ? me : "",
+    username: user?.username,
+    enabled: viewerFocused && isLiveEffective && !isEndedEffective && isPlayable && !isStreamOwner,
+    onSignIn: () => requireAuth(() => undefined),
+    setBrowserOpen: setCoStreamBrowser,
+  });
   // Your name exactly as your own chat line draws it.
   const flyerName: string = (user as any)?.displayName || (user as any)?.username || "";
   const heldId = held?.activity.id;
@@ -2400,7 +2418,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             suppressLoadingFeedback={isPausedEffective}
             fullscreen
             hideTopControls
-            muted={isMuted}
+            muted={playbackMuted}
             pictureFit={coverPortrait ? "cover" : "contain"}
             onVideoSize={onVideoSize}
           />
@@ -2641,6 +2659,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onUnlike={handleLiveUnlike}
                   onShare={handleShare}
                   onGiftPress={handleGiftPress}
+                  coStreamAction={coStreamAction}
                   likeCount={postReactions.likeCount}
                   isLiked={postReactions.isLiked}
                   actionsDisabled={!isSignedIn || !isLiveEffective}

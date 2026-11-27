@@ -8735,6 +8735,11 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "coStreamAsk": "Vragen om mee te doen",
+    "coStreamCancel": "Verzoek annuleren",
+    "coStreamJoin": "In beeld komen via de browser",
+    "coStreamRequested": "Verzoek verzonden. Wachten op de host.",
+    "coStreamError": "Je verzoek kon niet worden bijgewerkt of de gastenruimte kon niet worden geopend.",
     "backToLive": "Terug naar live",
     "likeHint": "Houd ingedrukt voor meer reacties",
     "minimise": "Minimaliseren",

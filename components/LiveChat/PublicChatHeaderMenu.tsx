@@ -14,6 +14,9 @@ import MessageSurface from "../DM/MessageSurface";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCall } from "../../context/CallContext";
 import { PUBLIC_CHAT_CALL_ID } from "../../libs/groupCall";
+import { chatEmbedCode } from "../../libs/chat-embed-code";
+import { copyToClipboard } from "../../libs/clipboard.utils";
+import { toastSuccess } from "../../libs/toast";
 import { SCREEN_HEADER_HEIGHT } from "../ScreenHeader";
 
 function Row({ icon, label, onPress, color, disabled }: { icon: IconName; label: string; onPress: () => void; color: string; disabled?: boolean }) {
@@ -64,6 +67,12 @@ export default function PublicChatHeaderMenu({ onInfo, canCall, onCatchUp }: { o
                 {line}
               </>
             )}
+            <Row color={colors.foreground} icon="Copy" label={t("postOptions.copyEmbedCode")} onPress={() => {
+              copyToClipboard(chatEmbedCode());
+              toastSuccess(t("postOptions.embedCodeCopied"));
+              close();
+            }} />
+            {line}
             <Row color={colors.foreground} icon="Info" label={t("screens.chatInfo", { defaultValue: "Chat info" })} onPress={() => { close(); onInfo(); }} />
           </Pressable>
         </Pressable>

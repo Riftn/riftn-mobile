@@ -9442,6 +9442,11 @@
     "volume": "Ses düzeyi"
   },
   "liveViewer": {
+    "coStreamAsk": "Katılma isteği gönder",
+    "coStreamCancel": "İsteği iptal et",
+    "coStreamJoin": "Tarayıcıda ekrana çık",
+    "coStreamRequested": "İstek gönderildi. Yayıncı bekleniyor.",
+    "coStreamError": "İsteğin güncellenemedi veya konuk odası açılamadı.",
     "backToLive": "Canlıya dön",
     "likeHint": "Daha fazla tepki için basılı tut",
     "minimise": "Küçült",

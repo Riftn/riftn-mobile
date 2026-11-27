@@ -15,6 +15,14 @@ on:
         description: Send this version's newest processed build to App Review (for example 1.19.1)
         type: string
         default: ''
+      submit_build:
+        description: Submit this exact processed build number when specified
+        type: string
+        default: ''
+      manual_release:
+        description: Hold the submitted version for manual release after approval
+        type: boolean
+        default: false
       whats_new:
         description: The "What's New" text for that version
         type: string
@@ -75,6 +83,8 @@ jobs:
           RELEASE_IF_APPROVED: ${{ inputs.release_if_approved }}
           PROMOTIONAL_TEXT: ${{ inputs.promotional_text }}
           SUBMIT_VERSION: ${{ inputs.submit_version }}
+          SUBMIT_BUILD: ${{ inputs.submit_build }}
+          MANUAL_RELEASE: ${{ inputs.manual_release }}
           WHATS_NEW: ${{ inputs.whats_new }}
         run: node scripts/app-store-status.mjs
       - uses: actions/upload-artifact@v4

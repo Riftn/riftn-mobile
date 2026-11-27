@@ -29,7 +29,7 @@ const log = createLogger("useWalletAuth");
 
 const getDefaultChainId = () => ChainId.BASE_MAINNET;
 
-export const useWalletAuth = () => {
+export const useWalletAuth = (addingProfile = false) => {
   const { t: _copy } = _useCopy();
   const [isWalletLoading, setIsWalletLoading] = useState(false);
   // True while AppKit's own wallet-picker sheet is on screen. AppKit renders
@@ -138,7 +138,7 @@ export const useWalletAuth = () => {
   const handleWalletConnect = useCallback(async () => {
     if (authenticatingRef.current) return;
     setIsSignupBlocked(false);
-    if (reconnectRequiredRef.current) {
+    if (reconnectRequiredRef.current || (addingProfile && accountAddress && walletProvider)) {
       authenticatingRef.current = true;
       setIsWalletLoading(true);
       try {
@@ -167,7 +167,7 @@ export const useWalletAuth = () => {
     }
     awaitingUserInitiatedConnectRef.current = true;
     await open();
-  }, [accountAddress, currentChainId, walletProvider, open, authenticateWithWallet, _copy]);
+  }, [addingProfile, accountAddress, currentChainId, walletProvider, open, authenticateWithWallet, _copy]);
 
   // Once AppKit finishes connecting (address + chain + provider all become
   // available), authenticate automatically — the user already proved wallet

@@ -21,6 +21,7 @@ import { useDraftState } from '../../hooks/useDraftState';
  */
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   View,
   Text,
   TextInput,
@@ -52,6 +53,7 @@ import type { ReactionType } from "../LiveProducer/ReactionOverlay";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import GifPicker from "../DM/GifPicker";
+import LiveChatEmojiButton from "../LiveChat/LiveChatEmojiButton";
 import {
   ChromeFill,
   CHROME_GAP,
@@ -69,6 +71,8 @@ const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
   { type: "LAUGH", emoji: "😂" },
   { type: "SUPPORT", emoji: "✊" },
 ];
+
+const CHAT_MAX_LENGTH = 500;
 
 /** Fast enough for applause, slow enough that one press never sends two. */
 const COOLDOWN_MS = 90;
@@ -111,6 +115,12 @@ interface Props {
    *  a tap on the thumb always sends another. */
   onUnlike?: () => void;
   onShare: () => void;
+  coStreamAction?: {
+    label: string;
+    icon: "Hand" | "X" | "ExternalLink";
+    busy: boolean;
+    onPress: () => void;
+  } | null;
   onGiftPress: () => void;
   likeCount: number;
   isLiked: boolean;
@@ -139,6 +149,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   onLike,
   onUnlike,
   onShare,
+  coStreamAction,
   onGiftPress,
   likeCount,
   isLiked,
@@ -273,7 +284,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
   // The buttons' full width comes from how many there are, never from a
   // measure: a measure taken mid-fold read the clipped width and kept them
   // hidden after the keyboard went down.
-  const buttonCount = 2 + (isLive && !inputDisabled ? 1 : 0) + (isLive && showPurchaseOffer ? 1 : 0);
+  const buttonCount = 2 + (isLive && !inputDisabled ? 1 : 0) + (isLive && showPurchaseOffer ? 1 : 0)
+    + (coStreamAction ? 1 : 0);
   const fullWidth = buttonCount * CIRCLE_W + (buttonCount - 1) * CLUSTER_GAP;
   const fold = useSharedValue(0);
   const clusterW = useSharedValue(fullWidth);
@@ -435,7 +447,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 // Put down, a draft shows one line so the buttons fit beside it.
                 style={[styles.input, !focused && styles.inputResting]}
                 editable={!inputDisabled}
-                maxLength={500}
+                maxLength={CHAT_MAX_LENGTH}
                 // Grows to four lines so the whole message stays readable; a
                 // one-line box scrolled the start of anything longer out of view.
                 multiline
@@ -445,7 +457,16 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 onFocus={() => { setFocused(true); setReactionsOpen(false); }}
                 onBlur={() => setFocused(false)}
               />
-              {typing ? (
+              {isLive && !inputDisabled ? (
+                <LiveChatEmojiButton
+                  inputRef={inputRef}
+                  onSelect={(emoji) => {
+                    setMessage((draft) => draft.length + emoji.length <= CHAT_MAX_LENGTH ? draft + emoji : draft);
+                    mentions.reset();
+                  }}
+                />
+              ) : null}
+              {typing || canSubmit ? (
                 /* The send key comes in where the buttons fold away. */
                 <Animated.View
                   entering={reduceMotion ? undefined : ZoomIn.duration(200).easing(EASE)}
@@ -467,12 +488,27 @@ const LiveViewerActionBar: React.FC<Props> = ({
           </View>
         </Animated.View>
 
-        {/* GIF · gift · share · thumb. While you type they fold into the
+        {/* While you type the buttons fold into the
             box's end (one smooth motion, never a swap), and come back out
             when the keyboard goes down with the box empty. */}
         <Animated.View style={[styles.clusterClip, clusterStyle]} pointerEvents={typing ? "none" : "box-none"}
           accessibilityElementsHidden={typing} importantForAccessibility={typing ? "no-hide-descendants" : "auto"}>
         <Animated.View style={[styles.cluster, clusterInnerStyle]} pointerEvents="box-none">
+          {coStreamAction && (
+            <Pressable
+              onPress={coStreamAction.onPress}
+              disabled={coStreamAction.busy}
+              hitSlop={CHROME_HIT_SLOP}
+              accessibilityRole="button"
+              accessibilityLabel={coStreamAction.label}
+              accessibilityState={{ busy: coStreamAction.busy, disabled: coStreamAction.busy }}
+              style={styles.circle}
+            >
+              <ChromeFill glass />
+              {coStreamAction.busy ? <ActivityIndicator size="small" color="#fff" />
+                : <Icon name={coStreamAction.icon} size={19} color="#fff" strokeWidth={1.8} />}
+            </Pressable>
+          )}
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
               accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={styles.circle}>
