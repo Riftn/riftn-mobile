@@ -8624,6 +8624,11 @@
     "volume": "مستوى الصوت"
   },
   "liveViewer": {
+    "coStreamAsk": "اطلب الانضمام",
+    "coStreamCancel": "إلغاء الطلب",
+    "coStreamJoin": "الظهور على الشاشة عبر المتصفح",
+    "coStreamRequested": "أُرسل الطلب. في انتظار المضيف.",
+    "coStreamError": "تعذّر تحديث طلبك أو فتح غرفة الضيوف.",
     "backToLive": "العودة إلى البث المباشر",
     "likeHint": "اضغط مطولاً لمزيد من التفاعلات",
     "minimise": "تصغير",
