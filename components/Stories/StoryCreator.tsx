@@ -47,7 +47,8 @@ import { getCloseFriends, getStoryShelf, setCloseFriends as saveCloseFriends, ST
 import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
-import { loadPostMoment, PostMomentError } from "./post-moment";
+import { loadPostMoment, PostMomentError, type PostMomentDetails } from "./post-moment";
+import { SharedMomentCard, SHARED_MOMENT_CARD_FRACTION } from "./SharedMomentCard";
 import type { TextLayer } from "./story-compose";
 import { PHOTO_BACKDROPS, PHOTO_LOOKS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
@@ -69,7 +70,7 @@ const SHARE_COLORS: Partial<Record<string, { from: string; to: string; ink: stri
 const MAX_MENTIONS = 10;
 
 /** `postTokenId`: shared from one of your posts. A video one plays from the CDN and the server cuts it. */
-type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number; postTokenId?: number; caption?: string };
+type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number; postTokenId?: number; details?: PostMomentDetails };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
 const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
@@ -295,6 +296,12 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   // The 9:16 stage, as large as fits between the top and bottom bars.
   const stageH = Math.min(winH - insets.top - insets.bottom - 96, (winW * 16) / 9);
   const stageW = (stageH * 9) / 16;
+  const sharedPhoto = !!picked.details && picked.kind === "photo";
+  const cardSide = stageW * SHARED_MOMENT_CARD_FRACTION;
+  const editorW = sharedPhoto ? cardSide : stageW;
+  const editorH = sharedPhoto ? cardSide : stageH;
+  const outputHeight = sharedPhoto ? compose?.OUT_W : undefined;
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const [layers, setLayers] = useState<TextLayer[]>([]);
   const [editing, setEditing] = useState<TextLayer | null>(null);
@@ -435,16 +442,16 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       let mimeType = picked.mimeType;
       const fromPostVideo = picked.kind === "video" && picked.postTokenId != null;
       let overlayUri: string | null = null;
-      let caption = picked.caption;
+      let caption: string | undefined;
       if (compose) {
         if (picked.kind === "photo") {
-          uri = await compose.composePhoto(picked.uri, visible, look, backdrop);
+          uri = await compose.composePhoto(picked.uri, visible, look, backdrop, outputHeight);
           mimeType = "image/jpeg";
         } else {
           overlayUri = await compose.composeOverlay(visible);
         }
       } else if (words) {
-        caption = [picked.caption, words].filter(Boolean).join("\n").slice(0, 300);
+        caption = words.slice(0, 300);
       }
       shareMoment(
         {
@@ -462,7 +469,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             caption,
             remixSourceId,
             postTokenId: picked.postTokenId,
-            mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(written) : undefined,
+            mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(written, outputHeight) : undefined,
             ...(isPhoto ? { photoDurationSeconds: customPhotoDuration ? playbackSeconds : undefined } : { trimStart: 0, trimEnd: Math.min(playbackSeconds, maxSeconds) }),
           },
         },
@@ -479,34 +486,44 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const hiddenCount = layers.filter((l) => l.hidden && l.text.trim()).length;
   const { theme, isLight } = useAppTheme();
   const shareColors = isLight ? undefined : SHARE_COLORS[theme];
+  const preview = picked.kind === "video" ? (
+    <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={picked.details ? "contain" : fit} nativeControls={false} surfaceType={picked.details ? "textureView" : undefined} />
+  ) : (
+    <>
+      <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
+      <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
+      {PhotoPreview && (look !== "none" || backdrop !== "blur") ? (
+        <PhotoPreview uri={picked.uri} width={editorW} height={editorH} look={look} backdrop={backdrop} />
+      ) : null}
+    </>
+  );
 
   return (
     <View style={{ flex: 1, paddingTop: insets.top + 8, paddingBottom: insets.bottom + 10 }}>
       <View style={[styles.stage, { width: stageW, height: stageH }]}>
-        {picked.kind === "video" ? (
-          <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} />
-        ) : (
-          <>
-            <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
-            <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
-            {PhotoPreview && (look !== "none" || backdrop !== "blur") ? (
-              <PhotoPreview uri={picked.uri} width={stageW} height={stageH} look={look} backdrop={backdrop} />
-            ) : null}
-          </>
-        )}
-        {layers
-          .filter((l) => l.id !== editing?.id && !l.hidden)
-          .map((l) => (
-            <DraggableText
-              key={l.id}
-              layer={l}
-              stageW={stageW}
-              stageH={stageH}
-              onMove={(x, y) => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, x, y } : x0)))}
-              onHide={() => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, hidden: true } : x0)))}
-              onTap={() => l.mentionAddress ? setMentionTarget({ layer: l }) : setEditing(l)}
-            />
-          ))}
+        {picked.details ? (
+          <SharedMomentCard side={cardSide} details={picked.details} expanded={detailsOpen} onToggle={() => setDetailsOpen(open => !open)}>
+            {preview}
+          </SharedMomentCard>
+        ) : preview}
+        <View pointerEvents="box-none" style={{
+          position: "absolute", left: (stageW - editorW) / 2, top: (stageH - editorH) / 2,
+          width: editorW, height: editorH,
+        }}>
+          {layers
+            .filter((l) => l.id !== editing?.id && !l.hidden)
+            .map((l) => (
+              <DraggableText
+                key={l.id}
+                layer={l}
+                stageW={editorW}
+                stageH={editorH}
+                onMove={(x, y) => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, x, y } : x0)))}
+                onHide={() => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, hidden: true } : x0)))}
+                onTap={() => l.mentionAddress ? setMentionTarget({ layer: l }) : setEditing(l)}
+              />
+            ))}
+        </View>
         {hiddenCount > 0 && !editing ? (
           <View pointerEvents="box-none" style={styles.hiddenTray}>
             <TouchableOpacity className="dark-surface" onPress={() => setLayers((ls) => ls.map((l) => (l.hidden ? { ...l, hidden: false } : l)))}
@@ -752,7 +769,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           layer={editing}
           onChange={setEditing}
           onDone={commitText}
-          stageW={stageW}
+          stageW={editorW}
           bottom={insets.bottom}
         />
       ) : null}
