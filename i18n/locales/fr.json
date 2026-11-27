@@ -8601,6 +8601,11 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "coStreamAsk": "Demander à rejoindre",
+    "coStreamCancel": "Annuler la demande",
+    "coStreamJoin": "Passer à l’écran dans le navigateur",
+    "coStreamRequested": "Demande envoyée. En attente de l’hôte.",
+    "coStreamError": "Impossible de modifier votre demande ou d’ouvrir la salle des invités.",
     "backToLive": "Revenir au direct",
     "likeHint": "Maintenez pour plus de réactions",
     "minimise": "Réduire",

@@ -8358,6 +8358,11 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "coStreamAsk": "Ask to join",
+    "coStreamCancel": "Cancel request",
+    "coStreamJoin": "Go on screen in browser",
+    "coStreamRequested": "Request sent. Waiting for the host.",
+    "coStreamError": "Couldn’t update your request or open the guest room.",
     "backToLive": "Back to live",
     "likeHint": "Hold for more reactions",
     "minimise": "Minimise",

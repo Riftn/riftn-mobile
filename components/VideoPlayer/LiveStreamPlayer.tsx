@@ -57,6 +57,7 @@ import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
 import { liveSwipeDirection, swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
+import { useLiveCoStream } from "../../hooks/useLiveCoStream";
 import { useNavigation, useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -2188,6 +2189,14 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     holdLift.value = withTiming(px, px ? HOLD_LIFT_TIMING : HOLD_SETTLE_TIMING);
   }, [holdLift]);
   const me = String(user?.walletAddress || user?.address || "").toLowerCase();
+  const coStreamAction = useLiveCoStream({
+    streamId,
+    owner: streamEntity?.address,
+    wallet: isSignedIn ? me : "",
+    username: user?.username,
+    enabled: viewerFocused && isLiveEffective && !isEndedEffective && isPlayable && !isStreamOwner,
+    onSignIn: () => requireAuth(() => undefined),
+  });
   // Your name exactly as your own chat line draws it.
   const flyerName: string = (user as any)?.displayName || (user as any)?.username || "";
   const heldId = held?.activity.id;
@@ -2641,6 +2650,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onUnlike={handleLiveUnlike}
                   onShare={handleShare}
                   onGiftPress={handleGiftPress}
+                  coStreamAction={coStreamAction}
                   likeCount={postReactions.likeCount}
                   isLiked={postReactions.isLiked}
                   actionsDisabled={!isSignedIn || !isLiveEffective}
