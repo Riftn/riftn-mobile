@@ -27,6 +27,9 @@ import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import type { UserReference, ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
 import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { PointsIcon } from "../LiveViewer/PointsIcon";
+import LiveChatEmojiButton from "../LiveChat/LiveChatEmojiButton";
+
+const CHAT_MAX_LENGTH = 240;
 
 export interface ProducerChatActivity {
   status: StreamActivityType | "SYSTEM";
@@ -146,6 +149,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   // @tagging: typing @ offers people, picking one fills in "@username ".
   const mentions = useMentions(message, setMessage as (t: string) => void, undefined, false);
   const sending = useRef(false);
+  const inputRef = useRef<TextInput>(null);
   const listRef = useRef<FlatList<ProducerChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
   // Measured against the keys, like every other composer. Lifting by the raw
@@ -276,6 +280,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
         style={{ marginBottom: composerKeyboard.lift, minHeight: 44 }}
       >
         <TextInput
+          ref={inputRef}
           value={message}
           onChangeText={mentions.handleChangeText}
           onSelectionChange={mentions.handleSelectionChange}
@@ -285,11 +290,20 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
           placeholderTextColor="#8B8D90"
           className="flex-1 text-white text-sm leading-5"
           editable={canSend && isLive}
-          maxLength={240}
+          maxLength={CHAT_MAX_LENGTH}
           multiline={false}
           returnKeyType="send"
           onSubmitEditing={handleSend}
         />
+        {canSend && isLive ? (
+          <LiveChatEmojiButton
+            inputRef={inputRef}
+            onSelect={(emoji) => {
+              setMessage((draft) => draft.length + emoji.length <= CHAT_MAX_LENGTH ? draft + emoji : draft);
+              mentions.reset();
+            }}
+          />
+        ) : null}
         <TouchableOpacity
           onPress={handleSend}
           disabled={!message.trim() || !canSend}
