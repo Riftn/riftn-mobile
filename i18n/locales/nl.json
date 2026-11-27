@@ -19221,5 +19221,15 @@
     "shareLink": "Link delen",
     "snapshotFailed": "Momentopname mislukt. Probeer opnieuw."
   },
-  "ppvPreview": {"watch": "Gratis voorvertoning bekijken", "title": "Gratis videovoorvertoning", "unavailable": "Voorvertoning niet beschikbaar", "retry": "Opnieuw proberen", "loading": "Voorvertoning laden…", "seconds": "Gratis voorvertoning (seconden)", "secondsHint": "Kies 1 tot 30 seconden. Voer 0 in om de voorvertoning over te slaan."}
+  "ppvPreview": {"watch": "Gratis voorvertoning bekijken", "title": "Gratis videovoorvertoning", "unavailable": "Voorvertoning niet beschikbaar", "retry": "Opnieuw proberen", "loading": "Voorvertoning laden…", "seconds": "Gratis voorvertoning (seconden)", "secondsHint": "Kies 1 tot 30 seconden. Voer 0 in om de voorvertoning over te slaan."},
+  "liveAudience": {
+    "hereNow": "Nu hier",
+    "wasHere": "Waren hier",
+    "viewersFailed": "Kon de kijkers niet laden.",
+    "noViewersSharing": "Geen kijkers om weer te geven.",
+    "unnamedViewer": "Riftn-kijker",
+    "viewers": "Kijkers",
+    "presencePrivacy": "Hier verschijnen alleen kijkers die hun aanwezigheid delen.",
+    "pastViewers": "Eerdere kijkers"
+  }
 }

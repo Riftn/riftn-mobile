@@ -7,7 +7,7 @@ import { tokenLabel } from '../../libs/token-label';
  * Every figure is a trusted one from the stream API: gifts only once the chain
  * paid them, followers who followed during the broadcast.
  */
-import React from "react";
+import React, { useState } from "react";
 import { ActivityIndicator, Share, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import { getAvatarUrl } from "../../libs/misc";
 import { formatStreamDuration, getLastEndedStreamId, getStreamRecap, type StreamRecap } from "../../services/live.service";
 
 import { formatCount } from '../../libs/format-count';
+import BroadcasterViewersSheet from "../LiveProducer/BroadcasterViewersSheet";
 interface Props {
   address: string | null | undefined;
   /** A stream to recap instead, e.g. the one just ended. */
@@ -36,6 +37,7 @@ function Stat({ label, value }: { label: string; value: string }) {
 
 export function RecapSection({ address, streamId }: Props) {
   const { t } = useTranslation();
+  const [viewersOpen, setViewersOpen] = useState(false);
   const target = useQuery({
     queryKey: ["stream-recap-target", address, streamId ?? null],
     queryFn: async () => streamId || (await getLastEndedStreamId(address || "")),
@@ -101,6 +103,12 @@ export function RecapSection({ address, streamId }: Props) {
         <Stat label={t("liveRecap.reactions")} value={formatCount(r.reactions)} />
         {r.shares != null ? <Stat label={t("liveRecap.shares")} value={formatCount(r.shares)} /> : null}
       </View>
+
+      <TouchableOpacity accessibilityRole="button" onPress={() => setViewersOpen(true)}
+        className="min-h-11 self-start justify-center rounded-lg border border-theme-neutrals-600 px-3">
+        <Text className="text-sm font-medium text-white">{t("liveAudience.pastViewers", "Past viewers")}</Text>
+      </TouchableOpacity>
+      <BroadcasterViewersSheet streamId={id} visible={viewersOpen} onClose={() => setViewersOpen(false)} />
 
       {r.topTippers.length ? (
         <View className="gap-2">
