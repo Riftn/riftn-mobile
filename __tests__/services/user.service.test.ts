@@ -196,7 +196,7 @@ describe('services/user.service', () => {
 
   describe('followUser / unfollowUser', () => {
     it('keeps a successful private request pending without signing a follow', async () => {
-      mockGet.mockResolvedValueOnce({ result: true, status: 'pending', isPrivateAccount: true });
+      mockPost.mockResolvedValueOnce({ result: true, status: 'pending', isPrivateAccount: true });
 
       await expect(followUser('0xme', '0xtarget')).resolves.toMatchObject({
         status: 'pending',
@@ -206,12 +206,15 @@ describe('services/user.service', () => {
     });
 
     it('follows a user', async () => {
-      mockGet.mockResolvedValueOnce({ result: { status: 'following' } });
-      const res = await followUser('0xme', '0xtarget');
+      mockPost.mockResolvedValueOnce({ result: { status: 'following' } });
+      const res = await followUser('0xme', '0xTarget');
       expect(res.status).toBe('following');
-      const url = mockGet.mock.calls[0][0] as string;
-      expect(url).toContain('address=0xme');
-      expect(url).toContain('following=0xtarget');
+      expect(mockPost).toHaveBeenCalledWith(
+        '/request_follow',
+        { following: '0xtarget' },
+        { isAuthRequired: true },
+      );
+      expect(mockGet).not.toHaveBeenCalled();
     });
 
     it('unfollows a user', async () => {
@@ -223,7 +226,7 @@ describe('services/user.service', () => {
     });
 
     it('defaults status when missing', async () => {
-      mockGet.mockResolvedValueOnce({});
+      mockPost.mockResolvedValueOnce({});
       const res = await followUser('0xme', '0xtarget');
       expect(res.status).toBe('following');
     });
