@@ -132,6 +132,7 @@ export interface User {
    * the account's next chain read, so readers need a fallback.
    */
   ownBadgeBalance?: number;
+  legacyDhbBalance?: number;
   stakedDHB?: number;
   uploads?: number;
   followers?: number; // count of followers

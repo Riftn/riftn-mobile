@@ -6,6 +6,11 @@ import { dhbPosition, dhbBreakdown, dhbStaked } from '../../libs/dhb-position';
  * what the user has — the Settings row did exactly that.
  */
 describe('dhbPosition', () => {
+  it('uses the separate legacy balance even when RIFT is the only holding', () => {
+    expect(dhbPosition({ ownBadgeBalance: 283_334, legacyDhbBalance: 0 })).toBe(0);
+    expect(dhbPosition({ ownBadgeBalance: 283_334, legacyDhbBalance: 50_000 })).toBe(50_000);
+  });
+
   it('keeps DAO badge credit out of wallet holdings and staking totals', () => {
     const user = {
       ownBadgeBalance: 1_100_000,

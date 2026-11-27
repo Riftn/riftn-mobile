@@ -927,7 +927,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const badgeImg = useMemo(() => getBadgeUrlFor(user as any), [user]);
   const { data: appTokensConfig } = useAppTokensConfig(visible);
   const { data: appTokens } = useAppTokens(visible && appTokensConfig?.enabled === true);
-  const legacyBalance = user?.ownBadgeBalance ?? 0;
+  const legacyBalance = user?.legacyDhbBalance ?? user?.ownBadgeBalance ?? 0;
   const walletBalance = appTokensConfig?.enabled ? Number(appTokens?.balance) : appTokensConfig ? legacyBalance : NaN;
   const balanceHidden = useBalanceHidden();
 
