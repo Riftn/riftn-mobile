@@ -107,9 +107,9 @@ it.each(['Crab', null])('lets iOS users cancel an active boost with tier %s', ti
 
 it('shows Team up in the iOS catalog without opening the team management sheet', () => {
   const view = render(<SuperPowersScreen />);
-  fireEvent.press(view.getByLabelText('Team up'));
-  expect(view.getByText('Team up')).toBeTruthy();
-  expect(view.getByText('storefront.unavailable')).toBeTruthy();
+  const [shortcutLabel] = view.getAllByText('Team up');
+  expect(shortcutLabel.parent?.props.disabled).toBe(true);
+  expect(view.getAllByText('storefront.unavailable').length).toBeGreaterThan(0);
   expect(view.queryByTestId('team-up')).toBeNull();
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
 });
@@ -122,8 +122,7 @@ it('keeps existing boost and Team up actions available on Android', () => {
   const view = render(<SuperPowersScreen />);
   fireEvent.press(view.getByText('auth.use'));
   expect(view.getByTestId('spend-power').props.children).toBe('boost');
-  fireEvent.press(view.getByLabelText('Team up'));
-  fireEvent.press(view.getAllByText('Team up').slice(-1)[0]);
+  fireEvent.press(view.getByText('Team up'));
   expect(view.getByTestId('team-up')).toBeTruthy();
 });
 
