@@ -89,13 +89,11 @@ it('sends app tokens only, never onchain, once app tokens are on', () => {
   expect(tree.root.findAll(node => (node.type as any) === 'SendTokenSheet')).toHaveLength(0);
 });
 
-it('shows legacy holdings as a read-only row alongside the app balance', () => {
+it('hides legacy holdings while showing the app balance', () => {
   mockAppTokens.enabled = true;
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<WalletOverview onBuy={jest.fn()} onStake={jest.fn()} />); });
-  const label = tree.root.findAll(node => node.type === 'Text' && node.props.children === 'wallet.legacyDhb')[0];
-  expect(label).toBeDefined();
-  expect(label.parent?.parent?.props.onPress).toBeUndefined();
+  expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === 'wallet.legacyDhb')).toHaveLength(0);
   expect(tree.root.findAll(node => node.type === 'Pressable' && node.props.accessibilityLabel === 'tokens, 1,500')).toHaveLength(1);
   act(() => tree.unmount());
 });
