@@ -1,7 +1,7 @@
 internal import Expo
 import React
 import ReactAppDependencyProvider
-import RiftnMediaBridge
+internal import RiftnMediaBridge
 
 @main
 class AppDelegate: ExpoAppDelegate, RiftnReactNativeFactoryProvider {
