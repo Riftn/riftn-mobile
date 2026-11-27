@@ -359,7 +359,20 @@ function ChestardGame({ wallet, data, snapshotRef, handle }: { wallet: string | 
     }
   }, [board, runId, signedIn, sounds, t, guestBest, queryClient]);
 
-  const leaderboard = data?.leaderboard ?? [];
+  const boards: { key: string; title: string; description: string | null; rows: ChestardState['leaderboard'] }[] = [{
+    key: 'all-time',
+    title: t('games.chestard.boardTitle'),
+    description: null,
+    rows: data?.leaderboard ?? [],
+  }];
+  if (data?.daily) {
+    boards.unshift({
+      key: 'daily',
+      title: t('games.chestard.dailyTitle', { defaultValue: 'Daily challenge' }),
+      description: t('games.chestard.dailyRules', { defaultValue: 'Sign in to compete. Your best score from runs started today counts. Resets at midnight UTC.' }),
+      rows: data.daily.leaderboard,
+    });
+  }
   const rollLabel = board.over ? t('games.chestard.playAgain') : started ? t('games.chestard.roll') : t('games.chestard.start');
 
   return (
@@ -422,23 +435,26 @@ function ChestardGame({ wallet, data, snapshotRef, handle }: { wallet: string | 
         </PageSection>
       ) : null}
 
-      <PageSection title={t('games.chestard.boardTitle')}>
-        {leaderboard.length ? (
-          <View style={{ gap: 6 }}>
-            {leaderboard.map((row) => (
-              <View key={row.player.address} style={[styles.boardRow, row.player.address === wallet && styles.boardMine]}>
-                <Text style={styles.rank}>{row.rank}</Text>
-                <Avatar uri={row.player.avatarImageUrl} size={28} name={nameOf(row.player).replace('@', '')} />
-                <Text style={styles.boardName} numberOfLines={1}>{nameOf(row.player)}</Text>
-                <Text style={styles.boardLines}>{t('games.chestard.linesShort', { count: row.lines })}</Text>
-                <Text style={styles.boardScore}>{formatCount(row.best)}</Text>
-              </View>
-            ))}
-          </View>
-        ) : (
-          <Text style={styles.note}>{t('games.chestard.boardEmpty')}</Text>
-        )}
-      </PageSection>
+      {boards.map(({ key, title, description, rows }) => (
+        <PageSection key={key} title={title}>
+          {description ? <Text style={styles.how}>{description}</Text> : null}
+          {rows.length ? (
+            <View style={{ gap: 6 }}>
+              {rows.map((row) => (
+                <View key={row.player.address} style={[styles.boardRow, row.player.address === wallet && styles.boardMine]}>
+                  <Text style={styles.rank}>{row.rank}</Text>
+                  <Avatar uri={row.player.avatarImageUrl} size={28} name={nameOf(row.player).replace('@', '')} />
+                  <Text style={styles.boardName} numberOfLines={1}>{nameOf(row.player)}</Text>
+                  <Text style={styles.boardLines}>{t('games.chestard.linesShort', { count: row.lines })}</Text>
+                  <Text style={styles.boardScore}>{formatCount(row.best)}</Text>
+                </View>
+              ))}
+            </View>
+          ) : (
+            <Text style={styles.note}>{t('games.chestard.boardEmpty')}</Text>
+          )}
+        </PageSection>
+      ))}
 
       <PageSection title={t('games.chestard.howTitle')}>
         <Text style={styles.how}>{t('games.chestard.how')}</Text>
@@ -456,11 +472,17 @@ const ChestardScreen = () => {
   const [shareOpen, setShareOpen] = useState(false);
   const snapshotRef: SnapshotRef = useRef(null);
   const handle = user?.username ? `@${String(user.username).replace(/^@+/, '')}` : null;
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['chestard', wallet],
     queryFn: () => chestardState(!!wallet),
     staleTime: 15_000,
   });
+  const dailyEndsAt = data?.daily?.endsAt;
+  useEffect(() => {
+    if (!dailyEndsAt) return;
+    const timer = setTimeout(() => void refetch(), Math.max(0, Date.parse(dailyEndsAt) - Date.now() + 1000));
+    return () => clearTimeout(timer);
+  }, [dailyEndsAt, refetch]);
 
   return (
     <View className="bg-theme-background" style={{ flex: 1 }}>
