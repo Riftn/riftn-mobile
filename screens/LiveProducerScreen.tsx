@@ -54,7 +54,9 @@ import { closeLiveMini } from "../libs/live-mini";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { createViewCountUpdater, seedViewerStats } from "../libs/viewers.util";
 import { updateStreamSettings, getIngestUrl, fallbackToLivepeer } from "../services/live.service";
-import { deletePost } from "../services/nft.service";
+import { deletePost, getNFT } from "../services/nft.service";
+import { useQuery } from "@tanstack/react-query";
+import { resolveLikeCount } from "../libs/reactions";
 import { useUser, useAuthState } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
 import { useStreamerProgress } from "../hooks/useStreamerProgress";
@@ -89,6 +91,7 @@ const STARVED_FPS = 5;
 const STARVED_KBPS = 150;
 /** Consecutive bad samples before it is called (2s each — see WebRTCPublisher). */
 const STARVED_SAMPLES = 2;
+const POST_LIKES_REFRESH_MS = 15_000;
 
 const LiveProducerScreen: React.FC = () => {
   const { t: _copy } = _useCopy();
@@ -249,6 +252,13 @@ const LiveProducerScreen: React.FC = () => {
   // joins, so the creator's replies reached nobody and viewers' lines never
   // showed here. Tips, joins and other stream events still come from there.
   const chatTokenId = tokenId ?? (streamEntity as any)?.tokenId;
+  const { data: postLikes } = useQuery({
+    queryKey: ["live-broadcast-post-likes", chatTokenId],
+    queryFn: async () => resolveLikeCount((await getNFT(chatTokenId)).result),
+    enabled: chatTokenId != null && stage === "live",
+    refetchInterval: POST_LIKES_REFRESH_MS,
+    staleTime: POST_LIKES_REFRESH_MS,
+  });
   const liveChat = useLiveChat(chatTokenId != null ? `stream:${chatTokenId}` : undefined, { requireRoom: true });
   // Hold a line in your own chat: reactions, who reacted, Copy, Moderate, Delete.
   const me = String(user?.walletAddress || user?.address || "").toLowerCase();
@@ -1495,12 +1505,7 @@ const LiveProducerScreen: React.FC = () => {
                   peakViewers={
                     typeof peakViewers === "number" ? peakViewers : 0
                   }
-                  likes={
-                    liveLikes ||
-                    streamEntity?.likes ||
-                    streamEntity?.likesCount ||
-                    0
-                  }
+                  likes={postLikes ?? liveLikes}
                   bitrateKbps={publishStats.bitrateKbps || 0}
                   starved={starved}
                   micMuted={micMuted}
