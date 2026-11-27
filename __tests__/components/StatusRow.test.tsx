@@ -8,7 +8,11 @@ jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime')
 jest.mock('react-native', () => ({
   Platform: { OS: 'ios' },
   StyleSheet: { flatten: (style: unknown) => style },
-  Animated: { createAnimatedComponent: (component: unknown) => component },
+  Animated: {
+    createAnimatedComponent: (component: unknown) => component,
+    Value: class { interpolate() { return 0; } },
+    timing: () => ({ start: () => undefined }),
+  },
   View: 'View',
   Text: 'Text',
   ScrollView: 'ScrollView',
@@ -23,7 +27,8 @@ jest.mock('../../libs/toast', () => ({}));
 jest.mock('../../context/AuthContext', () => ({}));
 jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: true, pageColors: { foreground: '#111', background: '#fff' } }) }));
 jest.mock('../../components/common/Avatar', () => () => null);
-jest.mock('../../components/common/SmartImage', () => () => null);
+jest.mock('../../components/common/SmartImage', () => ({ source }: { source: { uri: string } }) =>
+  require('react').createElement('View', { testID: 'status-image', source }));
 jest.mock('../../components/Stories/ActivityShelfMenu', () => ({ ActivityShelfMenu: () => null }));
 jest.mock('../../components/DM/GifPicker', () => () => null);
 jest.mock('../../components/Post/SoundPickerSheet', () => () => null);
@@ -43,7 +48,9 @@ it('opens a followed account’s status without a matching conversation', async 
       postedAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 3600_000).toISOString(),
     },
   };
-  jest.mocked(getNotes).mockResolvedValue({ mine: null, notes: [entry] });
+  const gifUrl = 'https://media.giphy.com/media/example/giphy.gif';
+  const gifEntry = { author: { ...author, username: 'gif-user' }, note: { ...entry.note, id: 'gif-status', text: 'GIF caption', gifUrl } };
+  jest.mocked(getNotes).mockResolvedValue({ mine: null, notes: [entry, gifEntry] });
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const onOpen = jest.fn();
   render(
@@ -54,4 +61,8 @@ it('opens a followed account’s status without a matching conversation', async 
 
   fireEvent.press(await screen.findByRole('button', { name: 'Araf: hello' }));
   expect(onOpen).toHaveBeenCalledWith(entry);
+  fireEvent.press(screen.getByRole('button', { name: 'gif-user' }));
+  expect(onOpen).toHaveBeenLastCalledWith(gifEntry);
+  expect(screen.getByTestId('status-image').props.source).toEqual({ uri: gifUrl });
+  expect(screen.queryByText('GIF caption')).toBeNull();
 });
