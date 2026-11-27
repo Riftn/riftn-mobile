@@ -413,7 +413,7 @@ describe("device profile limit", () => {
 
   it("honours the username overrides web applies", () => {
     expect(getProfileAllowance([{ username: "maldoteth" }]).maxProfiles).toBe(15);
-    expect(getProfileAllowance([{ username: "@mal" }]).tierName).toBe("Megalodon");
+    expect(getProfileAllowance([{ username: "@mal" }]).tierName).toBe("Starter");
   });
 
   it("never exceeds the storage ceiling", () => {

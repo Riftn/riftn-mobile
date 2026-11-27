@@ -21,7 +21,7 @@ describe("getPostAllowanceForBadge", () => {
 
   it("honours username overrides", () => {
     expect(getPostAllowanceForBadge(undefined, "maldoteth").postsPerDay).toBe(14);
-    expect(getPostAllowanceForBadge(undefined, "@mal").tierName).toBe("Megalodon");
+    expect(getPostAllowanceForBadge(undefined, "@mal").tierName).toBe("Starter");
   });
 });
 
