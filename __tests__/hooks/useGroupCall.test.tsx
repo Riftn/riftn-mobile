@@ -9,7 +9,6 @@ const mockToastInfo = jest.fn(); const mockToastWarning = jest.fn();
 let mockPresence: Record<string, unknown[]> = {};
 let mockWallet = '0xabcdef0123456789abcdef0123456789abcdef01';
 jest.mock('../../context/AuthContext', () => ({ useAuth: () => ({ user: { walletAddress: mockWallet } }) }));
-jest.mock('../../config/agora.config', () => ({ AGORA_APP_ID: 'app' }));
 jest.mock('../../libs/call-ringtone', () => ({ startCallRingtone: jest.fn(), stopCallRingtone: jest.fn() }));
 jest.mock('../../libs/logger', () => ({ createLogger: () => ({ warn: jest.fn(), error: jest.fn() }) }));
 jest.mock('../../libs/api.client', () => ({ apiClient: { post: (...args: unknown[]) => mockPush(...args) } }));
@@ -61,7 +60,7 @@ beforeEach(() => {
   engine.registerEventHandler.mockImplementation(h => { handler = h; });
   mockCreate.mockReturnValue(engine);
   mockInsert.mockResolvedValue({ data: [{ id: 'ring-1' }, { id: 'ring-2' }], error: null });
-  mockToken.mockResolvedValue({ token: 'token', uid: 0 });
+  mockToken.mockResolvedValue({ appId: 'token-app', token: 'token', uid: 0 });
 });
 afterEach(() => { cleanup(); visualActivity.setCall(false, false); jest.clearAllTimers(); jest.useRealTimers(); });
 

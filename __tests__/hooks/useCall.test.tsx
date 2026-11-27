@@ -7,7 +7,6 @@ const mockWalletSession = jest.fn(); const mockPush = jest.fn();
 const mockCheck = jest.fn(); const mockCallPing = jest.fn(); const mockSubscription = jest.fn();
 let mockWallet = 'alice';
 jest.mock('../../context/AuthContext', () => ({ useAuth: () => ({ user: { walletAddress: mockWallet } }) }));
-jest.mock('../../config/agora.config', () => ({ AGORA_APP_ID: 'app' }));
 jest.mock('../../libs/logger', () => ({ createLogger: () => ({ warn: jest.fn(), error: jest.fn() }) }));
 jest.mock('../../libs/api.client', () => ({ apiClient: { post: (...args: unknown[]) => mockPush(...args) } }));
 jest.mock('../../libs/wallet-session', () => ({ ensureWalletSession: (...args: unknown[]) => mockWalletSession(...args) }));
@@ -20,7 +19,11 @@ jest.mock('../../services/supabase', () => ({
   supabase: {
     from: () => ({
       insert: () => ({ select: () => ({ single: () => mockInsert() }) }),
-      update: (data: unknown) => ({ eq: (field: string, id: string) => mockUpdate(data, field, id) }),
+      update: (data: unknown) => ({ eq: (field: string, id: string) => Object.assign(mockUpdate(data, field, id), {
+        eq: (column: string, status: string) => ({
+          select: () => ({ maybeSingle: () => mockUpdate(data, field, id, column, status) }),
+        }),
+      }) }),
       select: () => { const q = { eq: () => q, order: () => q, limit: () => q, single: () => mockCheck() }; return q; },
     }),
     channel: () => { const c = {
@@ -53,13 +56,15 @@ beforeEach(() => {
   engine.registerEventHandler.mockImplementation(h => { handler = h; });
   mockCreate.mockReturnValue(engine);
   mockInsert.mockResolvedValue({ data: session, error: null });
-  mockToken.mockResolvedValue({ token: 'token', uid: 1 }); mockUpdate.mockResolvedValue({ error: null });
+  mockToken.mockResolvedValue({ appId: 'token-app', token: 'token', uid: 1 }); mockUpdate.mockResolvedValue({ error: null });
 });
 afterEach(() => { cleanup(); visualActivity.setCall(false, false); jest.clearAllTimers(); jest.useRealTimers(); });
 
 it('attaches the caller credential to push delivery', async () => {
   const { result } = renderHook(useCall);
   await act(async () => { await result.current.startCall('bob'); });
+  expect(engine.initialize).toHaveBeenCalledWith({ appId: 'token-app' });
+  expect(mockToken).toHaveBeenCalledWith('dm-call-call-1', 'publisher', 0, 'alice');
   expect(mockWalletSession).toHaveBeenCalledWith('alice');
   expect(mockPush).toHaveBeenCalledWith('/push/call-ring', {sessionId:session.id, walletSession:'signed-caller-session'}, {isAuthRequired:true});
 });
@@ -84,6 +89,7 @@ it('applies incoming audio choices on answer and resets them for a new call', as
   expect(result.current.isSpeakerOn).toBe(true);
   expect(mockCreate).not.toHaveBeenCalled();
 
+  mockUpdate.mockResolvedValue({ data: { id: session.id }, error: null });
   await act(async () => { await result.current.acceptCall(); });
   expect(engine.joinChannel.mock.calls[0][3]).toMatchObject({ publishMicrophoneTrack: false });
   expect(engine.setDefaultAudioRouteToSpeakerphone).toHaveBeenCalledWith(true);
@@ -189,4 +195,33 @@ it('keeps the call provider still while the duration advances', async () => {
   expect(renders).toBe(settledRenders);
   expect(result.current.callStartedAt).toBe(startedAt);
   expect(result.current.isCallActive).toBe(true);
+});
+
+async function renderIncomingDirectCall() {
+  const incoming = { ...session, caller_address: 'bob', recipient_address: 'alice', created_at: new Date().toISOString() };
+  mockCheck.mockResolvedValueOnce({ data: incoming });
+  const view = renderHook(useCall);
+  await act(async () => { await Promise.resolve(); });
+  expect(view.result.current.isIncoming).toBe(true);
+  return view;
+}
+
+it('does not join or end a ring that is already closed or answered elsewhere', async () => {
+  const { result } = await renderIncomingDirectCall();
+  mockUpdate.mockResolvedValue({ data: null, error: null });
+  await act(async () => { await result.current.acceptCall(); });
+  expect(mockUpdate).toHaveBeenCalledWith({ status: 'connected' }, 'id', session.id, 'status', 'ringing');
+  expect(mockUpdate).not.toHaveBeenCalledWith({ status: 'ended' }, 'id', session.id);
+  expect(mockToken).not.toHaveBeenCalled();
+  expect(result.current.currentCall).toBeNull();
+});
+
+it('cleans up an answered direct call when the peer never joins', async () => {
+  const { result } = await renderIncomingDirectCall();
+  mockUpdate.mockResolvedValue({ data: { id: session.id }, error: null });
+  await act(async () => { await result.current.acceptCall(); });
+  expect(result.current.isConnecting).toBe(true);
+  await act(async () => { jest.advanceTimersByTime(30_000); await Promise.resolve(); });
+  expect(result.current.currentCall).toBeNull();
+  expect(engine.release).toHaveBeenCalled();
 });
