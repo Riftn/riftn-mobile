@@ -35,10 +35,6 @@ export function AppTokenPreview() {
             <Text style={styles.labelText}>{t('appTokens.previewBalance', 'Available in-app balance')}</Text>
             <Text style={styles.heading}>{format(data.balance)}</Text>
           </View>
-          <View style={styles.line}>
-            <Text style={styles.labelText}>{t('appTokens.previewFanSiteCredit', 'Fan.site merger credit')}</Text>
-            <Text style={styles.labelText}>{data.fanSiteCredit ? format(data.fanSiteCredit) : t('appTokens.previewNoFanSiteCredit', 'No recorded credit')}</Text>
-          </View>
           <View style={styles.credits}>
             <Text style={styles.heading}>{t('appTokens.previewCredits', 'Recent transfers received and account credits')}</Text>
             {data.credits.length ? data.credits.map((entry, index) => {
