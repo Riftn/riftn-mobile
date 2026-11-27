@@ -1,3 +1,6 @@
+import PrimaryButton from "../components/ui/PrimaryButton";
+import { deleteNotificationIds } from "../libs/delete-notifications";
+import { formatCount } from "../libs/format-count";
 import SkeletonBlock from '../components/Feed/SkeletonBlock';
 import { RouteBusyMark } from '../context/RouteBusyContext';
 import { openChatMention } from "../libs/openChatMention";
@@ -588,6 +591,10 @@ interface NotificationRowProps {
   onPress: (item: NotificationItem) => void;
   onMarkRead: (item: NotificationItem) => void;
   onClear: (item: NotificationItem) => void;
+  onSelect?: (id: string) => void;
+  selecting?: boolean;
+  selected?: boolean;
+  selectionDisabled?: boolean;
   onOpenProfile: (
     actorAddress?: string,
     actorUsername?: string,
@@ -613,6 +620,10 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
   onPress,
   onMarkRead,
   onClear,
+  onSelect,
+  selecting = false,
+  selected = false,
+  selectionDisabled = false,
   onOpenProfile,
   onAcceptFollowRequest,
   onRejectFollowRequest,
@@ -645,8 +656,8 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     item.type !== NotificationType.SYSTEM &&
     item.type !== NotificationType.ACCOUNT_WARNING;
   const sentence = localizedNotificationContent(item, t, i18n.language) ?? item.content;
-  // Press and hold a row to offer Translate; it then shows the row and its
-  // comment or request in the reader's language until Show original.
+  // Translate shows the row and its comment or request in the reader's
+  // language until Show original.
   const [translateOffer, setTranslateOffer] = useState(false);
   const [translateOn, setTranslateOn] = useState(false);
   useEffect(() => {
@@ -808,19 +819,33 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
       }}
     >
       <TouchableOpacity
-        onPress={clickable ? () => onPress(item) : undefined}
-        onLongPress={() => setTranslateOffer(true)}
-        delayLongPress={350}
-        activeOpacity={clickable ? 0.5 : 1}
-        // Clean feed: no fill and no separator. Unread is the dot on the left.
-        style={{
+        onPress={selecting ? () => onSelect?.(item._id) : clickable ? () => onPress(item) : undefined}
+        onLongPress={() => {
+          // Keep the long-press handler attached until release so Pressability
+          // does not send a tap that immediately deselects the first row.
+          if (selecting) return;
+          if (onSelect) onSelect(item._id);
+          else setTranslateOffer(true);
+        }}
+        delayLongPress={450}
+        activeOpacity={selecting || clickable ? 0.7 : 1}
+        disabled={selecting && selectionDisabled}
+        accessibilityRole={selecting ? "checkbox" : undefined}
+        accessibilityLabel={selecting ? sentence : undefined}
+        accessibilityState={selecting ? { checked: selected, disabled: selectionDisabled } : undefined}
+        className={selected ? "rounded-2xl bg-theme-neutrals-800" : undefined}
+      >
+        <View
+          pointerEvents={selecting ? "none" : "auto"}
+          accessibilityElementsHidden={selecting}
+          importantForAccessibility={selecting ? "no-hide-descendants" : "auto"}
+          style={{
           flexDirection: 'row',
           alignItems: 'flex-start',
           paddingVertical: 12,
           paddingLeft: 18,
-          paddingRight: 12,
-        }}
-      >
+          paddingRight: selecting ? 44 : 12,
+        }}>
         {!item.read && (
           <TouchableOpacity
             onPress={handleMarkRead}
@@ -1132,8 +1157,23 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
           </View>
         )}
 
+        {onSelect && !translateOffer && !translateOn && !selecting && (
+          <TouchableOpacity
+            onPress={() => {
+              setTranslateOffer(true);
+              void toggleTranslate();
+            }}
+            activeOpacity={0.7}
+            hitSlop={{ ...CLEAR_HIT_SLOP, top: 10 }}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.translate')}
+            className="ml-1.5 h-[26px] w-[26px] items-center justify-center"
+          >
+            <Icon name="Languages" size={14} color={badgeInk} />
+          </TouchableOpacity>
+        )}
         {/* Clear this one away. Mark-as-read is the unread dot on the left. */}
-        <TouchableOpacity
+        {!selecting && <TouchableOpacity
           onPress={handleClear}
           activeOpacity={0.7}
           hitSlop={{ ...CLEAR_HIT_SLOP, top: 10 }}
@@ -1144,7 +1184,16 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
           <Animated.View style={clearIconStyle}>
             <View style={{ opacity: 0.45 }}><Icon name="X" size={14} color="#F4F4F5" /></View>
           </Animated.View>
-        </TouchableOpacity>
+        </TouchableOpacity>}
+        </View>
+        {selecting && (
+          <View
+            pointerEvents="none"
+            className={`absolute right-3 top-4 h-5 w-5 items-center justify-center rounded-md border ${selected ? 'border-theme-neutrals-100 bg-theme-neutrals-100' : 'border-theme-neutrals-500'}`}
+          >
+            {selected && <Icon name="Check" size={14} color={colors.background} />}
+          </View>
+        )}
       </TouchableOpacity>
 
       {isModerationDecision && (
@@ -1237,6 +1286,9 @@ const NotificationScreen = () => {
    * hand every one of them straight back.
    */
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
+  const [selection, setSelection] = useState<Set<string> | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const deleting = useRef(false);
   const [quickSettingsOpen, setQuickSettingsOpen] = useState(false);
   // Mounted on first use: an always-mounted sheet was built on every open.
   const [quickSettingsMounted, setQuickSettingsMounted] = useState(false);
@@ -1783,6 +1835,22 @@ const NotificationScreen = () => {
   // Read state as of when each row was listed; see byFeedGroup.
   const listedUnreadRef = useRef(new Map<string, boolean>());
   const listedUnread = useCallback((n: NotificationItem) => listedUnreadRef.current.get(n._id) ?? !n.read, []);
+  useEffect(() => {
+    setSelection(null);
+  }, [selectedFilter, searchQuery, walletAddress]);
+
+  useFocusEffect(useCallback(() => () => setSelection(null), []));
+
+  const toggleSelection = useCallback((id: string) => {
+    if (deleting.current) return;
+    setSelection(previous => {
+      const next = new Set(previous);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
   const filteredNotifications = useMemo(() => {
     const visible = dismissedIds.size
       ? notifications.filter((n) => !dismissedIds.has(n._id))
@@ -2169,6 +2237,43 @@ const NotificationScreen = () => {
     fetchNotificationsRef.current(true);
   }, []);
 
+  const selectableIds = useMemo(() => filteredNotifications.map(row => row._id), [filteredNotifications]);
+  const selectedIds = selection ? selectableIds.filter(id => selection.has(id)) : [];
+  const allShownSelected = selectableIds.length > 0 && selectedIds.length === selectableIds.length;
+  const deleteSelected = async () => {
+    const wallet = walletAddress;
+    if (!wallet || !selectedIds.length || deleting.current) return;
+    deleting.current = true;
+    setIsDeleting(true);
+    try {
+      const deleted = new Set(await deleteNotificationIds(selectedIds, wallet));
+      if (walletAddressRef.current !== wallet) return;
+      if (deleted.size) {
+        const keep = (row: NotificationItem) => !deleted.has(row._id);
+        invalidateNotificationSnapshot(wallet);
+        // A refresh that was in flight can still carry these rows.
+        setDismissedIds(previous => new Set([...previous, ...deleted]));
+        customRowsRef.current = customRowsRef.current.filter(keep);
+        setNotifications(previous => previous.filter(keep));
+        setCountsSource(previous => previous.filter(keep));
+        for (const [key, entry] of tabCacheRef.current) {
+          tabCacheRef.current.set(key, { ...entry, rows: entry.rows.filter(keep) });
+        }
+        tabFetchedAtRef.current.clear();
+        fetchNotificationsRef.current(true);
+      }
+      if (deleted.size === selectedIds.length) {
+        setSelection(null);
+      } else {
+        setSelection(new Set(selectedIds.filter(id => !deleted.has(id))));
+        reportActionError(undefined, t('notifications.deleteSelectedError', 'Some notifications could not be deleted. Try again.'));
+      }
+    } finally {
+      deleting.current = false;
+      setIsDeleting(false);
+    }
+  };
+
   const onLoadMore = useCallback(() => {
     if (listFetchingRef.current || !hasMore) return;
     setLoadingMore(true);
@@ -2379,6 +2484,10 @@ const NotificationScreen = () => {
         onPress={handleNotificationPress}
         onMarkRead={handleMarkRead}
         onClear={handleClearNotification}
+        onSelect={index >= 0 ? toggleSelection : undefined}
+        selecting={index >= 0 && selection !== null}
+        selected={index >= 0 && !!selection?.has(item._id)}
+        selectionDisabled={isDeleting}
         onOpenProfile={openUserProfile}
         onAcceptFollowRequest={handleAcceptFollowRequest}
         onRejectFollowRequest={handleRejectFollowRequest}
@@ -2392,6 +2501,9 @@ const NotificationScreen = () => {
       handleRejectFollowRequest,
       openUserProfile,
       headingAt,
+      toggleSelection,
+      selection,
+      isDeleting,
     ]
   );
 
@@ -2516,7 +2628,7 @@ const NotificationScreen = () => {
           icon="notifications"
           canGoBack={false}
           title={t("notifications.title")}
-          pillLine={search !== null ? (
+          pillLine={search !== null && !selection ? (
             <NotificationSearchLine
               value={search}
               onChange={setSearch}
@@ -2525,7 +2637,20 @@ const NotificationScreen = () => {
               closeLabel={t("notifications.searchClose", "Close search")}
             />
           ) : undefined}
-          tabs={
+          tabs={selection ? (
+            <View className="flex-row flex-wrap items-center justify-end gap-2 px-3 py-2">
+              <PrimaryButton neutral size="sm" hitSlop={4} disabled={isDeleting}
+                title={t('common.cancel', 'Cancel')} onPress={() => setSelection(null)} />
+              <PrimaryButton neutral size="sm" hitSlop={4} disabled={isDeleting || !selectableIds.length}
+                title={allShownSelected ? t('notifications.deselectAll', 'Deselect all') : t('notifications.selectAllShown', 'Select all shown')}
+                onPress={() => setSelection(new Set(allShownSelected ? [] : selectableIds))} />
+              <PrimaryButton size="sm" hitSlop={4} style={{ minWidth: 104 }} disabled={!selectedIds.length} loading={isDeleting}
+                title={selectedIds.length
+                  ? t('notifications.deleteSelection', { selected: formatCount(selectedIds.length), defaultValue: 'Delete ({{selected}})' })
+                  : t('common.delete', 'Delete')}
+                onPress={() => void deleteSelected()} />
+            </View>
+          ) : (
             <TypeTabs
               selected={selectedFilter}
               onSelect={handleFilterChange}
@@ -2533,6 +2658,8 @@ const NotificationScreen = () => {
               activityCounts={tabActivityCounts}
               actions={
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <PrimaryButton neutral size="sm" hitSlop={4} disabled={!selectableIds.length}
+                  title={t('notifications.select', 'Select')} onPress={() => setSelection(new Set())} />
                 <TouchableOpacity
                   onPress={() => {
                     setQuickSettingsMounted(true);
@@ -2568,12 +2695,12 @@ const NotificationScreen = () => {
               </View>
               }
             />
-          }
+          )}
         />
       }
     >
       
-      {walletAddress && (
+      {!selection && walletAddress && (
         <NotificationCatchUp key={walletAddress} wallet={walletAddress} dismissedIds={dismissedIds}
           onOpenNotification={handleNotificationPress} onRefresh={onRefresh} />
       )}
