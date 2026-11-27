@@ -3,7 +3,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { Platform, PermissionsAndroid, AppState } from "react-native";
 import createAgoraRtcEngine, {
   type IRtcEngine, type IRtcEngineEventHandler, type VideoCanvas,
-  VideoSourceType, RenderModeType, ChannelProfileType, ClientRoleType, RawAudioFrameOpModeType,
+  VideoSourceType, LocalVideoStreamState, RenderModeType, ChannelProfileType, ClientRoleType, RawAudioFrameOpModeType,
   BackgroundSourceType, BackgroundBlurDegree, SegModelType, FeatureType, type VirtualBackgroundSource,
 } from "react-native-agora";
 import { CALL_BACKGROUNDS, colorNumber, loadCallBackground, loadCallBackgroundPhoto, pathFromUri, saveCallBackground, type CallBackgroundId } from "../libs/callBackground";
@@ -77,7 +77,7 @@ export interface UseCallReturn {
   isCallActive: boolean; isIncoming: boolean; currentCall: CallSession | null;
   isConnecting: boolean; isMuted: boolean; isSpeakerOn: boolean; isCameraOff: boolean;
   callStartedAt: number | null; remoteUid: number | null; peerAddress: string;
-  localCanvas: VideoCanvas; remoteCanvas: VideoCanvas; remoteVideoEpoch: number;
+  localCanvas: VideoCanvas; remoteCanvas: VideoCanvas; localVideoEpoch: number; remoteVideoEpoch: number;
   startCall: (recipientAddress: string, callType?: "audio" | "video") => Promise<void>;
   endCall: () => void; acceptCall: () => void; rejectCall: () => void;
   /** Answer from the phone's call screen (CallKit / Android call notification), even with the app in the background. */
@@ -133,6 +133,7 @@ export function useCall(): UseCallReturn {
   // is keyed on it: a surface attached before the first frame could stay black
   // until the call was minimised and reopened (which remounted it).
   const [remoteVideoEpoch, setRemoteVideoEpoch] = useState(0);
+  const [localVideoEpoch, setLocalVideoEpoch] = useState(0);
   const [isMinimized, setMinimized] = useState(false);
   const [callSummary, setCallSummary] = useState<CallSummary | null>(null);
   const [groupParticipants, setGroupParticipants] = useState<GroupParticipant[]>([]);
@@ -491,6 +492,12 @@ export function useCall(): UseCallReturn {
           if (!current()) return;
           setRemoteUid(uid);
           markLive();
+        },
+        // Reattach the preview if it mounted before the camera started capturing.
+        onLocalVideoStateChanged: (source, state) => {
+          if (!current() || media?.closed || source !== VideoSourceType.VideoSourceCamera ||
+              state !== LocalVideoStreamState.LocalVideoStreamStateCapturing) return;
+          setLocalVideoEpoch(n => n + 1);
         },
         // Decoding (2): the first frames are arriving, so redraw the surface.
         onRemoteVideoStateChanged: (_connection, _uid, state) => {
@@ -955,13 +962,13 @@ export function useCall(): UseCallReturn {
     groupModeration, modMuted, moderateGroupMember,
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
-    callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas, remoteVideoEpoch,
+    callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas, localVideoEpoch, remoteVideoEpoch,
     startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
     callBackground, callBackgroundSupported, setCallBackground,
   }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, groupCamerasFull, startGroupCall, joinGroupCall, readGroupLevels,
     groupModeration, modMuted, moderateGroupMember,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
-    callStartedAt, remoteUid, peerAddress, remoteCanvas, remoteVideoEpoch, startCall, endCall, acceptCall, acceptCallById, declineCallById,
+    callStartedAt, remoteUid, peerAddress, remoteCanvas, localVideoEpoch, remoteVideoEpoch, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
 }

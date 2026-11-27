@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { RtcSurfaceView } from "react-native-agora";
+import { View, Text, StyleSheet, Platform } from "react-native";
+import { RtcSurfaceView, RtcTextureView } from "react-native-agora";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
@@ -10,6 +10,8 @@ import { CallStage, CallIdentity, CallControl, CallDock, CallFoot } from "./Call
 import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import type { PeerIdentity } from "./usePeerIdentity";
 import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
+
+const LocalVideoView = Platform.OS === "android" ? RtcTextureView : RtcSurfaceView;
 
 const VideoCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = ({ peer, onMessage }) => {
   const {
@@ -21,6 +23,7 @@ const VideoCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = 
     isSpeakerOn,
     isCameraOff,
     localCanvas,
+    localVideoEpoch,
     remoteCanvas,
     remoteVideoEpoch,
     remoteUid,
@@ -82,21 +85,18 @@ const VideoCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = 
         <CallIdentity kindIcon="Video" kindLabel={t("calls.videoCall")} peer={peer} status={status} ringing={isRinging} direct />
       )}
 
-      {/* Own camera. Always mounted so the preview can attach before the call state settles. */}
+      {/* Android uses a texture so the preview follows the tile's clipping and stacking. */}
       <View
         style={[styles.self, live ? { bottom: footClearance, width: 104, height: 148 } : { top: insets.top + 68, width: 84, height: 120 }]}
         pointerEvents="none"
       >
-        <RtcSurfaceView
-          style={[StyleSheet.absoluteFill, { opacity: isCameraOff ? 0 : 1 }]}
-          zOrderMediaOverlay={true}
-          canvas={localCanvas}
-        />
         {isCameraOff ? (
           <View style={styles.selfOff} accessibilityLabel={t("calls.cameraOff")}>
             <Icon name="VideoOff" size={20} color="rgba(255,255,255,0.62)" />
           </View>
-        ) : null}
+        ) : (
+          <LocalVideoView key={localVideoEpoch} style={StyleSheet.absoluteFill} canvas={localCanvas} />
+        )}
       </View>
 
       {callBackgroundSupported ? (
