@@ -1,4 +1,4 @@
-import { confirmChatDelivery, roomMessageMatches, waitForChatRoom } from '../libs/chat-delivery';
+import { confirmChatDelivery, liveTextConfirmation, roomMessageMatches, waitForChatRoom } from '../libs/chat-delivery';
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
 import { io, Socket } from "socket.io-client";
@@ -342,7 +342,9 @@ export const useLiveChat = (
         // months-old ones. It is read when the reader comes back to the end.
         if (hasNewerRef.current) return;
         setMessages((prev) => {
-          const next = [...prev, normalizeMsg(msg)];
+          const row = normalizeMsg(msg);
+          if (prev.some(message => message._id === row._id)) return prev;
+          const next = [...prev, row];
           // History the reader scrolled back for is kept whole.
           if (olderPagesRef.current) return next;
           return next.length > MAX_CHAT_MESSAGES ? next.slice(-MAX_CHAT_MESSAGES) : next;
@@ -542,6 +544,9 @@ export const useLiveChat = (
     if (!requireRoom && !socket.connected) return false;
     const isCurrent = () => socketRef.current === socket && roomIdRef.current === roomId &&
       myAddressRef.current === account.toLowerCase();
+    const matchesText = roomId?.startsWith('stream:') && payload.messageType === 'text'
+      ? liveTextConfirmation(socket, { account, content: payload.content ?? '', room: roomId, replyTo: payload.replyTo })
+      : undefined;
     let signedOut = false;
     // The token rides with the message: a connection the server took as a
     // guest is signed in again by the send itself.
@@ -570,7 +575,22 @@ export const useLiveChat = (
           socket.emit(EVENTS.SEND, token ? { ...line, token } : line);
         },
         messageEvent: EVENTS.NEW_MESSAGE, errorEvent: EVENTS.ERROR,
-        matches: message => roomMessageMatches(message, { account, content: payload.content ?? '', room: roomId, attachment: payload.audioUrl || payload.gif?.url || payload.media?.[0]?.url }),
+        matches: matchesText ?? (message => roomMessageMatches(message, { account, content: payload.content ?? '', room: roomId, attachment: payload.audioUrl || payload.gif?.url || payload.media?.[0]?.url })),
+        recover: matchesText && (async sentAt => {
+          const { messages: recent } = await getLiveChatMessages({ roomId, limit: 50 });
+          if (!isCurrent()) return false;
+          const confirmed = recent.find(message => matchesText(message, sentAt));
+          if (!confirmed) return false;
+          if (!hasNewerRef.current) {
+            const row = normalizeMsg(confirmed);
+            setMessages(prev => {
+              if (prev.some(message => message._id === row._id)) return prev;
+              const next = [...prev, row].sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt));
+              return olderPagesRef.current ? next : next.slice(-MAX_CHAT_MESSAGES);
+            });
+          }
+          return true;
+        }),
       });
     };
     const token = await freshToken().catch(() => null);
