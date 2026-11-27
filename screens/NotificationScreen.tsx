@@ -701,7 +701,8 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     queryFn: async () => {
       if (postId == null) return null;
       const { result } = await getNFT(postId);
-      if (result.isUnlocked === false && !result.isOwner) return null;
+      const locked = result.is_locked || result.streamInfo?.isLockContent;
+      if (locked && !result.isUnlocked && !result.isOwner) return null;
       return resolveReplyPostThumbnail(nftToReplyPost(result, postId), postId) ?? null;
     },
     staleTime: 5 * 60_000,
