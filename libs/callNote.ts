@@ -24,6 +24,10 @@ export function endedCallLabel(t: TFunction): string {
   return t("calls.ended", { defaultValue: "Call ended" });
 }
 
+export function callTypeLabel(note: CallNote, t: TFunction): string {
+  return note.video ? t("calls.videoCallShort") : t("calls.voiceCallShort");
+}
+
 export function localizeDmCallPreview(
   message: { content?: string | null; msgType?: string; undecryptable?: boolean } | null | undefined,
   t: TFunction,
@@ -33,7 +37,7 @@ export function localizeDmCallPreview(
 
   const note = parseEndedCallNote(message.content);
   if (!note) return undefined;
-  const preview = `${note.video ? "📹" : "📞"} ${endedCallLabel(t)}`;
+  const preview = `${note.video ? "📹" : "📞"} ${callTypeLabel(note, t)} · ${endedCallLabel(t)}`;
   return note.duration ? `${preview} · ${note.duration}` : preview;
 }
 
