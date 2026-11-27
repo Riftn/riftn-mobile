@@ -27,6 +27,18 @@ jest.mock('@reown/appkit-ethers5-react-native', () => ({
 
 beforeEach(() => { jest.clearAllMocks(); mockSignIn.mockReset(); });
 
+it('opens a fresh connection when adding a profile with a wallet already connected', async () => {
+  let wallet!: ReturnType<typeof useWalletAuth>;
+  function Screen() { wallet = useWalletAuth(true); return null; }
+  let root!: ReturnType<typeof create>;
+  await act(async () => { root = create(<Screen />); });
+  await act(async () => { await wallet.handleWalletConnect(); });
+  expect(mockKit.disconnect).toHaveBeenCalledTimes(1);
+  expect(mockKit.open).toHaveBeenCalledTimes(1);
+  expect(mockSignIn).not.toHaveBeenCalled();
+  await act(async () => { root.unmount(); });
+});
+
 it('keeps repeated connect taps and provider updates to one login at a time', async () => {
   let finish!: () => void;
   mockSignIn.mockImplementation(() => new Promise<void>(resolve => { finish = resolve; }));
