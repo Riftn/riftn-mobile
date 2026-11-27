@@ -47,6 +47,7 @@ import { isKidsBlockedEmoji } from "../../libs/emoji/kids-safe";
 import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { EmojiImage } from "../common/EmojiText";
 import AddCustomEmojiPanel from "../common/AddCustomEmojiPanel";
+import { useAppTheme } from "../../context/ThemeContext";
 
 interface EmojiSheetProps {
   visible: boolean;
@@ -113,6 +114,7 @@ function toCustomRows(prefix: string, items: CustomEmoji[], withAdd: boolean): R
  */
 export default function EmojiSheet({ visible, onClose, onSelect, selected, keepOpen }: EmojiSheetProps) {
   const { t, i18n } = useTranslation();
+  const { isLight } = useAppTheme();
   const maxV = useMemo(() => maxEmojiVersion(), []);
   const [ready, setReady] = useState(false);
   const [query, setQuery] = useSurfaceDraft("components/Upload/EmojiSheet.tsx:query", "");
@@ -457,11 +459,11 @@ export default function EmojiSheet({ visible, onClose, onSelect, selected, keepO
         )}
 
         {/* Categories */}
-        <View style={styles.cats} onLayout={(e) => setCatsWidth(e.nativeEvent.layout.width)}>
+        <View style={[styles.cats, isLight && styles.lightCats]} onLayout={(e) => setCatsWidth(e.nativeEvent.layout.width)}>
           {catsWidth > 0 && activeIndex >= 0 && (
             <Animated.View
               pointerEvents="none"
-              style={[styles.catLine, { width: catW, transform: [{ translateX: lineX }] }]}
+              style={[styles.catLine, isLight && styles.lightCatLine, { width: catW, transform: [{ translateX: lineX }] }]}
             />
           )}
           {sections.map((s) => {
@@ -560,8 +562,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(255,255,255,0.12)",
     paddingHorizontal: 4,
   },
+  lightCats: { borderBottomColor: "rgba(255,255,255,0.08)" },
   cat: { flex: 1, height: 36, alignItems: "center", justifyContent: "center" },
   catLine: { position: "absolute", left: 4, bottom: 0, height: 2, borderRadius: 1, backgroundColor: "#ffffff" },
+  lightCatLine: { opacity: 0.65 },
   listContent: { paddingHorizontal: 6, paddingBottom: 24 },
   header: { height: HEADER_H, justifyContent: "center", paddingHorizontal: 8 },
   headerText: { color: "#a1a1aa", fontSize: 12, fontWeight: "500" },
