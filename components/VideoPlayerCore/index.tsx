@@ -315,6 +315,8 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     live: liveMode,
     allowed: () => (navigation.isFocused() || isPictureInPicturePlayer(player)) && !visualActivity.isCallBusy() && canStartVideo(player),
   });
+  const showBuffering = isBuffering || (!liveMode &&
+    (playbackPhase === 'loading' || playbackPhase === 'retrying'));
   const hasError = playbackPhase === 'failed';
   useEffect(() => {
     if (hasError) { setIsBuffering(false); onError?.(new Error('Playback unavailable')); }
@@ -425,6 +427,13 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   // Subscribe to player events
   useEffect(() => {
     const subscriptions = [
+      player.addListener('playToEnd', () => {
+        if (liveMode || player.loop) return;
+        setPlayRequested(false);
+        setIsBuffering(false);
+        setIsPlaying(false);
+        onPlayStateChange?.(false);
+      }),
       player.addListener('playingChange', ({ isPlaying: playing }) => {
         if (!isMountedRef.current || (liveMode && liveMiniOwnsPlayer(sourceUrl))) return;
         if (playing && (visualActivity.isCallBusy() || !canStartVideo(player))) { stopPlayback(); return; }
@@ -957,7 +966,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
       {/* Keep buffering visible when live or replay controls are hidden. */}
       {!suppressLoadingFeedback && sourceUrl && playRequested && !hasError &&
         ((liveMode && firstFrameSource !== sourceUrl) ||
-          (isBuffering && (liveMode || hideControls || !showControls))) && (
+          (showBuffering && (liveMode || hideControls || !showControls))) && (
           <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: 'center', justifyContent: 'center' }]}>
             <DeHubLoader size={40} />
           </View>
@@ -1046,7 +1055,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
           {/* Center Controls */}
           <CenterControls
             isPlaying={isPlaying}
-            isBuffering={isBuffering}
+            isBuffering={playRequested && showBuffering}
             onTogglePlay={togglePlay}
             onSeekBack={() => handleSeek('backward')}
             onSeekForward={() => handleSeek('forward')}
