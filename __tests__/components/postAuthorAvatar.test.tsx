@@ -4,6 +4,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { FeedCardHeader } from '../../components/Home/FeedCardHeader';
 import { useLiveTarget } from '../../hooks/useIsUserLive';
 import { openLiveTarget } from '../../libs/openLiveTarget';
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from '../../components/Stories/MomentPeek';
 
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
@@ -31,9 +32,9 @@ jest.mock('../../hooks/useIsUserLive', () => ({
 jest.mock('../../libs/openLiveTarget', () => ({ openLiveTarget: jest.fn() }));
 jest.mock('../../components/common/CoAuthorBits', () => ({ CoAuthorAvatarBadge: () => null, CoAuthorNames: () => null }));
 jest.mock('../../components/Stories/MomentPeek', () => ({
-  MomentPeekBadge: () => null,
-  useFaceMoment: () => null,
-  useOpenMoments: () => jest.fn(),
+  MomentAvatarOutline: jest.fn(() => null),
+  useFaceMoment: jest.fn(() => null),
+  useOpenMoments: jest.fn(() => jest.fn()),
 }));
 
 it('uses the profile handler for a post avatar even when its author is live in the feed', () => {
@@ -50,4 +51,17 @@ it('uses the profile handler for a post avatar even when its author is live in t
   fireEvent.press(view.UNSAFE_getAllByType(Pressable)[0]);
   expect(openLiveTarget).toHaveBeenCalledTimes(1);
   expect(showProfile).toHaveBeenCalledTimes(1);
+});
+
+it('uses the full avatar outline to open an active Moment from a feed card', () => {
+  const moment: NonNullable<ReturnType<typeof useFaceMoment>> = { state: 'unseen', count: 2, cover: null };
+  const openMoment = jest.fn().mockResolvedValue(undefined);
+  jest.mocked(useLiveTarget).mockReturnValueOnce(null);
+  jest.mocked(useFaceMoment).mockReturnValueOnce(moment);
+  jest.mocked(useOpenMoments).mockReturnValueOnce(openMoment);
+  const view = render(<FeedCardHeader displayName="Araf" username="araf" address="author" avatarSize={36} />);
+
+  expect(jest.mocked(MomentAvatarOutline).mock.lastCall?.[0]).toEqual({ peek: moment, radius: 6 });
+  fireEvent.press(view.UNSAFE_getAllByType(Pressable)[0]);
+  expect(openMoment).toHaveBeenCalledTimes(1);
 });

@@ -16,7 +16,7 @@ import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import { prefetchUserProfile } from "../../hooks/useUserProfileData";
 import { CoAuthorAvatarBadge, CoAuthorNames } from "../common/CoAuthorBits";
-import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
+import { MomentAvatarOutline, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import type { CoAuthorUser } from "../../libs/coAuthors";
 
 const ICON_MUTED = "#6F7174";
@@ -135,10 +135,10 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   // opens the same profile as the name and handle.
   const liveTarget = useLiveTarget(postPage ? undefined : address, postPage ? undefined : username);
   const live = !!liveTarget;
-  // A Moment up (and no co-author badge in that corner): a small peek of it
-  // sits on the face and a tap on the face opens it. Live still wins the tap.
+  // A Moment uses the avatar ring. Live and co-author badges take precedence.
   const moment = useFaceMoment(postPage || coAuthors?.length ? null : address);
   const openMoments = useOpenMoments(address);
+  const avatarRadius = Math.round(avatarSize * 0.16);
   // Start fetching the profile as the finger lands, so it is usually in hand
   // by the time the tap is released and the page slides in.
   // What this card shows goes along too, so the profile draws the name and a
@@ -154,23 +154,19 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
         onPressIn={liveTarget || moment || !onUserPress ? undefined : warmProfile}
         accessibilityRole={postPage ? "button" : undefined}
         accessibilityLabel={postPage ? t("liveViewer.openProfileOf", { name: displayName }) : undefined}
-        style={{ flexShrink: 0 }}
+        style={{ flexShrink: 0, marginRight: 8 }}
         hitSlop={IDENTITY_HIT_SLOP}
       >
         <Avatar
           uri={avatarUrl && avatarUrl !== "default-avatar" ? avatarUrl : undefined}
           size={avatarSize}
-          className="mr-2"
+          radius={avatarRadius}
           name={displayName || username}
           live={live}
           liveOrbit
         />
         {coAuthors?.length ? <CoAuthorAvatarBadge users={coAuthors} size={avatarSize} /> : null}
-        {moment && !live ? (
-          <View pointerEvents="none" style={{ position: "absolute", left: 0, top: 0, width: avatarSize, height: avatarSize }}>
-            <MomentPeekBadge peek={moment} size={avatarSize} />
-          </View>
-        ) : null}
+        <MomentAvatarOutline peek={live ? null : moment} radius={avatarRadius} />
       </Pressable>
 
       {/* Only the name row and the @handle open the profile, each sized to
