@@ -18702,6 +18702,8 @@
     },
     "withFriends": "Speel met vrienden",
     "chestard": {
+      "dailyTitle": "Dagelijkse uitdaging",
+      "dailyRules": "Log in om mee te doen. Je hoogste score uit de potjes die je vandaag bent begonnen telt mee. De uitdaging wordt om middernacht UTC gereset.",
       "title": "Chestard",
       "cardBlurb": "Gooi de dobbelsteen, laat de schijf vallen, maak de onderste rij vol. Retro arcade met top 10.",
       "intro": "Gooi, laat vallen, maak de onderste rij vol. Niet tot boven.",

@@ -19296,6 +19296,8 @@
     },
     "withFriends": "Arkadaşlarla oyna",
     "chestard": {
+      "dailyTitle": "Günlük mücadele",
+      "dailyRules": "Yarışmak için giriş yap. Bugün başladığın oyunlardaki en yüksek puanın sayılır. Mücadele UTC saatiyle gece yarısında sıfırlanır.",
       "title": "Chestard",
       "cardBlurb": "Zarı at, pulu bırak, alt sırayı temizle. Top 10'lu retro arcade.",
       "intro": "At, bırak, alt sırayı temizle. Tepeye ulaşma.",

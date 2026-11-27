@@ -18451,6 +18451,8 @@
     },
     "withFriends": "Juega con amigos",
     "chestard": {
+      "dailyTitle": "Desafío diario",
+      "dailyRules": "Inicia sesión para competir. Cuenta tu mejor puntuación de las partidas que empezaste hoy. El desafío se reinicia a medianoche UTC.",
       "title": "Chestard",
       "cardBlurb": "Tira el dado, suelta la ficha y limpia la fila de abajo. Arcade retro con top 10.",
       "intro": "Tira, suelta, limpia la fila de abajo. Que no llegue arriba.",
