@@ -80,6 +80,8 @@ export default function SuperPowersScreen() {
     .sort((a, b) => Number(b.key === "team_up") - Number(a.key === "team_up"))
     .map(power => localizeSuperPower(power, i18n?.language));
 
+  const teamUp = powers.find(power => power.key === "team_up");
+
   const refillsOn = useMemo(() => {
     const iso = status?.cycleEndsAt ?? ladder?.cycleEndsAt;
     if (!iso) return null;
@@ -146,6 +148,19 @@ export default function SuperPowersScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         {DIGITAL_PURCHASES_ENABLED ? (
           <Text style={styles.intro}>{t("superpowers.intro")}</Text>
+        ) : null}
+
+        {teamUp ? (
+          <PageSection>
+            <KitButton
+              label={teamUp.label}
+              onPress={() => setTeamUpOpen(true)}
+              disabled={!DIGITAL_PURCHASES_ENABLED}
+            />
+            {!DIGITAL_PURCHASES_ENABLED ? (
+              <Text style={styles.muted}>{t("storefront.unavailable")}</Text>
+            ) : null}
+          </PageSection>
         ) : null}
 
         {/* ── The orbit ────────────────────────────────────────────────── */}
@@ -220,7 +235,7 @@ export default function SuperPowersScreen() {
               {!isTeamUp && usable && allowance !== undefined ? (
                 <Text style={styles.detailUses}>{t("superpowers.usesLeft", { count: allowance })}</Text>
               ) : null}
-              {!DIGITAL_PURCHASES_ENABLED && !isTeamUp && usable ? (
+              {!DIGITAL_PURCHASES_ENABLED && (isTeamUp || usable) ? (
                 <Text style={styles.detailUses}>{t("storefront.unavailable")}</Text>
               ) : null}
               {canViewHistory || showAction ? (

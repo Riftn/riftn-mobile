@@ -96,10 +96,11 @@ export default function SuperPowersOrbit({ size, powers, selectedKey, onSelect, 
             accessibilityLabel={power.label}
             accessibilityState={{ selected }}
             hitSlop={4}
-            style={[
+            style={({ pressed }) => [
               styles.node,
               { left: x - d / 2, top: y - d / 2, width: d, height: d, borderRadius: d / 2 },
               selected ? styles.nodeSelected : unlocked ? styles.nodeOn : styles.nodeOff,
+              pressed && styles.nodePressed,
             ]}
           >
             <SuperPowerIcon
@@ -122,6 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0b0b0d",
     borderWidth: 1,
   },
+  nodePressed: { opacity: 0.85 },
   nodeOn: { borderColor: "rgba(255,255,255,0.16)" },
   nodeOff: { borderColor: "rgba(255,255,255,0.05)" },
   nodeSelected: {
