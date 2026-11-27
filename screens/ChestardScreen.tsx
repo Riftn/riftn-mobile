@@ -368,8 +368,8 @@ function ChestardGame({ wallet, data, snapshotRef, handle }: { wallet: string | 
   if (data?.daily) {
     boards.unshift({
       key: 'daily',
-      title: t('games.chestard.dailyTitle', { defaultValue: 'Daily challenge' }),
-      description: t('games.chestard.dailyRules', { defaultValue: 'Sign in to compete. Your best score from runs started today counts. Resets at midnight UTC.' }),
+      title: t('games.chestard.dailyTitle'),
+      description: t('games.chestard.dailyRules'),
       rows: data.daily.leaderboard,
     });
   }

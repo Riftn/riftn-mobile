@@ -17948,6 +17948,8 @@
     },
     "withFriends": "Play with friends",
     "chestard": {
+      "dailyTitle": "Daily challenge",
+      "dailyRules": "Sign in to compete. Your best score from runs started today counts. Resets at midnight UTC.",
       "title": "Chestard",
       "cardBlurb": "Roll the die, drop the checker, clear the bottom row. Retro arcade with a top 10.",
       "intro": "Roll, drop, clear the bottom row. Don’t top out.",

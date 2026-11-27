@@ -18455,6 +18455,8 @@
     },
     "withFriends": "Jouer entre amis",
     "chestard": {
+      "dailyTitle": "Défi quotidien",
+      "dailyRules": "Connectez-vous pour participer. Votre meilleur score parmi les parties commencées aujourd’hui est pris en compte. Le défi est réinitialisé à minuit UTC.",
       "title": "Chestard",
       "cardBlurb": "Lance le dé, lâche le jeton, vide la rangée du bas. Arcade rétro avec un top 10.",
       "intro": "Lance, lâche, vide la rangée du bas. Ne touche pas le haut.",
