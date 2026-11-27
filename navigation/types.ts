@@ -131,6 +131,8 @@ export type AppStackParamList = {
     postType?: string;
     /** Opened from the notification drawer, which stays mounted under it. */
     overDrawer?: boolean;
+    /** One profile tap carried to the regular post route as the drawer closes. */
+    profileAfterDrawer?: { id: string; options?: { initialHeightPct?: number; source?: string } };
   };
   /** dehub.io/app/post/:tokenId/info */
   [ScreenNames.PostInfo]: { tokenId: string };
