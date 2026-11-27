@@ -8,7 +8,7 @@ import React, { useState, useCallback, useMemo, useEffect, useLayoutEffect, useR
 import { useOnDemandTranslate } from "../hooks/useOnDemandTranslate";
 import { ensureAiConsent } from "../libs/ai-consent";
 import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   View,
   Text,
@@ -89,6 +89,7 @@ import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawe
 const renderDrawerScroll = (props: React.ComponentProps<typeof PageDrawerScrollView>) => <PageDrawerScrollView {...props} />;
 import { postWarmKey, warmRequest } from "../libs/navPrefetch";
 import { getNFT } from "../services/nft.service";
+import { nftToReplyPost, resolveReplyPostThumbnail } from "../libs/replyPostDisplay";
 import { createLogger } from "../libs/logger";
 import {
   applyMarkedAllRead,
@@ -517,7 +518,7 @@ function resolveNotificationThumbnail(item: NotificationItem, width = THUMB_PT):
   return undefined;
 }
 
-/** Height of the post picture on a like or repost row. */
+/** Height of the post picture on a repost row. */
 const BIG_PICTURE_PT = 132;
 
 // Motion for the per-row actions: the unread dot fades out, a cleared row
@@ -684,17 +685,37 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     !/\w/.test(sentence.charAt(actorNameAt + (actorName?.length || 0)));
 
   const clickable = isNotificationClickable(item);
-  // Likes and reposts are about your own post: show it big enough to tell
-  // which one, not as a 44pt chip.
-  const bigPicture = item.type === NotificationType.LIKE || item.type === NotificationType.REPOST;
-  const thumbnail = useMemo(
-    () => resolveNotificationThumbnail(item, bigPicture ? BIG_PICTURE_PT * 2 : THUMB_PT),
-    [item, bigPicture],
-  );
-  const [thumbFailed, setThumbFailed] = useState(false);
+  const viewer = (useUser()?.walletAddress || '').toLowerCase();
+  const bigPicture = item.type === NotificationType.REPOST;
+  const thumbnailWidth = bigPicture ? BIG_PICTURE_PT * 2 : THUMB_PT;
+  const directThumbnail = resolveNotificationThumbnail(item, thumbnailWidth);
+  const postId = item.tokenId ?? item.comment?.tokenId;
+  const isPostEngagement = item.type === NotificationType.LIKE ||
+    item.type === NotificationType.COMMENT || item.type === NotificationType.COMMENT_REPLY ||
+    item.type === NotificationType.COMMENT_LIKE;
+  // Image-post notifications can omit tokenThumbnail. Use the normal signed-in
+  // post endpoint and share the result across rows for this account and post.
+  const { data: postThumbnail } = useQuery({
+    queryKey: ['notification-post-thumbnail', viewer, postId],
+    enabled: !!viewer && postId != null && !directThumbnail && isPostEngagement &&
+      item.postType === 'feed-images',
+    queryFn: async () => {
+      if (postId == null) return null;
+      const { result } = await getNFT(postId);
+      const locked = result.is_locked || result.streamInfo?.isLockContent;
+      if (locked && !result.isUnlocked && !result.isOwner) return null;
+      return resolveReplyPostThumbnail(nftToReplyPost(result, postId), postId) ?? null;
+    },
+    staleTime: 5 * 60_000,
+    retry: false,
+  });
+  const thumbnail = directThumbnail || (isPostEngagement && postThumbnail
+    ? cdnImage(postThumbnail, { width: thumbnailWidth })
+    : undefined);
+  const [failedThumbnail, setFailedThumbnail] = useState<string>();
+  const thumbFailed = failedThumbnail === thumbnail;
 
   // Follow back, right on the row. A follow row that names one person.
-  const viewer = ((useUser() as { walletAddress?: string; address?: string } | null)?.walletAddress || '').toLowerCase();
   const followActor = (item.actor?.address || item.actorAddress || '').toLowerCase();
   const [followState, setFollowState] = useState<'idle' | 'busy' | 'following' | 'requested'>('idle');
   const followsActor = followState === 'following' || (followState === 'idle' && !!item.actor?.isFollowing);
@@ -788,7 +809,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     collapse.value = 0;
     markOpacity.value = 1;
     markScale.value = 1;
-    setThumbFailed(false);
+    setFailedThumbnail(undefined);
     setMarking(false);
     setAppealOpen(false);
     setAppealRef(null);
@@ -984,7 +1005,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
                 contentFit="cover"
                 recyclingKey={`${item._id}:big`}
                 transition={120}
-                onError={() => setThumbFailed(true)}
+                onError={() => setFailedThumbnail(thumbnail)}
               />
               {(item.postType === 'video' || item.postType === 'short') && (
                 <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}>
@@ -1142,11 +1163,12 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
           <View style={{ marginLeft: 12 }}>
             <SmartImage
               source={{ uri: thumbnail }}
-              style={{ width: THUMB_PT, height: THUMB_PT, borderRadius: 10, backgroundColor: '#18181B' }}
+              style={{ width: THUMB_PT, height: THUMB_PT, borderRadius: 10 }}
+              autoplay={false}
               contentFit="cover"
               recyclingKey={item._id}
               transition={120}
-              onError={() => setThumbFailed(true)}
+              onError={() => setFailedThumbnail(thumbnail)}
             />
             {(item.postType === 'video' || item.postType === 'short') && (
               <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}>
