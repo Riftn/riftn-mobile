@@ -163,7 +163,7 @@ import { TranslatedDraftNote } from "../components/Upload/TranslatedDraftNote";
 import { rememberTranslateLang, translateDraft, translateLanguageName } from "../libs/post-translate";
 import { ensureAiConsent } from "../libs/ai-consent";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
-import { PostFormatControls } from "../components/common/PostTextFormatting";
+import { PostFormatControls, usePostTextSelection } from "../components/common/PostTextFormatting";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
 import { uploadLocalFileToBucket, fileExtension, contentTypeForExtension } from "../libs/storage-upload";
@@ -662,7 +662,10 @@ export default function UploadScreen() {
   const [draftTranslation, setDraftTranslation] = useState<{ original: string; translated: string; from: string | null } | null>(null);
   const [showEmojiSheet, setShowEmojiSheet] = useState(false);
   /** Caret position in the body input, so emoji land where the cursor is. */
-  const bodySelectionRef = useRef({ start: 0, end: 0 });
+  const {
+    selectionRef: bodySelectionRef, hasSelection: bodyHasSelection,
+    updateSelection: updateBodySelection, hideSelectionMenu: hideBodySelectionMenu,
+  } = usePostTextSelection();
   // The link card follows the text once typing pauses (a paste shows at once),
   // not every keystroke of a half-typed address.
   const previewText = useSettledText(bodyText);
@@ -3280,11 +3283,14 @@ export default function UploadScreen() {
             {!articleMode && <GestureDetector gesture={sheet.text}><ComposerBodyInput
               ref={bodyInputRef}
               onFocus={startWriting}
-              onBlur={stopWriting}
+              onBlur={() => {
+                stopWriting();
+                hideBodySelectionMenu();
+              }}
               value={bodyText}
               onChangeText={handleBodyChange}
               onSelectionChange={(e) => {
-                bodySelectionRef.current = e.nativeEvent.selection;
+                updateBodySelection(e.nativeEvent.selection);
                 bodyMentions.handleSelectionChange(e);
                 bodyAssets.handleSelectionChange(e);
               }}
@@ -3306,7 +3312,8 @@ export default function UploadScreen() {
               scrollEnabled={false}
             /></GestureDetector>}
             {!articleMode && <PostFormatControls value={bodyText} inputRef={bodyInputRef}
-              selectionRef={bodySelectionRef} maxLength={DESCRIPTION_MAX} onChangeText={setBodyText} />}
+              selectionRef={bodySelectionRef} hasSelection={bodyHasSelection}
+              maxLength={DESCRIPTION_MAX} onChangeText={setBodyText} />}
             {articleMode && (
               <ArticleEditor
                 look={articleUi}

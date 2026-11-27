@@ -978,6 +978,9 @@
     "signIn": "سجّل الدخول للإرسال",
     "failed": "حدث خطأ. رسالتك محفوظة؛ حاول مرة أخرى."
   },
+  "postComposer": {
+    "formatSelection": "تنسيق النص المحدد"
+  },
   "articles": {
     "articleImage": "صورة المقال",
     "socialImage": "صورة المشاركة الاجتماعية",

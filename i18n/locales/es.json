@@ -978,6 +978,9 @@
     "signIn": "Inicia sesión para enviar",
     "failed": "Algo salió mal. Tu mensaje está guardado; inténtalo de nuevo."
   },
+  "postComposer": {
+    "formatSelection": "Dar formato a la selección"
+  },
   "articles": {
     "articleImage": "Imagen del artículo",
     "socialImage": "Imagen compartida en redes sociales",
