@@ -501,9 +501,11 @@ const THUMB_PT = 44;
  * the app asks for.
  */
 function resolveNotificationThumbnail(item: NotificationItem, width = THUMB_PT): string | undefined {
-  // Moments carry their public poster frame (none for private ones).
-  const momentPoster = item.metadata?.storyPoster;
-  if (typeof momentPoster === 'string' && momentPoster.startsWith('https://')) return momentPoster;
+  // Moment content becomes visible only after opening the viewer.
+  const type = item.type as string;
+  if (type === NotificationType.STORY_LIKE || type === NotificationType.STORY_MENTION || type === NotificationType.STORY_COMMENT) {
+    return undefined;
+  }
   const raw = item.tokenThumbnail?.trim();
   if (raw) {
     const absolute = /^https?:\/\//i.test(raw) ? raw : buildCdnPath(raw) ?? raw;
