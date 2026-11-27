@@ -115,6 +115,8 @@ type CallMedia = {
   remotes: Map<number, GroupRemote>; releasePresence: (() => void) | null;
   /** Re-reads who the moderators muted or removed (group calls). */
   modTimer?: ReturnType<typeof setInterval> | null;
+  microphonePublicationPaused?: boolean;
+  channelJoining?: boolean;
 };
 /** The starter's own side of a group call has no row of its own. */
 const isSessionId = (id: string) => id !== "pending" && !id.startsWith("group:");
@@ -124,8 +126,14 @@ export function useCall(): UseCallReturn {
   const [isIncoming, setIsIncoming] = useState(false);
   const [currentCall, setCurrentCall] = useState<CallSession | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setMutedState] = useState(false);
+  const mutedRef = useRef(false);
+  const setIsMuted = useCallback((muted: boolean) => {
+    mutedRef.current = muted;
+    setMutedState(muted);
+  }, []);
   const [isSpeakerOn, setIsSpeakerOn] = useState(false);
+  const speakerRef = useRef(false);
   const [isCameraOff, setIsCameraOff] = useState(true);
   const [callStartedAt, setCallStartedAt] = useState<number | null>(null);
   const [remoteUid, setRemoteUid] = useState<number | null>(null);
@@ -187,9 +195,14 @@ export function useCall(): UseCallReturn {
     callMessageHandlerRef.current = handler;
   }, []);
   const publishCall = useCallback((call: CallSession | null) => {
+    if (!call || !currentCallRef.current) {
+      speakerRef.current = !!call && (call.call_type === "video" || !!call.group_id);
+      setIsSpeakerOn(speakerRef.current);
+      setIsMuted(false);
+    }
     currentCallRef.current = call;
     setCurrentCall(call);
-  }, []);
+  }, [setIsMuted]);
   const clearTimeouts = useCallback(() => {
     if (callTimeoutRef.current) clearTimeout(callTimeoutRef.current);
     callTimeoutRef.current = null;
@@ -245,7 +258,7 @@ export function useCall(): UseCallReturn {
     startedAtRef.current = null;
     setCallStartedAt(null); setRemoteUid(null); setIsCallActive(false);
     setIsIncoming(false); setIsConnecting(false); setMinimized(false);
-    setIsMuted(false); setIsSpeakerOn(false); setIsCameraOff(true);
+    setIsCameraOff(true);
     setGroupParticipants([]); setSelfSpeaking(false); setGroupCamerasFull(false);
     camerasFullRef.current = false; startCameraOffRef.current = false; camOnRef.current = false; groupPresenceRef.current = null;
     rosterRef.current = new Map(); speakingRef.current = new Set(); levelsRef.current = new Map();
@@ -348,7 +361,7 @@ export function useCall(): UseCallReturn {
       }
     }
     syncGroup(media);
-  }, [userAddress, syncGroup]);
+  }, [userAddress, syncGroup, setIsMuted]);
   const refreshModeration = useCallback((media: CallMedia, groupId: string) => {
     readCallModeration(groupId).then(next => applyModeration(media, next)).catch(error => log.warn("Call moderation read failed", error));
   }, [applyModeration]);
@@ -516,14 +529,11 @@ export function useCall(): UseCallReturn {
       engine.enableAudio();
       engine.enableLocalAudio(true);
       // Muted by a moderator before (re)joining: the mic starts off.
-      engine.muteLocalAudioStream(modMutedRef.current);
       if (modMutedRef.current) setIsMuted(true);
       if (groupId) engine.enableAudioVolumeIndication(200, 3, true);
       // A group call plays out loud like a video call: several voices to one earpiece is hard to follow.
-      const speaker = call.call_type === "video" || !!groupId;
-      engine.setDefaultAudioRouteToSpeakerphone(speaker);
-      engine.setEnableSpeakerphone(speaker);
-      setIsSpeakerOn(speaker);
+      engine.setDefaultAudioRouteToSpeakerphone(speakerRef.current);
+      engine.setEnableSpeakerphone(speakerRef.current);
       if (call.call_type === "video") {
         setIsCameraOff(false);
         // Let the call modal commit its local surface before preview begins.
@@ -548,8 +558,13 @@ export function useCall(): UseCallReturn {
         if (supported && callBackgroundRef.current?.id !== "none" && !applyBackground(engine)) setCallBackgroundSupported(false);
       }
       if (!current() || media.closed) { disposeMedia(media); return false; }
+      // Joining with publication off guarantees that a pre-muted direct call
+      // cannot send audio before the SDK has entered the channel.
+      media.microphonePublicationPaused = !groupId && mutedRef.current;
+      engine.muteLocalAudioStream(modMutedRef.current || mutedRef.current);
+      media.channelJoining = true;
       const joined = engine.joinChannel(token.token, channelName, groupId ? ownUid : token.uid ?? 0, {
-        publishMicrophoneTrack: true, publishCameraTrack: call.call_type === "video",
+        publishMicrophoneTrack: !media.microphonePublicationPaused, publishCameraTrack: call.call_type === "video",
         autoSubscribeAudio: true, autoSubscribeVideo: call.call_type === "video",
       });
       if (joined < 0) throw new Error(`Call join failed: ${joined}`);
@@ -575,7 +590,7 @@ export function useCall(): UseCallReturn {
       if (current()) log.error("Call connection failed", error);
       return false;
     }
-  }, [clearTimeouts, publishCall, disposeMedia, endCall, userAddress, syncGroup, applyBackground, refreshModeration]);
+  }, [clearTimeouts, publishCall, disposeMedia, endCall, userAddress, syncGroup, applyBackground, refreshModeration, setIsMuted]);
 
   /** Nobody answered the ring: a group room you are alone in closes after the ring window. */
   const armGroupTimeout = useCallback((generation: number, outcome: "no_answer" | "missed") => {
@@ -645,7 +660,7 @@ export function useCall(): UseCallReturn {
     startedAtRef.current = null;
     setCallStartedAt(null); setRemoteUid(null); setIsCallActive(false);
     setIsIncoming(false); setIsConnecting(false); setMinimized(false);
-    setIsMuted(false); setIsSpeakerOn(false); setIsCameraOff(true);
+    setIsCameraOff(true);
     return () => {
     generationRef.current += 1;
     clearTimeouts();
@@ -832,19 +847,27 @@ export function useCall(): UseCallReturn {
     }
   }, [userAddress, callClient, finishCall]);
 
+  const applyMicrophoneMute = useCallback((muted: boolean) => {
+    const media = mediaRef.current;
+    if (media?.channelJoining) {
+      if (media.engine.muteLocalAudioStream(muted) !== 0) return false;
+      if (!muted && media.microphonePublicationPaused) {
+        if (media.engine.updateChannelMediaOptions({ publishMicrophoneTrack: true }) !== 0) return false;
+        media.microphonePublicationPaused = false;
+      }
+    }
+    setIsMuted(muted);
+    return true;
+  }, [setIsMuted]);
+
   const setNativeMute = useCallback((sessionId: string, muted: boolean) => {
     const engine = mediaRef.current?.engine;
     if (currentCallRef.current?.id !== sessionId || !engine) return false;
     // Muted by a moderator: the phone's call screen can't turn the mic back on.
     if (!muted && modMutedRef.current) return false;
-    try {
-      if (engine.muteLocalAudioStream(muted) !== 0) return false;
-      setIsMuted(muted);
-      return true;
-    } catch { return false; }
-  }, []);
+    try { return applyMicrophoneMute(muted); } catch { return false; }
+  }, [applyMicrophoneMute]);
   const toggleMute = useCallback(() => {
-    const engine = mediaRef.current?.engine;
     // Muted by a moderator: the mic stays off until one of them unmutes you.
     if (modMutedRef.current) {
       toastInfo(i18n.t("calls.mutedByMod", "A moderator muted you"), {
@@ -852,8 +875,8 @@ export function useCall(): UseCallReturn {
       });
       return;
     }
-    if (engine) setIsMuted(previous => { engine.muteLocalAudioStream(!previous); return !previous; });
-  }, []);
+    if (currentCallRef.current) applyMicrophoneMute(!mutedRef.current);
+  }, [applyMicrophoneMute]);
   /** A moderator mutes, unmutes or removes someone in this group call. */
   const moderateGroupMember = useCallback(async (wallet: string, action: CallModAction) => {
     const media = mediaRef.current;
@@ -872,7 +895,13 @@ export function useCall(): UseCallReturn {
   }, [refreshModeration]);
   const toggleSpeaker = useCallback(() => {
     const engine = mediaRef.current?.engine;
-    if (engine) setIsSpeakerOn(previous => { engine.setEnableSpeakerphone(!previous); return !previous; });
+    if (!currentCallRef.current) return;
+    speakerRef.current = !speakerRef.current;
+    if (engine) {
+      engine.setDefaultAudioRouteToSpeakerphone(speakerRef.current);
+      engine.setEnableSpeakerphone(speakerRef.current);
+    }
+    setIsSpeakerOn(speakerRef.current);
   }, []);
   const toggleCamera = useCallback(() => {
     const engine = mediaRef.current?.engine;
