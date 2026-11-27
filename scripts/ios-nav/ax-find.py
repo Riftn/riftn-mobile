@@ -1,13 +1,14 @@
 """Finds a button by its label in the simulator's accessibility dump.
 
-Usage: ax-find.py <idb describe-all json> <label> <log file> <request name>
-Prints "x y" (the centre of the first match) when found, and adds one line
+Usage: ax-find.py <idb describe-all json> <label> <log file> <request name> [--last]
+Prints "x y" (the centre of the first match, or last with --last) when found, and adds one line
 about it to the log either way.
 """
 import json
 import sys
 
 dump, wanted, log, name = sys.argv[1:5]
+prefer_last = sys.argv[5:] == ["--last"]
 try:
     items = json.load(open(dump))
 except Exception:
@@ -30,7 +31,7 @@ for node in walk(items if isinstance(items, list) else [items]):
     frame = node.get("frame") or {}
     # Only what a finger can reach: a copy scrolled up under the status bar
     # (a profile's tab bar behind its pinned copy) is passed over.
-    if hit is None and label == wanted and frame.get("width") and frame.get("height"):
+    if (hit is None or prefer_last) and label == wanted and frame.get("width") and frame.get("height"):
         cx, cy = round(frame["x"] + frame["width"] / 2), round(frame["y"] + frame["height"] / 2)
         if 50 <= cy <= 840:
             hit = (cx, cy)

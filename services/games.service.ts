@@ -454,3 +454,21 @@ export interface ArcadeCard {
 
 export const arcadeCard = (game: string, player: string) =>
   get<ArcadeCard>(`/games/card?game=${encodeURIComponent(game)}&player=${encodeURIComponent(player)}`, false);
+
+export interface SplurgeEntry {
+  turnId: string;
+  amount: number;
+  currency: string;
+  item: string;
+}
+
+export interface SplurgeHistory {
+  entries: SplurgeEntry[];
+  nextCursor: string | null;
+}
+
+const splurgePath = (owner: string) => `/games/splurge?owner=${encodeURIComponent(owner)}`;
+export const getSplurgeHistory = (owner: string, before: string | null) =>
+  get<SplurgeHistory>(`${splurgePath(owner)}${before ? `&before=${encodeURIComponent(before)}` : ''}`);
+export const saveSplurgeEntry = (owner: string, entry: SplurgeEntry) =>
+  post<{ entry: SplurgeEntry }>(splurgePath(owner), { ...entry });

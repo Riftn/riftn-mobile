@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       themes:
-        description: 'Walks to run, space separated: dark, light, syslight (System Light)'
+        description: 'Walks to run, space separated: dark, light, syslight (System Light). Use splurge for the arcade game in all three.'
         required: false
         default: 'dark light syslight'
       task:
@@ -20,7 +20,7 @@ on:
         required: false
         default: 'walk'
       app_run_id:
-        description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
+        description: 'Reuse the simulator app an earlier run of this workflow built (its run id), when app code has not changed'
         required: false
         default: ''
       minify:
