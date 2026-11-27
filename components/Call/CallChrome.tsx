@@ -236,6 +236,7 @@ export const CallControl: React.FC<{
   const { palette } = useStage();
   const size = large ? 66 : compact ? 52 : 60;
   const solid = (primary || active) && !dimmed;
+  const singleLineLabel = compact || !direct;
   return (
     <View style={[styles.controlSlot, { width: size + 8, opacity: disabled ? 0.4 : dimmed ? 0.6 : 1 }]}>
       <Pressable
@@ -255,8 +256,8 @@ export const CallControl: React.FC<{
       </Pressable>
       <Text
         style={[styles.controlLabel, { color: direct ? palette.fg : palette.muted, fontSize: direct ? 13 : 12 }]}
-        numberOfLines={direct ? 2 : 1}
-        adjustsFontSizeToFit={!direct}
+        numberOfLines={singleLineLabel ? 1 : 2}
+        adjustsFontSizeToFit={singleLineLabel}
         minimumFontScale={0.8}
       >
         {label}
