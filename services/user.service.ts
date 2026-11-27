@@ -658,13 +658,17 @@ export interface FollowResponse {
 
 /**
  * Follow a user (follower -> following). Uses the /request_follow endpoint.
- * Endpoint (GET): /request_follow?address=<follower>&following=<target>
+ * Endpoint (POST): /request_follow
  *
  * Returns FollowResponse so callers can distinguish between instant follow and pending request.
  */
 export async function followUser(followerAddress: string, followingAddress: string): Promise<FollowResponse> {
-  const url = `/request_follow?address=${encodeURIComponent(followerAddress)}&following=${encodeURIComponent(followingAddress)}`;
-  const res = await apiClient.get<any>(url, { isAuthRequired: true });
+  // A timed-out GET can be replayed by the relay after the server created the request.
+  const res = await apiClient.post<any>(
+    '/request_follow',
+    { following: followingAddress.toLowerCase() },
+    { isAuthRequired: true },
+  );
   const body = res?.data ?? res;
   const payload = body?.result && typeof body.result === 'object' ? body.result : body;
   const rawStatus: unknown = payload?.status ?? body?.status;
