@@ -330,6 +330,33 @@ export async function fetchCustomNotifications(
   }
 }
 
+export async function fetchRequestNotificationPage(
+  walletAddress: string | null | undefined,
+  types: readonly string[],
+  size: number,
+  before?: Pick<NotificationItem, "_id" | "createdAt">,
+): Promise<CustomNotificationItem[]> {
+  if (!walletAddress) return [];
+  const query = supabase
+    .from("custom_notifications")
+    .select("*")
+    .eq("recipient_address", walletAddress.toLowerCase())
+    .in("type", types)
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: false })
+    .limit(size);
+  if (before) {
+    const id = customRowId(before._id);
+    const createdAt = before.createdAt;
+    query.or(`created_at.lt."${createdAt}",and(created_at.eq."${createdAt}",id.lt.${id})`);
+  }
+  const { data, error } = await withWalletHeader(query, walletAddress);
+  if (error) throw error;
+  const rows = (data as CustomNotificationRow[] | null) || [];
+  await resolveMissingActors(rows);
+  return rows.map(toNotificationItem);
+}
+
 /** Mark one Supabase-side notification read. Fire-and-forget, like the API twin. */
 export async function markCustomNotificationRead(
   notificationId: string,

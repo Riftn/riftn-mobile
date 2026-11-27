@@ -47,6 +47,7 @@ import {
 import { reportActionError } from "../libs/error-feedback";
 import {
   fetchCustomNotifications,
+  fetchRequestNotificationPage,
   isCustomNotificationId,
   markCustomNotificationRead,
   markAllCustomNotificationsRead,
@@ -1941,29 +1942,30 @@ const NotificationScreen = () => {
           if (gen !== fetchGenRef.current) return;
         }
         const targetPage = isRefresh ? 1 : pageRef.current + 1;
-        const types = apiTypesForFilter(selectedFilterRef.current);
+        const filter = selectedFilterRef.current;
+        const wallet = walletAddressRef.current;
+        const isRequestsTab = filter === 'features';
+        const types = apiTypesForFilter(filter);
+        const fetchPage = (page: number, before?: NotificationItem) => isRequestsTab
+          ? fetchRequestNotificationPage(wallet, FILTER_TYPE_MAP.features, PAGE_SIZE, before).then((result) => ({ result }))
+          : getNotifications({ unreadOnly: false, types, page, limit: PAGE_SIZE });
 
         // Ask for this tab's types rather than paging through everything and
         // narrowing in memory — that left a tab empty whenever its rows sat
         // past the loaded window. An unfiltered refresh reuses the warm-up
         // fetch when one is already on its way (bell tap right after launch).
-        const shared = isRefresh && !types ? takeInflightFirstPage(walletAddressRef.current) : null;
+        const shared = isRefresh && !types && !isRequestsTab ? takeInflightFirstPage(wallet) : null;
         const listRequest = shared
           ? shared.then((r) => {
               if (!r) throw new Error("prefetch failed");
               return { result: r.api };
             })
-          : getNotifications({
-              unreadOnly: false,
-              types,
-              page: targetPage,
-              limit: PAGE_SIZE,
-            });
+          : fetchPage(targetPage, isRefresh ? undefined : notificationsRef.current.at(-1));
         // Start independent sources together. Counts never hold the list's
         // loading state open, and neither do the custom rows: the API page
         // paints first with the last known custom rows, and the fresh ones
         // are folded in when they arrive.
-        const customRequest: Promise<NotificationItem[]> | null = isRefresh
+        const customRequest: Promise<NotificationItem[]> | null = isRefresh && (!isRequestsTab || !opts?.skipCounts)
           ? (shared
               ? shared.then((r) => r?.custom ?? fetchCustomNotifications(walletAddressRef.current))
               : fetchCustomNotifications(walletAddressRef.current)
@@ -1972,7 +1974,7 @@ const NotificationScreen = () => {
               return customRowsRef.current;
             })
           : null;
-        const countsRequest = isRefresh && !opts?.skipCounts && types
+        const countsRequest = isRefresh && !opts?.skipCounts && (types || isRequestsTab)
           ? getNotifications({ unreadOnly: false, page: 1, limit: 30 })
               .then((result: any) => result?.data?.result || result?.result || [])
               .catch((error) => { log.error('Notification counts refresh failed', error); return null; })
@@ -1997,7 +1999,7 @@ const NotificationScreen = () => {
           const loadedPage = pageRef.current;
           while (lastPage < loadedPage && hasMoreApi) {
             const page = lastPage + 1;
-            const next: any = await getNotifications({ unreadOnly: false, types, page, limit: PAGE_SIZE });
+            const next: any = await fetchPage(page, apiRows.at(-1));
             if (gen !== fetchGenRef.current) return;
             const rows: NotificationItem[] = next?.data?.result || next?.result || [];
             for (const row of rows) {
@@ -2010,9 +2012,9 @@ const NotificationScreen = () => {
           }
         }
         const apiPayload = applyMarkedAllRead(walletAddressRef.current, apiRows);
-        // Custom notifications are a single recent page. Merge them once on
-        // refresh so loading older API pages cannot duplicate them.
-        const payload = isRefresh ? mergeFirstPage(apiPayload, customRowsRef.current) : apiPayload;
+        // Requests already has its own complete source. Other tabs merge the
+        // recent custom page only on refresh so pagination cannot repeat it.
+        const payload = isRefresh && !isRequestsTab ? mergeFirstPage(apiPayload, customRowsRef.current) : apiPayload;
         let custom: NotificationItem[] = customRowsRef.current;
 
         for (const n of payload as NotificationItem[]) {
@@ -2033,8 +2035,7 @@ const NotificationScreen = () => {
           });
         }
 
-        // Measured on the API page alone. The merged Supabase rows are not
-        // paginated, so counting them here would claim another page exists.
+        // Only the tab's paginated source determines whether there is more.
         setHasMore(hasMoreApi);
         listFetchingRef.current = false;
         setRefreshing(false);
@@ -2049,7 +2050,7 @@ const NotificationScreen = () => {
             fresh.length !== customRowsRef.current.length ||
             fresh.some((n, i) => n._id !== customRowsRef.current[i]?._id || n.read !== customRowsRef.current[i]?.read);
           customRowsRef.current = fresh;
-          if (changed) {
+          if (changed && !isRequestsTab) {
             const merged = mergeFirstPage(apiPayload, fresh);
             for (const n of merged) {
               if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
@@ -2064,7 +2065,7 @@ const NotificationScreen = () => {
           // tab the response we already have is that page. A tab switch skips
           // this: the snapshot is kept honest by every local mark-read/clear,
           // and it re-syncs on focus and pull-to-refresh.
-          if (types) {
+          if (types || isRequestsTab) {
             const counted = await countsRequest;
             if (gen !== fetchGenRef.current) return;
             const allPayload = counted ? applyMarkedAllRead(walletAddressRef.current, counted) : null;
