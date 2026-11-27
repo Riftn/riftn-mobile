@@ -596,7 +596,7 @@ function SignInFlow({ navigation, isFocused, onClose }: {
     setIsLocalLoading(true);
     setCurrentProvider("google");
     try {
-      // The wait comes up the moment Google's page closes.
+      // Show the wait once Google returns a session to apply.
       const supabaseUserId = await signInWithGoogle({ onReturned: () => { if (isMountedRef.current) setSessionWait(true); } });
       await runProvisionAndSignIn(supabaseUserId);
     } catch (e: any) {

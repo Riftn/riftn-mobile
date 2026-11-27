@@ -47,8 +47,25 @@ it('leaves a real cancel alone', async () => {
 });
 
 it('reads the refusal Supabase sends back', async () => {
+  const onReturned = jest.fn();
   open.mockResolvedValueOnce({ type: 'success', url: 'dehub://auth-callback#error=server_error&error_description=Database+error+saving+new+user' });
-  await expect(signInWithGoogle()).rejects.toThrow('Database error saving new user');
+  await expect(signInWithGoogle({ onReturned })).rejects.toThrow('Database error saving new user');
+  expect(onReturned).not.toHaveBeenCalled();
+});
+
+it('keeps the wait hidden when Google returns a cancellation callback', async () => {
+  const onReturned = jest.fn();
+  open.mockResolvedValueOnce({ type: 'success', url: 'dehub://auth-callback#error=access_denied' });
+  await expect(signInWithGoogle({ onReturned })).rejects.toThrow('google sign-in was cancelled');
+  expect(onReturned).not.toHaveBeenCalled();
+  expect(setSession).not.toHaveBeenCalled();
+});
+
+it('shows the wait before applying a session from Google', async () => {
+  const onReturned = jest.fn(() => expect(setSession).not.toHaveBeenCalled());
+  open.mockResolvedValueOnce(SUCCESS);
+  await expect(signInWithGoogle({ onReturned })).resolves.toBe('google-user');
+  expect(onReturned).toHaveBeenCalledTimes(1);
 });
 
 // Android closed the app while the page was open; the new launch finishes it.
