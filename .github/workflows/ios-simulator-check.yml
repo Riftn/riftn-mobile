@@ -205,14 +205,14 @@ jobs:
           grep -E "(warning|error):" xcodebuild.log | grep -v "/Pods/" | sort | uniq -c | sort -rn > sim-check/app-warnings.txt || true
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
-      - name: Walk every page in dark, light and System Light
+      - name: Walk the app in the selected appearances
         if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed' && inputs.task != 'livetheme' && inputs.task != 'reactions' && inputs.task != 'rowreactions' && inputs.task != 'freeze' && inputs.task != 'feedline' && inputs.task != 'moments' && inputs.task != 'sharelink' && inputs.task != 'profiletabs' && inputs.task != 'barsback' && inputs.task != 'livechat'
         timeout-minutes: 45
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
-          THEMES: ${{ inputs.themes || 'dark light syslight' }}
+          THEMES: ${{ inputs.themes || (github.event_name == 'pull_request' && 'smoke') || 'dark light syslight' }}
           DEVICE: ${{ inputs.device || 'iphone' }}
       # A real phone on mobile data is far from the runner's datacenter line:
       # shorts that start at once here can sit on their first frame there.

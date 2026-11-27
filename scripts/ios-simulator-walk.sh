@@ -353,7 +353,7 @@ walk() {
   set_app_theme "$app_theme"
   launch
   sleep 25
-  if [ "${splurge_only:-0}" = 1 ]; then
+  if [ "${check_guest_flow:-0}" = 1 ]; then
     finish_splurge_guest_setup || {
       echo "$theme: could not finish guest setup (see logs/splurge.txt)" >> "$OUT/crashes.txt"
       return
@@ -410,13 +410,21 @@ if [ "${DEVICE:-iphone}" = "duo" ]; then
   unfold_duo || echo "could not open the folded Duo (see logs/device-menu.txt)" >> "$OUT/crashes.txt"
 fi
 
-# A focused recheck uses the same release build and all three appearances.
-splurge_only=0
-if [ "${THEMES:-}" = splurge ]; then
-  splurge_only=1
-  PAGES=("arcade/splurge")
-  THEMES="dark light syslight"
-fi
+# The PR smoke check covers the Arcade flow in each appearance. A manual
+# walk still defaults to the full route list.
+check_guest_flow=0
+case "${THEMES:-}" in
+  smoke)
+    check_guest_flow=1
+    PAGES=("app" "arcade" "arcade/splurge")
+    THEMES="dark light syslight"
+    ;;
+  splurge)
+    check_guest_flow=1
+    PAGES=("arcade/splurge")
+    THEMES="dark light syslight"
+    ;;
+esac
 
 # THEMES picks which walks run (default all three): dark and light are the
 # phone's setting under the app's System theme; syslight is the app's own
@@ -463,6 +471,6 @@ echo "Keychain failures: $(grep -c 'ERR_KEY_CHAIN' "$OUT/logs/app.log")"
 echo "JS faults (first lines):"
 sed -n '/^----$/,$p' "$OUT/logs/js-faults.txt" | head -15
 rm -f "$OUT/.prompt.png" "$OUT/.ax.json"
-if [ "$splurge_only" = 1 ] && [ -s "$OUT/crashes.txt" ]; then
+if [ "$check_guest_flow" = 1 ] && [ -s "$OUT/crashes.txt" ]; then
   exit 1
 fi
