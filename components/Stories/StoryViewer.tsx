@@ -34,6 +34,7 @@ import { type InfiniteData, type UseInfiniteQueryResult, useInfiniteQuery, useQu
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
+import { SharedMomentCard, SHARED_MOMENT_CARD_FRACTION } from "./SharedMomentCard";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { DarkRoomProvider, useAppTheme } from "../../context/ThemeContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
@@ -185,6 +186,14 @@ export default function StoryViewer({
   const room = useMomentComments(item?.id, !!me, !!item && (item.commentCount ?? 1) > 0);
   const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
+  const linkedPostId = item?.postTokenId;
+  const linkedPost = useQuery({
+    queryKey: ["story-source-post", linkedPostId, me],
+    queryFn: async () => (await import("./post-moment")).getPostMomentDetails(linkedPostId!, !!me),
+    enabled: linkedPostId != null,
+    staleTime: 60_000,
+    retry: false,
+  });
   const postPeek = item?.postTokenId != null && postPeekId === item.id;
   const appForeground = useSyncExternalStore(visualActivity.subscribe, visualActivity.isAppForeground, () => true);
   const paused = !appForeground || held || postPeek || typing || sending || sheet !== null || openingOriginal || !loaded;
@@ -481,10 +490,30 @@ export default function StoryViewer({
   const screenRatio = viewport.width && viewport.height ? viewport.width / viewport.height : ratio;
   const fit = ratio <= 1 && Math.abs(ratio - screenRatio) / screenRatio <= 0.1 ? "cover" : "contain";
   // Mentions follow the same 9:16 crop as the picture.
-  const mentionFrameWidth = fit === "contain"
-    ? Math.min(viewport.width, viewport.height * 9 / 16)
-    : Math.max(viewport.width, viewport.height * 9 / 16);
-  const mentionFrameHeight = mentionFrameWidth * 16 / 9;
+  const cardSide = Math.min(viewport.width, viewport.height) * SHARED_MOMENT_CARD_FRACTION;
+  const boxedPhoto = linkedPostId != null && item.type === "photo";
+  const mentionFrameWidth = boxedPhoto
+    ? Math.min(cardSide, cardSide * ratio)
+    : fit === "contain"
+      ? Math.min(viewport.width, viewport.height * 9 / 16)
+      : Math.max(viewport.width, viewport.height * 9 / 16);
+  const mentionFrameHeight = boxedPhoto ? mentionFrameWidth / ratio : mentionFrameWidth * 16 / 9;
+
+  const mediaFit = linkedPostId != null ? "contain" : fit;
+  const media = item.type === "video" && videoUri ? (
+    <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={mediaFit} nativeControls={false} surfaceType="textureView" />
+  ) : (
+    <Image
+      key={item.id}
+      source={{ uri: item.mediaUrl || item.posterUrl || undefined }}
+      style={StyleSheet.absoluteFill}
+      contentFit={mediaFit}
+      onLoad={() => setLoadedId(item.id)}
+      onError={() => setLoadedId(item.id)}
+    />
+  );
+
+  const overlay = item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit={fit} pointerEvents="none" /> : null;
 
   return (
     <DarkRoomProvider>
@@ -492,19 +521,7 @@ export default function StoryViewer({
         <View style={styles.mediaFrame} onLayout={({ nativeEvent: { layout: { width, height } } }) => {
           setViewport((previous) => previous.width === width && previous.height === height ? previous : { width, height });
         }}>
-          {item.type === "video" && videoUri ? (
-            <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} surfaceType="textureView" />
-          ) : (
-            <Image
-              key={item.id}
-              source={{ uri: item.mediaUrl || item.posterUrl || undefined }}
-              style={StyleSheet.absoluteFill}
-              contentFit={fit}
-              onLoad={() => setLoadedId(item.id)}
-              onError={() => setLoadedId(item.id)}
-            />
-          )}
-          {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit={fit} pointerEvents="none" /> : null}
+          {linkedPostId == null && <>{media}{overlay}</>}
           <LinearGradient colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0)"]} style={[styles.topShade, { height: insets.top + 128 }]} pointerEvents="none" />
           <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.35)", "rgba(0,0,0,0.72)"]} style={styles.bottomShade} pointerEvents="none" />
           {!loaded ? (
@@ -516,20 +533,27 @@ export default function StoryViewer({
           {/* Tap zones: left third back, the rest forward; hold anywhere pauses. */}
           <View style={styles.zones} pointerEvents={sheet || openingOriginal ? "none" : "auto"}>
             <Pressable style={{ width: width / 3 }} onPress={() => goItem(-1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
-            {item.postTokenId != null ? (
-              <Pressable
-                style={{ width: width / 3 }}
-                onPress={() => { const id = item.id; setPostPeekId((prev) => (prev === id ? null : id)); }}
-                onLongPress={() => setHeld(true)}
-                onPressOut={() => setHeld(false)}
-                delayLongPress={180}
-                accessibilityRole="button"
-                accessibilityLabel={t("stories.goToPost", { defaultValue: "Go to post" })}
-              />
-            ) : null}
             <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
           </View>
 
+          {linkedPostId != null && cardSide > 0 && (
+            <SharedMomentCard
+              side={cardSide}
+              details={linkedPost.data}
+              fallback={{
+                authorName: item.postAuthorName || nameOf(entry.author),
+                avatarUrl: item.postAuthorName ? undefined : avatarOf(entry.author, 28) ?? undefined,
+              }}
+              pending={linkedPost.isPending}
+              expanded={postPeek}
+              onToggle={() => setPostPeekId(previous => previous === item.id ? null : item.id)}
+              onHold={() => setHeld(true)}
+              onRelease={() => setHeld(false)}
+            >
+              {media}
+            </SharedMomentCard>
+          )}
+          {linkedPostId != null && overlay}
           {!sheet && !openingOriginal && item.mentions.length > 0 && mentionFrameWidth > 0 ? (
             <View pointerEvents="box-none" style={{
               position: "absolute",

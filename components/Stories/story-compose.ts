@@ -58,16 +58,16 @@ function layoutLine(line: string, px: number, layer: TextLayer) {
   return paragraph;
 }
 
-function drawText(canvas: SkCanvas, layer: TextLayer) {
+function drawText(canvas: SkCanvas, layer: TextLayer, height = OUT_H) {
   const text = layer.text.trim();
   if (!text) return;
   const px = Math.round(layer.size * OUT_W);
   const lines = text.split("\n");
   const lineH = px * 1.18;
   const cx = layer.x * OUT_W;
-  const top = layer.y * OUT_H - (lines.length * lineH) / 2;
+  const top = layer.y * height - (lines.length * lineH) / 2;
   canvas.save();
-  canvas.rotate(layer.rotation ?? 0, cx, layer.y * OUT_H);
+  canvas.rotate(layer.rotation ?? 0, cx, layer.y * height);
   lines.forEach((line, i) => {
     const paragraph = layoutLine(line, px, layer);
     const w = paragraph.getLongestLine();
@@ -88,7 +88,7 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
 }
 
 /** Tap targets use the same paragraph and padding as the exported labels. */
-export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
+export function mentionBoxes(layers: TextLayer[], height = OUT_H): StoryMention[] {
   const clamp = (value: number) => Math.min(1, Math.max(0, value));
   return layers.flatMap((layer) => {
     if (!layer.mentionAddress) return [];
@@ -97,32 +97,32 @@ export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
     const px = Math.round(layer.size * OUT_W);
     const paragraph = layoutLine(layer.text, px, layer);
     const halfW = (paragraph.getLongestLine() + px * 0.64) / (2 * OUT_W);
-    const halfH = (px * 1.18) / (2 * OUT_H);
+    const halfH = (px * 1.18) / (2 * height);
     const x = clamp(layer.x - halfW);
     const y = clamp(layer.y - halfH);
     return [{ address: layer.mentionAddress, x, y, w: clamp(layer.x + halfW) - x, h: clamp(layer.y + halfH) - y }];
   });
 }
 
-function drawCover(canvas: SkCanvas, image: SkImage, look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur") {
+function drawCover(canvas: SkCanvas, image: SkImage, look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur", frameHeight = OUT_H) {
   const sw = image.width();
   const sh = image.height();
   const source = Skia.XYWHRect(0, 0, sw, sh);
   const centeredRect = (scale: number) => {
     const width = sw * scale;
     const height = sh * scale;
-    return Skia.XYWHRect((OUT_W - width) / 2, (OUT_H - height) / 2, width, height);
+    return Skia.XYWHRect((OUT_W - width) / 2, (frameHeight - height) / 2, width, height);
   };
-  const fit = Math.min(OUT_W / sw, OUT_H / sh);
-  const fill = Math.max(OUT_W / sw, OUT_H / sh);
+  const fit = Math.min(OUT_W / sw, frameHeight / sh);
+  const fill = Math.max(OUT_W / sw, frameHeight / sh);
   const stops = PHOTO_BACKDROPS[backdrop];
   if (fill > fit && stops) {
     const bg = Skia.Paint();
     bg.setShader(Skia.Shader.MakeLinearGradient(
-      { x: 0, y: 0 }, { x: OUT_W * 0.35, y: OUT_H },
+      { x: 0, y: 0 }, { x: OUT_W * 0.35, y: frameHeight },
       [Skia.Color(stops[0]), Skia.Color(stops[1])], null, TileMode.Clamp,
     ));
-    canvas.drawRect(Skia.XYWHRect(0, 0, OUT_W, OUT_H), bg);
+    canvas.drawRect(Skia.XYWHRect(0, 0, OUT_W, frameHeight), bg);
   } else if (fill > fit) {
     const blur = Skia.Paint();
     blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
@@ -144,7 +144,7 @@ async function save(snapshot: SkImage, png: boolean): Promise<string> {
 }
 
 /** The photo and its words, flattened into one 1080 x 1920 JPEG. */
-export async function composePhoto(uri: string, layers: TextLayer[], look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur"): Promise<string> {
+export async function composePhoto(uri: string, layers: TextLayer[], look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur", height = OUT_H): Promise<string> {
   let image = await Skia.Data.fromURI(uri).then(data => Skia.Image.MakeImageFromEncoded(data)).catch(() => null);
   if (!image) {
     // The native photo loader can read formats such as HEIC that Skia rejects.
@@ -157,12 +157,12 @@ export async function composePhoto(uri: string, layers: TextLayer[], look: Photo
     }
   }
   if (!image) throw new Error("could not decode image");
-  const surface = Skia.Surface.Make(OUT_W, OUT_H) ?? Skia.Surface.MakeOffscreen(OUT_W, OUT_H);
+  const surface = Skia.Surface.Make(OUT_W, height) ?? Skia.Surface.MakeOffscreen(OUT_W, height);
   if (!surface) throw new Error("could not allocate surface");
   const canvas = surface.getCanvas();
   canvas.clear(Skia.Color("#000000"));
-  drawCover(canvas, image, look, backdrop);
-  layers.forEach((l) => drawText(canvas, l));
+  drawCover(canvas, image, look, backdrop, height);
+  layers.forEach((l) => drawText(canvas, l, height));
   surface.flush();
   return save(surface.makeImageSnapshot().makeNonTextureImage(), false);
 }

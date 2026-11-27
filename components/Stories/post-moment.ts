@@ -5,7 +5,7 @@
 import * as FileSystem from "expo-file-system/legacy";
 import { Image } from "react-native";
 import { getNFT } from "../../services/nft.service";
-import { buildCdnPath } from "../../libs/misc";
+import { buildCdnPath, storedAvatarSources } from "../../libs/misc";
 import { hasStreamEnded, isStreamLive } from "../../libs/live-status";
 import { WEBSITE_LINK } from "../../config/links";
 
@@ -17,7 +17,38 @@ export interface PostMomentMedia {
   height: number;
   duration: number;
   postTokenId: number;
-  caption?: string;
+  details: PostMomentDetails;
+}
+
+export interface PostMomentDetails {
+  authorName?: string;
+  avatarUrl?: string;
+  title?: string;
+  description?: string;
+}
+
+function firstText(...values: unknown[]): string | undefined {
+  return values.find((value): value is string => typeof value === "string" && !!value.trim())?.trim();
+}
+
+function postDetails(post: Record<string, any>): PostMomentDetails {
+  const user = post.minterUser;
+  const { uri } = storedAvatarSources(firstText(user?.avatarImageUrl, post.minterAvatarUrl), firstText(post.minter, user?.address), 28);
+  const stream = post.postType === "live" ? post.stream : undefined;
+  const title = firstText(stream?.title, post.title, post.name);
+  const description = firstText(stream?.description, post.description);
+  return {
+    authorName: firstText(user?.displayName, post.minterDisplayName, post.minterUsername, user?.username, post.mintername),
+    avatarUrl: uri ?? undefined,
+    title,
+    description: description === title ? undefined : description,
+  };
+}
+
+export async function getPostMomentDetails(tokenId: number, signedIn: boolean): Promise<PostMomentDetails | null> {
+  const { result: post } = await getNFT(tokenId, { allowAnonymous: !signedIn });
+  if (!canShareToMoment(post) || post.isHidden || post.isDeleted || post.justMe || post.mediaPrivate) return null;
+  return postDetails(post);
 }
 
 export class PostMomentError extends Error {
@@ -59,16 +90,16 @@ export async function loadPostMoment(tokenId: number): Promise<PostMomentMedia> 
   const post: any = await getNFT(tokenId).then((r) => r.result).catch(() => null);
   if (!post) throw new PostMomentError("load");
   if (isGatedPost(post)) throw new PostMomentError("gated");
+  const details = postDetails(post);
   const type = String(post.postType || "");
   if (type === "live") {
     if (!isStreamLive(post.stream) && !hasStreamEnded(post.stream)) throw new PostMomentError("load");
     if (!canShareToMoment(post)) throw new PostMomentError("gated");
     const cover = post.stream?.thumbnail || post.imageUrl;
-    const title = [post.stream?.title, post.title, post.name].find(value => typeof value === "string" && value.trim());
     for (const src of [cover && mediaUrl(cover), `${WEBSITE_LINK}/og/live-studio.jpg`]) {
       if (!src) continue;
       const image = await downloadMomentPhoto(src, tokenId);
-      if (image?.size) return { ...image.media, ...image.size, caption: title?.trim().slice(0, 300) };
+      if (image?.size) return { ...image.media, ...image.size, details };
     }
     throw new PostMomentError("load");
   }
@@ -78,7 +109,7 @@ export async function loadPostMoment(tokenId: number): Promise<PostMomentMedia> 
     const uri = mediaUrl(String(post.videoUrl));
     if (!uri) throw new PostMomentError("load");
     const duration = Number(post.videoDuration);
-    return { kind: "video", uri, mimeType: "video/mp4", width: w, height: h, duration: Number.isFinite(duration) && duration > 0 ? duration : 0, postTokenId: tokenId };
+    return { kind: "video", uri, mimeType: "video/mp4", width: w, height: h, duration: Number.isFinite(duration) && duration > 0 ? duration : 0, postTokenId: tokenId, details };
   }
   // Photo posts' files live under feed-images/{filename}; the API's nfts/images/... path 403s.
   const listed = Array.isArray(post.imageUrls) && typeof post.imageUrls[0] === "string" ? String(post.imageUrls[0]) : "";
@@ -90,7 +121,7 @@ export async function loadPostMoment(tokenId: number): Promise<PostMomentMedia> 
     if (!src) throw new PostMomentError("load");
     const result = await downloadMomentPhoto(src, tokenId);
     if (!result) throw new PostMomentError("load");
-    return { ...result.media, ...(result.size ?? { width: 1080, height: 1350 }) };
+    return { ...result.media, ...(result.size ?? { width: 1080, height: 1350 }), details };
   }
   throw new PostMomentError("kind");
 }
