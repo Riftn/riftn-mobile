@@ -5,9 +5,8 @@
  * most of it is usually staked, so the liquid `balanceOf` a wallet screen would
  * reach for is close to meaningless: an account holding 11.1M DHB reads 0.
  *
- * `ownBadgeBalance` is the server's sum of exactly this — held plus staked,
- * both chains — and it is the number the leaderboard and the badge ladder use,
- * so preferring it keeps every surface agreeing.
+ * `legacyDhbBalance` is the chain-backed total. `ownBadgeBalance` is the
+ * legacy fallback for API responses that predate the separate field.
  *
  * It is `ownBadgeBalance` and never `badgeBalance`: the latter is the
  * *rendered* badge figure and a delegation can hold it above what the wallet
@@ -28,6 +27,7 @@ export interface DhbBalanceRow {
 
 export interface DhbPositionSource {
   ownBadgeBalance?: number;
+  legacyDhbBalance?: number;
   balanceData?: DhbBalanceRow[];
 }
 
@@ -70,8 +70,8 @@ export function dhbPosition(
   user: DhbPositionSource | null | undefined,
   liquidFallback: number | string = 0,
 ): number {
-  const own = user?.ownBadgeBalance;
-  if (typeof own === 'number' && own > 0) {
+  const own = user?.legacyDhbBalance ?? user?.ownBadgeBalance;
+  if (typeof own === 'number' && (own > 0 || user?.legacyDhbBalance === 0)) {
     // DAO contributions retain badge credit but are no longer tokens owned
     // by this wallet. Keep wallet totals and staking separate from that credit.
     const contributed = (user?.balanceData || [])

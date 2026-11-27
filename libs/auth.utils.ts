@@ -138,6 +138,7 @@ const ESSENTIAL_USER_FIELDS = [
   // back, and never came back if that refetch failed.
   'badgeBalance',
   'ownBadgeBalance',
+  'legacyDhbBalance',
   'badgeLock',
   'stakedDHB',
   'hideBadgeAndBalance',
