@@ -1,12 +1,12 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useCall } from "../../context/CallContext";
-import { CallStage, CallIdentity, CallControl, CallFoot, CallRow } from "./CallChrome";
+import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallRow } from "./CallChrome";
 import type { PeerIdentity } from "./usePeerIdentity";
 import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 
 const IncomingCallModal: React.FC<{ peer: PeerIdentity }> = ({ peer }) => {
-  const { isIncoming, currentCall, acceptCall, rejectCall } = useCall();
+  const { isIncoming, currentCall, acceptCall, rejectCall, isMuted, isSpeakerOn, toggleMute, toggleSpeaker } = useCall();
   const { t } = useTranslation();
 
   // Back must not decline the call; Accept and Decline are the only exits.
@@ -35,6 +35,10 @@ const IncomingCallModal: React.FC<{ peer: PeerIdentity }> = ({ peer }) => {
         direct
       />
       <CallFoot ringing>
+        {!currentCall?.group_id ? <CallDock>
+          <CallControl direct icon={isSpeakerOn ? "Volume2" : "Volume1"} label={t("calls.speaker")} onPress={toggleSpeaker} active={isSpeakerOn} />
+          <CallControl direct icon={isMuted ? "MicOff" : "Mic"} label={t(isMuted ? "calls.unmute" : "calls.mute")} onPress={toggleMute} active={isMuted} />
+        </CallDock> : null}
         <CallRow ringing>
           <CallControl large direct icon="PhoneOff" label={t("calls.decline")} onPress={rejectCall} />
           <CallControl large direct icon={isVideo ? "Video" : "Phone"} label={t("calls.accept")} onPress={acceptCall} primary />

@@ -49,7 +49,7 @@ beforeEach(() => {
   mockWallet = 'alice'; mockCheck.mockResolvedValue({ data: null });
   mockWalletSession.mockResolvedValue({token:'signed-caller-session'}); mockPush.mockResolvedValue({success:true});
   Object.defineProperty(AppState, 'currentState', { configurable: true, writable: true, value: 'active' });
-  engine = Object.fromEntries(['initialize', 'registerEventHandler', 'unregisterEventHandler', 'setChannelProfile', 'setClientRole', 'enableAudio', 'enableLocalAudio', 'muteLocalAudioStream', 'setDefaultAudioRouteToSpeakerphone', 'setEnableSpeakerphone', 'enableVideo', 'enableLocalVideo', 'startPreview', 'stopPreview', 'muteLocalVideoStream', 'joinChannel', 'leaveChannel', 'release', 'switchCamera'].map(name => [name, jest.fn(() => 0)]));
+  engine = Object.fromEntries(['initialize', 'registerEventHandler', 'unregisterEventHandler', 'setChannelProfile', 'setClientRole', 'enableAudio', 'enableLocalAudio', 'muteLocalAudioStream', 'updateChannelMediaOptions', 'setDefaultAudioRouteToSpeakerphone', 'setEnableSpeakerphone', 'enableVideo', 'enableLocalVideo', 'startPreview', 'stopPreview', 'muteLocalVideoStream', 'joinChannel', 'leaveChannel', 'release', 'switchCamera'].map(name => [name, jest.fn(() => 0)]));
   engine.registerEventHandler.mockImplementation(h => { handler = h; });
   mockCreate.mockReturnValue(engine);
   mockInsert.mockResolvedValue({ data: session, error: null });
@@ -70,6 +70,31 @@ it('does not send an unsigned push or block audio when the session is unavailabl
   await act(async () => { await result.current.startCall('bob'); });
   expect(mockPush).not.toHaveBeenCalled();
   expect(engine.joinChannel).toHaveBeenCalled();
+});
+
+it('applies incoming audio choices on answer and resets them for a new call', async () => {
+  mockCheck.mockResolvedValueOnce({ data: {
+    ...session, caller_address: 'bob', recipient_address: 'alice', created_at: new Date().toISOString(),
+  } });
+  const { result } = renderHook(useCall);
+  await act(async () => { await Promise.resolve(); });
+  expect(result.current.isIncoming).toBe(true);
+  act(() => { result.current.toggleMute(); result.current.toggleSpeaker(); });
+  expect(result.current.isMuted).toBe(true);
+  expect(result.current.isSpeakerOn).toBe(true);
+  expect(mockCreate).not.toHaveBeenCalled();
+
+  await act(async () => { await result.current.acceptCall(); });
+  expect(engine.joinChannel.mock.calls[0][3]).toMatchObject({ publishMicrophoneTrack: false });
+  expect(engine.setDefaultAudioRouteToSpeakerphone).toHaveBeenCalledWith(true);
+  act(() => { result.current.toggleMute(); });
+  expect(engine.updateChannelMediaOptions).toHaveBeenCalledWith({ publishMicrophoneTrack: true });
+
+  await act(async () => { await result.current.endCall(); });
+  await act(async () => { await result.current.startCall('bob'); });
+  expect(result.current.isMuted).toBe(false);
+  expect(result.current.isSpeakerOn).toBe(false);
+  expect(engine.joinChannel.mock.calls[1][3]).toMatchObject({ publishMicrophoneTrack: true });
 });
 
 it('shares startup, subscription and fallback checks and recovers a ring arriving during the query', async () => {

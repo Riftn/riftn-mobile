@@ -46,7 +46,7 @@ const VoiceCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = 
       </CallIdentity>
       <CallFoot>
         {isCallActive ? <CallCaptionsOverlay /> : null}
-        {isCallActive ? <CallDock>
+        <CallDock>
           <CallControl
             icon={isSpeakerOn ? "Volume2" : "Volume1"}
             label={t("calls.speaker")}
@@ -61,8 +61,8 @@ const VoiceCallModal: React.FC<{ peer: PeerIdentity; onMessage: () => void }> = 
             active={isMuted}
             direct
           />
-          <CallCaptionsControl />
-        </CallDock> : null}
+          {isCallActive ? <CallCaptionsControl /> : null}
+        </CallDock>
         <CallControl
           icon="PhoneOff"
           label={isCallActive ? t("calls.end") : t("common.cancel")}
