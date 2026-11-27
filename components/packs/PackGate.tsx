@@ -41,7 +41,7 @@ export function usePackWallet(): string | null {
  * whatever sheet or modal the caller lives in, so the new screen is not
  * hidden behind it.
  */
-export function usePacksNavigation(beforeLeave?: () => void) {
+export function usePacksNavigation(beforeLeave?: () => void, kind?: PackKind) {
   const navigation = useNavigation<any>();
   const go = useCallback(
     (name: ScreenNames, params?: Record<string, unknown>) => {
@@ -51,7 +51,7 @@ export function usePacksNavigation(beforeLeave?: () => void) {
     [beforeLeave, navigation],
   );
   return {
-    openPacks: useCallback(() => go(ScreenNames.Packs), [go]),
+    openPacks: useCallback(() => go(ScreenNames.Packs, kind ? { kind } : undefined), [go, kind]),
     openPack: useCallback((slug: string) => go(ScreenNames.Pack, { slug }), [go]),
     openStaking: useCallback(() => go(ScreenNames.Dpay, { initialTab: "stake" }), [go]),
   };

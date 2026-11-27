@@ -11,6 +11,7 @@ import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
 import React, { useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "@tanstack/react-query";
 import ScreenHeader from "../components/ScreenHeader";
@@ -34,6 +35,8 @@ import { PackCover } from "../components/packs/PackPickerParts";
 import { KitButton, PageSection, PageTabs } from "../components/page/PageKit";
 import { PackLocked, packErrorMessage, usePackWallet, usePacksNavigation } from "../components/packs/PackGate";
 import { IS_APP_STORE_BUILD } from "../config/storefront";
+import { ScreenNames } from "../navigation/ScreenNames";
+import type { AppStackNavigationProp, AppStackParamList } from "../navigation/types";
 
 const KIND_TAB: Record<PackKind, string> = {
   emoji: "creatorPacks.tab.emoji",
@@ -122,7 +125,10 @@ export default function PacksScreen() {
   const { isSignedIn } = useAuthState();
   const { requireAuth } = useAuthActions();
   const { openPack } = usePacksNavigation();
-  const [kind, setKind] = useState<PackKind>("emoji");
+  const navigation = useNavigation<AppStackNavigationProp<ScreenNames.Packs>>();
+  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.Packs>>();
+  const requestedKind = route.params?.kind;
+  const kind = PACK_KINDS.find((entry) => entry === requestedKind) ?? "emoji";
   const [name, setName] = useSurfaceDraft("screens/PacksScreen.tsx:name", "");
   const [busy, setBusy] = useState(false);
   const status = usePackStatus(wallet);
@@ -168,7 +174,7 @@ export default function PacksScreen() {
         tabs={
           <PageTabs
             value={kind}
-            onChange={setKind}
+            onChange={(nextKind) => navigation.setParams({ kind: nextKind })}
             tabs={PACK_KINDS.map((k) => ({ id: k, label: t(KIND_TAB[k]) }))}
           />
         }

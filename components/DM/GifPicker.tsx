@@ -187,6 +187,7 @@ const GifPicker: React.FC<GifPickerProps> = ({ visible, onClose, onPick }) => {
             <>
               {!kids && (
                 <PackStrip
+                  kind="gif"
                   packs={gifPacks.packs}
                   active={gifPacks.active}
                   onChange={gifPacks.setActive}
