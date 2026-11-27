@@ -31,12 +31,14 @@ export function PackCover({ pack, size }: { pack: Pick<CreatorPack, "cover_url" 
 }
 
 export function PackStrip({
+  kind,
   packs,
   active,
   onChange,
   leading,
   beforeLeave,
 }: {
+  kind: PackKind;
   packs: CreatorPack[];
   active: string | null;
   onChange: (id: string | null) => void;
@@ -46,7 +48,7 @@ export function PackStrip({
   beforeLeave?: () => void;
 }) {
   const { t } = useTranslation();
-  const { openPacks } = usePacksNavigation(beforeLeave);
+  const { openPacks } = usePacksNavigation(beforeLeave, kind);
   return (
     <ScrollView
       horizontal
@@ -124,7 +126,7 @@ export function PackGrid({ kind, items, onSelect }: { kind: PackKind; items: Pac
 
 function EmptyPacks({ kind, beforeLeave }: { kind: PackKind; beforeLeave?: () => void }) {
   const { t } = useTranslation();
-  const { openPacks } = usePacksNavigation(beforeLeave);
+  const { openPacks } = usePacksNavigation(beforeLeave, kind);
   return (
     <View className="items-center px-4 py-8" style={{ gap: 10 }}>
       <Text className="text-xs text-theme-neutrals-400 text-center">
@@ -161,7 +163,7 @@ export function StickerPanel({ onSelect, beforeLeave }: { onSelect: (url: string
   if (!packs.length) return <EmptyPacks kind="sticker" beforeLeave={beforeLeave} />;
   return (
     <View className="flex-1">
-      <PackStrip packs={packs} active={current} onChange={setActive} beforeLeave={beforeLeave} />
+      <PackStrip kind="sticker" packs={packs} active={current} onChange={setActive} beforeLeave={beforeLeave} />
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <PackGrid kind="sticker" items={(current && items[current]) || []} onSelect={onSelect} />
       </ScrollView>
