@@ -318,10 +318,13 @@ if (submitVersion) {
   await (async () => {
     const whatsNew = (process.env.WHATS_NEW ?? '').trim();
     if (!whatsNew) return fail("the What's New text is empty");
-    const candidates = await get(`/v1/builds?filter[app]=${APP_ID}&filter[preReleaseVersion.version]=${encodeURIComponent(submitVersion)}&filter[processingState]=VALID&filter[expired]=false&sort=-uploadedDate&limit=1`);
+    const buildNumber = (process.env.SUBMIT_BUILD ?? '').trim();
+    const buildFilter = buildNumber ? `&filter[version]=${encodeURIComponent(buildNumber)}` : '';
+    const manualRelease = process.env.MANUAL_RELEASE === 'true';
+    const candidates = await get(`/v1/builds?filter[app]=${APP_ID}&filter[preReleaseVersion.version]=${encodeURIComponent(submitVersion)}&filter[processingState]=VALID&filter[expired]=false${buildFilter}&sort=-uploadedDate&limit=1`);
     if (candidates.error) return fail(candidates.error);
     const build = candidates.data[0];
-    if (!build) return fail(`no processed build of ${submitVersion} yet (still uploading or processing)`);
+    if (!build) return fail(`no processed build of ${submitVersion}${buildNumber ? ` matching build ${buildNumber}` : ''}`);
     say(`- build ${build.attributes.version}, uploaded ${build.attributes.uploadedDate?.slice(0, 16)}`);
 
     const { version, error: versionError } = await ensureVersion(submitVersion);
@@ -329,6 +332,13 @@ if (submitVersion) {
     const state = version.attributes.appStoreState;
     if (!['PREPARE_FOR_SUBMISSION', 'DEVELOPER_REJECTED', 'REJECTED', 'METADATA_REJECTED', 'INVALID_BINARY'].includes(state)) {
       return fail(`${submitVersion} is ${state}, nothing to submit`);
+    }
+    if (manualRelease && version.attributes.releaseType !== 'MANUAL') {
+      const updated = await get(`/v1/appStoreVersions/${version.id}`, 'PATCH', {
+        data: { type: 'appStoreVersions', id: version.id, attributes: { releaseType: 'MANUAL' } },
+      });
+      if (updated.error) return fail(`could not set manual release: ${updated.error}`);
+      say('- manual release set');
     }
 
     const attached = await get(`/v1/appStoreVersions/${version.id}/relationships/build`, 'PATCH', { data: { type: 'builds', id: build.id } });
@@ -358,6 +368,9 @@ if (submitVersion) {
     }
     const items = await get(`/v1/reviewSubmissions/${submission.id}/items?limit=10`);
     if (items.error) return fail(items.error);
+    if (buildNumber && items.data.length) {
+      return fail('the open submission already contains items');
+    }
     if (!items.data.length) {
       const item = await get('/v1/reviewSubmissionItems', 'POST', {
         data: {

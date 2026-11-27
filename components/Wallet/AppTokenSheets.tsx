@@ -280,7 +280,7 @@ function EntryRow({ entry }: { entry: AppTokenEntry }) {
   );
 }
 
-export const AppTokenHistorySheet: React.FC<{ open: boolean; onClose: () => void; onSend: () => void }> = ({ open, onClose, onSend }) => {
+export const AppTokenHistorySheet: React.FC<{ open: boolean; onClose: () => void; onSend?: () => void }> = ({ open, onClose, onSend }) => {
   const { t } = useTranslation();
   const { data, isLoading } = useAppTokens(open);
   return (
@@ -294,10 +294,12 @@ export const AppTokenHistorySheet: React.FC<{ open: boolean; onClose: () => void
           )}
           <Text className="text-[12px] leading-5 text-white/50 mt-2">{t("appTokens.explainer")}</Text>
         </View>
-        <TouchableOpacity onPress={() => { onClose(); onSend(); }} className="h-11 rounded-xl bg-theme-neutrals-700 flex-row items-center justify-center gap-2">
-          <Ionicons name="arrow-up" size={16} color="#fff" />
-          <Text className="text-white font-semibold">{t("assets.send")}</Text>
-        </TouchableOpacity>
+        {onSend && (
+          <TouchableOpacity onPress={() => { onClose(); onSend(); }} className="h-11 rounded-xl bg-theme-neutrals-700 flex-row items-center justify-center gap-2">
+            <Ionicons name="arrow-up" size={16} color="#fff" />
+            <Text className="text-white font-semibold">{t("assets.send")}</Text>
+          </TouchableOpacity>
+        )}
         <Text className="text-[11px] uppercase tracking-wide text-white/50">{t("appTokens.history")}</Text>
         {isLoading ? <ActivityIndicator color="#aaa" /> : data?.entries?.length ? (
           <ScrollView style={{ maxHeight: 360 }}>

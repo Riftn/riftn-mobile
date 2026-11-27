@@ -26,13 +26,17 @@ jest.mock('../../libs/toast', () => ({ toastInfo: jest.fn(), toastSuccess: jest.
 jest.mock('../../components/Wallet/TradeSheet', () => 'TradeSheet');
 jest.mock('../../components/Wallet/ArcSendSheet', () => 'ArcSendSheet');
 jest.mock('../../components/Wallet/AppTokenSheets', () => ({ AppTokenSendSheet: 'AppTokenSendSheet', AppTokenHistorySheet: 'AppTokenHistorySheet' }));
-const mockAppTokens = { enabled: false };
+const mockAppTokens = { enabled: false, symbol: undefined as string | undefined };
 const mockPreview = jest.fn((open: boolean) => ({
   data: open ? { balance: '10', fanSiteCredit: '4', credits: [] } : undefined,
 }));
 jest.mock('../../hooks/useAppTokens', () => ({
   useAppTokensEnabled: () => mockAppTokens.enabled,
-  useAppTokens: () => ({ data: mockAppTokens.enabled ? { symbol: 'DHB', balance: '1500', entries: [] } : undefined }),
+  useAppTokens: () => ({
+    data: mockAppTokens.enabled || mockAppTokens.symbol
+      ? { symbol: mockAppTokens.symbol ?? 'DHB', balance: '1500', entries: [] }
+      : undefined,
+  }),
   useAppTokenPreview: (open: boolean) => mockPreview(open),
 }));
 jest.mock('../../components/common/AddressInputTools', () => 'AddressInputTools');
@@ -49,7 +53,7 @@ import WalletOverview from '../../components/Wallet/WalletOverview';
 import { ScreenNames } from '../../navigation/ScreenNames';
 
 const press = (tree: ReactTestRenderer, label: string) => act(() => tree.root.findAll(node => node.type === 'Pressable' && node.props.accessibilityLabel === label)[0].props.onPress());
-afterEach(() => { jest.clearAllMocks(); mockAppTokens.enabled = false; mockWallet.failedChains = []; mockStorefront.DIGITAL_PURCHASES_ENABLED = true; });
+afterEach(() => { jest.clearAllMocks(); mockAppTokens.enabled = false; mockAppTokens.symbol = undefined; mockWallet.failedChains = []; mockStorefront.DIGITAL_PURCHASES_ENABLED = true; });
 
 it('offers no buying, staking, bridging or trading in the App Store build', () => {
   mockStorefront.DIGITAL_PURCHASES_ENABLED = false; let tree!: ReactTestRenderer;
@@ -69,6 +73,19 @@ it('opens the wallet actions immediately even when balances have not loaded', ()
   press(tree, 'wallet.trade'); expect(tree.root.findByType('TradeSheet' as any).props.visible).toBe(true);
   press(tree, 'wallet.receive'); expect(tree.root.findAllByType('Svg' as any)).toHaveLength(1);
   expect(tree.root.findAll(node => node.type === 'Text' && node.props.children === mockWallet.address)).toHaveLength(1);
+  act(() => tree.unmount());
+});
+
+it('opens RIFT history without offering an app-token transfer on iOS', () => {
+  mockStorefront.DIGITAL_PURCHASES_ENABLED = false;
+  mockAppTokens.symbol = 'RIFT';
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(<WalletOverview onBuy={jest.fn()} onStake={jest.fn()} />); });
+  press(tree, '$RIFT, 1,500');
+  const history = tree.root.findByType('AppTokenHistorySheet' as any);
+  expect(history.props.open).toBe(true);
+  expect(history.props.onSend).toBeUndefined();
+  expect(tree.root.findAllByType('AppTokenSendSheet' as any)).toHaveLength(0);
   act(() => tree.unmount());
 });
 
