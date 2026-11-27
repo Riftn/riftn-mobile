@@ -8,7 +8,8 @@ group = 'group.io.dehub.mobile.screen-capture'
 definitions = {
   'DeHub' => 'io.dehub.mobile',
   'DeHubCaptureSetup' => 'io.dehub.mobile.screen-capture-setup',
-  'DeHubCaptureUpload' => 'io.dehub.mobile.screen-capture-upload'
+  'DeHubCaptureUpload' => 'io.dehub.mobile.screen-capture-upload',
+  'DeHubPhotoShare' => 'io.dehub.mobile.photo-share'
 }
 definitions.each do |name, identifier|
   matches = project.targets.select { |target| target.name == name }
@@ -27,4 +28,4 @@ definitions.each do |name, identifier|
   copies = app.copy_files_build_phases.select { |phase| phase.dst_subfolder_spec.to_s == '13' }.flat_map(&:files)
   raise "Extension embedding missing or duplicated: #{name}" unless copies.count { |file| file.file_ref == target.product_reference } == 1
 end
-puts 'All three recording signing targets, dependencies, embedding and App Group entitlements are ready.'
+puts 'App and extension signing targets, dependencies, embedding and App Group entitlements are ready.'

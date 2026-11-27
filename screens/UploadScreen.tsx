@@ -432,7 +432,8 @@ export default function UploadScreen() {
   // The title is its own 140-char field: forced for video/audio, toggleable
   // for everything else via the "Title" switch in the extras section.
   const sharedVideoId = route.params?.sharedVideoId;
-  const newPostScope = sharedVideoId ? `shared-video:${sharedVideoId}` : "new";
+  const sharedPhotoId = route.params?.sharedPhotoId;
+  const newPostScope = sharedPhotoId ? `shared-photo:${sharedPhotoId}` : sharedVideoId ? `shared-video:${sharedVideoId}` : "new";
   const draftScope = `post:${incomingDraft?.id ?? (incomingQuotedTokenId ? `quote:${incomingQuotedTokenId}` : newPostScope)}`;
   const [bodyText, setBodyText] = useDraftState(draftScope + ":bodyText", "");
   const bodyMentions = useMentions(bodyText, setBodyText);

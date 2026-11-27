@@ -96,6 +96,11 @@
       "googleServicesFile": "./google-services.json",
       "intentFilters": [
         {
+          "action": "SEND",
+          "category": ["DEFAULT"],
+          "data": [{ "mimeType": "image/*" }]
+        },
+        {
           "action": "VIEW",
           "autoVerify": true,
           "data": [

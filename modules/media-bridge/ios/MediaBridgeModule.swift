@@ -27,6 +27,8 @@ public class MediaBridgeModule: Module {
     Name("RiftnMediaBridge")
     Events("onVolumeKey", "onStorefrontChange", "onSharedVideo")
 
+    Function("takeSharedPhoto") { SharedPhotoImport.take() }
+
     Function("takeSharedVideo") { SharedVideoImport.take() }
     Function("discardSharedVideo") { (id: String) in SharedVideoImport.discard(id) }
 
