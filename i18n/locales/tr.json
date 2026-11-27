@@ -1828,6 +1828,9 @@
     "signIn": "Göndermek için giriş yap",
     "failed": "Bir sorun oluştu. Mesajınız kaydedildi; lütfen tekrar deneyin."
   },
+  "postComposer": {
+    "formatSelection": "Seçimi biçimlendir"
+  },
   "articles": {
     "articleImage": "Makale resmi",
     "socialImage": "Sosyal paylaşım resmi",

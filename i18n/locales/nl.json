@@ -978,6 +978,9 @@
     "signIn": "Log in om te verzenden",
     "failed": "Er ging iets mis. Je bericht is opgeslagen; probeer het opnieuw."
   },
+  "postComposer": {
+    "formatSelection": "Selectie opmaken"
+  },
   "articles": {
     "articleImage": "Artikelafbeelding",
     "socialImage": "Afbeelding voor sociaal delen",

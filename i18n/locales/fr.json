@@ -978,6 +978,9 @@
     "signIn": "Connectez-vous pour envoyer",
     "failed": "Une erreur est survenue. Votre message est enregistré ; réessayez."
   },
+  "postComposer": {
+    "formatSelection": "Mettre en forme la sélection"
+  },
   "articles": {
     "articleImage": "Image de l'article",
     "socialImage": "Image de partage social",

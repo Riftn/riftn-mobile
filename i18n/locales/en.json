@@ -864,6 +864,9 @@
     "signIn": "Sign in to send",
     "failed": "Something went wrong. Your message is saved; please try again."
   },
+  "postComposer": {
+    "formatSelection": "Format selection"
+  },
   "articles": {
     "articleImage": "Article image",
     "socialImage": "Social share image",
