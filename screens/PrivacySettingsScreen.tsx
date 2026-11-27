@@ -53,7 +53,7 @@ import {
   Divider,
 } from '../components/Settings/SettingsPrimitives';
 import { useNewMemberSelf } from '../hooks/useNewMembers';
-import AndroidBiometricUnlockRow from '../components/Settings/AndroidBiometricUnlockRow';
+import WalletDeviceUnlockRow from '../components/Settings/WalletDeviceUnlockRow';
 import TwoFactorSettingsRow from '../components/Settings/TwoFactorSettingsRow';
 import RemixPermissionsSection from '../components/Settings/RemixPermissionsSection';
 import AiConsentSection from '../components/Settings/AiConsentSection';
@@ -899,7 +899,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
         >
           <TwoFactorSettingsRow />
           <Divider />
-          <AndroidBiometricUnlockRow />
+          <WalletDeviceUnlockRow />
           <Divider />
           <SettingsLinkRow
             icon="Smartphone"
