@@ -29,6 +29,21 @@ describe('services/translation.service', () => {
   });
 
   describe('translateText', () => {
+    it('rejects cached and fresh Han translations for a non-Han target', async () => {
+      const text = 'The data is solid, but it shows the opposite.';
+      const wrong = '数据很可靠，但情况正好相反。';
+      storage.set('dehub-translation-cache-v4', JSON.stringify([
+        [`${text}::en`, { translatedText: wrong, sourceLang: 'en' }],
+      ]));
+      mockInvoke.mockResolvedValueOnce({ data: { translatedText: wrong }, error: null })
+        .mockResolvedValueOnce({ data: { translatedText: wrong }, error: null });
+      const { translateText } = loadService();
+
+      await expect(translateText(text, 'en')).rejects.toThrow('Translation unavailable');
+      await expect(translateText(text, 'zh_tw')).resolves.toMatchObject({ translatedText: wrong });
+      expect(mockInvoke).toHaveBeenCalledTimes(2);
+    });
+
     it('returns the translation and the detected source language', async () => {
       mockInvoke.mockResolvedValue({
         data: { translatedText: 'Merhaba', detectedLanguage: { language: 'es', confidence: 1 } },

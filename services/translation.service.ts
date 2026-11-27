@@ -3,6 +3,7 @@ import { createLogger } from '../libs/logger';
 import i18n from '../i18n';
 import { normalizeLanguageCode } from '../i18n/language-code';
 import { storage } from '../libs/storage';
+import { hasUnexpectedHan } from '../libs/translation-target-script';
 import { TranslationCooldown } from '../libs/translation-cooldown';
 import { chatLineMatchesLanguage } from '../libs/chat-language-hint';
 import { supabase } from './supabase';
@@ -323,7 +324,7 @@ export async function translateText(
     const cachedSame = cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text);
     const source = cachedSame ? resolvedSource(cached.sourceLang) : cached.sourceLang;
     const untranslated = looksUntranslated(cachedSame, source, targetLang);
-    if (!manualChat || !untranslated) {
+    if (!hasUnexpectedHan(text, cached.translatedText, targetLang) && (!manualChat || !untranslated)) {
       log.debug('Cache hit for translation');
       return {
         translatedText: cached.translatedText,
@@ -340,7 +341,8 @@ export async function translateText(
 
   const data = await requestTranslation(text, targetLang, sourceLang, isPublic, isChat);
 
-  if (!data?.translatedText || isExpandedExample(text, data.translatedText)) {
+  if (!data?.translatedText || isExpandedExample(text, data.translatedText)
+    || hasUnexpectedHan(text, data.translatedText, targetLang)) {
     throw new TranslationServiceError('Translation unavailable', 500);
   }
 
