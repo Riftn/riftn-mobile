@@ -8,7 +8,6 @@ import createAgoraRtcEngine, {
 } from "react-native-agora";
 import { CALL_BACKGROUNDS, colorNumber, loadCallBackground, loadCallBackgroundPhoto, pathFromUri, saveCallBackground, type CallBackgroundId } from "../libs/callBackground";
 import { supabase, fetchAgoraToken, walletScopedClient } from "../services/supabase";
-import { AGORA_APP_ID } from "../config/agora.config";
 import { useAuth } from "../context/AuthContext";
 import { createLogger } from "../libs/logger";
 import { apiClient } from "../libs/api.client";
@@ -244,7 +243,7 @@ export function useCall(): UseCallReturn {
     ];
     operations.forEach(operation => { try { operation(); } catch (error) { log.warn("Call teardown error", error); } });
   }, []);
-  const finishCall = useCallback(async (reason?: Exclude<CallOutcome, "ended">) => {
+  const finishCall = useCallback(async (reason?: Exclude<CallOutcome, "ended">, notifyPeer = true) => {
     const call = currentCallRef.current;
     const startedAt = startedAtRef.current;
     generationRef.current += 1;
@@ -282,7 +281,7 @@ export function useCall(): UseCallReturn {
       });
       summaryTimerRef.current = setTimeout(() => { summaryTimerRef.current = null; setCallSummary(null); }, 6000);
     }
-    await markEnded(call, startedAt != null);
+    if (notifyPeer) await markEnded(call, startedAt != null);
   }, [publishCall, clearTimeouts, disposeMedia, markEnded, userAddress]);
   const endCall = useCallback(() => finishCall(), [finishCall]);
   const finishCallRef = useRef(finishCall);
@@ -415,11 +414,9 @@ export function useCall(): UseCallReturn {
           if (standing.muted.includes(userAddress.toLowerCase())) { modMutedRef.current = true; setModMuted(true); }
         }
       }
-      const token = groupId
-        ? await fetchAgoraToken(channelName, "publisher", ownUid, userAddress)
-        : await fetchAgoraToken(channelName);
+      const token = await fetchAgoraToken(channelName, "publisher", ownUid, userAddress);
       if (!current()) return false;
-      if (!token || !AGORA_APP_ID) throw new Error("Call credentials unavailable");
+      if (!token?.appId) throw new Error("Call credentials unavailable");
       if (Platform.OS === "android") {
         const permissions = [PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
           ...(call.call_type === "video" ? [PermissionsAndroid.PERMISSIONS.CAMERA] : [])];
@@ -521,7 +518,7 @@ export function useCall(): UseCallReturn {
       };
       media = { engine, handler, closed: false, remotes: new Map(), releasePresence: null };
       mediaRef.current = media;
-      const initialized = engine.initialize({ appId: AGORA_APP_ID });
+      const initialized = engine.initialize({ appId: token.appId });
       if (initialized < 0) throw new Error(`Call initialization failed: ${initialized}`);
       engine.registerEventHandler(handler);
       engine.setChannelProfile(ChannelProfileType.ChannelProfileCommunication);
@@ -797,10 +794,17 @@ export function useCall(): UseCallReturn {
     // Silence the ring before the call takes the microphone and speaker.
     stopCallRingtone();
     setIsIncoming(false); setIsConnecting(true);
+    if (!call.group_id) {
+      callTimeoutRef.current = setTimeout(() => {
+        if (generationRef.current === generation && startedAtRef.current == null) void endCall();
+      }, 30_000);
+    }
     try {
-      const { error } = await callClient.from("call_sessions").update({ status: "connected" }).eq("id", call.id);
-      if (generationRef.current !== generation) { await markEnded(call); return; }
+      const { data, error } = await callClient.from("call_sessions").update({ status: "connected" })
+        .eq("id", call.id).eq("status", "ringing").select("id").maybeSingle();
+      if (generationRef.current !== generation) return;
       if (error) throw error;
+      if (!data) { await finishCall(undefined, false); return; }
       publishCall({ ...call, status: "connected" });
       const joined = await joinChannel(call, generation);
       if (generationRef.current === generation && !joined) await endCall();
@@ -809,7 +813,7 @@ export function useCall(): UseCallReturn {
     } catch (error) {
       if (generationRef.current === generation) { log.error("Call accept failed", error); await endCall(); }
     } finally { if (generationRef.current === generation) joiningRef.current = false; }
-  }, [callClient, clearTimeouts, publishCall, joinChannel, endCall, markEnded, armGroupTimeout]);
+  }, [callClient, clearTimeouts, publishCall, joinChannel, endCall, finishCall, armGroupTimeout]);
 
   const acceptRef = useRef(acceptCall);
   acceptRef.current = acceptCall;
