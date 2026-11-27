@@ -118,6 +118,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
   latest.current = options;
   const [phase, setPhase] = useState<PlaybackPhase>('idle');
   const live = !!options.live;
+  const completion = useMemo(() => ({ position: null as number | null }), [player, source, live]);
   // The play request being seen through (see START_TICK_MS).
   const ask = useRef({ at: 0, asks: 0, moved: false, quietUntil: 0 });
   const watchStart = useRef<(() => void) | null>(null);
@@ -142,7 +143,11 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
         else if (position > 0 && Number.isFinite(player.duration) && position < player.duration) player.currentTime = position;
       }
       if (allowed()) {
-        rewindFinishedVideo(player);
+        if (!live) {
+          if (completion.position !== null && position >= completion.position) player.currentTime = 0;
+          else rewindFinishedVideo(player);
+          completion.position = null;
+        }
         // Already running (a short started while it was dragged in): asking
         // again makes AVPlayer reset its rate under a playing clip.
         if (reload || !player.playing) player.play();
@@ -158,7 +163,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
         metadata: { ...detail, postId: latest.current.postId, source: playbackSourceIdentity(source ?? ''), status: player.status },
       });
     },
-  }), [player, source, live]);
+  }), [player, source, live, completion]);
   useEffect(() => {
     setPhase('idle');
     // Reads on a player released between closing and reopening a viewer throw;
@@ -239,6 +244,11 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
       startWatch = setInterval(startTick, START_TICK_MS);
     };
     const subs = [
+      player.addListener('playToEnd', () => {
+        if (live || player.loop) return;
+        completion.position = read(() => player.currentTime, 0);
+        recovery.stop();
+      }),
       player.addListener('statusChange', ({ status, error }) => {
         if (status === 'error') {
           const code = error?.message?.match(/(?:response code|status code):?\s*(\d{3})/i)?.[1];
@@ -330,6 +340,6 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
       subs.forEach(sub => sub.remove());
       recovery.stop();
     };
-  }, [player, recovery, live]);
+  }, [player, recovery, completion, live]);
   return { recovery, phase };
 }
