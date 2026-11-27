@@ -1159,6 +1159,10 @@
     "reorderHint": "Maintenez et faites glisser n'importe quelle icône pour réorganiser",
     "reorderHintGroups": "Maintenez et faites glisser une icône pour la réorganiser, ou vers un autre onglet pour l’y déplacer",
     "moveGroupHint": "Déposez-la sur un autre onglet pour l’y déplacer",
+    "shortcutPicker": {
+      "title": "Déplacer un raccourci",
+      "destination": "Déplacer {{name}} vers"
+    },
     "reorderReset": "Réinitialiser",
     "groups": {
       "main": "Principal",

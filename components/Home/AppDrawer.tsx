@@ -64,7 +64,7 @@ import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder, toggleHomeShortcut } from "../../libs/navOrder";
 import SearchRequestPrompt from "../Search/SearchRequestPrompt";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
-import { defaultMenuGroupOf, groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
+import { defaultMenuGroupOf, groupMenuItems, MENU_GROUPS, type MenuGroup } from "../../libs/menuGroups";
 import { moveMenuTile, saveMenuGroupMoves, useMenuGroupMoves } from "../../libs/menuGroupMoves";
 
 // The menu is a bottom sheet: grab handle, who is signed in, the search field,
@@ -712,6 +712,14 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const [openFolder, setOpenFolder] = useState<string | null>(null);
   // Tabs: search is a button beside the group words until tapped, then that
   // row is the search field (X turns it back).
+  const [movePickerOpen, setMovePickerOpen] = useState(false);
+  const [moveItemId, setMoveItemId] = useState<string | null>(null);
+  const moveSource = menuGroups.find((group) => group.items.some((item) => navOrderId(item.labelKey) === moveItemId));
+  const moveItem = moveSource?.items.find((item) => navOrderId(item.labelKey) === moveItemId);
+  const closeMovePicker = () => {
+    setMovePickerOpen(false);
+    setMoveItemId(null);
+  };
   const tabsHeader = grouped && menuLayout === "tabs";
   const [searchOpen, setSearchOpen] = useState(false);
   const bigTiles = grouped && menuLayout !== "sections";
@@ -786,6 +794,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
       setSearchOpen(false);
       setMenuTab(0);
       setOpenFolder(null);
+      setMovePickerOpen(false);
+      setMoveItemId(null);
     }
   }, [visible]);
   const closeSearch = useCallback(() => {
@@ -1377,6 +1387,11 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
             </>
           )}
 
+          {!searching && menuGroups.length > 0 && (
+            <TouchableOpacity accessibilityRole="button" onPress={() => setMovePickerOpen(true)} className="items-center p-3">
+              <Text style={{ color: appTheme.colors.foreground }} className="text-sm font-semibold">{t("nav.shortcutPicker.title")}</Text>
+            </TouchableOpacity>
+          )}
           {searching && (
             <>
               {visibleItems.length === 0 && (
@@ -1429,6 +1444,43 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
           </View>
         )}
       </Animated.View>
+      <GlassModal visible={visible && movePickerOpen} onClose={closeMovePicker} scrollable>
+        <View className="gap-2 px-2 py-3">
+          <Text accessibilityRole="header" style={{ color: appTheme.colors.foreground }} className="text-lg font-semibold">
+            {moveItem ? t("nav.shortcutPicker.destination", { name: t(moveItem.labelKey) }) : t("nav.shortcutPicker.title")}
+          </Text>
+          {moveItem && moveItemId
+            ? MENU_GROUPS.filter((group) => group.id !== moveSource?.id).map((group) => (
+                <PrimaryButton
+                  key={group.id}
+                  neutral
+                  title={t(group.labelKey, group.fallback)}
+                  onPress={() => {
+                    moveMenuTile(moveItemId, group.id, defaultMenuGroupOf(moveItem.labelKey) ?? "riftn", isSignedIn ? menuWallet : null);
+                    closeMovePicker();
+                  }}
+                />
+              ))
+            : menuGroups.map((group) => (
+                <View key={group.id}>
+                  <Text accessibilityRole="header" style={{ color: appTheme.colors.foreground }} className="my-2 text-sm font-semibold">
+                    {t(group.labelKey, group.fallback)}
+                  </Text>
+                  {group.items.map((item) => (
+                    <TouchableOpacity
+                      key={item.labelKey}
+                      accessibilityRole="button"
+                      onPress={() => setMoveItemId(navOrderId(item.labelKey))}
+                      className="px-2 py-3"
+                    >
+                      <Text style={{ color: appTheme.colors.foreground }}>{t(item.labelKey)}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ))}
+          <PrimaryButton neutral title={t(moveItem ? "profile.back" : "common.cancel")} onPress={moveItem ? () => setMoveItemId(null) : closeMovePicker} />
+        </View>
+      </GlassModal>
       <GlassModal visible={visible && showSignOutOptions} onClose={() => setShowSignOutOptions(false)}>
         <View className="px-2 py-3 gap-2">
           <Text accessibilityRole="header" style={{ color: appTheme.colors.foreground }} className="text-lg font-semibold">
