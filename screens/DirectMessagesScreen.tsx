@@ -836,7 +836,7 @@ const DirectMessagesInner: React.FC = () => {
       ) : (
       <>
       {/* Statuses from people you follow, Instagram style, above the chat cards. */}
-      {!!myAddress && tabFilter === "all" && !customTab && !showingArchive && !query.trim() && (
+      {!!myAddress && !showingArchive && !query.trim() && (
         <>
           <StatusRow me={statusMe} onOpen={openNotes} />
           <View style={SEPARATOR} />

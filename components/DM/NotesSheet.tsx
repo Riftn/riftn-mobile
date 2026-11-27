@@ -744,7 +744,7 @@ function cloudText(note: Note | null): string {
   if (note.text) return note.text;
   if (note.song) return `🎧 ${note.song.title}`;
   if (note.location) return `📍 ${note.location}`;
-  return note.gifUrl ? "GIF" : "";
+  return "";
 }
 
 const CLOUD = { shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
@@ -756,12 +756,14 @@ function StatusTile({ author, note, own, label, onPress, onMenu }: {
   const { isLight, pageColors } = useAppTheme();
   const avatar = getAvatarUrl(author.avatarImageUrl, 60);
   const said = useNoteWords(note?.text, own).shown;
-  const words = (note?.text ? said : cloudText(note)) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
   const gif = note?.gifUrl || null;
+  const left = useNoteLeft(note);
+  const words = gif ? "" : (note?.text ? said : cloudText(note)) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
+  const tileLabel = gif ? author.username || nameOf(author) : label;
   const cloud = { ...CLOUD, backgroundColor: pageColors.foreground };
   const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
   return (
-    <Pressable onPress={onPress} onLongPress={onMenu} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${stripBold(words)}` : label}
+    <Pressable onPress={onPress} onLongPress={onMenu} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${tileLabel}: ${stripBold(words)}` : tileLabel}
       accessibilityActions={[{ name: "statusOptions", label: t("notes.statusOptions", { defaultValue: "Status options" }) }]}
       onAccessibilityAction={event => { if (event.nativeEvent.actionName === "statusOptions") onMenu(); }}>
       {/* The palette already supplies the light and dark colors for this bubble. */}
@@ -778,17 +780,18 @@ function StatusTile({ author, note, own, label, onPress, onMenu }: {
           </>
         ) : null}
       </View>
-      <View style={{ marginTop: 2 }}>
+      <View style={{ marginTop: 2, width: 66, height: 66, alignItems: "center", justifyContent: "center" }}>
         {gif
           ? <SmartImage source={{ uri: gif }} style={{ width: 58, height: 58, borderRadius: 11 }} contentFit="cover" />
           : <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={58} radius={11} name={nameOf(author)} />}
-        {own ? (
+        {note ? <NoteRing left={left} size={66} /> : null}
+        {own && !gif ? (
           <View style={{ position: "absolute", right: -4, bottom: -4, width: 22, height: 22, borderRadius: 6, backgroundColor: isLight ? "#111114" : "#fff", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: isLight ? "#fff" : "#000" }}>
             <Ionicons name="add" size={14} color={isLight ? "#fff" : "#0b0b0c"} />
           </View>
         ) : null}
       </View>
-      <Text className={own ? "text-theme-neutrals-400" : "text-white"} numberOfLines={1} style={{ marginTop: 6, maxWidth: 82, fontSize: 11.5, fontWeight: "600" }}>{label}</Text>
+      <Text className={own ? "text-theme-neutrals-400" : "text-white"} numberOfLines={1} style={{ marginTop: 6, maxWidth: 82, fontSize: 11.5, fontWeight: "600" }}>{tileLabel}</Text>
     </Pressable>
   );
 }
