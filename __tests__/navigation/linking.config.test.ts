@@ -309,3 +309,14 @@ describe('links that arrive while the app is open', () => {
     unsubscribe();
   });
 });
+
+describe('public chat message links', () => {
+  it.each([
+    ['/app/messages?chat=public&room=topic-a&msg=m1', '/app/public-chat?roomId=topic-a'],
+    ['/chat?chatMessage=m2', '/app/public-chat?roomId=global'],
+  ])('opens %s in the linked public room', (path, expected) => {
+    fallback.mockClear();
+    resolve(path);
+    expect(fallback).toHaveBeenCalledWith(expected, {});
+  });
+});

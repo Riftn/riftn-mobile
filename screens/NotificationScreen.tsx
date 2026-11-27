@@ -1771,6 +1771,8 @@ const NotificationScreen = () => {
           mentionContext: metadata?.mentionContext,
           tokenId,
           chatMessageId: metadata?.chatMessageId,
+          roomId: metadata?.roomId,
+          deepLink: metadata?.deepLink,
         })) break;
         if (tokenId) navigateToFeed(tokenId, commentId, postType);
         break;

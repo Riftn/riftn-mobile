@@ -112,6 +112,7 @@ export interface NotificationData {
   // Chat mentions and community notifications
   mentionContext?: string;
   chatMessageId?: string;
+  roomId?: string;
   communitySlug?: string;
   // Livestream
   streamId?: string;
