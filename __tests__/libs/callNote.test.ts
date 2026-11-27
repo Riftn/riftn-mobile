@@ -13,14 +13,14 @@ describe("ended DM call notices", () => {
     const notice = { msgType: "msg", content: "📞 Voice call ended · 00:07" };
 
     expect(endedCallLabel(i18n.t)).toBe("Arama sona erdi");
-    expect(localizeDmCallPreview(notice, i18n.t)).toBe("📞 Arama sona erdi · 00:07");
+    expect(localizeDmCallPreview(notice, i18n.t)).toBe("📞 Sesli arama · Arama sona erdi · 00:07");
     expect(localizeDmCallPreview({ content: "📞 Video call ended · 1:02:03" }, i18n.t))
-      .toBe("📹 Arama sona erdi · 1:02:03");
-    expect(localizeDmCallPreview({ content: "Voice call ended" }, i18n.t)).toBe("📞 Arama sona erdi");
+      .toBe("📹 Görüntülü arama · Arama sona erdi · 1:02:03");
+    expect(localizeDmCallPreview({ content: "Voice call ended" }, i18n.t)).toBe("📞 Sesli arama · Arama sona erdi");
 
     await i18n.changeLanguage("en");
     expect(endedCallLabel(i18n.t)).toBe("Call ended");
-    expect(localizeDmCallPreview(notice, i18n.t)).toBe("📞 Call ended · 00:07");
+    expect(localizeDmCallPreview(notice, i18n.t)).toBe("📞 Voice call · Call ended · 00:07");
   });
 
   it.each([

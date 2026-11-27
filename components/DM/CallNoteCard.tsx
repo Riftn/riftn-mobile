@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { useCall } from "../../context/CallContext";
 import { useAppTheme } from "../../context/ThemeContext";
-import { describeCallNote, endedCallLabel } from "../../libs/callNote";
+import { callTypeLabel, describeCallNote, endedCallLabel } from "../../libs/callNote";
 
 /**
  * A call in the thread: what happened, how long it ran, and a button that
@@ -22,7 +22,7 @@ const CallNoteCard: React.FC<{
   const { startCall, currentCall } = useCall();
   const { pageColors: colors, isMinimal } = useAppTheme();
   const note = describeCallNote(content);
-  const kind = note.video ? t("calls.videoCallShort") : t("calls.voiceCallShort");
+  const kind = callTypeLabel(note, t);
   const icon = note.video ? "Video" : "Phone";
 
   if (note.kind === "started") {
@@ -39,7 +39,7 @@ const CallNoteCard: React.FC<{
     : note.kind === "declined"
       ? t("calls.declined")
       : isMine ? t("calls.noAnswer") : t("calls.missed");
-  const sub = note.kind === "ended" ? [note.duration, time].filter(Boolean).join(" · ") : `${kind} · ${time}`;
+  const sub = note.kind === "ended" ? [kind, note.duration, time].filter(Boolean).join(" · ") : `${kind} · ${time}`;
   // A call someone else missed or one that simply ended does not need shouting about.
   const quietButton = note.kind === "ended" || isMine;
   const busy = !!currentCall;
