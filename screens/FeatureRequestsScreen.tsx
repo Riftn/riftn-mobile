@@ -315,7 +315,7 @@ const ActionButton: React.FC<{
 
 const FeatureCard: React.FC<{
   feature: FeatureRequest;
-  authorDisplayName?: string;
+  authorDisplayName?: string | null;
   myVote: number | undefined;
   onVote: (voteType: 1 | -1) => void;
   isAuthed: boolean;
@@ -1034,7 +1034,7 @@ function FeatureRequestsBoard() {
     queryKey: ["feature-request-author-names", authorWallets],
     queryFn: async () => {
       const accounts = await getAccountSummaries(authorWallets);
-      return new Map(accounts.map((account) => [account.address.toLowerCase(), account.displayName ?? undefined]));
+      return Object.fromEntries(accounts.map((account) => [account.address.toLowerCase(), account.displayName]));
     },
     enabled: authorWallets.length > 0,
     staleTime: 5 * 60_000,
@@ -1065,7 +1065,7 @@ function FeatureRequestsBoard() {
     ({ item }: { item: FeatureRequest }) => (
       <FeatureCard
         feature={item}
-        authorDisplayName={authorDisplayNames?.get(item.author_wallet_address.toLowerCase())}
+        authorDisplayName={authorDisplayNames?.[item.author_wallet_address.toLowerCase()]}
         myVote={votes?.[item.id]}
         onVote={(v) => handleVote(item, v)}
         isAuthed={isAuthed}
@@ -1390,7 +1390,7 @@ function FeatureRequestsBoard() {
             </View>
             {tab === "requests" && !isFiltering && !showNotFeasible && <TopBuildersCard compact />}
             {focusedRequest && <FeatureCard feature={focusedRequest}
-              authorDisplayName={authorDisplayNames?.get(focusedRequest.author_wallet_address.toLowerCase())} myVote={votes?.[focusedRequest.id]}
+              authorDisplayName={authorDisplayNames?.[focusedRequest.author_wallet_address.toLowerCase()]} myVote={votes?.[focusedRequest.id]}
               onVote={v => handleVote(focusedRequest, v)} isAuthed={isAuthed} defaultCommentsOpen={!!focusedCommentId} highlightCommentId={focusedCommentId} onHighlightMeasured={scrollToFocusedComment} />}
           </>}
           showsVerticalScrollIndicator={false}
