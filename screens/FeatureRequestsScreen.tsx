@@ -56,6 +56,8 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import * as ImagePicker from "expo-image-picker";
 import { captureVideoCover } from "../libs/videoCover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useQuery } from "@tanstack/react-query";
+import { getAccountSummaries } from "../services/user.service";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "../components/ui/Icon";
 import PrimaryButton from "../components/ui/PrimaryButton";
@@ -313,6 +315,7 @@ const ActionButton: React.FC<{
 
 const FeatureCard: React.FC<{
   feature: FeatureRequest;
+  authorDisplayName?: string | null;
   myVote: number | undefined;
   onVote: (voteType: 1 | -1) => void;
   isAuthed: boolean;
@@ -321,9 +324,9 @@ const FeatureCard: React.FC<{
   /** The comment a notification pointed at — ringed in the thread. */
   highlightCommentId?: string | null;
   onHighlightMeasured?: (windowY: number, height: number) => void;
-}> = ({ feature, myVote, onVote, isAuthed, defaultCommentsOpen = false, highlightCommentId, onHighlightMeasured }) => {
+}> = ({ feature, authorDisplayName, myVote, onVote, isAuthed, defaultCommentsOpen = false, highlightCommentId, onHighlightMeasured }) => {
   const { t } = useTranslation();
-  const { isMinimal, skin } = useAppTheme();
+  const { isMinimal, skin, colors } = useAppTheme();
   const user = useUser() as any;
   const { showUserProfile } = useUserProfileSheet();
   const [showComments, setShowComments] = useState(defaultCommentsOpen);
@@ -340,7 +343,7 @@ const FeatureCard: React.FC<{
   const hasDeviceInfo = canSetStatus && !!deviceInfoIds?.has(feature.id);
   const statusMutation = useSetFeatureStatus();
 
-  const displayName = feature.author_username || feature.author_wallet_address.slice(0, 6);
+  const displayName = authorDisplayName?.trim();
   const handle = feature.author_username
     ? `@${feature.author_username}`
     : shortAddr(feature.author_wallet_address);
@@ -473,17 +476,21 @@ const FeatureCard: React.FC<{
           onPress={() => showUserProfile?.(feature.author_username || feature.author_wallet_address)}
           style={{ flexShrink: 0 }}
         >
-          <Avatar uri={getAvatarUrl(feature.author_avatar)} size={36} name={displayName} />
+          <Avatar uri={getAvatarUrl(feature.author_avatar)} size={36} name={displayName || handle} />
         </Pressable>
         <View style={styles.cardHeadText}>
-          <Text style={styles.authorName} numberOfLines={1}>
-            {displayName}
+          <Text style={[styles.authorName, { color: colors.cardForeground }]} numberOfLines={1}>
+            {displayName || handle}
           </Text>
           <View style={styles.handleRow}>
-            <Text style={styles.handle} numberOfLines={1}>
-              {handle}
-            </Text>
-            <Text style={styles.dot}>·</Text>
+            {!!displayName && !!feature.author_username && (
+              <>
+                <Text style={[styles.handle, { color: colors.mutedForeground }]} numberOfLines={1}>
+                  {handle}
+                </Text>
+                <Text style={styles.dot}>·</Text>
+              </>
+            )}
             <Text style={styles.time}>{timeAgo(feature.created_at, t)}</Text>
           </View>
         </View>
@@ -1018,6 +1025,22 @@ function FeatureRequestsBoard() {
   );
 
 
+  const authorWallets = useMemo(() => {
+    const wallets = new Set(items.map((feature) => feature.author_wallet_address.toLowerCase()));
+    if (focusedRequest) wallets.add(focusedRequest.author_wallet_address.toLowerCase());
+    return [...wallets].sort();
+  }, [items, focusedRequest]);
+  const { data: authorDisplayNames } = useQuery({
+    queryKey: ["feature-request-author-names", authorWallets],
+    queryFn: async () => {
+      const accounts = await getAccountSummaries(authorWallets);
+      return Object.fromEntries(accounts.map((account) => [account.address.toLowerCase(), account.displayName]));
+    },
+    enabled: authorWallets.length > 0,
+    staleTime: 5 * 60_000,
+    retry: 1,
+  });
+
   const openCount = counts?.open ?? requestItems.length;
   const shippedCount = shipped.data?.length ?? 0;
   const inProgressCount = inProgress.data?.length ?? 0;
@@ -1042,12 +1065,13 @@ function FeatureRequestsBoard() {
     ({ item }: { item: FeatureRequest }) => (
       <FeatureCard
         feature={item}
+        authorDisplayName={authorDisplayNames?.[item.author_wallet_address.toLowerCase()]}
         myVote={votes?.[item.id]}
         onVote={(v) => handleVote(item, v)}
         isAuthed={isAuthed}
       />
     ),
-    [votes, handleVote, isAuthed],
+    [votes, handleVote, isAuthed, authorDisplayNames],
   );
 
   const keyExtractor = useCallback((f: FeatureRequest) => f.id, []);
@@ -1365,7 +1389,8 @@ function FeatureRequestsBoard() {
               }} />
             </View>
             {tab === "requests" && !isFiltering && !showNotFeasible && <TopBuildersCard compact />}
-            {focusedRequest && <FeatureCard feature={focusedRequest} myVote={votes?.[focusedRequest.id]}
+            {focusedRequest && <FeatureCard feature={focusedRequest}
+              authorDisplayName={authorDisplayNames?.[focusedRequest.author_wallet_address.toLowerCase()]} myVote={votes?.[focusedRequest.id]}
               onVote={v => handleVote(focusedRequest, v)} isAuthed={isAuthed} defaultCommentsOpen={!!focusedCommentId} highlightCommentId={focusedCommentId} onHighlightMeasured={scrollToFocusedComment} />}
           </>}
           showsVerticalScrollIndicator={false}
@@ -1567,9 +1592,9 @@ const styles = StyleSheet.create({
   minimalCard: { ...minimalRow, paddingHorizontal: 16 },
   cardHead: { flexDirection: "row", alignItems: "center", gap: 12 },
   cardHeadText: { flex: 1, minWidth: 0 },
-  authorName: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
+  authorName: { fontSize: 14, fontWeight: "600" },
   handleRow: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 1 },
-  handle: { color: "#808089", fontSize: 12, flexShrink: 1 },
+  handle: { fontSize: 12, flexShrink: 1 },
   dot: { color: "#52525B", fontSize: 12 },
   time: { color: "#808089", fontSize: 12, flexShrink: 0 },
   menuBtn: { flexShrink: 0, width: 28, height: 28, alignItems: "center", justifyContent: "center" },
