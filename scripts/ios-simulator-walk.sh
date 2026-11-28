@@ -31,7 +31,8 @@ limit() {
 }
 
 running() {
-  xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
+  # Read the full process list so pipefail does not treat an early grep exit as a stopped app.
+  xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -F "UIKitApplication:$BUNDLE" >/dev/null
 }
 
 # The iPhone Duo has two screens, and a plain screenshot refuses to pick one:
