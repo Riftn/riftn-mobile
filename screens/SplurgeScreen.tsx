@@ -29,7 +29,7 @@ const CRT = {
 function SplurgeGame({ address }: { address: string | null }) {
   const { t } = useTranslation();
   const navigation = useNavigation<NativeStackNavigationProp<AppStackParamList>>();
-  const { pageColors } = useAppTheme();
+  const { colors } = useAppTheme();
   const insets = useSafeAreaInsets();
   const region = getLocales()[0];
   const locale = region?.languageTag ?? 'en-US';
@@ -37,7 +37,7 @@ function SplurgeGame({ address }: { address: string | null }) {
   const game = useSplurge(address, currency, randomUUID);
   const { history } = game;
   const crt = game.mode === 'crt';
-  const tone = crt ? CRT : pageColors;
+  const tone = crt ? CRT : colors;
   const mono = crt ? styles.mono : undefined;
   const [focused, setFocused] = useState(false);
   const money = (amount: number, code = currency) => formatSplurgeAmount(amount, code, locale);
@@ -50,7 +50,7 @@ function SplurgeGame({ address }: { address: string | null }) {
   ];
 
   const play = (
-    <View style={[
+    <View className={crt ? 'dark-surface' : undefined} style={[
       styles.play,
       { borderColor: tone.border },
       crt && styles.crt,
@@ -76,8 +76,8 @@ function SplurgeGame({ address }: { address: string | null }) {
           styles.field, mono,
           {
             color: tone.foreground,
-            backgroundColor: crt ? CRT.field : pageColors.background,
-            borderColor: focused ? tone.foreground : crt ? CRT.fieldBorder : pageColors.accentSecondary,
+            backgroundColor: crt ? CRT.field : colors.background,
+            borderColor: focused ? tone.foreground : crt ? CRT.fieldBorder : colors.accentSecondary,
             borderWidth: focused ? 2 : 1,
           },
         ]}
@@ -127,12 +127,12 @@ function SplurgeGame({ address }: { address: string | null }) {
   return (
     <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={[styles.body, { paddingBottom: insets.bottom + 24 }]}>
-        <Text style={[styles.caption, { color: pageColors.mutedForeground }]}>{t('games.splurge.intro')}</Text>
+        <Text style={[styles.caption, { color: colors.mutedForeground }]}>{t('games.splurge.intro')}</Text>
         <PageTabs<SplurgeMode> tabs={modes} value={game.mode} onChange={game.setMode} style={styles.tabs} />
         {crt ? <DarkRoomProvider>{play}</DarkRoomProvider> : play}
         {!address && (
           <View style={styles.guest}>
-            <Text style={[styles.caption, { color: pageColors.mutedForeground }]}>{t('games.splurge.guest')}</Text>
+            <Text style={[styles.caption, { color: colors.mutedForeground }]}>{t('games.splurge.guest')}</Text>
             <PrimaryButton title={t('games.signIn')} onPress={() => navigation.navigate(ScreenNames.SignIn)} neutral large />
           </View>
         )}
@@ -144,13 +144,13 @@ function SplurgeGame({ address }: { address: string | null }) {
 export default function SplurgeScreen() {
   const { t } = useTranslation();
   const { user, isSignedIn, isBootLoading, isLoading } = useAuth();
-  const { pageColors } = useAppTheme();
+  const { colors } = useAppTheme();
   const address = isSignedIn ? (user?.walletAddress || user?.address)?.toLowerCase() ?? null : null;
   return (
     <View className="flex-1 bg-theme-background">
       <ScreenHeader title={t('games.splurge.title')} icon="arcade" />
       {isBootLoading || isLoading ? (
-        <Text accessibilityLiveRegion="polite" style={[styles.loading, { color: pageColors.mutedForeground }]}>{t('games.splurge.loading')}</Text>
+        <Text accessibilityLiveRegion="polite" style={[styles.loading, { color: colors.mutedForeground }]}>{t('games.splurge.loading')}</Text>
       ) : <SplurgeGame key={address ?? 'guest'} address={address} />}
     </View>
   );
