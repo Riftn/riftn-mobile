@@ -164,6 +164,8 @@ jobs:
           EXTENSION="$APP/PlugIns/DeHubPhotoShare.appex"
           test -x "$EXTENSION/DeHubPhotoShare"
           test "$(plutil -extract NSExtension.NSExtensionPointIdentifier raw "$EXTENSION/Info.plist")" = com.apple.share-services
+          test -n "$(plutil -extract CFBundleName raw "$EXTENSION/Info.plist")"
+          xcrun simctl install "${{ steps.sim.outputs.udid }}" "$APP"
           tar -czf "$RUNNER_TEMP/ios-simulator-app.tgz" -C "$(dirname "$APP")" "$(basename "$APP")"
       - uses: actions/upload-artifact@v4
         if: inputs.app_run_id == ''
