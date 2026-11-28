@@ -10,7 +10,7 @@
  * screen keeps only your own rack order and the groups you are building before
  * you lay them down. Nothing here moves money.
  */
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -35,6 +35,7 @@ import {
 
 const PAGE_URL = `${WEBSITE_LINK}/arcade/okey`;
 const OPEN_POINTS = 101;
+const OPEN_PAIRS = 5;
 const MUTED = 'hsla(240, 4%, 46%, 1)';
 const SOFT = 'hsla(240, 5%, 65%, 1)';
 const WHITE = 'hsla(0, 0%, 100%, 1)';
@@ -98,6 +99,7 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
   const navigation = useNavigation<any>();
   const queryClient = useQueryClient();
   const [busy, setBusy] = useState(false);
+  const requestInFlight = useRef(false);
   const [selected, setSelected] = useState<number[]>([]);
   const [groups, setGroups] = useState<number[][]>([]);
   const [order, setOrder] = useState<number[]>([]);
@@ -114,6 +116,13 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
   const hand = table?.hand ?? null;
   const round = table?.round ?? null;
   const me = table?.mySeat ?? null;
+  const roundNumber = round?.number;
+
+  useEffect(() => {
+    setOrder([]);
+    setSelected([]);
+    setGroups([]);
+  }, [me, roundNumber]);
 
   // Keep your own rack order: tiles that stay keep their place, new ones go on the end.
   useEffect(() => {
@@ -125,24 +134,28 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
     });
     setSelected((prev) => prev.filter((tile) => hand.includes(tile)));
     setGroups((prev) => prev.map((g) => g.filter((tile) => hand.includes(tile))).filter((g) => g.length));
-  }, [hand]);
+  }, [hand, me, roundNumber]);
 
   const run = useCallback(async (work: () => Promise<{ table: OkeyTable }>, after?: () => void) => {
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
     setBusy(true);
     try {
       const next = await work();
+      await queryClient.cancelQueries({ queryKey: key, exact: true });
       queryClient.setQueryData(key, next);
       after?.();
     } catch (e) {
       toastError(errorText(e));
       void queryClient.invalidateQueries({ queryKey: key });
     } finally {
+      requestInFlight.current = false;
       setBusy(false);
     }
   }, [key, queryClient]);
   const act = (action: OkeyAction, after?: () => void) => run(() => okeyAct(id, action), after);
 
-  if (error) return <PageEmpty title={t('games.okey.notFound')} />;
+  if (error && !table) return <PageEmpty title={t('games.okey.notFound')} />;
   if (!table) return <ActivityIndicator style={{ marginTop: 80 }} color={SOFT} />;
 
   const base = me ?? 0;
@@ -158,7 +171,12 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
   const allPairs = groups.length > 0 && groups.every((g) => g.length === 2);
   const stagedPoints = groups.reduce((sum, g) => sum + (meldPoints(g, indicator ?? 0) ?? 0), 0);
   const stagedValid = groups.length > 0 && groups.every((g) => (allPairs ? isPairTiles(g, indicator ?? 0) : meldPoints(g, indicator ?? 0) !== null));
-  const canLayOff = myTurn && round?.phase === 'play' && !!mySeat?.opened && selected.length === 1;
+  const canDiscard = myTurn && round?.phase === 'play' && round.takenDiscard === null && selected.length === 1;
+  const canLay = myTurn && round?.phase === 'play' && stagedValid && rack.length > 0
+    && (allPairs
+      ? mySeat?.opened === 'pairs' || (!mySeat?.opened && groups.length >= OPEN_PAIRS)
+      : mySeat?.opened === 'melds' || (!mySeat?.opened && stagedPoints >= OPEN_POINTS));
+  const canLayOff = (hand?.length ?? 0) > 1 && myTurn && round?.phase === 'play' && !!mySeat?.opened && selected.length === 1;
   const toggle = (tile: number) => setSelected((prev) => (prev.includes(tile) ? prev.filter((x) => x !== tile) : [...prev, tile]));
   const sortBy = (by: 'runs' | 'sets') => setOrder((prev) => sortTiles(prev, by, indicator));
   const seated = me !== null;
@@ -269,11 +287,11 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
             {mySeat ? (
               <View style={styles.pileCol}>
                 <Pressable
-                  disabled={!myTurn || round.phase !== 'play' || selected.length !== 1 || busy}
+                  disabled={!canDiscard || busy}
                   onPress={() => void act({ type: 'discard', tile: selected[0] }, () => setSelected([]))}
                   accessibilityLabel={t('games.okey.discard')}
                 >
-                  <View style={[styles.throwSlot, myTurn && round.phase === 'play' && selected.length === 1 && styles.pileHot]}>
+                  <View style={[styles.throwSlot, canDiscard && styles.pileHot]}>
                     <OkeyTileNative tile={myDiscard} indicator={indicator} size="sm" />
                   </View>
                 </Pressable>
@@ -349,7 +367,7 @@ function TableView({ id, wallet }: { id: string; wallet: string | null }) {
               small
               icon="Layers"
               label={mySeat?.opened ? t('games.okey.lay') : t('games.okey.open')}
-              disabled={!myTurn || round.phase !== 'play' || !stagedValid || busy || (!mySeat?.opened && !allPairs && stagedPoints < OPEN_POINTS)}
+              disabled={!canLay || busy}
               onPress={() => void act({ type: 'lay', groups }, () => setGroups([]))}
             />
           </View>
@@ -448,10 +466,13 @@ function Lobby({ wallet, onOpen }: { wallet: string | null; onOpen: (id: string)
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
+  const requestInFlight = useRef(false);
   const { data, isLoading } = useQuery({ queryKey: ['okey-lobby', wallet], queryFn: () => okeyLobby(!!wallet), refetchInterval: 5000 });
 
   const create = async (withBots: boolean) => {
     if (!wallet) { navigation.navigate(ScreenNames.SignIn); return; }
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
     setBusy(true);
     try {
       const { table } = await okeyCreate(withBots ? { withBots: true } : { name: name.trim() || undefined, password: password.trim() || undefined });
@@ -459,6 +480,7 @@ function Lobby({ wallet, onOpen }: { wallet: string | null; onOpen: (id: string)
     } catch (e) {
       toastError(errorText(e));
     } finally {
+      requestInFlight.current = false;
       setBusy(false);
     }
   };
@@ -516,7 +538,7 @@ const OkeyScreen = () => {
       <ScreenHeader title={t('games.okey.title')} icon="arcade" />
       <ScrollView contentContainerStyle={{ paddingTop: 4, paddingBottom: insets.bottom + 32 }} keyboardShouldPersistTaps="handled">
         {!tableId ? <Text style={styles.intro}>{t('games.okey.intro')}</Text> : null}
-        {tableId ? <TableView id={tableId} wallet={wallet} /> : <Lobby wallet={wallet} onOpen={open} />}
+        {tableId ? <TableView key={tableId} id={tableId} wallet={wallet} /> : <Lobby wallet={wallet} onOpen={open} />}
       </ScrollView>
     </View>
   );
