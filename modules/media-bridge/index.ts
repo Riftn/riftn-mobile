@@ -6,7 +6,10 @@
  * press and says screen share is unavailable, so an over-the-air update stays
  * safe on older installs.
  */
+import { Platform } from "react-native";
+
 export type VolumeKeyDirection = "up" | "down";
+type SharedPhoto = { kind: "photo"; id: string; uri: string; mimeType?: string } | { kind: "error" };
 type SharedVideo = { kind: "video"; id: string; uri: string; fileName: string; mimeType?: string } | { kind: "error" };
 type NativeSubscription = { remove: () => void };
 
@@ -19,10 +22,11 @@ type Bridge = {
   liveBroadcastStatus?: (id: string) => Record<string, unknown> | null;
   stopLiveBroadcast?: (id: string) => void;
   memoryFootprintMB?: () => number | null;
+  takeSharedPhoto?: () => SharedPhoto | null;
   takeSharedVideo?: () => SharedVideo | null;
   discardSharedVideo?: (id: string) => void;
   addListener(event: "onVolumeKey", fn: (e: { direction?: string }) => void): NativeSubscription;
-  addListener(event: "onSharedVideo", fn: () => void): NativeSubscription;
+  addListener(event: "onSharedVideo" | "onSharedPhoto", fn: () => void): NativeSubscription;
 };
 
 let cached: Bridge | null | undefined;
@@ -37,6 +41,17 @@ function bridge(): Bridge | null {
     cached = null;
   }
   return cached;
+}
+
+export function takeSharedPhoto(): SharedPhoto | null {
+  return bridge()?.takeSharedPhoto?.() ?? null;
+}
+
+export function addSharedPhotoListener(listener: () => void): NativeSubscription | undefined {
+  if (Platform.OS !== "android") return undefined;
+  const native = bridge();
+  if (typeof native?.takeSharedPhoto !== "function") return undefined;
+  return native.addListener("onSharedPhoto", listener);
 }
 
 export function takeSharedVideo(): SharedVideo | null {

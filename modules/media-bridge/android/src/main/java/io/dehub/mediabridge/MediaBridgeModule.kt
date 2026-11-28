@@ -79,7 +79,8 @@ class MediaBridgeModule : Module() {
 
   override fun definition() = ModuleDefinition {
     Name("RiftnMediaBridge")
-    Events("onVolumeKey")
+    Events("onVolumeKey", "onSharedPhoto")
+    Function("takeSharedPhoto") { appContext.reactContext?.let { SharedPhotoImport.take(it) } }
 
     Constant("liveScreenShare") { true }
 
@@ -95,9 +96,15 @@ class MediaBridgeModule : Module() {
       Math.round((java + native) / 1_048_576.0).toDouble()
     }
 
-    OnCreate { startWatching() }
+    OnCreate {
+      SharedPhotoImport.listener = { sendEvent("onSharedPhoto", emptyMap<String, Any>()) }
+      startWatching()
+    }
     OnStartObserving { startWatching() }
-    OnDestroy { stopWatching() }
+    OnDestroy {
+      SharedPhotoImport.listener = null
+      stopWatching()
+    }
   }
 
   companion object {

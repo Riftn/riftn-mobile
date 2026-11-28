@@ -81,7 +81,7 @@ import { PushNotificationsProvider } from "./services/push";
 import { linkingConfig } from "./navigation/linking.config";
 import { loadMutedState } from "./libs/videoMutedState";
 import { useVolumeUpUnmuteRoot } from "./libs/volumeKeyUnmute";
-import { addSharedVideoListener, discardSharedVideo, takeSharedVideo } from "./modules/media-bridge";
+import { addSharedPhotoListener, addSharedVideoListener, discardSharedVideo, takeSharedPhoto, takeSharedVideo } from "./modules/media-bridge";
 import { toastError } from "./libs/toast";
 import { warmVideoPreferences } from "./libs/video-preferences";
 import { loadHueState } from "./libs/audioHueState";
@@ -146,13 +146,13 @@ armPerfTraceForLaunch();
 
 export const navigationRef = createNavigationContainerRef();
 
-function useSharedVideoImport(enabled: boolean) {
+function useSharedMediaImport(enabled: boolean) {
   useEffect(() => {
-    if (Platform.OS !== "ios" || !enabled) return;
+    if (!enabled) return;
     let active = true;
     let presenting = false;
     let previousStack: string | undefined;
-    let previousScreen: string | undefined;
+    let previousRoute: ReturnType<typeof navigationRef.getCurrentRoute>;
 
     function appStackKey() {
       if (!navigationRef.isReady()) return undefined;
@@ -161,10 +161,29 @@ function useSharedVideoImport(enabled: boolean) {
       return app?.name === ScreenNames.App ? app.state?.key : undefined;
     }
 
-    function importVideo() {
+    function importMedia() {
       if (!active || presenting || AppState.currentState !== "active") return;
       const target = appStackKey();
       if (!target) return;
+      const current = navigationRef.getCurrentRoute();
+      if (!(current?.params as { sharedPhotoId?: string } | undefined)?.sharedPhotoId) {
+        const photo = takeSharedPhoto();
+        if (photo?.kind === "error") {
+          toastError(i18n.t("reactionInfo.fileError"));
+          return;
+        }
+        if (photo) {
+          const { id, uri, mimeType } = photo;
+          navigationRef.dispatch({
+            ...StackActions.push(ScreenNames.Upload, {
+              sharedPhotoId: id,
+              images: [{ uri, mimeType, width: 0, height: 0 }],
+            }),
+            target,
+          });
+          return;
+        }
+      }
       const pending = takeSharedVideo();
       if (!pending) return;
       if (pending.kind === "error") {
@@ -178,7 +197,7 @@ function useSharedVideoImport(enabled: boolean) {
           text: i18n.t("common.cancel"), style: "cancel", onPress: () => {
             presenting = false;
             discardSharedVideo(pending.id);
-            importVideo();
+            importMedia();
           },
         },
         {
@@ -196,21 +215,22 @@ function useSharedVideoImport(enabled: boolean) {
       ]);
     }
 
-    const received = addSharedVideoListener(importVideo);
-    if (!received) return;
-    const foreground = AppState.addEventListener("change", importVideo);
+    const received = addSharedVideoListener(importMedia);
+    const photoReceived = addSharedPhotoListener(importMedia);
+    const foreground = AppState.addEventListener("change", importMedia);
     const navigated = navigationRef.addListener("state", () => {
       const stack = appStackKey();
-      const screen = navigationRef.getCurrentRoute()?.name;
-      const needsCheck = stack !== previousStack || (previousScreen === ScreenNames.Upload && screen !== previousScreen);
+      const route = navigationRef.getCurrentRoute();
+      const needsCheck = stack !== previousStack || (previousRoute?.name === ScreenNames.Upload && route?.key !== previousRoute.key);
       previousStack = stack;
-      previousScreen = screen;
-      if (needsCheck) importVideo();
+      previousRoute = route;
+      if (needsCheck) importMedia();
     });
-    importVideo();
+    importMedia();
     return () => {
       active = false;
-      received.remove();
+      received?.remove();
+      photoReceived?.remove();
       foreground.remove();
       navigated();
     };
@@ -623,7 +643,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
   // hides underneath our still-opaque cover. The mark then docks in the
   // measured, focused header while the feed appears around it.
   const [navReady, setNavReady] = useState(false);
-  useSharedVideoImport(navReady && isAuthenticated);
+  useSharedMediaImport(navReady && isAuthenticated);
   const [coverMounted, setCoverMounted] = useState(true);
   const [revealStarted, setRevealStarted] = useState(false);
   const revealingRef = useRef(false);

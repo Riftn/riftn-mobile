@@ -1,6 +1,7 @@
 package io.dehub.mobile
 import expo.modules.splashscreen.SplashScreenManager
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -16,6 +17,7 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import com.facebook.react.views.modal.ReactModalHostView
 
 import expo.modules.ReactActivityDelegateWrapper
+import io.dehub.mediabridge.SharedPhotoImport
 import io.dehub.mediabridge.VolumeKeyEvents
 
 class MainActivity : ReactActivity() {
@@ -28,11 +30,17 @@ class MainActivity : ReactActivity() {
     SplashScreenManager.registerOnActivity(this)
     // @generated end expo-splashscreen
     super.onCreate(null)
+    if (savedInstanceState == null) SharedPhotoImport.receive(this, intent)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
       window.isNavigationBarContrastEnforced = false
     }
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
     window.decorView.viewTreeObserver.addOnWindowFocusChangeListener(matchDialogBars)
+  }
+
+  override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    SharedPhotoImport.receive(this, intent)
   }
 
   // The hardware volume-up key unmutes the video on screen (modules/media-bridge).

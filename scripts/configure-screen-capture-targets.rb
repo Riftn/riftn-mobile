@@ -11,9 +11,12 @@ def configure_screen_capture_targets(ios_directory)
   embed.dst_subfolder_spec = '13'
   definitions = [
     ['DeHubCaptureSetup', 'io.dehub.mobile.screen-capture-setup', 'BroadcastSetup', ['CaptureLedger.swift', 'BroadcastSetup/CaptureSetupViewController.swift']],
-    ['DeHubCaptureUpload', 'io.dehub.mobile.screen-capture-upload', 'BroadcastUpload', ['CaptureLedger.swift', 'Shared/CaptureGeometry.swift', 'Shared/CaptureMovieWriter.swift', 'BroadcastUpload/CaptureSampleHandler.swift', 'BroadcastUpload/LiveShareUploader.swift', 'BroadcastUpload/LiveBroadcastSession.swift', 'LivePublish/Amf0.swift', 'LivePublish/RtmpPublisher.swift', 'LivePublish/LiveVideoEncoder.swift', 'LivePublish/LiveFrameRenderer.swift', 'LivePublish/LiveAudioPipeline.swift', 'LivePublish/LiveScreenPublisher.swift']]
+    ['DeHubCaptureUpload', 'io.dehub.mobile.screen-capture-upload', 'BroadcastUpload', ['CaptureLedger.swift', 'Shared/CaptureGeometry.swift', 'Shared/CaptureMovieWriter.swift', 'BroadcastUpload/CaptureSampleHandler.swift', 'BroadcastUpload/LiveShareUploader.swift', 'BroadcastUpload/LiveBroadcastSession.swift', 'LivePublish/Amf0.swift', 'LivePublish/RtmpPublisher.swift', 'LivePublish/LiveVideoEncoder.swift', 'LivePublish/LiveFrameRenderer.swift', 'LivePublish/LiveAudioPipeline.swift', 'LivePublish/LiveScreenPublisher.swift']],
+    ['DeHubPhotoShare', 'io.dehub.mobile.photo-share', 'PhotoShare', ['SharedPhotoImport.swift', 'PhotoShare/PhotoShareViewController.swift'], 'media-bridge']
   ]
-  definitions.each do |name, identifier, folder, sources|
+  definitions.each do |name, identifier, folder, sources, mod|
+    module_path = "../modules/#{mod || 'screen-capture'}/ios"
+
     target = project.targets.find { |item| item.name == name } || project.new_target(:app_extension, name, :ios, '15.1')
     target.build_configurations.each do |configuration|
       app_configuration = app.build_configurations.find { |item| item.name == configuration.name }
@@ -33,20 +36,22 @@ def configure_screen_capture_targets(ios_directory)
       version = info.fetch('CFBundleShortVersionString')
       settings['CURRENT_PROJECT_VERSION'] = build == '$(CURRENT_PROJECT_VERSION)' ? app_configuration.build_settings.fetch('CURRENT_PROJECT_VERSION') : build
       settings['MARKETING_VERSION'] = version == '$(MARKETING_VERSION)' ? app_configuration.build_settings.fetch('MARKETING_VERSION') : version
-      settings['INFOPLIST_FILE'] = "../modules/screen-capture/ios/#{folder}/Info.plist"
+      settings['INFOPLIST_FILE'] = "#{module_path}/#{folder}/Info.plist"
       settings['CODE_SIGN_ENTITLEMENTS'] = '../modules/screen-capture/ios/Capture.entitlements'
       settings['LD_RUNPATH_SEARCH_PATHS'] = ['$(inherited)', '@executable_path/Frameworks', '@executable_path/../../Frameworks']
     end
     sources.each do |source|
-      path = "../modules/screen-capture/ios/#{source}"
+      path = "#{module_path}/#{source}"
       reference = source_group.files.find { |file| file.path == path } || source_group.new_file(path, :project)
       target.source_build_phase.add_file_reference(reference, true)
     end
     # Each extension ships its own privacy manifest (it reads the uptime clock
     # to time a recording), or App Store Connect flags the build.
-    privacy_path = '../modules/screen-capture/ios/Shared/PrivacyInfo.xcprivacy'
-    privacy = source_group.files.find { |file| file.path == privacy_path } || source_group.new_file(privacy_path, :project)
-    target.resources_build_phase.add_file_reference(privacy, true)
+    unless mod
+      privacy_path = '../modules/screen-capture/ios/Shared/PrivacyInfo.xcprivacy'
+      privacy = source_group.files.find { |file| file.path == privacy_path } || source_group.new_file(privacy_path, :project)
+      target.resources_build_phase.add_file_reference(privacy, true)
+    end
     unless app.dependencies.any? { |dependency| dependency.target == target }
       app.add_dependency(target)
     end

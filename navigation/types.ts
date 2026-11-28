@@ -68,6 +68,8 @@ export type AppStackParamList = {
     video?: { uri: string; width: number; height: number; duration?: number; mimeType?: string; fileName?: string };
     /** Keep a video opened from Files separate from the existing new-post draft. */
     sharedVideoId?: string;
+    /** Keep shared photos in a separate composer draft. */
+    sharedPhotoId?: string;
     /** A sound file to open the composer with, e.g. a Binary Metal riff. */
     audio?: import('../hooks/useUploadPost').PickedAudio;
     /** Open on Livestream, e.g. from the + button while the home feed is on Live. */

@@ -17,6 +17,7 @@ import {
   TextInput,
   ScrollView,
   ActivityIndicator,
+  Image,
   Pressable,
   BackHandler,
   Alert,
@@ -432,7 +433,8 @@ export default function UploadScreen() {
   // The title is its own 140-char field: forced for video/audio, toggleable
   // for everything else via the "Title" switch in the extras section.
   const sharedVideoId = route.params?.sharedVideoId;
-  const newPostScope = sharedVideoId ? `shared-video:${sharedVideoId}` : "new";
+  const sharedPhotoId = route.params?.sharedPhotoId;
+  const newPostScope = sharedPhotoId ? `shared-photo:${sharedPhotoId}` : sharedVideoId ? `shared-video:${sharedVideoId}` : "new";
   const draftScope = `post:${incomingDraft?.id ?? (incomingQuotedTokenId ? `quote:${incomingQuotedTokenId}` : newPostScope)}`;
   const [bodyText, setBodyText] = useDraftState(draftScope + ":bodyText", "");
   const bodyMentions = useMentions(bodyText, setBodyText);
@@ -1037,13 +1039,13 @@ export default function UploadScreen() {
   // Pictures handed over by another surface, e.g. a design finished in the
   // editor. Same rule as the text above: they only fill an empty composer.
   useEffect(() => {
-    if (!incomingImages?.length) return;
+    if (sharedPhotoId || !incomingImages?.length) return;
     setPickedImages((prev) =>
       prev.length
         ? prev
         : (incomingImages.map((img) => ({ ...img, type: "image", assetId: undefined })) as PickedAsset[]),
     );
-  }, [incomingImages]);
+  }, [incomingImages, sharedPhotoId]);
 
   useEffect(() => {
     if (!incomingDraft) return;
@@ -2245,6 +2247,20 @@ export default function UploadScreen() {
       setPickedImages((prev) => [...prev, ...validAssets].slice(0, imageLimit));
     }
   }, [pickedImages, imageLimit, imageLimitBytes, imageLimitMb, postQuota?.tier, t]);
+
+  const adoptedSharedPhoto = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    const image = incomingImages?.[0];
+    if (!sharedPhotoId || !image || adoptedSharedPhoto.current === sharedPhotoId) return;
+    adoptedSharedPhoto.current = sharedPhotoId;
+    Image.getSize(
+      image.uri,
+      (width, height) => {
+        void adoptImageAssets([{ ...image, width, height, type: "image", assetId: undefined }]);
+      },
+      () => toastError(t("reactionInfo.fileError")),
+    );
+  }, [adoptImageAssets, incomingImages, sharedPhotoId]);
 
   /** "Add more" tile on the image grid — already in image mode, so images only. */
   const handlePickMoreImages = useCallback(async () => {
