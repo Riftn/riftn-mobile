@@ -304,7 +304,9 @@ SIDEWAYS_PAGES=(
 finish_splurge_guest_setup() {
   local ax="$OUT/.ax.json" log="$OUT/logs/splurge.txt" skip step completed=0
   for step in 1 2 3; do
-    if ! limit 15 idb ui describe-all --udid "$UDID" > "$ax" 2>> "$log"; then
+    # The first accessibility read can time out while idb starts its companion.
+    if ! limit 30 idb ui describe-all --udid "$UDID" > "$ax" 2>> "$log" &&
+       ! limit 30 idb ui describe-all --udid "$UDID" > "$ax" 2>> "$log"; then
       echo "Could not read setup step $step" >> "$log"
       return 1
     fi
@@ -330,7 +332,9 @@ check_splurge() {
   field="$(python3 scripts/ios-nav/ax-find.py "$ax" 'What would you buy?' "$log" "$name field" --last)"
   [ -n "$field" ] || return 1
   limit 15 idb ui tap --udid "$UDID" $field >/dev/null || return 1
-  limit 15 idb ui text --udid "$UDID" 'A train trip' >/dev/null || return 1
+  limit 15 idb ui text --udid "$UDID" Telescope >/dev/null || return 1
+  # Give the simulator time to deliver the last text events before Return.
+  sleep 2
   limit 15 idb ui key-sequence --udid "$UDID" 40 >/dev/null || return 1
   limit 15 idb ui describe-all --udid "$UDID" > "$ax" 2>> "$log" || return 1
   crt="$(python3 scripts/ios-nav/ax-find.py "$ax" CRT "$log" "$name CRT")"
@@ -339,7 +343,7 @@ check_splurge() {
   shot "$name-crt"
   limit 15 idb ui describe-all --udid "$UDID" > "$ax" 2>> "$log" || return 1
   modern="$(python3 scripts/ios-nav/ax-find.py "$ax" Modern "$log" "$name Modern")"
-  entry="$(python3 scripts/ios-nav/ax-find.py "$ax" 'A train trip' "$log" "$name saved turn")"
+  entry="$(python3 scripts/ios-nav/ax-find.py "$ax" Telescope "$log" "$name saved turn")"
   [ -n "$modern" ] && [ -n "$entry" ]
 }
 
