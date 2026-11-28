@@ -17951,6 +17951,26 @@
       "gold": "Gold (oz)"
     },
     "withFriends": "Play with friends",
+    "splurge": {
+      "title": "Splurge",
+      "cardBlurb": "Get a random budget and dream up what to buy in Modern or CRT.",
+      "arcade": "Arcade",
+      "intro": "A random budget. What would you spend it on? All amounts are fictional.",
+      "modern": "Modern",
+      "crt": "CRT",
+      "budget": "Your budget",
+      "prompt": "What would you buy?",
+      "placeholder": "A train trip across Europe",
+      "spend": "Spend",
+      "retry": "Retry",
+      "saveError": "Couldn’t save this turn. Try again to keep it in your log.",
+      "history": "Spending log",
+      "loading": "Loading your log…",
+      "historyError": "Couldn’t load your log.",
+      "empty": "Your purchases will appear here.",
+      "more": "Load older entries",
+      "guest": "Guest turns last for this visit. Sign in to save future turns to your account."
+    },
     "chestard": {
       "dailyTitle": "Daily challenge",
       "dailyRules": "Sign in to compete. Your best score from runs started today counts. Resets at midnight UTC.",

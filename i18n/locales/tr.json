@@ -19299,6 +19299,26 @@
       "gold": "Altın (ons)"
     },
     "withFriends": "Arkadaşlarla oyna",
+    "splurge": {
+      "title": "Splurge",
+      "cardBlurb": "Rastgele bir bütçeyle modern veya CRT görünümünde ne alacağını hayal et.",
+      "arcade": "Oyun salonu",
+      "intro": "Rastgele bir bütçe. Neye harcardın? Tüm tutarlar hayal ürünüdür.",
+      "modern": "Modern",
+      "crt": "CRT",
+      "budget": "Bütçen",
+      "prompt": "Ne alırdın?",
+      "placeholder": "Avrupa’da bir tren yolculuğu",
+      "spend": "Harca",
+      "retry": "Tekrar dene",
+      "saveError": "Bu tur kaydedilemedi. Harcama günlüğüne eklemek için tekrar dene.",
+      "history": "Harcama günlüğü",
+      "loading": "Günlüğün yükleniyor…",
+      "historyError": "Günlüğün yüklenemedi.",
+      "empty": "Alışverişlerin burada görünecek.",
+      "more": "Eski kayıtları yükle",
+      "guest": "Misafir turları yalnızca bu ziyaret boyunca saklanır. Sonraki turları hesabına kaydetmek için giriş yap."
+    },
     "chestard": {
       "dailyTitle": "Günlük mücadele",
       "dailyRules": "Yarışmak için giriş yap. Bugün başladığın oyunlardaki en yüksek puanın sayılır. Mücadele UTC saatiyle gece yarısında sıfırlanır.",

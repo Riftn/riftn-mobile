@@ -276,6 +276,7 @@ export type AppStackParamList = {
   [ScreenNames.Gratitude]: { game?: string } | undefined;
   [ScreenNames.Spend]: { game?: string } | undefined;
   [ScreenNames.Chestard]: undefined;
+  [ScreenNames.Splurge]: undefined;
   [ScreenNames.Apps]: undefined;
   /** `slug` keys into miniapp_apps; `from` is the launch source the app sees. */
   [ScreenNames.MiniApp]: { slug: string; from?: string; url?: string; query?: string };

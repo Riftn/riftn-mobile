@@ -31,7 +31,8 @@ limit() {
 }
 
 running() {
-  xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
+  # Read the full process list so pipefail does not treat an early grep exit as a stopped app.
+  xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -F "UIKitApplication:$BUNDLE" >/dev/null
 }
 
 # The iPhone Duo has two screens, and a plain screenshot refuses to pick one:
@@ -245,6 +246,7 @@ PAGES=(
   "arcade"
   "arcade/gods-eye"
   "arcade/kings-gambit"
+  "arcade/splurge"
   "app/notifications"
   "app/messages"
   "compare"
@@ -297,6 +299,59 @@ SIDEWAYS_PAGES=(
   "signin"
 )
 
+# Accessibility snapshots can stall on a busy runner. Retry the read once.
+read_splurge_accessibility() {
+  local dump="$1" log="$2"
+  limit 30 idb ui describe-all --udid "$UDID" > "$dump" 2>> "$log" ||
+    limit 30 idb ui describe-all --udid "$UDID" > "$dump" 2>> "$log"
+}
+
+# A clean simulator starts in the three-step setup. Finish it before opening
+# the game, then restart so the app starts on the returning-guest stack.
+finish_splurge_guest_setup() {
+  local ax="$OUT/.ax.json" log="$OUT/logs/splurge.txt" skip step completed=0
+  for step in 1 2 3; do
+    if ! read_splurge_accessibility "$ax" "$log"; then
+      echo "Could not read setup step $step" >> "$log"
+      return 1
+    fi
+    skip="$(python3 scripts/ios-nav/ax-find.py "$ax" Skip "$log" "setup step $step")"
+    [ -n "$skip" ] || break
+    limit 15 idb ui tap --udid "$UDID" $skip >/dev/null 2>> "$log" || return 1
+    completed=$step
+    sleep 2
+  done
+  if [ "$completed" -gt 0 ]; then
+    xcrun simctl terminate "$UDID" "$BUNDLE" >/dev/null 2>&1 || true
+    launch || return 1
+    sleep 10
+  fi
+}
+
+# The guest turn exercises the keyboard and the shared log without an account.
+check_splurge() {
+  local name="$1" field crt modern entry
+  local ax="$OUT/.ax.json" log="$OUT/logs/splurge.txt"
+  read_splurge_accessibility "$ax" "$log" || return 1
+  # The rendered prompt and its text input share an accessibility label.
+  field="$(python3 scripts/ios-nav/ax-find.py "$ax" 'What would you buy?' "$log" "$name field" --last)"
+  [ -n "$field" ] || return 1
+  limit 15 idb ui tap --udid "$UDID" $field >/dev/null || return 1
+  limit 15 idb ui text --udid "$UDID" Telescope >/dev/null || return 1
+  # Give the simulator time to deliver the last text events before Return.
+  sleep 2
+  limit 15 idb ui key-sequence --udid "$UDID" 40 >/dev/null || return 1
+  read_splurge_accessibility "$ax" "$log" || return 1
+  crt="$(python3 scripts/ios-nav/ax-find.py "$ax" CRT "$log" "$name CRT")"
+  [ -n "$crt" ] || return 1
+  limit 15 idb ui tap --udid "$UDID" $crt >/dev/null || return 1
+  shot "$name-crt"
+  read_splurge_accessibility "$ax" "$log" || return 1
+  modern="$(python3 scripts/ios-nav/ax-find.py "$ax" Modern "$log" "$name Modern")"
+  entry="$(python3 scripts/ios-nav/ax-find.py "$ax" Telescope "$log" "$name saved turn")"
+  [ -n "$modern" ] && [ -n "$entry" ]
+}
+
 # walk <phone appearance> <app theme> <label> [sideways]
 walk() {
   local appearance="$1" app_theme="$2" theme="$3"
@@ -308,6 +363,12 @@ walk() {
   set_app_theme "$app_theme"
   launch
   sleep 25
+  if [ "${check_guest_flow:-0}" = 1 ]; then
+    finish_splurge_guest_setup || {
+      echo "$theme: could not finish guest setup (see logs/splurge.txt)" >> "$OUT/crashes.txt"
+      return
+    }
+  fi
   shot "$theme-00-home"
   local i=1
   for page in "${PAGES[@]}"; do
@@ -317,6 +378,9 @@ walk() {
     confirm_open
     sleep 6
     shot "$name"
+    if [ "$page" = arcade/splurge ] && ! check_splurge "$name"; then
+      echo "$theme: Splurge guest turn or mode switch failed (see logs/splurge.txt)" >> "$OUT/crashes.txt"
+    fi
     echo "$(date +%H:%M:%S) $name"
     if ! running; then
       echo "$theme: app not running after opening $page" >> "$OUT/crashes.txt"
@@ -355,6 +419,22 @@ fi
 if [ "${DEVICE:-iphone}" = "duo" ]; then
   unfold_duo || echo "could not open the folded Duo (see logs/device-menu.txt)" >> "$OUT/crashes.txt"
 fi
+
+# The PR smoke check covers the Arcade flow in each appearance. A manual
+# walk still defaults to the full route list.
+check_guest_flow=0
+case "${THEMES:-}" in
+  smoke)
+    check_guest_flow=1
+    PAGES=("app" "arcade" "arcade/splurge")
+    THEMES="dark light syslight"
+    ;;
+  splurge)
+    check_guest_flow=1
+    PAGES=("arcade/splurge")
+    THEMES="dark light syslight"
+    ;;
+esac
 
 # THEMES picks which walks run (default all three): dark and light are the
 # phone's setting under the app's System theme; syslight is the app's own
@@ -401,3 +481,6 @@ echo "Keychain failures: $(grep -c 'ERR_KEY_CHAIN' "$OUT/logs/app.log")"
 echo "JS faults (first lines):"
 sed -n '/^----$/,$p' "$OUT/logs/js-faults.txt" | head -15
 rm -f "$OUT/.prompt.png" "$OUT/.ax.json"
+if [ "$check_guest_flow" = 1 ] && [ -s "$OUT/crashes.txt" ]; then
+  exit 1
+fi

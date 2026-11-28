@@ -115,6 +115,7 @@ const LINK_GAMES = [
   { screen: ScreenNames.Okey, creator: { username: 'galatasaray' }, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
   { screen: ScreenNames.SillyCoin, creator: COCHRANIZ3R, icon: "Coins", title: "games.sillycoin.title", body: "games.sillycoin.cardBlurb", tint: "hsla(35, 70%, 22%, 1)" },
   { screen: ScreenNames.Chestard, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.chestard.title", body: "games.chestard.cardBlurb", tint: "hsla(300, 55%, 22%, 1)" },
+  { screen: ScreenNames.Splurge, creator: COCHRANIZ3R, icon: "Banknote", title: "games.splurge.title", body: "games.splurge.cardBlurb", tint: "hsla(32, 64%, 19%, 1)" },
   { screen: ScreenNames.Gratitude, creator: COCHRANIZ3R, icon: "Heart", title: "games.gratitude.title", body: "games.gratitude.cardBlurb", tint: "hsla(265, 45%, 24%, 1)" },
   { screen: ScreenNames.Spend, creator: COCHRANIZ3R, icon: "Gamepad2", title: "games.spend.title", body: "games.spend.cardBlurb", tint: "hsla(143, 55%, 21%, 1)" },
 ] as const;
